@@ -1,0 +1,316 @@
+# Lesson 7.5 — Lagrange multipliers, one constraint.
+# Objectives (src/course.ts):
+#   OBJ-7.5-1  state the Lagrange multiplier theorem for one constraint and explain it as parallel gradients
+#   OBJ-7.5-2  find constrained extrema by Lagrange's method and decide max/min by compactness
+#   OBJ-7.5-3  identify the regularity condition and show that without it the method can miss the extremum
+chapter: 7
+questions:
+  - id: Q-7.5-statement
+    type: mc
+    objectives: [OBJ-7.5-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $f,g:U\to\mathbb{R}$ גזירות ברציפות ($U\subseteq\mathbb{R}^n$ פתוחה), $S=\{x\in U:\ g(x)=0\}$, ו-$a\in S$ נקודת
+      קיצון מקומי של $f$ על $S$. מה אומר משפט כופלי לגרנז'?
+    choices:
+      - text: >-
+          אם $\nabla g(a)\neq0$, יש $\lambda\in\mathbb{R}$ עם $\nabla f(a)=\lambda\nabla g(a)$
+        correct: true
+        feedback: >-
+          נכון. ההנחה $\nabla g(a)\neq0$ היא תנאי הרגולריות: היא מבטיחה ש-$S$ היא ליד $a$ גרף חלק (שיעור 7.4).
+      - text: >-
+          $\nabla f(a)=0$
+        feedback: >-
+          זה התנאי לקיצון **בלי** אילוץ. עם אילוץ, $f=xy$ על $x^2+y^2=2$ מקבלת מקסימום ב-$(1,1)$, ושם
+          $\nabla f=(1,1)\neq0$.
+        misconception: MC-c7-constrained-needs-grad-zero
+      - text: >-
+          יש $\lambda$ עם $\nabla f(a)=\lambda\nabla g(a)$, גם בלי שום הנחה על $\nabla g(a)$
+        feedback: >-
+          בלי תנאי הרגולריות המשפט נכשל: $f=x$ על $y^2=x^3$ מקבלת מינימום ב-$(0,0)$, שם $\nabla f=(1,0)$ ו-$\nabla g=0$,
+          ואין $\lambda$ כזה.
+        misconception: MC-c7-regularity-optional
+      - text: >-
+          אם $\nabla g(a)\neq0$ ו-$\nabla f(a)=\lambda\nabla g(a)$, אז $a$ נקודת קיצון של $f$ על $S$
+        feedback: >-
+          זה הכיוון ההפוך, והוא שגוי: המשפט נותן תנאי הכרחי בלבד. $f=y$ על העקום $y=x^3$: בראשית
+          $\nabla f=(0,1)=\nabla g$, ואין שם קיצון, כי $f$ על העקום היא $x^3$.
+        misconception: MC-c7-lagrange-sufficient
+
+  - id: Q-7.5-geometry
+    type: mc
+    objectives: [OBJ-7.5-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      למה בנקודת קיצון $a$ של $f$ על העקום $S=\{g=0\}$ במישור, עם $\nabla g(a)\neq0$, הגרדיאנטים $\nabla f(a)$
+      ו-$\nabla g(a)$ מקבילים?
+    choices:
+      - text: 'הנגזרת של $f$ בכיוון המשיק ל-$S$ מתאפסת, ולכן $\nabla f(a)$ ניצב למשיק; גם $\nabla g(a)$ ניצב למשיק, ובמישור יש רק כיוון ניצב אחד'
+        correct: true
+        feedback: >-
+          נכון. בשפה של שיעור 7.4: $\nabla f(a)\perp T_aS=\nabla g(a)^{\perp}$, ולכן $\nabla f(a)\in\operatorname{span}\{\nabla g(a)\}$.
+          בציור: קו הגובה של $f$ דרך $a$ משיק לעקום האילוץ.
+      - text: 'כי $f$ אינה משתנה לאורך האילוץ, ולכן $\nabla f(a)\perp\nabla g(a)$'
+        feedback: >-
+          $\nabla f(a)$ ניצב ל**משיק** של $S$, לא ל-$\nabla g(a)$. מה שניצב למשיק במישור הוא בדיוק הכיוון של
+          $\nabla g(a)$, ולכן הם מקבילים.
+        misconception: MC-c7-gradients-perpendicular
+      - text: 'כי $\nabla f(a)=0$ בנקודת קיצון, ואפס מקביל לכל וקטור'
+        feedback: >-
+          בקיצון עם אילוץ $\nabla f(a)$ בדרך כלל שונה מאפס (ב-$xy$ על $x^2+y^2=2$, בנקודה $(1,1)$, הוא $(1,1)$).
+          המקרה $\nabla f(a)=0$ הוא המקרה $\lambda=0$.
+        misconception: MC-c7-constrained-needs-grad-zero
+      - text: 'כי $f$ ו-$g$ מקבלות את אותו ערך ב-$a$'
+        feedback: >-
+          אין סיבה ש-$f(a)=g(a)$; $g(a)=0$, ו-$f(a)$ הוא ערך הקיצון. ההקבלה היא של הכיוונים, לא של הערכים.
+
+  - id: Q-7.5-xy-max
+    type: numeric
+    objectives: [OBJ-7.5-2]
+    level: basic
+    prompt: >-
+      מצאו את הערך המקסימלי של $f(x,y)=xy$ על המעגל $x^2+y^2=2$.
+    answer: 1
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $\nabla f=(y,x)$, $\nabla g=(2x,2y)$: $y=2\lambda x$, $x=2\lambda y$, ולכן $x^2=y^2$, כלומר $x=\pm1$, $y=\pm1$.
+      $f=1$ ב-$(1,1)$ וב-$(-1,-1)$, ו-$f=-1$ בשתי האחרות. המעגל קומפקטי ו-$\nabla g\neq0$ עליו, ולכן המקסימום
+      והמינימום מתקבלים בין המועמדים: מקסימום 1, מינימום $-1$.
+    wrongFeedback: >-
+      כתבו $\nabla f=\lambda\nabla g$ יחד עם האילוץ, מצאו את כל המועמדים, והשוו את ערכי $f$ בהם.
+    commonWrong:
+      - value: 0.5
+        feedback: >-
+          $\frac12$ הוא הכופל $\lambda$ בנקודה $(1,1)$, לא ערך הפונקציה. את המקסימום מקבלים מ-$f(1,1)$.
+        misconception: MC-c7-lambda-is-value
+      - value: 2
+        feedback: >-
+          $2=\sqrt2\cdot\sqrt2$, כאילו $x=y=\sqrt2$; אבל אז $x^2+y^2=4\neq2$. הנקודה חייבת לקיים את האילוץ.
+
+  - id: Q-7.5-plane-distance
+    type: numeric
+    objectives: [OBJ-7.5-2]
+    level: mid
+    prompt: >-
+      מצאו בשיטת לגרנז' את המרחק מהראשית למישור $x+2y+2z=9$.
+    answer: 3
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. ממזערים $f=x^2+y^2+z^2$ (ריבוע המרחק): $2(x,y,z)=\lambda(1,2,2)$, כלומר $(x,y,z)=t(1,2,2)$. הצבה באילוץ:
+      $9t=9$, $t=1$, הנקודה $(1,2,2)$, ו-$f=9$. המרחק הוא $\sqrt9=3$.
+    wrongFeedback: >-
+      ממזערים את ריבוע המרחק $x^2+y^2+z^2$ (אותו מינימום, נגזרות פשוטות יותר). מה-$\nabla f=\lambda\nabla g$ יוצא שהנקודה
+      על הישר בכיוון $(1,2,2)$.
+    commonWrong:
+      - value: 9
+        feedback: >-
+          9 הוא המינימום של $x^2+y^2+z^2$, כלומר ריבוע המרחק. המרחק הוא השורש.
+      - value: 1
+        feedback: >-
+          1 הוא הפרמטר $t$ (או $\frac{\lambda}{2}$), לא המרחק. הנקודה היא $(1,2,2)$, ונורמתה 3.
+        misconception: MC-c7-lambda-is-value
+
+  - id: Q-7.5-plane-decide
+    type: twotier
+    objectives: [OBJ-7.5-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      בבעיה הקודמת לגרנז' נתן מועמד יחיד, $(1,2,2)$, ל-$f=x^2+y^2+z^2$ על המישור $P=\{x+2y+2z=9\}$. האם $(1,2,2)$ היא
+      נקודת מינימום של $f$ על $P$?
+    choices:
+      - text: כן
+        correct: true
+        feedback: >-
+          נכון. אבל זה דורש נימוק: המישור אינו קומפקטי, ו-$f$ אינה מקבלת עליו מקסימום.
+      - text: 'לא בהכרח, היא יכולה להיות מקסימום'
+        feedback: >-
+          ל-$f$ אין מקסימום על המישור: $f(9-2s,s,0)\to\infty$ כש-$s\to\infty$. ראו בנימוק הנכון איך מוכיחים שיש
+          מינימום.
+        misconception: MC-c7-noncompact-extremum
+    reasons:
+      - text: 'הקבוצה $P\cap B[0,10]$ קומפקטית ולא ריקה, ומחוצה לה $f>100>f(1,2,2)$; לכן ל-$f$ יש מינימום על $P$, הוא נקודת לגרנז'' (כי $\nabla g\neq0$), והמועמד היחיד הוא $(1,2,2)$'
+        correct: true
+        feedback: >-
+          בדיוק: קודם קיום (קומפקטיות והתנהגות באינסוף, שיעור 6.5), ורק אז לגרנז' מצמצם את המקום. זה הסדר הנכון בכל
+          בעיה כזו.
+      - text: 'כל נקודת לגרנז'' היא נקודת קיצון'
+        feedback: >-
+          לגרנז' נותן תנאי הכרחי בלבד; יש נקודות לגרנז' שאינן קיצון. כאן המסקנה נכונה, אבל מנימוק אחר.
+        misconception: MC-c7-lagrange-sufficient
+      - text: 'המישור קבוצה סגורה, ולכן ל-$f$ יש עליו מקסימום ומינימום'
+        feedback: >-
+          סגורה אינה מספיקה; צריך גם חסומה כדי לקבל קומפקטיות. ל-$f$ אין מקסימום על המישור.
+        misconception: MC-c7-noncompact-extremum
+
+  - id: Q-7.5-ellipse
+    type: numeric
+    objectives: [OBJ-7.5-2]
+    level: mid
+    prompt: >-
+      מצאו את הערך המקסימלי של $f(x,y)=x+y$ על האליפסה $x^2+4y^2=5$.
+    answer: 2.5
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון, $\frac52$. $(1,1)=\lambda(2x,8y)$ נותן $x=4y$; הצבה: $16y^2+4y^2=5$, $y=\pm\frac12$, $x=\pm2$. $f(2,\frac12)=\frac52$
+      ו-$f(-2,-\frac12)=-\frac52$; האליפסה קומפקטית, ולכן אלה המקסימום והמינימום. (בדיקה בקושי-שוורץ:
+      $x+\frac12(2y)\le\sqrt{1+\frac14}\sqrt{x^2+4y^2}=\frac52$.)
+    wrongFeedback: >-
+      $\nabla f=(1,1)$ ו-$\nabla g=(2x,8y)$. מהשוואת שני הרכיבים מצאו את היחס בין $x$ ל-$y$, והציבו באילוץ.
+    commonWrong:
+      - value: 2
+        feedback: >-
+          2 מתקבל מהניחוש $x=y$ ($5x^2=5$). הסימטריה של $x+y$ אינה סימטריה של הבעיה: האליפסה אינה סימטרית
+          בהחלפת $x$ ו-$y$. לגרנז' נותן $x=4y$.
+      - value: 0.25
+        feedback: >-
+          $\frac14$ הוא הכופל $\lambda$ בנקודה $(2,\frac12)$, לא ערך המקסימום.
+        misconception: MC-c7-lambda-is-value
+
+  - id: Q-7.5-cusp-min
+    type: twotier
+    objectives: [OBJ-7.5-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      ממזערים $f(x,y)=x$ על העקום $y^2=x^3$, כלומר $g(x,y)=y^2-x^3=0$. למערכת $\nabla f=\lambda\nabla g$, $g=0$ אין
+      פתרון. האם ל-$f$ יש מינימום על העקום?
+    choices:
+      - text: 'כן, 0, בראשית'
+        correct: true
+        feedback: >-
+          נכון. על העקום $x^3=y^2\ge0$, ולכן $x\ge0$, עם שוויון רק ב-$(0,0)$.
+      - text: 'לא, כי למערכת לגרנז'' אין פתרון'
+        feedback: >-
+          לגרנז' מוצא רק קיצונים שבהם $\nabla g\neq0$. בראשית $\nabla g=(-3x^2,2y)=0$, ושם בדיוק המינימום.
+        misconception: MC-c7-regularity-optional
+    reasons:
+      - text: '$x\ge0$ על העקום והמינימום בראשית; שם $\nabla g(0,0)=0$, תנאי הרגולריות נכשל, ולכן המשפט לא מחייב פתרון שם'
+        correct: true
+        feedback: >-
+          בדיוק. $(1,0)=\lambda(-3x^2,2y)$ מכריח $\lambda\neq0$, $y=0$, ומהאילוץ $x=0$; אבל אז $-3\lambda x^2=0\neq1$.
+          לכן בכל בעיה מוסיפים לרשימת המועמדים את נקודות $S$ שבהן $\nabla g=0$.
+      - text: 'למערכת אין פתרון, ולכן הקיצון חייב להיות על השפה של העקום'
+        feedback: >-
+          לעקום אין "שפה" כאן; הוא לא קבוצה עם פנים. החור בשיטה הוא נקודה שבה $\nabla g=0$.
+        misconception: MC-c7-regularity-optional
+      - text: 'בראשית $\nabla f=0$, ולכן היא נקודה קריטית רגילה'
+        feedback: >-
+          $\nabla f=(1,0)\neq0$ בכל מקום. מה שמתאפס בראשית הוא $\nabla g$.
+        misconception: MC-c7-constrained-needs-grad-zero
+
+  - id: Q-7.5-candidates
+    type: multi
+    objectives: [OBJ-7.5-3, OBJ-7.5-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $g$ גזירה ברציפות, $S=\{g=0\}$ קומפקטית ולא ריקה, ו-$f$ גזירה ברציפות. המקסימום של $f$ על $S$ מתקבל. באילו
+      מסוגי הנקודות הבאים הוא **יכול** להתקבל? סמנו את כולם.
+    choices:
+      - text: 'בנקודה של $S$ שבה $\nabla g\neq0$ ו-$\nabla f=\lambda\nabla g$ ל-$\lambda$ כלשהו'
+        correct: true
+        feedback: >-
+          נכון: זה המקרה של משפט לגרנז'.
+      - text: 'בנקודה של $S$ שבה $\nabla g=0$'
+        correct: true
+        feedback: >-
+          נכון: שם המשפט לא חל, והקיצון יכול להיות שם (כמו $x$ על $y^2=x^3$, או כל פונקציה שמקבלת מקסימום בקודקוד
+          של עקום עם חוד). נקודות כאלה נבדקות בנפרד.
+      - text: 'בנקודה של $S$ שבה $\nabla f=0$'
+        correct: true
+        feedback: >-
+          נכון, וזה לא סותר את לגרנז': זה המקרה $\lambda=0$. למשל $f=-(x^2+y^2)$ על ישר דרך הראשית מקבלת מקסימום
+          בראשית, ושם $\nabla f=0$.
+      - text: 'בנקודה של $S$ שבה $\nabla g\neq0$, $\nabla f\neq0$, ו-$\nabla f\perp\nabla g$'
+        feedback: >-
+          לא: אם $\nabla g(a)\neq0$ ו-$a$ קיצון, אז $\nabla f(a)$ מקביל ל-$\nabla g(a)$. וקטור שונה מאפס אינו יכול
+          להיות גם מקביל וגם ניצב לאותו וקטור.
+        misconception: MC-c7-gradients-perpendicular
+
+  - id: Q-7.5-hidden-min
+    type: numeric
+    objectives: [OBJ-7.5-3]
+    level: mid
+    prompt: >-
+      מצאו את המינימום של $f(x,y)=x^2+y^2$ על העקום $(x-1)^3=y^2$.
+    answer: 1
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. על העקום $(x-1)^3=y^2\ge0$, ולכן $x\ge1$ ו-$f\ge x^2\ge1$, עם שוויון ב-$(1,0)$. שימו לב: למערכת לגרנז' אין
+      פתרון. מ-$2y=-2\lambda y$: אם $y=0$ אז $x=1$ ו-$2=3\lambda\cdot0$, סתירה; אם $\lambda=-1$ אז $3x^2-4x+3=0$, בלי
+      פתרון ממשי. המינימום נמצא בנקודה $(1,0)$, שבה $\nabla g=(3(x-1)^2,-2y)=0$.
+    wrongFeedback: >-
+      לפני שפותרים מערכת, הסתכלו על האילוץ: מה הוא אומר על הסימן של $x-1$?
+    commonWrong:
+      - value: 0
+        feedback: >-
+          0 הוא המינימום של $x^2+y^2$ בלי אילוץ, בראשית; אבל הראשית אינה על העקום: $(0-1)^3=-1\neq0$.
+        misconception: MC-c7-constrained-needs-grad-zero
+    hints:
+      - 'אם למערכת לגרנז'' אין פתרון, חפשו נקודות של העקום שבהן $\nabla g=0$.'
+
+  - id: Q-7.5-hyperbola
+    type: twotier
+    objectives: [OBJ-7.5-2, OBJ-7.5-1]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $f(x,y)=x^2+y^2$ על ההיפרבולה $H=\{xy=1\}$. לגרנז' נותן את המועמדים $(1,1)$ ו-$(-1,-1)$, ובשניהם $f=2$. מה נכון?
+    choices:
+      - text: 'ל-$f$ יש על $H$ מינימום 2 ואין מקסימום'
+        correct: true
+        feedback: >-
+          נכון. $f(t,\frac1t)=t^2+\frac{1}{t^2}\to\infty$ כש-$t\to\infty$, ולכן אין מקסימום.
+      - text: 'אחת הנקודות מקסימום והשנייה מינימום'
+        feedback: >-
+          בשתיהן $f=2$; אין ביניהן הבדל. גם בלי זה, נקודות לגרנז' אינן מתחלקות בהכרח ל"אחת מקסימום ואחת מינימום",
+          במיוחד על קבוצה לא קומפקטית.
+        misconception: MC-c7-noncompact-extremum
+      - text: 'אי אפשר לקבוע, כי $H$ אינה קומפקטית'
+        feedback: >-
+          חוסר קומפקטיות אומר שצריך נימוק נוסף, לא שאין תשובה. ההתנהגות באינסוף נותנת את הנימוק (ראו הנימוק הנכון).
+    reasons:
+      - text: '$f\ge2|xy|=2$ על $H$ (כי $(|x|-|y|)^2\ge0$), עם שוויון ב-$(\pm1,\pm1)$ באותו סימן; ו-$f\to\infty$ לאורך $H$'
+        correct: true
+        feedback: >-
+          בדיוק. אפשר גם בדרך של שיעור 6.5: $H\cap B[0,3]$ קומפקטית ומחוצה לה $f>9$, ולכן יש מינימום, והוא בין
+          נקודות לגרנז' (על $H$ מתקיים $\nabla g=(y,x)\neq0$).
+      - text: '$H$ סגורה, ולכן ל-$f$ יש עליה מקסימום ומינימום'
+        feedback: >-
+          $H$ סגורה ולא חסומה, ולכן לא קומפקטית, ו-$f$ אינה חסומה עליה.
+        misconception: MC-c7-noncompact-extremum
+      - text: 'בנקודות לגרנז'' $\nabla f\perp\nabla g$, ולכן הן מינימום'
+        feedback: >-
+          בנקודות לגרנז' הגרדיאנטים **מקבילים**: ב-$(1,1)$, $\nabla f=(2,2)=2\nabla g$. וגם אז זה תנאי הכרחי בלבד.
+        misconception: MC-c7-gradients-perpendicular
+
+  - id: Q-7.5-proof
+    type: rank
+    objectives: [OBJ-7.5-1]
+    level: exam
+    prompt: >-
+      הוכיחו את משפט לגרנז' במישור: $f,g$ גזירות ברציפות, $a=(a_1,a_2)$ קיצון מקומי של $f$ על $\{g=0\}$, ו-$\nabla g(a)\neq0$.
+    help: סדרו את שלבי ההוכחה, מהראשון לאחרון.
+    items:
+      - id: wlog
+        label: 'כי $\nabla g(a)\neq0$, אחת הנגזרות החלקיות שונה מאפס; נניח $g_y(a)\neq0$.'
+      - id: implicit
+        label: 'לפי משפט הפונקציה הסתומה, ליד $a$ האילוץ הוא גרף $y=h(x)$ עם $h$ גזירה ברציפות ו-$h(a_1)=a_2$.'
+      - id: reduce
+        label: 'ל-$\varphi(x)=f(x,h(x))$ יש קיצון מקומי ב-$a_1$, ולכן $\varphi''(a_1)=0$.'
+      - id: chain
+        label: 'מכלל השרשרת: $f_x+f_y\,h''(a_1)=0$; וגזירת $g(x,h(x))=0$ נותנת $g_x+g_y\,h''(a_1)=0$ (הכל ב-$a$).'
+      - id: lambda
+        label: 'מגדירים $\lambda=\frac{f_y(a)}{g_y(a)}$; אז $f_y=\lambda g_y$, ו-$f_x=-f_y h''=-\lambda g_y h''=\lambda g_x$.'
+      - id: done
+        label: 'לכן $\nabla f(a)=\lambda\nabla g(a)$.'
+    order: [wlog, implicit, reduce, chain, lambda, done]
+    correctFeedback: >-
+      נכון. הרעיון: משפט הפונקציה הסתומה הופך את הבעיה עם האילוץ לבעיה במשתנה אחד בלי אילוץ, ושם מספיק
+      $\varphi'=0$. תנאי הרגולריות נכנס בדיוק בצעד הראשון.
+    wrongFeedback: >-
+      קודם משתמשים ב-$\nabla g(a)\neq0$ כדי להפעיל את משפט הפונקציה הסתומה, אחר כך מצמצמים למשתנה אחד, גוזרים, ורק
+      בסוף מגדירים את $\lambda$.

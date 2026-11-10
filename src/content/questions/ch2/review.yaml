@@ -1,0 +1,427 @@
+# Chapter 2 review — completeness (lessons 2.1–2.6), easy to hard.
+# Every lesson is touched; most questions combine two or more lessons. Each hint names the lesson to go back to.
+chapter: 2
+questions:
+  - id: Q-2-review-01
+    type: twotier
+    objectives: [OBJ-2.1-1, OBJ-2.1-3, OBJ-1.1-2]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $X$ קבוצה כלשהי עם המטריקה הבדידה. האם כל סדרת קושי ב-$X$ קבועה מאינדקס מסוים?
+    choices:
+      - text: כן
+        correct: true
+        feedback: >-
+          נכון, ומכאן שכל מרחב מטרי בדיד שלם: סדרה קבועה מאינדקס מסוים מתכנסת.
+      - text: 'לא, למשל $x_n=n$ ב-$\mathbb{N}$'
+        feedback: >-
+          $x_n=n$ אינה סדרת קושי במטריקה הבדידה: כל שני איברים שונים בה במרחק 1. במטריקה הבדידה ה"חורים" לא
+          מפריעים, כי שום סדרת קושי לא מתקרבת אליהם.
+        misconception: MC-c2-discrete-incomplete
+    reasons:
+      - text: 'עם $\varepsilon=1$ יש $N$ כך ש-$d(x_m,x_n)<1$ לכל $m,n>N$, ובמטריקה הבדידה מרחק קטן מ-1 פירושו $x_m=x_n$'
+        correct: true
+        feedback: 'בדיוק: $\varepsilon$ אחד מספיק, כי המרחקים במטריקה הבדידה הם רק 0 ו-1.'
+      - text: 'כי המרחב חסום: כל המרחקים לכל היותר 1'
+        feedback: >-
+          חסימות לא נותנת דבר: $x_n=n$ חסומה במטריקה הבדידה ואינה סדרת קושי. הנימוק צריך לעבור דרך תנאי קושי.
+        misconception: MC-c2-bounded-implies-cauchy
+    hints:
+      - 'חזרו לשיעור 2.1: שלמות במטריקה הבדידה; ולשיעור 1.1 להגדרת המטריקה הבדידה.'
+
+  - id: Q-2-review-02
+    type: multi
+    objectives: [OBJ-2.1-3, OBJ-2.2-1, OBJ-2.2-3]
+    qualitative: true
+    level: basic
+    prompt: >-
+      אילו מהמרחבים המטריים הבאים **שלמים**? סמנו את כולם.
+    choices:
+      - text: '$\mathbb{Z}$ עם $|x-y|$'
+        correct: true
+        feedback: 'שלם: סגור ב-$\mathbb{R}$ (וגם: סדרת קושי של שלמים קבועה מאינדקס מסוים).'
+      - text: '$\mathbb{Q}\cap[0,1]$ עם $|x-y|$'
+        feedback: >-
+          לא שלם: היא תת-קבוצה של $\mathbb{R}$ השלם, אבל לא סגורה בו, וקירובים רציונליים של $\frac{\sqrt2}{2}$ הם סדרת
+          קושי בלי גבול בה.
+        misconception: MC-c2-subset-of-complete
+      - text: '$\mathbb{R}$ עם $d(x,y)=|e^x-e^y|$'
+        feedback: >-
+          לא שלם, אף שזו "אותה טופולוגיה" כמו של $\mathbb{R}$. $x_n=-n$ היא סדרת קושי ($e^{-n}\to0$), ולו $x_n\to a$
+          היה $e^{-n}\to e^a>0$, סתירה.
+        misconception: MC-c2-completeness-topological
+      - text: '$\mathbb{R}$ עם $d(x,y)=|x^3-y^3|$'
+        correct: true
+        feedback: >-
+          שלם. $x\mapsto x^3$ היא איזומטריה של $(\mathbb{R},d)$ **על** $(\mathbb{R},|\cdot|)$, כי $x^3$ מקבלת כל ערך
+          ממשי; ולכן סדרות קושי עוברות לסדרות קושי וגבולות לגבולות.
+      - text: '$(C[0,1],\|\cdot\|_1)$'
+        feedback: >-
+          לא שלם: השיפועים סביב $\frac12$ הם סדרת קושי בלי גבול רציף. ב-$\|\cdot\|_\infty$ אותה קבוצה כן שלמה.
+        misconception: MC-c2-norm-irrelevant
+      - text: '$\{0\}\cup\{\frac1n:n\in\mathbb{N}\}$ עם $|x-y|$'
+        correct: true
+        feedback: 'שלם: סגור ב-$\mathbb{R}$.'
+    hints:
+      - 'חזרו לשיעור 2.1 (מטריקת הארקטנגנס, אותו רעיון כמו $e^x$) ולשיעור 2.2: תת-מרחב של מרחב שלם שלם אם ורק אם הוא סגור.'
+
+  - id: Q-2-review-03
+    type: mc
+    objectives: [OBJ-2.3-1, OBJ-2.3-3]
+    qualitative: true
+    level: basic
+    prompt: >-
+      לאיזו מההעתקות הבאות **כל** ההנחות של משפט נקודת השבת של בנך מתקיימות?
+    choices:
+      - text: '$g(x)=\frac{\cos x}{2}$ על $\mathbb{R}$'
+        correct: true
+        feedback: >-
+          נכון. $\mathbb{R}$ שלם, $g:\mathbb{R}\to\mathbb{R}$, ומשפט הערך הממוצע נותן $|g(x)-g(y)|\le\frac12|x-y|$.
+      - text: '$g(x)=\frac x2$ על $(0,1]$'
+        feedback: >-
+          $(0,1]$ אינו שלם, אף שהוא יושב בתוך $\mathbb{R}$ השלם: $2^{-n}$ היא סדרת קושי בלי גבול בו.
+        misconception: MC-c2-subset-of-complete
+      - text: '$g(x)=\frac x2+1$ על $[0,1]$'
+        feedback: >-
+          $g(1)=\frac32\notin[0,1]$: $g$ אינה שולחת את הקטע לתוך עצמו.
+        misconception: MC-c2-ignore-self-map
+      - text: '$f(x)=x+\frac1x$ על $[1,\infty)$'
+        feedback: >-
+          $f$ מקטינה מרחקים, אבל אין לה מקדם כיווץ אחיד $q<1$ (היחס $1-\frac1{xy}$ שואף ל-1).
+        misconception: MC-c2-shrinking-is-contraction
+    hints:
+      - 'חזרו לשיעור 2.3: שלוש ההנחות של משפט בנך, ודוגמה שבה כל אחת נכשלת.'
+
+  - id: Q-2-review-04
+    type: numeric
+    objectives: [OBJ-2.4-3, OBJ-1.8-2]
+    level: basic
+    prompt: >-
+      $R=\begin{pmatrix}0.3&-0.4\\0.2&0.1\end{pmatrix}$. חשבו את $\|R\|_\infty$ (סכום שורה מקסימלי), ואת החסם
+      $\frac{1}{1-\|R\|_\infty}$ שטור נוימן נותן ל-$\|(I-R)^{-1}\|_\infty$. מהו החסם? (אפשר לענות בשבר.)
+    answer: 3.3333333333
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון, $\frac{10}{3}$. סכומי השורות של הערכים המוחלטים: $0.3+0.4=0.7$ ו-$0.2+0.1=0.3$, ולכן $\|R\|_\infty=0.7<1$,
+      והחסם $\frac1{0.3}=\frac{10}3$.
+    wrongFeedback: >-
+      $\|R\|_\infty$ הוא המקסימום על השורות של **סכום הערכים המוחלטים** בשורה. אחר כך הציבו ב-$\frac1{1-\|R\|}$.
+    commonWrong:
+      - value: 0.5882352941
+        feedback: >-
+          $\frac{1}{1.7}=\frac1{1+\|R\|}$. ההופכית היא $\sum R^k$, וכל מחובר נחסם בערכו המוחלט; הסימן הוא מינוס.
+        misconception: MC-c2-neumann-bound-formula
+      - value: 1.6666666667
+        feedback: >-
+          $\frac1{0.6}$ מתקבל מנורמה שהיא האיבר הגדול ביותר, $0.4$. נורמת האופרטור היא סכום שורה, $0.7$.
+        misconception: MC-c2-neumann-entrywise
+    hints:
+      - 'חזרו לשיעור 2.4: טור נוימן; ולשיעור 1.8: נורמת אופרטור של מטריצה בנורמת אינסוף.'
+
+  - id: Q-2-review-05
+    type: numeric
+    objectives: [OBJ-2.2-3]
+    level: basic
+    prompt: >-
+      $f_n$ הם השיפועים: $f_n=0$ על $[0,\frac12]$, עולה לינארית מ-0 ל-1 על $[\frac12,\frac12+\frac1n]$, ו-1 על
+      $[\frac12+\frac1n,1]$. חשבו את $\|f_5-f_{10}\|_1$.
+    answer: 0.05
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון, $\frac1{20}$. $\int_0^1f_n=\frac12-\frac1{2n}$ ו-$f_{10}\ge f_5$, ולכן
+      $\|f_5-f_{10}\|_1=\frac1{10}-\frac1{20}=\frac1{20}$.
+    wrongFeedback: >-
+      השתמשו בכך ש-$f_m\ge f_n$ ל-$m>n$, וחשבו את $\int f_n$ כמלבן ועוד משולש.
+    commonWrong:
+      - value: 0.5
+        feedback: >-
+          $\frac12=\|f_5-f_{10}\|_\infty$, ההפרש הגדול ביותר (ב-$x=0.6$). נורמת האינטגרל מודדת שטח.
+        misconception: MC-c2-norm-irrelevant
+    hints:
+      - 'חזרו לשיעור 2.2: הדוגמה המפורשת לאי-השלמות של $(C[0,1],\|\cdot\|_1)$.'
+
+  - id: Q-2-review-06
+    type: twotier
+    objectives: [OBJ-2.2-1, OBJ-2.1-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $X$ מרחב מטרי **שלם** ו-$Y\subseteq X$. האם $Y$ שלם אם ורק אם $Y$ סגורה ב-$X$?
+    choices:
+      - text: כן
+        correct: true
+        feedback: 'נכון: שני המשפטים של שיעור 2.2 יחד.'
+      - text: 'לא, $Y$ שלם אם ורק אם הוא סגור וחסום'
+        feedback: >-
+          חסימות לא קשורה: $[0,\infty)$ סגורה ב-$\mathbb{R}$, לא חסומה, ושלמה.
+        misconception: MC-c2-complete-closed-bounded
+    reasons:
+      - text: 'סגורה במרחב שלם גוררת שלמה (הגבול קיים ב-$X$ ונשאר ב-$Y$), ותת-מרחב שלם סגור בכל מרחב (יחידות הגבול)'
+        correct: true
+        feedback: >-
+          בדיוק. שימו לב שרק הכיוון הראשון צריך את השלמות של $X$.
+      - text: 'כל תת-קבוצה של מרחב שלם שלמה, ולכן התנאי על סגירות מיותר'
+        feedback: >-
+          $(0,1)\subseteq\mathbb{R}$ אינו שלם. הסגירות היא בדיוק מה שמונע מהגבולות לברוח.
+        misconception: MC-c2-subset-of-complete
+    hints:
+      - 'חזרו לשיעור 2.2: תת-קבוצה סגורה של מרחב שלם, ותת-מרחב שלם.'
+
+  - id: Q-2-review-07
+    type: numeric
+    objectives: [OBJ-2.3-1]
+    level: mid
+    prompt: >-
+      $f(x)=\frac{x+\sin x}{4}$ על $\mathbb{R}$. מהו $\sup_{\mathbb{R}}|f'|$, מקדם הכיווץ שמשפט הערך הממוצע נותן?
+    answer: 0.5
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $f'(x)=\frac{1+\cos x}{4}\in[0,\frac12]$, והמקסימום $\frac12$ מתקבל כש-$\cos x=1$. לכן $f$ מכווצת עם
+      $q=\frac12$, ונקודת השבת היחידה היא $0$.
+    wrongFeedback: >-
+      גזרו, ומצאו את הערך הגדול ביותר של $|f'|$ על כל הישר, לא בנקודה אחת.
+    commonWrong:
+      - value: 0.25
+        feedback: >-
+          $\frac14=f'(\frac\pi2)$. ב-$x=0$ הנגזרת היא $\frac12$, וזה מה שקובע.
+        misconception: MC-c2-q-at-one-point
+      - value: 0
+        feedback: >-
+          $0=f'(\pi)$, הערך הקטן ביותר של הנגזרת. מקדם הכיווץ הוא הסופרמום.
+        misconception: MC-c2-q-at-one-point
+    hints:
+      - 'חזרו לשיעור 2.3: מקדם הכיווץ מסופרמום הנגזרת.'
+
+  - id: Q-2-review-08
+    type: twotier
+    objectives: [OBJ-2.4-2, OBJ-0.3-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $f(x)=\sum_{k\ge1}\frac{\sin kx}{k^3}$ על $[-\pi,\pi]$. האם $f$ גזירה ברציפות, עם $f'(x)=\sum_{k\ge1}\frac{\cos kx}{k^2}$?
+    choices:
+      - text: כן
+        correct: true
+        feedback: >-
+          נכון. גם הטור וגם טור הנגזרות מתכנסים במידה שווה, וזה מה שמתיר גזירה איבר-איבר.
+      - text: 'לא, אי אפשר לגזור טור אינסופי איבר-איבר'
+        feedback: >-
+          לפעמים אפשר: המשפט משיעור 0.3 מתיר את זה כשטור הנגזרות מתכנס במידה שווה (והטור עצמו מתכנס בנקודה).
+        misconception: MC-c2-mtest-necessary
+    reasons:
+      - text: '$\|\frac{\sin kx}{k^3}\|_\infty=\frac1{k^3}$ ו-$\|\frac{\cos kx}{k^2}\|_\infty=\frac1{k^2}$ סכימים: שני הטורים מתכנסים בהחלט במרחב הבנך $(C[-\pi,\pi],\|\cdot\|_\infty)$, וטור הנגזרות הרציף הוא $f''$'
+        correct: true
+        feedback: >-
+          בדיוק. מבחן ה-M נותן התכנסות במידה שווה של טור הנגזרות, וזו ההנחה של משפט הגזירה איבר-איבר; הגבול
+          רציף כי הוא איבר של $C[-\pi,\pi]$.
+      - text: 'כל סכום חלקי גזיר, והטור מתכנס בכל נקודה, ולכן הסכום גזיר'
+        feedback: >-
+          התכנסות נקודתית לא שומרת אפילו רציפות ($x^n$ על $[0,1]$), ובוודאי לא גזירות. צריך התכנסות במידה שווה של
+          טור הנגזרות.
+        misconception: MC-c2-pointwise-limit-enough
+    hints:
+      - 'חזרו לשיעור 2.4: מבחן ה-M כהתכנסות בהחלט; ולשיעור 0.3: מתי מותר לגזור איבר-איבר.'
+
+  - id: Q-2-review-09
+    type: twotier
+    objectives: [OBJ-2.5-2, OBJ-1.4-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      ל-$\mathbb{Q}$ אין נקודות פנימיות ב-$\mathbb{R}$. האם $\mathbb{Q}$ קבוצה דלילה ב-$\mathbb{R}$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון: היא צפופה, ההפך הגמור מדלילה.'
+      - text: כן
+        feedback: >-
+          "דלילה" מסתכלת על הסגור. $\overline{\mathbb{Q}}=\mathbb{R}$, והפנים של $\mathbb{R}$ הוא $\mathbb{R}$.
+        misconception: MC-c2-empty-interior-nowhere-dense
+    reasons:
+      - text: '$\mathbb{Q}$ צפופה, כלומר $\overline{\mathbb{Q}}=\mathbb{R}$, ולכן $(\overline{\mathbb{Q}})^\circ=\mathbb{R}\neq\emptyset$'
+        correct: true
+        feedback: 'בדיוק: קודם סגור, אחר כך פנים.'
+      - text: 'לקבוצה בת מנייה אין פנים, וזו ההגדרה של דלילה'
+        feedback: >-
+          ההגדרה דורשת שלסגור לא יהיה פנים, לא לקבוצה עצמה. $\mathbb{Q}$ בת מנייה, בלי פנים, וצפופה.
+        misconception: MC-c2-empty-interior-nowhere-dense
+    hints:
+      - 'חזרו לשיעור 2.5: הגדרת קבוצה דלילה; ולשיעור 1.4: הרציונליים צפופים בממשיים.'
+
+  - id: Q-2-review-10
+    type: twotier
+    objectives: [OBJ-2.1-1, OBJ-1.6-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      האם כל העתקה **רציפה** בין מרחבים מטריים שולחת סדרות קושי לסדרות קושי?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. העתקה **ליפשיצית** (או רציפה במידה שווה) כן שולחת סדרות קושי לסדרות קושי; רציפות בלבד לא מספיקה.
+      - text: כן
+        feedback: >-
+          $h(x)=\frac1x$ רציפה על $(0,1)$, ו-$\frac1{n+1}$ היא סדרת קושי שם, אבל $h(\frac1{n+1})=n+1$ אינה סדרת קושי.
+        misconception: MC-c2-completeness-topological
+    reasons:
+      - text: '$\frac1x$ על $(0,1)$ שולחת את סדרת הקושי $\frac1{n+1}$ ל-$n+1$; לעומת זאת עבור $f$ ליפשיצית $d(f(x_m),f(x_n))\le L\,d(x_m,x_n)$'
+        correct: true
+        feedback: >-
+          בדיוק. זו גם הסיבה ששלמות אינה נשמרת בהומיאומורפיזם: $(0,1)$ ו-$\mathbb{R}$ הומיאומורפיים, ורק אחד מהם שלם.
+      - text: 'רציפות פירושה ש-$f(x_n)\to f(x)$ כש-$x_n\to x$, ולכן סדרות קושי עוברות לסדרות קושי'
+        feedback: >-
+          רציפות מדברת על סדרות **מתכנסות** במרחב. לסדרת קושי שאינה מתכנסת (כמו $\frac1{n+1}$ ב-$(0,1)$) אין גבול
+          שהרציפות יכולה להשתמש בו.
+        misconception: MC-c2-cauchy-always-converges
+    hints:
+      - 'חזרו לשיעור 2.1: סדרות קושי; ולשיעור 1.6: ליפשיץ, רציפות במידה שווה והומיאומורפיזם.'
+
+  - id: Q-2-review-11
+    type: mc
+    objectives: [OBJ-2.6-3, OBJ-2.2-1, OBJ-1.4-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $X=\big(\mathbb{Q}\cap(0,1)\big)\cup\{2\}$ עם המרחק הרגיל. מהי ההשלמה של $X$ (עד כדי איזומטריה)?
+    choices:
+      - text: '$[0,1]\cup\{2\}$'
+        correct: true
+        feedback: >-
+          נכון. $X$ יושב ב-$\mathbb{R}$ השלם, ולכן ההשלמה היא הסגור שלו ב-$\mathbb{R}$: הסגור של $\mathbb{Q}\cap(0,1)$
+          הוא $[0,1]$, והנקודה 2 נשארת (היא מבודדת).
+      - text: '$[0,2]$'
+        feedback: >-
+          $[0,2]$ שלם ומכיל את $X$, אבל $X$ אינו צפוף בו: $1.5$ אינה גבול של נקודות מ-$X$.
+        misconception: MC-c2-completion-any-superset
+      - text: '$\mathbb{R}$'
+        feedback: >-
+          ההשלמה היא המרחב השלם הקטן ביותר שבו $X$ צפוף. בתוך $\mathbb{R}$ זה הסגור, לא $\mathbb{R}$ כולו.
+        misconception: MC-c2-completion-any-superset
+      - text: '$\big(\mathbb{Q}\cap[0,1]\big)\cup\{2\}$'
+        feedback: >-
+          זה הסגור של $X$ בתוך $\mathbb{Q}$, והוא אינו שלם: קירובים רציונליים של $\frac{\sqrt2}2$ אין להם גבול בו.
+        misconception: MC-c2-closed-implies-complete
+    hints:
+      - 'חזרו לשיעור 2.6: בתוך מרחב שלם ההשלמה היא הסגור; ולשיעור 1.4 לחישוב סגורים.'
+
+  - id: Q-2-review-12
+    type: multi
+    objectives: [OBJ-2.3-1, OBJ-2.3-2, OBJ-2.2-2]
+    qualitative: true
+    level: exam
+    prompt: >-
+      על $C[0,1]$ מגדירים $(Tf)(x)=1+\frac12\int_0^x f(t)\,dt$. אילו מהטענות נכונות? סמנו את כולן.
+    choices:
+      - text: '$T$ שולחת את $C[0,1]$ לתוך $C[0,1]$'
+        correct: true
+        feedback: 'נכון: אינטגרל עם גבול עליון משתנה של פונקציה רציפה הוא פונקציה רציפה (אפילו גזירה).'
+      - text: '$\|Tf-Tg\|_\infty\le\frac12\|f-g\|_\infty$ לכל $f,g$'
+        correct: true
+        feedback: >-
+          נכון: $|(Tf-Tg)(x)|=\frac12\left|\int_0^x(f-g)\right|\le\frac12\,x\,\|f-g\|_\infty\le\frac12\|f-g\|_\infty$.
+      - text: 'ל-$T$ יש נקודת שבת יחידה ב-$C[0,1]$, והיא $e^{x/2}$'
+        correct: true
+        feedback: >-
+          נכון. $(C[0,1],\|\cdot\|_\infty)$ שלם (שיעור 2.2), ולכן משפט בנך חל. ואכן
+          $1+\frac12\int_0^xe^{t/2}dt=1+(e^{x/2}-1)=e^{x/2}$.
+      - text: 'האיטרציות מ-$f_0=0$ הן פולינומים, ולכן נקודת השבת היא פולינום'
+        feedback: >-
+          האיטרציות הן $1,\ 1+\frac x2,\ 1+\frac x2+\frac{x^2}8,\dots$, אבל הגבול שלהן ב-$C[0,1]$ הוא $e^{x/2}$. מרחב
+          הפולינומים אינו סגור, ולכן הגבול יכול לצאת ממנו.
+        misconception: MC-c2-subset-of-complete
+      - text: 'משפט בנך חל באותה מידה על $T$ במרחב $(C[0,1],\|\cdot\|_1)$'
+        feedback: >-
+          $T$ אמנם מכווצת גם בנורמה הזו, אבל $(C[0,1],\|\cdot\|_1)$ אינו שלם, ולכן משפט בנך לא מבטיח שם דבר (כאן נקודת
+          השבת קיימת ממילא, מהנורמה השנייה).
+        misconception: MC-c2-norm-irrelevant
+    explanation: >-
+      נקודת שבת של $T$ היא פתרון של $f(x)=1+\frac12\int_0^x f$, כלומר של $f'=\frac f2$ עם $f(0)=1$. זה הרעיון של
+      הקורס אינפי מתקדם 2 (משוואות דיפרנציאליות): בעיית התחלה היא משוואת נקודת שבת במרחב פונקציות שלם.
+    hints:
+      - 'חזרו לשיעור 2.3: משפט בנך; ולשיעור 2.2: למה $(C[0,1],\|\cdot\|_\infty)$ שלם.'
+
+  - id: Q-2-review-13
+    type: twotier
+    objectives: [OBJ-2.3-2, OBJ-2.1-1]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $(X,d)$ מרחב מטרי **לא בהכרח שלם**, $f:X\to X$ ו-$d(f(x),f(y))\le q\,d(x,y)$ עם $q<1$. האם סדרת האיטרציות
+      $x_{n+1}=f(x_n)$ היא בהכרח סדרת קושי?
+    choices:
+      - text: כן
+        correct: true
+        feedback: >-
+          נכון. החלק הזה של ההוכחה לא משתמש בשלמות. השלמות נכנסת רק כדי שלסדרת הקושי יהיה גבול.
+      - text: 'לא, בלי שלמות אין לסדרה גבול, ולכן היא לא סדרת קושי'
+        feedback: >-
+          "סדרת קושי" ו"מתכנסת" שונים במרחב לא שלם. $\frac x2$ על $(0,1]$: האיטרציות $2^{-n}$ הן סדרת קושי בלי
+          גבול במרחב.
+        misconception: MC-c2-cauchy-always-converges
+    reasons:
+      - text: '$d(x_m,x_n)\le\frac{q^n}{1-q}\,d(x_1,x_0)$ לכל $m>n$, וזה מאי-שוויון המשולש וטור הנדסי בלבד'
+        correct: true
+        feedback: 'בדיוק: אותו חישוב שנותן את חסם השגיאה.'
+      - text: 'כי $d(x_{n+1},x_n)\to0$'
+        feedback: >-
+          המסקנה נכונה, הנימוק לא מספיק: צעדים עוקבים ששואפים לאפס לא נותנים סדרת קושי ($\sqrt n$). מה שעובד כאן
+          הוא שהצעדים קטנים **הנדסית**, ולכן סכימים.
+        misconception: MC-c2-consecutive-terms
+    hints:
+      - 'חזרו לשיעור 2.3: הוכחת משפט בנך שלב אחר שלב; ולשיעור 2.1: מה סדרת קושי צריכה.'
+
+  - id: Q-2-review-14
+    type: numeric
+    objectives: [OBJ-2.4-3, OBJ-2.2-2, OBJ-1.8-2]
+    level: exam
+    prompt: >-
+      על $(C[0,1],\|\cdot\|_\infty)$ מגדירים $(Tf)(x)=\frac x2f(x)$, ולכן $\|T\|_{\mathrm{op}}=\frac12$. נתון $g$ עם
+      $\|g\|_\infty=1$, ו-$f$ הפתרון של $f-Tf=g$. מהו החסם העליון ש**טור נוימן** נותן ל-$\|f\|_\infty$?
+    answer: 2
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $f=(I-T)^{-1}g$, ולכן $\|f\|_\infty\le\frac{1}{1-\frac12}\|g\|_\infty=2$. והחסם הדוק: עבור $g\equiv1$,
+      $f(x)=\frac{1}{1-x/2}$ ו-$\|f\|_\infty=f(1)=2$.
+    wrongFeedback: >-
+      $C[0,1]$ עם נורמת הסופרמום הוא מרחב בנך, ולכן טור נוימן חל: $\|(I-T)^{-1}\|\le\frac1{1-\|T\|}$.
+    commonWrong:
+      - value: 0.6666666667
+        feedback: >-
+          $\frac23=\frac1{1+\|T\|}$. בטור $\sum T^k$ כל המחוברים נחסמים בערכם המוחלט, ולכן המכנה הוא $1-\|T\|$.
+        misconception: MC-c2-neumann-bound-formula
+    hints:
+      - 'חזרו לשיעור 2.4: טור נוימן במרחב בנך; ולשיעור 1.8: נורמת אופרטור.'
+
+  - id: Q-2-review-15
+    type: twotier
+    objectives: [OBJ-2.5-2, OBJ-2.4-1]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $P$ מרחב הפולינומים על $[0,1]$ עם נורמת הסופרמום, ו-$P_n$ הפולינומים ממעלה לכל היותר $n$. ידוע ש-$P_n$ סגורה
+      ב-$P$, ואין לה נקודות פנימיות ב-$P$ (לכל $p\in P_n$ הפולינום $p+\varepsilon x^{n+1}$ קרוב ל-$p$ ואינו ב-$P_n$).
+      מה נובע מכך ש-$P=\bigcup_n P_n$?
+    choices:
+      - text: '$P$ אינו מרחב בנך'
+        correct: true
+        feedback: >-
+          נכון. $P$ הוא איחוד בן מנייה של קבוצות דלילות, ומשפט בייר אוסר זאת במרחב שלם. אז $P$ אינו שלם.
+      - text: 'זו סתירה למשפט בייר'
+        feedback: >-
+          משפט בייר חל רק על מרחבים שלמים. כאן אין סתירה, יש מסקנה: $P$ אינו שלם.
+        misconception: MC-c2-baire-incomplete
+    reasons:
+      - text: 'כל $P_n$ סגורה ובלי פנים, כלומר דלילה; אילו $P$ היה שלם, בייר היה אוסר עליו להיות איחוד בן מנייה של דלילות'
+        correct: true
+        feedback: >-
+          בדיוק. ומכאן משהו חזק: **אף** נורמה על מרחב הפולינומים אינה הופכת אותו למרחב בנך, כי הטיעון עובד בכל
+          נורמה שבה $P_n$ סגורות.
+      - text: 'איחוד בן מנייה של דלילות דליל, ו-$P$ אינו דליל בעצמו'
+        feedback: >-
+          איחוד בן מנייה של דלילות יכול להיות גדול מאוד ($\mathbb{Q}$ בתוך $\mathbb{R}$). בייר אומר רק שהוא אינו
+          כל המרחב, **אם** המרחב שלם.
+        misconception: MC-c2-union-nowhere-dense
+    hints:
+      - 'חזרו לשיעור 2.5: משפט בייר; ולשיעור 2.4: הגדרת מרחב בנך.'

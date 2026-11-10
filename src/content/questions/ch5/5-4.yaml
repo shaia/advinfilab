@@ -1,0 +1,349 @@
+# Lesson 5.4 — a sufficient condition for differentiability, and the gradient.
+# Objectives (src/course.ts):
+#   OBJ-5.4-1  continuous partial derivatives in a neighbourhood ⇒ differentiable; a differentiable function that is not C¹
+#   OBJ-5.4-2  the gradient: direction of steepest ascent, orthogonal to the level curves
+#   OBJ-5.4-3  the tangent plane to a graph and to a level surface
+chapter: 5
+questions:
+  - id: Q-5.4-c1
+    type: twotier
+    objectives: [OBJ-5.4-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      ל-$f:U\to\mathbb{R}$ ($U\subseteq\mathbb{R}^2$ פתוחה) שתי הנגזרות החלקיות קיימות בכל נקודה של סביבה של $a$, והן
+      רציפות ב-$a$. האם $f$ דיפרנציאבילית ב-$a$?
+    choices:
+      - text: 'כן'
+        correct: true
+        feedback: >-
+          נכון. זה התנאי המספיק של השיעור, ובפרט כל פונקציה גזירה ברציפות ($C^1$) דיפרנציאבילית. כך מוכיחים בשורה
+          אחת שפולינומים, $e^{xy}$ ו-$\sin(x+y^2)$ דיפרנציאביליות בכל מקום.
+      - text: 'לא בהכרח'
+        feedback: >-
+          הדוגמאות הנגדיות של שיעור 5.3 ($\sqrt{|xy|}$, $\frac{x^3}{x^2+y^2}$) היו עם נגזרות חלקיות **לא רציפות** בראשית.
+          רציפות הנגזרות החלקיות היא בדיוק מה שמספיק.
+        misconception: MC-c5-partials-imply-differentiable
+    reasons:
+      - text: 'משפט לגרנז'' על כל קואורדינטה בנפרד מבטא את ההפרש בעזרת נגזרות חלקיות בנקודות קרובות, והרציפות שלהן ב-$a$ הופכת את השארית ל-$o(\|h\|)$'
+        correct: true
+        feedback: >-
+          בדיוק. זה רעיון ההוכחה: הולכים מ-$a$ ל-$a+h$ בשני צעדים מקבילים לצירים, ובכל צעד משתמשים במשפט הערך הממוצע
+          של משתנה אחד.
+      - text: 'כי קיום הנגזרות החלקיות לבדו מספיק לדיפרנציאביליות'
+        feedback: >-
+          לא מספיק: $\sqrt{|xy|}$ יש לה נגזרות חלקיות בראשית ואינה דיפרנציאבילית שם. ההנחה החשובה היא הרציפות שלהן.
+        misconception: MC-c5-partials-imply-differentiable
+      - text: 'כי נגזרות חלקיות רציפות גוררות ש-$f$ רציפה, ורציפות גוררת דיפרנציאביליות'
+        feedback: >-
+          רציפות אינה גוררת דיפרנציאביליות: $\|x\|_2$ רציפה ואין לה אפילו נגזרות חלקיות בראשית.
+        misconception: MC-c5-continuity-gives-derivative
+
+  - id: Q-5.4-rate
+    type: numeric
+    objectives: [OBJ-5.4-2]
+    level: basic
+    prompt: >-
+      תהי $f(x,y)=xy$. מהו הערך הגדול ביותר של $D_vf(4,3)$ על פני כל וקטורי היחידה $v$?
+    answer: 5
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $\nabla f(4,3)=(y,x)=(3,4)$, והנגזרת הכיוונית הגדולה ביותר היא $\|\nabla f(4,3)\|_2=5$, בכיוון
+      $v=\left(\tfrac35,\tfrac45\right)$.
+    wrongFeedback: >-
+      $D_vf(a)=\nabla f(a)\cdot v\le\|\nabla f(a)\|_2$ לפי קושי-שוורץ, עם שוויון בכיוון הגרדיאנט.
+    commonWrong:
+      - value: 7
+        feedback: >-
+          $7=3+4$ הוא $\|\nabla f\|_1$, כלומר $\nabla f\cdot(1,1)$; אבל $(1,1)$ אינו וקטור יחידה. הקצב המרבי נמדד
+          בנורמה האוקלידית.
+        misconception: MC-c5-steepest-rate
+      - value: 4
+        feedback: >-
+          4 היא הנגזרת החלקית הגדולה. כיוון אלכסוני, בכיוון הגרדיאנט, נותן יותר: $\nabla f\cdot\left(\tfrac35,\tfrac45\right)=5$.
+        misconception: MC-c5-steepest-rate
+      - value: 25
+        feedback: '$25=\|\nabla f\|_2^2$. הקצב המרבי הוא הנורמה עצמה, $\sqrt{25}$.'
+        misconception: MC-c5-steepest-rate
+
+  - id: Q-5.4-descent
+    type: mc
+    objectives: [OBJ-5.4-2]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $f$ דיפרנציאבילית ב-$a$ ו-$\nabla f(a)\ne0$. באיזה כיוון (וקטור יחידה) $f$ **יורדת** הכי מהר מ-$a$?
+    choices:
+      - text: '$-\frac{\nabla f(a)}{\|\nabla f(a)\|_2}$'
+        correct: true
+        feedback: >-
+          נכון. $D_vf(a)=\nabla f(a)\cdot v\ge-\|\nabla f(a)\|_2$, עם שוויון בדיוק בכיוון הזה. זה הצעד של שיטת
+          "הירידה הכי תלולה".
+      - text: '$\frac{\nabla f(a)}{\|\nabla f(a)\|_2}$'
+        feedback: 'זה כיוון העלייה המהירה ביותר. הירידה המהירה ביותר בכיוון ההפוך.'
+        misconception: MC-c5-steepest-rate
+      - text: 'כיוון המשיק לקו הגובה דרך $a$'
+        feedback: >-
+          לאורך קו הגובה $f$ אינה משתנה (בסדר ראשון): $D_vf(a)=0$ בכיוון המשיק, כי המשיק ניצב לגרדיאנט.
+        misconception: MC-c5-gradient-tangent
+      - text: 'הכיוון $-e_i$ של הציר שבו $\left|\frac{\partial f}{\partial x_i}(a)\right|$ הכי גדול (עם הסימן המתאים)'
+        feedback: >-
+          ציר הוא רק כיוון אחד מתוך כולם. ל-$\nabla f=(3,4)$ הציר הכי טוב נותן ירידה בקצב 4, וכיוון מינוס הגרדיאנט בקצב 5.
+        misconception: MC-c5-steepest-rate
+
+  - id: Q-5.4-plane
+    type: numeric
+    objectives: [OBJ-5.4-3]
+    level: basic
+    prompt: >-
+      המישור המשיק לגרף של $f(x,y)=x^2+y^2$ בנקודה $(1,2,5)$ הוא $z=2x+4y+c$. מהו $c$?
+    answer: -5
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $z=f(a)+\nabla f(a)\cdot(x-a)=5+2(x-1)+4(y-2)=2x+4y-5$. בדיקה: ב-$(1,2)$ המישור נותן $2+8-5=5=f(1,2)$.
+    wrongFeedback: >-
+      הנוסחה היא $z=f(a)+\frac{\partial f}{\partial x}(a)(x-a_1)+\frac{\partial f}{\partial y}(a)(y-a_2)$. פתחו
+      סוגריים, ובדקו שהמישור עובר בנקודה $(1,2,5)$.
+    commonWrong:
+      - value: 5
+        feedback: >-
+          זה $z=f(a)+\nabla f(a)\cdot x$, בלי להזיז ל-$a$. המישור הזה אינו עובר בנקודה: ב-$(1,2)$ הוא נותן 15.
+        misconception: MC-c5-tangent-plane-forget-point
+      - value: -10
+        feedback: >-
+          זה $z=\nabla f(a)\cdot(x-a)$ בלי המחובר $f(a)=5$. ב-$(1,2)$ המישור הזה נותן 0 במקום 5.
+        misconception: MC-c5-tangent-plane-forget-point
+
+  - id: Q-5.4-converse
+    type: twotier
+    objectives: [OBJ-5.4-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      תהי $f(x,y)=(x^2+y^2)\sin\frac{1}{\sqrt{x^2+y^2}}$ ל-$(x,y)\ne(0,0)$ ו-$f(0,0)=0$. נכון או לא נכון: $f$
+      דיפרנציאבילית ב-$(0,0)$, ולכן הנגזרות החלקיות שלה רציפות שם.
+    choices:
+      - text: 'לא נכון'
+        correct: true
+        feedback: >-
+          נכון. החלק הראשון נכון ($Df(0)=0$), אבל הנגזרות החלקיות אינן רציפות בראשית: התנאי המספיק אינו הכרחי.
+      - text: 'נכון'
+        feedback: >-
+          דיפרנציאביליות אינה גוררת רציפות של הנגזרות החלקיות. כאן
+          $\frac{\partial f}{\partial x}(x,0)=2x\sin\frac1x-\cos\frac1x$ ל-$x>0$, שמתנודד בין ערכים קרובים ל-$1$ ול-$-1$.
+        misconception: MC-c5-differentiable-implies-c1
+    reasons:
+      - text: '$|f(h)|\le\|h\|_2^2$ נותן $Df(0)=0$; אבל ל-$x>0$, $\frac{\partial f}{\partial x}(x,0)=2x\sin\frac1x-\cos\frac1x$, שאין לו גבול כש-$x\to0^+$'
+        correct: true
+        feedback: >-
+          בדיוק. השארית $\frac{|f(h)|}{\|h\|_2}\le\|h\|_2\to0$, ובו בזמן $\cos\frac1x$ מתנודד בין $-1$ ל-$1$. זו
+          הגרסה הדו-ממדית של $x^2\sin\frac1x$ מאינפי 1.
+      - text: 'הנגזרות החלקיות אינן קיימות בראשית, כי הנוסחה שלהן אינה מוגדרת שם'
+        feedback: >-
+          בראשית מחשבים מההגדרה: $\frac{f(t,0)}{t}=t\sin\frac{1}{|t|}\to0$. הנגזרות החלקיות קיימות ושוות 0; רק
+          הנוסחה מחוץ לראשית אינה מתכנסת.
+        misconception: MC-c5-formula-at-point
+      - text: 'כל פונקציה דיפרנציאבילית היא גזירה ברציפות'
+        feedback: >-
+          זה ההפך של המשפט, והוא שגוי כבר במשתנה אחד: $x^2\sin\frac1x$ גזירה בכל מקום, ונגזרתה אינה רציפה ב-0.
+        misconception: MC-c5-differentiable-implies-c1
+
+  - id: Q-5.4-oscillate
+    type: numeric
+    objectives: [OBJ-5.4-1]
+    level: mid
+    prompt: >-
+      עבור אותה $f(x,y)=(x^2+y^2)\sin\frac{1}{\sqrt{x^2+y^2}}$, חשבו את $\frac{\partial f}{\partial x}\left(\frac{1}{2\pi},0\right)$.
+    answer: -1
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. על הציר החיובי $f(x,0)=x^2\sin\frac1x$, ולכן $\frac{\partial f}{\partial x}(x,0)=2x\sin\frac1x-\cos\frac1x$.
+      ב-$x=\frac{1}{2\pi}$: $\frac1\pi\sin2\pi-\cos2\pi$, כלומר $-1$. באותו אופן ב-$x_k=\frac{1}{2\pi k}$ הערך $-1$
+      וב-$\frac{1}{(2k+1)\pi}$ הערך $1$: שתי סדרות שמתכנסות לראשית עם ערכים שונים, ולכן הנגזרת החלקית אינה רציפה
+      ב-$(0,0)$, שם היא 0.
+    wrongFeedback: >-
+      ליד הציר החיובי $\sqrt{x^2+y^2}=x$ כש-$y=0$, ולכן $f(x,0)=x^2\sin\frac1x$. גזרו פונקציה של משתנה אחד, ושימו לב
+      לסימן: הנגזרת של $\sin\frac1x$ היא $\frac{-1}{x^2}\cos\frac1x$.
+    commonWrong:
+      - value: 0
+        feedback: >-
+          0 הוא $\frac{\partial f}{\partial x}(0,0)$. מניחים כאן שהנגזרת החלקית רציפה ולכן קרובה ל-0 ליד הראשית, וזה
+          בדיוק מה שנכשל.
+        misconception: MC-c5-differentiable-implies-c1
+
+  - id: Q-5.4-cs
+    type: twotier
+    objectives: [OBJ-5.4-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $f$ דיפרנציאבילית ב-$a$ ו-$\nabla f(a)\ne0$. נכון או לא נכון: לכל וקטור יחידה $v$,
+      $|D_vf(a)|\le\|\nabla f(a)\|_2$, ושוויון מתקיים רק כש-$v=\pm\frac{\nabla f(a)}{\|\nabla f(a)\|_2}$.
+    choices:
+      - text: 'נכון'
+        correct: true
+        feedback: 'נכון. זו ההוכחה שהגרדיאנט הוא כיוון העלייה המהירה ביותר, והנורמה שלו היא קצב העלייה.'
+      - text: 'לא נכון'
+        feedback: >-
+          זה נכון: $D_vf(a)=\nabla f(a)\cdot v$, ואי-שוויון קושי-שוורץ נותן את החסם ואת מקרה השוויון.
+        misconception: MC-c5-steepest-rate
+    reasons:
+      - text: '$D_vf(a)=\nabla f(a)\cdot v$ (כי $f$ דיפרנציאבילית), וקושי-שוורץ: $|\nabla f(a)\cdot v|\le\|\nabla f(a)\|_2\|v\|_2$, עם שוויון רק לווקטורים תלויים לינארית'
+        correct: true
+        feedback: >-
+          בדיוק. שני המרכיבים חיוניים: הדיפרנציאביליות הופכת את $D_vf$ למכפלה פנימית, וקושי-שוורץ מסיים.
+      - text: 'כי $|D_vf(a)|\le\max_i\left|\frac{\partial f}{\partial x_i}(a)\right|$'
+        feedback: >-
+          לא נכון: ל-$\nabla f=(3,4)$ ו-$v=\left(\tfrac35,\tfrac45\right)$ מקבלים 5, יותר מ-4.
+        misconception: MC-c5-steepest-rate
+      - text: 'זה נכון לכל פונקציה שיש לה נגזרות חלקיות, עם $\nabla f$ וקטור הנגזרות החלקיות'
+        feedback: >-
+          בלי דיפרנציאביליות אין קשר כזה: ל-$\frac{x^3}{x^2+y^2}$, $\nabla f(0)=(1,0)$ ו-$D_vf(0)=v_1^3$, והנוסחה
+          $D_vf=\nabla f\cdot v$ נכשלת.
+        misconception: MC-c5-directional-from-partials
+
+  - id: Q-5.4-orthogonal
+    type: twotier
+    objectives: [OBJ-5.4-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      תהי $f(x,y)=x^2+4y^2$. הנקודה $(2,1)$ נמצאת על קו הגובה $f=8$, האליפסה $x^2+4y^2=8$. נכון או לא נכון: הווקטור
+      $\nabla f(2,1)$ משיק לאליפסה ב-$(2,1)$.
+    choices:
+      - text: 'לא נכון'
+        correct: true
+        feedback: >-
+          נכון. $\nabla f(2,1)=(4,8)$ **ניצב** לאליפסה; המשיק בכיוון $(2,-1)$, ואכן $(4,8)\cdot(2,-1)=0$.
+      - text: 'נכון'
+        feedback: >-
+          לאורך קו הגובה $f$ קבועה, ולכן הנגזרת שלה בכיוון המשיק היא 0, כלומר המשיק ניצב ל-$\nabla f$. הגרדיאנט מצביע
+          החוצה מהאליפסה, אל הערכים הגדולים.
+        misconception: MC-c5-gradient-tangent
+    reasons:
+      - text: 'למסילה $\gamma$ על קו הגובה עם $\gamma(0)=(2,1)$: $f(\gamma(t))=8$ קבועה, ולכן הנגזרת שלה ב-0, $\nabla f(2,1)\cdot\gamma''(0)$, היא 0'
+        correct: true
+        feedback: >-
+          בדיוק. השוויון $\frac{d}{dt}f(\gamma(t))\big|_{t=0}=\nabla f(a)\cdot\gamma'(0)$ נובע ישירות מהגדרת
+          הדיפרנציאביליות (חלקו את $f(\gamma(t))-f(a)=\nabla f(a)\cdot(\gamma(t)-a)+o(\|\gamma(t)-a\|)$ ב-$t$), והוא
+          מקרה פרטי של כלל השרשרת של שיעור 5.5.
+      - text: 'הגרדיאנט תמיד משיק לקווי הגובה, כי הוא מצביע לאורך הפונקציה'
+        feedback: >-
+          לאורך קו הגובה הפונקציה **אינה משתנה**; הגרדיאנט מצביע לכיוון השינוי המהיר ביותר, כלומר בניצב לקו הגובה.
+        misconception: MC-c5-gradient-tangent
+      - text: 'הגרדיאנט תמיד מצביע לראשית'
+        feedback: >-
+          ל-$x^2+4y^2$ ב-$(2,1)$ הגרדיאנט $(4,8)$ אינו מקביל ל-$(2,1)$, ולכן אינו מצביע לראשית (וגם לא ממנה). רק
+          במעגלים, למשל ל-$x^2+y^2$, הוא רדיאלי.
+        misconception: MC-c5-gradient-tangent
+
+  - id: Q-5.4-level-plane
+    type: mc
+    objectives: [OBJ-5.4-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      מהו המישור המשיק למשטח הגובה $x^2+2y^2+3z^2=6$ בנקודה $(1,1,1)$?
+    choices:
+      - text: '$x+2y+3z=6$'
+        correct: true
+        feedback: >-
+          נכון. $F=x^2+2y^2+3z^2$, $\nabla F(1,1,1)=(2,4,6)\ne0$, והמישור $\nabla F(a)\cdot(x-a)=0$:
+          $2(x-1)+4(y-1)+6(z-1)=0$, כלומר $x+2y+3z=6$. הנקודה עצמה מקיימת אותו.
+      - text: '$2x+4y+6z=0$'
+        feedback: >-
+          זה מישור עם הנורמל הנכון, אבל דרך הראשית. המישור המשיק צריך לעבור בנקודה $(1,1,1)$: $2+4+6=12\ne0$.
+        misconception: MC-c5-tangent-plane-forget-point
+      - text: 'הישר $(1,1,1)+t(2,4,6)$'
+        feedback: >-
+          זה הישר **הניצב** למשטח, בכיוון הגרדיאנט. המישור המשיק מורכב מהכיוונים הניצבים לגרדיאנט.
+        misconception: MC-c5-gradient-tangent
+      - text: '$z=1+2(x-1)+4(y-1)$'
+        feedback: >-
+          זו נוסחת המישור המשיק לגרף של פונקציה $z=g(x,y)$ עם $\nabla g=(2,4)$, אבל המשטח אינו הגרף של $x^2+2y^2$. כדי
+          להשתמש בנוסחת הגרף צריך לבטא את $z$ כפונקציה של $x,y$; הדרך הישירה היא $\nabla F(a)\cdot(x-a)=0$.
+        misconception: MC-c5-graph-vs-level
+
+  - id: Q-5.4-rank-c1
+    type: rank
+    objectives: [OBJ-5.4-1]
+    level: exam
+    prompt: >-
+      סדרו את שלבי ההוכחה: אם $\partial_1f,\partial_2f$ קיימות בסביבה של $a=(a_1,a_2)$ ורציפות ב-$a$, אז $f$
+      דיפרנציאבילית ב-$a$. (כאן $h=(h_1,h_2)$ קטן מספיק.)
+    help: סדרו את שלבי ההוכחה מהראשון לאחרון.
+    items:
+      - id: a
+        label: 'מפרקים לשני צעדים מקבילים לצירים: $f(a+h)-f(a)=\left[f(a_1+h_1,a_2+h_2)-f(a_1,a_2+h_2)\right]+\left[f(a_1,a_2+h_2)-f(a_1,a_2)\right]$.'
+      - id: b
+        label: 'משפט לגרנז'' במשתנה אחד בכל סוגריים: ההפרש שווה $\partial_1f(\xi)h_1+\partial_2f(\eta)h_2$, עם $\xi=(a_1+\theta_1h_1,a_2+h_2)$ ו-$\eta=(a_1,a_2+\theta_2h_2)$.'
+      - id: c
+        label: 'מחסרים את המועמד $\partial_1f(a)h_1+\partial_2f(a)h_2$: השארית היא $r(h)=\left[\partial_1f(\xi)-\partial_1f(a)\right]h_1+\left[\partial_2f(\eta)-\partial_2f(a)\right]h_2$.'
+      - id: d
+        label: 'כי $|h_i|\le\|h\|_2$: $\frac{|r(h)|}{\|h\|_2}\le|\partial_1f(\xi)-\partial_1f(a)|+|\partial_2f(\eta)-\partial_2f(a)|$.'
+      - id: e
+        label: 'כש-$h\to0$ גם $\xi,\eta\to a$, ומרציפות הנגזרות החלקיות ב-$a$ החסם שואף ל-0: $f$ דיפרנציאבילית ב-$a$.'
+    order: [a, b, c, d, e]
+    correctFeedback: >-
+      נכון. שימו לב איפה כל הנחה נכנסת: קיום הנגזרות החלקיות **בסביבה** נדרש כדי להפעיל את לגרנז' על הקטעים,
+      והרציפות **ב-$a$** נדרשת רק בצעד האחרון.
+    wrongFeedback: >-
+      קודם מפרקים את ההפרש לצעדים שבהם משתנה רק קואורדינטה אחת; רק אז אפשר להפעיל משפט של משתנה אחד. הרציפות נכנסת
+      בסוף, כשמראים שהחסם שואף ל-0.
+
+  - id: Q-5.4-recover
+    type: numeric
+    objectives: [OBJ-5.4-2]
+    level: exam
+    prompt: >-
+      $f$ דיפרנציאבילית ב-$a$, $\frac{\partial f}{\partial x}(a)=3$, ובכיוון $v=\left(\tfrac45,\tfrac35\right)$
+      מתקיים $D_vf(a)=\tfrac{24}{5}$. מהו הקצב הגדול ביותר של עליית $f$ מ-$a$, $\max_{\|u\|_2=1}D_uf(a)$?
+    answer: 5
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $D_vf(a)=\tfrac45\cdot3+\tfrac35\cdot\frac{\partial f}{\partial y}(a)=\tfrac{24}{5}$ נותן
+      $\frac{\partial f}{\partial y}(a)=4$. לכן $\nabla f(a)=(3,4)$ והקצב המרבי $\|\nabla f(a)\|_2=5$.
+    wrongFeedback: >-
+      השתמשו ב-$D_vf(a)=\nabla f(a)\cdot v$ כדי למצוא את הנגזרת החלקית החסרה, ואז בקצב המרבי $\|\nabla f(a)\|_2$.
+    commonWrong:
+      - value: 4.8
+        feedback: >-
+          $\tfrac{24}{5}$ הוא הקצב בכיוון אחד מסוים. הקצב המרבי מתקבל בכיוון הגרדיאנט, ובדרך כלל גדול יותר.
+        misconception: MC-c5-steepest-rate
+      - value: 7
+        feedback: '$3+4$ הוא $\|\nabla f(a)\|_1$. הקצב המרבי על וקטורי יחידה הוא $\|\nabla f(a)\|_2$.'
+        misconception: MC-c5-steepest-rate
+
+  - id: Q-5.4-cone
+    type: twotier
+    objectives: [OBJ-5.4-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $F(x,y,z)=x^2+y^2-z^2$, ומשטח הגובה $F=0$ הוא חרוט. סטודנט כתב "המישור המשיק לחרוט בנקודה $(0,0,0)$ הוא
+      $\nabla F(0)\cdot(x-0)=0$". האם יש לחרוט מישור משיק בקודקוד?
+    choices:
+      - text: 'לא'
+        correct: true
+        feedback: >-
+          נכון. $\nabla F(0,0,0)=(0,0,0)$, והמשוואה $\nabla F(0)\cdot x=0$ היא $0=0$, כל המרחב. הנוסחה
+          $\nabla F(a)\cdot(x-a)=0$ נותנת מישור רק כש-$\nabla F(a)\ne0$.
+      - text: 'כן, המישור $z=0$'
+        feedback: >-
+          המישור $z=0$ פוגש את החרוט רק בקודקוד, וכל ישר על החרוט דרך הקודקוד ($z=\pm\sqrt{x^2+y^2}$ בכיוון קבוע) יוצא
+          ממנו בזווית של 45 מעלות. אין מישור אחד שהחרוט "נצמד" אליו שם.
+        misconception: MC-c5-level-surface-always-plane
+    reasons:
+      - text: 'הגרדיאנט מתאפס בקודקוד, ולכן אין נורמל; והחרוט מכיל ישרים דרך הקודקוד בכיוונים שאינם במישור אחד'
+        correct: true
+        feedback: >-
+          בדיוק. הישרים $(t,0,t)$, $(0,t,t)$ ו-$(t,0,-t)$ כולם על החרוט, והכיוונים שלהם אינם במישור אחד. התנאי
+          $\nabla F(a)\ne0$ הוא חלק מהמשפט, לא קישוט.
+      - text: 'הנוסחה $\nabla F(a)\cdot(x-a)=0$ נותנת מישור משיק בכל נקודה של משטח גובה'
+        feedback: >-
+          רק כש-$\nabla F(a)\ne0$. כש-$\nabla F(a)=0$ המשוואה היא $0=0$, ואינה מגדירה מישור.
+        misconception: MC-c5-level-surface-always-plane
+      - text: 'החרוט אינו משטח גובה של פונקציה דיפרנציאבילית'
+        feedback: >-
+          הוא כן: $F=x^2+y^2-z^2$ פולינום, ולכן גזירה ברציפות. הבעיה אינה ב-$F$ אלא בכך שהגרדיאנט שלה מתאפס בקודקוד.
+        misconception: MC-c5-level-surface-always-plane

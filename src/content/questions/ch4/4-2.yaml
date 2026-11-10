@@ -1,0 +1,381 @@
+# Lesson 4.2 — equicontinuity (רציפות במידה אחידה) of a family of functions.
+# Objectives (src/course.ts):
+#   OBJ-4.2-1  define an equicontinuous family and tell it apart from a family of uniformly continuous functions
+#   OBJ-4.2-2  prove that a family with a common Lipschitz constant, or a common derivative bound, is equicontinuous
+#   OBJ-4.2-3  show that families like sin(nx) or x^n are not equicontinuous
+chapter: 4
+questions:
+  - id: Q-4.2-def
+    type: mc
+    objectives: [OBJ-4.2-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $\mathcal{F}$ משפחה של פונקציות על מרחב מטרי $(K,d)$. איזה ניסוח הוא ההגדרה של "$\mathcal{F}$ **רציפה במידה
+      אחידה**"?
+    choices:
+      - text: '$\forall\varepsilon>0\ \exists\delta>0\ \forall f\in\mathcal{F}\ \forall x,y\in K:\ d(x,y)<\delta\Rightarrow|f(x)-f(y)|<\varepsilon$'
+        correct: true
+        feedback: >-
+          נכון. $\delta$ נבחר אחרי $\varepsilon$ ולפני $f$, $x$ ו-$y$: אחד לכל הפונקציות ולכל הנקודות.
+      - text: '$\forall f\in\mathcal{F}\ \forall\varepsilon>0\ \exists\delta>0\ \forall x,y\in K:\ d(x,y)<\delta\Rightarrow|f(x)-f(y)|<\varepsilon$'
+        feedback: >-
+          כאן $\delta$ נבחר אחרי $f$, ולכן רשאי להיות תלוי בה. זה אומר רק שכל פונקציה במשפחה רציפה במידה שווה. המשפחה
+          $\{x^n\}$ על $[0,1]$ מקיימת את זה ואינה רציפה במידה אחידה.
+        misconception: MC-c4-equi-vs-uniform
+      - text: '$\exists\delta>0\ \forall\varepsilon>0\ \forall f\in\mathcal{F}\ \forall x,y\in K:\ d(x,y)<\delta\Rightarrow|f(x)-f(y)|<\varepsilon$'
+        feedback: >-
+          $\delta$ אחד לכל $\varepsilon$: אז $f(x)=f(y)$ כש-$d(x,y)<\delta$, ובקטע זה אומר שכל הפונקציות קבועות. זו טענה
+          חזקה מדי.
+        misconception: MC-c4-equi-quantifier-order
+      - text: '$\forall\varepsilon>0\ \forall f\in\mathcal{F}\ \forall x\in K\ \exists\delta>0\ \forall y:\ d(x,y)<\delta\Rightarrow|f(x)-f(y)|<\varepsilon$'
+        feedback: >-
+          כאן $\delta$ תלוי גם ב-$f$ וגם ב-$x$: זו רציפות של כל פונקציה בכל נקודה, ותו לא.
+        misconception: MC-c4-equi-quantifier-order
+
+  - id: Q-4.2-terms
+    type: mc
+    objectives: [OBJ-4.2-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      שני מונחים נבדלים במילה אחת: "פונקציה **רציפה במידה שווה**" ו"משפחה **רציפה במידה אחידה**". איזה משפט מתאר
+      נכון את ההבדל?
+    choices:
+      - text: 'במידה שווה: $\delta$ אחד לכל הנקודות של פונקציה אחת. במידה אחידה: $\delta$ אחד לכל הנקודות ולכל הפונקציות במשפחה'
+        correct: true
+        feedback: >-
+          נכון. משפחה רציפה במידה אחידה מורכבת מפונקציות רציפות במידה שווה, אבל ההפך אינו נכון: $\{x^n\}$ על $[0,1]$.
+      - text: שני המונחים אומרים אותו דבר; פשוט משתמשים במילה "אחידה" כשמדובר במשפחה
+        feedback: >-
+          לא. $x^n$ רציפה במידה שווה על $[0,1]$ לכל $n$ (קנטור), אבל המשפחה $\{x^n\}$ אינה רציפה במידה אחידה: ה-$\delta$
+          של $x^n$ הולך וקטן כש-$n$ גדל.
+        misconception: MC-c4-equi-vs-uniform
+      - text: 'במידה אחידה: כל פונקציה במשפחה רציפה במידה שווה, עם $\delta$ שאינו תלוי בנקודה'
+        feedback: >-
+          זה בדיוק "כל פונקציה רציפה במידה שווה", בלי הדרישה ש-$\delta$ יהיה משותף לכל הפונקציות. חסרה הדרישה העיקרית.
+        misconception: MC-c4-equi-vs-uniform
+      - text: 'במידה אחידה: כל הפונקציות במשפחה חסומות על ידי אותו קבוע'
+        feedback: >-
+          זה "חסומה במידה שווה", תכונה אחרת. $\{\sin(nx)\}$ חסומה ב-1 ואינה רציפה במידה אחידה.
+        misconception: MC-c4-bounded-family-equicontinuous
+
+  - id: Q-4.2-neg
+    type: mc
+    objectives: [OBJ-4.2-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      מה פירוש הטענה "המשפחה $\mathcal{F}$ **אינה** רציפה במידה אחידה" על $(K,d)$?
+    choices:
+      - text: 'קיים $\varepsilon>0$ כך שלכל $\delta>0$ יש $f\in\mathcal{F}$ ויש $x,y$ עם $d(x,y)<\delta$ ו-$|f(x)-f(y)|\ge\varepsilon$'
+        correct: true
+        feedback: >-
+          נכון. כל "לכל" הפך ל"קיים" ולהפך, והגרירה בסוף נשללה: $d(x,y)<\delta$ ובכל זאת $|f(x)-f(y)|\ge\varepsilon$.
+          הפונקציה והנקודות רשאיות להשתנות עם $\delta$.
+      - text: 'קיימת $f\in\mathcal{F}$ שאינה רציפה במידה שווה'
+        feedback: >-
+          זה מספיק כדי שהמשפחה לא תהיה רציפה במידה אחידה, אבל לא הכרחי: ב-$\{x^n\}$ כל פונקציה רציפה במידה שווה,
+          והמשפחה אינה רציפה במידה אחידה.
+        misconception: MC-c4-equi-vs-uniform
+      - text: 'לכל $\varepsilon>0$ ולכל $\delta>0$ יש $f\in\mathcal{F}$ ו-$x,y$ עם $d(x,y)<\delta$ ו-$|f(x)-f(y)|\ge\varepsilon$'
+        feedback: >-
+          את הכמת הראשון שכחו להפוך: לכל $\varepsilon$, גם $\varepsilon=100$. המשפחה $\{\sin(nx)\}$ אינה רציפה במידה
+          אחידה, אבל ההפרשים בה לעולם אינם מגיעים ל-100.
+        misconception: MC-c4-equi-negation
+      - text: 'קיים $\varepsilon>0$ וקיימת $f\in\mathcal{F}$ כך שלכל $\delta>0$ יש $x,y$ עם $d(x,y)<\delta$ ו-$|f(x)-f(y)|\ge\varepsilon$'
+        feedback: >-
+          כאן אותה $f$ צריכה לשבור את ההגדרה לכל $\delta$: זה אומר ש-$f$ עצמה אינה רציפה במידה שווה. בשלילה הנכונה
+          $f$ נבחרת **אחרי** $\delta$.
+        misconception: MC-c4-equi-negation
+
+  - id: Q-4.2-lip-delta
+    type: numeric
+    objectives: [OBJ-4.2-2]
+    level: basic
+    prompt: >-
+      המשפחה $\{\sin(ax):\ 0\le a\le3\}$ על $[0,1]$. לפי משפט הערך הממוצע $|\sin(ax)-\sin(ay)|\le3|x-y|$ לכל $a$
+      במשפחה. עבור $\varepsilon=0.06$, מהו ה-$\delta$ **הגדול ביותר** שההערכה הזו מבטיחה (כלומר שעבורו
+      $3|x-y|<3\delta\le\varepsilon$)?
+    answer: 0.02
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $\delta=\frac{\varepsilon}{L}=\frac{0.06}{3}=0.02$, ואותו $\delta$ מתאים לכל $a\in[0,3]$: זו רציפות במידה
+      אחידה.
+    wrongFeedback: >-
+      אם $|x-y|<\delta$ אז $|f(x)-f(y)|<3\delta$. דרשו $3\delta\le\varepsilon$ ובודדו את $\delta$.
+    commonWrong:
+      - value: 0.18
+        feedback: >-
+          $0.18=3\varepsilon$: כפלתם בקבוע במקום לחלק. עם $\delta=0.18$ ההערכה נותנת רק $|f(x)-f(y)|<0.54$.
+        misconception: MC-c4-lipschitz-delta
+      - value: 0.06
+        feedback: >-
+          $\delta=\varepsilon$ מתאים רק לקבוע ליפשיץ 1. כאן $a=3$ נותן שיפוע עד 3, ו-$|x-y|<0.06$ מבטיח רק הפרש קטן
+          מ-$0.18$.
+        misconception: MC-c4-lipschitz-delta
+
+  - id: Q-4.2-each-not-family
+    type: twotier
+    objectives: [OBJ-4.2-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      טענה: אם כל פונקציה במשפחה $\mathcal{F}\subseteq C[0,1]$ רציפה במידה שווה, אז $\mathcal{F}$ רציפה במידה אחידה.
+      נכון או לא נכון?
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: 'נכון. ה-$\delta$ של כל פונקציה קיים, אבל ייתכן שהם שואפים ל-0 ואין $\delta$ משותף.'
+      - text: נכון
+        feedback: >-
+          זה מבלבל את שתי ההגדרות. ב-$C[0,1]$ **כל** פונקציה רציפה במידה שווה (קנטור), ואילו הטענה הייתה נכונה, כל
+          משפחה ב-$C[0,1]$ הייתה רציפה במידה אחידה.
+        misconception: MC-c4-equi-vs-uniform
+    reasons:
+      - text: '$\{x^n\}$: כל אחת רציפה במידה שווה, אבל עם $\varepsilon=\frac12$, לכל $\delta$ יש $n$ עם $1-(1-\frac\delta2)^n\ge\frac12$'
+        correct: true
+        feedback: >-
+          בדיוק. הנקודות $1$ ו-$1-\frac\delta2$ במרחק קטן מ-$\delta$, ו-$(1-\frac\delta2)^n\to0$, ולכן ההפרש מגיע ל-$\frac12$
+          כש-$n$ גדול.
+      - text: 'משפט קנטור נותן $\delta$ לכל הפונקציות יחד'
+        feedback: >-
+          קנטור נותן $\delta$ **לכל פונקציה בנפרד**, והוא תלוי בפונקציה. על משפחה הוא לא אומר דבר.
+        misconception: MC-c4-equi-vs-uniform
+      - text: 'הטענה נכונה למשפחה סופית, ולכן לכל משפחה'
+        feedback: >-
+          במשפחה סופית לוקחים את המינימום של מספר סופי של דלתות, והוא חיובי. במשפחה אינסופית האינפימום יכול להיות 0.
+        misconception: MC-c4-equi-vs-uniform
+
+  - id: Q-4.2-finite
+    type: twotier
+    objectives: [OBJ-4.2-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $K$ מרחב מטרי קומפקטי ו-$f_1,\dots,f_m\in C(K)$. האם המשפחה הסופית $\{f_1,\dots,f_m\}$ רציפה במידה אחידה?
+    choices:
+      - text: כן, תמיד
+        correct: true
+        feedback: 'נכון. משפחה סופית של פונקציות רציפות על קומפקטי רציפה במידה אחידה.'
+      - text: לא בהכרח
+        feedback: >-
+          הדוגמאות הנגדיות כמו $\{x^n\}$ הן משפחות **אינסופיות**. במשפחה סופית אפשר לקחת את הקטן שבמספר סופי של דלתות.
+        misconception: MC-c4-equi-needs-derivative-bound
+    reasons:
+      - text: 'לכל $i$ משפט קנטור נותן $\delta_i$ ל-$f_i$, ו-$\delta=\min(\delta_1,\dots,\delta_m)>0$ מתאים לכולן'
+        correct: true
+        feedback: >-
+          בדיוק. המינימום של מספר סופי של מספרים חיוביים חיובי. זה גם מראה שבמשפחה אינסופית הבעיה היחידה היא
+          ש-$\inf_i\delta_i$ עלול להיות 0.
+      - text: 'כל משפחה של פונקציות רציפות במידה שווה רציפה במידה אחידה'
+        feedback: >-
+          המסקנה כאן נכונה, אבל הנימוק שגוי: $\{x^n\}$ על $[0,1]$ היא משפחה של פונקציות רציפות במידה שווה שאינה רציפה
+          במידה אחידה.
+        misconception: MC-c4-equi-vs-uniform
+      - text: 'רק אם לכל ה-$f_i$ יש נגזרות חסומות במשותף'
+        feedback: >-
+          לא צריך גזירות כלל: $\sqrt x$ רציפה במידה שווה על $[0,1]$ עם נגזרת לא חסומה, ומשפחה סופית שמכילה אותה רציפה
+          במידה אחידה.
+        misconception: MC-c4-equi-needs-derivative-bound
+
+  - id: Q-4.2-mvt-rank
+    type: rank
+    objectives: [OBJ-4.2-2]
+    level: mid
+    prompt: >-
+      סדרו את שלבי ההוכחה שהמשפחה $\mathcal{F}=\{f\in C^1[0,1]:\ |f'(t)|\le M\ \forall t\}$ (עם $M>0$) רציפה במידה
+      אחידה.
+    help: סדרו את שלבי ההוכחה מהראשון לאחרון.
+    items:
+      - id: eps
+        label: 'יהי $\varepsilon>0$, ונבחר $\delta=\frac{\varepsilon}{M}$'
+      - id: take
+        label: 'תהיינה $f\in\mathcal{F}$ ו-$x,y\in[0,1]$ עם $|x-y|<\delta$'
+      - id: mvt
+        label: 'לפי משפט הערך הממוצע יש $c$ בין $x$ ל-$y$ עם $f(x)-f(y)=f''(c)(x-y)$'
+      - id: bound
+        label: 'לכן $|f(x)-f(y)|\le M|x-y|<M\delta=\varepsilon$'
+      - id: concl
+        label: '$\delta$ נקבע לפני ש-$f$, $x$ ו-$y$ נבחרו, ולכן הוא משותף לכולם: $\mathcal{F}$ רציפה במידה אחידה'
+    order: [eps, take, mvt, bound, concl]
+    correctFeedback: >-
+      נכון. סדר השלבים הוא סדר הכמתים בהגדרה: $\varepsilon$, אחריו $\delta$, ורק אז $f$ והנקודות. השלב האחרון הוא
+      הלב: $\delta=\frac\varepsilon M$ תלוי רק ב-$\varepsilon$ ובחסם המשותף.
+    wrongFeedback: >-
+      ההגדרה מתחילה ב-$\forall\varepsilon\ \exists\delta$, ורק אחר כך $\forall f\ \forall x,y$. אם בוחרים את $f$ לפני
+      $\delta$, מוכיחים רק שכל פונקציה רציפה במידה שווה.
+
+  - id: Q-4.2-sqrt
+    type: twotier
+    objectives: [OBJ-4.2-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      האם המשפחה $f_n(x)=\sqrt{x+\frac1n}$, $n\in\mathbb{N}$, רציפה במידה אחידה על $[0,1]$?
+    choices:
+      - text: כן
+        correct: true
+        feedback: 'נכון, אף שאין לה חסם משותף לנגזרות.'
+      - text: לא
+        feedback: >-
+          $f_n'(0)=\frac{\sqrt n}{2}$ אכן אינה חסומה, אבל חסם משותף לנגזרות הוא תנאי מספיק, לא הכרחי. בדקו את ההפרשים
+          עצמם.
+        misconception: MC-c4-equi-needs-derivative-bound
+    reasons:
+      - text: 'לכל $a,b\ge0$: $|\sqrt a-\sqrt b|\le\sqrt{|a-b|}$, ולכן $|f_n(x)-f_n(y)|\le\sqrt{|x-y|}$, ו-$\delta=\varepsilon^2$ מתאים לכל $n$'
+        correct: true
+        feedback: >-
+          בדיוק. אם $a\ge b$ אז $(\sqrt a-\sqrt b)^2\le(\sqrt a-\sqrt b)(\sqrt a+\sqrt b)=a-b$. ההפרש $(x+\frac1n)-(y+\frac1n)$
+          לא תלוי ב-$n$.
+      - text: 'כל $f_n$ ליפשיצית (עם קבוע $\frac{\sqrt n}{2}$), ולכן המשפחה רציפה במידה אחידה'
+        feedback: >-
+          הקבועים $\frac{\sqrt n}2$ אינם חסומים, ולכן הם לא נותנים $\delta$ משותף. "כל פונקציה ליפשיצית" נותן רק שכל
+          אחת רציפה במידה שווה.
+        misconception: MC-c4-equi-vs-uniform
+      - text: 'המשפחה חסומה במידה שווה ($0\le f_n\le\sqrt2$), ולכן רציפה במידה אחידה'
+        feedback: >-
+          חסימות אינה גוררת רציפות במידה אחידה: $\{\sin(nx)\}$ חסומה ב-1 ואינה רציפה במידה אחידה.
+        misconception: MC-c4-bounded-family-equicontinuous
+
+  - id: Q-4.2-xn-n
+    type: numeric
+    objectives: [OBJ-4.2-3]
+    level: mid
+    prompt: >-
+      כדי להראות ש-$\{x^n\}$ אינה רציפה במידה אחידה על $[0,1]$, לוקחים $\varepsilon=\frac12$. עבור $\delta=0.1$ בוחרים
+      $x=1$ ו-$y=0.95$ (ואז $|x-y|<\delta$). מהו ה-$n$ **הקטן ביותר** כך ש-$|x^n-y^n|\ge\frac12$?
+    answer: 14
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. צריך $0.95^n\le\frac12$, כלומר $n\ge\frac{\ln 0.5}{\ln0.95}\approx13.51$. בדיקה: $0.95^{13}\approx0.513$
+      (עוד לא) ו-$0.95^{14}\approx0.488$. לכל $\delta$ אחר עובדים כך עם $y=1-\frac\delta2$, ו-$n$ גדל כש-$\delta$ קטן.
+    wrongFeedback: >-
+      $|1-0.95^n|=1-0.95^n$. פתרו $0.95^n\le\frac12$ בעזרת לוגריתם, וזכרו שחילוק ב-$\ln0.95<0$ הופך את אי-השוויון.
+      אם קיבלתם 13: עגלו כלפי מעלה, כי $0.95^{13}>\frac12$.
+    commonWrong:
+      - value: 1
+        feedback: >-
+          עם $n=1$ ההפרש הוא $0.05$ בלבד. ההגדרה שוללת על ידי מציאת $f$ במשפחה (כאן $n$ גדול מספיק), לא על ידי $f$
+          קבועה מראש.
+        misconception: MC-c4-equi-negation
+
+  - id: Q-4.2-sin
+    type: twotier
+    objectives: [OBJ-4.2-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      האם המשפחה $\{\sin(nx):\ n\in\mathbb{N}\}$ רציפה במידה אחידה על $[0,1]$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. התנודות הולכות ומתקצרות, וברווח קצר ככל שתרצו יש פונקציה שעולה מ-0 ל-1.'
+      - text: כן
+        feedback: >-
+          המשפחה חסומה ב-1, אבל חסימות אינה רציפות במידה אחידה. בדקו את $x=0$ ו-$y=\frac{\pi}{2n}$.
+        misconception: MC-c4-bounded-family-equicontinuous
+    reasons:
+      - text: 'עם $\varepsilon=1$: לכל $\delta$ יש $n\ge2$ עם $\frac{\pi}{2n}<\delta$, ו-$|\sin(n\cdot\frac{\pi}{2n})-\sin0|=1$'
+        correct: true
+        feedback: >-
+          בדיוק. זו השלילה של ההגדרה: $\varepsilon$ אחד, ולכל $\delta$ פונקציה ושתי נקודות קרובות שההפרש ביניהן 1.
+          ($n\ge2$ כדי ש-$\frac{\pi}{2n}\le1$ יהיה בקטע.)
+      - text: 'הנגזרות $n\cos(nx)$ אינן חסומות במשותף'
+        feedback: >-
+          זה נכון אבל אינו הוכחה: גם ל-$\sqrt{x+\frac1n}$ אין חסם משותף לנגזרות, והיא כן רציפה במידה אחידה. צריך
+          להראות את הכישלון בהפרשים עצמם.
+        misconception: MC-c4-equi-needs-derivative-bound
+      - text: 'יש $n$ שעבורו $\sin(nx)$ אינה רציפה במידה שווה על $[0,1]$'
+        feedback: >-
+          כל $\sin(nx)$ רציפה במידה שווה על $[0,1]$ (היא ליפשיצית עם קבוע $n$). הבעיה היא שאין $\delta$ **משותף**.
+        misconception: MC-c4-equi-vs-uniform
+
+  - id: Q-4.2-sin-n
+    type: numeric
+    objectives: [OBJ-4.2-3]
+    level: mid
+    prompt: >-
+      בהמשך לשאלה הקודמת: עבור $\delta=0.01$, מהו ה-$n$ **הקטן ביותר** כך שהנקודות $0$ ו-$\frac{\pi}{2n}$ נמצאות
+      במרחק קטן ממש מ-$\delta$?
+    answer: 158
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $\frac{\pi}{2n}<0.01\iff n>50\pi\approx157.08$, ולכן $n=158$. עבורו $\sin(158\cdot\frac{\pi}{316})=1$, ההפרש
+      1, והמרחק $\approx0.00994<\delta$.
+    wrongFeedback: >-
+      פתרו $\frac{\pi}{2n}<0.01$, כלומר $n>\frac{\pi}{0.02}=50\pi$. אם קיבלתם 157: $\frac{\pi}{314}\approx0.010005$
+      עדיין אינו קטן מ-$0.01$.
+    commonWrong:
+      - value: 315
+        feedback: >-
+          $315$ מתקבל מהנקודה $\frac{\pi}{n}$, שבה $\sin(n\cdot\frac\pi n)=0$: שם ההפרש מ-$\sin0$ הוא 0. צריך את הנקודה
+          שבה הסינוס מגיע ל-1, $\frac{\pi}{2n}$.
+        misconception: MC-c4-equi-negation
+
+  - id: Q-4.2-which
+    type: multi
+    objectives: [OBJ-4.2-2, OBJ-4.2-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      אילו מהמשפחות הבאות רציפות במידה אחידה על הקטע הנתון? סמנו את כולן.
+    choices:
+      - text: '$\{x^n:\ n\in\mathbb{N}\}$ על $[0,\frac12]$'
+        correct: true
+        feedback: >-
+          נכון. $|(x^n)'|=nx^{n-1}\le\frac{n}{2^{n-1}}\le1$ על $[0,\frac12]$ (הערכים $1,1,\frac34,\frac12,\dots$), ולכן
+          קבוע ליפשיץ משותף 1. הבעיה של $x^n$ הייתה רק ליד 1.
+      - text: '$\{x+n:\ n\in\mathbb{N}\}$ על $[0,1]$'
+        correct: true
+        feedback: >-
+          נכון. $|f_n(x)-f_n(y)|=|x-y|$ לכל $n$, ו-$\delta=\varepsilon$. המשפחה אינה חסומה, וזה לא משנה: רציפות במידה
+          אחידה מדברת על הפרשים.
+      - text: '$\{\frac{\sin(nx)}{n}:\ n\in\mathbb{N}\}$ על $[0,1]$'
+        correct: true
+        feedback: 'נכון. $|f_n''|=|\cos(nx)|\le1$: קבוע ליפשיץ משותף 1.'
+      - text: '$\{x^n:\ n\in\mathbb{N}\}$ על $[0,1]$'
+        feedback: >-
+          ליד $x=1$: הנקודות $1$ ו-$1-\frac\delta2$ נותנות הפרש $1-(1-\frac\delta2)^n\to1$ כש-$n\to\infty$.
+        misconception: MC-c4-domain-irrelevant
+      - text: '$\{nx:\ n\in\mathbb{N}\}$ על $[0,1]$'
+        feedback: >-
+          $|nx-ny|=n|x-y|$: עם $\varepsilon=1$, לכל $\delta$ קחו $n>\frac2\delta$, $x=\frac\delta2$, $y=0$, וההפרש
+          $\frac{n\delta}{2}>1$. כל אחת ליפשיצית, אבל בלי קבוע משותף.
+        misconception: MC-c4-equi-vs-uniform
+    explanation: >-
+      שתי מלכודות: התחום משנה ($x^n$ על $[0,\frac12]$ לעומת $[0,1]$), וחסימות אינה קשורה ($x+n$ אינה חסומה ורציפה
+      במידה אחידה, $\sin(nx)$ חסומה ואינה).
+    hints:
+      - 'לכל משפחה חפשו קבוע ליפשיץ משותף; אם אין, חפשו $\varepsilon$ ונקודות קרובות שההפרש בהן לא קטן.'
+
+  - id: Q-4.2-unbounded
+    type: twotier
+    objectives: [OBJ-4.2-1]
+    qualitative: true
+    level: exam
+    prompt: >-
+      טענה: משפחה $\mathcal{F}\subseteq C[0,1]$ שאינה חסומה במידה שווה אינה יכולה להיות רציפה במידה אחידה. נכון או לא
+      נכון?
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: 'נכון. שתי התכונות בלתי תלויות.'
+      - text: נכון
+        feedback: >-
+          רציפות במידה אחידה מגבילה את **השינוי** של הפונקציות, לא את גודלן. הזזה של פונקציה כלפי מעלה לא משנה שום
+          הפרש $f(x)-f(y)$.
+        misconception: MC-c4-equi-needs-bounded
+    reasons:
+      - text: 'הקבועות $f_n\equiv n$: לא חסומות במידה שווה, ו-$|f_n(x)-f_n(y)|=0$ לכל $x,y$, כך שכל $\delta$ מתאים'
+        correct: true
+        feedback: >-
+          בדיוק. זו גם הסיבה שבמשפט ארצלה-אסקולי (שיעור 4.3) יש **שתי** הנחות: חסימות ורציפות במידה אחידה.
+      - text: 'משפחה לא חסומה מכילה פונקציות עם שיפוע גדול כרצוננו'
+        feedback: >-
+          ל-$f_n\equiv n$ השיפוע 0. גודל הערכים ושיפוע הגרף הם שני דברים שונים.
+        misconception: MC-c4-equi-needs-bounded
+      - text: 'גם $\{\sin(nx)\}$ חסומה ואינה רציפה במידה אחידה, ולכן שתי התכונות שקולות'
+        feedback: >-
+          הדוגמה הזו מראה שחסימות אינה גוררת רציפות במידה אחידה; היא לא אומרת דבר על הכיוון ההפוך, והכיוון ההפוך שגוי.
+        misconception: MC-c4-bounded-family-equicontinuous

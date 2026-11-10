@@ -1,0 +1,315 @@
+# Lesson 5.7 — higher-order derivatives and Schwarz's theorem.
+# Objectives (src/course.ts):
+#   OBJ-5.7-1  define higher-order partial derivatives and the classes C^k
+#   OBJ-5.7-2  state and prove Schwarz's theorem on the equality of mixed partials
+#   OBJ-5.7-3  an example where the mixed partials differ, and the hypothesis that fails
+# Order convention, stated in every question that needs it: ∂²f/∂y∂x = ∂/∂y (∂f/∂x), first x, then y.
+chapter: 5
+questions:
+  - id: Q-5.7-count
+    type: numeric
+    objectives: [OBJ-5.7-1]
+    level: basic
+    prompt: >-
+      $f:\mathbb{R}^3\to\mathbb{R}$ מחלקה $C^2$. כמה נגזרות חלקיות מסדר שני **שונות זו מזו** יכולות להיות לה לכל
+      היותר?
+    answer: 6
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. יש $3\cdot3=9$ נגזרות מסדר שני כשסופרים את הסדר, אבל לפי משפט שוורץ
+      $\frac{\partial^2 f}{\partial x_i\partial x_j}=\frac{\partial^2 f}{\partial x_j\partial x_i}$, ולכן נשארות 3
+      נגזרות "טהורות" ו-3 מעורבות: $\binom{3}{2}+3=6$. זה גם מספר האיברים השונים במטריצה סימטרית $3\times3$.
+    wrongFeedback: >-
+      ספרו זוגות $(i,j)$ ושימו לב שבפונקציה מחלקה $C^2$ הסדר של הגזירה אינו משנה.
+    commonWrong:
+      - value: 9
+        feedback: >-
+          9 סופר את $\frac{\partial^2f}{\partial x\partial y}$ ואת $\frac{\partial^2f}{\partial y\partial x}$ בנפרד. לפונקציה
+          מחלקה $C^2$ הן שוות (שוורץ).
+        misconception: MC-c5-schwarz-unused
+      - value: 3
+        feedback: >-
+          3 הן רק הנגזרות הטהורות, $\frac{\partial^2f}{\partial x_i^2}$. הנגזרות המעורבות, כמו
+          $\frac{\partial^2f}{\partial x\partial y}$, הן נגזרות מסדר שני לגמרי.
+        misconception: MC-c5-ck-confusion
+
+  - id: Q-5.7-compute
+    type: numeric
+    objectives: [OBJ-5.7-1]
+    level: basic
+    prompt: >-
+      $f(x,y)=x^3y^2-xy$. חשבו את $\frac{\partial^2 f}{\partial y\,\partial x}(1,2)$, כלומר
+      $\frac{\partial}{\partial y}\left(\frac{\partial f}{\partial x}\right)$ בנקודה $(1,2)$.
+    answer: 11
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $\frac{\partial f}{\partial x}=3x^2y^2-y$, ולפי $y$: $6x^2y-1$, וב-$(1,2)$: $12-1=11$. גזירה בסדר ההפוך
+      נותנת אותו דבר: $\frac{\partial f}{\partial y}=2x^3y-x$, ולפי $x$: $6x^2y-1$.
+    wrongFeedback: >-
+      קודם גזרו לפי $x$ (כש-$y$ קבוע), ואת התוצאה גזרו לפי $y$ (כש-$x$ קבוע).
+    commonWrong:
+      - value: 24
+        feedback: >-
+          $24=\frac{\partial^2f}{\partial x^2}(1,2)=6xy^2$: גזרתם פעמיים לפי $x$. הנגזרת המעורבת גוזרת פעם לפי כל משתנה.
+        misconception: MC-c5-mixed-order-convention
+      - value: 2
+        feedback: >-
+          $2=\frac{\partial^2f}{\partial y^2}(1,2)=2x^3$: גזרתם פעמיים לפי $y$.
+        misconception: MC-c5-mixed-order-convention
+
+  - id: Q-5.7-schwarz
+    type: mc
+    objectives: [OBJ-5.7-2]
+    qualitative: true
+    level: basic
+    prompt: >-
+      מה אומר משפט שוורץ על פונקציה $f:U\to\mathbb{R}$, $U\subseteq\mathbb{R}^2$ פתוחה?
+    choices:
+      - text: 'אם $f\in C^2(U)$, אז $\frac{\partial^2f}{\partial y\,\partial x}=\frac{\partial^2f}{\partial x\,\partial y}$ בכל נקודה של $U$'
+        correct: true
+        feedback: >-
+          נכון. (גרסה חזקה יותר דורשת רק ששתי הנגזרות המעורבות יהיו קיימות בסביבה של $a$ ורציפות ב-$a$.) הרציפות של
+          הנגזרות המעורבות היא ההנחה שעושה את כל העבודה.
+      - text: 'בכל נקודה שבה שתי הנגזרות המעורבות קיימות, הן שוות'
+        feedback: >-
+          ל-$xy\frac{x^2-y^2}{x^2+y^2}$ (ו-0 בראשית) שתיהן קיימות בראשית, ו-$\frac{\partial^2f}{\partial y\partial x}(0,0)=-1$
+          ואילו $\frac{\partial^2f}{\partial x\partial y}(0,0)=1$.
+        misconception: MC-c5-mixed-always-equal
+      - text: 'אם $f\in C^1(U)$, הנגזרות המעורבות שוות בכל נקודה שבה הן קיימות'
+        feedback: >-
+          הדוגמה $xy\frac{x^2-y^2}{x^2+y^2}$ היא $C^1$ ($|\partial_xf|,|\partial_yf|\le\sqrt{x^2+y^2}$), ובכל זאת הנגזרות
+          המעורבות בראשית שונות. צריך רציפות של הנגזרות **המעורבות** עצמן.
+        misconception: MC-c5-c1-enough-schwarz
+      - text: 'אם $f$ דיפרנציאבילית ב-$a$, הנגזרות המעורבות ב-$a$ שוות'
+        feedback: >-
+          דיפרנציאביליות של $f$ היא הנחה על הנגזרות **הראשונות**, ואינה אומרת דבר על השניות; הדוגמה
+          $xy\frac{x^2-y^2}{x^2+y^2}$ דיפרנציאבילית בכל מקום.
+        misconception: MC-c5-c1-enough-schwarz
+
+  - id: Q-5.7-classes
+    type: multi
+    objectives: [OBJ-5.7-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      אילו מהפונקציות הבאות שייכות ל-$C^2(\mathbb{R}^2)$, כלומר כל הנגזרות החלקיות שלהן עד סדר 2 קיימות ורציפות בכל
+      המישור? סמנו את כולן.
+    choices:
+      - text: '$\sin(xy)$'
+        correct: true
+        feedback: 'נכון: הרכבה של פונקציות חלקות; כל הנגזרות מכל סדר קיימות ורציפות, כלומר היא $C^\infty$.'
+      - text: '$|x|^3+y$'
+        correct: true
+        feedback: >-
+          נכון. $\frac{\partial}{\partial x}|x|^3=3x|x|$ ו-$\frac{\partial^2}{\partial x^2}|x|^3=6|x|$, רציפה. היא אינה
+          $C^3$: ל-$6|x|$ אין נגזרת ב-0.
+      - text: '$x|x|+y^2$'
+        feedback: >-
+          היא $C^1$ בלבד: $\frac{\partial f}{\partial x}=2|x|$ רציפה, אבל אין לה נגזרת לפי $x$ ב-$x=0$. לכן
+          $\frac{\partial^2f}{\partial x^2}$ אינה קיימת על הציר $x=0$.
+        misconception: MC-c5-ck-confusion
+      - text: '$\sqrt{x^2+y^2}$'
+        feedback: >-
+          היא רציפה, אבל אין לה אפילו נגזרות חלקיות בראשית ($\frac{|t|}{t}$), ולכן היא לא $C^1$ ובוודאי לא $C^2$. מחוץ
+          לראשית היא $C^\infty$, אבל השאלה על כל המישור.
+        misconception: MC-c5-ck-confusion
+
+  - id: Q-5.7-c2-implies
+    type: twotier
+    objectives: [OBJ-5.7-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      נכון או לא נכון: אם $f\in C^2(U)$ ($U\subseteq\mathbb{R}^n$ פתוחה), אז $f$ דיפרנציאבילית בכל $U$, וגם כל נגזרת
+      חלקית $\frac{\partial f}{\partial x_i}$ דיפרנציאבילית בכל $U$.
+    choices:
+      - text: 'נכון'
+        correct: true
+        feedback: 'נכון. כל מחלקה מכילה את הבאה אחריה: $C^2\subseteq C^1$, ו-$C^1$ גורר דיפרנציאביליות.'
+      - text: 'לא נכון'
+        feedback: >-
+          זה נכון: $\frac{\partial f}{\partial x_i}$ היא פונקציה שהנגזרות החלקיות שלה ($\frac{\partial^2 f}{\partial x_j\partial x_i}$)
+          קיימות ורציפות, ולכן היא מחלקה $C^1$, ולפי שיעור 5.4 דיפרנציאבילית.
+        misconception: MC-c5-ck-confusion
+    reasons:
+      - text: 'כל $\frac{\partial f}{\partial x_i}$ היא $C^1$ (הנגזרות החלקיות שלה רציפות), ו-$f$ עצמה $C^1$; והתנאי המספיק של שיעור 5.4 נותן דיפרנציאביליות'
+        correct: true
+        feedback: >-
+          בדיוק. זה גם מה שמאפשר בהמשך לגזור את $\nabla f$ ולקבל את מטריצת ההסיאן.
+      - text: 'כל פונקציה שיש לה נגזרות חלקיות מסדר שני היא $C^2$, ולכן גם $C^1$'
+        feedback: >-
+          $C^2$ דורשת **רציפות** של הנגזרות עד סדר 2, לא רק קיום. הפונקציה $xy\frac{x^2-y^2}{x^2+y^2}$ (ו-0 בראשית)
+          יש לה כל הנגזרות מסדר שני בכל מקום, והיא אינה $C^2$.
+        misconception: MC-c5-ck-confusion
+      - text: '$C^2$ פירושו ש-$f$ והנגזרות החלקיות הראשונות רציפות'
+        feedback: >-
+          זו ההגדרה של $C^1$ (יחד עם הקיום). ב-$C^2$ גם הנגזרות מסדר **שני** קיימות ורציפות.
+        misconception: MC-c5-ck-confusion
+
+  - id: Q-5.7-fx-axis
+    type: numeric
+    objectives: [OBJ-5.7-3]
+    level: mid
+    prompt: >-
+      $f(x,y)=xy\,\frac{x^2-y^2}{x^2+y^2}$ ל-$(x,y)\ne(0,0)$ ו-$f(0,0)=0$. חשבו מההגדרה את $\frac{\partial f}{\partial x}(0,2)$.
+    answer: -2
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $\frac{f(t,2)-f(0,2)}{t}=\frac{2(t^2-4)}{t^2+4}\to\frac{2\cdot(-4)}{4}=-2$. באופן כללי
+      $\frac{\partial f}{\partial x}(0,y)=\lim_{t\to0}\frac{y(t^2-y^2)}{t^2+y^2}$, כלומר $-y$, לכל $y$ (גם $y=0$).
+    wrongFeedback: >-
+      כתבו את המנה $\frac{f(t,2)-f(0,2)}{t}$: ה-$t$ במונה של $f$ מצטמצם, ונשאר ביטוי שאפשר להציב בו $t=0$.
+    commonWrong:
+      - value: 2
+        feedback: >-
+          $2=\frac{\partial f}{\partial y}(2,0)$: לאורך הציר השני הסימן מתהפך, כי
+          $\frac{f(2,t)}{t}=\frac{2(4-t^2)}{4+t^2}\to2$. השאלה על הנגזרת לפי $x$ בנקודה $(0,2)$.
+        misconception: MC-c5-mixed-order-convention
+      - value: 0
+        feedback: >-
+          $f(0,y)=0$ לכל $y$, אבל זה **ערך**, לא נגזרת לפי $x$. הנגזרת לפי $x$ מסתכלת על $f(t,2)$ ליד $t=0$, ושם $f$ קטנה
+          כמו $-2t$.
+        misconception: MC-c5-value-vs-derivative
+
+  - id: Q-5.7-mixed-value
+    type: numeric
+    objectives: [OBJ-5.7-3]
+    level: mid
+    prompt: >-
+      לאותה $f(x,y)=xy\,\frac{x^2-y^2}{x^2+y^2}$ (ו-0 בראשית), ידוע ש-$\frac{\partial f}{\partial x}(0,y)=-y$ לכל $y$.
+      חשבו את $\frac{\partial^2f}{\partial y\,\partial x}(0,0)=\frac{\partial}{\partial y}\left(\frac{\partial f}{\partial x}\right)(0,0)$.
+    answer: -1
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $\frac{\partial f}{\partial x}(0,k)-\frac{\partial f}{\partial x}(0,0)=-k$, והמנה $\frac{-k}{k}=-1$. בסדר
+      ההפוך: $\frac{\partial f}{\partial y}(x,0)=x$, ולכן $\frac{\partial^2f}{\partial x\,\partial y}(0,0)=1$. שתי
+      הנגזרות המעורבות קיימות ושונות.
+    wrongFeedback: >-
+      צריך לגזור את הפונקציה $y\mapsto\frac{\partial f}{\partial x}(0,y)=-y$ ב-$y=0$.
+    commonWrong:
+      - value: 1
+        feedback: >-
+          1 היא הנגזרת המעורבת בסדר ההפוך, $\frac{\partial}{\partial x}\left(\frac{\partial f}{\partial y}\right)(0,0)$. כאן
+          גוזרים קודם לפי $x$ (מקבלים $-y$) ואחר כך לפי $y$.
+        misconception: MC-c5-mixed-order-convention
+      - value: 0
+        feedback: >-
+          0 מתקבל אם מניחים ששתי הנגזרות המעורבות שוות ולכן "מתקזזות" מסימטריה. כאן אין לכך הצדקה: הן $-1$ ו-$1$.
+        misconception: MC-c5-mixed-always-equal
+
+  - id: Q-5.7-c1-enough
+    type: twotier
+    objectives: [OBJ-5.7-2, OBJ-5.7-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      נכון או לא נכון: אם $f\in C^1(\mathbb{R}^2)$ ושתי הנגזרות המעורבות קיימות בכל נקודה, אז הן שוות בכל נקודה.
+    choices:
+      - text: 'לא נכון'
+        correct: true
+        feedback: 'נכון. $xy\frac{x^2-y^2}{x^2+y^2}$ היא דוגמה נגדית.'
+      - text: 'נכון'
+        feedback: >-
+          $f=xy\frac{x^2-y^2}{x^2+y^2}$ (ו-0 בראשית) היא $C^1$, שתי הנגזרות המעורבות קיימות בכל מקום, ובראשית הן $-1$
+          ו-$1$.
+        misconception: MC-c5-c1-enough-schwarz
+    reasons:
+      - text: 'שוורץ דורש רציפות של הנגזרות המעורבות עצמן; בדוגמה הנגדית $f$ היא $C^1$ אבל הנגזרות המעורבות אינן רציפות בראשית'
+        correct: true
+        feedback: >-
+          בדיוק. קיום של נגזרות מסדר שני, ואפילו רציפות של הראשונות, אינם מחליפים את רציפות השניות.
+      - text: 'כי $C^1$ גורר דיפרנציאביליות, ודיפרנציאביליות גוררת שוויון של הנגזרות המעורבות'
+        feedback: >-
+          דיפרנציאביליות היא תכונה של הנגזרות הראשונות. הדוגמה הנגדית דיפרנציאבילית בכל מקום.
+        misconception: MC-c5-c1-enough-schwarz
+      - text: 'הנגזרות המעורבות תמיד שוות כשהן קיימות'
+        feedback: >-
+          לא: בדוגמה הנגדית שתיהן קיימות בראשית ושונות.
+        misconception: MC-c5-mixed-always-equal
+
+  - id: Q-5.7-second-difference
+    type: rank
+    objectives: [OBJ-5.7-2]
+    level: exam
+    prompt: >-
+      סדרו את שלבי ההוכחה של משפט שוורץ בנקודה $(a,b)$, בהנחה ששתי הנגזרות המעורבות קיימות בסביבה ורציפות ב-$(a,b)$.
+    help: סדרו את שלבי ההוכחה מהראשון לאחרון.
+    items:
+      - id: a
+        label: 'מגדירים את ההפרש השני $\Delta(h,k)=f(a+h,b+k)-f(a+h,b)-f(a,b+k)+f(a,b)$.'
+      - id: b
+        label: 'עם $g(x)=f(x,b+k)-f(x,b)$: $\Delta=g(a+h)-g(a)=h\,g''(\xi)$ לפי לגרנז'' במשתנה $x$.'
+      - id: c
+        label: '$g''(\xi)=\partial_xf(\xi,b+k)-\partial_xf(\xi,b)$, ולגרנז'' במשתנה $y$ נותן $\Delta=hk\,\frac{\partial^2f}{\partial y\partial x}(P)$ לנקודה $P$ במלבן.'
+      - id: d
+        label: 'באותה דרך עם $y\mapsto f(a+h,y)-f(a,y)$: $\Delta=hk\,\frac{\partial^2f}{\partial x\partial y}(Q)$ לנקודה $Q$ במלבן.'
+      - id: e
+        label: 'מחלקים ב-$hk$ ושולחים $(h,k)\to0$: $P,Q\to(a,b)$, ומרציפות הנגזרות המעורבות ב-$(a,b)$ הן שוות שם.'
+    order: [a, b, c, d, e]
+    correctFeedback: >-
+      נכון. הרעיון: ההפרש השני סימטרי ב-$x$ וב-$y$, ולכן אפשר לבטא אותו בשתי הנגזרות המעורבות; הרציפות מאפשרת לעבור
+      מהנקודות $P,Q$ לנקודה $(a,b)$.
+    wrongFeedback: >-
+      ההוכחה מתחילה מאובייקט אחד, ההפרש השני, ומבטאת אותו פעמיים: פעם דרך $x$ ואז $y$, ופעם בסדר ההפוך. הרציפות
+      נכנסת רק בסוף, במעבר לגבול.
+
+  - id: Q-5.7-no-potential
+    type: twotier
+    objectives: [OBJ-5.7-2]
+    qualitative: true
+    level: exam
+    prompt: >-
+      האם קיימת $f:\mathbb{R}^2\to\mathbb{R}$ עם $\frac{\partial f}{\partial x}=y^2+x$ ו-$\frac{\partial f}{\partial y}=xy$
+      בכל המישור?
+    choices:
+      - text: 'לא'
+        correct: true
+        feedback: >-
+          נכון. $\frac{\partial}{\partial y}(y^2+x)=2y$ ואילו $\frac{\partial}{\partial x}(xy)=y$: שונים לכל $y\ne0$.
+      - text: 'כן'
+        feedback: >-
+          ניסיון לבנות: מ-$\frac{\partial f}{\partial x}=y^2+x$ מקבלים $f=xy^2+\frac{x^2}{2}+c(y)$, ואז
+          $\frac{\partial f}{\partial y}=2xy+c'(y)$, שאינו יכול להיות $xy$ לכל $x$.
+        misconception: MC-c5-schwarz-unused
+    reasons:
+      - text: 'אם $f$ כזו הייתה קיימת, נגזרותיה הראשונות פולינומים ולכן $f\in C^2$; לפי שוורץ $\frac{\partial}{\partial y}(y^2+x)=\frac{\partial}{\partial x}(xy)$, כלומר $2y=y$, סתירה'
+        correct: true
+        feedback: >-
+          בדיוק. שוורץ נותן תנאי הכרחי לכך ששני שדות $(P,Q)$ יהיו הנגזרות החלקיות של פונקציה אחת: $P_y=Q_x$.
+      - text: 'כן, כי כל זוג פונקציות רציפות הוא הנגזרות החלקיות של פונקציה כלשהי'
+        feedback: >-
+          לא: הנגזרות של פונקציה $C^2$ מקיימות את תנאי הסימטריה $P_y=Q_x$, וזוג כללי אינו מקיים אותו.
+        misconception: MC-c5-schwarz-unused
+      - text: 'לא, כי הנגזרות המעורבות של כל פונקציה חייבות להיות שוות'
+        feedback: >-
+          המסקנה נכונה, אבל לא "של כל פונקציה": בלי רציפות של הנגזרות המעורבות הן יכולות להיות שונות. כאן הרציפות
+          מובטחת, כי הנגזרות הראשונות פולינומים.
+        misconception: MC-c5-mixed-always-equal
+
+  - id: Q-5.7-which-fails
+    type: mc
+    objectives: [OBJ-5.7-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      ל-$f(x,y)=xy\,\frac{x^2-y^2}{x^2+y^2}$ (ו-0 בראשית) הנגזרות המעורבות בראשית הן $-1$ ו-$1$. איזו הנחה של משפט שוורץ
+      נכשלת?
+    choices:
+      - text: 'הנגזרות המעורבות אינן רציפות ב-$(0,0)$'
+        correct: true
+        feedback: >-
+          נכון. אילו היו רציפות שם, שוורץ היה נותן שוויון. מחוץ לראשית הן שוות (שם $f$ היא $C^\infty$), ולכן ליד הראשית
+          הן לוקחות ערך משותף שאינו יכול לשאוף גם ל-$-1$ וגם ל-$1$.
+      - text: '$f$ אינה רציפה בראשית'
+        feedback: >-
+          $f$ רציפה: $|f|\le|xy|\le\frac{x^2+y^2}{2}\to0$. הבעיה אינה ב-$f$ אלא בנגזרות השניות.
+        misconception: MC-c5-zero-denominator
+      - text: 'הנגזרות החלקיות הראשונות אינן קיימות בראשית'
+        feedback: >-
+          הן קיימות ושוות 0: $f(t,0)=f(0,t)=0$. את הנגזרת בנקודה המיוחדת מחשבים מההגדרה, לא מהנוסחה.
+        misconception: MC-c5-formula-at-point
+      - text: '$f$ אינה גזירה ברציפות ($C^1$) בראשית'
+        feedback: >-
+          היא $C^1$: הנגזרות החלקיות הראשונות קיימות בכל מקום ומקיימות $|\partial_xf|,|\partial_yf|\le\sqrt{x^2+y^2}$, ולכן
+          רציפות גם בראשית. $C^1$ פשוט אינו מספיק לשוורץ.
+        misconception: MC-c5-c1-enough-schwarz

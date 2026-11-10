@@ -1,0 +1,16 @@
+# Terms first defined in lesson 3.3.
+- id: epsilon-net
+  term: ε-רשת
+  en: epsilon-net
+  definition: >-
+    קבוצה סופית $F\subseteq K$ כך שכל נקודה של $K$ נמצאת במרחק קטן מ-$\varepsilon$ מאחת הנקודות של $F$, כלומר
+    $K\subseteq\bigcup_{y\in F}B(y,\varepsilon)$.
+  lesson: '3.3'
+- id: totally-bounded
+  term: חסומה כליל
+  en: totally bounded
+  definition: >-
+    קבוצה $K$ במרחב מטרי היא חסומה כליל אם לכל $\varepsilon>0$ יש לה $\varepsilon$-רשת סופית. חסומה כליל גורר
+    חסומה, ולא להפך; מרחב מטרי קומפקטי אם ורק אם הוא שלם וחסום כליל.
+  reject: [חסומה לחלוטין, חסומה לגמרי]
+  lesson: '3.3'

@@ -1,0 +1,376 @@
+# Chapter 3 exam questions — original, in the style of an 80315 final (not taken from a real exam).
+# Each is worth 25 points in lettered parts, with at least one open part graded against a model solution and a rubric.
+chapter: 3
+questions:
+  - id: Q-3-exam-1
+    type: exam
+    title: קומפקטיות בכדור היחידה של מרחב הפונקציות הרציפות
+    prompt: >-
+      $(X,d)$ מרחב מטרי. במרחב $(C[0,1],\|\cdot\|_\infty)$ נסמן $f_n(x)=x^n$, ו-$B=\{f\in C[0,1]: \|f\|_\infty\le1\}$
+      הוא כדור היחידה הסגור.
+    parts:
+      - label: א
+        points: 8
+        type: open
+        objectives: [OBJ-3.1-1]
+        prompt: >-
+          הגדירו מתי קבוצה $K\subseteq X$ היא קומפקטית (סדרתית), והוכיחו שקבוצה קומפקטית היא סגורה וחסומה.
+        solution:
+          - kind: definition
+            text: >-
+              $K$ קומפקטית אם לכל סדרה $(x_n)$ של נקודות של $K$ יש תת-סדרה $(x_{n_k})$ שמתכנסת לנקודה של $K$.
+          - kind: goal
+            text: '$K$ סגורה, ו-$K$ מוכלת בכדור כלשהו.'
+          - kind: idea
+            text: >-
+              בשני החלקים מניחים את ההפך ובונים סדרה ב-$K$ שאין לה תת-סדרה עם גבול ב-$K$.
+          - kind: step
+            text: >-
+              סגירות: יהי $x\in\overline K$, ותהי $x_n\in K$ עם $x_n\to x$. לפי הקומפקטיות יש $x_{n_k}\to y\in K$. גם
+              $x_{n_k}\to x$, כתת-סדרה של סדרה מתכנסת, ומיחידות הגבול $x=y\in K$. לכן $\overline K\subseteq K$.
+          - kind: step
+            text: >-
+              חסימות: נניח ש-$K$ אינה חסומה ונקבע $p\in X$. לכל $n$ יש $x_n\in K$ עם $d(x_n,p)>n$. לכל תת-סדרה
+              $d(x_{n_k},p)>n_k\ge k$, כלומר היא אינה חסומה, ולכן אינה מתכנסת (סדרה מתכנסת חסומה). זו סתירה לקומפקטיות.
+          - kind: result
+            text: 'קבוצה קומפקטית במרחב מטרי היא סגורה וחסומה.'
+        rubric:
+          - text: 'הגדרה מדויקת: תת-סדרה, והגבול שלה **ב-$K$**'
+            weight: 2
+          - text: 'סגירות: סדרה ב-$K$ שמתכנסת לנקודה של הסגור, תת-סדרה עם גבול ב-$K$, ויחידות הגבול'
+            weight: 3
+          - text: 'חסימות: בניית $x_n$ עם $d(x_n,p)>n$, והנימוק שלאף תת-סדרה אין גבול'
+            weight: 3
+
+      - label: ב
+        points: 4
+        type: numeric
+        objectives: [OBJ-3.1-3]
+        prompt: >-
+          חשבו את $\|f_n-f_{2n}\|_\infty$ (התשובה אינה תלויה ב-$n$).
+        answer: 0.25
+        tolerance: 0.001
+        correctFeedback: >-
+          נכון. עם $t=x^n\in[0,1]$, $f_n-f_{2n}=t-t^2$, והמקסימום $\frac14$ מתקבל ב-$t=\frac12$.
+        wrongFeedback: >-
+          הציבו $t=x^n$ ומצאו את המקסימום של $t-t^2$ ב-$[0,1]$.
+        commonWrong:
+          - value: 0
+            feedback: >-
+              $x^n-x^{2n}\to0$ לכל $x$ קבוע, אבל הנורמה היא סופרמום על הקטע לכל $n$ בנפרד: ב-$x=2^{-1/n}$ ההפרש $\frac14$.
+            misconception: MC-c3-pointwise-is-enough
+
+      - label: ג
+        points: 8
+        type: open
+        objectives: [OBJ-3.1-3]
+        prompt: >-
+          הוכיחו שלסדרה $(f_n)$ אין תת-סדרה מתכנסת ב-$(C[0,1],\|\cdot\|_\infty)$, והסיקו ש-$B$ סגורה וחסומה אבל אינה
+          קומפקטית.
+        solution:
+          - kind: goal
+            text: 'לאף תת-סדרה $(f_{n_k})$ אין גבול $g\in C[0,1]$ בנורמת הסופרמום.'
+          - kind: idea
+            text: >-
+              גבול בנורמת הסופרמום הוא גבול במידה שווה, ולכן גם גבול נקודתי. הגבול הנקודתי של $x^{n_k}$ ידוע ואינו רציף.
+          - kind: step
+            text: >-
+              נניח ש-$\|f_{n_k}-g\|_\infty\to0$ עבור $g\in C[0,1]$. אז לכל $x$, $|f_{n_k}(x)-g(x)|\le\|f_{n_k}-g\|_\infty\to0$,
+              כלומר $g(x)=\lim_k x^{n_k}$.
+          - kind: computation
+            text: '$\lim_k x^{n_k}=0$ עבור $0\le x<1$, ו-$\lim_k1^{n_k}=1$.'
+          - kind: step
+            text: >-
+              לכן $g=0$ ב-$[0,1)$ ו-$g(1)=1$, ו-$g$ אינה רציפה ב-1, בסתירה ל-$g\in C[0,1]$ (וגם לכך שגבול במידה שווה
+              של פונקציות רציפות רציף).
+          - kind: step
+            text: >-
+              $B$ חסומה (מוכלת ב-$B(0,2)$) וסגורה: אם $\|h_m\|_\infty\le1$ ו-$h_m\to h$, אז $|h(x)|=\lim|h_m(x)|\le1$ לכל $x$.
+              וכל $f_n\in B$.
+          - kind: result
+            text: >-
+              $(f_n)$ היא סדרה ב-$B$ בלי תת-סדרה מתכנסת, ולכן $B$ סגורה וחסומה ואינה קומפקטית.
+        rubric:
+          - text: 'מעבר מהתכנסות בנורמת הסופרמום להתכנסות נקודתית, עם האי-שוויון המתאים'
+            weight: 2
+          - text: 'חישוב הגבול הנקודתי והמסקנה שהוא אינו רציף, כלומר סתירה'
+            weight: 3
+          - text: 'הנימוק ש-$B$ סגורה וחסומה'
+            weight: 2
+          - text: 'המסקנה ש-$B$ אינה קומפקטית, עם ההפניה להגדרה'
+            weight: 1
+
+      - label: ד
+        points: 5
+        type: twotier
+        standalone: false
+        objectives: [OBJ-3.3-3, OBJ-3.3-2]
+        qualitative: true
+        prompt: >-
+          האם הקבוצה $S=\{f_n: n\in\mathbb{N}\}$ חסומה כליל?
+        choices:
+          - text: לא
+            correct: true
+            feedback: 'נכון. אפשר להסיק זאת מסעיף ג בלי חישוב נוסף.'
+          - text: כן
+            feedback: >-
+              כל $f_n$ בנורמה 1, אבל חסימות אינה חסימות כליל. אילו $S$ הייתה חסומה כליל, הייתה ל-$(f_n)$ תת-סדרה מתכנסת.
+            misconception: MC-c3-bounded-totally-bounded
+        reasons:
+          - text: 'בקבוצה חסומה כליל לכל סדרה יש תת-סדרת קושי; $C[0,1]$ שלם (שיעור 2.2), ולכן תת-הסדרה הייתה מתכנסת, בסתירה לסעיף ג'
+            correct: true
+            feedback: >-
+              בדיוק: זה החצי של "שלם וחסום כליל גורר קומפקטי" שבונה תת-סדרת קושי, יחד עם השלמות של המרחב שמסביב.
+          - text: '$\|f_n\|_\infty=1$ לכל $n$, ולכן $S$ חסומה, ולכן חסומה כליל'
+            feedback: >-
+              חסומה אינו גורר חסומה כליל, וכאן בדיוק הוא נכשל.
+            misconception: MC-c3-bounded-totally-bounded
+          - text: '$C[0,1]$ ממימד אינסופי, ולכן אף קבוצה אינסופית בו אינה חסומה כליל'
+            feedback: >-
+              המסקנה כאן נכונה, אבל הנימוק שגוי: $\{cx: c\in[0,1]\}$ אינסופית וחסומה כליל.
+            misconception: MC-c3-ambient-dimension
+
+  - id: Q-3-exam-2
+    type: exam
+    title: משפט קנטור והומיאומורפיזמים
+    prompt: >-
+      $(K,d)$ מרחב מטרי קומפקטי ו-$f:K\to\mathbb{R}$ רציפה.
+    parts:
+      - label: א
+        points: 10
+        type: open
+        objectives: [OBJ-3.4-2]
+        prompt: >-
+          הוכיחו את משפט קנטור: $f$ רציפה במידה שווה על $K$.
+        solution:
+          - kind: goal
+            text: >-
+              לכל $\varepsilon>0$ יש $\delta>0$ כך שלכל $x,y\in K$ עם $d(x,y)<\delta$ מתקיים $|f(x)-f(y)|<\varepsilon$.
+          - kind: idea
+            text: >-
+              בשלילה מקבלים זוגות נקודות קרובות כרצוננו עם ערכים רחוקים. הקומפקטיות מרכזת אותם סביב נקודה אחת $p$,
+              ושם הרציפות של $f$ ב-$p$ נותנת סתירה.
+          - kind: step
+            text: >-
+              נניח בשלילה שיש $\varepsilon>0$ כך שלכל $\delta>0$ יש $x,y$ עם $d(x,y)<\delta$ ו-$|f(x)-f(y)|\ge\varepsilon$.
+              עם $\delta=\frac1n$ מקבלים $x_n,y_n\in K$ עם $d(x_n,y_n)<\frac1n$ ו-$|f(x_n)-f(y_n)|\ge\varepsilon$.
+          - kind: theorem
+            text: 'מקומפקטיות $K$ יש תת-סדרה $x_{n_k}\to p$ עם $p\in K$.'
+          - kind: computation
+            text: '$d(y_{n_k},p)\le d(y_{n_k},x_{n_k})+d(x_{n_k},p)<\frac1{n_k}+d(x_{n_k},p)\to0$, ולכן $y_{n_k}\to p$.'
+          - kind: step
+            text: >-
+              $f$ רציפה ב-$p$, ולכן $f(x_{n_k})\to f(p)$ ו-$f(y_{n_k})\to f(p)$, כלומר $|f(x_{n_k})-f(y_{n_k})|\to0$. זה סותר את
+              $|f(x_{n_k})-f(y_{n_k})|\ge\varepsilon$ לכל $k$.
+          - kind: result
+            text: '$f$ רציפה במידה שווה על $K$.'
+        rubric:
+          - text: 'שלילה נכונה של רציפות במידה שווה, ובניית $x_n,y_n$ עם $\delta=\frac1n$'
+            weight: 3
+          - text: 'שימוש בקומפקטיות: תת-סדרה של $x_n$ שמתכנסת לנקודה של $K$'
+            weight: 2
+          - text: 'הוכחה שאותה תת-סדרה של $y_n$ מתכנסת לאותו גבול (אי-שוויון המשולש)'
+            weight: 2
+          - text: 'שימוש ברציפות בנקודה $p$ וסתירה מפורשת'
+            weight: 3
+
+      - label: ב
+        points: 5
+        type: numeric
+        objectives: [OBJ-3.4-2]
+        prompt: >-
+          עבור $f(x)=x^2$ על $K=[0,1]$ ו-$\varepsilon=0.19$: מהו ה-$\delta$ **הגדול ביותר** כך שלכל $x,y\in[0,1]$ עם
+          $|x-y|<\delta$ מתקיים $|x^2-y^2|<0.19$?
+        answer: 0.1
+        tolerance: 0.001
+        correctFeedback: >-
+          נכון. עבור $y=x+h$ עם $0\le h<\delta$ ו-$x+h\le1$: $(x+h)^2-x^2=h(2x+h)\le h(2-h)$, עם שוויון ב-$x+h=1$.
+          $h(2-h)$ עולה ב-$h<1$, ולכן התנאי הוא $\delta(2-\delta)\le0.19$, כלומר $\delta\le1-\sqrt{0.81}=0.1$.
+        wrongFeedback: >-
+          ההפרש $|x^2-y^2|$ הכי גדול ליד $x=1$. כתבו $y=1$, $x=1-h$, ופתרו $1-(1-h)^2\le0.19$.
+        commonWrong:
+          - value: 0.095
+            feedback: >-
+              $\delta=\frac\varepsilon2$ (מהחסם $|x^2-y^2|\le2|x-y|$) עובד, אבל אינו הגדול ביותר: החסם 2 על $x+y$ לא מתקבל
+              כש-$|x-y|>0$.
+            misconception: MC-c3-best-constant
+          - value: 0.19
+            feedback: >-
+              $\delta=\varepsilon$ מתאים לשיפוע 1, כמו ליד $x=\frac12$. ליד $x=1$ השיפוע 2: עם $x=0.85$ ו-$y=1$
+              מקבלים $1-0.7225=0.2775>0.19$.
+            misconception: MC-c3-delta-depends-on-point
+
+      - label: ג
+        points: 5
+        type: twotier
+        objectives: [OBJ-3.4-2]
+        qualitative: true
+        prompt: >-
+          האם $h(x)=x\sin\frac1x$ רציפה במידה שווה על $(0,1]$? (שימו לב: $(0,1]$ אינה קומפקטית.)
+        choices:
+          - text: כן
+            correct: true
+            feedback: >-
+              נכון. קנטור הוא תנאי מספיק: כאן ממשיכים את $h$ לקבוצה קומפקטית.
+          - text: לא
+            feedback: >-
+              העובדה שהתחום אינו קומפקטי לא אומרת שהמסקנה נכשלת. $h$ ממשיכה ברציפות ל-$[0,1]$ עם $h(0)=0$.
+            misconception: MC-c3-theorem-converse
+        reasons:
+          - text: 'עם $h(0)=0$ הפונקציה רציפה על $[0,1]$, כי $|x\sin\frac1x|\le|x|\to0$; לפי קנטור היא רציפה במידה שווה על $[0,1]$, ובפרט על $(0,1]$'
+            correct: true
+            feedback: >-
+              בדיוק. צמצום של פונקציה רציפה במידה שווה רציף במידה שווה (אותו $\delta$). לעומת זאת $\sin\frac1x$ אינה ממשיכה
+              ברציפות ל-0, ואינה רציפה במידה שווה.
+          - text: '$h$ רציפה וחסומה על קטע חסום, ולכן רציפה בו במידה שווה'
+            feedback: >-
+              המסקנה נכונה והנימוק לא: $\sin\frac1x$ רציפה וחסומה על אותו קטע ואינה רציפה בו במידה שווה.
+            misconception: MC-c3-uniform-without-compact
+          - text: '$(0,1]$ אינה קומפקטית, ולכן קנטור לא חל ו-$h$ אינה רציפה במידה שווה'
+            feedback: >-
+              כשההנחה של משפט נכשלת, המשפט פשוט לא אומר דבר. צריך לבדוק את $h$ עצמה.
+            misconception: MC-c3-theorem-converse
+
+      - label: ד
+        points: 5
+        type: mc
+        objectives: [OBJ-3.4-3]
+        prompt: >-
+          $D=[0,1)\cup[2,3]$, ו-$\varphi:D\to[0,2]$ מוגדרת $\varphi(t)=t$ עבור $t\in[0,1)$ ו-$\varphi(t)=t-1$ עבור
+          $t\in[2,3]$. $\varphi$ רציפה, חד-חד-ערכית ועל. מה נכון?
+        choices:
+          - text: '$\varphi$ אינה הומיאומורפיזם: $1-\frac1n\to1=\varphi(2)$, אבל $\varphi^{-1}(1-\frac1n)=1-\frac1n\to1\ne2$; המשפט לא חל כי $D$ אינה קומפקטית'
+            correct: true
+            feedback: >-
+              נכון. $D$ אינה סגורה ($1-\frac1n\to1\notin D$), ולכן לא קומפקטית, ו-$\varphi^{-1}$ "קופצת" בנקודה 1.
+          - text: '$\varphi$ הומיאומורפיזם, כי $D$ חסומה ולכן קומפקטית'
+            feedback: >-
+              $D$ חסומה ואינה סגורה, ולכן אינה קומפקטית לפי היינה-בורל.
+            misconception: MC-c3-half-heine-borel
+          - text: '$\varphi$ אינה רציפה, כי יש "חור" בתחום בין 1 ל-2'
+            feedback: >-
+              $\varphi$ רציפה: כל אחד משני החלקים פתוח ב-$D$, ועל כל אחד $\varphi$ היא הזזה. החור פוגע ברציפות ההופכית, לא של $\varphi$.
+            misconception: MC-c3-connected-by-picture
+          - text: '$\varphi$ הומיאומורפיזם, כי היא רציפה, חד-חד-ערכית ועל'
+            feedback: >-
+              זה לא מספיק בלי תחום קומפקטי, וזו בדיוק הדוגמה.
+            misconception: MC-c3-bijection-homeo
+
+  - id: Q-3-exam-3
+    type: exam
+    title: שקילות נורמות במרחב האוקלידי ובמרחב פונקציות
+    prompt: >-
+      $N$ נורמה כלשהי על $\mathbb{R}^n$. בסעיף ד המרחב הוא $C[0,1]$.
+    parts:
+      - label: א
+        points: 4
+        type: numeric
+        objectives: [OBJ-3.5-1]
+        prompt: >-
+          ב-$\mathbb{R}^{16}$: מהו הקבוע הקטן ביותר $C$ כך ש-$\|x\|_2\le C\|x\|_\infty$ לכל $x$?
+        answer: 4
+        tolerance: 0.001
+        correctFeedback: >-
+          נכון: $\|x\|_2^2=\sum x_i^2\le16\|x\|_\infty^2$, ולכן $C=\sqrt{16}=4$, עם שוויון ב-$(1,\dots,1)$.
+        wrongFeedback: >-
+          העריכו $\sum_{i=1}^{16}x_i^2$ בעזרת $\max|x_i|$ ובדקו את הווקטור $(1,\dots,1)$.
+        commonWrong:
+          - value: 16
+            feedback: >-
+              $16$ עובד, אבל אינו הקטן ביותר: החסם הוא על $\|x\|_2^2$, ולכן הקבוע עבור $\|x\|_2$ הוא $\sqrt{16}$.
+            misconception: MC-c3-best-constant
+          - value: 1
+            feedback: >-
+              $\|x\|_\infty\le\|x\|_2$ עם קבוע 1 הוא הכיוון ההפוך. עבור $(1,\dots,1)$: $\|x\|_2=4>\|x\|_\infty=1$.
+            misconception: MC-c3-one-sided-bound
+
+      - label: ב
+        points: 11
+        type: open
+        objectives: [OBJ-3.5-2]
+        prompt: >-
+          הוכיחו שיש קבועים $c,C>0$ כך ש-$c\|x\|_2\le N(x)\le C\|x\|_2$ לכל $x\in\mathbb{R}^n$.
+        solution:
+          - kind: idea
+            text: >-
+              החסם העליון בא מאי-שוויון המשולש. ממנו $N$ רציפה, ועל הספרה הקומפקטית $S=\{\|x\|_2=1\}$ היא מקבלת מינימום
+              חיובי; הומוגניות מעבירה אותו לכל $x$.
+          - kind: computation
+            text: >-
+              עם $M=\max_iN(e_i)$: $N(x)=N(\sum x_ie_i)\le\sum|x_i|N(e_i)\le M\|x\|_1\le M\sqrt n\,\|x\|_2$ (קושי-שוורץ). נגדיר
+              $C=M\sqrt n$.
+          - kind: step
+            text: >-
+              $|N(x)-N(y)|\le N(x-y)\le C\|x-y\|_2$, ולכן $N$ רציפה (ליפשיצית) על $(\mathbb{R}^n,\|\cdot\|_2)$.
+          - kind: theorem
+            text: '$S$ סגורה (מקור של $\{1\}$ תחת $\|\cdot\|_2$) וחסומה, ולכן קומפקטית לפי היינה-בורל.'
+          - kind: step
+            text: >-
+              לפי משפט ויירשטראס $N$ מקבלת על $S$ מינימום $c=N(x_0)$ עם $x_0\in S$. כי $x_0\ne0$ ו-$N$ נורמה, $c>0$.
+          - kind: step
+            text: >-
+              לכל $x\ne0$: $\frac{x}{\|x\|_2}\in S$, ולכן $N(\frac{x}{\|x\|_2})\ge c$, כלומר $N(x)\ge c\|x\|_2$; עבור $x=0$
+              זה טריוויאלי.
+          - kind: result
+            text: '$c\|x\|_2\le N(x)\le C\|x\|_2$ לכל $x$, עם $c=\min_SN>0$ ו-$C=\sqrt n\max_iN(e_i)$.'
+        rubric:
+          - text: 'החסם העליון מאי-שוויון המשולש והומוגניות, עם קבוע מפורש'
+            weight: 3
+          - text: 'רציפות $N$ לפי $\|\cdot\|_2$ (אי-שוויון המשולש ההפוך)'
+            weight: 2
+          - text: 'קומפקטיות הספרה (היינה-בורל), ומינימום שמתקבל וחיובי, עם הנימוק למה הוא חיובי'
+            weight: 4
+          - text: 'מעבר מהספרה לכל $x$ בכפל בסקלר'
+            weight: 2
+
+      - label: ג
+        points: 5
+        type: mc
+        objectives: [OBJ-3.5-1, OBJ-2.1-3]
+        prompt: >-
+          מה נובע מסעיף ב לגבי השלמות של $(\mathbb{R}^n,N)$?
+        choices:
+          - text: 'הוא שלם: סדרת קושי לפי $N$ היא סדרת קושי לפי $\|\cdot\|_2$, ולכן מתכנסת לפי $\|\cdot\|_2$ (שיעור 2.1), ולכן גם לפי $N$'
+            correct: true
+            feedback: >-
+              נכון. כל אחד משני אי-השוויונים משמש בכיוון אחר: $\|\cdot\|_2\le\frac1cN$ להעברת תנאי קושי, ו-$N\le C\|\cdot\|_2$
+              להעברת ההתכנסות.
+          - text: 'הוא שלם, כי $\mathbb{R}^n$ סגור ולכן קומפקטי'
+            feedback: >-
+              $\mathbb{R}^n$ סגור ולא חסום, ולכן אינו קומפקטי. השלמות באה מהשקילות ל-$\|\cdot\|_2$.
+            misconception: MC-c3-half-heine-borel
+          - text: 'הוא שלם, ומאותה סיבה גם $(C[0,1],\|\cdot\|_1)$ שלם, כי $(C[0,1],\|\cdot\|_\infty)$ שלם'
+            feedback: >-
+              $(C[0,1],\|\cdot\|_1)$ אינו שלם (שיעור 2.2). הטיעון עובר רק בין נורמות שקולות, ו-$\|\cdot\|_1$ ו-$\|\cdot\|_\infty$
+              על $C[0,1]$ אינן שקולות.
+            misconception: MC-c3-all-norms-infinite-dim
+
+      - label: ד
+        points: 5
+        type: twotier
+        objectives: [OBJ-3.5-3]
+        qualitative: true
+        prompt: >-
+          על $C[0,1]$ נגדיר $N_0(f)=\|f\|_1+|f(0)|$ (זו נורמה). האם $N_0$ ו-$\|\cdot\|_1$ שקולות?
+        choices:
+          - text: לא
+            correct: true
+            feedback: >-
+              נכון. המשפט מסעיף ב דורש מימד סופי; כאן הוא נכשל.
+          - text: כן
+            feedback: >-
+              $\|f\|_1\le N_0(f)$ הוא רק כיוון אחד. בכיוון השני אין קבוע: יש פונקציות עם $\|f\|_1$ קטן כרצוננו ו-$f(0)=1$.
+            misconception: MC-c3-one-sided-bound
+        reasons:
+          - text: '$f_n(x)=\max(1-nx,0)$: $\|f_n\|_1=\frac1{2n}$ ו-$N_0(f_n)=\frac1{2n}+1$, ולכן $\frac{N_0(f_n)}{\|f_n\|_1}=1+2n\to\infty$'
+            correct: true
+            feedback: >-
+              בדיוק. אין $C$ עם $N_0(f)\le C\|f\|_1$ לכל $f$.
+          - text: '$\|f\|_1\le N_0(f)$ לכל $f$, ולכן הן שקולות'
+            feedback: >-
+              זה חצי מהשקילות. החצי השני נכשל בפונקציות ה"שן" $f_n$.
+            misconception: MC-c3-one-sided-bound
+          - text: 'כל הנורמות על מרחב וקטורי שקולות, כפי שהוכח בסעיף ב'
+            feedback: >-
+              סעיף ב עוסק ב-$\mathbb{R}^n$, וההוכחה משתמשת בקומפקטיות של הספרה. ב-$C[0,1]$ הספרה אינה קומפקטית.
+            misconception: MC-c3-all-norms-infinite-dim

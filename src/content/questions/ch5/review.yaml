@@ -1,0 +1,425 @@
+# Chapter 7 review — differentiability in several variables (lessons 5.1–5.7), easy to hard.
+# Every lesson is touched; most questions combine two or more lessons, some reach back to chapters 0–3.
+# Each hint names the lesson to go back to.
+chapter: 5
+questions:
+  - id: Q-5-review-01
+    type: multi
+    objectives: [OBJ-5.1-2, OBJ-1.6-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $f$ מוגדרת ב-$\mathbb{R}^2\setminus\{(0,0)\}$. אילו מהטיעונים הבאים **מוכיחים** ש-$\lim_{(x,y)\to(0,0)}f(x,y)$
+      אינו קיים (כגבול סופי)? סמנו את כולם.
+    choices:
+      - text: '$f(t,t)\to1$ ו-$f(t,0)\to0$ כש-$t\to0$'
+        correct: true
+        feedback: >-
+          נכון. אילו הגבול $L$ היה קיים, לפי אפיון הגבול בסדרות (שיעור 1.6) $f(p_n)\to L$ לכל סדרה $p_n\to0$ עם
+          $p_n\ne0$, ובפרט לאורך שתי המסילות: $L=1$ וגם $L=0$.
+      - text: 'יש סדרה $p_n\to(0,0)$ עם $|f(p_n)|\to\infty$'
+        correct: true
+        feedback: >-
+          נכון. גבול סופי $L$ היה נותן $f(p_n)\to L$, ובפרט סדרה חסומה.
+      - text: 'המכנה בנוסחה של $f$ מתאפס בראשית'
+        feedback: >-
+          זה לא מוכיח דבר: $\frac{x^2y^2}{x^2+y^2}$ שואפת ל-0 בראשית למרות המכנה.
+        misconception: MC-c5-zero-denominator
+      - text: 'הגבול לאורך $y=x$ הוא 1, ו-$f(0,0)$ הוגדר להיות 0'
+        feedback: >-
+          זה מראה ש-$f$ אינה **רציפה** בראשית, אם הגבול קיים בכלל. ייתכן שהגבול קיים ושווה 1, והערך בנקודה פשוט שונה.
+        misconception: MC-c5-limit-vs-value
+    hints:
+      - 'חזרו לשיעור 5.1: איך מסילות שוללות גבול, ולשיעור 1.6: אפיון הגבול בעזרת סדרות.'
+
+  - id: Q-5-review-02
+    type: numeric
+    objectives: [OBJ-5.2-1, OBJ-5.4-2]
+    level: basic
+    prompt: >-
+      $f(x,y,z)=xyz$. חשבו את הנגזרת הכיוונית של $f$ בנקודה $(1,2,3)$ בכיוון הווקטור $(2,-1,2)$.
+    answer: 4.3333333
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון, $\frac{13}{3}$. וקטור היחידה הוא $v=\frac13(2,-1,2)$ (אורך $(2,-1,2)$ הוא 3), $\nabla f=(yz,xz,xy)=(6,3,2)$,
+      ו-$D_vf=\frac{12-3+4}{3}=\frac{13}{3}$. $f$ פולינום ולכן גזירה ברציפות, כך ש-$D_vf=\nabla f\cdot v$.
+    wrongFeedback: >-
+      נרמלו את הכיוון, חשבו את הגרדיאנט בנקודה, והכפילו סקלרית.
+    commonWrong:
+      - value: 13
+        feedback: >-
+          זה $\nabla f\cdot(2,-1,2)$ בלי נרמול: הווקטור באורך 3, ולכן התוצאה גדולה פי 3.
+        misconception: MC-c5-nonunit-direction
+      - value: 11
+        feedback: >-
+          $11=6+3+2$ הוא $\nabla f\cdot(1,1,1)$: הכיוון הנתון לא נכנס לחישוב.
+        misconception: MC-c5-nonunit-direction
+    hints:
+      - 'חזרו לשיעור 5.2: נגזרת כיוונית בכיוון וקטור יחידה, ולשיעור 5.4: הנוסחה עם הגרדיאנט.'
+
+  - id: Q-5-review-03
+    type: twotier
+    objectives: [OBJ-5.3-2, OBJ-5.2-2]
+    qualitative: true
+    level: basic
+    prompt: >-
+      ל-$f:\mathbb{R}^2\to\mathbb{R}$ שתי הנגזרות החלקיות קיימות ב-$a$, אבל $f$ אינה רציפה ב-$a$. האם $f$ יכולה להיות
+      דיפרנציאבילית ב-$a$?
+    choices:
+      - text: 'לא'
+        correct: true
+        feedback: 'נכון. כל פונקציה דיפרנציאבילית בנקודה רציפה בה.'
+      - text: 'כן, כי הנגזרות החלקיות קיימות'
+        feedback: >-
+          נגזרות חלקיות אינן מבטיחות דיפרנציאביליות. ודיפרנציאביליות גוררת רציפות, ולכן פונקציה לא רציפה אינה
+          דיפרנציאבילית.
+        misconception: MC-c5-partials-imply-differentiable
+    reasons:
+      - text: 'דיפרנציאבילית ב-$a$ גורר $\|f(a+h)-f(a)\|\le\|Df(a)\|_{\mathrm{op}}\|h\|+\|r(h)\|\to0$, כלומר רציפות'
+        correct: true
+        feedback: >-
+          בדיוק: זו הקונטרפוזיציה של "דיפרנציאבילית גורר רציפה". דוגמה: $\frac{xy}{x^2+y^2}$ (ו-0 בראשית).
+      - text: 'דיפרנציאביליות שקולה לקיום הנגזרות החלקיות, ואלה קיימות'
+        feedback: >-
+          לא שקולה: $\sqrt{|xy|}$ יש לה נגזרות חלקיות בראשית ואינה דיפרנציאבילית שם.
+        misconception: MC-c5-partials-imply-differentiable
+      - text: 'קיום הנגזרות החלקיות כבר גורר רציפות, ולכן הנתונים סותרים'
+        feedback: >-
+          הנתונים אינם סותרים: ל-$\frac{xy}{x^2+y^2}$ (ו-0 בראשית) יש נגזרות חלקיות בראשית, והיא אינה רציפה שם.
+        misconception: MC-c5-partials-imply-continuity
+    hints:
+      - 'חזרו לשיעור 5.3: דיפרנציאבילית גורר רציפה, ולשיעור 5.2: נגזרות חלקיות בלי רציפות.'
+
+  - id: Q-5-review-04
+    type: mc
+    objectives: [OBJ-5.4-3, OBJ-5.1-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      הגרף של $f:\mathbb{R}^2\to\mathbb{R}$ הוא קבוצת הגובה $F=0$ של $F(x,y,z)=f(x,y)-z$. איזה וקטור ניצב לגרף בנקודה
+      $(a,f(a))$, כש-$f$ גזירה ברציפות?
+    choices:
+      - text: '$\left(\frac{\partial f}{\partial x}(a),\ \frac{\partial f}{\partial y}(a),\ -1\right)$'
+        correct: true
+        feedback: >-
+          נכון: זה $\nabla F(a,f(a))$, והרכיב $-1$ מבטיח שהוא אינו אפס. המישור המשיק שהוא נותן הוא
+          $z=f(a)+\nabla f(a)\cdot(x-a)$, אותה נוסחה כמו לגרף.
+      - text: '$\left(\frac{\partial f}{\partial x}(a),\ \frac{\partial f}{\partial y}(a)\right)$'
+        feedback: >-
+          זה $\nabla f(a)\in\mathbb{R}^2$, הניצב לקו הגובה של $f$ **בתחום**. הגרף יושב ב-$\mathbb{R}^3$, והנורמל שלו
+          צריך שלושה רכיבים.
+        misconception: MC-c5-graph-vs-level
+      - text: '$\left(1,\ 0,\ \frac{\partial f}{\partial x}(a)\right)$'
+        feedback: >-
+          זה וקטור **משיק** לגרף: הכיוון של העקום $t\mapsto(a_1+t,a_2,f(a_1+t,a_2))$. הנורמל ניצב לו.
+        misconception: MC-c5-gradient-tangent
+      - text: '$\left(\frac{\partial f}{\partial x}(a),\ \frac{\partial f}{\partial y}(a),\ f(a)\right)$'
+        feedback: >-
+          הערך $f(a)$ קובע איפה המישור עובר, לא את הכיוון שלו. הרכיב השלישי של $\nabla F$ הוא $\frac{\partial F}{\partial z}=-1$.
+        misconception: MC-c5-differential-is-value
+    hints:
+      - 'חזרו לשיעור 5.4: המישור המשיק לגרף ולמשטח גובה, ולשיעור 5.1: גרף לעומת קבוצות גובה.'
+
+  - id: Q-5-review-05
+    type: mc
+    objectives: [OBJ-5.3-3, OBJ-5.4-1]
+    level: mid
+    prompt: >-
+      עבור $\alpha>0$ תהי $f_\alpha(x)=\|x\|_2^{\alpha}$ על $\mathbb{R}^n$. לאילו $\alpha$ הפונקציה $f_\alpha$ דיפרנציאבילית
+      בראשית?
+    choices:
+      - text: 'בדיוק ל-$\alpha>1$'
+        correct: true
+        feedback: >-
+          נכון. ל-$\alpha>1$: $\frac{|f_\alpha(h)-0|}{\|h\|_2}=\|h\|_2^{\alpha-1}\to0$, ולכן $Df_\alpha(0)=0$. ל-$\alpha\le1$
+          המנה $\frac{|t|^\alpha}{t}$ בכיוון $e_1$ אינה מתכנסת (בגבול $\pm1$ כש-$\alpha=1$, ומתפוצצת כש-$\alpha<1$), ואין
+          אפילו נגזרות חלקיות.
+      - text: 'בדיוק ל-$\alpha\ge1$'
+        feedback: >-
+          ב-$\alpha=1$ זו הנורמה עצמה, רציפה אבל עם המנה $\frac{|t|}{t}$ בכל כיוון: אין נגזרות חלקיות בראשית.
+        misconception: MC-c5-continuity-gives-derivative
+      - text: 'בדיוק ל-$\alpha\ge2$, כי ל-$1<\alpha<2$ הנוסחה $\nabla f_\alpha=\alpha\|x\|_2^{\alpha-2}x$ אינה מוגדרת בראשית'
+        feedback: >-
+          בנקודה המיוחדת מחשבים מההגדרה, לא מהנוסחה. ל-$1<\alpha<2$ השארית $\|h\|_2^{\alpha}$ היא $o(\|h\|_2)$. ואפילו
+          יותר: $\|\nabla f_\alpha(x)\|_2=\alpha\|x\|_2^{\alpha-1}\to0$, כך ש-$f_\alpha$ גזירה ברציפות.
+        misconception: MC-c5-formula-at-point
+      - text: 'לאף $\alpha$ שאינו מספר זוגי, כי אז $f_\alpha$ אינה פולינום'
+        feedback: >-
+          פולינומים הם רק דוגמה; ההגדרה בודקת אם השארית $o(\|h\|)$. ל-$\alpha=\frac32$ השארית $\|h\|^{3/2}$, וזה
+          $o(\|h\|)$.
+        misconception: MC-c5-formula-at-point
+    hints:
+      - 'חזרו לשיעור 5.3: דיפרנציאביליות מההגדרה (המועמד 0, והשארית $\|h\|^\alpha$), ולשיעור 5.4: גזירות ברציפות.'
+
+  - id: Q-5-review-06
+    type: numeric
+    objectives: [OBJ-5.5-2, OBJ-5.4-2]
+    level: mid
+    prompt: >-
+      הטמפרטורה במישור היא $T(x,y)=x^2-xy+y$, וחלקיק נע במסילה $\gamma(t)=(t^2,t^3)$. מהו קצב השינוי של הטמפרטורה
+      שהחלקיק מרגיש ברגע $t=1$, כלומר $\frac{d}{dt}T(\gamma(t))$ ב-$t=1$?
+    answer: 2
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $\gamma(1)=(1,1)$, $\nabla T=(2x-y,\ -x+1)$ ולכן $\nabla T(1,1)=(1,0)$; $\gamma'(1)=(2,3)$; והקצב
+      $\nabla T(\gamma(1))\cdot\gamma'(1)=2$. בדיקה: $T(\gamma(t))=t^4-t^5+t^3$, ונגזרתה ב-1 היא $4-5+3=2$.
+    wrongFeedback: >-
+      כלל השרשרת לאורך מסילה: הגרדיאנט בנקודה $\gamma(1)$ כפול וקטור המהירות $\gamma'(1)$.
+    commonWrong:
+      - value: 1
+        feedback: >-
+          זה $\nabla T(1,1)\cdot\gamma(1)=(1,0)\cdot(1,1)$: כפלתם במיקום במקום במהירות.
+        misconception: MC-c5-curve-position
+      - value: 0
+        feedback: >-
+          0 מתקבל אם חושבים ש-$\gamma'(1)$ ניצב לגרדיאנט, כלומר שהחלקיק נע לאורך קו גובה. כאן הוא אינו נע לאורך קו
+          גובה: $T(\gamma(t))$ אינה קבועה.
+        misconception: MC-c5-gradient-tangent
+    hints:
+      - 'חזרו לשיעור 5.5: נגזרת לאורך מסילה, ולשיעור 5.4: הגרדיאנט.'
+
+  - id: Q-5-review-07
+    type: twotier
+    objectives: [OBJ-5.6-3, OBJ-1.6-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $F:\mathbb{R}^n\to\mathbb{R}^m$ דיפרנציאבילית ו-$\|DF(x)\|_{\mathrm{op}}\le L$ לכל $x$ (נורמות אוקלידיות). נכון או
+      לא נכון: $F$ ליפשיצית עם קבוע $L$, ולכן רציפה במידה שווה על $\mathbb{R}^n$.
+    choices:
+      - text: 'נכון'
+        correct: true
+        feedback: 'נכון. $\mathbb{R}^n$ קמורה, כך שכל קטע $[x,y]$ בתחום, ואי-שוויון הערך הממוצע חל על כל זוג נקודות.'
+      - text: 'לא נכון'
+        feedback: >-
+          זה נכון: אי-שוויון הערך הממוצע נותן $\|F(x)-F(y)\|_2\le L\|x-y\|_2$, וליפשיצית גורר רציפה במידה שווה עם
+          $\delta=\frac{\varepsilon}{L}$ (שיעור 1.6).
+        misconception: MC-c5-mvi-wrong-bound
+    reasons:
+      - text: 'אי-שוויון הערך הממוצע על הקטע $[x,y]\subseteq\mathbb{R}^n$ נותן $\|F(x)-F(y)\|_2\le L\|x-y\|_2$'
+        correct: true
+        feedback: >-
+          בדיוק. ומליפשיציות לרציפות במידה שווה: בהינתן $\varepsilon$, $\delta=\frac{\varepsilon}{L}$ מתאים לכל הנקודות יחד.
+      - text: 'לפי משפט הערך הממוצע יש $c$ עם $F(x)-F(y)=DF(c)(x-y)$, ומזה החסם'
+        feedback: >-
+          ל-$m\ge2$ אין שוויון כזה ($\gamma(t)=(\cos t,\sin t)$). המסקנה נכונה, אבל דרך **אי-שוויון** הערך הממוצע.
+        misconception: MC-c5-mvt-vector-equality
+      - text: 'חסם על הנגזרת נותן רק רציפות, לא ליפשיציות'
+        feedback: >-
+          הוא נותן יותר: חסם $L$ על $\|DF\|_{\mathrm{op}}$ לאורך הקטע הוא בדיוק קבוע הליפשיץ באי-שוויון הערך הממוצע.
+        misconception: MC-c5-mvi-wrong-bound
+    hints:
+      - 'חזרו לשיעור 5.6: אי-שוויון הערך הממוצע בקבוצה קמורה, ולשיעור 1.6: ליפשיצית גורר רציפה במידה שווה.'
+
+  - id: Q-5-review-08
+    type: numeric
+    objectives: [OBJ-5.6-2, OBJ-1.8-2]
+    level: mid
+    prompt: >-
+      $f(x,y)=(x^2-y,\ 3xy)$ על הריבוע $K=[0,1]^2$. מצאו את הקבוע הקטן ביותר $M$ מהצורה
+      $M=\sup_{p\in K}\|Df(p)\|_{\mathrm{op}}$, כשנורמת האופרטור לפי $\|\cdot\|_\infty$ בתחום ובטווח. (אז
+      $\|f(p)-f(q)\|_\infty\le M\|p-q\|_\infty$ לכל $p,q\in K$.)
+    answer: 6
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $J_f=\begin{pmatrix}2x&-1\\3y&3x\end{pmatrix}$, ונורמת האופרטור לפי $\|\cdot\|_\infty$ היא סכום הערכים
+      המוחלטים הגדול בשורה (שיעור 1.8): $\max(2x+1,\ 3y+3x)$, שהגדול ביותר על $K$ הוא $6$, ב-$(1,1)$. כאן החסם נובע
+      ישירות ממשפט הערך הממוצע על כל רכיב בנפרד:
+      $|f_i(p)-f_i(q)|=|\nabla f_i(c_i)\cdot(p-q)|\le\sum_j|\partial_jf_i(c_i)|\,\|p-q\|_\infty$.
+    wrongFeedback: >-
+      בנו את $J_f$, חשבו את סכומי הערכים המוחלטים בכל **שורה**, ומצאו את הסופרמום על הריבוע.
+    commonWrong:
+      - value: 5
+        feedback: >-
+          5 הוא הסופרמום של סכומי **העמודות**, כלומר נורמת האופרטור לפי $\|\cdot\|_1$. ל-$\|\cdot\|_\infty$ סוכמים
+          שורות: כל רכיב של $f$ הוא שורה.
+        misconception: MC-c5-mvi-wrong-bound
+      - value: 9
+        feedback: >-
+          $9=2+1+3+3$ הוא סכום כל הערכים המוחלטים ב-$(1,1)$. זה חסם נכון אבל לא הקבוע שנשאל: נורמת האופרטור
+          לוקחת את השורה הגרועה, לא את כולן יחד.
+        misconception: MC-c5-mvi-wrong-bound
+    hints:
+      - 'חזרו לשיעור 5.6: אי-שוויון הערך הממוצע, ולשיעור 1.8: נורמת אופרטור של מטריצה בנורמת אינסוף.'
+
+  - id: Q-5-review-09
+    type: numeric
+    objectives: [OBJ-5.5-1, OBJ-0.5-2]
+    level: mid
+    prompt: >-
+      $f,g:\mathbb{R}^2\to\mathbb{R}^2$ דיפרנציאביליות, $g(f(x))=x$ לכל $x$ בסביבה של $a$, ו-$\det J_f(a)=4$. מהו
+      $\det J_g(f(a))$?
+    answer: 0.25
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. מכלל השרשרת $J_g(f(a))\,J_f(a)=J_{g\circ f}(a)=I$, וכפליות הדטרמיננטה נותנת
+      $\det J_g(f(a))\cdot4=1$. בפרט $J_f(a)$ הפיכה: זה הצד הקל של משפט הפונקציה ההפוכה.
+    wrongFeedback: >-
+      גזרו את הזהות $g\circ f=\mathrm{id}$ בכלל השרשרת, וקחו דטרמיננטה של שני האגפים.
+    commonWrong:
+      - value: 4
+        feedback: >-
+          המטריצות הפוכות זו לזו, לא שוות: $J_g(f(a))=J_f(a)^{-1}$, ולכן הדטרמיננטה הפוכה.
+        misconception: MC-c5-chain-order
+      - value: -4
+        feedback: >-
+          ההופכית אינה הנגדית: $\det(A^{-1})=\frac{1}{\det A}$.
+        misconception: MC-c5-chain-order
+    hints:
+      - 'חזרו לשיעור 5.5: כלל השרשרת כמכפלת מטריצות יעקובי, ולשיעור 0.5: הפיכות ודטרמיננטה.'
+
+  - id: Q-5-review-10
+    type: twotier
+    objectives: [OBJ-5.5-2, OBJ-5.7-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $f\in C^2(\mathbb{R}^2)$ ו-$g(t)=f(t,t)$. נכון או לא נכון:
+      $g''(t)=\frac{\partial^2f}{\partial x^2}+2\frac{\partial^2f}{\partial y\,\partial x}+\frac{\partial^2f}{\partial y^2}$,
+      כשכל הנגזרות מחושבות ב-$(t,t)$.
+    choices:
+      - text: 'נכון'
+        correct: true
+        feedback: 'נכון. כלל השרשרת פעמיים, ומשפט שוורץ מאחד את שתי הנגזרות המעורבות.'
+      - text: 'לא נכון'
+        feedback: >-
+          זה נכון: $g'(t)=f_x+f_y$, ושוב כלל השרשרת על כל אחד: $g''=f_{xx}+f_{xy}+f_{yx}+f_{yy}$ (כאן
+          $f_{xy}=\frac{\partial}{\partial y}f_x$), ולפי שוורץ שני האמצעיים שווים.
+        misconception: MC-c5-schwarz-unused
+    reasons:
+      - text: '$g''=\frac{\partial f}{\partial x}+\frac{\partial f}{\partial y}$ ב-$(t,t)$; כל אחת מהן $C^1$, כלל השרשרת שוב נותן ארבעה איברים, ושוורץ מאחד את שני המעורבים'
+        correct: true
+        feedback: >-
+          בדיוק. $f\in C^2$ משמשת פעמיים: הנגזרות הראשונות $C^1$ ולכן דיפרנציאביליות (כדי להפעיל שוב את כלל השרשרת),
+          והנגזרות המעורבות רציפות (כדי להפעיל את שוורץ).
+      - text: 'יש ארבעה איברים, ואי-אפשר לאחד את שני המעורבים בלי מידע נוסף על $f$'
+        feedback: >-
+          המידע הנוסף כבר נתון: $f\in C^2$, ולכן שוורץ חל והם שווים.
+        misconception: MC-c5-schwarz-unused
+      - text: 'כלל השרשרת חל רק פעם אחת; את $g''$ אי-אפשר לחשב דרכו'
+        feedback: >-
+          $g'(t)=f_x(t,t)+f_y(t,t)$ היא שוב הרכבה של פונקציות דיפרנציאביליות ($f_x,f_y\in C^1$) עם $t\mapsto(t,t)$,
+          ולכן כלל השרשרת חל עליה.
+        misconception: MC-c5-ck-confusion
+    hints:
+      - 'חזרו לשיעור 5.5: נגזרת לאורך מסילה, ולשיעור 5.7: המחלקה $C^2$ ומשפט שוורץ.'
+
+  - id: Q-5-review-11
+    type: multi
+    objectives: [OBJ-5.1-3, OBJ-5.3-3, OBJ-5.4-1, OBJ-5.5-3]
+    level: exam
+    prompt: >-
+      $g(x,y)=\frac{x^4+y^4}{x^2+y^2}$ ל-$(x,y)\ne(0,0)$ ו-$g(0,0)=0$. אילו מהטענות נכונות? סמנו את כולן.
+    choices:
+      - text: '$g$ רציפה בראשית'
+        correct: true
+        feedback: 'נכון: $x^4+y^4\le(x^2+y^2)^2$, ולכן $0\le g\le x^2+y^2\to0$.'
+      - text: '$g$ דיפרנציאבילית בראשית ו-$Dg(0,0)=0$'
+        correct: true
+        feedback: >-
+          נכון: $\frac{|g(h)|}{\|h\|_2}\le\|h\|_2\to0$. (הנגזרות החלקיות 0, והשארית קטנה מ-$\|h\|_2^2$.)
+      - text: 'הנגזרות החלקיות של $g$ רציפות בראשית'
+        correct: true
+        feedback: >-
+          נכון. מחוץ לראשית $\nabla g$ הומוגני מדרגה 1 (גזירה של פונקציה הומוגנית מדרגה 2 מורידה דרגה), ורציף על מעגל
+          היחידה, ולכן $\|\nabla g(x)\|_2\le C\|x\|_2\to0=\|\nabla g(0)\|$. בפרט $g\in C^1(\mathbb{R}^2)$.
+      - text: '$x\frac{\partial g}{\partial x}+y\frac{\partial g}{\partial y}=4g$ מחוץ לראשית, כי המונה ממעלה 4'
+        feedback: >-
+          הדרגה של $g$ היא $4-2=2$: $g(tx)=\frac{t^4}{t^2}g(x)$. משפט אוילר נותן $2g$.
+        misconception: MC-c5-euler-any-function
+      - text: '$g$ אינה דיפרנציאבילית בראשית, כי הנוסחה אינה מוגדרת שם'
+        feedback: >-
+          בנקודה מיוחדת בודקים מההגדרה. השארית כאן $o(\|h\|)$, ולכן $g$ דיפרנציאבילית שם.
+        misconception: MC-c5-zero-denominator
+    hints:
+      - 'חזרו לשיעור 5.1 (חסם), 5.3 (דיפרנציאביליות מההגדרה), 5.4 (גזירות ברציפות) ו-5.5 (משפט אוילר).'
+
+  - id: Q-5-review-12
+    type: twotier
+    objectives: [OBJ-5.6-3, OBJ-2.3-1]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $F(x,y)=\left(\tfrac13\cos y+1,\ \tfrac13\sin x\right)$. האם ל-$F$ יש נקודת שבת יחידה ב-$\mathbb{R}^2$?
+    choices:
+      - text: 'כן'
+        correct: true
+        feedback: 'נכון. $F$ מכווצת עם מקדם $\frac13$ על המרחב השלם $\mathbb{R}^2$.'
+      - text: 'לא בהכרח'
+        feedback: >-
+          $J_F=\begin{pmatrix}0&-\frac13\sin y\\\frac13\cos x&0\end{pmatrix}$, ונורמת האופרטור שלה לכל היותר $\frac13$. לכן
+          $F$ מכווצת, ומשפט בנך נותן נקודת שבת יחידה.
+        misconception: MC-c5-mvi-wrong-bound
+    reasons:
+      - text: '$\sup\|DF\|_{\mathrm{op}}=\frac13<1$ ו-$\mathbb{R}^2$ קמורה, ולכן $\|F(p)-F(q)\|_2\le\frac13\|p-q\|_2$; ו-$\mathbb{R}^2$ שלם, אז משפט בנך חל'
+        correct: true
+        feedback: >-
+          בדיוק. לשורות של $J_F$ יש איבר אחד כל אחת, ולכן הערכים הסינגולריים הם $\frac13|\sin y|$ ו-$\frac13|\cos x|$.
+          אי-שוויון הערך הממוצע הופך את החסם לקבוע כיווץ.
+      - text: 'מספיק ש-$\|DF(x)\|_{\mathrm{op}}<1$ בכל נקודה, גם בלי חסם אחיד'
+        feedback: >-
+          לא מספיק: $F(x)=x+\frac1x$ על $[1,\infty)$ מקיימת $|F'(x)|=1-\frac{1}{x^2}<1$ ואין לה נקודת שבת. צריך
+          $\sup\|DF\|_{\mathrm{op}}<1$, כדי שיהיה מקדם כיווץ אחד.
+        misconception: MC-c5-mvi-wrong-bound
+      - text: 'לפי משפט הערך הממוצע $F(p)-F(q)=DF(c)(p-q)$, ולכן $F$ מכווצת'
+        feedback: >-
+          ל-$F$ עם ערכים ב-$\mathbb{R}^2$ אין שוויון כזה. המסקנה נכונה דרך **אי-שוויון** הערך הממוצע.
+        misconception: MC-c5-mvt-vector-equality
+    hints:
+      - 'חזרו לשיעור 5.6: חסם על הדיפרנציאל נותן קבוע ליפשיץ, ולשיעור 2.3: משפט נקודת השבת של בנך.'
+
+  - id: Q-5-review-13
+    type: numeric
+    objectives: [OBJ-5.5-2, OBJ-5.7-1]
+    level: exam
+    prompt: >-
+      $\varphi(s)=s^3$ ו-$u(x,y)=\varphi(x-y)$. חשבו את $\frac{\partial^2u}{\partial y\,\partial x}(2,1)=\frac{\partial}{\partial y}\left(\frac{\partial u}{\partial x}\right)(2,1)$
+      בעזרת כלל השרשרת.
+    answer: -6
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $\frac{\partial u}{\partial x}=\varphi'(x-y)\cdot1$, ואז $\frac{\partial}{\partial y}\varphi'(x-y)=\varphi''(x-y)\cdot(-1)$.
+      לכן התוצאה $-\varphi''(1)=-6$. בדרך כלל: לכל $\varphi\in C^2$, $u_{xx}=u_{yy}=\varphi''$ והנגזרות המעורבות
+      $-\varphi''$.
+    wrongFeedback: >-
+      כל גזירה של $\varphi(x-y)$ כופלת בנגזרת הפנימית: $+1$ לפי $x$, $-1$ לפי $y$.
+    commonWrong:
+      - value: 6
+        feedback: >-
+          שכחתם את הנגזרת הפנימית $\frac{\partial(x-y)}{\partial y}=-1$.
+        misconception: MC-c5-chain-inner-derivative
+      - value: 3
+        feedback: >-
+          $3=\varphi'(1)$: גזרתם רק פעם אחת.
+        misconception: MC-c5-mixed-order-convention
+    hints:
+      - 'חזרו לשיעור 5.5: כלל השרשרת והנגזרת הפנימית, ולשיעור 5.7: נגזרות מסדר שני.'
+
+  - id: Q-5-review-14
+    type: multi
+    objectives: [OBJ-5.2-3, OBJ-5.3-3, OBJ-5.4-1, OBJ-5.7-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $f:\mathbb{R}^2\to\mathbb{R}$ ו-$a\in\mathbb{R}^2$. אילו מהגרירות הבאות נכונות תמיד? סמנו את כולן.
+    choices:
+      - text: 'אם $f$ גזירה ברציפות בסביבה של $a$, אז $f$ דיפרנציאבילית ב-$a$'
+        correct: true
+        feedback: 'נכון: זה התנאי המספיק של שיעור 5.4 (ההוכחה בעזרת משפט לגרנז'' על כל קואורדינטה).'
+      - text: 'אם $f$ דיפרנציאבילית ב-$a$, אז כל $D_vf(a)$ קיימות ו-$v\mapsto D_vf(a)$ לינארית'
+        correct: true
+        feedback: 'נכון: $D_vf(a)=Df(a)v$.'
+      - text: 'אם כל $D_vf(a)$ קיימות ו-$v\mapsto D_vf(a)$ לינארית, אז $f$ דיפרנציאבילית ב-$a$'
+        feedback: >-
+          הפונקציה ששווה 1 על הפרבולה $y=x^2$ ($x\ne0$) ו-0 בכל מקום אחר: כל הנגזרות הכיווניות בראשית 0, והיא אינה
+          רציפה שם.
+        misconception: MC-c5-gateaux-enough
+      - text: 'אם $f\in C^1(\mathbb{R}^2)$ והנגזרות המעורבות קיימות, אז הן שוות'
+        feedback: >-
+          $xy\frac{x^2-y^2}{x^2+y^2}$ היא $C^1$, ובראשית הנגזרות המעורבות $-1$ ו-$1$.
+        misconception: MC-c5-c1-enough-schwarz
+      - text: 'אם שתי הנגזרות החלקיות קיימות ב-$a$, אז $f$ רציפה ב-$a$'
+        feedback: '$\frac{xy}{x^2+y^2}$ (ו-0 בראשית): נגזרות חלקיות 0, וערך $\frac12$ לאורך $y=x$.'
+        misconception: MC-c5-partials-imply-continuity
+    hints:
+      - 'חזרו לשיעורים 5.2–5.4 (סולם הגרירות: גזירה ברציפות, דיפרנציאבילית, נגזרות כיווניות, נגזרות חלקיות) ולשיעור 5.7 (שוורץ).'

@@ -1,0 +1,411 @@
+# Chapter 1 review — metric and normed spaces (lessons 1.1–1.8), easy to hard.
+# Every lesson is touched; most questions combine two or more lessons. Each hint names the lesson to go back to.
+chapter: 1
+questions:
+  - id: Q-1-review-01
+    type: multi
+    objectives: [OBJ-1.1-1, OBJ-1.1-3]
+    qualitative: true
+    level: basic
+    prompt: >-
+      אילו מהבאות הן מטריקות על $\mathbb{R}^2$? סמנו את כולן.
+    choices:
+      - text: '$d_\infty(x,y)=\max(|x_1-y_1|,|x_2-y_2|)$'
+        correct: true
+        feedback: 'נכון: מטריקת המקסימום.'
+      - text: '$\min(d_2(x,y),1)$'
+        correct: true
+        feedback: >-
+          נכון: חיתוך של מטריקה ב-1 הוא מטריקה (אם אחד המחוברים באגף ימין לפחות 1, המשולש מתקיים מיד).
+      - text: '$|x_1-y_1|+|x_2-y_2|^2$'
+        feedback: >-
+          הריבוע בקואורדינטה השנייה שובר את המשולש: בין $(0,0)$ ל-$(0,2)$ המרחק $4$, ודרך $(0,1)$ רק $1+1=2$.
+        misconception: MC-c1-transform-metric
+      - text: '$|x_1-y_1|$'
+        feedback: >-
+          $(0,0)$ ו-$(0,1)$ שונות ובמרחק 0: אקסיומת האפס נכשלת.
+        misconception: MC-c1-zero-axiom
+    hints:
+      - 'חזרו לשיעור 1.1: שלוש האקסיומות, ואיזו מהן נכשלת בכל דוגמה נגדית.'
+
+  - id: Q-1-review-02
+    type: numeric
+    objectives: [OBJ-1.2-2, OBJ-1.1-2]
+    level: basic
+    prompt: >-
+      חשבו את המרחק האוקלידי בין $(1,0,2)$ ל-$(3,-6,5)$ ב-$\mathbb{R}^3$, כלומר $\|(2,-6,3)\|_2$.
+    answer: 7
+    tolerance: 0.001
+    correctFeedback: 'נכון: $\sqrt{4+36+9}=\sqrt{49}=7$.'
+    wrongFeedback: >-
+      $\|v\|_2=\sqrt{v_1^2+v_2^2+v_3^2}$.
+    commonWrong:
+      - value: 49
+        feedback: '49 הוא $\|v\|_2^2$. נשאר להוציא שורש.'
+        misconception: MC-c1-norm-squared
+      - value: 11
+        feedback: '11 הוא $\|v\|_1=2+6+3$, מטריקת הסכום. השאלה על המרחק האוקלידי.'
+        misconception: MC-c1-one-distance
+    hints:
+      - 'חזרו לשיעור 1.2: נורמות 1, 2 ואינסוף.'
+
+  - id: Q-1-review-03
+    type: mc
+    objectives: [OBJ-1.4-1, OBJ-1.3-3]
+    level: basic
+    prompt: >-
+      $A=[0,1)\cup(1,2]\subseteq\mathbb{R}$. מהם $A^\circ$, $\overline A$ ו-$\partial A$?
+    choices:
+      - text: '$A^\circ=(0,1)\cup(1,2)$, $\overline A=[0,2]$, $\partial A=\{0,1,2\}$'
+        correct: true
+        feedback: >-
+          נכון. $1\notin A$, אבל כל קטע סביבו פוגש את $A$: הוא בסגור ובשפה. $0$ ו-$2$ ב-$A$ ואינן פנימיות.
+      - text: '$A^\circ=(0,1)\cup(1,2)$, $\overline A=[0,2]$, $\partial A=\{1\}$'
+        feedback: >-
+          גם $0$ ו-$2$ בשפה: הן שייכות ל-$A$, וכל קטע סביבן מכיל נקודות מחוץ ל-$A$.
+        misconception: MC-c1-boundary-in-set
+      - text: '$A^\circ=A$, $\overline A=[0,2]$, $\partial A=\{1\}$'
+        feedback: >-
+          $A$ אינה פתוחה: סביב $0$ אין קטע בתוך $A$. הפנים מוריד את $0$ ואת $2$.
+        misconception: MC-c1-interior-closure-swap
+    hints:
+      - 'חזרו לשיעור 1.4: פנים, סגור ושפה, ולשיעור 1.3: מתי קבוצה פתוחה.'
+
+  - id: Q-1-review-04
+    type: multi
+    objectives: [OBJ-1.5-1, OBJ-1.3-3]
+    qualitative: true
+    level: basic
+    prompt: >-
+      ב-$\mathbb{R}$ עם **המטריקה הבדידה**, אילו מהסדרות מתכנסות? סמנו את כולן.
+    choices:
+      - text: '$1,2,3,5,5,5,5,\dots$ (קבועה מהאיבר הרביעי)'
+        correct: true
+        feedback: 'נכון: מ-$N=3$ והלאה $d(x_n,5)=0$.'
+      - text: '$\frac1n$'
+        feedback: >-
+          $d(\frac1n,0)=1$ לכל $n$. במטריקה הבדידה מתכנסות רק הסדרות שקבועות מ-$N$ והלאה.
+        misconception: MC-c1-one-distance
+      - text: '$(-1)^n$'
+        feedback: 'היא לא קבועה מאף מקום והלאה, ולכן לא מתכנסת (גם לא במטריקה הרגילה).'
+        misconception: MC-c1-discrete-balls
+      - text: '$\lfloor \frac{1}{n}\rfloor$'
+        correct: true
+        feedback: 'נכון: $\lfloor\frac1n\rfloor=0$ לכל $n\ge2$, ולכן היא קבועה מ-$N=1$ והלאה.'
+    hints:
+      - 'חזרו לשיעור 1.5: התכנסות במטריקה הבדידה, ולשיעור 1.3: הכדורים $B(x,r)$ עם $r\le1$.'
+
+  - id: Q-1-review-05
+    type: numeric
+    objectives: [OBJ-1.2-4, OBJ-1.5-3]
+    level: mid
+    prompt: >-
+      $f_n(x)=\frac{nx}{1+n^2x^2}$ על $[0,1]$. ידוע ש-$\|f_n\|_\infty=\frac12$ לכל $n$. חשבו את $\|f_{10}\|_1=\int_0^1|f_{10}|$.
+      (תשובה עשרונית בשלוש ספרות אחרי הנקודה מתקבלת.)
+    answer: 0.230756026
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון: $\int_0^1\frac{nx}{1+n^2x^2}\,dx=\frac{\ln(1+n^2)}{2n}$, ועם $n=10$: $\frac{\ln101}{20}\approx0.231$. זה שואף
+      ל-0, ולכן $f_n\to0$ בנורמת האינטגרל ולא בנורמת הסופרמום.
+    wrongFeedback: >-
+      הציבו $u=1+n^2x^2$: $du=2n^2x\,dx$.
+    commonWrong:
+      - value: 0.5
+        feedback: '$\frac12$ הוא $\|f_{10}\|_\infty$. נורמת האינטגרל היא השטח מתחת לגרף, קטן יותר.'
+        misconception: MC-c1-one-distance
+    hints:
+      - 'חזרו לשיעור 1.2: נורמת האינטגרל, ולשיעור 1.5: התכנסות תלויה בנורמה.'
+
+  - id: Q-1-review-06
+    type: twotier
+    objectives: [OBJ-1.6-2, OBJ-1.3-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      האם הקבוצה $\{(x,y)\in\mathbb{R}^2: x^2+y^2<1,\ y>x^3\}$ פתוחה ב-$\mathbb{R}^2$?
+    choices:
+      - text: כן
+        correct: true
+        feedback: 'נכון. היא חיתוך של שני מקורות של קבוצות פתוחות תחת פונקציות רציפות.'
+      - text: לא, כי העקום $y=x^3$ "חותך" אותה
+        feedback: >-
+          הנקודות שעל העקום **אינן** בקבוצה ($y>x^3$ ממש). השפה מחוץ לקבוצה לא פוגעת בפתיחות.
+        misconception: MC-c1-boundary-in-set
+    reasons:
+      - text: 'היא $g^{-1}((-\infty,1))\cap h^{-1}((0,\infty))$ עם $g=x^2+y^2$, $h=y-x^3$ רציפות, וחיתוך של שתי פתוחות פתוח'
+        correct: true
+        feedback: >-
+          בדיוק. מקורות של פתוחות פתוחים (שיעור 1.6), וחיתוך **סופי** של פתוחות פתוח (שיעור 1.3).
+      - text: 'כל אי-שוויון מגדיר קבוצה פתוחה'
+        feedback: >-
+          רק אי-שוויון **ממש** בין פונקציות רציפות. $\{x^2+y^2\le1\}$ סגורה ואינה פתוחה.
+        misconception: MC-c1-open-not-closed
+      - text: 'התמונה של עיגול פתוח תחת פונקציה רציפה פתוחה'
+        feedback: >-
+          רציפות מדברת על מקורות, לא על תמונות. פונקציה קבועה שולחת עיגול לנקודה.
+        misconception: MC-c1-continuity-direction
+    hints:
+      - 'חזרו לשיעור 1.6: מקור של קבוצה פתוחה, ולשיעור 1.3: חיתוך סופי של פתוחות.'
+
+  - id: Q-1-review-07
+    type: mc
+    objectives: [OBJ-1.4-2, OBJ-1.5-2]
+    level: mid
+    prompt: >-
+      $A=\{\frac1n+\frac1m: n,m\in\mathbb{N}\}\subseteq\mathbb{R}$. מהי $A'$, קבוצת נקודות ההצטברות של $A$?
+    choices:
+      - text: '$\{0\}\cup\{\frac1k:k\in\mathbb{N}\}$'
+        correct: true
+        feedback: >-
+          נכון. $\frac1k+\frac1m\to\frac1k$ כש-$m\to\infty$, ו-$\frac1n+\frac1n\to0$. ולהפך: בסדרה של איברי $A$ שאינה
+          קבועה מאיזשהו מקום, לפחות אחד מהאינדקסים שואף לאינסוף, ולכן הגבול (אם קיים) $\frac1k$ או $0$.
+      - text: '$\{0\}$'
+        feedback: >-
+          זה מה שהסדרה $\frac2n$ (עם $n=m$) נותנת. אבל גם $\frac1k+\frac1m\to\frac1k$: צריך לבדוק את **כל** הסדרות.
+        misconception: MC-c1-few-sequences
+      - text: '$A\cup\{0\}$'
+        feedback: >-
+          זה הסגור, לא קבוצת נקודות ההצטברות. $2=1+1\in A$ מבודדת: האיבר הבא בגודלו הוא $\frac32$.
+        misconception: MC-c1-accumulation-in-set
+    hints:
+      - 'חזרו לשיעור 1.4: נקודת הצטברות מול נקודה מבודדת, ולשיעור 1.5: הסגור כקבוצת הגבולות.'
+
+  - id: Q-1-review-08
+    type: twotier
+    objectives: [OBJ-1.6-2, OBJ-1.3-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      נכון או לא: **כל** פונקציה $f:(\mathbb{R},d_0)\to(\mathbb{R},|\cdot|)$, כאשר $d_0$ המטריקה הבדידה, רציפה.
+    choices:
+      - text: נכון
+        correct: true
+        feedback: 'נכון, גם פונקציית דיריכלה. הכול תלוי בקבוצות הפתוחות של התחום.'
+      - text: לא נכון, למשל פונקציית דיריכלה
+        feedback: >-
+          פונקציית דיריכלה אינה רציפה מ-$\mathbb{R}$ **הרגיל**. כאן בתחום המטריקה הבדידה, וכל מקור פתוח.
+        misconception: MC-c1-one-distance
+    reasons:
+      - text: 'בתחום עם המטריקה הבדידה כל קבוצה פתוחה, ובפרט כל מקור $f^{-1}(V)$'
+        correct: true
+        feedback: >-
+          בדיוק. (בניסוח $\varepsilon$-$\delta$: $\delta=\frac12$ מתאים לכל $\varepsilon$, כי $B(a,\frac12)=\{a\}$.) לעומת
+          זאת, הזהות בכיוון ההפוך, מ-$\mathbb{R}$ הרגיל אל $(\mathbb{R},d_0)$, אינה רציפה.
+      - text: '$d_0(x,y)\ge|x-y|$ לכל $x,y$'
+        feedback: >-
+          לא נכון: $d_0(0,5)=1<5$. הסיבה היא שכדורים קטנים בתחום הם נקודות בודדות.
+        misconception: MC-c1-discrete-balls
+      - text: 'התמונה של כל קבוצה פתוחה פתוחה'
+        feedback: >-
+          זה לא האפיון של רציפות, וגם לא נכון כאן: פונקציה קבועה שולחת כל קבוצה לנקודה.
+        misconception: MC-c1-continuity-direction
+    hints:
+      - 'חזרו לשיעור 1.6: רציפות דרך מקורות, ולשיעור 1.3: כל קבוצה פתוחה במטריקה הבדידה.'
+
+  - id: Q-1-review-09
+    type: numeric
+    objectives: [OBJ-1.8-2]
+    level: mid
+    prompt: >-
+      $B=\begin{pmatrix}1&-2\\3&0\end{pmatrix}$ כהעתקה $(\mathbb{R}^2,\|\cdot\|_1)\to(\mathbb{R}^2,\|\cdot\|_1)$. חשבו את
+      $\|B\|_{\mathrm{op}}$.
+    answer: 4
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון: הסכום המקסימלי בעמודה, $\max(|1|+|3|,\ |-2|+|0|)=4$, ומתקבל ב-$x=e_1$: $\|Be_1\|_1=\|(1,3)\|_1=4$.
+    wrongFeedback: 'בנורמת 1 סוכמים ערכים מוחלטים בכל עמודה ולוקחים את הגדול.'
+    commonWrong:
+      - value: 3
+        feedback: '3 הוא הסכום המקסימלי בשורה, הנורמה בנורמת אינסוף.'
+        misconception: MC-c1-opnorm-rowcol-swap
+      - value: 3.25661654
+        feedback: >-
+          $3.257$ בקירוב הוא $\|B\|_{\mathrm{op}}$ בנורמה **האוקלידית**, $\sqrt{\lambda_{\max}(B^TB)}$. כאן התחום והטווח עם
+          $\|\cdot\|_1$, והנורמה היא סכום העמודה הגדול.
+        misconception: MC-c1-one-distance
+    hints:
+      - 'חזרו לשיעור 1.8: נורמת אופרטור של מטריצה בנורמות 1 ואינסוף.'
+
+  - id: Q-1-review-10
+    type: numeric
+    objectives: [OBJ-1.6-3, OBJ-1.2-2]
+    level: mid
+    prompt: >-
+      $f:(\mathbb{R}^2,d_\infty)\to\mathbb{R}$, $f(x)=\|x\|_2$. מהו קבוע ליפשיץ הקטן ביותר של $f$? (תשובה עשרונית בשלוש
+      ספרות אחרי הנקודה מתקבלת.)
+    answer: 1.41421356
+    tolerance: 0.0005
+    correctFeedback: >-
+      נכון: $\sqrt2$. $|\|x\|_2-\|y\|_2|\le\|x-y\|_2\le\sqrt2\|x-y\|_\infty$, ועם $x=(1,1)$, $y=0$ יש שוויון:
+      $\|x\|_2=\sqrt2=\sqrt2\,d_\infty(x,0)$.
+    wrongFeedback: >-
+      התחילו מאי-שוויון המשולש ההפוך, ואז השוו בין $\|\cdot\|_2$ ל-$\|\cdot\|_\infty$ ב-$\mathbb{R}^2$.
+    commonWrong:
+      - value: 1
+        feedback: >-
+          1 הוא הקבוע אילו התחום היה עם $d_2$. עם $d_\infty$ הנקודה $(1,1)$ במרחק 1 מהראשית, ו-$\|(1,1)\|_2=\sqrt2$.
+        misconception: MC-c1-one-distance
+      - value: 2
+        feedback: >-
+          $\|v\|_2\le\|v\|_1\le2\|v\|_\infty$ נותן קבוע 2, אבל הוא לא הקטן ביותר: $\|v\|_2\le\sqrt2\|v\|_\infty$.
+        misconception: MC-c1-norm-order
+    hints:
+      - 'חזרו לשיעור 1.6: פונקציה ליפשיצית, ולשיעור 1.2: ההשוואה בין נורמות במרחב האוקלידי.'
+
+  - id: Q-1-review-11
+    type: numeric
+    objectives: [OBJ-1.8-2, OBJ-1.2-2]
+    level: mid
+    prompt: >-
+      $\varphi:(\mathbb{R}^2,\|\cdot\|_\infty)\to\mathbb{R}$, $\varphi(x,y)=3x-4y$. חשבו את $\|\varphi\|_{\mathrm{op}}$.
+    answer: 7
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון: $|3x-4y|\le(3+4)\max(|x|,|y|)$, ושוויון ב-$(1,-1)$: $\varphi(1,-1)=7$.
+    wrongFeedback: 'חסמו $|3x-4y|$ בעזרת $\max(|x|,|y|)$, ובחרו סימנים שנותנים שוויון.'
+    commonWrong:
+      - value: 5
+        feedback: >-
+          5 הוא $\|(3,-4)\|_2$, הנורמה כשהתחום עם $\|\cdot\|_2$ (קושי-שוורץ). כאן התחום עם $\|\cdot\|_\infty$.
+        misconception: MC-c1-one-distance
+      - value: 4
+        feedback: '4 הוא $\max(3,4)$, הנורמה כשהתחום עם $\|\cdot\|_1$.'
+        misconception: MC-c1-one-distance
+      - value: -1
+        feedback: '$\varphi(1,1)=-1$ הוא ערך בנקודה אחת, ועוד שלילי. נורמה היא סופרמום של $|\varphi|$ על כדור היחידה.'
+        misconception: MC-c1-opnorm-test-one
+    hints:
+      - 'חזרו לשיעור 1.8: נורמת אופרטור, ולשיעור 1.2: כדור היחידה של נורמת אינסוף.'
+
+  - id: Q-1-review-12
+    type: twotier
+    objectives: [OBJ-1.7-2, OBJ-1.5-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      נכון או לא: סדרה ב-$\mathbb{R}^2$ מתכנסת במטריקה $d_2$ אם ורק אם היא מתכנסת במטריקה $d_\infty$, ולאותו גבול.
+    choices:
+      - text: נכון
+        correct: true
+        feedback: 'נכון. $d_2$ ו-$d_\infty$ שקולות ליפשיץ.'
+      - text: לא נכון, כי אלה מטריקות שונות
+        feedback: >-
+          הן שונות, אבל כל אחת חסומה על ידי כפולה של השנייה: $d_\infty\le d_2\le\sqrt2\,d_\infty$. אז $d_2(x_k,x)\to0$
+          אם ורק אם $d_\infty(x_k,x)\to0$.
+        misconception: MC-c1-one-distance
+    reasons:
+      - text: '$d_\infty\le d_2\le\sqrt2\,d_\infty$, ולכן כל אחד מהמרחקים לגבול שואף ל-0 אם ורק אם השני שואף'
+        correct: true
+        feedback: >-
+          בדיוק. זה המשפט על מטריקות שקולות ליפשיץ: אותן סדרות מתכנסות ואותן קבוצות פתוחות.
+      - text: 'מספיק ש-$d_\infty\le d_2$'
+        feedback: >-
+          אי-שוויון אחד נותן רק כיוון אחד: התכנסות ב-$d_2$ גוררת התכנסות ב-$d_\infty$. לכיוון ההפוך צריך גם
+          $d_2\le\sqrt2\,d_\infty$.
+        misconception: MC-c1-lipschitz-equiv-one-side
+      - text: 'כי שתיהן מתכנסות אם ורק אם הקואורדינטה הראשונה מתכנסת'
+        feedback: >-
+          צריך את **שתי** הקואורדינטות: $(\frac1k,(-1)^k)$ אינה מתכנסת באף אחת מהמטריקות.
+        misconception: MC-c1-one-coordinate
+    hints:
+      - 'חזרו לשיעור 1.7: שקילות ליפשיץ, ולשיעור 1.5: התכנסות לפי קואורדינטות.'
+
+  - id: Q-1-review-13
+    type: twotier
+    objectives: [OBJ-1.6-1, OBJ-1.5-2, OBJ-1.5-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      נכון או לא: אם הגרף $\{(x,f(x)):x\in\mathbb{R}\}$ של $f:\mathbb{R}\to\mathbb{R}$ הוא קבוצה סגורה ב-$\mathbb{R}^2$,
+      אז $f$ רציפה.
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: >-
+          נכון. הכיוון ההפוך נכון (גרף של פונקציה רציפה סגור), אבל הטענה עצמה נכשלת.
+      - text: נכון
+        feedback: >-
+          $f(x)=\frac1x$ ל-$x\neq0$ ו-$f(0)=0$: הגרף סגור, ו-$f$ אינה רציפה ב-0.
+        misconception: MC-c1-closed-graph-converse
+    reasons:
+      - text: 'ל-$f(x)=\frac1x$, $f(0)=0$ הגרף סגור: אם $(x_n,f(x_n))\to(a,b)$ עם $a\neq0$ אז $b=\frac1a$; ו-$a=0$ אפשרי רק כש-$x_n=0$ מ-$N$ והלאה, כי אחרת $|f(x_n)|\to\infty$'
+        correct: true
+        feedback: >-
+          בדיוק. הגרף הוא ההיפרבולה ועוד הנקודה $(0,0)$, וכל אחד מהם סגור. הרציפות נכשלת כי $f$ "בורחת" לאינסוף, לא
+          כי הגרף פתוח.
+      - text: 'אם $x_n\to a$ אז $(x_n,f(x_n))$ מתכנסת, ולכן $f(x_n)\to f(a)$'
+        feedback: >-
+          שום דבר לא מבטיח ש-$(x_n,f(x_n))$ מתכנסת: עם $x_n=\frac1n$ ו-$f=\frac1x$ הקואורדינטה השנייה שואפת לאינסוף.
+          סגירות מדברת רק על סדרות **מתכנסות**.
+        misconception: MC-c1-closed-graph-converse
+      - text: 'הגרף של כל פונקציה סגור'
+        feedback: >-
+          לא: ל-$f=\mathbb{1}_{(0,\infty)}$ הנקודה $(0,1)$ היא גבול של $(\frac1n,1)$ ואינה בגרף, כי $f(0)=0$.
+        misconception: MC-c1-few-sequences
+    hints:
+      - 'חזרו לשיעור 1.6: רציפות בעזרת סדרות, ולשיעור 1.5: קבוצה סגורה מכילה את גבולות הסדרות שלה.'
+
+  - id: Q-1-review-14
+    type: twotier
+    objectives: [OBJ-1.8-3, OBJ-1.5-2, OBJ-1.3-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      האם $K=\{f\in C[0,1]: f(0)=0\}$ סגורה ב-$(C[0,1],\|\cdot\|_1)$, עם $\|f\|_1=\int_0^1|f|$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. בנורמת הסופרמום $K$ סגורה (שיעור 1.5), אבל לא בנורמת האינטגרל.
+      - text: כן
+        feedback: >-
+          $g_n(x)=\min(1,nx)\in K$ ו-$\|g_n-1\|_1=\frac1{2n}\to0$, אבל $1\notin K$.
+        misconception: MC-c1-one-distance
+    reasons:
+      - text: '$g_n=\min(1,nx)\in K$ ו-$\|g_n-1\|_1=\frac1{2n}\to0$, אבל הפונקציה הקבועה $1\notin K$'
+        correct: true
+        feedback: >-
+          בדיוק: סדרה מ-$K$ עם גבול מחוץ ל-$K$. הסיבה העמוקה: $f\mapsto f(0)$ אינה חסומה בנורמת האינטגרל (שיעור 1.8),
+          והגרעין שלה אפילו צפוף.
+      - text: '$K=\varphi^{-1}(\{0\})$ עם $\varphi(f)=f(0)$, מקור של סגורה תחת פונקציה רציפה'
+        feedback: >-
+          $\varphi$ רציפה בנורמת הסופרמום, לא בנורמת האינטגרל: $f_n=\max(0,1-nx)\to0$ ב-$\|\cdot\|_1$ ו-$f_n(0)=1$.
+        misconception: MC-c1-linear-always-continuous
+      - text: '$K$ אינה פתוחה, ולכן אינה סגורה'
+        feedback: >-
+          אי-פתיחות לא אומרת דבר על סגירות. בנורמת הסופרמום, למשל, $K$ אינה פתוחה **וכן** סגורה.
+        misconception: MC-c1-open-not-closed
+    hints:
+      - 'חזרו לשיעור 1.8: פונקציונל לא חסום, ולשיעור 1.5: האפיון הסדרתי של סגירות.'
+
+  - id: Q-1-review-15
+    type: twotier
+    objectives: [OBJ-1.4-1, OBJ-1.2-1]
+    qualitative: true
+    level: exam
+    prompt: >-
+      נכון או לא: בכל מרחב נורמי $V\neq\{0\}$, לכל $x$ ולכל $r>0$, $\overline{B(x,r)}=B[x,r]$.
+    choices:
+      - text: נכון
+        correct: true
+        feedback: >-
+          נכון. ההכלה $\subseteq$ נכונה בכל מרחב מטרי; ההכלה ההפוכה משתמשת במבנה הלינארי.
+      - text: לא נכון, המטריקה הבדידה היא דוגמה נגדית
+        feedback: >-
+          המטריקה הבדידה אינה באה מנורמה (היא חסומה). במרחב נורמי אפשר "ללכת על הקטע" מ-$x$ ל-$y$, ושם השוויון נכון.
+        misconception: MC-c1-every-metric-norm
+    reasons:
+      - text: 'אם $\|y-x\|=r$, אז $y_n=x+(1-\frac1n)(y-x)\in B(x,r)$ ו-$\|y_n-y\|=\frac rn\to0$, ולכן $y\in\overline{B(x,r)}$'
+        correct: true
+        feedback: >-
+          בדיוק: נקודות על הספרה הן גבולות של נקודות מהקטע שמחבר אותן למרכז. במטריקה הבדידה אין "קטע", ולכן שם זה נכשל.
+      - text: 'בכל מרחב מטרי הסגור של כדור פתוח הוא הכדור הסגור'
+        feedback: >-
+          לא: במטריקה הבדידה $\overline{B(x,1)}=\{x\}\neq X=B[x,1]$. כאן הטענה נכונה בגלל הנורמה.
+        misconception: MC-c1-closure-of-ball
+      - text: 'הכדור הסגור הוא קבוצה סגורה, ולכן הוא הסגור של כל קבוצה שמוכלת בו'
+        feedback: >-
+          קבוצה סגורה שמכילה את $A$ מכילה את $\overline A$, אבל לא חייבת להיות שווה לו: $[0,5]\supseteq(0,1)$.
+        misconception: MC-c1-interior-closure-swap
+    hints:
+      - 'חזרו לשיעור 1.4: הסגור של כדור במטריקה הבדידה, ולשיעור 1.2: מטריקה שבאה מנורמה.'

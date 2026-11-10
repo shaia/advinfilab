@@ -1,0 +1,382 @@
+# Chapter 11 exam questions — original, in the style of an 80315 final (not taken from a real exam).
+# Each is worth 25 points in lettered parts, with at least one open part graded against a model solution and a rubric.
+chapter: 9
+questions:
+  - id: Q-9-exam-1
+    type: exam
+    title: סכומי דרבו ותנודה
+    prompt: >-
+      $Q=[0,1]^2$, ו-$P_n$ החלוקה האחידה של $Q$ ל-$n\times n$ ריבועים. נתונות $f(x,y)=x+y$, ו-$g(x,y)=x+y$ כש-$x$
+      אי-רציונלי, $g(x,y)=0$ כש-$x$ רציונלי.
+    parts:
+      - label: א
+        points: 5
+        type: numeric
+        objectives: [OBJ-9.1-3]
+        prompt: >-
+          חשבו את $U(f,P_{10})-L(f,P_{10})$.
+        answer: 0.2
+        tolerance: 0.001
+        correctFeedback: >-
+          נכון. על הריבוע ה-$(i,j)$ הסופרמום $\frac{i+j}{n}$ (פינה ימנית עליונה) והאינפימום $\frac{i+j-2}{n}$, ולכן
+          ההפרש $\frac2n$ על כל ריבוע. סכום השטחים 1, ולכן $U-L=\frac2n=\frac15$.
+        wrongFeedback: >-
+          $f$ עולה בשני המשתנים. על ריבוע שצלעו $\frac1n$ חשבו $M_S(f)-m_S(f)$, והכפילו בסכום השטחים של כל הריבועים.
+        commonWrong:
+          - value: 0
+            feedback: >-
+              $f$ רציפה, אבל אינה קבועה על אף ריבוע, ולכן $M_S(f)>m_S(f)$ בכל ריבוע. אינטגרביליות אומרת שההפרש **קטן
+              כרצוננו**, לא שהוא 0.
+            misconception: MC-c9-integrable-needs-equal-sums
+
+      - label: ב
+        points: 10
+        type: open
+        objectives: [OBJ-9.1-3, OBJ-3.4-2]
+        prompt: >-
+          הוכיחו שכל פונקציה רציפה $h:R\to\mathbb{R}$ על תיבה $R\subseteq\mathbb{R}^n$ אינטגרבילית על $R$, בעזרת
+          הקריטריון "לכל $\varepsilon>0$ יש חלוקה $P$ עם $U(h,P)-L(h,P)<\varepsilon$".
+        solution:
+          - kind: given
+            text: '$R\subseteq\mathbb{R}^n$ תיבה, $h:R\to\mathbb{R}$ רציפה.'
+          - kind: goal
+            text: 'לכל $\varepsilon>0$ יש חלוקה $P$ של $R$ עם $U(h,P)-L(h,P)<\varepsilon$.'
+          - kind: idea
+            text: >-
+              $R$ קומפקטית, ולכן $h$ חסומה ורציפה במידה שווה. בחלוקה שבה כל תת-תיבה קטנה מספיק, ההפרש
+              $M_S(h)-m_S(h)$ קטן בכל תת-תיבה, ואז הסכום של ההפרשים כפול הנפחים קטן כי סכום הנפחים הוא $v(R)$.
+          - kind: theorem
+            text: >-
+              $R$ סגורה וחסומה, ולכן קומפקטית (היינה-בורל). $h$ רציפה על קומפקטית, ולכן חסומה ומקבלת מקסימום ומינימום על
+              כל תת-קבוצה קומפקטית, ולפי משפט קנטור רציפה במידה שווה.
+          - kind: step
+            text: >-
+              יהי $\varepsilon>0$ ו-$\eta=\frac{\varepsilon}{2v(R)}$. יש $\delta>0$ כך ש-$|h(x)-h(y)|<\eta$ לכל
+              $x,y\in R$ עם $\|x-y\|<\delta$.
+          - kind: step
+            text: >-
+              תהי $P$ החלוקה האחידה שמחלקת כל צלע ל-$N$ קטעים שווים. הקוטר של כל תת-תיבה הוא $\frac{\operatorname{diam}R}{N}$,
+              ובוחרים $N$ כך שזה קטן מ-$\delta$.
+          - kind: step
+            text: >-
+              כל תת-תיבה $S$ קומפקטית, ולכן יש $x_S,y_S\in S$ עם $h(x_S)=M_S(h)$ ו-$h(y_S)=m_S(h)$. כי
+              $\|x_S-y_S\|\le\operatorname{diam}S<\delta$, מתקיים $M_S(h)-m_S(h)<\eta$.
+          - kind: computation
+            text: >-
+              $U(h,P)-L(h,P)=\sum_S\bigl(M_S(h)-m_S(h)\bigr)v(S)<\eta\sum_S v(S)=\eta\,v(R)=\frac\varepsilon2<\varepsilon$.
+          - kind: result
+            text: 'לפי הקריטריון, $h$ אינטגרבילית על $R$.'
+        rubric:
+          - text: 'חסימות ורציפות במידה שווה של $h$ מנומקות בקומפקטיות של $R$ (היינה-בורל ומשפט קנטור)'
+            weight: 2
+          - text: 'בחירת חלוקה שבה הקוטר של כל תת-תיבה קטן מ-$\delta$, עם הסבר שהיא קיימת'
+            weight: 2
+          - text: 'החסם $M_S(h)-m_S(h)<\eta$ בכל תת-תיבה (דרך נקודות שבהן מתקבלים המקסימום והמינימום, או דרך סופרמום ואינפימום)'
+            weight: 3
+          - text: 'החשבון $U-L<\eta\,v(R)$ עם $\eta$ שנבחר כך שהתוצאה קטנה מ-$\varepsilon$, והפעלת הקריטריון'
+            weight: 3
+
+      - label: ג
+        points: 4
+        type: numeric
+        objectives: [OBJ-9.3-1]
+        prompt: >-
+          חשבו את התנודה $o\bigl(g,(\tfrac12,\tfrac13)\bigr)$.
+        answer: 0.8333333
+        tolerance: 0.001
+        correctFeedback: >-
+          נכון, $\frac56$. בכל כדור סביב הנקודה יש נקודות עם $x$ רציונלי, שבהן $g=0$, ונקודות עם $x$ אי-רציונלי, שבהן
+          $g=x+y$, קרוב ל-$\frac12+\frac13$. לכן ההפרש סופרמום-אינפימום שואף ל-$\frac56-0$.
+        wrongFeedback: >-
+          חשבו את הסופרמום ואת האינפימום של $g$ על כדור קטן סביב $(\frac12,\frac13)$: אילו ערכים $g$ מקבלת שם, בנקודות
+          עם $x$ רציונלי ועם $x$ אי-רציונלי?
+        commonWrong:
+          - value: 0
+            feedback: >-
+              $g(\tfrac12,\tfrac13)=0$, וכך גם בכל נקודה קרובה עם $x$ רציונלי. אבל התנודה לוקחת סופרמום על **כל** הכדור,
+              ובנקודות עם $x$ אי-רציונלי $g\approx\frac56$.
+            misconception: MC-c9-darboux-sample-point
+
+      - label: ד
+        points: 6
+        type: twotier
+        objectives: [OBJ-9.3-3]
+        qualitative: true
+        prompt: >-
+          האם $g$ אינטגרבילית על $Q$?
+        choices:
+          - text: לא
+            correct: true
+            feedback: 'נכון. נקודות האי-רציפות של $g$ ממלאות כמעט את כל הריבוע.'
+          - text: כן, ו-$\int_Q g=\int_Q f=1$
+            feedback: >-
+              $g$ שונה מ-$f$ רק על $(\mathbb{Q}\cap[0,1])\times[0,1]$, קבוצה ממידה אפס, אבל זה לא מה שקובע. משפט לבג שואל
+              על נקודות האי-רציפות של $g$.
+            misconception: MC-c9-change-countable-points
+        reasons:
+          - text: 'כמו בסעיף ג, $o(g,(x,y))=x+y>0$ בכל נקודה פרט לראשית, ולכן קבוצת נקודות האי-רציפות היא $Q\setminus\{(0,0)\}$, שאינה ממידה אפס'
+            correct: true
+            feedback: >-
+              בדיוק. גם ישירות: בכל תת-תיבה יש נקודות עם $x$ רציונלי, ולכן $L(g,P)=0$, ואילו $U(g,P)=U(f,P)\ge1$.
+          - text: '$g=f$ פרט לקבוצה ממידה אפס, ולכן $g$ אינטגרבילית עם אותו אינטגרל'
+            feedback: >-
+              פונקציית דיריכלה שווה ל-0 פרט לקבוצה ממידה אפס, ואינה אינטגרבילית. שינוי על קבוצה צפופה יוצר אי-רציפות בכל
+              מקום.
+            misconception: MC-c9-change-countable-points
+          - text: '$g$ אינה רציפה רק בנקודות עם $x$ רציונלי, קבוצה ממידה אפס, ולכן אינטגרבילית'
+            feedback: >-
+              גם בנקודות עם $x$ אי-רציונלי $g$ אינה רציפה: בכל כדור סביבן יש נקודות עם $x$ רציונלי שבהן $g=0$, ואילו
+              $g=x+y>0$ בנקודה עצמה.
+            misconception: MC-c9-discontinuities-only-special-points
+
+  - id: Q-9-exam-2
+    type: exam
+    title: השטח מתחת לגרף
+    prompt: >-
+      $g:[0,1]\to[0,1]$, $\Gamma_g=\{(x,g(x)): 0\le x\le1\}$ הגרף שלה, ו-$E_g=\{(x,y): 0\le x\le1,\ 0\le y\le g(x)\}$
+      הקבוצה שמתחת לגרף.
+    parts:
+      - label: א
+        points: 10
+        type: open
+        objectives: [OBJ-9.2-3]
+        prompt: >-
+          נניח ש-$g$ רציפה. הוכיחו ש-$\Gamma_g$ בעלת תכולה אפס ב-$\mathbb{R}^2$.
+        solution:
+          - kind: given
+            text: '$g:[0,1]\to[0,1]$ רציפה.'
+          - kind: goal
+            text: 'לכל $\varepsilon>0$ יש מספר סופי של מלבנים שמכסים את $\Gamma_g$ וסכום שטחיהם קטן מ-$\varepsilon$.'
+          - kind: idea
+            text: >-
+              מחלקים את $[0,1]$ לקטעים קצרים. מעל כל קטע הגרף כלוא במלבן שרוחבו אורך הקטע וגובהו ההפרש בין המקסימום
+              למינימום של $g$ עליו; רציפות במידה שווה עושה את כל הגבהים קטנים בבת אחת.
+          - kind: theorem
+            text: >-
+              $[0,1]$ קומפקטי, ולכן לפי משפט קנטור $g$ רציפה בו במידה שווה, ועל כל קטע סגור היא מקבלת מקסימום ומינימום.
+          - kind: step
+            text: >-
+              יהי $\varepsilon>0$. יש $\delta>0$ כך ש-$|g(s)-g(t)|<\varepsilon$ כש-$|s-t|<\delta$. בוחרים $n$ עם
+              $\frac1n<\delta$ ומחלקים את $[0,1]$ לקטעים $I_k=[\frac{k-1}{n},\frac kn]$, $k=1,\dots,n$.
+          - kind: step
+            text: >-
+              יהיו $M_k=\max_{I_k}g$ ו-$m_k=\min_{I_k}g$, שמתקבלים בנקודות של $I_k$ שהמרחק ביניהן קטן מ-$\delta$; לכן
+              $M_k-m_k<\varepsilon$. הגרף מעל $I_k$ מוכל במלבן $I_k\times[m_k,M_k]$.
+          - kind: computation
+            text: >-
+              המלבנים $I_k\times[m_k,M_k]$, $k=1,\dots,n$, מכסים את $\Gamma_g$, וסכום שטחיהם
+              $\sum_k\frac1n(M_k-m_k)<n\cdot\frac1n\cdot\varepsilon=\varepsilon$.
+          - kind: result
+            text: '$\Gamma_g$ מכוסה במספר סופי של מלבנים בסכום שטחים קטן מ-$\varepsilon$, לכל $\varepsilon>0$: היא בעלת תכולה אפס.'
+        rubric:
+          - text: 'רציפות במידה שווה של $g$ מנומקת במשפט קנטור (הקומפקטיות של $[0,1]$)'
+            weight: 2
+          - text: 'חלוקה של $[0,1]$ לקטעים שאורכם קטן מ-$\delta$'
+            weight: 2
+          - text: 'הכלה של הגרף מעל כל קטע במלבן שגובהו קטן מ-$\varepsilon$'
+            weight: 3
+          - text: 'סכום השטחים קטן מ-$\varepsilon$, והכיסוי **סופי**'
+            weight: 3
+
+      - label: ב
+        points: 5
+        type: mc
+        objectives: [OBJ-9.4-1]
+        qualitative: true
+        prompt: >-
+          נניח ש-$g$ רציפה. למה ל-$E_g$ יש שטח?
+        choices:
+          - text: '$\partial E_g\subseteq\Gamma_g\cup([0,1]\times\{0\})\cup(\{0\}\times[0,g(0)])\cup(\{1\}\times[0,g(1)])$, איחוד סופי של קבוצות בעלות תכולה אפס; לכן $\partial E_g$ ממידה אפס'
+            correct: true
+            feedback: >-
+              נכון. נקודה של $E_g$ שאינה על אחד הקטעים או על הגרף היא נקודת פנים (בזכות הרציפות של $g$), ונקודה מחוץ ל-$E_g$
+              היא נקודת פנים של המשלים.
+          - text: '$E_g$ סגורה וחסומה, ולכל קבוצה קומפקטית יש שטח'
+            feedback: >-
+              $E_g$ אכן קומפקטית, אבל לא לכל קבוצה קומפקטית יש שטח. "קבוצת קנטור שמנה" ב-$[0,1]$ (מוחקים בשלב $k$ קטעים
+              קצרים יותר, כך שסך האורך שנמחק $\frac12$) קומפקטית עם פנים ריק, ולכן היא השפה של עצמה, והיא אינה ממידה אפס.
+            misconception: MC-c9-bounded-has-volume
+          - text: 'הפנים של $E_g$ קבוצה פתוחה וחסומה, ולכל קבוצה פתוחה וחסומה יש שטח'
+            feedback: >-
+              לא לכל קבוצה פתוחה וחסומה יש שטח: איחוד של קטעים פתוחים קצרים סביב כל הרציונליים ב-$[0,1]$ הוא דוגמה נגדית.
+            misconception: MC-c9-open-has-volume
+          - text: '$\chi_{E_g}$ אינה רציפה רק בנקודות הפנים של $E_g$, ושם $g$ רציפה'
+            feedback: >-
+              בנקודות הפנים $\chi_{E_g}$ קבועה 1 בסביבה, ולכן רציפה. נקודות האי-רציפות הן בדיוק נקודות השפה.
+            misconception: MC-c9-indicator-disc-interior
+
+      - label: ג
+        points: 5
+        type: numeric
+        objectives: [OBJ-9.4-2, OBJ-9.5-2]
+        prompt: >-
+          חשבו את השטח של $E_g$ עבור $g(x)=x^2$.
+        answer: 0.3333333
+        tolerance: 0.001
+        correctFeedback: >-
+          נכון, $\frac13$. $v(E_g)=\iint\chi_{E_g}=\int_0^1\left(\int_0^{x^2}dy\right)dx=\int_0^1x^2\,dx=\frac13$ לפי פוביני.
+        wrongFeedback: >-
+          לכל $x\in[0,1]$, $y$ רץ מ-0 עד $g(x)=x^2$.
+        commonWrong:
+          - value: 0.6666667
+            feedback: >-
+              $\frac23=\int_0^1(1-x^2)\,dx$ הוא השטח **מעל** הגרף בתוך הריבוע: לקחתם את $y$ מ-$x^2$ עד 1.
+            misconception: MC-c9-iterated-bounds
+
+      - label: ד
+        points: 5
+        type: twotier
+        objectives: [OBJ-9.4-3]
+        qualitative: true
+        prompt: >-
+          עכשיו $g=\chi_{\mathbb{Q}\cap[0,1]}$ (1 ברציונליים, 0 באי-רציונליים). האם ל-$E_g$ יש שטח?
+        choices:
+          - text: לא
+            correct: true
+            feedback: 'נכון. $E_g$ חסומה, אבל השפה שלה היא כל הריבוע.'
+          - text: כן
+            feedback: >-
+              $E_g$ חסומה וממידה אפס, ובכל זאת אין לה שטח: שטח נקבע לפי השפה.
+            misconception: MC-c9-bounded-has-volume
+        reasons:
+          - text: '$E_g=([0,1]\times\{0\})\cup((\mathbb{Q}\cap[0,1])\times[0,1])$; הסגור שלה $[0,1]^2$ והפנים ריק, ולכן $\partial E_g=[0,1]^2$, שאינה ממידה אפס'
+            correct: true
+            feedback: >-
+              בדיוק. ובשפת הסכומים: בכל חלוקה של $[0,1]^2$, $U(\chi_{E_g},P)=1$ ו-$L(\chi_{E_g},P)=0$.
+          - text: '$E_g$ ממידה אפס (איחוד בן מנייה של קטעים), ולכן יש לה שטח 0'
+            feedback: >-
+              $E_g$ אכן ממידה אפס, אבל זה לא נותן שטח: גם $\mathbb{Q}\cap[0,1]$ ממידה אפס ואין לה אורך.
+            misconception: MC-c9-measure-zero-has-volume
+          - text: '$g$ חסומה, ולכן לקבוצה שמתחת לגרף שלה יש שטח'
+            feedback: >-
+              חסימות של $g$ נותנת רק ש-$E_g$ חסומה. כאן השטח "מתחת לגרף" היה צריך להיות $\int_0^1g$, ו-$g$ היא פונקציית
+              דיריכלה, שאינה אינטגרבילית.
+            misconception: MC-c9-bounded-has-volume
+
+  - id: Q-9-exam-3
+    type: exam
+    title: פוביני והחלפת משתנים
+    prompt: >-
+      בשאלה זו מחשבים נפחים ואינטגרלים בעזרת משפט פוביני ומשפט החלפת המשתנים.
+    parts:
+      - label: א
+        points: 6
+        type: numeric
+        objectives: [OBJ-9.5-2]
+        prompt: >-
+          חשבו את הנפח של $K=\{(x,y,z): y^2+z^2\le x,\ 0\le x\le1\}$. הנפח הוא $c\pi$; הקלידו את $c$.
+        answer: 0.5
+        tolerance: 0.001
+        correctFeedback: >-
+          נכון, $v(K)=\frac\pi2$. החתך במישור $x$ קבוע הוא העיגול $y^2+z^2\le x$, שהרדיוס שלו $\sqrt x$ והשטח שלו $\pi x$,
+          ולפי פוביני $v(K)=\int_0^1\pi x\,dx=\frac\pi2$. (זה פרבולואיד שצירו ציר $x$.)
+        wrongFeedback: >-
+          חתכו במישורים שבהם $x$ קבוע. כתבו את החתך כ-$y^2+z^2\le\rho^2$ וזהו את $\rho$.
+        commonWrong:
+          - value: 0.3333333
+            feedback: >-
+              $\frac13$ מתקבל משטח חתך $\pi x^2$, כאילו הרדיוס $x$; זה הנפח של חרוט. $y^2+z^2\le x$ פירושו רדיוס $\sqrt x$.
+            misconception: MC-c9-slice-radius
+
+      - label: ב
+        points: 10
+        type: open
+        objectives: [OBJ-9.6-2, OBJ-9.5-2]
+        prompt: >-
+          ל-$R>0$ יהי $I(R)=\int_{-R}^{R}e^{-x^2}\,dx$. הוכיחו ש-
+
+          $$\pi\left(1-e^{-R^2}\right)\le I(R)^2\le\pi\left(1-e^{-2R^2}\right),$$
+
+          והסיקו ש-$\int_{-\infty}^{\infty}e^{-x^2}\,dx=\sqrt\pi$.
+        solution:
+          - kind: given
+            text: '$h(x,y)=e^{-x^2-y^2}>0$, הריבוע $S_R=[-R,R]^2$, והעיגול הסגור $D_\rho=\{x^2+y^2\le\rho^2\}$.'
+          - kind: goal
+            text: 'החסמים על $I(R)^2$, ו-$\lim_{R\to\infty}I(R)=\sqrt\pi$.'
+          - kind: idea
+            text: >-
+              מתקיים $D_R\subseteq S_R\subseteq D_{R\sqrt2}$. על הריבוע פוביני מפרק את האינטגרל של $h$ למכפלה $I(R)^2$; על
+              העיגולים קוטביות נותנות נוסחה סגורה. כי $h>0$, האינטגרל מונוטוני בתחום.
+          - kind: theorem
+            text: >-
+              פוביני ($h$ רציפה על $S_R$):
+              $\iint_{S_R}h=\int_{-R}^{R}e^{-x^2}\left(\int_{-R}^{R}e^{-y^2}dy\right)dx=I(R)^2$.
+          - kind: computation
+            text: >-
+              קוטביות על $(0,\rho)\times(0,2\pi)$ (מה שנשאר מחוץ לתמונה הוא בעל תכולה אפס):
+              $\iint_{D_\rho}h=\int_0^{2\pi}\int_0^{\rho}e^{-r^2}r\,dr\,d\theta=2\pi\left[-\tfrac12e^{-r^2}\right]_0^{\rho}=\pi\left(1-e^{-\rho^2}\right)$.
+          - kind: step
+            text: >-
+              כל נקודה של $S_R$ מקיימת $x^2+y^2\le2R^2$, ולכן $D_R\subseteq S_R\subseteq D_{R\sqrt2}$. כי $h>0$,
+              $h\chi_{D_R}\le h\chi_{S_R}\le h\chi_{D_{R\sqrt2}}$, ומונוטוניות האינטגרל נותנת
+              $\pi(1-e^{-R^2})\le I(R)^2\le\pi(1-e^{-2R^2})$.
+          - kind: step
+            text: >-
+              כש-$R\to\infty$ שני החסמים שואפים ל-$\pi$, ולכן $I(R)^2\to\pi$. כי $I(R)>0$, $I(R)\to\sqrt\pi$, וזו בדיוק
+              ההגדרה של האינטגרל המוכלל $\int_{-\infty}^{\infty}e^{-x^2}dx$ (האינטגרנד חיובי, ולכן הגבול על הקטעים
+              הסימטריים קובע אותו).
+          - kind: check
+            text: 'ב-$R=1$: $I(1)^2\approx2.231$, בין $\pi(1-e^{-1})\approx1.986$ ל-$\pi(1-e^{-2})\approx2.716$.'
+          - kind: result
+            text: '$\pi(1-e^{-R^2})\le I(R)^2\le\pi(1-e^{-2R^2})$ לכל $R>0$, ו-$\int_{-\infty}^{\infty}e^{-x^2}dx=\sqrt\pi$.'
+        rubric:
+          - text: '$\iint_{S_R}h=I(R)^2$ בעזרת פוביני, עם נימוק שמותר (רציפות)'
+            weight: 2
+          - text: 'חישוב האינטגרל על עיגול בקוטביות, כולל הגורם $r$, עם התוצאה $\pi(1-e^{-\rho^2})$'
+            weight: 3
+          - text: 'ההכלות $D_R\subseteq S_R\subseteq D_{R\sqrt2}$ והמונוטוניות (בזכות $h>0$)'
+            weight: 3
+          - text: 'מעבר לגבול: שני החסמים שואפים ל-$\pi$, ומכאן $\sqrt\pi$ (עם הסימן החיובי של $I(R)$)'
+            weight: 2
+
+      - label: ג
+        points: 4
+        type: twotier
+        objectives: [OBJ-9.5-3]
+        qualitative: true
+        prompt: >-
+          סטודנטית חישבה $\int_0^1\left(\int_0^1\frac{x^2-y^2}{(x^2+y^2)^2}\,dy\right)dx=\frac\pi4$, והסיקה "לפי פוביני"
+          שגם האינטגרל הנשנה בסדר ההפוך שווה ל-$\frac\pi4$. האם המסקנה נכונה?
+        choices:
+          - text: לא
+            correct: true
+            feedback: 'נכון. בסדר ההפוך מתקבל $-\frac\pi4$.'
+          - text: כן
+            feedback: >-
+              פוביני מבטיח שוויון רק לפונקציה אינטגרבילית על התיבה. כאן שני הסדרים נותנים $\frac\pi4$ ו-$-\frac\pi4$.
+            misconception: MC-c9-fubini-always-swap
+        reasons:
+          - text: 'הפונקציה אינה חסומה ליד הראשית, ולכן אינה אינטגרבילית לפי רימן על $[0,1]^2$ ופוביני אינו חל; והחלפת התפקידים של $x$ ו-$y$ הופכת את סימנה, ולכן הסדר ההפוך נותן $-\frac\pi4$'
+            correct: true
+            feedback: >-
+              בדיוק: ההנחה שנכשלת היא אינטגרביליות (חסימות) של $f$, לא הקיום של האינטגרלים הנשנים.
+          - text: 'הפונקציה רציפה על $(0,1]^2$, ולכן אינטגרבילית ופוביני חל'
+            feedback: >-
+              רציפות על קבוצה שאינה קומפקטית אינה נותנת חסימות. $f(x,0^+)$ מתנהגת כמו $\frac1{x^2}$, ובלי חסימות אין סכומי
+              דרבו.
+            misconception: MC-c9-unbounded-darboux
+          - text: 'הסדר ההפוך תמיד נותן את מינוס התוצאה, כי החלפת הסדר הופכת את הסימן'
+            feedback: >-
+              החלפת סדר אינטגרציה אינה הופכת סימן. כאן הסימן מתהפך בגלל התכונה $f(y,x)=-f(x,y)$, ושני הסדרים שונים רק
+              כי $f$ אינה אינטגרבילית.
+            misconception: MC-c9-fubini-always-swap
+
+      - label: ד
+        points: 5
+        type: numeric
+        objectives: [OBJ-9.6-3]
+        prompt: >-
+          חשבו בקואורדינטות גליליות את הנפח של $\{(x,y,z): x^2+y^2\le z\le4\}$. הנפח הוא $c\pi$; הקלידו את $c$.
+        answer: 8
+        tolerance: 0.001
+        correctFeedback: >-
+          נכון, $c=8$. התחום הוא $r^2\le z\le4$, $0\le r\le2$, ולכן
+          $\int_0^{2\pi}\int_0^2(4-r^2)\,r\,dr\,d\theta=2\pi\left(8-4\right)=8\pi$.
+        wrongFeedback: >-
+          לכל $(r,\theta)$, $z$ רץ מ-$r^2$ עד 4, ו-$r$ רץ מ-0 עד 2. אל תשכחו את הגורם $r$.
+        commonWrong:
+          - value: 10.6666667
+            feedback: >-
+              $\frac{32}{3}$ מתקבל מ-$2\pi\int_0^2(4-r^2)\,dr$, בלי הגורם $r$. בקואורדינטות גליליות
+              $dV=r\,dr\,d\theta\,dz$: הגורם $r$ הוא היעקוביאן, והוא נכנס גם כשהאינטגרנד אינו תלוי ב-$r$.
+            misconception: MC-c9-forget-jacobian

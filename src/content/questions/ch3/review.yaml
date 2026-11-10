@@ -1,0 +1,421 @@
+# Chapter 3 review — compactness (lessons 3.1–3.6), easy to hard.
+# Every lesson is touched; most questions combine two or more lessons, some reach back to chapters 1–2.
+# Each hint names the lesson to go back to.
+chapter: 3
+questions:
+  - id: Q-3-review-01
+    type: multi
+    objectives: [OBJ-3.2-3, OBJ-3.1-3]
+    level: basic
+    prompt: >-
+      אילו מהקבוצות הבאות קומפקטיות (כל אחת במרחב שלה)? סמנו את כולן.
+    choices:
+      - text: 'הקובייה $[0,1]^3$ ב-$\mathbb{R}^3$'
+        correct: true
+        feedback: 'נכון: סגורה וחסומה ב-$\mathbb{R}^3$, ולכן קומפקטית לפי היינה-בורל.'
+      - text: '$\{x\in\mathbb{R}^3: \|x\|_1\le1\}$'
+        correct: true
+        feedback: >-
+          נכון: סגורה (מקור של $(-\infty,1]$ תחת פונקציה רציפה) וחסומה ($\|x\|_2\le\|x\|_1$).
+      - text: 'קבוצה סופית במרחב מטרי כלשהו'
+        correct: true
+        feedback: >-
+          נכון: בסדרה בקבוצה סופית אחד הערכים חוזר אינסוף פעמים, וזו תת-סדרה קבועה ומתכנסת.
+      - text: 'כדור היחידה הסגור של $B(\mathbb{N})$ עם נורמת הסופרמום'
+        feedback: >-
+          סגור וחסום ואינו קומפקטי: $\|e_j-e_k\|_\infty=1$, ולסדרה $(e_k)$ אין תת-סדרה מתכנסת.
+        misconception: MC-c3-closed-bounded-compact
+      - text: '$\mathbb{N}$ עם המטריקה הבדידה'
+        feedback: >-
+          סגור וחסום ואינו קומפקטי: בסדרה $1,2,3,\dots$ אין תת-סדרה מתכנסת, כי במטריקה הבדידה סדרה מתכנסת קבועה מאיזשהו מקום.
+        misconception: MC-c3-closed-bounded-compact
+    hints:
+      - 'חזרו לשיעור 3.2: משפט היינה-בורל, ולשיעור 3.1: קבוצות סגורות וחסומות שאינן קומפקטיות.'
+
+  - id: Q-3-review-02
+    type: twotier
+    objectives: [OBJ-3.2-1, OBJ-3.1-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $K=\{0\}\cup\{\frac1n: n\in\mathbb{N}\}\subseteq\mathbb{R}$. האם לכל כיסוי פתוח של $K$ יש תת-כיסוי סופי?
+    choices:
+      - text: כן
+        correct: true
+        feedback: 'נכון: $K$ קומפקטית, ואפשר להראות זאת ישירות בכיסויים.'
+      - text: לא
+        feedback: >-
+          הקבוצה שמכסה את 0 מכילה כדור סביבו, ולכן כמעט את כל הנקודות $\frac1n$. נשארות רק מספר סופי.
+        misconception: MC-c3-one-cover-enough
+    reasons:
+      - text: 'קבוצת הכיסוי $U_0$ שמכילה את 0 מכילה $B(0,r)$, ולכן כל $\frac1n$ עם $n>\frac1r$; לכל אחת ממספר סופי של הנקודות הנותרות בוחרים קבוצה אחת'
+        correct: true
+        feedback: >-
+          בדיוק. הנקודה 0, שהיא הגבול, "בולעת" את הזנב, וזה מה שהיה חסר ב-$(0,1)$.
+      - text: 'בדקתי כיסוי אחד בכדורים קטנים סביב כל נקודה, ויש לו תת-כיסוי סופי'
+        feedback: >-
+          כיסוי אחד לא מספיק; ההגדרה היא "לכל כיסוי". צריך טיעון שעובד לכיסוי כלשהו, כמו הטיעון עם $U_0$.
+        misconception: MC-c3-one-cover-enough
+      - text: '$K$ חסומה, וזה מספיק'
+        feedback: >-
+          חסימות לבדה לא מספיקה: $K\setminus\{0\}$ חסומה ואינה קומפקטית (הכיסוי $(\frac1{n+1},2)$, $n\in\mathbb{N}$, הוא דוגמה).
+        misconception: MC-c3-half-heine-borel
+    hints:
+      - 'חזרו לשיעור 3.2: ההגדרה בכיסויים, ולשיעור 3.1: למה הגבול צריך להיות בתוך הקבוצה.'
+
+  - id: Q-3-review-03
+    type: numeric
+    objectives: [OBJ-3.5-1]
+    level: basic
+    prompt: >-
+      ב-$\mathbb{R}^5$: מהו הקבוע **הקטן ביותר** $C$ כך ש-$\|x\|_1\le C\|x\|_\infty$ לכל $x$?
+    answer: 5
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון: $\|x\|_1=\sum_{i=1}^5|x_i|\le5\max_i|x_i|$, ובווקטור $(1,1,1,1,1)$ יש שוויון.
+    wrongFeedback: >-
+      כל אחד מחמשת המחוברים ב-$\|x\|_1$ קטן או שווה ל-$\|x\|_\infty$. מתי יש שוויון בכולם?
+    commonWrong:
+      - value: 1
+        feedback: >-
+          $\|x\|_\infty\le\|x\|_1$ עם קבוע 1 נכון, אבל זה הכיוון ההפוך. עבור $(1,\dots,1)$: $\|x\|_1=5$ ו-$\|x\|_\infty=1$.
+        misconception: MC-c3-one-sided-bound
+    hints:
+      - 'חזרו לשיעור 3.5: הקבועים בין נורמות 1, 2 ואינסוף.'
+
+  - id: Q-3-review-04
+    type: multi
+    objectives: [OBJ-3.1-1, OBJ-3.3-1, OBJ-3.3-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      אילו מהטענות הבאות נכונות בכל מרחב מטרי? סמנו את כולן.
+    choices:
+      - text: 'קבוצה קומפקטית סגורה'
+        correct: true
+        feedback: 'נכון (שיעור 3.1): גבול של סדרה ב-$K$ הוא גם גבול של תת-סדרה, שמתכנסת לנקודה של $K$.'
+      - text: 'תת-קבוצה סגורה של קבוצה קומפקטית קומפקטית'
+        correct: true
+        feedback: >-
+          נכון: לסדרה ב-$F$ יש תת-סדרה שמתכנסת ב-$K$, והגבול ב-$F$ כי $F$ סגורה.
+      - text: 'מרחב קומפקטי שלם'
+        correct: true
+        feedback: >-
+          נכון: לסדרת קושי יש תת-סדרה מתכנסת, וסדרת קושי עם תת-סדרה מתכנסת מתכנסת (שיעור 2.1).
+      - text: 'קבוצה חסומה כליל חסומה'
+        correct: true
+        feedback: 'נכון: $1$-רשת סופית מוכלת בכדור אחד גדול.'
+      - text: 'מרחב שלם וחסום קומפקטי'
+        feedback: >-
+          צריך חסום **כליל**. $\mathbb{N}$ עם המטריקה הבדידה שלם וחסום ואינו קומפקטי.
+        misconception: MC-c3-complete-bounded-compact
+    hints:
+      - 'חזרו לשיעור 3.1: קומפקטית גורר סגורה וחסומה, ולשיעור 3.3: קומפקטי שקול לשלם וחסום כליל.'
+
+  - id: Q-3-review-05
+    type: twotier
+    objectives: [OBJ-3.4-1, OBJ-3.6-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $f:\mathbb{R}^2\to\mathbb{R}$ רציפה ו-$Q=[0,1]^2$. נכון או לא נכון: $f(Q)$ הוא קטע סגור $[m,M]$ (אולי נקודה).
+    choices:
+      - text: נכון
+        correct: true
+        feedback: 'נכון: $f(Q)$ גם קומפקטית וגם קשירה.'
+      - text: לא נכון
+        feedback: >-
+          $Q$ קומפקטי וקשיר, ושתי התכונות עוברות לתמונה: קבוצה קומפקטית וקשירה בישר היא קטע סגור.
+        misconception: MC-c3-image-of-closed
+    reasons:
+      - text: '$Q$ קומפקטי, ולכן $f(Q)$ קומפקטית: סגורה וחסומה; $Q$ קשיר (קשיר מסילתית), ולכן $f(Q)$ קטע. קטע סגור וחסום הוא $[m,M]$'
+        correct: true
+        feedback: >-
+          בדיוק. $m$ ו-$M$ הם המינימום והמקסימום של $f$ על $Q$ (שיעור 3.4), וכל ערך ביניהם מתקבל (שיעור 3.6).
+      - text: 'התמונה של קבוצה סגורה סגורה והתמונה של קבוצה חסומה חסומה'
+        feedback: >-
+          שתי הטענות שגויות בנפרד: $\arctan(\mathbb{R})$ אינה סגורה, ו-$\frac1x$ מעבירה את $(0,1]$ לקבוצה לא חסומה.
+          מה שעובר לתמונה הוא קומפקטיות.
+        misconception: MC-c3-image-of-closed
+      - text: 'קבוצה קומפקטית בישר היא קטע סגור'
+        feedback: >-
+          $\{0,1\}$ קומפקטית ואינה קטע. את היותה קטע נותנת הקשירות של $Q$.
+        misconception: MC-c3-ivt-disconnected-domain
+    hints:
+      - 'חזרו לשיעור 3.4: התמונה הרציפה של קבוצה קומפקטית, ולשיעור 3.6: התמונה הרציפה של קבוצה קשירה.'
+
+  - id: Q-3-review-06
+    type: mc
+    objectives: [OBJ-3.2-4, OBJ-3.1-1]
+    level: mid
+    prompt: >-
+      $X=(0,1]$ עם $d(x,y)=|x-y|$ אינו קומפקטי, ולכן יש בו משפחה של קבוצות **סגורות ב-$X$** עם תכונת החיתוך הסופי
+      וחיתוך ריק. איזו?
+    choices:
+      - text: '$\{(0,\frac1n]: n\in\mathbb{N}\}$'
+        correct: true
+        feedback: >-
+          נכון. $(0,\frac1n]=X\cap[0,\frac1n]$ סגורה ב-$X$; כל חיתוך סופי הוא $(0,\frac1N]\ne\emptyset$; והחיתוך הכולל ריק,
+          כי הנקודה היחידה שהייתה יכולה להיות בו, 0, אינה ב-$X$.
+      - text: '$\{(0,\frac1n): n\in\mathbb{N}\}$'
+        feedback: >-
+          לקבוצות האלה יש תכונת החיתוך הסופי וחיתוך ריק, אבל הן אינן סגורות ב-$X$: $\frac1n$ הוא גבול של נקודות של
+          $(0,\frac1n)$ ונמצא ב-$X$. הסגירות נקבעת בתוך $X$.
+        misconception: MC-c3-closed-in-itself
+      - text: '$\{\{\frac1n\}: n\in\mathbb{N}\}$'
+        feedback: >-
+          היחידונים סגורים, אבל זרים בזוגות, ולכן אין להם תכונת החיתוך הסופי.
+        misconception: MC-c3-fip-pairwise
+      - text: '$\{[\frac1n,1]: n\in\mathbb{N}\}$'
+        feedback: >-
+          הקבוצות סגורות ועולות, לא יורדות: החיתוך של כולן הוא $[1,1]=\{1\}$, לא ריק.
+        misconception: MC-c3-nested-closed
+    hints:
+      - 'חזרו לשיעור 3.2: תכונת החיתוך הסופי, ולשיעור 3.1: קומפקטיות היא תכונה של המרחב עצמו.'
+
+  - id: Q-3-review-07
+    type: twotier
+    objectives: [OBJ-3.4-1, OBJ-3.1-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $f:X\to Y$ רציפה ו-$X$ קומפקטי. נכון או לא נכון: לכל $F\subseteq X$ סגורה, $f(F)$ סגורה ב-$Y$.
+    choices:
+      - text: נכון
+        correct: true
+        feedback: 'נכון. בלי קומפקטיות של $X$ זה נכשל ($\arctan$ על $\mathbb{R}$).'
+      - text: לא נכון
+        feedback: >-
+          הדוגמה $\arctan(\mathbb{R})$ משתמשת בתחום לא קומפקטי. כאן כל סגורה ב-$X$ קומפקטית, והתמונה שלה קומפקטית.
+        misconception: MC-c3-image-of-closed
+    reasons:
+      - text: '$F$ סגורה בתוך הקומפקטי $X$, ולכן קומפקטית; $f(F)$ קומפקטית, ולכן סגורה ב-$Y$'
+        correct: true
+        feedback: >-
+          בדיוק: שלושה משפטים משיעורים 3.1 ו-3.4 בשרשרת. זה גם הצעד המרכזי בהוכחה שהעתקה הפיכה ורציפה מקומפקטי היא הומיאומורפיזם.
+      - text: 'המקור של קבוצה סגורה סגור, ולכן גם התמונה'
+        feedback: >-
+          הטענה על המקור לא מתהפכת. בלי קומפקטיות התמונה של סגורה יכולה להיות פתוחה, כמו $\arctan(\mathbb{R})$.
+        misconception: MC-c3-image-of-closed
+      - text: 'כל קבוצה סגורה, בכל מרחב, קומפקטית'
+        feedback: >-
+          $\mathbb{R}$ סגור ואינו קומפקטי. הטענה נכונה רק בתוך מרחב קומפקטי.
+        misconception: MC-c3-closed-bounded-compact
+    hints:
+      - 'חזרו לשיעור 3.1: תת-קבוצה סגורה של קומפקטית, ולשיעור 3.4: התמונה הרציפה של קבוצה קומפקטית.'
+
+  - id: Q-3-review-08
+    type: mc
+    objectives: [OBJ-3.3-2, OBJ-2.1-3]
+    level: mid
+    prompt: >-
+      מה נכון לגבי $X=\mathbb{Q}\cap[0,1]$ עם $d(x,y)=|x-y|$?
+    choices:
+      - text: 'הוא חסום כליל ואינו שלם, ולכן אינו קומפקטי; הסגור שלו ב-$\mathbb{R}$, $[0,1]$, קומפקטי'
+        correct: true
+        feedback: >-
+          נכון. הנקודות $\frac jk$ רציונליות ונותנות רשתות סופיות; סדרה רציונלית ששואפת ל-$\frac{\sqrt2}2$ היא סדרת קושי
+          בלי גבול ב-$X$.
+      - text: 'הוא קומפקטי: הוא סגור (בעצמו) וחסום'
+        feedback: >-
+          כל מרחב סגור בעצמו. הסדרה הרציונלית ששואפת ל-$\frac{\sqrt2}2$ לא מכילה תת-סדרה שמתכנסת לנקודה של $X$.
+        misconception: MC-c3-closed-in-itself
+      - text: 'הוא אינו חסום כליל, כי חסרים בו כל האי-רציונליים'
+        feedback: >-
+          החורים פוגעים בשלמות, לא בחסימות כליל: $\{0,\frac1k,\dots,1\}\subseteq X$ היא $\varepsilon$-רשת לכל $\varepsilon>\frac1{2k}$.
+        misconception: MC-c3-holes-not-tb
+      - text: 'הוא שלם, כי הוא חסום כליל'
+        feedback: >-
+          חסימות כליל ושלמות בלתי תלויות. $X$ חסום כליל ואינו שלם.
+        misconception: MC-c3-totally-bounded-compact
+    hints:
+      - 'חזרו לשיעור 3.3: קומפקטי שקול לשלם וחסום כליל, ולשיעור 2.1: הרציונליים אינם שלמים.'
+
+  - id: Q-3-review-09
+    type: multi
+    objectives: [OBJ-3.4-1, OBJ-3.6-2]
+    level: mid
+    prompt: >-
+      אילו מהקבוצות הבאות ב-$\mathbb{R}$ יכולות להיות $f([0,1])$ עבור $f:[0,1]\to\mathbb{R}$ רציפה? סמנו את כולן.
+    choices:
+      - text: '$[2,5]$'
+        correct: true
+        feedback: 'נכון: למשל $f(x)=2+3x$.'
+      - text: '$\{7\}$'
+        correct: true
+        feedback: 'נכון: הפונקציה הקבועה 7.'
+      - text: '$(0,1)$'
+        feedback: >-
+          התמונה קומפקטית, ולכן סגורה; $(0,1)$ אינה סגורה. ($f$ מקבלת מקסימום, ו-$(0,1)$ אין לה מקסימום.)
+        misconception: MC-c3-image-of-closed
+      - text: '$\mathbb{R}$'
+        feedback: >-
+          התמונה קומפקטית, ולכן חסומה: פונקציה רציפה על $[0,1]$ חסומה.
+        misconception: MC-c3-image-of-closed
+      - text: '$[0,1]\cup[2,3]$'
+        feedback: >-
+          התמונה קשירה, כלומר קטע: לפי ערך הביניים, אם $f$ מקבלת 1 ו-2 היא מקבלת גם $1.5$.
+        misconception: MC-c3-ivt-disconnected-domain
+    hints:
+      - 'חזרו לשיעור 3.4: התמונה הרציפה של קבוצה קומפקטית, ולשיעור 3.6: התמונה הרציפה של קבוצה קשירה.'
+
+  - id: Q-3-review-10
+    type: numeric
+    objectives: [OBJ-3.2-2]
+    level: mid
+    prompt: >-
+      המרחב הוא $X=[0,2]$ עם $d(x,y)=|x-y|$, והכיסוי הפתוח (ב-$X$) הוא $\{[0,\ 1.3),\ (0.7,\ 2]\}$. מהו מספר לבג **הגדול
+      ביותר**, כלומר ה-$\delta$ הגדול ביותר כך שכל כדור $B(x,\delta)$ ב-$X$ מוכל באחת משתי הקבוצות?
+    answer: 0.3
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. הנקודה הקשה היא אמצע החפיפה, $x=1$: $(1-\delta,1+\delta)$ נכנס ל-$[0,1.3)$ אם $\delta\le0.3$, ול-$(0.7,2]$ אם
+      $\delta\le0.3$. עם $\delta=0.3$ כל $x\le1$ מסתדר בראשונה וכל $x\ge1$ בשנייה.
+    wrongFeedback: >-
+      מספר לבג הוא רדיוס. בדקו את הכדור שמרכזו באמצע החפיפה $(0.7,1.3)$.
+    commonWrong:
+      - value: 0.6
+        feedback: >-
+          $0.6$ הוא אורך החפיפה. הכדור $B(1,0.6)=(0.4,1.6)$ לא נכנס לאף אחת מהקבוצות.
+        misconception: MC-c3-lebesgue-overlap
+    hints:
+      - 'חזרו לשיעור 3.2: הלמה של לבג וחישוב מספר לבג.'
+
+  - id: Q-3-review-11
+    type: rank
+    objectives: [OBJ-3.4-3, OBJ-3.1-1, OBJ-1.6-2]
+    level: exam
+    help: 'סדרו את שלבי ההוכחה לפי הסדר הנכון.'
+    prompt: >-
+      ההוכחה ש"$f:X\to Y$ רציפה, חד-חד-ערכית ועל, עם $X$ קומפקטי, היא הומיאומורפיזם" התפרקה לשלבים. סדרו אותם.
+    items:
+      - id: closed
+        label: 'תהי $F\subseteq X$ סגורה. כתת-קבוצה סגורה של מרחב קומפקטי, $F$ קומפקטית.'
+      - id: image
+        label: '$f(F)$ קומפקטית כתמונה רציפה של קומפקטית, ולכן סגורה ב-$Y$.'
+      - id: preimage
+        label: 'המקור של $F$ תחת $f^{-1}$ הוא $f(F)$; לכן המקור של כל קבוצה סגורה תחת $f^{-1}$ סגור.'
+      - id: cont
+        label: 'לפי אפיון הרציפות בקבוצות סגורות (שיעור 1.6), $f^{-1}$ רציפה, ו-$f$ הומיאומורפיזם.'
+    order: [closed, image, preimage, cont]
+    correctFeedback: >-
+      נכון. הקומפקטיות נכנסת פעמיים: $F$ קומפקטית כי $X$ קומפקטי, ו-$f(F)$ סגורה כי היא קומפקטית.
+    wrongFeedback: >-
+      כדי להראות ש-$f^{-1}$ רציפה, בודקים מקורות של קבוצות סגורות תחתיה, והם תמונות תחת $f$. אז מתחילים בקבוצה סגורה
+      ב-$X$ ומראים שהתמונה שלה סגורה.
+    hints:
+      - 'חזרו לשיעור 3.4: הומיאומורפיזם מתחום קומפקטי, ולשיעור 1.6: רציפות בעזרת מקורות.'
+
+  - id: Q-3-review-12
+    type: twotier
+    objectives: [OBJ-3.4-3, OBJ-3.4-1]
+    qualitative: true
+    level: exam
+    prompt: >-
+      במרחב מטרי $X$: $A$ סגורה, $B$ קומפקטית ולא ריקה, ו-$A\cap B=\emptyset$. נכון או לא נכון:
+      $d(A,B)=\inf\{d(a,b): a\in A,\ b\in B\}>0$.
+    choices:
+      - text: נכון
+        correct: true
+        feedback: 'נכון. ובלי קומפקטיות של אחת מהן זה נכשל.'
+      - text: לא נכון
+        feedback: >-
+          הדוגמאות עם מרחק 0 משתמשות בשתי קבוצות לא קומפקטיות. כאן $b\mapsto d(b,A)$ מקבלת מינימום חיובי על $B$.
+        misconception: MC-c3-inf-positive
+    reasons:
+      - text: '$g(b)=d(b,A)$ רציפה, ו-$g(b)>0$ לכל $b\in B$ כי $A$ סגורה ו-$b\notin A$; על $B$ הקומפקטית $g$ מקבלת מינימום, והוא חיובי ושווה ל-$d(A,B)$'
+        correct: true
+        feedback: >-
+          בדיוק. $|d(b,A)-d(b',A)|\le d(b,b')$, ו-$d(b,A)=0$ רק כש-$b\in\overline A=A$.
+      - text: '$d(b,A)>0$ לכל $b\in B$, ולכן האינפימום חיובי'
+        feedback: >-
+          חיוביות לא מספיקה: ב-$\mathbb{R}^2$ הישר $y=0$ וההיפרבולה $y=\frac1x$, $x>0$, סגורות וזרות, והמרחק ביניהן 0.
+          המינימום שמתקבל על $B$ הקומפקטית הוא שמציל.
+        misconception: MC-c3-inf-positive
+      - text: 'כל שתי קבוצות סגורות וזרות רחוקות זו מזו מרחק חיובי'
+        feedback: >-
+          הישר $y=0$ וההיפרבולה $y=\frac1x$ ($x>0$): $d((x,0),(x,\frac1x))=\frac1x\to0$. צריך שאחת הקבוצות תהיה קומפקטית.
+        misconception: MC-c3-inf-positive
+    hints:
+      - 'חזרו לשיעור 3.4: המרחק מנקודה לקבוצה קומפקטית, ומקסימום ומינימום על קבוצה קומפקטית.'
+
+  - id: Q-3-review-13
+    type: twotier
+    objectives: [OBJ-3.4-1, OBJ-2.3-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $K$ מרחב מטרי קומפקטי לא ריק ו-$f:K\to K$ מקיימת $d(f(x),f(y))<d(x,y)$ לכל $x\ne y$ (מקטינה מרחקים, אבל אולי
+      אינה מכווצת). נכון או לא נכון: ל-$f$ יש נקודת שבת.
+    choices:
+      - text: נכון
+        correct: true
+        feedback: >-
+          נכון. בשיעור 2.3 ראיתם שעל $\mathbb{R}$ הקטנת מרחקים לא מספיקה; על קבוצה קומפקטית היא כן מספיקה.
+      - text: לא נכון
+        feedback: >-
+          הדוגמאות הנגדיות של שיעור 2.3 הן על מרחב לא קומפקטי, שם $\inf d(x,f(x))$ לא מתקבל. על קומפקטי הוא מתקבל.
+        misconception: MC-c3-inf-positive
+    reasons:
+      - text: '$g(x)=d(x,f(x))$ רציפה ומקבלת מינימום ב-$x_0$. אם $f(x_0)\ne x_0$, אז $g(f(x_0))=d(f(x_0),f(f(x_0)))<d(x_0,f(x_0))=g(x_0)$, סתירה'
+        correct: true
+        feedback: >-
+          בדיוק. $f$ רציפה (ליפשיצית עם קבוע 1), ולכן גם $g$. בלי מינימום שמתקבל הטיעון נופל.
+      - text: '$K$ שלם, ו-$f$ מכווצת כי היחס $\frac{d(f(x),f(y))}{d(x,y)}$ קטן מ-1 לכל זוג, ולכן לפי בנך יש נקודת שבת'
+        feedback: >-
+          יחס קטן מ-1 בכל זוג לא נותן חסם אחיד $q<1$: עבור $f(x)=x-\frac{x^2}2$ על $[0,1]$ היחס הוא $1-\frac{x+y}2$,
+          והסופרמום שלו 1. בנך לא חל; הקומפקטיות היא שעובדת כאן.
+        misconception: MC-c3-inf-positive
+    hints:
+      - 'חזרו לשיעור 3.4: פונקציה רציפה על קומפקטי מקבלת מינימום, ולשיעור 2.3: למה הקטנת מרחקים לא מספיקה במשפט בנך.'
+
+  - id: Q-3-review-14
+    type: multi
+    objectives: [OBJ-3.5-1, OBJ-3.1-1, OBJ-2.1-1]
+    level: exam
+    prompt: >-
+      $\|\cdot\|_a$ ו-$\|\cdot\|_b$ נורמות שקולות על $V$. אילו מהבאים זהים בשתי הנורמות? סמנו את כולם.
+    choices:
+      - text: 'הסדרות המתכנסות (ולאותם גבולות)'
+        correct: true
+        feedback: 'נכון: $\|x_n-x\|_b\le C\|x_n-x\|_a$ ולהפך.'
+      - text: 'סדרות הקושי'
+        correct: true
+        feedback: 'נכון: אותו טיעון עם $\|x_m-x_n\|$. לכן $V$ שלם באחת אם ורק אם הוא שלם בשנייה.'
+      - text: 'הקבוצות הקומפקטיות'
+        correct: true
+        feedback: >-
+          נכון: קומפקטיות סדרתית מוגדרת בעזרת סדרות מתכנסות, והן זהות.
+      - text: 'כדור היחידה'
+        feedback: >-
+          לא: ב-$\mathbb{R}^2$ כדור היחידה של $\|\cdot\|_1$ הוא ריבוע מסובב ושל $\|\cdot\|_\infty$ ריבוע.
+        misconception: MC-c3-equivalent-same-numbers
+      - text: 'נורמת האופרטור של העתקה לינארית $T:V\to V$'
+        feedback: >-
+          לא: למטריצה $\begin{pmatrix}1&2\\3&4\end{pmatrix}$ היא 6 בנורמה 1 ו-7 בנורמת אינסוף. רק הסופיות שלה זהה.
+        misconception: MC-c3-equivalent-same-numbers
+    hints:
+      - 'חזרו לשיעור 3.5: מה נשמר תחת שקילות נורמות, ולשיעור 2.1: סדרות קושי.'
+
+  - id: Q-3-review-15
+    type: mc
+    objectives: [OBJ-3.3-3, OBJ-3.3-2, OBJ-2.2-2]
+    level: exam
+    prompt: >-
+      ב-$(C[0,1],\|\cdot\|_\infty)$ נתבונן ב-$A=\{a+bx:\ 0<a<1,\ 0<b<1\}$. האם הסגור $\overline A$ קומפקטי?
+    choices:
+      - text: 'כן: $A$ חסומה כליל, ולכן גם $\overline A$; $\overline A$ סגורה במרחב השלם $C[0,1]$, ולכן שלמה; שלמה וחסומה כליל היא קומפקטית'
+        correct: true
+        feedback: >-
+          נכון. $\|(a+bx)-(a'+b'x)\|_\infty\le|a-a'|+|b-b'|$ נותן רשתות סופיות, $\frac\varepsilon2$-רשת של $A$ היא
+          $\varepsilon$-רשת של $\overline A$, והשלמות של $C[0,1]$ באה משיעור 2.2.
+      - text: 'כן: $\overline A$ סגורה וחסומה'
+        feedback: >-
+          המסקנה נכונה והנימוק לא: ב-$C[0,1]$ סגורה וחסומה לא מספיקה (כדור היחידה). מה שעובד כאן הוא חסימות כליל.
+        misconception: MC-c3-closed-bounded-compact
+      - text: 'לא: $C[0,1]$ ממימד אינסופי, ולכן אין בו קבוצות קומפקטיות אינסופיות'
+        feedback: >-
+          המימד של המרחב שמסביב לא קובע. $\overline A=\{a+bx: a,b\in[0,1]\}$ "חיה" בשני פרמטרים.
+        misconception: MC-c3-ambient-dimension
+    hints:
+      - 'חזרו לשיעור 3.3: חסימות כליל במרחבי פונקציות, ולשיעור 2.2: שלמות מרחב הפונקציות הרציפות.'

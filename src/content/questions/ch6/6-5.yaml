@@ -1,0 +1,323 @@
+# Lesson 6.5 — absolute extrema on a compact set.
+# Objectives (src/course.ts):
+#   OBJ-6.5-1  use Weierstrass's theorem to guarantee an absolute maximum and minimum on a compact set
+#   OBJ-6.5-2  find absolute extrema by checking interior critical points and parametrising the boundary
+#   OBJ-6.5-3  handle an unbounded domain through the behaviour at infinity, and show that without compactness an extremum may not be attained
+chapter: 6
+questions:
+  - id: Q-6.5-which
+    type: multi
+    objectives: [OBJ-6.5-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      על אילו מהקבוצות הבאות **כל** פונקציה רציפה מקבלת מקסימום ומינימום מוחלטים? סמנו את כולן.
+    choices:
+      - text: 'העיגול הסגור $\{(x,y):x^2+y^2\le1\}$'
+        correct: true
+        feedback: 'נכון. סגור וחסום ב-$\mathbb{R}^2$, ולכן קומפקטי (היינה-בורל), ומשפט ויירשטראס חל.'
+      - text: 'המשולש הסגור $\{(x,y):x\ge0,\ y\ge0,\ x+y\le1\}$'
+        correct: true
+        feedback: 'נכון. חיתוך של שלושה חצאי מישור סגורים, וחסום: קומפקטי.'
+      - text: 'העיגול הפתוח $\{(x,y):x^2+y^2<1\}$'
+        feedback: >-
+          חסום אבל לא סגור. $x^2+y^2$ רציפה עליו, הסופרמום שלה 1, ואינו מתקבל.
+        misconception: MC-c6-closed-enough
+      - text: 'חצי המישור $\{(x,y):x\ge0\}$'
+        feedback: >-
+          סגור אבל לא חסום. $f=x$ רציפה עליו ואינה חסומה מלעיל, ולכן אין לה מקסימום.
+        misconception: MC-c6-closed-enough
+
+  - id: Q-6.5-R2
+    type: twotier
+    objectives: [OBJ-6.5-3]
+    qualitative: true
+    level: basic
+    prompt: >-
+      נכון או לא נכון: $\mathbb{R}^2$ אינו קומפקטי, ולכן ל-$f(x,y)=x^2+y^2$ אין מינימום מוחלט ב-$\mathbb{R}^2$.
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: 'נכון. $f(0,0)=0\le f(x,y)$ לכל $(x,y)$: יש מינימום מוחלט. מקסימום אין.'
+      - text: נכון
+        feedback: >-
+          $f\ge0=f(0,0)$, ולכן הראשית נקודת מינימום מוחלט. משפט ויירשטראס רק לא **מבטיח** אותו כאן.
+        misconception: MC-c6-noncompact-no-extremum
+    reasons:
+      - text: >-
+          משפט ויירשטראס הוא תנאי מספיק, לא הכרחי; כאן $f\ge0=f(0,0)$ בכל המישור
+        correct: true
+        feedback: >-
+          בדיוק. בלי קומפקטיות בודקים ישירות; ל-$x^2+y^2$ יש מינימום ואין מקסימום ($f\to\infty$).
+      - text: >-
+          לפי ויירשטראס, לפונקציה רציפה יש מקסימום ומינימום אם ורק אם התחום קומפקטי
+        feedback: >-
+          ויירשטראס אינו "אם ורק אם": גם פונקציה קבועה על $\mathbb{R}^2$ מקבלת מקסימום ומינימום.
+        misconception: MC-c6-noncompact-no-extremum
+      - text: >-
+          ל-$f$ אין מקסימום, ולכן אין לה גם מינימום
+        feedback: >-
+          המקסימום והמינימום בלתי תלויים: $x^2+y^2$ לא חסומה מלעיל, ובכל זאת מקבלת את המינימום 0.
+        misconception: MC-c6-noncompact-no-extremum
+
+  - id: Q-6.5-disc
+    type: numeric
+    objectives: [OBJ-6.5-2]
+    level: basic
+    prompt: >-
+      מהו הערך המינימלי של $f(x,y)=x^2-y^2$ על העיגול הסגור $x^2+y^2\le1$?
+    answer: -1
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. בפנים הנקודה הקריטית היחידה היא הראשית, עם $f=0$ (אוכף). על השפה $x=\cos t$, $y=\sin t$ ו-$f=\cos2t$,
+      שערכיו בין $(-1)$ ל-1. לכן המינימום $(-1)$ ב-$(0,\pm1)$ והמקסימום 1 ב-$(\pm1,0)$.
+    wrongFeedback: >-
+      העיגול קומפקטי, ולכן יש מינימום. המועמדים: הנקודות הקריטיות בפנים, ונקודות השפה. פרמטרו את השפה.
+    commonWrong:
+      - value: 0
+        feedback: >-
+          0 הוא הערך בנקודה הקריטית הפנימית, שהיא בכלל אוכף. המינימום מתקבל על השפה, שבה $\nabla f\ne0$.
+        misconception: MC-c6-forget-boundary
+
+  - id: Q-6.5-closed
+    type: twotier
+    objectives: [OBJ-6.5-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      נכון או לא נכון: כל פונקציה רציפה וחסומה על קבוצה **סגורה** $K\subseteq\mathbb{R}^2$ מקבלת ב-$K$ מקסימום.
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: 'נכון. $f(x,y)=\arctan x$ על חצי המישור הסגור $x\ge0$: חסומה, הסופרמום $\frac\pi2$, ואינו מתקבל.'
+      - text: נכון
+        feedback: >-
+          $\arctan x$ על $\{x\ge0\}$ חסומה ורציפה, ו-$\arctan x<\frac\pi2$ לכל $x$, כש-$\frac\pi2$ הוא הסופרמום.
+        misconception: MC-c6-bounded-below-attains
+    reasons:
+      - text: >-
+          $\arctan x$ על $\{x\ge0\}$ מתקרבת ל-$\frac\pi2$ רק כש-$x\to\infty$; בלי חסימות של $K$ הסדרה הממקסמת בורחת
+          לאינסוף ואין לה תת-סדרה מתכנסת
+        correct: true
+        feedback: >-
+          בדיוק. בהוכחת ויירשטראס בוחרים סדרה ממקסמת ומוציאים ממנה תת-סדרה מתכנסת; לשם כך $K$ צריכה להיות קומפקטית,
+          סגורה **וחסומה**.
+      - text: >-
+          קבוצה סגורה מכילה את כל נקודות הגבול שלה, ולכן הסופרמום מתקבל
+        feedback: >-
+          סגירות מבטיחה שגבול של סדרה **מתכנסת** נשאר בקבוצה, אבל לא שיש תת-סדרה מתכנסת. ל-$(n,0)$ בחצי המישור
+          אין תת-סדרה כזו.
+        misconception: MC-c6-closed-enough
+      - text: >-
+          פונקציה חסומה תמיד מקבלת את הסופרמום שלה
+        feedback: >-
+          גם במשתנה אחד לא: $\arctan x$ על $[0,\infty)$. חסימות של **הפונקציה** אינה תחליף לקומפקטיות של **התחום**.
+        misconception: MC-c6-bounded-below-attains
+
+  - id: Q-6.5-where
+    type: mc
+    objectives: [OBJ-6.5-1, OBJ-6.5-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $f$ דיפרנציאבילית בסביבה של קבוצה קומפקטית $K\subseteq\mathbb{R}^2$. איפה יכול להתקבל המקסימום המוחלט של $f$
+      על $K$?
+    choices:
+      - text: בנקודה קריטית בפנים של $K$, או בנקודה על השפה $\partial K$
+        correct: true
+        feedback: >-
+          נכון. ויירשטראס מבטיח שהמקסימום קיים; אם הוא בנקודה פנימית, שם $\nabla f=0$ (שיעור 6.2). אחרת הוא על השפה.
+      - text: רק בנקודה קריטית בפנים של $K$
+        feedback: >-
+          $f=x$ על הריבוע $[0,1]^2$ אין לה נקודות קריטיות בכלל, והמקסימום מתקבל על הצלע $x=1$.
+        misconception: MC-c6-forget-boundary
+      - text: רק על השפה של $K$
+        feedback: >-
+          $1-x^2-y^2$ על עיגול היחידה הסגור מקבלת את המקסימום 1 בראשית, נקודה פנימית.
+        misconception: MC-c6-forget-interior
+      - text: רק בנקודה קריטית שבה ההסיאן שלילי מוגדר
+        feedback: >-
+          ההסיאן מסווג נקודות קריטיות מקומית ואינו אומר דבר על השפה. ל-$x^2-y^2$ על עיגול היחידה אין נקודה כזו בכלל,
+          והמקסימום 1 מתקבל על השפה.
+        misconception: MC-c6-local-is-global
+
+  - id: Q-6.5-disc2
+    type: numeric
+    objectives: [OBJ-6.5-2]
+    level: mid
+    prompt: >-
+      מהו המקסימום של $f(x,y)=x^2+y^2-2x$ על העיגול הסגור $x^2+y^2\le4$?
+    answer: 8
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. בפנים: $\nabla f=(2x-2,\ 2y)=0$ ב-$(1,0)$, עם $f=-1$ (זה המינימום). על השפה $x^2+y^2=4$, ולכן $f=4-2x$
+      עם $x\in[-2,2]$: מקסימלית ב-$x=-2$, כלומר $f(-2,0)=8$.
+    wrongFeedback: >-
+      על השפה החליפו את $x^2+y^2$ ב-4, וקבלו פונקציה של $x$ בלבד על $[-2,2]$. השוו לערך בנקודה הקריטית.
+    commonWrong:
+      - value: -1
+        feedback: >-
+          $f(1,0)=-1$ הוא הערך בנקודה הקריטית הפנימית, והוא המינימום. המקסימום על השפה.
+        misconception: MC-c6-forget-boundary
+      - value: 4
+        feedback: >-
+          זה הערך ב-$(0,\pm2)$, נקודות "מיוחדות" על השפה. על כל השפה $f=4-2x$, והמקסימום ב-$x=-2$.
+        misconception: MC-c6-only-corners
+
+  - id: Q-6.5-rect
+    type: multi
+    objectives: [OBJ-6.5-2]
+    level: mid
+    prompt: >-
+      $f(x,y)=x^2-2xy+2y$ על המלבן $[0,3]\times[0,2]$. באילו נקודות מתקבל המינימום המוחלט? סמנו את כולן.
+    choices:
+      - text: '$(0,0)$'
+        correct: true
+        feedback: 'נכון. $f(0,0)=0$, קודקוד.'
+      - text: '$(2,2)$'
+        correct: true
+        feedback: >-
+          נכון. על הצלע $y=2$: $f=x^2-4x+4=(x-2)^2$, ומינימלית באמצע הצלע, ב-$x=2$, עם ערך 0.
+      - text: '$(1,1)$'
+        feedback: >-
+          זו הנקודה הקריטית היחידה ($\nabla f=(2x-2y,\ 2-2x)$), עם $f(1,1)=1$. בנוסף היא אוכף:
+          $\det H=\det\begin{pmatrix}2&-2\\-2&0\end{pmatrix}=-4$.
+        misconception: MC-c6-critical-is-extremum
+      - text: '$(3,2)$'
+        feedback: >-
+          $f(3,2)=9-12+4=1$, ערך הקודקוד הקטן אחרי $(0,0)$. אבל המינימום הוא 0, והוא מתקבל גם ב-$(2,2)$, שאינו קודקוד.
+        misconception: MC-c6-only-corners
+    explanation: >-
+      ארבע הצלעות: $y=0$ נותן $x^2\in[0,9]$; $x=3$ נותן $9-4y\in[1,9]$; $y=2$ נותן $(x-2)^2\in[0,4]$; $x=0$ נותן
+      $2y\in[0,4]$. יחד עם $f(1,1)=1$: המקסימום 9 ב-$(3,0)$ והמינימום 0 ב-$(0,0)$ וב-$(2,2)$.
+
+  - id: Q-6.5-method
+    type: rank
+    objectives: [OBJ-6.5-1, OBJ-6.5-2]
+    level: mid
+    prompt: >-
+      סדרו את שלבי השיטה למציאת המקסימום והמינימום המוחלטים של פונקציה דיפרנציאבילית $f$ על קבוצה קומפקטית $K$
+      במישור, ששפתה מורכבת מכמה עקומות.
+    help: גררו את השלבים לסדר הנכון, מהשלב הראשון לאחרון.
+    items:
+      - id: exist
+        label: >-
+          $K$ סגורה וחסומה ו-$f$ רציפה, ולכן לפי ויירשטראס המקסימום והמינימום קיימים.
+      - id: inside
+        label: >-
+          מוצאים את הנקודות הקריטיות של $f$ בפנים של $K$.
+      - id: param
+        label: >-
+          מפרמטרים כל חלק של השפה ומוצאים את הקיצון של הפונקציה במשתנה אחד שמתקבלת, כולל נקודות הקצה (הקודקודים).
+      - id: compare
+        label: >-
+          משווים את ערכי $f$ בכל המועמדים: הגדול הוא המקסימום והקטן הוא המינימום.
+    order: [exist, inside, param, compare]
+    correctFeedback: >-
+      נכון. שימו לב שלא צריך לסווג את הנקודות הקריטיות בעזרת ההסיאן: מספיק להשוות ערכים, כי ויירשטראס כבר הבטיח
+      שהקיצון קיים ונמצא בין המועמדים.
+    wrongFeedback: >-
+      קודם מבטיחים שיש מה לחפש (ויירשטראס), אחר כך אוספים את כל המועמדים מהפנים ומהשפה, ובסוף משווים.
+
+  - id: Q-6.5-notattained
+    type: multi
+    objectives: [OBJ-6.5-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      לאילו מהפונקציות הבאות על $\mathbb{R}^2$ יש אינפימום (סופי) ש**אינו מתקבל**? סמנו את כולן.
+    choices:
+      - text: '$e^{-x^2-y^2}$'
+        correct: true
+        feedback: >-
+          נכון. $f>0$ בכל מקום ו-$f\to0$ כש-$\|(x,y)\|\to\infty$, ולכן $\inf f=0$ ואינו מתקבל. (המקסימום 1 כן מתקבל, בראשית.)
+      - text: '$x^2+(xy-1)^2$'
+        correct: true
+        feedback: >-
+          נכון. $f=0$ מחייב $x=0$ וגם $xy=1$, בלתי אפשרי, ולכן $f>0$. אבל $f(\frac1n,n)=\frac1{n^2}\to0$: $\inf f=0$.
+          פולינום חסום מלרע שאינו מקבל את האינפימום שלו.
+      - text: '$\arctan(x^2+y^2)$'
+        feedback: >-
+          האינפימום 0 מתקבל בראשית. מה שלא מתקבל כאן הוא הסופרמום $\frac\pi2$.
+        misconception: MC-c6-noncompact-no-extremum
+      - text: '$(x-1)^2+y^4$'
+        feedback: 'האינפימום 0 מתקבל ב-$(1,0)$. אי-קומפקטיות של התחום לא מונעת מינימום.'
+        misconception: MC-c6-noncompact-no-extremum
+
+  - id: Q-6.5-triangle
+    type: numeric
+    objectives: [OBJ-6.5-2]
+    level: exam
+    prompt: >-
+      מצאו את המקסימום של $f(x,y)=xy(1-x-y)$ על המשולש הסגור $T=\{(x,y):x\ge0,\ y\ge0,\ x+y\le1\}$.
+    answer: 0.037037037
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון, $\frac1{27}$. על כל שלוש הצלעות $f=0$ (אחד הגורמים מתאפס). בפנים: $\partial_xf=y(1-2x-y)=0$ ו-$\partial_yf=x(1-x-2y)=0$
+      עם $x,y>0$ נותנים $(\frac13,\frac13)$, ו-$f=\frac19\cdot\frac13=\frac1{27}$. כי $f>0$ בפנים, זה המקסימום (והמינימום 0, על השפה).
+    wrongFeedback: >-
+      בדקו קודם את השפה (שם אחד הגורמים אפס), ואחר כך פתרו $\nabla f=0$ בפנים, עם $x,y>0$.
+    commonWrong:
+      - value: 0
+        feedback: >-
+          0 הוא הערך על כל השפה, וזה המינימום. בפנים $f>0$, למשל $f(\frac13,\frac13)=\frac1{27}$.
+        misconception: MC-c6-forget-interior
+
+  - id: Q-6.5-coercive
+    type: numeric
+    objectives: [OBJ-6.5-3]
+    level: exam
+    prompt: >-
+      $f(x,y)=x^4+y^4-4xy$. מתקיים $x^4+y^4\ge\frac12(x^2+y^2)^2$ ו-$4|xy|\le2(x^2+y^2)$, ולכן
+      $f\ge\frac12r^4-2r^2$ עם $r=\|(x,y)\|_2$, ו-$f\to\infty$ כש-$r\to\infty$. מהו המינימום המוחלט של $f$ במישור?
+    answer: -2
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $f$ קוארסיבית, ולכן מקבלת מינימום מוחלט, בנקודה פנימית של המישור, כלומר בנקודה קריטית. הנקודות
+      הקריטיות $(0,0)$, $(1,1)$, $(-1,-1)$ עם ערכים $0$, $(-2)$, $(-2)$: המינימום $(-2)$.
+    wrongFeedback: >-
+      הראו קודם שהמינימום קיים (קוארסיביות + ויירשטראס על כדור גדול), אחר כך השוו את ערכי $f$ בנקודות הקריטיות.
+    commonWrong:
+      - value: 0
+        feedback: >-
+          $f(0,0)=0$, אבל הראשית אוכף ($\det H=-16$). $f(1,1)=1+1-4=-2<0$.
+        misconception: MC-c6-critical-is-extremum
+    explanation: >-
+      למה קוארסיביות מספיקה: $f(0)=0$, ויש $R$ כך ש-$f>0$ מחוץ לכדור $B[0,R]$ (כאן $R=2$ מספיק, כי
+      $\frac12r^4-2r^2>0$ כש-$r>2$). על הכדור הסגור, שהוא קומפקטי, $f$ מקבלת מינימום $\le f(0)=0$, וזה המינימום על כל
+      המישור.
+
+  - id: Q-6.5-bounded-below
+    type: twotier
+    objectives: [OBJ-6.5-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      נכון או לא נכון: כל פולינום $p(x,y)$ שחסום מלרע במישור מקבל מינימום מוחלט.
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: 'נכון. $p=x^2+(xy-1)^2$ חסום מלרע על ידי 0 ואינו מקבל אף ערך $\le0$.'
+      - text: נכון
+        feedback: >-
+          במשתנה אחד זה נכון (פולינום חסום מלרע הוא ממעלה זוגית ושואף לאינסוף), אבל בשני משתנים לא:
+          $x^2+(xy-1)^2>0$ ו-$\inf=0$.
+        misconception: MC-c6-bounded-below-attains
+    reasons:
+      - text: >-
+          $x^2+(xy-1)^2>0$ בכל מקום (אפס מחייב $x=0$ ו-$xy=1$), אבל $p(\frac1n,n)=\frac1{n^2}\to0$: הסדרה הממזערת
+          בורחת לאינסוף
+        correct: true
+        feedback: >-
+          בדיוק. אין כאן קוארסיביות: לאורך העקומה $xy=1$ הערכים שואפים ל-0 ולא לאינסוף.
+      - text: >-
+          האינפימום הוא גבול של ערכים $p(z_n)$, ולכן הוא מתקבל בגבול של הנקודות $z_n$
+        feedback: >-
+          לסדרה $z_n$ אולי אין גבול ואין אף תת-סדרה מתכנסת: $(\frac1n,n)$ בורחת לאינסוף. בשביל זה ויירשטראס דורש
+          קומפקטיות.
+        misconception: MC-c6-bounded-below-attains
+      - text: >-
+          פולינום חסום מלרע הוא קוארסיבי, ופונקציה קוארסיבית מקבלת מינימום
+        feedback: >-
+          החלק השני נכון, הראשון לא: $x^2+(xy-1)^2$ חסום מלרע, ועל $(\frac1n,n)$ הוא שואף ל-0, לא לאינסוף.
+        misconception: MC-c6-bounded-below-attains

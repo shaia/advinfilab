@@ -1,0 +1,338 @@
+# Lesson 6.3 — quadratic forms and the Hessian matrix.
+# Objectives (src/course.ts):
+#   OBJ-6.3-1  classify a quadratic form as positive/negative definite, semi-definite or indefinite by its eigenvalues
+#   OBJ-6.3-2  apply Sylvester's criterion with the leading principal minors, and the determinant-and-trace test in dimension 2
+#   OBJ-6.3-3  prove that a positive definite form is bounded below by a positive constant times the squared norm
+chapter: 6
+questions:
+  - id: Q-6.3-def
+    type: mc
+    objectives: [OBJ-6.3-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      תהי $A$ מטריצה סימטרית $n\times n$ ו-$q(h)=h^{T}Ah$. מתי $q$ נקראת חיובית מוגדרת?
+    choices:
+      - text: 'כש-$q(h)>0$ לכל $h\ne0$'
+        correct: true
+        feedback: >-
+          נכון. לפי המשפט הספקטרלי (שיעור 0.5) זה שקול לכך שכל הערכים העצמיים של $A$ חיוביים: בבסיס אורתונורמלי של
+          וקטורים עצמיים $q(h)=\sum\lambda_iy_i^2$.
+      - text: 'כש-$q(h)\ge0$ לכל $h$'
+        feedback: >-
+          זו חיובית **חצי** מוגדרת. $q=(x+y)^2$ מקיימת אותה ומתאפסת ב-$h=(1,-1)\ne0$, ולכן אינה חיובית מוגדרת.
+        misconception: MC-c6-definite-vs-semi
+      - text: כשכל האיברים של $A$ חיוביים
+        feedback: >-
+          לא. ל-$A=\begin{pmatrix}1&2\\2&1\end{pmatrix}$ כל האיברים חיוביים, ו-$q(1,-1)=1-4+1=-2<0$.
+        misconception: MC-c6-positive-entries
+      - text: כשכל איברי האלכסון של $A$ חיוביים
+        feedback: >-
+          זה הכרחי ($a_{ii}=q(e_i)$) אבל אינו מספיק: אותה מטריצה $\begin{pmatrix}1&2\\2&1\end{pmatrix}$ עם אלכסון 1,1
+          אינה חיובית מוגדרת.
+        misconception: MC-c6-diagonal-decides
+
+  - id: Q-6.3-entries
+    type: mc
+    objectives: [OBJ-6.3-1]
+    level: basic
+    prompt: >-
+      סווגו את התבנית $q(x,y)=x^2+4xy+y^2$, שהמטריצה שלה $A=\begin{pmatrix}1&2\\2&1\end{pmatrix}$.
+    choices:
+      - text: לא מוגדרת
+        correct: true
+        feedback: >-
+          נכון. הערכים העצמיים הם $3$ (וקטור $(1,1)$) ו-$(-1)$ (וקטור $(1,-1)$). ואכן $q(1,1)=6>0$ ו-$q(1,-1)=-2<0$.
+      - text: חיובית מוגדרת, כי כל האיברים של $A$ חיוביים
+        feedback: >-
+          סימני האיברים אינם קובעים: $q(1,-1)=-2$. האיבר $4xy$ שולט על $x^2+y^2$ כש-$x=-y$.
+        misconception: MC-c6-positive-entries
+      - text: חיובית מוגדרת, כי איברי האלכסון חיוביים
+        feedback: >-
+          איברי האלכסון הם $q(e_1)$ ו-$q(e_2)$, ערכי התבנית בשני כיוונים בלבד. בכיוון $(1,-1)$ היא שלילית.
+        misconception: MC-c6-diagonal-decides
+      - text: שלילית מוגדרת, כי $\det A<0$
+        feedback: >-
+          $\det A=-3$ היא מכפלת הערכים העצמיים, ולכן יש להם סימנים **שונים**: התבנית לא מוגדרת. בשלילית מוגדרת
+          במימד 2 הדטרמיננטה חיובית.
+        misconception: MC-c6-sylvester-partial
+
+  - id: Q-6.3-2x2
+    type: mc
+    objectives: [OBJ-6.3-2]
+    level: basic
+    prompt: >-
+      סווגו את התבנית שהמטריצה שלה $\begin{pmatrix}2&3\\3&4\end{pmatrix}$.
+    choices:
+      - text: לא מוגדרת, כי הדטרמיננטה שלילית
+        correct: true
+        feedback: >-
+          נכון. $\det=8-9=-1<0$, והדטרמיננטה היא מכפלת שני הערכים העצמיים, ולכן אחד חיובי ואחד שלילי (בערך $6.16$
+          ו-$(-0.16)$).
+      - text: חיובית מוגדרת, כי $a_{11}>0$ והעקבה חיובית
+        feedback: >-
+          במימד 2 צריך $a_{11}>0$ **וגם** $\det>0$. העקבה החיובית רק אומרת שסכום הערכים העצמיים חיובי, וזה מתקיים
+          גם כשאחד מהם שלילי.
+        misconception: MC-c6-sylvester-partial
+      - text: חיובית מוגדרת, כי כל האיברים חיוביים
+        feedback: >-
+          ב-$h=(3,-2)$: $q=2\cdot9-2\cdot3\cdot6+4\cdot4=18-36+16=-2<0$.
+        misconception: MC-c6-positive-entries
+
+  - id: Q-6.3-lambda
+    type: numeric
+    objectives: [OBJ-6.3-3]
+    level: basic
+    prompt: >-
+      $q(x,y)=3x^2+2xy+3y^2$. מהו הקבוע הגדול ביותר $c$ כך ש-$q(h)\ge c\|h\|_2^2$ לכל $h\in\mathbb{R}^2$?
+    answer: 2
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. המטריצה $\begin{pmatrix}3&1\\1&3\end{pmatrix}$ עם ערכים עצמיים $2$ ($(1,-1)$) ו-$4$ ($(1,1)$). בבסיס
+      הווקטורים העצמיים $q=2y_1^2+4y_2^2\ge2\|h\|^2$, ושוויון בכיוון $(1,-1)$: $q(1,-1)=4=2\cdot2$.
+    wrongFeedback: >-
+      הקבוע הטוב ביותר הוא הערך העצמי הקטן ביותר של המטריצה. בדקו גם את הכיוון $(1,-1)$.
+    commonWrong:
+      - value: 3
+        feedback: >-
+          3 הוא איבר האלכסון, $q(e_1)$. אבל $q(1,-1)=3-2+3=4$ ו-$\|(1,-1)\|^2=2$, כלומר יחס 2 בלבד.
+        misconception: MC-c6-diagonal-decides
+
+  - id: Q-6.3-semi-multi
+    type: multi
+    objectives: [OBJ-6.3-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      אילו מהתבניות הבאות חיוביות **חצי** מוגדרות אבל **אינן** חיוביות מוגדרות? סמנו את כולן.
+    choices:
+      - text: '$(x+y)^2$ על $\mathbb{R}^2$'
+        correct: true
+        feedback: 'נכון. $\ge0$ תמיד, ומתאפסת ב-$(1,-1)$. ערכים עצמיים $0$ ו-$2$.'
+      - text: '$(x-y)^2+z^2$ על $\mathbb{R}^3$'
+        correct: true
+        feedback: 'נכון. מתאפסת ב-$(1,1,0)$; ערכים עצמיים $0,1,2$.'
+      - text: התבנית שהיא אפס זהותית
+        correct: true
+        feedback: >-
+          נכון. $q\ge0$ לכל $h$ (ואפילו $q\le0$), ולא $q>0$ לאף $h$. היא חיובית חצי מוגדרת וגם שלילית חצי מוגדרת.
+      - text: '$x^2+y^2$'
+        feedback: 'זו חיובית מוגדרת: $q(h)=\|h\|^2>0$ לכל $h\ne0$. "חצי מוגדרת ולא מוגדרת" דורש כיוון שבו $q=0$.'
+        misconception: MC-c6-definite-vs-semi
+      - text: '$2xy$'
+        feedback: >-
+          המטריצה $\begin{pmatrix}0&1\\1&0\end{pmatrix}$ אי-שלילית, אבל $q(1,-1)=-2$. ערכים עצמיים $\pm1$: לא מוגדרת.
+        misconception: MC-c6-positive-entries
+
+  - id: Q-6.3-diagonal
+    type: twotier
+    objectives: [OBJ-6.3-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      נכון או לא נכון: אם $A$ סימטרית וחיובית מוגדרת, אז כל איברי האלכסון שלה חיוביים.
+    choices:
+      - text: נכון
+        correct: true
+        feedback: 'נכון. וההפך לא נכון: אלכסון חיובי אינו מספיק.'
+      - text: לא נכון
+        feedback: >-
+          $a_{ii}=e_i^{T}Ae_i=q(e_i)$, ו-$e_i\ne0$, ולכן $a_{ii}>0$ בכל מטריצה חיובית מוגדרת.
+        misconception: MC-c6-diagonal-decides
+    reasons:
+      - text: '$a_{ii}=q(e_i)$, ו-$q(e_i)>0$ כי $e_i\ne0$'
+        correct: true
+        feedback: >-
+          בדיוק: איבר אלכסון הוא ערך התבנית בכיוון ציר. לכן אלכסון חיובי הכרחי, אבל הוא בודק רק $n$ כיוונים.
+      - text: איברי האלכסון של מטריצה סימטרית הם הערכים העצמיים שלה
+        feedback: >-
+          רק במטריצה אלכסונית. ל-$\begin{pmatrix}1&2\\2&1\end{pmatrix}$ האלכסון 1,1 והערכים העצמיים $3$ ו-$(-1)$.
+        misconception: MC-c6-diagonal-decides
+      - text: מטריצה סימטרית היא חיובית מוגדרת אם ורק אם איברי האלכסון שלה חיוביים
+        feedback: >-
+          הכיוון "אם" נכשל: ל-$\begin{pmatrix}1&2\\2&1\end{pmatrix}$ אלכסון חיובי, והיא לא מוגדרת.
+        misconception: MC-c6-diagonal-decides
+
+  - id: Q-6.3-negdef
+    type: mc
+    objectives: [OBJ-6.3-2]
+    level: mid
+    prompt: >-
+      $A=\begin{pmatrix}-2&1&0\\1&-2&1\\0&1&-2\end{pmatrix}$, והמינורים הראשיים המובילים שלה הם
+      $\Delta_1=-2$, $\Delta_2=3$, $\Delta_3=-4$. מה הסיווג של $A$?
+    choices:
+      - text: שלילית מוגדרת
+        correct: true
+        feedback: >-
+          נכון. $A$ שלילית מוגדרת אם ורק אם $(-A)$ חיובית מוגדרת, והמינורים של $(-A)$ הם $(-1)^k\Delta_k$: $2,3,4$,
+          כולם חיוביים. כלומר, הסימנים של $\Delta_k$ מתחלפים ומתחילים בשלילי. (הערכים העצמיים: $\lambda=-2$
+          ו-$\lambda=-2\pm\sqrt2$.)
+      - text: לא מוגדרת, כי המינורים אינם כולם באותו סימן
+        feedback: >-
+          לשלילית מוגדרת הדפוס הנכון הוא **מתחלף**: $\Delta_k$ של מטריצה $k\times k$ שלילית מוגדרת הוא מכפלה של $k$
+          ערכים עצמיים שליליים, וסימנו $(-1)^k$.
+        misconception: MC-c6-negative-minors
+      - text: חיובית מוגדרת, כי $\Delta_2>0$
+        feedback: >-
+          סילבסטר דורש את **כל** המינורים חיוביים, ו-$\Delta_1=-2$ כבר שלילי: $q(e_1)=-2<0$.
+        misconception: MC-c6-sylvester-partial
+
+  - id: Q-6.3-semi-sylv
+    type: twotier
+    objectives: [OBJ-6.3-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      נכון או לא נכון: אם כל המינורים הראשיים המובילים של מטריצה סימטרית $A$ אי-שליליים ($\Delta_k\ge0$), אז $A$
+      חיובית חצי מוגדרת.
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: >-
+          נכון. ל-$A=\begin{pmatrix}0&0\\0&-1\end{pmatrix}$: $\Delta_1=0$, $\Delta_2=0$, והתבנית $(-y^2)$ שלילית חצי
+          מוגדרת.
+      - text: נכון
+        feedback: >-
+          ל-$\begin{pmatrix}0&0\\0&-1\end{pmatrix}$ שני המינורים המובילים אפס, אבל $q(0,1)=-1<0$.
+        misconception: MC-c6-sylvester-semi
+    reasons:
+      - text: >-
+          ל-$\begin{pmatrix}0&0\\0&-1\end{pmatrix}$ המינורים המובילים $0,0$ ו-$q(0,1)=-1$; המינור המוביל "לא רואה" את
+          $a_{22}$ כש-$a_{11}=0$
+        correct: true
+        feedback: >-
+          בדיוק. לחצי מוגדרות צריך את **כל** המינורים הראשיים (גם $a_{22}$ לבדו), או את הערכים העצמיים.
+      - text: >-
+          סילבסטר אומר "חיובית מוגדרת אם ורק אם $\Delta_k>0$", ובמעבר לגבול מקבלים "חצי מוגדרת אם ורק אם $\Delta_k\ge0$"
+        feedback: >-
+          המעבר לגבול נותן רק כיוון אחד: חצי מוגדרת גוררת $\Delta_k\ge0$. ההפך נכשל בדוגמה $\begin{pmatrix}0&0\\0&-1\end{pmatrix}$.
+        misconception: MC-c6-sylvester-semi
+      - text: >-
+          מינור מוביל שהוא אפס פירושו שהתבנית אפס בכיוון כלשהו, ובשאר הכיוונים היא חיובית
+        feedback: >-
+          $\Delta_k=0$ אומר רק שתת-המטריצה השמאלית העליונה סינגולרית. היא לא אומרת דבר על הסימן בכיוונים אחרים.
+        misconception: MC-c6-sylvester-semi
+
+  - id: Q-6.3-proof
+    type: rank
+    objectives: [OBJ-6.3-3]
+    level: mid
+    prompt: >-
+      סדרו את שלבי ההוכחה: אם התבנית $q$ על $\mathbb{R}^n$ חיובית מוגדרת, קיים $m>0$ כך ש-$q(h)\ge m\|h\|^2$ לכל
+      $h$.
+    help: גררו את השלבים לסדר הנכון, מהשלב הראשון של ההוכחה לאחרון.
+    items:
+      - id: sphere
+        label: >-
+          ספרת היחידה $S=\{u:\|u\|=1\}$ סגורה וחסומה ב-$\mathbb{R}^n$, ולכן קומפקטית.
+      - id: weier
+        label: >-
+          $q$ פולינום ולכן רציפה, ולפי משפט ויירשטראס היא מקבלת ב-$S$ מינימום $m=q(u_0)$ בנקודה $u_0\in S$.
+      - id: pos
+        label: >-
+          $u_0\ne0$ ו-$q$ חיובית מוגדרת, ולכן $m=q(u_0)>0$.
+      - id: homog
+        label: >-
+          לכל $h\ne0$: $q(h)=\|h\|^2\,q\!\left(\frac{h}{\|h\|}\right)$, כי $q(th)=t^2q(h)$, ו-$\frac{h}{\|h\|}\in S$.
+      - id: end
+        label: >-
+          לכן $q(h)\ge m\|h\|^2$ לכל $h\ne0$, וב-$h=0$ שני האגפים אפס.
+    order: [sphere, weier, pos, homog, end]
+    correctFeedback: >-
+      נכון. הרעיון: לצמצם לספרה הקומפקטית, לקבל בה מינימום **שמתקבל**, ולהרחיב בהומוגניות. הקבוע הטוב ביותר בנורמה
+      האוקלידית הוא הערך העצמי הקטן ביותר.
+    wrongFeedback: >-
+      קודם הקומפקטיות של הספרה, אחר כך מינימום שמתקבל בה וחיובי, ובסוף ההומוגניות מסדר 2 שמעבירה מהספרה לכל
+      $\mathbb{R}^n$.
+
+  - id: Q-6.3-threshold
+    type: numeric
+    objectives: [OBJ-6.3-2]
+    level: exam
+    prompt: >-
+      $A_k=\begin{pmatrix}1&1&0\\1&k&1\\0&1&1\end{pmatrix}$. מהו המספר $k_0$ כך ש-$A_k$ חיובית מוגדרת אם ורק אם
+      $k>k_0$?
+    answer: 2
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $\Delta_1=1$, $\Delta_2=k-1$, $\Delta_3=\det A_k=1\cdot(k-1)-1\cdot(1-0)=k-2$. שלושתם חיוביים בדיוק כש-$k>2$
+      (אז גם $k-1>0$). ב-$k=2$ המטריצה חיובית חצי מוגדרת, עם ערכים עצמיים $0,1,3$.
+    wrongFeedback: >-
+      חשבו את שלושת המינורים המובילים כפונקציה של $k$ ודרשו שכולם יהיו חיוביים.
+    commonWrong:
+      - value: 1
+        feedback: >-
+          $k>1$ נותן רק $\Delta_2>0$. בדקו גם את $\Delta_3=k-2$: ל-$k=1.5$, למשל, $\Delta_3<0$ והמטריצה לא מוגדרת.
+        misconception: MC-c6-sylvester-partial
+
+  - id: Q-6.3-inf
+    type: twotier
+    objectives: [OBJ-6.3-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      סטודנט "קיצר" את ההוכחה ש-$q(h)\ge m\|h\|^2$: "לכל $u$ על ספרת היחידה $q(u)>0$, ולכן
+      $m=\inf_{\|u\|=1}q(u)>0$". האם הטיעון הזה תקף כפי שנכתב?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. המסקנה נכונה, אבל המעבר "כל ערך חיובי, ולכן האינפימום חיובי" אינו תקף.'
+      - text: כן
+        feedback: >-
+          אינפימום של מספרים חיוביים יכול להיות אפס: $f(x)=x$ על $(0,1]$ חיובית ו-$\inf f=0$. בלי קומפקטיות אין
+          כאן הוכחה.
+        misconception: MC-c6-positive-inf
+    reasons:
+      - text: >-
+          אינפימום של ערכים חיוביים יכול להיות 0 (כמו $x$ על $(0,1]$); חסר הנימוק שהספרה קומפקטית, ולכן $q$ **מקבלת**
+          בה מינימום, וערך של $q$ חיובי
+        correct: true
+        feedback: >-
+          בדיוק. בזה משתמשים בקומפקטיות: האינפימום הופך לערך $q(u_0)$, ולכן הוא חיובי.
+      - text: >-
+          אינפימום של קבוצת מספרים חיוביים תמיד חיובי
+        feedback: >-
+          $\inf\{\frac1n:n\in\mathbb{N}\}=0$. המשפט הנכון: **מינימום** של מספרים חיוביים הוא חיובי.
+        misconception: MC-c6-positive-inf
+      - text: >-
+          הטיעון תקף כי הספרה סגורה, ופונקציה רציפה על קבוצה סגורה מקבלת מינימום
+        feedback: >-
+          סגירות לבדה לא מספיקה: $e^{x}$ על הישר (קבוצה סגורה) לא מקבלת את האינפימום 0. כאן צריך שהספרה גם
+          חסומה, כלומר קומפקטית; וממילא הטיעון שנכתב לא הזכיר אף אחד מהשניים.
+        misconception: MC-c6-closed-enough
+
+  - id: Q-6.3-norms
+    type: twotier
+    objectives: [OBJ-6.3-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      נכון או לא נכון: אם $q$ חיובית מוגדרת על $\mathbb{R}^n$, קיים גם $m'>0$ כך ש-$q(h)\ge m'\|h\|_\infty^2$ לכל $h$.
+    choices:
+      - text: נכון
+        correct: true
+        feedback: >-
+          נכון. אותה הוכחה עובדת עם ספרת היחידה של $\|\cdot\|_\infty$ (שפת הקובייה $[-1,1]^n$), שגם היא סגורה וחסומה.
+      - text: לא נכון
+        feedback: >-
+          ההוכחה לא השתמשה בשום תכונה מיוחדת של הנורמה האוקלידית, רק בקומפקטיות של ספרת היחידה ובהומוגניות
+          $q(th)=t^2q(h)$. ובאופן ישיר: $\|h\|_\infty\le\|h\|_2$, ולכן $q(h)\ge m\|h\|_2^2\ge m\|h\|_\infty^2$.
+        misconception: MC-c6-bound-euclidean-only
+    reasons:
+      - text: >-
+          $\|h\|_\infty\le\|h\|_2$, ולכן $q(h)\ge m\|h\|_2^2\ge m\|h\|_\infty^2$; או: חוזרים על ההוכחה עם ספרת
+          היחידה של $\|\cdot\|_\infty$, שהיא קומפקטית
+        correct: true
+        feedback: >-
+          בדיוק. הקבוע תלוי בנורמה, אבל קיומו לא. (זה גם מקרה פרטי של שקילות הנורמות, שיעור 3.5.)
+      - text: >-
+          הקבוע $m$ הוא ערך עצמי, וערכים עצמיים מוגדרים רק ביחס למכפלה הפנימית האוקלידית
+        feedback: >-
+          הערך העצמי הוא הקבוע **הטוב ביותר** בנורמה האוקלידית, אבל קיום קבוע חיובי נובע רק מקומפקטיות והומוגניות,
+          בכל נורמה.
+        misconception: MC-c6-bound-euclidean-only
+      - text: >-
+          לכל $h\ne0$ יש $m_h>0$ עם $q(h)\ge m_h\|h\|_\infty^2$, ולכן גם $m'=\inf_h m_h$ חיובי
+        feedback: >-
+          זה בדיוק הטיעון בלי קומפקטיות: אינפימום של אינסוף קבועים חיוביים יכול להיות 0.
+        misconception: MC-c6-positive-inf

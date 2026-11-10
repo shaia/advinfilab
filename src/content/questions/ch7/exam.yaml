@@ -1,0 +1,374 @@
+# Chapter 9 exam questions — original, in the style of an 80315 final (not taken from a real exam).
+# Each is worth 25 points in lettered parts, with at least one open part graded against a model solution and a rubric.
+chapter: 7
+questions:
+  - id: Q-7-exam-1
+    type: exam
+    title: הפיכות מקומית וגלובלית
+    prompt: >-
+      נתונות $g:\mathbb{R}^3\to\mathbb{R}^3$, $g(x,y,z)=(x+e^y,\ y+e^z,\ z+e^x)$, ו-$f:\mathbb{R}^2\to\mathbb{R}^2$,
+      $f(x,y)=(x^3+y,\ x+y^3)$.
+    parts:
+      - label: א
+        points: 7
+        type: open
+        objectives: [OBJ-7.1-1, OBJ-7.2-4]
+        prompt: >-
+          נסחו את משפט הפונקציה ההפוכה. מצאו את כל הנקודות שבסביבתן $g$ הפיכה מקומית, והסיקו ש-$g(\mathbb{R}^3)$ פתוחה.
+        solution:
+          - kind: theorem
+            text: >-
+              משפט הפונקציה ההפוכה: אם $U\subseteq\mathbb{R}^n$ פתוחה, $h:U\to\mathbb{R}^n$ גזירה ברציפות ו-$Dh(a)$ הפיכה,
+              יש סביבות פתוחות $V\ni a$, $W\ni h(a)$ כך ש-$h:V\to W$ חד-חד-ערכית ועל, וההופכית גזירה ברציפות עם
+              $D(h^{-1})(h(a))=Dh(a)^{-1}$.
+          - kind: step
+            text: 'הרכיבים של $g$ הם סכומים של פונקציות אלמנטריות, ולכן כל הנגזרות החלקיות קיימות ורציפות: $g\in C^1$.'
+          - kind: computation
+            text: >-
+              $J_g=\begin{pmatrix}1&e^y&0\\0&1&e^z\\e^x&0&1\end{pmatrix}$, ובפיתוח לפי השורה הראשונה
+              $\det J_g=1\cdot1-e^y(0-e^ze^x)=1+e^{x+y+z}$.
+          - kind: step
+            text: '$1+e^{x+y+z}>1>0$ בכל נקודה, ולכן $Dg(p)$ הפיכה לכל $p\in\mathbb{R}^3$, ולפי המשפט $g$ הפיכה מקומית ליד כל נקודה.'
+          - kind: step
+            text: >-
+              פתיחות: יהי $b=g(p)\in g(\mathbb{R}^3)$. המשפט נותן סביבה פתוחה $W\ni b$ עם $W=g(V)\subseteq g(\mathbb{R}^3)$.
+              לכן כל נקודה של התמונה פנימית (זה משפט ההעתקה הפתוחה).
+          - kind: result
+            text: '$g$ הפיכה מקומית ליד **כל** נקודה של $\mathbb{R}^3$, ו-$g(\mathbb{R}^3)$ קבוצה פתוחה.'
+        rubric:
+          - text: 'ניסוח מלא של המשפט: גזירות ברציפות, דיפרנציאל הפיך בנקודה, סביבות פתוחות, הופכית גזירה ברציפות'
+            weight: 2
+          - text: 'מטריצת יעקובי נכונה ו-$\det J_g=1+e^{x+y+z}$'
+            weight: 2
+          - text: 'המסקנה שהדטרמיננטה חיובית בכל מקום, ולכן הפיכות מקומית בכל נקודה'
+            weight: 1
+          - text: 'הטיעון שכל נקודה של התמונה פנימית, דרך הסביבה $W$ שהמשפט נותן'
+            weight: 2
+
+      - label: ב
+        points: 5
+        type: numeric
+        objectives: [OBJ-7.1-2]
+        prompt: >-
+          $f(1,1)=(2,2)$. תהי $h=(h_1,h_2)$ ההופכית המקומית של $f$ ליד $(1,1)$, כפונקציה של $(u,v)$. חשבו את
+          $\frac{\partial h_1}{\partial u}(2,2)$.
+        answer: 0.375
+        tolerance: 0.001
+        correctFeedback: >-
+          נכון, $\frac38$. $J_f=\begin{pmatrix}3x^2&1\\1&3y^2\end{pmatrix}$, ב-$(1,1)$: $\begin{pmatrix}3&1\\1&3\end{pmatrix}$ עם
+          דטרמיננטה 8. ההופכית $\frac18\begin{pmatrix}3&-1\\-1&3\end{pmatrix}$, והאיבר הראשון $\frac38$.
+        wrongFeedback: >-
+          הציבו את המקור $(1,1)$ ב-$J_f$, הפכו את המטריצה, וקראו את שורה 1, עמודה 1.
+        commonWrong:
+          - value: 0.3333333
+            feedback: >-
+              $\frac13=\frac{1}{3x^2}$ בנקודה: הפכתם איבר בודד. האיבר של ההופכית הוא $\frac{3}{\det}=\frac38$.
+            misconception: MC-c7-inverse-jacobian-entrywise
+          - value: 0.0833333
+            feedback: >-
+              $\frac{1}{12}=\frac{1}{3\cdot2^2}$: הצבתם את $(2,2)$ ב-$J_f$ במקום את המקור $(1,1)$, וגם הפכתם איבר בודד.
+            misconception: MC-c7-inverse-derivative-wrong-point
+
+      - label: ג
+        points: 5
+        type: twotier
+        objectives: [OBJ-7.1-3]
+        qualitative: true
+        prompt: >-
+          $\det J_f(0,0)=-1\neq0$. האם $f$ חד-חד-ערכית על $\mathbb{R}^2$?
+        choices:
+          - text: לא
+            correct: true
+            feedback: >-
+              נכון. ליד הראשית $f$ הפיכה מקומית, אבל על כל המישור לא.
+          - text: כן
+            feedback: >-
+              $f(1,-1)=(1-1,\ 1-1)=(0,0)=f(0,0)$. דטרמיננטה שונה מאפס בנקודה נותנת הפיכות רק בסביבה שלה.
+            misconception: MC-c7-local-is-global
+        reasons:
+          - text: '$f(0,0)=f(1,-1)=f(-1,1)=(0,0)$'
+            correct: true
+            feedback: >-
+              בדיוק: לנקודה $(0,0)$ שלושה מקורות. ($\det J_f=9x^2y^2-1$ מתאפס על $|xy|=\frac13$, והעקומים האלה מפרידים בין
+              המקורות.)
+          - text: '$\det J_f$ מתאפס בכמה נקודות, וזה לבד מראה שאינה חד-חד-ערכית'
+            feedback: >-
+              דטרמיננטה מתאפסת לא מוכיחה כלום על חד-חד-ערכיות ($x^3$ חד-חד-ערכית). צריך שתי נקודות עם אותה תמונה.
+            misconception: MC-c7-ift-iff
+          - text: 'המשפט נותן הופכית ליד הראשית, ולכן גם על כל המישור'
+            feedback: >-
+              המשפט מקומי, והדוגמה כאן מפריכה את ההרחבה.
+            misconception: MC-c7-local-is-global
+
+      - label: ד
+        points: 8
+        type: open
+        objectives: [OBJ-7.2-1]
+        prompt: >-
+          הוכיחו ש-$f$ חד-חד-ערכית על הכדור $B(0,r)$ עם $r=\frac{1}{\sqrt6}$ (בנורמה האוקלידית), ואף
+          $\|f(p)-f(q)\|\ge\frac12\|p-q\|$ לכל $p,q$ בכדור.
+        solution:
+          - kind: given
+            text: '$f(x,y)=(x^3+y,\ x+y^3)$, $A=Df(0,0)=\begin{pmatrix}0&1\\1&0\end{pmatrix}$, $r=\frac1{\sqrt6}$.'
+          - kind: goal
+            text: '$\|f(p)-f(q)\|\ge\frac12\|p-q\|$ לכל $p,q\in B(0,r)$; מזה חד-חד-ערכיות.'
+          - kind: idea
+            text: >-
+              כותבים $f=A+h$ עם $h(x,y)=(x^3,y^3)$. $A$ שומרת על אורכים, ו-$h$ ליפשיץ עם קבוע קטן על הכדור, לפי אי-שוויון
+              הערך הממוצע. השגיאה לא יכולה לבטל את מה ש-$A$ שומרת.
+          - kind: computation
+            text: >-
+              $Dh(x,y)=\begin{pmatrix}3x^2&0\\0&3y^2\end{pmatrix}$, ונורמת האופרטור של מטריצה אלכסונית היא
+              $\max(3x^2,3y^2)\le3(x^2+y^2)<3r^2=\frac12$ על $B(0,r)$.
+          - kind: theorem
+            text: >-
+              אי-שוויון הערך הממוצע (הכדור קמור, ולכן הקטע בין $p$ ל-$q$ בתוכו): $\|h(p)-h(q)\|\le\frac12\|p-q\|$.
+          - kind: step
+            text: >-
+              $A$ מחליפה את הרכיבים, ולכן $\|A(p-q)\|=\|p-q\|$. מאי-שוויון המשולש:
+              $\|f(p)-f(q)\|\ge\|A(p-q)\|-\|h(p)-h(q)\|\ge\|p-q\|-\frac12\|p-q\|=\frac12\|p-q\|$.
+          - kind: check
+            text: >-
+              זה לא סותר את סעיף ג: $\|(1,-1)\|=\sqrt2>\frac1{\sqrt6}$, כך שהנקודות $(0,0)$ ו-$(1,-1)$ אינן שתיהן בכדור.
+          - kind: result
+            text: 'לכל $p\neq q$ בכדור $f(p)\neq f(q)$: $f$ חד-חד-ערכית על $B(0,\frac1{\sqrt6})$, וההופכית ליפשיץ עם קבוע 2.'
+        rubric:
+          - text: 'פירוק $f=A+h$ עם $A=Df(0,0)$, והבחנה ש-$A$ שומרת על הנורמה'
+            weight: 2
+          - text: 'חסם נכון על $\|Dh\|_{\mathrm{op}}$ בכדור, כולל נורמה של מטריצה אלכסונית'
+            weight: 2
+          - text: 'הפעלת אי-שוויון הערך הממוצע (לא שוויון), עם הנימוק שהכדור קמור'
+            weight: 2
+          - text: 'אי-שוויון המשולש ההפוך והמסקנה $\|f(p)-f(q)\|\ge\frac12\|p-q\|$'
+            weight: 2
+
+  - id: Q-7-exam-2
+    type: exam
+    title: משטח גובה ופונקציה סתומה
+    prompt: >-
+      $F(x,y,z)=xyz+x+y+z$, והנקודה $(1,1,1)$ נמצאת על המשטח $S=\{F=4\}$.
+    parts:
+      - label: א
+        points: 8
+        type: open
+        objectives: [OBJ-7.4-1]
+        prompt: >-
+          הוכיחו שלפונקציה $F$ אין נקודות קריטיות כלל, והסיקו שכל $c\in\mathbb{R}$ הוא ערך רגולרי ושכל קבוצת גובה
+          $F^{-1}(c)$ היא, ליד כל אחת מנקודותיה, גרף של פונקציה גזירה ברציפות של שניים מהמשתנים.
+        solution:
+          - kind: computation
+            text: '$\nabla F=(yz+1,\ xz+1,\ xy+1)$.'
+          - kind: idea
+            text: 'נניח בשלילה שכל הרכיבים מתאפסים, ונכפיל את שלוש המשוואות: יתקבל ריבוע שלילי.'
+          - kind: step
+            text: >-
+              אם $\nabla F(p)=0$ אז $yz=xz=xy=-1$, ולכן $(xyz)^2=(yz)(xz)(xy)=-1$, סתירה כי ריבוע של מספר ממשי אינו שלילי.
+          - kind: step
+            text: >-
+              לכן $\nabla F(p)\neq0$ לכל $p\in\mathbb{R}^3$, ובפרט בכל נקודה של כל $F^{-1}(c)$: כל ערך רגולרי (גם ערך
+              שקבוצת הגובה שלו ריקה מקיים את ההגדרה באופן ריק).
+          - kind: theorem
+            text: >-
+              יהי $p\in F^{-1}(c)$. אחת הנגזרות החלקיות, נניח $F_z(p)$, שונה מאפס. משפט הפונקציה הסתומה על $F-c$ נותן
+              סביבה של $p$ שבה $F^{-1}(c)$ היא הגרף $z=g(x,y)$ של פונקציה גזירה ברציפות (ובאותו אופן עם $x$ או $y$).
+          - kind: result
+            text: 'ל-$F$ אין נקודות קריטיות; כל $c$ ערך רגולרי, וכל קבוצת גובה היא מקומית גרף חלק, כלומר משטח.'
+        rubric:
+          - text: 'גרדיאנט נכון'
+            weight: 1
+          - text: 'הטיעון שהמכפלה של שלוש המשוואות נותנת $(xyz)^2=-1$, סתירה'
+            weight: 3
+          - text: 'המעבר מ"אין נקודות קריטיות" ל"כל ערך רגולרי"'
+            weight: 2
+          - text: 'הפעלת משפט הפונקציה הסתומה לפי משתנה שהנגזרת לפיו שונה מאפס'
+            weight: 2
+
+      - label: ב
+        points: 5
+        type: numeric
+        objectives: [OBJ-7.3-2]
+        prompt: >-
+          ליד $(1,1,1)$ המשטח $S$ הוא גרף של $z=g(x,y)$ עם $g(1,1)=1$. חשבו את $\frac{\partial g}{\partial x}(1,1)$.
+        answer: -1
+        tolerance: 0.001
+        correctFeedback: >-
+          נכון. גזירה לפי $x$: $yz+1+(xy+1)g_x=0$, ולכן $g_x=-\frac{yz+1}{xy+1}=-\frac22=-1$.
+        wrongFeedback: >-
+          גזרו את $xy\,g+x+y+g=4$ לפי $x$, כש-$y$ קבוע ו-$g$ תלויה ב-$x$.
+        commonWrong:
+          - value: 1
+            feedback: >-
+              סימן שגוי: $g_x=-\frac{F_x}{F_z}$.
+            misconception: MC-c7-implicit-sign
+
+      - label: ג
+        points: 6
+        type: numeric
+        standalone: false
+        objectives: [OBJ-7.3-2]
+        prompt: >-
+          חשבו את $\frac{\partial^2 g}{\partial x^2}(1,1)$.
+        answer: 1
+        tolerance: 0.001
+        correctFeedback: >-
+          נכון. גוזרים את $g_x=-\frac{yg+1}{xy+1}$ שוב לפי $x$ בכלל המנה, כש-$g$ תלויה ב-$x$:
+          $$g_{xx}=-\frac{y\,g_x\,(xy+1)-(yg+1)\,y}{(xy+1)^2}=-\frac{(-1)\cdot2-2}{4}=1.$$
+        wrongFeedback: >-
+          גזרו את המנה $-\frac{yg+1}{xy+1}$ לפי $x$. המונה תלוי ב-$x$ דרך $g$ (הנגזרת שלו $y\,g_x$), והמכנה ישירות.
+        commonWrong:
+          - value: 0.5
+            feedback: >-
+              $\frac12$ מתקבל כשמתייחסים ל-$g$ במונה כקבוע: אז רק המכנה נגזר. אבל $g$ תלויה ב-$x$, והאיבר $y\,g_x(xy+1)=-2$
+              משנה את התוצאה.
+            misconception: MC-c7-implicit-y-constant
+          - value: -1
+            feedback: >-
+              זו הנגזרת הראשונה, $g_x(1,1)$, מסעיף ב.
+
+      - label: ד
+        points: 6
+        type: mc
+        objectives: [OBJ-7.4-2]
+        prompt: >-
+          מהו המישור המשיק ל-$S$ שעובר בנקודה $(1,1,1)$?
+        choices:
+          - text: '$x+y+z=3$'
+            correct: true
+            feedback: >-
+              נכון. $\nabla F(1,1,1)=(2,2,2)$, והמישור $2(x-1)+2(y-1)+2(z-1)=0$. בהתאם לסעיף ב, $g_x=g_y=-1$.
+          - text: '$x+y+z=0$'
+            feedback: >-
+              זה המרחב המשיק $\ker DF(1,1,1)$, שעובר בראשית. המישור דרך הנקודה הוא ההזזה שלו.
+            misconception: MC-c7-tangent-space-affine
+          - text: '$x+y+z=2$'
+            feedback: >-
+              זה $\nabla F\cdot p=F(a)$ אחרי חלוקה ב-2: $2x+2y+2z=4$. האגף הימני צריך להיות $\nabla F(a)\cdot a=6$.
+            misconception: MC-c7-tangent-space-affine
+          - text: 'הישר $(1,1,1)+t(1,1,1)$'
+            feedback: >-
+              זה הישר הנורמלי, בכיוון הגרדיאנט. המישור המשיק ניצב לו.
+            misconception: MC-c7-tangent-normal-swap
+
+  - id: Q-7-exam-3
+    type: exam
+    title: תבנית ריבועית על הספרה
+    prompt: >-
+      $A$ מטריצה סימטרית $n\times n$, $S=\{x\in\mathbb{R}^n:\ \|x\|=1\}$ ספרת היחידה, ו-$q(x)=x^TAx$.
+    parts:
+      - label: א
+        points: 10
+        type: open
+        objectives: [OBJ-7.6-2, OBJ-7.5-1]
+        prompt: >-
+          הוכיחו בעזרת כופלי לגרנז' ש-$\max_S q$ קיים ושווה לערך העצמי הגדול ביותר של $A$.
+        solution:
+          - kind: goal
+            text: '$\max_S q=\lambda_{\max}(A)$.'
+          - kind: idea
+            text: >-
+              קומפקטיות נותנת נקודת מקסימום; לגרנז' הופך אותה לווקטור עצמי; והשוואה עם שאר הווקטורים העצמיים מראה שהערך
+              העצמי שלה הגדול ביותר.
+          - kind: step
+            text: >-
+              $S=\{g=0\}$ עם $g(x)=\|x\|^2-1$ סגורה וחסומה, ולכן קומפקטית; $q$ רציפה (פולינום). לפי ויירשטראס יש $v\in S$
+              עם $q(v)=\max_S q$.
+          - kind: computation
+            text: >-
+              $\nabla g(x)=2x$, ו-$\nabla q(x)=(A+A^T)x=2Ax$ כי $A$ סימטרית.
+          - kind: theorem
+            text: >-
+              $\nabla g(v)=2v\neq0$ כי $\|v\|=1$, ולכן לפי משפט לגרנז' יש $\lambda$ עם $2Av=\lambda\cdot2v$: $v$ וקטור עצמי של
+              $A$ עם ערך עצמי $\lambda$.
+          - kind: step
+            text: '$q(v)=v^TAv=\lambda\,v^Tv=\lambda$.'
+          - kind: step
+            text: >-
+              אם $\mu$ ערך עצמי כלשהו של $A$ עם וקטור עצמי $u$, $\|u\|=1$, אז $\mu=u^TAu=q(u)\le q(v)=\lambda$.
+          - kind: result
+            text: '$\max_S q=\lambda$, הערך העצמי הגדול ביותר של $A$, ומתקבל בכל וקטור עצמי מנורמל שלו.'
+        rubric:
+          - text: 'קיום המקסימום מקומפקטיות הספרה ורציפות $q$'
+            weight: 2
+          - text: 'בדיקת תנאי הרגולריות $\nabla g\neq0$ על $S$'
+            weight: 2
+          - text: 'חישוב $\nabla q=2Av$ עם שימוש בסימטריה, והמסקנה $Av=\lambda v$'
+            weight: 3
+          - text: '$q(v)=\lambda$, והשוואה לכל ערך עצמי אחר שמראה שהוא הגדול ביותר'
+            weight: 3
+
+      - label: ב
+        points: 5
+        type: numeric
+        objectives: [OBJ-7.6-2]
+        prompt: >-
+          עכשיו $n=3$ ו-$q(x,y,z)=2xy+2yz+2zx$. מצאו את $\max_S q$.
+        answer: 2
+        tolerance: 0.001
+        correctFeedback: >-
+          נכון. המטריצה היא $J-I$ ($J$ מטריצת האחדות), עם ערכים עצמיים $3-1=2$ ו-$0-1=-1$ (פעמיים). המקסימום 2 ב-$\pm\frac{1}{\sqrt3}(1,1,1)$.
+          בדיקה: על $S$ מתקיים $q=(x+y+z)^2-1$, ו-$(x+y+z)^2\le3$ מקושי-שוורץ.
+        wrongFeedback: >-
+          כתבו את המטריצה הסימטרית של $q$ (מחוץ לאלכסון: חצי מהמקדם של כל $xy$), ונסו את הווקטור $(1,1,1)$.
+        commonWrong:
+          - value: 0
+            feedback: >-
+              0 הוא הערך על וקטורי הבסיס, כי האלכסון אפס. הוא חסם תחתון למקסימום, לא המקסימום.
+            misconception: MC-c7-diagonal-is-max
+          - value: 4
+            feedback: >-
+              4 מתקבל מהמטריצה עם 2 מחוץ לאלכסון, כאילו כל מקדם של $xy$ נכנס פעמיים; התבנית שלה היא $2q$. במטריצה
+              הסימטרית של $q$ כל איבר מחוץ לאלכסון הוא 1.
+            misconception: MC-c7-eigen-nonsymmetric
+
+      - label: ג
+        points: 5
+        type: numeric
+        objectives: [OBJ-7.6-2]
+        prompt: >-
+          עבור אותה $q(x,y,z)=2xy+2yz+2zx$, מצאו את $\min_S q$.
+        answer: -1
+        tolerance: 0.001
+        correctFeedback: >-
+          נכון: הערך העצמי הקטן, $-1$. על $S$ מתקיים $q=(x+y+z)^2-1\ge-1$, עם שוויון בדיוק כש-$x+y+z=0$.
+        wrongFeedback: >-
+          המינימום הוא הערך העצמי הקטן. או ישירות: $(x+y+z)^2=x^2+y^2+z^2+q$.
+        commonWrong:
+          - value: -2
+            feedback: >-
+              $-2$ הוא הערך העצמי הקטן של המטריצה עם 2 מחוץ לאלכסון, שהתבנית שלה $2q$. במטריצה הסימטרית של $q$ האיברים
+              מחוץ לאלכסון הם 1, והערכים העצמיים $2,-1,-1$.
+            misconception: MC-c7-eigen-nonsymmetric
+          - value: 0
+            feedback: >-
+              0 הוא הערך על וקטורי הבסיס. ב-$\frac1{\sqrt2}(1,-1,0)$ הערך $2\cdot\frac{-1}{2}=-1$.
+            misconception: MC-c7-diagonal-is-max
+
+      - label: ד
+        points: 5
+        type: twotier
+        objectives: [OBJ-7.6-2, OBJ-7.5-2]
+        qualitative: true
+        standalone: false
+        prompt: >-
+          האם $\min_S q$ מתקבל בשתי נקודות בלבד, $\pm v$ לווקטור יחידה $v$ אחד?
+        choices:
+          - text: לא
+            correct: true
+            feedback: >-
+              נכון. המינימום מתקבל על מעגל שלם.
+          - text: כן
+            feedback: >-
+              זה נכון כשהערך העצמי הקטן פשוט. כאן הוא מופיע פעמיים, והמרחב העצמי שלו דו-ממדי.
+            misconception: MC-c7-lagrange-sufficient
+        reasons:
+          - text: 'המרחב העצמי של $-1$ הוא המישור $x+y+z=0$, ו-$q=-1$ על כל המעגל $S\cap\{x+y+z=0\}$'
+            correct: true
+            feedback: >-
+              בדיוק. בהתאם, $q=(x+y+z)^2-1$ על $S$ מגיעה ל-$-1$ בכל נקודה של המעגל הזה.
+          - text: 'נקודות קיצון של פונקציה גזירה הן תמיד מבודדות'
+            feedback: >-
+              לא נכון: פונקציה קבועה על קטע מקבלת מינימום בכל נקודה. כאן $q$ קבועה על מעגל שלם.
+          - text: 'משוואות לגרנז'' נותנות מספר סופי של פתרונות'
+            feedback: >-
+              הפתרונות של $Av=\lambda v$, $\|v\|=1$ הם כל הווקטורים העצמיים המנורמלים, וכשמרחב עצמי דו-ממדי, זה מעגל שלם.
+            misconception: MC-c7-lagrange-sufficient

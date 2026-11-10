@@ -1,0 +1,29 @@
+# Terms first defined in lesson 4.3 (the Arzelà–Ascoli theorem).
+- id: uniformly-bounded-family
+  term: משפחה חסומה במידה שווה
+  en: uniformly bounded family
+  definition: >-
+    קיים $M$ אחד כך ש-$|f(x)|\le M$ לכל $f$ במשפחה ולכל $x$. ב-$C(K)$ זו בדיוק משפחה חסומה בנורמת הסופרמום.
+  lesson: '4.3'
+- id: pointwise-bounded-family
+  term: משפחה חסומה נקודתית
+  en: pointwise bounded family
+  definition: >-
+    לכל $x$ קיים $M_x$ כך ש-$|f(x)|\le M_x$ לכל $f$ במשפחה. החסם רשאי להיות תלוי בנקודה. על $K$ קומפקטי, משפחה
+    רציפה במידה אחידה וחסומה נקודתית חסומה במידה שווה.
+  lesson: '4.3'
+- id: relatively-compact-set
+  term: קבוצה קומפקטית יחסית
+  en: relatively compact set
+  definition: >-
+    תת-קבוצה של מרחב מטרי שהסגור שלה קומפקטי. במרחב שלם זה שקול לחסימות כליל, ולכך שלכל סדרה בקבוצה יש תת-סדרה
+    מתכנסת (לגבול שאולי אינו בקבוצה).
+  lesson: '4.3'
+- id: arzela-ascoli-theorem
+  term: משפט ארצלה-אסקולי
+  en: Arzelà–Ascoli theorem
+  definition: >-
+    יהי $K$ מרחב מטרי קומפקטי. תת-קבוצה $\mathcal{F}\subseteq C(K)$ קומפקטית יחסית אם ורק אם היא חסומה (במידה שווה)
+    ורציפה במידה אחידה. בפרט, לכל סדרה חסומה ורציפה במידה אחידה ב-$C(K)$ יש תת-סדרה מתכנסת במידה שווה.
+  reject: [ארזלה-אסקולי]
+  lesson: '4.3'

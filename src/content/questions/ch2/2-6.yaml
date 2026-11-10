@@ -1,0 +1,294 @@
+# Lesson 2.6 — the completion of a metric space.
+# Objectives (src/course.ts):
+#   OBJ-2.6-1  define a completion as an isometric embedding onto a dense subset of a complete space; ℝ completes ℚ
+#   OBJ-2.6-2  build the completion from equivalence classes of Cauchy sequences; the metric is well defined
+#   OBJ-2.6-3  the completion is unique up to isometry; inside a complete space the completion is the closure
+chapter: 2
+questions:
+  - id: Q-2.6-def
+    type: mc
+    objectives: [OBJ-2.6-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      השלמה של מרחב מטרי $(X,d)$ היא מרחב מטרי שלם $Y$ יחד עם העתקה $i:X\to Y$ כך ש...
+    choices:
+      - text: '$i$ שיכון איזומטרי ו-$i(X)$ צפופה ב-$Y$'
+        correct: true
+        feedback: >-
+          נכון. איזומטרי, כדי ש-$X$ יישב ב-$Y$ עם אותם מרחקים (ולכן עם אותן סדרות קושי); צפוף, כדי ש-$Y$ לא יכיל
+          יותר ממה שצריך: כל נקודה חדשה היא גבול של נקודות מ-$X$.
+      - text: '$i$ שיכון איזומטרי (בלי דרישה נוספת)'
+        feedback: >-
+          בלי צפיפות, גם $\mathbb{R}^2$ היה "השלמה" של $\mathbb{Q}$ (על ציר ה-$x$). ההשלמה צריכה להיות המרחב השלם
+          **הקטן ביותר** שמכיל את $X$, וזה מה שהצפיפות אומרת.
+        misconception: MC-c2-completion-any-superset
+      - text: '$i$ הומיאומורפיזם על תת-קבוצה צפופה של $Y$'
+        feedback: >-
+          הומיאומורפיזם לא שומר סדרות קושי. $x\mapsto\tan(\pi(x-\frac12))$ הוא הומיאומורפיזם של $(0,1)$ **על**
+          $\mathbb{R}$ השלם, אבל ההשלמה של $(0,1)$ היא $[0,1]$.
+        misconception: MC-c2-completeness-topological
+      - text: '$Y$ הוא $X$ יחד עם הגבולות של כל סדרות הקושי ב-$X$'
+        feedback: >-
+          לסדרת קושי שאינה מתכנסת ב-$X$ אין גבול שאפשר "להוסיף": אין לה גבול בשום מקום עדיין. לכן ההגדרה
+          דורשת מרחב $Y$ קיים, והבנייה משתמשת במחלקות של סדרות קושי.
+        misconception: MC-c2-completion-adds-limits
+
+  - id: Q-2.6-identify
+    type: multi
+    objectives: [OBJ-2.6-1, OBJ-2.6-3]
+    qualitative: true
+    level: basic
+    prompt: >-
+      בכל זוג, $X\subseteq Y$ עם המרחק הרגיל והשיכון הוא ההכלה. באילו זוגות $Y$ היא ההשלמה של $X$? סמנו את כולם.
+    choices:
+      - text: '$X=(0,1)$, $Y=[0,1]$'
+        correct: true
+        feedback: '$[0,1]$ שלם ו-$(0,1)$ צפוף בו: הנקודות $0,1$ הן גבולות של נקודות מ-$(0,1)$.'
+      - text: '$X=\mathbb{Q}$, $Y=\mathbb{R}$'
+        correct: true
+        feedback: '$\mathbb{R}$ שלם ו-$\mathbb{Q}$ צפוף בו (שיעור 1.4). זו הדוגמה שממנה המושג נולד.'
+      - text: '$X=\{\frac1n:n\in\mathbb{N}\}$, $Y=\{0\}\cup\{\frac1n:n\in\mathbb{N}\}$'
+        correct: true
+        feedback: >-
+          $Y$ סגור ב-$\mathbb{R}$ ולכן שלם, ו-$X$ צפוף בו (הנקודה היחידה החסרה, 0, היא גבול של $\frac1n$).
+      - text: '$X=\mathbb{Z}$, $Y=\mathbb{Z}$'
+        correct: true
+        feedback: '$\mathbb{Z}$ כבר שלם, ומרחב שלם הוא ההשלמה של עצמו.'
+      - text: '$X=(0,1)$, $Y=\mathbb{R}$'
+        feedback: >-
+          $\mathbb{R}$ שלם, אבל $(0,1)$ אינו צפוף בו: הנקודה 5 אינה גבול של נקודות מ-$(0,1)$. בתוך $\mathbb{R}$ ההשלמה
+          היא הסגור, $[0,1]$.
+        misconception: MC-c2-completion-any-superset
+      - text: '$X=\mathbb{Q}\times\{0\}$, $Y=\mathbb{R}^2$'
+        feedback: >-
+          $\mathbb{R}^2$ שלם, אבל הסגור של $X$ בו הוא ציר ה-$x$, $\mathbb{R}\times\{0\}$, ורק הוא ההשלמה.
+        misconception: MC-c2-completion-any-superset
+
+  - id: Q-2.6-equiv-relation
+    type: mc
+    objectives: [OBJ-2.6-2]
+    qualitative: true
+    level: basic
+    prompt: >-
+      בבניית ההשלמה, מתי שתי סדרות קושי $(x_n)$ ו-$(y_n)$ ב-$X$ נחשבות שקולות (מייצגות אותה נקודה של ההשלמה)?
+    choices:
+      - text: 'כאשר $d(x_n,y_n)\to0$'
+        correct: true
+        feedback: >-
+          נכון. התנאי מדבר רק על נקודות של $X$, בלי שום גבול, ולכן אפשר לבדוק אותו גם כשהסדרות לא מתכנסות ב-$X$.
+      - text: 'כאשר $x_n=y_n$ לכל $n$ מאינדקס מסוים'
+        feedback: >-
+          זה מחמיר מדי. הקירובים העשרוניים $a_n$ של $\sqrt2$ והסדרה $a_n+10^{-n}$ לעולם לא שוות, ושתיהן "שואפות
+          ל-$\sqrt2$": הן צריכות לייצג אותה נקודה.
+        misconception: MC-c2-equivalence-too-strict
+      - text: 'כאשר יש להן אותו גבול'
+        feedback: >-
+          ב-$X$ אולי אין להן גבול כלל, ובשביל זה בונים את ההשלמה. התנאי $d(x_n,y_n)\to0$ אומר "אותו גבול" בלי להזכיר
+          גבול.
+        misconception: MC-c2-completion-adds-limits
+
+  - id: Q-2.6-complete-itself
+    type: twotier
+    objectives: [OBJ-2.6-1, OBJ-2.6-3]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $X$ מרחב מטרי **שלם**. האם $X$ עצמו (עם הזהות) הוא ההשלמה של $X$?
+    choices:
+      - text: כן
+        correct: true
+        feedback: >-
+          נכון, ולפי היחידות כל השלמה של $X$ איזומטרית ל-$X$. ההשלמה לא מוסיפה דבר למרחב שאין בו חורים.
+      - text: 'לא, ההשלמה תמיד גדולה יותר'
+        feedback: >-
+          בבנייה, כל סדרת קושי ב-$X$ מתכנסת לאיזה $x$, ולכן שקולה לסדרה הקבועה $x$: אין מחלקות חדשות.
+        misconception: MC-c2-completion-of-complete
+    reasons:
+      - text: 'הזהות היא איזומטריה, $X$ צפוף בעצמו, ו-$X$ שלם: אלה בדיוק התנאים בהגדרה'
+        correct: true
+        feedback: 'בדיוק: בודקים את שלושת התנאים של ההגדרה, וכולם מתקיימים.'
+      - text: 'מחלקות השקילות של סדרות קושי תמיד מוסיפות נקודות חדשות'
+        feedback: >-
+          הן מוסיפות נקודה רק לסדרת קושי שאינה מתכנסת ב-$X$. במרחב שלם אין כאלה.
+        misconception: MC-c2-completion-of-complete
+
+  - id: Q-2.6-discrete-Q
+    type: twotier
+    objectives: [OBJ-2.6-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $\mathbb{Q}$ עם **המטריקה הבדידה**. האם ההשלמה שלו היא $\mathbb{R}$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. ההשלמה היא $\mathbb{Q}$ עצמו (עם המטריקה הבדידה). "ההשלמה של $\mathbb{Q}$ היא $\mathbb{R}$" נכון רק
+          במרחק הרגיל.
+      - text: כן
+        feedback: >-
+          ההשלמה תלויה במטריקה. במטריקה הבדידה $\mathbb{Q}$ כבר שלם, ושום נקודה אי-רציונלית אינה גבול של רציונליים.
+        misconception: MC-c2-completion-ignores-metric
+    reasons:
+      - text: 'במטריקה הבדידה כל סדרת קושי קבועה מאינדקס מסוים, ולכן $\mathbb{Q}$ שלם והוא ההשלמה של עצמו'
+        correct: true
+        feedback: >-
+          בדיוק. וגם "צפיפות" נכשלת: ב-$\mathbb{R}$ עם המטריקה הבדידה כל נקודה מבודדת, ו-$\mathbb{Q}$ אינו צפוף בו.
+      - text: 'הקירובים העשרוניים של $\sqrt2$ הם סדרת קושי בלי גבול רציונלי, ולכן צריך להוסיף את $\sqrt2$'
+        feedback: >-
+          במטריקה הבדידה הקירובים אינם סדרת קושי: כל שני קירובים שונים במרחק 1.
+        misconception: MC-c2-completion-ignores-metric
+
+  - id: Q-2.6-metric-value
+    type: numeric
+    objectives: [OBJ-2.6-2]
+    level: mid
+    prompt: >-
+      בהשלמה $\widehat{\mathbb{Q}}$ של $\mathbb{Q}$ (מחלקות של סדרות קושי, $D([(x_n)],[(y_n)])=\lim|x_n-y_n|$), תהי $\xi$
+      המחלקה של הקירובים העשרוניים $1,\ 1.4,\ 1.41,\ 1.414,\dots$ של $\sqrt2$, ו-$\eta$ המחלקה של $y_n=1+\frac1n$. חשבו
+      את $D(\xi,\eta)$ (בקירוב עשרוני).
+    answer: 0.4142135624
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון: $\sqrt2-1\approx0.4142$. $x_n\to\sqrt2$ ו-$y_n\to1$ ב-$\mathbb{R}$, ולכן $|x_n-y_n|\to\sqrt2-1$. כאן
+      $\eta$ היא המחלקה של הסדרה הקבועה 1, כלומר הנקודה $1\in\mathbb{Q}$.
+    wrongFeedback: >-
+      המטריקה היא גבול של המרחקים בין האיברים, לא המרחק בין איברים מסוימים. לאן שואפות שתי הסדרות ב-$\mathbb{R}$?
+    commonWrong:
+      - value: 1
+        feedback: >-
+          1 הוא $|x_1-y_1|=|1-2|$, המרחק בין האיברים הראשונים. $D$ מוגדר כגבול, ולא תלוי באף מספר סופי של איברים
+          (אחרת הוא היה תלוי בנציג).
+        misconception: MC-c2-metric-not-well-defined
+
+  - id: Q-2.6-well-defined
+    type: rank
+    objectives: [OBJ-2.6-2]
+    level: mid
+    prompt: >-
+      סדרו את שלבי ההוכחה ש-$D([(x_n)],[(y_n)])=\lim_n d(x_n,y_n)$ מוגדר היטב על מחלקות השקילות של סדרות קושי.
+    help: גררו את השלבים לסדר הנכון, מהשלב הראשון של ההוכחה לאחרון.
+    items:
+      - id: four
+        label: 'מאי-שוויון המשולש (פעמיים): $|d(x_n,y_n)-d(x_m,y_m)|\le d(x_n,x_m)+d(y_n,y_m)$.'
+      - id: cauchy
+        label: 'שתי הסדרות הן סדרות קושי, ולכן $\big(d(x_n,y_n)\big)$ היא סדרת קושי ב-$\mathbb{R}$, ומתכנסת כי $\mathbb{R}$ שלם.'
+      - id: reps
+        label: 'אם $(x_n'')\sim(x_n)$ ו-$(y_n'')\sim(y_n)$, אותו אי-שוויון נותן $|d(x_n'',y_n'')-d(x_n,y_n)|\le d(x_n'',x_n)+d(y_n'',y_n)\to0$.'
+      - id: done
+        label: 'לכן לשתי הסדרות אותו גבול: $D$ תלוי רק במחלקות, לא בנציגים.'
+    order: [four, cauchy, reps, done]
+    correctFeedback: >-
+      נכון. הרעיון: אי-שוויון "המרובע" עושה את שתי העבודות, קיום הגבול ואי-התלות בנציגים. (את האקסיומות של מטריקה
+      בודקים אחר כך, במעבר לגבול באקסיומות של $d$.)
+    wrongFeedback: >-
+      קודם האי-שוויון, ממנו קיום הגבול (קושי ב-$\mathbb{R}$), ורק אז אפשר לשאול אם הגבול תלוי בנציגים.
+
+  - id: Q-2.6-well-defined-why
+    type: twotier
+    objectives: [OBJ-2.6-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      בהגדרת $D([(x_n)],[(y_n)])=\lim d(x_n,y_n)$, האם אפשר לדלג על ההוכחה שהגבול קיים?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. $x_n$ ו-$y_n$ אינן מתכנסות ב-$X$ באופן כללי, ולכן אין "גבול של מרחקים" מובטח מראש.
+      - text: 'כן, זה ברור מההגדרה'
+        feedback: >-
+          הגדרה שמשתמשת ב-$\lim$ צריכה הוכחה שהגבול קיים, ובמחלקות גם שהוא לא תלוי בנציג.
+        misconception: MC-c2-metric-not-well-defined
+    reasons:
+      - text: '$\big(d(x_n,y_n)\big)$ היא סדרת קושי ב-$\mathbb{R}$ (מאי-שוויון המשולש), ו-$\mathbb{R}$ שלם; את זה צריך להוכיח'
+        correct: true
+        feedback: >-
+          בדיוק. שימו לב שההוכחה משתמשת בשלמות של $\mathbb{R}$. כשבונים כך את $\mathbb{R}$ עצמו מ-$\mathbb{Q}$, אי
+          אפשר להשתמש בה, ולכן שם מגדירים את המרחק בדרך אחרת (כמחלקה של הסדרה $|x_n-y_n|$).
+      - text: 'הגבול קיים כי $x_n\to x$ ו-$y_n\to y$, ולכן $d(x_n,y_n)\to d(x,y)$'
+        feedback: >-
+          ב-$X$ אולי אין $x,y$ כאלה: בשביל זה בונים את ההשלמה. הנימוק צריך לעבוד גם בלי גבולות.
+        misconception: MC-c2-completion-adds-limits
+
+  - id: Q-2.6-closure
+    type: twotier
+    objectives: [OBJ-2.6-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $Y$ מרחב מטרי שלם ו-$X\subseteq Y$ (עם אותה מטריקה). האם הסגור $\overline{X}$ (בתוך $Y$), עם ההכלה, הוא השלמה
+      של $X$?
+    choices:
+      - text: כן
+        correct: true
+        feedback: >-
+          נכון, ולפי היחידות כל השלמה של $X$ איזומטרית ל-$\overline X$. כך מוצאים השלמות בפועל: אם $X$ יושב במרחב
+          שלם מוכר, לוקחים את הסגור.
+      - text: 'לא, ההשלמה היא $Y$'
+        feedback: >-
+          $Y$ שלם ומכיל את $X$, אבל $X$ אינו צפוף בו באופן כללי: $(0,1)\subseteq\mathbb{R}$, וההשלמה היא $[0,1]$.
+        misconception: MC-c2-completion-any-superset
+    reasons:
+      - text: '$\overline X$ סגורה במרחב השלם $Y$ ולכן שלמה (שיעור 2.2), $X$ צפופה בסגור שלה, וההכלה שומרת מרחקים'
+        correct: true
+        feedback: 'בדיוק: שלושת התנאים של ההגדרה, וכל אחד מהם משפט שכבר ידוע.'
+      - text: '$Y$ שלם ומכיל את $X$, ולכן $Y$ היא ההשלמה, והסגור הוא רק חלק ממנה'
+        feedback: >-
+          חסרה הצפיפות. הסגור הוא בדיוק החלק של $Y$ שנקודותיו הן גבולות של נקודות מ-$X$, וזו ההשלמה.
+        misconception: MC-c2-completion-any-superset
+
+  - id: Q-2.6-arctan
+    type: mc
+    objectives: [OBJ-2.6-1, OBJ-2.6-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      מהי ההשלמה של $\mathbb{R}$ עם המטריקה $d(x,y)=|\arctan x-\arctan y|$ (עד כדי איזומטריה)?
+    choices:
+      - text: 'הקטע $[-\frac\pi2,\frac\pi2]$ עם המרחק הרגיל'
+        correct: true
+        feedback: >-
+          נכון. $x\mapsto\arctan x$ היא איזומטריה של $(\mathbb{R},d)$ על $(-\frac\pi2,\frac\pi2)$ עם המרחק הרגיל, וזה
+          תת-מרחב של $\mathbb{R}$ השלם; ההשלמה שלו היא הסגור. שתי הנקודות החדשות מתנהגות כמו $\pm\infty$.
+      - text: '$\mathbb{R}$ עם המרחק הרגיל'
+        feedback: >-
+          ההשלמה תלויה במטריקה. ב-$d$ הסדרה $n$ היא סדרת קושי בלי גבול, ולכן ההשלמה חייבת להוסיף לה נקודה.
+        misconception: MC-c2-completion-ignores-metric
+      - text: '$(\mathbb{R},d)$ עצמו, כי הוא הומיאומורפי ל-$\mathbb{R}$ השלם'
+        feedback: >-
+          הומיאומורפיזם לא שומר שלמות: $(\mathbb{R},d)$ אינו שלם (שיעור 2.1), ומרחב לא שלם אינו ההשלמה של עצמו.
+        misconception: MC-c2-completeness-topological
+      - text: '$\mathbb{R}$ ועוד נקודה אחת "באינסוף"'
+        feedback: >-
+          הסדרות $n$ ו-$-n$ שתיהן סדרות קושי, אבל $d(n,-n)=2\arctan n\to\pi\neq0$: הן אינן שקולות, ולכן מייצגות
+          **שתי** נקודות חדשות.
+        misconception: MC-c2-completion-ignores-metric
+
+  - id: Q-2.6-unique-proof
+    type: rank
+    objectives: [OBJ-2.6-3]
+    level: exam
+    prompt: >-
+      $i:X\to Y$ ו-$j:X\to Z$ שתי השלמות של $X$. סדרו את שלבי ההוכחה שיש איזומטריה $\varphi$ של $Y$ **על** $Z$ עם
+      $\varphi\circ i=j$.
+    help: גררו את השלבים לסדר הנכון, מהשלב הראשון של ההוכחה לאחרון.
+    items:
+      - id: dense
+        label: 'על $i(X)$ נגדיר $\varphi(i(x))=j(x)$; זו איזומטריה, כי $d(j(x),j(x''))=d(x,x'')=d(i(x),i(x''))$.'
+      - id: seq
+        label: 'יהי $y\in Y$. כי $i(X)$ צפופה, יש $x_n\in X$ עם $i(x_n)\to y$, ולכן $(x_n)$ סדרת קושי ב-$X$.'
+      - id: extend
+        label: '$(j(x_n))$ סדרת קושי ב-$Z$ השלם; נגדיר $\varphi(y)=\lim j(x_n)$, והגבול לא תלוי בבחירת $(x_n)$.'
+      - id: iso
+        label: 'מעבר לגבול: $d(\varphi(y),\varphi(y''))=\lim d(j(x_n),j(x_n''))=\lim d(i(x_n),i(x_n''))=d(y,y'')$.'
+      - id: onto
+        label: '$\varphi(Y)$ שלם ולכן סגור ב-$Z$, והוא מכיל את $j(X)$ הצפופה; לכן $\varphi(Y)=Z$.'
+    order: [dense, seq, extend, iso, onto]
+    correctFeedback: >-
+      נכון. הרעיון: איזומטריה על קבוצה צפופה נמשכת באופן יחיד למרחב שלם, דרך גבולות של סדרות קושי. ה"על" בא מכך
+      שתמונה שלמה סגורה (שיעור 2.2) ומכילה קבוצה צפופה.
+    wrongFeedback: >-
+      מגדירים קודם על החלק הצפוף, ממשיכים בעזרת סדרות (צפיפות ב-$Y$, שלמות ב-$Z$), מראים ששמירת המרחקים עוברת
+      לגבול, ולבסוף מראים שההעתקה על.

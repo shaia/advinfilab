@@ -1,0 +1,329 @@
+# Chapter 10 exam questions — original, in the style of an 80315 final (not taken from a real exam).
+# Each is worth 25 points in lettered parts, with at least one open part graded against a model solution and a rubric.
+# ω = (−y, x)/(x²+y²) is the angle field and ω_p(x) = ω(x−p). Green's theorem is not part of this course: never use it.
+chapter: 8
+questions:
+  - id: Q-8-exam-1
+    type: exam
+    title: אינטגרל על משולש ושדה משמר
+    prompt: >-
+      $\gamma$ היא שפת המשולש שקודקודיו $(0,0)$, $(1,0)$, $(1,1)$, פעם אחת בכיוון החיובי (נגד כיוון השעון): מ-$(0,0)$
+      ל-$(1,0)$, משם ל-$(1,1)$ ובחזרה ל-$(0,0)$. לכל $a\in\mathbb{R}$ נגדיר
+      $G_a(x,y)=(ay^2+2xy,\ x^2+2xy)$.
+    parts:
+      - label: א
+        points: 7
+        type: numeric
+        objectives: [OBJ-8.3-1]
+        prompt: >-
+          חשבו את $\int_\gamma y^2\,dx+x^2\,dy$, צלע אחרי צלע. (שבר מותר.)
+        answer: 0.3333333
+        tolerance: 0.0005
+        correctFeedback: >-
+          נכון, $\frac13$. צלע תחתונה $(t,0)$: $y=0$ ו-$dy=0$, תרומה 0. צלע אנכית $(1,t)$: $dx=0$,
+          $\int_0^11\,dt=1$. היתר $(1-t,1-t)$, $t\in[0,1]$: $dx=dy=-dt$,
+          $\int_0^1\left(2(1-t)^2\right)(-1)\,dt=-\frac23$. סך הכול $0+1-\frac23$.
+        wrongFeedback: >-
+          תנו לכל צלע פרמטריזציה בכיוון התנועה. ביתר עוברים מ-$(1,1)$ ל-$(0,0)$, ולכן $dx$ ו-$dy$ שליליים.
+        commonWrong:
+          - value: 1.6666667
+            feedback: >-
+              $\frac53$ מתקבל כשעוברים על היתר מ-$(0,0)$ ל-$(1,1)$. בכיוון החיובי היתר הוא הצלע האחרונה, מ-$(1,1)$
+              בחזרה לראשית, והתרומה שלה $(-\frac23)$.
+            misconception: MC-c8-orientation-ignored
+          - value: 0
+            feedback: >-
+              מסילה סגורה אינה גוררת אינטגרל 0; זה נכון לכל מסילה סגורה רק כשהשדה משמר, ו-$(y^2,x^2)$ אינו כזה.
+            misconception: MC-c8-closed-always-zero
+
+      - label: ב
+        points: 5
+        type: twotier
+        standalone: false
+        objectives: [OBJ-8.4-1]
+        qualitative: true
+        prompt: >-
+          סטודנט חישב נכון ש-$\int y^2\,dx+x^2\,dy=0$ על מעגל היחידה, והסיק שהשדה $(y^2,x^2)$ משמר ב-$\mathbb{R}^2$. האם
+          המסקנה נכונה?
+        choices:
+          - text: לא
+            correct: true
+            feedback: 'נכון. סעיף א מפריך אותה.'
+          - text: כן
+            feedback: >-
+              אפס על מסילה סגורה אחת אינו אפס על **כל** מסילה סגורה. בסעיף א יש מסילה סגורה עם אינטגרל $\frac13$.
+            misconception: MC-c8-one-loop-enough
+        reasons:
+          - text: 'שדה משמר נותן 0 על כל מסילה סגורה, ובסעיף א יש מסילה סגורה עם אינטגרל $\frac13\ne0$; מסילה אחת עם אפס אינה מוכיחה דבר'
+            correct: true
+            feedback: >-
+              בדיוק. כדי להפריך מספיקה מסילה סגורה אחת; כדי להוכיח צריך פוטנציאל. (גם התנאי ההכרחי נכשל:
+              $\partial_y(y^2)=2y\ne2x=\partial_x(x^2)$.)
+          - text: 'המעגל הוא המסילה הסגורה ה"טיפוסית", ולכן מספיק לבדוק אותו'
+            feedback: >-
+              אין מסילה טיפוסית. על המעגל התרומות מתקזזות בגלל הסימטריה $\int\sin^3t\,dt=\int\cos^3t\,dt=0$, וזה מקרי.
+            misconception: MC-c8-one-loop-enough
+          - text: 'השדה מוגדר בכל $\mathbb{R}^2$, שהוא פשוט קשר, ולכן משמר'
+            feedback: >-
+              בתחום פשוט קשר **שדה משמר מקומית** הוא משמר; שדה רציף כלשהו לא. כאן התנאי ההכרחי נכשל, ולכן השדה אינו
+              משמר מקומית אפילו בעיגול קטן.
+            misconception: MC-c8-locally-conservative-definition
+
+      - label: ג
+        points: 13
+        type: open
+        objectives: [OBJ-8.4-2, OBJ-8.4-1]
+        prompt: >-
+          מצאו את כל ערכי $a$ שבהם $G_a$ משמר ב-$\mathbb{R}^2$. לכל ערך כזה מצאו פונקציית פוטנציאל וחשבו את
+          $\int_\delta G_a\cdot ds$ לאורך מסילה חלקה למקוטעין כלשהי $\delta$ מ-$(0,0)$ ל-$(1,2)$. הוכיחו שלשאר ערכי $a$
+          השדה אינו משמר.
+        solution:
+          - kind: given
+            text: '$G_a=(P,Q)=(ay^2+2xy,\ x^2+2xy)$, גזיר ברציפות ב-$\mathbb{R}^2$.'
+          - kind: goal
+            text: 'קבוצת ה-$a$ שבהם ל-$G_a$ יש פוטנציאל; הפוטנציאל; והאינטגרל מ-$(0,0)$ ל-$(1,2)$.'
+          - kind: idea
+            text: >-
+              התנאי ההכרחי של הנגזרות המוצלבות מצמצם את המועמדים; למועמד שנשאר מוכיחים שהוא משמר בפוטנציאל מפורש (התנאי
+              לבדו אינו מוכיח). את האינטגרל נותן הפרש ערכי הפוטנציאל.
+          - kind: theorem
+            text: >-
+              לשדה משמר גזיר ברציפות $\partial_yP=\partial_xQ$ (הפוטנציאל גזיר ברציפות פעמיים, ומשפט שוורץ).
+          - kind: computation
+            text: >-
+              $\partial_yP=2ay+2x$ ו-$\partial_xQ=2x+2y$. שוויון בכל נקודה, למשל ב-$(0,1)$, נותן $2a=2$, כלומר $a=1$. לכן
+              ל-$a\ne1$ השדה אינו משמר.
+          - kind: computation
+            text: >-
+              ל-$a=1$: $\int(y^2+2xy)\,dx=xy^2+x^2y+c(y)$, ו-$\partial_y\left(xy^2+x^2y+c(y)\right)=2xy+x^2+c'(y)$ חייב להיות
+              $x^2+2xy$, ולכן $c'=0$: $\varphi(x,y)=xy^2+x^2y$.
+          - kind: check
+            text: '$\nabla\varphi=(y^2+2xy,\ 2xy+x^2)=G_1$. לכן $G_1$ משמר ב-$\mathbb{R}^2$.'
+          - kind: computation
+            text: '$\int_\delta G_1\cdot ds=\varphi(1,2)-\varphi(0,0)=4+2=6$, לכל מסילה $\delta$ כזו.'
+          - kind: check
+            text: >-
+              בדיקה בעזרת סעיף א: $G_a=G_1+(a-1)(y^2,0)$, ועל שפת המשולש $\int y^2\,dx=-\frac13$ (רק היתר תורם), ולכן
+              $\oint_\gamma G_a\cdot ds=-\frac{a-1}{3}$, שונה מ-0 בדיוק כש-$a\ne1$.
+          - kind: result
+            text: '$G_a$ משמר אם ורק אם $a=1$; פוטנציאל $\varphi=xy^2+x^2y$ (עד כדי קבוע); האינטגרל 6.'
+        rubric:
+          - text: 'שימוש בתנאי ההכרחי $\partial_yP=\partial_xQ$ (עם הנימוק שהוא הכרחי) כדי לקבל $a=1$ ולשלול את שאר הערכים'
+            weight: 3
+          - text: 'מציאת הפוטנציאל באינטגרציה עם "קבוע" $c(y)$ שנקבע מהרכיב השני, ובדיקה ש-$\nabla\varphi=G_1$'
+            weight: 3
+          - text: 'ההוכחה ש-$G_1$ משמר נשענת על הפוטנציאל המפורש, לא על התנאי בלבד'
+            weight: 2
+          - text: 'חישוב האינטגרל כהפרש ערכי הפוטנציאל: 6'
+            weight: 2
+
+  - id: Q-8-exam-2
+    type: exam
+    title: השתנות ואורך של גרף
+    prompt: >-
+      תהי $f:[a,b]\to\mathbb{R}$ רציפה, ו-$\gamma_f(t)=(t,f(t))$, $t\in[a,b]$, המסילה שהתמונה שלה הגרף של $f$.
+    parts:
+      - label: א
+        points: 10
+        type: open
+        objectives: [OBJ-8.2-2, OBJ-8.1-1]
+        prompt: >-
+          הוכיחו ש-$V_a^b(f)\le L(\gamma_f)\le(b-a)+V_a^b(f)$, והסיקו ש-$\gamma_f$ ברת-מדידה אם ורק אם $f$ בעלת השתנות
+          חסומה.
+        solution:
+          - kind: given
+            text: '$f$ רציפה ב-$[a,b]$ ו-$\gamma_f(t)=(t,f(t))$.'
+          - kind: goal
+            text: '$V_a^b(f)\le L(\gamma_f)\le(b-a)+V_a^b(f)$, ומכאן השקילות.'
+          - kind: idea
+            text: >-
+              משווים כל מיתר של הקו השבור לשני רכיביו: הוא ארוך לפחות כמו הרכיב האנכי, ולכל היותר כמו סכום הרכיבים.
+              אחר כך עוברים לסופרמום.
+          - kind: definition
+            text: >-
+              לחלוקה $P$: $a=t_0<\dots<t_n=b$ נסמן $\ell(P)=\sum_i\sqrt{(t_i-t_{i-1})^2+(f(t_i)-f(t_{i-1}))^2}$; אז
+              $L(\gamma_f)=\sup_P\ell(P)$ ו-$V_a^b(f)=\sup_PV(f,P)$.
+          - kind: step
+            text: >-
+              לכל $i$, עם $\Delta t=t_i-t_{i-1}>0$ ו-$\Delta f=f(t_i)-f(t_{i-1})$:
+              $|\Delta f|\le\sqrt{\Delta t^2+\Delta f^2}\le\Delta t+|\Delta f|$.
+          - kind: computation
+            text: 'סוכמים על $i$: $V(f,P)\le\ell(P)\le(b-a)+V(f,P)$ לכל חלוקה $P$.'
+          - kind: step
+            text: >-
+              משמאל: $V(f,P)\le\ell(P)\le L(\gamma_f)$ לכל $P$, ולכן $V_a^b(f)\le L(\gamma_f)$. מימין:
+              $\ell(P)\le(b-a)+V(f,P)\le(b-a)+V_a^b(f)$ לכל $P$, ולכן $L(\gamma_f)\le(b-a)+V_a^b(f)$.
+          - kind: result
+            text: >-
+              שני אי-השוויונות מתקיימים (גם כשאחד הצדדים $\infty$). לכן $L(\gamma_f)<\infty$ אם ורק אם
+              $V_a^b(f)<\infty$.
+        rubric:
+          - text: 'הגדרה נכונה של האורך ושל ההשתנות כסופרמום על חלוקות'
+            weight: 1
+          - text: 'אי-השוויון על מיתר אחד, $|\Delta f|\le\sqrt{\Delta t^2+\Delta f^2}\le\Delta t+|\Delta f|$'
+            weight: 3
+          - text: 'סכימה, וזיהוי $\sum\Delta t=b-a$ כסכום טלסקופי'
+            weight: 2
+          - text: 'מעבר נכון לסופרמום בשני הצדדים (חסם לכל חלוקה, ורק אז סופרמום), והמסקנה בשני הכיוונים'
+            weight: 3
+
+      - label: ב
+        points: 6
+        type: twotier
+        objectives: [OBJ-8.1-2, OBJ-8.2-2]
+        qualitative: true
+        prompt: >-
+          תהי $f(t)=t\sin\frac1t$ ל-$t\in(0,1]$ ו-$f(0)=0$. האם $\gamma_f$ ברת-מדידה על $[0,1]$?
+        choices:
+          - text: לא
+            correct: true
+            feedback: 'נכון. הגרף רציף ואורכו אינסופי.'
+          - text: כן
+            feedback: >-
+              $f$ רציפה וחסומה, אבל זה לא מבטיח אורך סופי. ראו את הנימוק.
+            misconception: MC-c8-continuous-implies-rectifiable
+        reasons:
+          - text: 'בנקודות $t_k=\frac{2}{(2k+1)\pi}$ מתקיים $f(t_k)=\pm t_k$ לסירוגין, כך ש-$V_0^1(f)\ge\sum_k(t_k+t_{k+1})=\infty$, ו-$L(\gamma_f)\ge V_0^1(f)$'
+            correct: true
+            feedback: >-
+              בדיוק: $t_k+t_{k+1}\ge\frac{1}{(k+1)\pi}$, טור הרמוני. וכל מיתר ארוך לפחות כמו השינוי האנכי שלו.
+          - text: 'מסילה רציפה על קטע סגור היא תמיד ברת-מדידה'
+            feedback: >-
+              זו בדיוק הדוגמה הנגדית: רציפה ואינה ברת-מדידה.
+            misconception: MC-c8-continuous-implies-rectifiable
+          - text: '$|f|\le1$, ולכן לפי החסם $L\le(b-a)+V(f)\le1+2$'
+            feedback: >-
+              $V(f)$ אינה חסומה על ידי $2\sup|f|$: זה חסם על הטווח, וההשתנות סופרת כל תנודה.
+            misconception: MC-c8-variation-range
+
+      - label: ג
+        points: 9
+        type: numeric
+        objectives: [OBJ-8.2-3]
+        prompt: >-
+          חשבו את $L(\gamma_f)$ עבור $f(t)=\frac23t^{3/2}$ על $[0,3]$. (שבר מותר.)
+        answer: 4.6666667
+        tolerance: 0.0005
+        correctFeedback: >-
+          נכון, $\frac{14}{3}$. $f'(t)=t^{1/2}$, $\|\gamma_f'(t)\|=\sqrt{1+t}$, ו-
+          $L=\int_0^3\sqrt{1+t}\,dt=\frac23\left[(1+t)^{3/2}\right]_0^3=\frac23(8-1)$. בהתאם לסעיף א:
+          $V(f)=2\sqrt3\approx3.46\le\frac{14}{3}\le3+2\sqrt3$.
+        wrongFeedback: >-
+          $f$ גזירה ברציפות, ולכן $L=\int_0^3\sqrt{1+f'(t)^2}\,dt$.
+        commonWrong:
+          - value: 4.582576
+            feedback: >-
+              $\sqrt{21}\approx4.58$ הוא המרחק בין $(0,0)$ ל-$(3,2\sqrt3)$, המיתר. הוא חסם מלרע, והגרף מתעקם.
+            misconception: MC-c8-length-chord
+          - value: 6.464102
+            feedback: >-
+              $3+2\sqrt3$ הוא החסם העליון $(b-a)+V(f)$ מסעיף א: אורכים לא מתחברים כך, אלא בתוך השורש.
+            misconception: MC-c8-length-add-components
+
+  - id: Q-8-exam-3
+    type: exam
+    title: שני חורים, הומוטופיה ושדה משמר
+    prompt: >-
+      $U=\mathbb{R}^2\setminus\{(0,0),(2,0)\}$ ו-$F=\omega_{(0,0)}+2\,\omega_{(2,0)}$, כאשר
+      $\omega_p(x,y)=\frac{(-(y-p_2),\ x-p_1)}{(x-p_1)^2+(y-p_2)^2}$. $\gamma_1(t)=(\cos t,\sin t)$ ו-$\gamma_2(t)=(1+2\cos t,\ 2\sin t)$,
+      $t\in[0,2\pi]$, שתי מסילות סגורות ב-$U$.
+    parts:
+      - label: א
+        points: 6
+        type: numeric
+        objectives: [OBJ-8.6-3]
+        prompt: >-
+          חשבו את $\int_{\gamma_1}F\cdot ds$ (מקורב לשלוש ספרות אחרי הנקודה).
+        answer: 6.283185
+        tolerance: 0.0002
+        correctFeedback: >-
+          נכון, $2\pi$. $2\pi\left(\operatorname{Ind}(\gamma_1,(0,0))+2\operatorname{Ind}(\gamma_1,(2,0))\right)=2\pi(1+0)$:
+          $(2,0)$ מחוץ למעגל היחידה.
+        wrongFeedback: >-
+          לפי לינאריות, כל מחובר הוא $2\pi$ כפול מספר הליפוף סביב הנקודה שלו. אילו נקודות בתוך מעגל היחידה?
+        commonWrong:
+          - value: 18.849556
+            feedback: '$6\pi$ סופר גם את $(2,0)$, אבל היא במרחק 2 מהמרכז, מחוץ למעגל היחידה.'
+            misconception: MC-c8-winding-any-circle
+          - value: 0
+            feedback: >-
+              $F$ מקיים את תנאי הנגזרות המוצלבות ב-$U$, אבל $U$ אינה פשוטת קשר ו-$\gamma_1$ מקיפה את הראשית.
+            misconception: MC-c8-crossed-partials-sufficient
+
+      - label: ב
+        points: 6
+        type: numeric
+        objectives: [OBJ-8.6-3, OBJ-8.6-1]
+        prompt: >-
+          חשבו את $\int_{\gamma_2}F\cdot ds$ (מקורב לשלוש ספרות אחרי הנקודה).
+        answer: 18.849556
+        tolerance: 0.0002
+        correctFeedback: >-
+          נכון, $6\pi$. $\gamma_2$ המעגל ברדיוס 2 סביב $(1,0)$, ושתי הנקודות במרחק 1 מהמרכז, בפנים:
+          $2\pi(1+2\cdot1)$.
+        wrongFeedback: >-
+          בדקו לכל אחת משתי הנקודות אם היא בתוך המעגל ברדיוס 2 סביב $(1,0)$, והכפילו את מספר הליפוף במקדם שלה.
+        commonWrong:
+          - value: 6.283185
+            feedback: >-
+              מספר הליפוף תלוי בנקודה, וצריך לחשב אותו לכל אחת. גם $(2,0)$ בתוך $\gamma_2$, והיא תורמת $2\cdot2\pi$.
+            misconception: MC-c8-winding-independent-of-p
+          - value: 3
+            feedback: '3 הוא $1+2\cdot1$, צירוף מספרי הליפוף. האינטגרל הוא $2\pi$ כפול זה.'
+            misconception: MC-c8-winding-normalisation
+
+      - label: ג
+        points: 13
+        type: open
+        standalone: false
+        objectives: [OBJ-8.5-1, OBJ-8.5-2, OBJ-8.5-3, OBJ-8.4-3]
+        prompt: >-
+          הוכיחו: (1) $F$ משמר מקומית ב-$U$; (2) $F$ אינו משמר ב-$U$; (3) $\gamma_1$ ו-$\gamma_2$ אינן הומוטופיות ב-$U$;
+          (4) $F$ משמר בקבוצה $W=\mathbb{R}^2\setminus\{(x,0):x\le2\}$.
+        solution:
+          - kind: given
+            text: >-
+              כל $\omega_p$ הוא הזזה של שדה הזווית, גזיר ברציפות ב-$\mathbb{R}^2\setminus\{p\}$ ומקיים בו את תנאי הנגזרות
+              המוצלבות. $\int_{\gamma_1}F\cdot ds=2\pi$ ו-$\int_{\gamma_2}F\cdot ds=6\pi$ (סעיפים א, ב).
+          - kind: idea
+            text: >-
+              תנאי הנגזרות המוצלבות נותן "משמר מקומית"; אינטגרלים שונים מאפס, או שונים זה מזה, מפריכים "משמר" ו"הומוטופיות";
+              ובתחום פשוט קשר משמר מקומית הוא משמר.
+          - kind: step
+            text: >-
+              (1) $F$ גזיר ברציפות ב-$U$, והתנאי $\partial_yP=\partial_xQ$ לינארי ומתקיים לכל מחובר, ולכן ל-$F$. שדה גזיר
+              ברציפות שמקיים את התנאי משמר מקומית (שיעור 8.5).
+          - kind: step
+            text: >-
+              (2) $\gamma_1$ מסילה סגורה ב-$U$ עם $\int_{\gamma_1}F\cdot ds=2\pi\ne0$. לשדה משמר האינטגרל על כל מסילה סגורה
+              הוא 0, ולכן $F$ אינו משמר ב-$U$.
+          - kind: step
+            text: >-
+              (3) אילו $\gamma_1$ ו-$\gamma_2$ היו הומוטופיות ב-$U$, אז, כי $F$ משמר מקומית ב-$U$, האינטגרלים שלו עליהן היו
+              שווים. אבל $2\pi\ne6\pi$.
+          - kind: step
+            text: >-
+              (4) $W\subseteq U$ פתוחה, ו-$F$ משמר מקומית בה (ההגדרה מקומית, וכדורים קטנים מספיק סביב נקודות של $W$
+              מוכלים ב-$W$). $W$ כוכבית ביחס ל-$c=(3,0)$: לנקודה $q\in W$ עם $q_2\ne0$, כל נקודה של הקטע מ-$c$ ל-$q$ פרט
+              ל-$c$ היא עם רכיב שני שונה מ-0; ולנקודה עם $q_2=0$ ו-$q_1>2$ הקטע כולו על $\{y=0,\ x>2\}$.
+          - kind: step
+            text: >-
+              לכן $H(s,t)=(1-s)\gamma(t)+sc$ מכווצת כל מסילה סגורה $\gamma$ ב-$W$ לנקודה $c$ בתוך $W$, ו-$W$ קשירה
+              מסילתית (דרך $c$): $W$ פשוטת קשר.
+          - kind: theorem
+            text: 'שדה משמר מקומית בתחום פשוט קשר הוא משמר (שיעור 8.5).'
+          - kind: result
+            text: >-
+              $F$ משמר מקומית ואינו משמר ב-$U$; $\gamma_1,\gamma_2$ אינן הומוטופיות ב-$U$; ו-$F$ משמר ב-$W$. ($W$ אינה
+              מכילה אף מסילה סגורה שמקיפה את $(0,0)$ או את $(2,0)$.)
+        rubric:
+          - text: '(1) הנימוק דרך תנאי הנגזרות המוצלבות לשדה גזיר ברציפות, והמשפט שהוא מספיק לשדה משמר מקומית'
+            weight: 2
+          - text: '(2) מסילה סגורה מפורשת ב-$U$ עם אינטגרל שונה מ-0'
+            weight: 2
+          - text: '(3) אי-הומוטופיה דרך המשפט על שדה משמר מקומית ואינטגרלים שונים (לא "לפי הציור")'
+            weight: 3
+          - text: '(4) הוכחה ש-$W$ פשוטת קשר: כוכבית, עם בדיקה מפורשת שהקטעים נשארים ב-$W$'
+            weight: 3
+          - text: '(4) הפעלת המשפט "משמר מקומית בתחום פשוט קשר הוא משמר"'
+            weight: 2

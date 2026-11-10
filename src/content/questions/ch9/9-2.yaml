@@ -1,0 +1,342 @@
+# Lesson 9.2 — sets of measure zero and of content zero.
+# Objectives (src/course.ts):
+#   OBJ-9.2-1  define a set of measure zero and a set of content zero and tell them apart in examples
+#   OBJ-9.2-2  prove that a countable union of measure-zero sets has measure zero, and that a compact set of measure
+#               zero has content zero
+#   OBJ-9.2-3  prove that the graph of a continuous function on a box has content zero
+# A ⊆ ℝⁿ has measure zero: ∀ε>0 there are countably many boxes covering A with total volume < ε; content zero: the
+# same with finitely many boxes (closed or open boxes give the same notions).
+chapter: 9
+questions:
+  - id: Q-9.2-def
+    type: mc
+    objectives: [OBJ-9.2-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      מה פירוש הטענה "$A\subseteq\mathbb{R}^n$ היא קבוצה ממידה אפס"?
+    choices:
+      - text: 'לכל $\varepsilon>0$ יש תיבות $Q_1,Q_2,\dots$ (מספר בן מנייה שלהן) עם $A\subseteq\bigcup_k Q_k$ ו-$\sum_k v(Q_k)<\varepsilon$'
+        correct: true
+        feedback: >-
+          נכון. אפשר להשתמש באינסוף (בן מנייה) תיבות, ובלבד שסכום כל הנפחים קטן מ-$\varepsilon$.
+      - text: 'לכל $\varepsilon>0$ יש מספר **סופי** של תיבות שמכסות את $A$ וסכום נפחיהן קטן מ-$\varepsilon$'
+        feedback: >-
+          זו ההגדרה של **תכולה** אפס, וזו דרישה חזקה יותר. $\mathbb{Q}\cap[0,1]$ ממידה אפס, אבל אין לה כיסוי סופי
+          בסכום אורכים קטן מ-1.
+        misconception: MC-c9-measure-zero-is-content-zero
+      - text: '$A$ סופית או בת מנייה'
+        feedback: >-
+          כל קבוצה בת מנייה היא ממידה אפס, אבל לא להפך: קבוצת קנטור אינה בת מנייה וממידה אפס, וכך גם הקטע
+          $[0,1]\times\{0\}$ במישור.
+        misconception: MC-c9-measure-zero-countable
+      - text: 'לכל $\varepsilon>0$ יש תיבות $Q_1,Q_2,\dots$ שמכסות את $A$ ו-$v(Q_k)<\varepsilon$ לכל $k$'
+        feedback: >-
+          תנאי כזה מקיימת כל קבוצה חסומה, גם $[0,1]^2$: מחלקים אותה לריבועים קטנים. ההגדרה מגבילה את **סכום**
+          הנפחים, לא כל נפח בנפרד.
+        misconception: MC-c9-each-box-small
+
+  - id: Q-9.2-which
+    type: multi
+    objectives: [OBJ-9.2-1, OBJ-9.2-2]
+    qualitative: true
+    level: basic
+    prompt: >-
+      אילו מתת-הקבוצות הבאות של המישור $\mathbb{R}^2$ הן ממידה אפס? סמנו את כולן.
+    choices:
+      - text: 'הקטע $[0,1]\times\{0\}$'
+        correct: true
+        feedback: >-
+          נכון, ואפילו בעל תכולה אפס: המלבן $[0,1]\times[-\frac\varepsilon2,\frac\varepsilon2]$ מכסה אותו ושטחו
+          $\varepsilon$.
+      - text: 'ציר $x$, כלומר $\mathbb{R}\times\{0\}$'
+        correct: true
+        feedback: >-
+          נכון: הוא איחוד בן מנייה של הקטעים $[k,k+1]\times\{0\}$, $k\in\mathbb{Z}$, וכל אחד מהם ממידה אפס. (תכולה אפס
+          אין לו, כי הוא אינו חסום.)
+      - text: '$\mathbb{Q}^2$, הנקודות ששני השיעורים שלהן רציונליים'
+        correct: true
+        feedback: >-
+          נכון: $\mathbb{Q}^2$ בת מנייה (שיעור 0.4), ומכסים את הנקודה ה-$k$ בריבוע ששטחו $\frac{\varepsilon}{2^{k+1}}$.
+      - text: '$[0,1]\times(\mathbb{Q}\cap[0,1])$, אוסף הקטעים האופקיים בגבהים רציונליים'
+        correct: true
+        feedback: >-
+          נכון: זה איחוד בן מנייה של קטעים, וכל אחד מהם ממידה אפס. הקבוצה צפופה בריבוע, וזה לא מפריע.
+      - text: 'העיגול $\{(x,y): x^2+y^2\le\frac{1}{100}\}$'
+        feedback: >-
+          העיגול מכיל ריבוע בעל שטח חיובי, ותיבה בעלת נפח חיובי אינה ממידה אפס (מוכיחים את זה בקומפקטיות שלה). אפשר
+          לכסות את העיגול בריבועים קטנים כרצוננו, אבל סכום השטחים שלהם לא ירד מתחת לשטח העיגול.
+        misconception: MC-c9-each-box-small
+
+  - id: Q-9.2-diag
+    type: numeric
+    objectives: [OBJ-9.2-3, OBJ-9.2-1]
+    level: basic
+    prompt: >-
+      מכסים את האלכסון $\Delta=\{(t,t): 0\le t\le1\}$ ב-$n$ הריבועים
+      $\left[\frac{k-1}{n},\frac kn\right]^2$, $k=1,\dots,n$. מהו ה-$n$ **הקטן ביותר** שעבורו סכום השטחים של
+      הריבועים קטן מ-$0.001$?
+    answer: 1001
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. יש $n$ ריבועים, כל אחד בשטח $\frac1{n^2}$, ולכן סכום השטחים $\frac1n$, ו-$\frac1n<\frac1{1000}$ בדיוק
+      כש-$n\ge1001$. כיוון ש-$\frac1n\to0$, האלכסון בעל תכולה אפס: זה המקרה הפשוט ביותר של "גרף של פונקציה רציפה".
+    wrongFeedback: >-
+      ההגדרה מגבילה את **סכום** השטחים של כל הריבועים בכיסוי. חשבו את הסכום כפונקציה של $n$, ופתרו אי-שוויון חזק.
+    commonWrong:
+      - value: 32
+        feedback: >-
+          $32$ הוא ה-$n$ הקטן ביותר שבו ריבוע **אחד** קטן מ-$0.001$ ($32^2=1024$). אבל צריך את סכום השטחים של כל
+          $n$ הריבועים, $n\cdot\frac{1}{n^2}=\frac1n$.
+        misconception: MC-c9-each-box-small
+
+  - id: Q-9.2-cantor
+    type: numeric
+    objectives: [OBJ-9.2-1]
+    level: mid
+    prompt: >-
+      בשלב $k$ של בניית קבוצת קנטור $C\subseteq[0,1]$ (בכל שלב מוחקים את השליש הפתוח האמצעי של כל קטע) $C$ מכוסה
+      ב-$2^k$ קטעים סגורים שאורך כל אחד מהם $3^{-k}$. מהו ה-$k$ **הקטן ביותר** שבו סכום האורכים של הקטעים האלה קטן
+      מ-$0.01$?
+    answer: 12
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. סכום האורכים $2^k\cdot3^{-k}=(\tfrac23)^k$. מתקיים $(\tfrac23)^{11}\approx0.0116$ ו-$(\tfrac23)^{12}\approx0.0077$,
+      ולכן $k=12$. כיוון ש-$(\tfrac23)^k\to0$, קבוצת קנטור בעלת תכולה אפס, אף שאינה בת מנייה.
+    wrongFeedback: >-
+      הכיסוי בשלב $k$ מורכב מ-$2^k$ קטעים, וההגדרה מודדת את **סכום** האורכים: $2^k\cdot3^{-k}$. מצאו את ה-$k$ הראשון
+      שבו הוא קטן מ-$0.01$.
+    commonWrong:
+      - value: 5
+        feedback: >-
+          $5$ הוא ה-$k$ הראשון שבו קטע **אחד** קצר מ-$0.01$ ($3^{-5}\approx0.0041$). אבל יש $2^k$ קטעים, וסכום
+          האורכים $(\tfrac23)^k$ יורד הרבה יותר לאט.
+        misconception: MC-c9-each-box-small
+
+  - id: Q-9.2-uncountable
+    type: twotier
+    objectives: [OBJ-9.2-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      נכון או לא נכון: כל תת-קבוצה של $\mathbb{R}$ שהיא ממידה אפס היא סופית או בת מנייה.
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: 'נכון: יש קבוצות ממידה אפס שאינן בנות מנייה.'
+      - text: נכון
+        feedback: >-
+          הכיוון ההפוך נכון (כל קבוצה בת מנייה ממידה אפס), אבל הכיוון הזה לא.
+        misconception: MC-c9-measure-zero-countable
+    reasons:
+      - text: 'קבוצת קנטור אינה בת מנייה, ובשלב $k$ של הבנייה היא מכוסה ב-$2^k$ קטעים שסכום אורכיהם $(\tfrac23)^k\to0$'
+        correct: true
+        feedback: >-
+          בדיוק. אי-בנות-המנייה מוכחת כמו אלכסון קנטור (כל נקודה של $C$ היא פיתוח טרינרי בספרות 0 ו-2 בלבד), והמידה
+          אפס באה מהכיסוי.
+      - text: '$[0,1]$ אינו בן מנייה ואינו ממידה אפס, ולכן קבוצה שאינה בת מנייה אינה ממידה אפס'
+        feedback: >-
+          דוגמה אחת אינה מוכיחה טענה כללית. גם קבוצת קנטור אינה בת מנייה, והיא ממידה אפס.
+        misconception: MC-c9-measure-zero-countable
+      - text: 'לקבוצה ממידה אפס אין נקודות פנים, וקבוצה בלי נקודות פנים היא בת מנייה'
+        feedback: >-
+          החלק השני שגוי: לקבוצת האי-רציונליים אין נקודות פנים, והיא אינה בת מנייה.
+        misconception: MC-c9-measure-zero-countable
+
+  - id: Q-9.2-rationals
+    type: twotier
+    objectives: [OBJ-9.2-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $A=\mathbb{Q}\cap[0,1]$ כתת-קבוצה של $\mathbb{R}$. ידוע ש-$A$ ממידה אפס. האם $A$ בעלת תכולה אפס?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. זו הדוגמה הבסיסית להבדל בין שני המושגים.'
+      - text: כן
+        feedback: >-
+          כיסוי בן מנייה מצליח, אבל כיסוי סופי לא: מספר סופי של קטעים סגורים שמכסה את $A$ מכסה גם את הסגור שלה.
+        misconception: MC-c9-measure-zero-is-content-zero
+    reasons:
+      - text: 'אם $A\subseteq I_1\cup\dots\cup I_m$ (קטעים סגורים), האיחוד סגור ולכן מכיל את $\overline{A}=[0,1]$; לכן סכום האורכים לפחות 1'
+        correct: true
+        feedback: >-
+          בדיוק. איחוד **סופי** של קבוצות סגורות סגור, ולכן כיסוי סופי של קבוצה מכסה גם את הסגור שלה. בכיסוי בן מנייה
+          זה נכשל: איחוד אינסופי של קטעים סגורים אינו חייב להיות סגור.
+      - text: '$A$ בת מנייה, ולכן ממידה אפס, ולתת-קבוצה של קטע חסום מידה אפס ותכולה אפס הם אותו דבר'
+        feedback: >-
+          החסימות אינה מספיקה: $A$ חסומה ובכל זאת אין לה תכולה אפס. המושגים מתלכדים לקבוצות **קומפקטיות**.
+        misconception: MC-c9-measure-zero-is-content-zero
+      - text: '$A$ צפופה ב-$[0,1]$, ולכן היא אפילו אינה ממידה אפס'
+        feedback: >-
+          $A$ ממידה אפס: היא בת מנייה, ומכסים את הנקודה ה-$k$ בקטע באורך $\frac{\varepsilon}{2^k}$. צפיפות הורסת את
+          התכולה, לא את המידה.
+        misconception: MC-c9-dense-not-measure-zero
+
+  - id: Q-9.2-union-rank
+    type: rank
+    objectives: [OBJ-9.2-2]
+    level: mid
+    help: 'סדרו את שלבי ההוכחה לפי הסדר הנכון. שלבים שאפשר להחליף ביניהם נחשבים שקולים.'
+    prompt: >-
+      ההוכחה ש"אם כל $A_k$ ($k\in\mathbb{N}$) ממידה אפס, גם $A=\bigcup_{k=1}^\infty A_k$ ממידה אפס" התפרקה לשלבים.
+      סדרו אותם.
+    items:
+      - id: eps
+        label: 'יהי $\varepsilon>0$.'
+      - id: cover
+        label: 'לכל $k$ מכסים את $A_k$ בתיבות $Q_{k,1},Q_{k,2},\dots$ עם $\sum_j v(Q_{k,j})<\frac{\varepsilon}{2^k}$.'
+      - id: countable
+        label: 'המשפחה $\{Q_{k,j}: k,j\in\mathbb{N}\}$ בת מנייה (כי $\mathbb{N}\times\mathbb{N}$ בת מנייה) ומכסה את $A$.'
+      - id: sum
+        label: 'סכום הנפחים (טור חיובי, שאפשר לסכם בכל סדר) הוא $\sum_k\sum_j v(Q_{k,j})<\sum_k\frac{\varepsilon}{2^k}=\varepsilon$.'
+    order: [eps, cover, [countable, sum]]
+    correctFeedback: >-
+      נכון. שתי נקודות עדינות: החלוקה של $\varepsilon$ לחלקים $\frac{\varepsilon}{2^k}$, ובנות-המנייה של משפחת התיבות,
+      שבלעדיה הכיסוי אינו מהסוג שההגדרה מתירה.
+    wrongFeedback: >-
+      קודם מקבעים $\varepsilon$, אחר כך מכסים כל $A_k$ בתקציב משלו, ורק אז בודקים שהכיסוי המשותף מותר (בן מנייה)
+      ושהסכום שלו קטן מ-$\varepsilon$.
+
+  - id: Q-9.2-union-eps
+    type: mc
+    objectives: [OBJ-9.2-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      בהוכחה שאיחוד בן מנייה של קבוצות ממידה אפס הוא ממידה אפס, את $A_k$ מכסים בתיבות שסכום נפחיהן קטן
+      מ-$\frac{\varepsilon}{2^k}$. למה לא פשוט מ-$\varepsilon$?
+    choices:
+      - text: 'כדי שהסכום על כל ה-$k$ יחד יהיה קטן מ-$\sum_k\frac{\varepsilon}{2^k}=\varepsilon$; עם $\varepsilon$ לכל $k$ הסכום הכולל יכול להיות אינסופי'
+        correct: true
+        feedback: >-
+          נכון. יש אינסוף קבוצות, ולכל אחת "תקציב" משלה; צריך שסכום התקציבים יהיה סופי וקטן מ-$\varepsilon$. כל טור
+          מתכנס של מספרים חיוביים עם סכום $\varepsilon$ היה עובד באותה מידה.
+      - text: 'זה לא משנה: סכום של מספר בן מנייה של כמויות קטנות הוא עדיין קטן'
+        feedback: >-
+          $\sum_{k=1}^\infty\varepsilon=\infty$. "קטן" כאן פירושו קטן מ-$\varepsilon$, ואינסוף מחוברים שכל אחד מהם
+          חסום רק על ידי $\varepsilon$ אינם מבטיחים זאת.
+        misconception: MC-c9-countable-union-same-eps
+      - text: 'כי הקבוצות $A_k$ קטנות יותר ויותר כש-$k$ גדל'
+        feedback: >-
+          אין שום הנחה כזו: כל $A_k$ יכולה להיות קטע שלם במישור. הקטנת התקציב היא בחירה שלנו, לא תכונה של הקבוצות.
+        misconception: MC-c9-countable-union-same-eps
+      - text: 'כדי שהנפח של כל תיבה בכיסוי יהיה קטן מ-$\varepsilon$'
+        feedback: >-
+          ההגדרה אינה מגבילה תיבה בודדת אלא את סכום הנפחים של כל התיבות.
+        misconception: MC-c9-each-box-small
+
+  - id: Q-9.2-line-graph
+    type: twotier
+    objectives: [OBJ-9.2-3, OBJ-9.2-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $\Gamma=\{(x,\sin x): x\in\mathbb{R}\}$ הוא הגרף של הסינוס על כל הישר. האם $\Gamma$ בעלת תכולה אפס ב-$\mathbb{R}^2$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון: היא אינה חסומה, ולכן אין לה תכולה אפס (מידה אפס יש לה).'
+      - text: כן
+        feedback: >-
+          המשפט על גרפים מדבר על פונקציה רציפה על **תיבה**. על כל הישר הגרף אינו חסום, ואיחוד סופי של תיבות לא יכסה אותו.
+        misconception: MC-c9-content-zero-unbounded
+    reasons:
+      - text: 'איחוד סופי של תיבות חסום ו-$\Gamma$ אינה חסומה; אבל $\Gamma$ היא האיחוד של הגרפים מעל $[k,k+1]$, $k\in\mathbb{Z}$, ולכן ממידה אפס'
+        correct: true
+        feedback: >-
+          בדיוק: כל גרף מעל $[k,k+1]$ בעל תכולה אפס, ואיחוד בן מנייה שלהם ממידה אפס. ההבדל בין המושגים כאן הוא חסימות.
+      - text: 'הסינוס רציף, וגרף של פונקציה רציפה תמיד בעל תכולה אפס'
+        feedback: >-
+          ההוכחה משתמשת בכך שהתחום הוא תיבה, וממנה גם החסימות של הגרף. ישר שלם אינו תיבה.
+        misconception: MC-c9-content-zero-unbounded
+      - text: '$\Gamma$ אינה בת מנייה, ולכן אינה אפילו ממידה אפס'
+        feedback: >-
+          גם הקטע $[0,1]\times\{0\}$ אינו בן מנייה, והוא בעל תכולה אפס. מידה אפס אינה עניין של בנות מנייה.
+        misconception: MC-c9-measure-zero-countable
+
+  - id: Q-9.2-compact
+    type: mc
+    objectives: [OBJ-9.2-2]
+    qualitative: true
+    level: exam
+    prompt: >-
+      המשפט: "קבוצה קומפקטית $K\subseteq\mathbb{R}^n$ שהיא ממידה אפס היא בעלת תכולה אפס". על איזו תכונה של $K$
+      ההוכחה נשענת?
+    choices:
+      - text: 'לכל כיסוי פתוח של $K$ יש תת-כיסוי סופי: מכסים את $K$ בתיבות **פתוחות** שסכום נפחיהן קטן מ-$\varepsilon$ ובוחרים מהן מספר סופי'
+        correct: true
+        feedback: >-
+          נכון. תיבות סגורות $Q_k$ בסכום $<\frac\varepsilon2$ מחליפים בתיבות פתוחות $Q_k'\supseteq Q_k$ עם
+          $v(Q_k')<v(Q_k)+\frac{\varepsilon}{2^{k+1}}$; זה כיסוי פתוח בסכום $<\varepsilon$, ולפי היינה-בורל יש לו תת-כיסוי
+          סופי, שסכומו קטן עוד יותר.
+      - text: '$K$ סגורה'
+        feedback: >-
+          סגירות לבדה אינה מספיקה: ציר $x$ במישור סגור וממידה אפס, ואינו בעל תכולה אפס, כי הוא לא חסום.
+        misconception: MC-c9-content-zero-unbounded
+      - text: '$K$ חסומה'
+        feedback: >-
+          חסימות לבדה אינה מספיקה: $\mathbb{Q}\cap[0,1]$ חסומה וממידה אפס, ואינה בעלת תכולה אפס.
+        misconception: MC-c9-measure-zero-is-content-zero
+      - text: 'אין צורך בשום תכונה: כל קבוצה ממידה אפס בעלת תכולה אפס'
+        feedback: >-
+          $\mathbb{Q}\cap[0,1]$ היא דוגמה נגדית: כל כיסוי סופי שלה מכסה את $[0,1]$.
+        misconception: MC-c9-measure-zero-is-content-zero
+
+  - id: Q-9.2-graph-rank
+    type: rank
+    objectives: [OBJ-9.2-3]
+    level: exam
+    help: 'סדרו את שלבי ההוכחה לפי הסדר הנכון.'
+    prompt: >-
+      תהי $Q\subseteq\mathbb{R}^n$ תיבה ו-$f:Q\to\mathbb{R}$ רציפה. ההוכחה שהגרף
+      $\Gamma_f=\{(x,f(x)): x\in Q\}\subseteq\mathbb{R}^{n+1}$ בעל תכולה אפס התפרקה לשלבים. סדרו אותם.
+    items:
+      - id: unif
+        label: 'יהי $\varepsilon>0$. $Q$ קומפקטית, ולכן לפי משפט קנטור $f$ רציפה בה במידה שווה: יש $\delta>0$ כך ש-$|f(x)-f(y)|<\varepsilon$ כש-$|x-y|<\delta$.'
+      - id: part
+        label: 'בוחרים חלוקה $P$ של $Q$ שהקוטר של כל תת-תיבה שלה קטן מ-$\delta$.'
+      - id: slab
+        label: 'על כל תת-תיבה $S$ מתקיים $M_S(f)-m_S(f)\le\varepsilon$, ולכן הגרף מעל $S$ מוכל בתיבה $S\times[m_S(f),M_S(f)]$ שנפחה לכל היותר $\varepsilon\,v(S)$.'
+      - id: sum
+        label: 'מספר סופי של תיבות כאלה מכסה את $\Gamma_f$, וסכום נפחיהן לכל היותר $\varepsilon\sum_S v(S)=\varepsilon\,v(Q)$. כיוון ש-$\varepsilon$ שרירותי, $\Gamma_f$ בעלת תכולה אפס.'
+    order: [unif, part, slab, sum]
+    correctFeedback: >-
+      נכון. הרציפות במידה שווה היא הלב: היא נותנת $\delta$ אחד לכל התיבה, ולכן חלוקה אחת שבה **כל** התת-תיבות "דקות".
+      רציפות נקודתית הייתה נותנת $\delta$ שונה לכל נקודה.
+    wrongFeedback: >-
+      הסדר הוא: $\varepsilon$ ו-$\delta$ של רציפות במידה שווה, חלוקה עדינה מ-$\delta$, חסם על הגרף מעל כל תת-תיבה,
+      ולבסוף סכום.
+
+  - id: Q-9.2-sine
+    type: twotier
+    objectives: [OBJ-9.2-3, OBJ-9.2-2]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $\Gamma=\{(x,\sin\frac1x): 0<x\le1\}$. התחום $(0,1]$ אינו תיבה, ולכן המשפט על גרפים אינו חל ישירות. האם
+      $\Gamma$ בעלת תכולה אפס ב-$\mathbb{R}^2$?
+    choices:
+      - text: כן
+        correct: true
+        feedback: 'נכון, אף שההוכחה הישירה (רציפות במידה שווה) נכשלת.'
+      - text: לא
+        feedback: >-
+          נפילה של הנחה מפילה את ההוכחה, לא בהכרח את המסקנה. כאן עוקפים את הבעיה דרך הסגור של $\Gamma$.
+        misconception: MC-c9-graph-needs-compact
+    reasons:
+      - text: 'הסגור $\overline\Gamma=\Gamma\cup(\{0\}\times[-1,1])$ הוא איחוד בן מנייה של קבוצות בעלות תכולה אפס (הגרפים מעל $[\frac1k,1]$ והקטע), ולכן ממידה אפס; הוא קומפקטי, ולכן בעל תכולה אפס, ו-$\Gamma\subseteq\overline\Gamma$'
+        correct: true
+        feedback: >-
+          בדיוק: שלושה משפטים של השיעור עובדים יחד. איחוד בן מנייה נותן מידה אפס, קומפקטיות משדרגת אותה לתכולה אפס,
+          ותת-קבוצה של קבוצה בעלת תכולה אפס בעלת תכולה אפס.
+      - text: '$\Gamma$ היא האיחוד של הגרפים מעל $[\frac1k,1]$, וכל אחד מהם בעל תכולה אפס, ולכן גם $\Gamma$'
+        feedback: >-
+          איחוד בן מנייה של קבוצות בעלות תכולה אפס נותן רק מידה אפס: $\mathbb{Q}\cap[0,1]$ הוא איחוד בן מנייה של
+          נקודות. צריך עוד צעד, הקומפקטיות של הסגור.
+        misconception: MC-c9-measure-zero-is-content-zero
+      - text: 'המשפט דורש תיבה, ו-$(0,1]$ אינה תיבה, ולכן $\Gamma$ אינה בעלת תכולה אפס'
+        feedback: >-
+          זה מבלבל בין "ההוכחה אינה חלה" לבין "המסקנה שגויה". כאן המסקנה נכונה, בהוכחה אחרת.
+        misconception: MC-c9-graph-needs-compact

@@ -1,0 +1,24 @@
+# Terms first defined in lesson 9.4 (integration over sets and volume).
+- id: indicator-function
+  term: פונקציה מציינת
+  en: indicator (characteristic) function
+  symbol: '\chi_C'
+  definition: >-
+    $\chi_C(x)=1$ כש-$x\in C$ ו-$\chi_C(x)=0$ אחרת. היא אינה רציפה בדיוק בנקודות השפה $\partial C$. לקבוצה חסומה
+    $C\subseteq Q$ מגדירים $\int_C f=\int_Q f\chi_C$.
+  lesson: '9.4'
+- id: jordan-measurable-set
+  term: קבוצה בעלת נפח
+  en: Jordan-measurable set (set with volume)
+  definition: >-
+    קבוצה חסומה $C$ שהפונקציה המציינת שלה אינטגרבילית על תיבה שמכילה אותה; לפי משפט לבג, קבוצה חסומה שהשפה שלה
+    ממידה אפס. $\mathbb{Q}^2\cap[0,1]^2$ היא קבוצה חסומה שאין לה נפח.
+  lesson: '9.4'
+- id: volume
+  term: נפח
+  en: volume (Jordan content)
+  symbol: 'v(C)=\int_Q\chi_C'
+  definition: >-
+    לקבוצה בעלת נפח $C\subseteq Q$: $v(C)=\int_Q\chi_C$. במישור קוראים לו שטח. לתיבה הוא מכפלת אורכי הצלעות, והוא
+    מונוטוני ומקיים $v(C\cup D)=v(C)+v(D)-v(C\cap D)$.
+  lesson: '9.4'

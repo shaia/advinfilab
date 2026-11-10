@@ -1,0 +1,7 @@
+---
+/** Lesson 1.1 figure: <Spread figure={MetricCheck} figureProps={{ mode: 'line' | 'sup', … }}>. */
+import MetricCheck, { type MetricCheckProps } from './MetricCheck';
+type Props = MetricCheckProps;
+---
+
+<MetricCheck client:visible {...Astro.props} />

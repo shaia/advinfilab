@@ -1,0 +1,338 @@
+# Lesson 5.2 — partial and directional derivatives.
+# Objectives (src/course.ts):
+#   OBJ-5.2-1  define and compute partial and directional derivatives
+#   OBJ-5.2-2  all partial derivatives existing at a point does not imply continuity there
+#   OBJ-5.2-3  all directional derivatives existing does not imply continuity, and they need not be linear in the direction
+# Convention: D_v f(a) = lim_{t→0} (f(a+tv) − f(a))/t, a two-sided limit, v a unit vector.
+chapter: 5
+questions:
+  - id: Q-5.2-def
+    type: mc
+    objectives: [OBJ-5.2-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      תהי $f:U\to\mathbb{R}$, $U\subseteq\mathbb{R}^n$ פתוחה, $a\in U$ ו-$e_i$ וקטור היחידה ה-$i$. מהי ההגדרה
+      של $\frac{\partial f}{\partial x_i}(a)$?
+    choices:
+      - text: '$\lim_{t\to0}\frac{f(a+te_i)-f(a)}{t}$'
+        correct: true
+        feedback: >-
+          נכון. מקבעים את כל המשתנים פרט ל-$x_i$, וגוזרים פונקציה של משתנה אחד, $t\mapsto f(a+te_i)$, ב-$t=0$. זו
+          הנגזרת הכיוונית בכיוון $e_i$.
+      - text: '$\lim_{h\to0}\frac{f(a+h)-f(a)}{\|h\|}$, כש-$h\in\mathbb{R}^n$'
+        feedback: >-
+          כאן $h$ מתקרב ל-0 מכל הכיוונים, והמנה תלויה בכיוון: כבר ל-$f(x)=x_1$ ב-$a=0$ היא $\frac{h_1}{\|h\|}$, שאין
+          לה גבול. נגזרת חלקית זזה רק לאורך הציר ה-$i$.
+        misconception: MC-c5-partial-others-move
+      - text: '$\lim_{t\to0}\frac{f(a+te_i)-f(a)}{t}$ כש-$t\to0^+$ בלבד'
+        feedback: >-
+          זו הנגזרת החד-צדדית. ל-$f(x,y)=|x|$ ב-$(0,0)$ היא 1, אבל $\frac{\partial f}{\partial x}(0,0)$ אינה קיימת:
+          משמאל המנה $-1$. הגבול בהגדרה דו-צדדי.
+        misconception: MC-c5-one-sided-derivative
+      - text: '$\lim_{x\to a}\frac{f(x)-f(a)}{x_i-a_i}$'
+        feedback: >-
+          כאן $x$ מתקרב ל-$a$ גם בשאר הקואורדינטות, והמנה אינה מוגדרת כש-$x_i=a_i$ ו-$x\ne a$. בנגזרת חלקית כל
+          המשתנים האחרים **קבועים**.
+        misconception: MC-c5-partial-others-move
+
+  - id: Q-5.2-compute
+    type: numeric
+    objectives: [OBJ-5.2-1]
+    level: basic
+    prompt: >-
+      תהי $f(x,y)=x^3y-2xy^2+y$. חשבו את $\frac{\partial f}{\partial y}(1,2)$.
+    answer: -6
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $x$ קבוע: $\frac{\partial f}{\partial y}=x^3-4xy+1$, ובנקודה $(1,2)$: $1-8+1$, כלומר $-6$.
+    wrongFeedback: >-
+      גזרו לפי $y$ כש-$x$ קבוע: $x^3y\mapsto x^3$, $-2xy^2\mapsto -4xy$, $y\mapsto1$. אחר כך הציבו $(1,2)$.
+    commonWrong:
+      - value: -2
+        feedback: >-
+          זו $\frac{\partial f}{\partial x}(1,2)=3x^2y-2y^2$, הנגזרת לפי המשתנה האחר.
+        misconception: MC-c5-partial-others-move
+
+  - id: Q-5.2-dir-compute
+    type: numeric
+    objectives: [OBJ-5.2-1]
+    level: basic
+    prompt: >-
+      תהי $f(x,y)=x^2+3xy$, $a=(1,1)$ והכיוון $v=\left(\tfrac35,\tfrac45\right)$. חשבו את $D_vf(a)$ מההגדרה: גזרו את
+      $g(t)=f(a+tv)$ ב-$t=0$.
+    answer: 5.4
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $g(t)=(1+\tfrac35t)^2+3(1+\tfrac35t)(1+\tfrac45t)$, ולכן
+      $g'(0)=2\cdot\tfrac35+3\left(\tfrac35+\tfrac45\right)=\tfrac65+\tfrac{21}{5}=\tfrac{27}{5}$.
+    wrongFeedback: >-
+      כתבו את $g(t)$ במפורש, גזרו לפי $t$ (כלל המכפלה במחובר השני), והציבו $t=0$.
+    commonWrong:
+      - value: 27
+        feedback: >-
+          זו התוצאה עם $v=(3,4)$, שאורכו 5, במקום וקטור היחידה $\left(\tfrac35,\tfrac45\right)$. נגזרת כיוונית
+          נלקחת בכיוון של וקטור יחידה; וקטור ארוך פי 5 נותן מספר גדול פי 5.
+        misconception: MC-c5-nonunit-direction
+      - value: 8
+        feedback: >-
+          8 הוא $\frac{\partial f}{\partial x}(a)+\frac{\partial f}{\partial y}(a)=5+3$, כאילו הכיוון היה $(1,1)$:
+          וקטור שאינו הכיוון הנתון וגם אינו באורך 1. הכיוון $\left(\tfrac35,\tfrac45\right)$ קובע את המשקל של כל
+          מחובר.
+        misconception: MC-c5-nonunit-direction
+
+  - id: Q-5.2-axes
+    type: numeric
+    objectives: [OBJ-5.2-2]
+    level: basic
+    prompt: >-
+      תהי $f(x,y)=0$ כש-$xy=0$ (על הצירים) ו-$f(x,y)=1$ בכל נקודה אחרת. חשבו את $\frac{\partial f}{\partial x}(0,0)$.
+    answer: 0
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $f(t,0)=0$ לכל $t$, ולכן המנה $\frac{f(t,0)-f(0,0)}{t}=0$. באותו אופן גם הנגזרת לפי $y$ היא 0. ובכל זאת
+      $f$ אינה רציפה בראשית: $f(t,t)=1$ לכל $t\ne0$.
+    wrongFeedback: >-
+      הנגזרת לפי $x$ מסתכלת רק על הציר $y=0$. מה ערכי $f$ שם?
+    commonWrong:
+      - value: 1
+        feedback: >-
+          1 הוא הערך של $f$ מחוץ לצירים. הנגזרת החלקית רואה רק את הציר $y=0$, ושם $f\equiv0$.
+        misconception: MC-c5-partial-others-move
+
+  - id: Q-5.2-norm
+    type: twotier
+    objectives: [OBJ-5.2-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      תהי $f(x)=\|x\|_2$ על $\mathbb{R}^2$. האם $D_vf(0)$ קיימת לווקטור יחידה $v$?
+    choices:
+      - text: לא, לאף כיוון
+        correct: true
+        feedback: >-
+          נכון. $\frac{f(tv)-f(0)}{t}=\frac{|t|}{t}$, שהוא $1$ כש-$t>0$ ו-$-1$ כש-$t<0$: לגבול הדו-צדדי אין ערך.
+      - text: 'כן, והיא 1 בכל כיוון'
+        feedback: >-
+          1 הוא הגבול החד-צדדי $t\to0^+$. ההגדרה דו-צדדית, ומשמאל המנה $-1$. (בכיוון $v$ ובכיוון $-v$ התקבל אותו 1,
+          וזה כבר סימן: נגזרת אמיתית מקיימת $D_{-v}f=-D_vf$.)
+        misconception: MC-c5-one-sided-derivative
+    reasons:
+      - text: 'המנה $\frac{\|tv\|_2}{t}$ שווה $\frac{|t|}{t}$, והגבולות החד-צדדיים שלה $1$ ו-$-1$'
+        correct: true
+        feedback: >-
+          בדיוק. לאורך כל ישר דרך הראשית $f$ נראית כמו $|t|$, וזו הדוגמה הבסיסית לפונקציה ללא נגזרת ב-0.
+      - text: 'כי $f$ אינה רציפה בראשית'
+        feedback: >-
+          $f$ רציפה (אפילו ליפשיצית עם קבוע 1, לפי אי-שוויון המשולש). רציפות אינה גוררת נגזרות כיווניות, כמו $|x|$
+          במשתנה אחד.
+        misconception: MC-c5-continuity-gives-derivative
+      - text: 'כי $\|v\|_2=1$, ולכן המנה תמיד 1'
+        feedback: >-
+          המנה היא $\frac{|t|\,\|v\|_2}{t}=\frac{|t|}{t}$, והסימן של $t$ משנה. רק כש-$t>0$ היא 1.
+        misconception: MC-c5-one-sided-derivative
+
+  - id: Q-5.2-l1
+    type: multi
+    objectives: [OBJ-5.2-1]
+    level: mid
+    prompt: >-
+      תהי $f(x,y)=\|(x,y)\|_1=|x|+|y|$. באילו נקודות קיימת $\frac{\partial f}{\partial x}$? סמנו את כל הנכונות.
+    choices:
+      - text: '$(1,0)$'
+        correct: true
+        feedback: >-
+          נכון. $f(1+t,0)=|1+t|$, גזירה ב-$t=0$ עם נגזרת 1. הערך המוחלט של $y$ אינו מפריע: $y$ קבוע.
+      - text: '$(-2,5)$'
+        correct: true
+        feedback: 'נכון. ליד $x=-2$, $|x|=-x$, ולכן $\frac{\partial f}{\partial x}(-2,5)=-1$.'
+      - text: '$(0,1)$'
+        feedback: >-
+          $f(t,1)=|t|+1$, ולמנה $\frac{|t|}{t}$ אין גבול: מימין 1 ומשמאל $-1$. הנגזרת לפי $x$ קיימת בדיוק כש-$x\ne0$,
+          בלי קשר ל-$y$.
+        misconception: MC-c5-one-sided-derivative
+      - text: '$(0,0)$'
+        feedback: >-
+          $f(t,0)=|t|$, והגבולות החד-צדדיים של $\frac{|t|}{t}$ הם $1$ ו-$-1$. (ולהפך: ב-$(1,0)$ דווקא
+          $\frac{\partial f}{\partial y}$ אינה קיימת, כי $f(1,t)=1+|t|$.)
+        misconception: MC-c5-one-sided-derivative
+
+  - id: Q-5.2-partials-cont
+    type: twotier
+    objectives: [OBJ-5.2-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      תהי $f(x,y)=\frac{xy}{x^2+y^2}$ ל-$(x,y)\ne(0,0)$ ו-$f(0,0)=0$. ידוע ששתי הנגזרות החלקיות שלה ב-$(0,0)$
+      קיימות. האם $f$ רציפה ב-$(0,0)$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. $f(t,t)=\frac12$ לכל $t\ne0$, ואילו $f(0,0)=0$.'
+      - text: כן
+        feedback: >-
+          במשתנה אחד נגזרת גוררת רציפות. בכמה משתנים הנגזרות החלקיות בודקות רק שני ישרים, ו-$f$ יכולה לקפוץ בכל שאר
+          הכיוונים: $f(t,t)=\frac12$.
+        misconception: MC-c5-partials-imply-continuity
+    reasons:
+      - text: 'הנגזרות החלקיות תלויות רק בערכי $f$ על הצירים, ושם $f\equiv0$; לאורך $y=x$ הערך $\frac12$'
+        correct: true
+        feedback: >-
+          בדיוק. $\frac{\partial f}{\partial x}(0,0)=\frac{\partial f}{\partial y}(0,0)=0$ כי $f(t,0)=f(0,t)=0$, והן
+          עיוורות לאלכסון.
+      - text: 'כי קיום הנגזרות החלקיות גורר רציפות לאורך כל ישר דרך הנקודה'
+        feedback: >-
+          הנגזרות החלקיות נותנות רציפות רק לאורך שני הצירים. לאורך $y=x$ הפונקציה הקבועה $\frac12$ אינה מתחברת לערך
+          $f(0,0)=0$.
+        misconception: MC-c5-partials-imply-continuity
+      - text: 'כי הנגזרות החלקיות שוות 0, ולכן $f$ קבועה ליד הראשית'
+        feedback: >-
+          נגזרות חלקיות שמתאפסות **בנקודה אחת** לא אומרות דבר על ערכי $f$ סביבה, ו-$f$ כאן מקבלת את כל הערכים בין
+          $-\frac12$ ל-$\frac12$ בכל סביבה של הראשית.
+        misconception: MC-c5-partials-imply-continuity
+
+  - id: Q-5.2-partials-imply
+    type: multi
+    objectives: [OBJ-5.2-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      ל-$f:\mathbb{R}^2\to\mathbb{R}$ קיימות שתי הנגזרות החלקיות בנקודה $a$. מה נובע מזה בוודאות? סמנו את כל
+      הנכונות.
+    choices:
+      - text: 'הפונקציה $t\mapsto f(a+te_1)$ רציפה ב-$t=0$'
+        correct: true
+        feedback: >-
+          נכון: זו פונקציה של משתנה אחד הגזירה ב-0, ולכן רציפה שם (אינפי 1). כלומר $f$ רציפה לאורך הציר דרך $a$.
+      - text: '$f$ רציפה ב-$a$'
+        feedback: >-
+          לא נובע. $\frac{xy}{x^2+y^2}$ (ו-0 בראשית) היא דוגמה נגדית: נגזרות חלקיות 0, וערך $\frac12$ לאורך $y=x$.
+        misconception: MC-c5-partials-imply-continuity
+      - text: 'כל הנגזרות הכיווניות $D_vf(a)$ קיימות'
+        feedback: >-
+          לא נובע. לפונקציה שהיא 0 על הצירים ו-1 מחוצה להם, בכיוון $v=\frac{1}{\sqrt2}(1,1)$ המנה $\frac{1}{t}$ אינה
+          חסומה.
+        misconception: MC-c5-directional-from-partials
+      - text: '$D_vf(a)=v_1\frac{\partial f}{\partial x}(a)+v_2\frac{\partial f}{\partial y}(a)$ לכל וקטור יחידה $v$'
+        feedback: >-
+          לא נובע, גם כשכל הנגזרות הכיווניות קיימות: ל-$\frac{x^2y}{x^4+y^2}$ הנגזרות החלקיות בראשית 0, אבל
+          $D_vf(0)=\frac{v_1^2}{v_2}$ כש-$v_2\ne0$. הנוסחה הזו היא משפט על פונקציות **דיפרנציאביליות** (שיעור 5.3).
+        misconception: MC-c5-directional-from-partials
+
+  - id: Q-5.2-dir-value
+    type: numeric
+    objectives: [OBJ-5.2-3]
+    level: mid
+    prompt: >-
+      תהי $g(x,y)=\frac{x^2y}{x^4+y^2}$ ל-$(x,y)\ne(0,0)$ ו-$g(0,0)=0$. חשבו את $D_vg(0,0)$ עבור
+      $v=\left(\tfrac35,\tfrac45\right)$.
+    answer: 0.45
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $\frac{g(tv)}{t}=\frac{t^3v_1^2v_2}{t\,(t^4v_1^4+t^2v_2^2)}=\frac{v_1^2v_2}{t^2v_1^4+v_2^2}\to\frac{v_1^2}{v_2}$,
+      ו-$\frac{9/25}{4/5}=\frac{9}{20}$.
+    wrongFeedback: >-
+      כתבו את המנה $\frac{g(tv)-g(0)}{t}$, צמצמו חזקות של $t$, ורק אז שלחו את $t$ ל-0.
+    commonWrong:
+      - value: 0
+        feedback: >-
+          0 הוא הגבול של $g$ עצמה לאורך הישר, $g(tv)\to0$. הנגזרת הכיוונית היא הגבול של המנה $\frac{g(tv)}{t}$, וכאן
+          $g(tv)$ קטן בדיוק כמו $t$.
+        misconception: MC-c5-value-vs-derivative
+      - value: 0.75
+        feedback: >-
+          $\frac34=\frac{v_1}{v_2}$ במקום $\frac{v_1^2}{v_2}$: הריבוע של $v_1$ אבד בדרך, כנראה מניחוש של הצורה. צמצמו
+          את $t$ במנה במפורש, ושימו לב שהתוצאה אינה צירוף לינארי של הנגזרות החלקיות (שתיהן 0 כאן).
+        misconception: MC-c5-directional-from-partials
+
+  - id: Q-5.2-dir-discont
+    type: twotier
+    objectives: [OBJ-5.2-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      לפונקציה $g$ מהשאלה הקודמת, $g(x,y)=\frac{x^2y}{x^4+y^2}$ ו-$g(0,0)=0$, הנגזרת הכיוונית $D_vg(0,0)$ קיימת לכל
+      וקטור יחידה $v$. האם $g$ רציפה ב-$(0,0)$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. $g(x,x^2)=\frac12$ לכל $x\ne0$.'
+      - text: כן
+        feedback: >-
+          כל הנגזרות הכיווניות קיימות, ובכל זאת לאורך הפרבולה $y=x^2$ הערך קבוע $\frac12\ne g(0,0)$.
+        misconception: MC-c5-directional-imply-continuity
+    reasons:
+      - text: 'נגזרות כיווניות בודקות רק ישרים דרך הנקודה, ולאורך $y=x^2$ הערך $\frac12$'
+        correct: true
+        feedback: >-
+          בדיוק. אותה תופעה כמו בשיעור 5.1: מידע על כל הישרים אינו מידע על כל המסילות. רציפות היא תכונה של כל הסביבה.
+      - text: 'כי קיום כל הנגזרות הכיווניות גורר רציפות לאורך כל מסילה'
+        feedback: >-
+          הוא גורר רציפות רק לאורך ישרים (כל פונקציה של $t$ הגזירה ב-0 רציפה שם). הפרבולה אינה ישר.
+        misconception: MC-c5-directional-imply-continuity
+      - text: 'כי הנוסחה של $g$ אינה מוגדרת בראשית, וההגדרה $g(0,0)=0$ שרירותית'
+        feedback: >-
+          הגדרה בנקודה אחת יכולה בהחלט לתת פונקציה רציפה: $\frac{x^2y^2}{x^2+y^2}$ עם 0 בראשית רציפה. מה שמכריע הוא
+          אם ערכי $g$ ליד הראשית שואפים ל-$g(0,0)$, ולאורך $y=x^2$ הם לא.
+        misconception: MC-c5-zero-denominator
+
+  - id: Q-5.2-nonlinear
+    type: twotier
+    objectives: [OBJ-5.2-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      עבור אותה $g$, נכון או לא נכון: ההעתקה $v\mapsto D_vg(0,0)$ (על וקטורי יחידה) היא צמצום של העתקה לינארית,
+      כלומר יש $c\in\mathbb{R}^2$ כך ש-$D_vg(0,0)=c\cdot v$ לכל $v$?
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: 'נכון. נגזרות כיווניות לא חייבות להתלכד לפונקציונל לינארי אחד.'
+      - text: נכון
+        feedback: >-
+          אם $D_vg(0)=c\cdot v$, אז $c=(D_{e_1}g,D_{e_2}g)=(0,0)$, וכל הנגזרות הכיווניות היו 0. אבל בכיוון
+          $\frac1{\sqrt2}(1,1)$ מתקבל $\frac{v_1^2}{v_2}=\frac{1}{\sqrt2}\ne0$.
+        misconception: MC-c5-directional-from-partials
+    reasons:
+      - text: 'הוקטור $c$ חייב להיות $(D_{e_1}g,D_{e_2}g)=(0,0)$, אבל $D_vg(0,0)=\frac{1}{\sqrt2}$ ל-$v=\frac1{\sqrt2}(1,1)$'
+        correct: true
+        feedback: >-
+          בדיוק: הצבת $v=e_1,e_2$ קובעת את $c$, וכיוון שלישי סותר. בשיעור 5.3 תראו שלפונקציה דיפרנציאבילית התלות
+          ב-$v$ **כן** לינארית, ולכן $g$ אינה דיפרנציאבילית בראשית.
+      - text: 'כי $D_{-v}g(0,0)\ne-D_vg(0,0)$'
+        feedback: >-
+          דווקא $D_{-v}g=\frac{v_1^2}{-v_2}=-D_vg$: התכונה הזו מתקיימת לכל נגזרת כיוונית דו-צדדית. מה שנשבר הוא
+          החיבוריות, לא ההומוגניות.
+        misconception: MC-c5-one-sided-derivative
+      - text: 'כי $g$ אינה רציפה, ולכן אין לה נגזרות כיווניות'
+        feedback: >-
+          ל-$g$ יש נגזרת כיוונית בכל כיוון, אף שאינה רציפה: זו בדיוק הנקודה של השיעור.
+        misconception: MC-c5-directional-imply-continuity
+
+  - id: Q-5.2-construct
+    type: mc
+    objectives: [OBJ-5.2-3]
+    level: exam
+    prompt: >-
+      לאיזו מהפונקציות הבאות (כולן מוגדרות 0 בראשית) **כל** הנגזרות הכיווניות ב-$(0,0)$ קיימות ושוות ל-0, ובכל זאת
+      היא אינה רציפה שם?
+    choices:
+      - text: '$h(x,y)=1$ על הפרבולה $y=x^2$ ($x\ne0$), ו-$h=0$ בכל מקום אחר'
+        correct: true
+        feedback: >-
+          נכון. ישר דרך הראשית פוגש את הפרבולה לכל היותר בנקודה אחת שאינה הראשית (הישר $y=mx$ פוגש אותה ב-$x=m$),
+          ולכן ליד $t=0$ מתקיים $h(tv)=0$, וכל המנות 0. אבל $h(x,x^2)=1$.
+      - text: '$\frac{xy}{x^2+y^2}$'
+        feedback: >-
+          כאן רק הנגזרות החלקיות קיימות. בכיוון $\frac{1}{\sqrt2}(1,1)$ המנה היא $\frac{1/2}{t}$, שאינה חסומה.
+        misconception: MC-c5-directional-from-partials
+      - text: '$\frac{x^2y}{x^4+y^2}$'
+        feedback: >-
+          כל הנגזרות הכיווניות שלה קיימות והיא אינה רציפה, אבל הן אינן כולן 0: $D_vg(0)=\frac{v_1^2}{v_2}$
+          כש-$v_2\ne0$.
+        misconception: MC-c5-directional-from-partials
+      - text: '$\sqrt{|xy|}$'
+        feedback: >-
+          הנגזרות החלקיות שלה 0, אבל היא רציפה; ובכיוון עם $v_1v_2\ne0$ המנה $\frac{|t|\sqrt{|v_1v_2|}}{t}$ אינה
+          מתכנסת: הנגזרת הכיוונית אינה קיימת.
+        misconception: MC-c5-directional-from-partials

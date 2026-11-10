@@ -1,0 +1,23 @@
+# Terms first defined in lesson 1.5 (sequences in a metric space).
+- id: convergence-metric
+  term: התכנסות במרחב מטרי
+  en: convergence in a metric space
+  symbol: 'x_n\to x'
+  definition: >-
+    $x_n\to x$ ב-$(X,d)$ אם $d(x_n,x)\to0$: לכל $\varepsilon>0$ קיים $N$ כך שלכל $n>N$ מתקיים
+    $d(x_n,x)<\varepsilon$. הגבול, אם קיים, יחיד.
+  lesson: '1.5'
+- id: coordinatewise-convergence
+  term: התכנסות לפי קואורדינטות
+  en: coordinatewise convergence
+  definition: >-
+    סדרה $x_n=(x_{n,1},\dots,x_{n,k})$ ב-$\mathbb{R}^k$ מתכנסת לפי קואורדינטות ל-$x$ אם $x_{n,i}\to x_i$ לכל
+    $i$. ב-$\mathbb{R}^k$ עם $d_1$, $d_2$ או $d_\infty$ זה שקול ל-$x_n\to x$, כי
+    $|x_{n,i}-x_i|\le\|x_n-x\|_\infty\le\|x_n-x\|_2\le\sqrt k\,\|x_n-x\|_\infty$.
+  lesson: '1.5'
+- id: eventually-constant
+  term: קבועה מ-N והלאה
+  en: eventually constant
+  definition: >-
+    סדרה שיש לה $N$ כך ש-$x_n=x_{N+1}$ לכל $n>N$. במטריקה הבדידה אלה בדיוק הסדרות המתכנסות.
+  lesson: '1.5'

@@ -1,0 +1,47 @@
+# Misconceptions first detected in lesson 9.6 (change of variables).
+- id: MC-c9-forget-jacobian
+  title: מחליפים משתנים בלי גורם היעקוביאן
+  belief: >-
+    במעבר לקואורדינטות קוטביות $dx\,dy$ הופך ל-$dr\,d\theta$, ובכלל מספיק להציב את המשתנים החדשים באינטגרנד.
+  truth: >-
+    $\int_{g(A)}f=\int_A (f\circ g)\,|\det J_g|$. בקוטביות $|\det J_g|=r$, ולכן $dx\,dy$ הופך ל-$r\,dr\,d\theta$:
+    המלבן הקטן $[r,r+\Delta r]\times[\theta,\theta+\Delta\theta]$ עובר לחתיכת טבעת ששטחה בערך
+    $r\,\Delta r\,\Delta\theta$, לא $\Delta r\,\Delta\theta$.
+  remedy: { lesson: '9.6', label: 'גורם שינוי הנפח בקוטביות' }
+
+- id: MC-c9-inverse-jacobian
+  title: משתמשים ביעקוביאן של ההעתקה ההפוכה
+  belief: >-
+    כשמגדירים משתנים חדשים $u=u(x,y)$, $v=v(x,y)$, מכפילים ב-$\left|\det\frac{\partial(u,v)}{\partial(x,y)}\right|$.
+  truth: >-
+    הגורם הוא היעקוביאן של ההעתקה $g$ שמבטאת את **המשתנים הישנים** בעזרת החדשים, $(x,y)=g(u,v)$. לפי משפט הפונקציה
+    ההפוכה זה ההופכי: $\left|\det\frac{\partial(x,y)}{\partial(u,v)}\right|=1\big/\left|\det\frac{\partial(u,v)}{\partial(x,y)}\right|$.
+  remedy: { lesson: '9.6', label: 'איזה יעקוביאן: של ההעתקה מהמשתנים החדשים לישנים' }
+
+- id: MC-c9-jacobian-no-abs
+  title: שוכחים את הערך המוחלט של היעקוביאן
+  belief: >-
+    בנוסחת החלפת המשתנים מכפילים ב-$\det J_g$, ולכן העתקה עם דטרמיננטה שלילית נותנת נפח שלילי.
+  truth: >-
+    הנוסחה היא עם $|\det J_g|$. נפח הוא אי-שלילי, והדטרמיננטה השלילית רק אומרת שההעתקה הופכת את הכיוון (כמו
+    שיקוף). לכן $v(T(Q))=|\det T|\,v(Q)$ להעתקה לינארית $T$.
+  remedy: { lesson: '9.6', label: 'הערך המוחלט של היעקוביאן' }
+
+- id: MC-c9-spherical-jacobian
+  title: טועים בגורם הנפח של קואורדינטות כדוריות
+  belief: >-
+    בקואורדינטות כדוריות $dV=r\sin\varphi\,dr\,d\varphi\,d\theta$, או $r^2\,dr\,d\varphi\,d\theta$ בלי הסינוס.
+  truth: >-
+    עם $x=r\sin\varphi\cos\theta$, $y=r\sin\varphi\sin\theta$, $z=r\cos\varphi$ מתקבל $|\det J|=r^2\sin\varphi$.
+    בדיקה: $\int_0^{2\pi}\int_0^\pi\int_0^1 r^2\sin\varphi\,dr\,d\varphi\,d\theta=\frac{4\pi}{3}$, נפח כדור היחידה.
+  remedy: { lesson: '9.6', label: 'קואורדינטות כדוריות ונפח כדור' }
+
+- id: MC-c9-polar-boundary-breaks
+  title: חושבים שאי אפשר לעבור לקוטביות כי ההעתקה אינה חד-חד-ערכית על השפה
+  belief: >-
+    ההעתקה הקוטבית על $[0,R]\times[0,2\pi]$ אינה חד-חד-ערכית (ב-$r=0$ וב-$\theta=0,2\pi$), והיעקוביאן שלה מתאפס
+    ב-$r=0$, ולכן משפט החלפת המשתנים אינו חל על עיגול.
+  truth: >-
+    מפעילים את המשפט על הקבוצה הפתוחה $(0,R)\times(0,2\pi)$, שעליה כל ההנחות מתקיימות. מה שנשאר בחוץ, בשני
+    הצדדים, הוא בעל תכולה אפס (קטעים ונקודה), ולכן אינו משנה אף אינטגרל.
+  remedy: { lesson: '9.6', label: 'קוטביות: מה שקורה על קבוצה בעלת תכולה אפס אינו משנה' }

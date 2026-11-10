@@ -1,0 +1,328 @@
+# Lesson 1.5 — sequences in a metric space.
+# Objectives (src/course.ts):
+#   OBJ-1.5-1  define convergence in a metric space and prove the limit is unique
+#   OBJ-1.5-2  a closed set contains the limits of its convergent sequences; the closure is the set of those limits
+#   OBJ-1.5-3  convergence in R^n is coordinatewise; convergence in the sup metric is uniform convergence
+chapter: 1
+questions:
+  - id: Q-1.5-def
+    type: mc
+    objectives: [OBJ-1.5-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      במרחב מטרי $(X,d)$, מה פירוש $x_n\to x$?
+    choices:
+      - text: 'לכל $\varepsilon>0$ קיים $N$ כך שלכל $n>N$: $d(x_n,x)<\varepsilon$'
+        correct: true
+        feedback: >-
+          נכון. במילים: סדרת המספרים $d(x_n,x)$ שואפת ל-0 ב-$\mathbb{R}$. כל ההגדרות של אינפי 1 עוברות, עם $d$
+          במקום $|\cdot|$.
+      - text: '$d(x_n,x_{n+1})\to0$'
+        feedback: >-
+          זה מדבר על איברים עוקבים ולא על $x$. ב-$\mathbb{R}$, $\sqrt{n+1}-\sqrt n\to0$, ו-$\sqrt n$ אינה מתכנסת.
+        misconception: MC-c1-consecutive-distance
+      - text: 'קיים $N$ כך שלכל $\varepsilon>0$ ולכל $n>N$: $d(x_n,x)<\varepsilon$'
+        feedback: >-
+          כש-$N$ בא לפני $\varepsilon$, אותו $N$ צריך להתאים לכל $\varepsilon$, ואז $d(x_n,x)=0$ לכל $n>N$: הסדרה
+          קבועה מ-$N$ והלאה. זו טענה חזקה בהרבה.
+        misconception: MC-c1-quantifier-order
+      - text: 'לכל $\varepsilon>0$ יש $n$ עם $d(x_n,x)<\varepsilon$'
+        feedback: >-
+          זה אומר רק שיש איברים קרובים כרצוננו ל-$x$. ב-$\mathbb{R}$ הסדרה $0,1,0,1,\dots$ מקיימת זאת עם $x=0$
+          ואינה מתכנסת.
+        misconception: MC-c1-quantifier-order
+
+  - id: Q-1.5-discrete
+    type: twotier
+    objectives: [OBJ-1.5-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      ב-$\mathbb{R}$ עם **המטריקה הבדידה**, האם $\frac1n\to0$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. במטריקה הבדידה סדרה מתכנסת רק אם היא קבועה מ-$N$ והלאה.
+      - text: כן
+        feedback: >-
+          ב-$\mathbb{R}$ עם המטריקה הרגילה כן. כאן $d(\frac1n,0)=1$ לכל $n$, כי $\frac1n\neq0$, והמרחק לא שואף ל-0.
+        misconception: MC-c1-one-distance
+    reasons:
+      - text: '$d(\frac1n,0)=1$ לכל $n$, ולכן עם $\varepsilon=\frac12$ אין $N$ מתאים'
+        correct: true
+        feedback: >-
+          בדיוק. ובאופן כללי: אם $x_n\to x$, אז עם $\varepsilon=\frac12$ יש $N$ שאחריו $d(x_n,x)<\frac12$, כלומר
+          $x_n=x$.
+      - text: '$|\frac1n-0|\to0$'
+        feedback: >-
+          זה המרחק **הרגיל**. התכנסות נקבעת לפי המטריקה של המרחב, וכאן המרחק בין $\frac1n$ ל-$0$ הוא 1.
+        misconception: MC-c1-one-distance
+      - text: 'במטריקה הבדידה כל כדור ברדיוס חיובי מכיל עוד נקודות, ולכן כל סדרה "מתקרבת"'
+        feedback: >-
+          $B(0,\frac12)=\{0\}$: אין בו אף נקודה אחרת. כדורים קטנים במטריקה הבדידה הם נקודות בודדות.
+        misconception: MC-c1-discrete-balls
+
+  - id: Q-1.5-coord
+    type: multi
+    objectives: [OBJ-1.5-3]
+    level: basic
+    prompt: >-
+      אילו מהסדרות הבאות מתכנסות ב-$\mathbb{R}^2$ עם המטריקה האוקלידית? סמנו את כולן.
+    choices:
+      - text: '$\left(\frac1n,\frac{(-1)^n}{n}\right)$'
+        correct: true
+        feedback: 'נכון: שתי הקואורדינטות שואפות ל-0, ולכן הסדרה שואפת ל-$(0,0)$.'
+      - text: '$\left(\frac1n,(-1)^n\right)$'
+        feedback: >-
+          הקואורדינטה הראשונה מתכנסת, אבל השנייה לא. התכנסות ב-$\mathbb{R}^n$ דורשת התכנסות **בכל** קואורדינטה:
+          $d_2(x_n,x)\ge|x_{n,2}-x_2|$.
+        misconception: MC-c1-one-coordinate
+      - text: '$\left(\frac{n}{n+1},\,2\right)$'
+        correct: true
+        feedback: 'נכון: שואפת ל-$(1,2)$; קואורדינטה קבועה מתכנסת.'
+      - text: '$\left(\left(1+\frac1n\right)^n,\ \frac{\sin n}{n}\right)$'
+        correct: true
+        feedback: 'נכון: שואפת ל-$(e,0)$, שתי הקואורדינטות מאינפי 1.'
+
+  - id: Q-1.5-dinf
+    type: numeric
+    objectives: [OBJ-1.5-3]
+    level: basic
+    prompt: >-
+      ב-$(\mathbb{R}^3,d_\infty)$ הסדרה $x_n=\left(1+\frac1n,\ 2-\frac2n,\ \frac{n}{n+1}\right)$ שואפת ל-$x=(1,2,1)$.
+      חשבו את $d_\infty(x_4,x)$.
+    answer: 0.5
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון: ההפרשים בקואורדינטות הם $\frac14$, $\frac24$ ו-$\left|\frac45-1\right|=\frac15$, והמקסימום הוא $\frac12$.
+    wrongFeedback: >-
+      חשבו את $x_4$, את ההפרש בכל קואורדינטה בערך מוחלט, וקחו את הגדול.
+    commonWrong:
+      - value: 0.95
+        feedback: >-
+          $0.95=\frac14+\frac12+\frac15$ הוא $d_1$, הסכום. $d_\infty$ לוקחת את המקסימום.
+        misconception: MC-c1-one-distance
+      - value: 0.25
+        feedback: >-
+          $\frac14$ הוא ההפרש בקואורדינטה הראשונה בלבד. $d_\infty$ היא המקסימום על **כל** הקואורדינטות.
+        misconception: MC-c1-one-coordinate
+
+  - id: Q-1.5-unique
+    type: rank
+    objectives: [OBJ-1.5-1]
+    level: mid
+    prompt: >-
+      סדרו את שלבי ההוכחה שלסדרה במרחב מטרי יש לכל היותר גבול אחד.
+    help: סדרו את השלבים מהראשון לאחרון.
+    items:
+      - id: assume
+        label: 'נניח $x_n\to x$ וגם $x_n\to y$, ויהי $\varepsilon>0$.'
+      - id: N
+        label: 'יש $N_1$ עם $d(x_n,x)<\varepsilon$ לכל $n>N_1$, ו-$N_2$ עם $d(x_n,y)<\varepsilon$ לכל $n>N_2$.'
+      - id: tri
+        label: 'עבור $n>\max(N_1,N_2)$: $d(x,y)\le d(x,x_n)+d(x_n,y)<2\varepsilon$.'
+      - id: zero
+        label: '$\varepsilon>0$ היה כלשהו, ולכן $d(x,y)=0$.'
+      - id: equal
+        label: 'לפי אקסיומת האפס של המטריקה, $x=y$.'
+    order: [assume, N, tri, zero, equal]
+    correctFeedback: >-
+      נכון. שימו לב לשלב האחרון: הוא משתמש בכך ש-$d(x,y)=0$ גורר $x=y$. בלי אקסיומה זו הגבול לא היה יחיד.
+    wrongFeedback: >-
+      הרעיון: $x$ ו-$y$ שניהם קרובים לאותו $x_n$, ולכן קרובים זה לזה כרצוננו. סדרו: הנחה, $N$-ים, משולש, אפס, שוויון.
+
+  - id: Q-1.5-unique-tf
+    type: twotier
+    objectives: [OBJ-1.5-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      על $\mathbb{R}^2$ נתונה $d(x,y)=|x_1-y_1|$, שמקיימת סימטריה ואי-שוויון משולש אבל לא את הכיוון "$d(x,y)=0$
+      גורר $x=y$". נגדיר "$x_n\to x$" כש-$d(x_n,x)\to0$. האם גבול של סדרה עדיין יחיד?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. הסדרה הקבועה $x_n=(0,0)$ "שואפת" גם ל-$(0,0)$ וגם ל-$(0,1)$.
+      - text: כן
+        feedback: >-
+          ההוכחה מגיעה ל-$d(x,y)=0$, ורק אקסיומת האפס הופכת את זה ל-$x=y$. כאן $d((0,0),(0,1))=0$, ולסדרה הקבועה
+          $(0,0)$ יש שני "גבולות".
+        misconception: MC-c1-zero-axiom
+    reasons:
+      - text: '$d((0,0),(0,0))=d((0,0),(0,1))=0$, ולכן הסדרה הקבועה $(0,0)$ שואפת לשתי הנקודות'
+        correct: true
+        feedback: >-
+          בדיוק. זה מראה איזו הנחה ההוכחה צריכה: הכיוון "$d(x,y)=0\Rightarrow x=y$" של אקסיומת האפס.
+      - text: 'ההוכחה של יחידות הגבול משתמשת רק באי-שוויון המשולש'
+        feedback: >-
+          המשולש נותן רק $d(x,y)=0$. המעבר ל-$x=y$ הוא אקסיומת האפס, וזו בדיוק האקסיומה שחסרה כאן.
+        misconception: MC-c1-zero-axiom
+      - text: 'כל סדרה שמתכנסת בקואורדינטה הראשונה מתכנסת'
+        feedback: >-
+          זה מה ש-$d$ הזו בודקת, אבל זה לא עונה על השאלה: השאלה היא אם יש **גבול אחד**, וכאן לכל סדרה כזו יש אינסוף
+          "גבולות".
+        misconception: MC-c1-one-coordinate
+
+  - id: Q-1.5-closed-seq
+    type: twotier
+    objectives: [OBJ-1.5-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      ב-$C[0,1]$ עם נורמת הסופרמום, האם הקבוצה $F=\{f\in C[0,1]: f(0)=0\}$ סגורה?
+    choices:
+      - text: כן
+        correct: true
+        feedback: 'נכון. נבדוק לפי האפיון הסדרתי: כל גבול של סדרה מ-$F$ נמצא ב-$F$.'
+      - text: לא
+        feedback: >-
+          קרבה בנורמת הסופרמום שולטת בערך בכל נקודה: $|f_n(0)-f(0)|\le\|f_n-f\|_\infty$. לכן הערך ב-0 עובר לגבול.
+        misconception: MC-c1-sup-ball-band
+    reasons:
+      - text: 'אם $f_n\in F$ ו-$\|f_n-f\|_\infty\to0$, אז $|f(0)|=|f(0)-f_n(0)|\le\|f-f_n\|_\infty\to0$, ולכן $f(0)=0$'
+        correct: true
+        feedback: >-
+          בדיוק. כל סדרה מ-$F$ שמתכנסת ב-$C[0,1]$ מתכנסת לאיבר של $F$, ולכן $F$ סגורה.
+      - text: 'הסדרה $f_n(x)=\frac xn$ ב-$F$ שואפת ל-$0\in F$'
+        feedback: >-
+          זו סדרה אחת. סגירות דורשת שהגבול של **כל** סדרה מתכנסת מ-$F$ יהיה ב-$F$; דוגמה אחת לא מוכיחה את זה.
+        misconception: MC-c1-few-sequences
+      - text: '$F$ אינה פתוחה, ולכן היא סגורה'
+        feedback: >-
+          "לא פתוחה" אינו "סגורה" ($\mathbb{Q}$ ב-$\mathbb{R}$). כאן $F$ באמת סגורה, אבל מסיבה אחרת.
+        misconception: MC-c1-open-not-closed
+
+  - id: Q-1.5-closure-seq
+    type: multi
+    objectives: [OBJ-1.5-2]
+    level: mid
+    prompt: >-
+      $A=\{(x,\sin\frac1x):0<x\le1\}\subseteq\mathbb{R}^2$ (הגרף). אילו מהטענות נכונות? סמנו את כולן.
+    choices:
+      - text: '$(0,0)\in\overline A$, דרך הסדרה $x_n=\frac{1}{n\pi}$'
+        correct: true
+        feedback: 'נכון: $(\frac{1}{n\pi},\sin(n\pi))=(\frac1{n\pi},0)\to(0,0)$.'
+      - text: '$(0,1)\in\overline A$'
+        correct: true
+        feedback: >-
+          נכון: עם $x_n=\frac{1}{\frac\pi2+2\pi n}$ מקבלים $\sin\frac1{x_n}=1$, ולכן $(x_n,1)\to(0,1)$.
+      - text: '$\overline A=A\cup\{(0,0)\}$'
+        feedback: >-
+          הסדרה $\frac1{n\pi}$ נותנת רק את $(0,0)$, אבל סדרות אחרות נותנות כל $(0,c)$ עם $|c|\le1$. הסגור הוא קבוצת
+          הגבולות של **כל** הסדרות מ-$A$: $A\cup(\{0\}\times[-1,1])$.
+        misconception: MC-c1-few-sequences
+      - text: '$(0,2)\notin\overline A$'
+        correct: true
+        feedback: >-
+          נכון: כל נקודה של $A$ מקיימת $y\le1$, ולכן הכדור $B((0,2),\frac12)$ זר ל-$A$.
+
+  - id: Q-1.5-xn-sup
+    type: twotier
+    objectives: [OBJ-1.5-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      ב-$B([0,1])$ עם מטריקת הסופרמום, האם הסדרה $f_n(x)=x^n$ מתכנסת?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. התכנסות במטריקת הסופרמום היא התכנסות במידה שווה, והגבול היחיד האפשרי הוא הגבול הנקודתי.
+      - text: כן, לפונקציה שהיא 0 ב-$[0,1)$ ו-1 ב-1
+        feedback: >-
+          זה הגבול **הנקודתי**. המרחק אליו במטריקת הסופרמום הוא $\sup_{0\le x<1}x^n=1$ לכל $n$, ולא שואף ל-0.
+        misconception: MC-c1-pointwise-is-sup
+    reasons:
+      - text: 'גבול במטריקת הסופרמום חייב להיות הגבול הנקודתי $f$, ו-$d(f_n,f)=\sup_{0\le x<1}x^n=1$ לכל $n$'
+        correct: true
+        feedback: >-
+          בדיוק. $|f_n(x)-g(x)|\le d(f_n,g)$ לכל $x$, ולכן התכנסות בסופרמום גוררת התכנסות נקודתית לאותו גבול.
+          הגבול הנקודתי לא מתאים, ולכן אין גבול.
+      - text: 'לכל $x$, $f_n(x)$ מתכנסת, ולכן $f_n$ מתכנסת'
+        feedback: >-
+          התכנסות בכל נקודה בנפרד היא התכנסות נקודתית. מטריקת הסופרמום דורשת שהמרחק **המקסימלי** ישאף ל-0.
+        misconception: MC-c1-pointwise-is-sup
+      - text: 'הגבול הנקודתי אינו רציף, ופונקציה לא רציפה אינה ב-$B([0,1])$'
+        feedback: >-
+          $B([0,1])$ מכיל את כל הפונקציות **החסומות**, גם לא רציפות, והגבול הנקודתי חסום. הבעיה היא שהמרחק אליו
+          נשאר 1.
+        misconception: MC-c1-axiom-misdiagnosed
+
+  - id: Q-1.5-hump
+    type: numeric
+    objectives: [OBJ-1.5-3]
+    level: mid
+    prompt: >-
+      $f_n(x)=\frac{nx}{1+n^2x^2}$ על $[0,1]$. לכל $x$, $f_n(x)\to0$. חשבו את $\|f_5-0\|_\infty=\max_{[0,1]}|f_5|$.
+    answer: 0.5
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. עם $t=nx$: $\frac{t}{1+t^2}\le\frac12$ (כי $(1-t)^2\ge0$), בשוויון ב-$t=1$, כלומר ב-$x=\frac1n\in[0,1]$.
+      לכן $\|f_n\|_\infty=\frac12$ לכל $n$, ו-$f_n$ אינה שואפת ל-0 במידה שווה.
+    wrongFeedback: >-
+      הציבו $t=nx$ ומצאו את המקסימום של $\frac{t}{1+t^2}$ על $[0,n]$.
+    commonWrong:
+      - value: 0
+        feedback: >-
+          0 הוא הגבול הנקודתי. השאלה היא על המרחק המקסימלי בין $f_5$ ל-0, וה"גבעה" של $f_5$ בגובה $\frac12$.
+        misconception: MC-c1-pointwise-is-sup
+      - value: 0.192307692
+        feedback: >-
+          $\frac{5}{26}$ הוא $f_5(1)$, הערך בקצה. המקסימום מתקבל בנקודה הפנימית $x=\frac15$.
+        misconception: MC-c1-sup-metric-shortcut
+
+  - id: Q-1.5-norm-matters
+    type: twotier
+    objectives: [OBJ-1.5-3, OBJ-1.5-1]
+    qualitative: true
+    level: exam
+    prompt: >-
+      נכון או לא: הסדרה $f_n(x)=x^n$ מתכנסת ב-$(C[0,1],\|\cdot\|_1)$, ואינה מתכנסת ב-$(C[0,1],\|\cdot\|_\infty)$.
+    choices:
+      - text: נכון
+        correct: true
+        feedback: 'נכון. אותה סדרה, אותה קבוצה, שתי נורמות, שתי תשובות.'
+      - text: לא נכון
+        feedback: >-
+          $\|x^n-0\|_1=\frac{1}{n+1}\to0$, כך שבנורמת האינטגרל היא שואפת ל-0. התכנסות תלויה בנורמה.
+        misconception: MC-c1-one-distance
+    reasons:
+      - text: '$\|x^n\|_1=\frac1{n+1}\to0$; ובנורמת הסופרמום גבול היה גבול במידה שווה, ולכן רציף ושווה לגבול הנקודתי, שאינו רציף'
+        correct: true
+        feedback: >-
+          בדיוק. גבול במידה שווה של רציפות רציף (שיעור 0.3), והגבול הנקודתי קופץ ב-1. לכן אין גבול ב-$C[0,1]$ עם
+          $\|\cdot\|_\infty$.
+      - text: 'גם בנורמת הסופרמום היא שואפת ל-0, כי $x^n\to0$ כמעט בכל נקודה'
+        feedback: >-
+          $\|x^n-0\|_\infty=1$ לכל $n$. התכנסות נקודתית, אפילו כמעט בכל מקום, אינה התכנסות במטריקת הסופרמום.
+        misconception: MC-c1-pointwise-is-sup
+      - text: 'היא אינה מתכנסת גם בנורמת האינטגרל, כי $f_n(1)=1$ לכל $n$'
+        feedback: >-
+          נורמת האינטגרל "לא רואה" ערך בנקודה אחת: $\|x^n\|_1=\frac1{n+1}\to0$ למרות $f_n(1)=1$. מה שנכון לסופרמום
+          לא עובר לנורמה אחרת.
+        misconception: MC-c1-one-distance
+
+  - id: Q-1.5-closure-exam
+    type: mc
+    objectives: [OBJ-1.5-2]
+    level: exam
+    prompt: >-
+      ב-$C[0,1]$ עם נורמת הסופרמום, $U$ היא קבוצת הפונקציות שמקיימות $f(x)>0$ לכל $x$. מהו $\overline U$?
+    choices:
+      - text: 'קבוצת הפונקציות שמקיימות $f(x)\ge0$ לכל $x$'
+        correct: true
+        feedback: >-
+          נכון. אם $f\ge0$ אז $f+\frac1n\in U$ ו-$\|f+\frac1n-f\|_\infty=\frac1n\to0$. ולהפך, אם $f_n\in U$ ו-$f_n\to f$
+          במידה שווה, אז $f(x)=\lim f_n(x)\ge0$ לכל $x$.
+      - text: '$U$ עצמה: היא כבר סגורה'
+        feedback: >-
+          $\frac1n\in U$ ו-$\frac1n\to0$ במידה שווה, אבל $0\notin U$. לכן $U$ אינה סגורה, והסגור גדול ממנה.
+        misconception: MC-c1-few-sequences
+      - text: 'הפונקציות $f\ge0$ שאינן זהותית אפס'
+        feedback: >-
+          גם $0$ בסגור: $\frac1n\to0$. כדי למצוא את הסגור צריך לבדוק את הגבולות של **כל** הסדרות מ-$U$, גם של
+          הסדרה הפשוטה $\frac1n$.
+        misconception: MC-c1-few-sequences

@@ -1,0 +1,357 @@
+# Lesson 5.6 — the mean value theorem in several variables.
+# Objectives (src/course.ts):
+#   OBJ-5.6-1  state and prove the mean value theorem for a real function on a segment in space
+#   OBJ-5.6-2  no mean value equality for vector functions; the mean value inequality with the operator norm
+#   OBJ-5.6-3  Df ≡ 0 on an open connected set ⇒ constant; a bound on Df on a convex set gives a Lipschitz constant
+# "Connected" is used here as "open and path-connected" (lesson 3.6 is enrichment), and every question says so.
+chapter: 5
+questions:
+  - id: Q-5.6-statement
+    type: mc
+    objectives: [OBJ-5.6-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $f:U\to\mathbb{R}$ דיפרנציאבילית בקבוצה הפתוחה $U\subseteq\mathbb{R}^n$, והקטע $[a,b]=\{a+t(b-a):0\le t\le1\}$
+      מוכל ב-$U$. מה אומר משפט הערך הממוצע?
+    choices:
+      - text: 'יש נקודה $c=a+\tau(b-a)$ עם $0<\tau<1$ כך ש-$f(b)-f(a)=\nabla f(c)\cdot(b-a)$'
+        correct: true
+        feedback: >-
+          נכון. הנקודה $c$ נמצאת **על הקטע** בין $a$ ל-$b$, ובצד ימין הנגזרת הכיוונית (לא מנורמלת) בכיוון $b-a$:
+          $Df(c)(b-a)$.
+      - text: 'יש נקודה $c\in U$ כלשהי כך ש-$f(b)-f(a)=\nabla f(c)\cdot(b-a)$'
+        feedback: >-
+          המשפט נותן יותר: $c$ על הקטע $[a,b]$ עצמו. זה חשוב, כי ההערכות משתמשות בחסם על $\nabla f$ **לאורך הקטע** בלבד.
+        misconception: MC-c5-mvt-segment-needed
+      - text: '$f(b)-f(a)=\nabla f(c)\cdot(b-a)$ כש-$c$ אמצע הקטע'
+        feedback: >-
+          המשפט רק מבטיח שיש $c$ כזו, לא איפה. ל-$f=x^3-y^2$ על הקטע מ-$(0,0)$ ל-$(1,1)$ הנקודה היחידה היא
+          $\tau=\frac23$, לא $\frac12$.
+        misconception: MC-c5-mvt-midpoint
+      - text: 'אותו דבר, עם $Df(c)$ במקום $\nabla f(c)$, גם לפונקציות $f:U\to\mathbb{R}^m$'
+        feedback: >-
+          לפונקציות וקטוריות אין שוויון כזה: ל-$\gamma(t)=(\cos t,\sin t)$ על $[0,2\pi]$ ההפרש $\gamma(2\pi)-\gamma(0)=0$,
+          אבל $\gamma'(c)\ne0$ לכל $c$. יש רק אי-שוויון.
+        misconception: MC-c5-mvt-vector-equality
+
+  - id: Q-5.6-circle
+    type: twotier
+    objectives: [OBJ-5.6-2]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $\gamma(t)=(\cos t,\sin t)$ על $[0,2\pi]$. האם יש $c\in(0,2\pi)$ כך ש-$\gamma(2\pi)-\gamma(0)=2\pi\,\gamma'(c)$?
+    choices:
+      - text: 'לא'
+        correct: true
+        feedback: >-
+          נכון. האגף השמאלי $(0,0)$, ו-$\|\gamma'(c)\|_2=\|(-\sin c,\cos c)\|_2=1$ לכל $c$.
+      - text: 'כן'
+        feedback: >-
+          לכל רכיב בנפרד יש נקודה מתאימה ($\sin c_1=0$ ו-$\cos c_2=0$), אבל אין נקודה **משותפת**: $\sin$ ו-$\cos$
+          אינם מתאפסים יחד.
+        misconception: MC-c5-mvt-vector-equality
+    reasons:
+      - text: 'צריך $\gamma''(c)=0$, אבל $\|\gamma''(c)\|_2=1$ לכל $c$'
+        correct: true
+        feedback: >-
+          בדיוק. זו הדוגמה הנגדית לשוויון ערך ממוצע בפונקציות וקטוריות; מה שנשאר נכון הוא אי-השוויון
+          $\|\gamma(2\pi)-\gamma(0)\|\le2\pi\sup\|\gamma'\|$.
+      - text: 'משפט הערך הממוצע חל על כל רכיב, ולכן קיימת נקודה משותפת'
+        feedback: >-
+          לכל רכיב יש נקודה משלו: $c_1\in\{\pi\}$ לרכיב הראשון ו-$c_2\in\{\frac\pi2,\frac{3\pi}{2}\}$ לשני. הן שונות,
+          ולכן אין $c$ אחת לשני הרכיבים.
+        misconception: MC-c5-mvt-vector-equality
+      - text: 'לא, כי $\gamma$ אינה חד-חד-ערכית, ומשפט הערך הממוצע דורש חד-חד-ערכיות'
+        feedback: >-
+          משפט הערך הממוצע אינו דורש חד-חד-ערכיות (גם $\sin$ על $[0,2\pi]$ אינה כזו, והמשפט חל עליה). הסיבה היא שהשוויון
+          פשוט אינו נכון לפונקציות עם ערכים ב-$\mathbb{R}^2$.
+        misconception: MC-c5-mvt-vector-equality
+
+  - id: Q-5.6-constant
+    type: twotier
+    objectives: [OBJ-5.6-3]
+    qualitative: true
+    level: basic
+    prompt: >-
+      נכון או לא נכון: אם $U\subseteq\mathbb{R}^2$ פתוחה, $f:U\to\mathbb{R}$ דיפרנציאבילית ו-$Df(x)=0$ לכל $x\in U$,
+      אז $f$ קבועה על $U$.
+    choices:
+      - text: 'לא נכון'
+        correct: true
+        feedback: >-
+          נכון. על $U=\{(x,y):x\ne0\}$ הפונקציה $f=1$ כש-$x>0$ ו-$f=-1$ כש-$x<0$ מקיימת $Df\equiv0$ ואינה קבועה.
+      - text: 'נכון'
+        feedback: >-
+          חסרה הנחה על $U$: על שני חצאי מישור זרים $f$ יכולה להיות קבוע שונה בכל חצי. המשפט דורש ש-$U$ תהיה פתוחה
+          **וקשירה מסילתית** (כל שתי נקודות מחוברות במסילה רציפה בתוך $U$).
+        misconception: MC-c5-zero-derivative-disconnected
+    reasons:
+      - text: '$U$ עשויה להיות לא קשירה מסילתית, ואז $f$ קבועה בכל "חתיכה" בנפרד, עם קבועים שונים'
+        correct: true
+        feedback: >-
+          בדיוק. משפט הערך הממוצע עובד רק לאורך קטעים בתוך $U$, ובין שני חצאי המישור אין מסלול בתוך $U$.
+      - text: 'לפי משפט הערך הממוצע $f(b)-f(a)=\nabla f(c)\cdot(b-a)=0$ לכל $a,b\in U$'
+        feedback: >-
+          המשפט דורש שהקטע $[a,b]$ יהיה ב-$U$. ל-$a=(-1,0)$ ו-$b=(1,0)$ הקטע עובר ב-$x=0$, מחוץ ל-$U$.
+        misconception: MC-c5-zero-derivative-disconnected
+      - text: 'לא נכון, כי $f$ לא חייבת להיות רציפה'
+        feedback: >-
+          $f$ דיפרנציאבילית ולכן רציפה (שיעור 5.3). הבעיה היא בצורה של $U$, לא ב-$f$.
+        misconception: MC-c5-zero-derivative-disconnected
+
+  - id: Q-5.6-find
+    type: numeric
+    objectives: [OBJ-5.6-1]
+    level: mid
+    prompt: >-
+      $f(x,y)=x^3-y^2$, $a=(0,0)$, $b=(1,1)$. מצאו את $\tau\in(0,1)$ כך ש-$c=a+\tau(b-a)$ מקיים
+      $f(b)-f(a)=\nabla f(c)\cdot(b-a)$.
+    answer: 0.6666667
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון, $\tau=\frac23$. $\varphi(\tau)=f(\tau,\tau)=\tau^3-\tau^2$, ו-$\varphi(1)-\varphi(0)=0$. צריך
+      $\varphi'(\tau)=3\tau^2-2\tau=\tau(3\tau-2)=0$ עם $0<\tau<1$, ולכן $\tau=\frac23$.
+    wrongFeedback: >-
+      צמצמו לקטע: $\varphi(\tau)=f(a+\tau(b-a))$ היא פונקציה של משתנה אחד, ו-$\varphi'(\tau)=\nabla f(c)\cdot(b-a)$.
+      פתרו $\varphi'(\tau)=\varphi(1)-\varphi(0)$.
+    commonWrong:
+      - value: 0.5
+        feedback: >-
+          אמצע הקטע עובד לפונקציות ריבועיות בלבד. כאן $\varphi'(\frac12)=\frac34-1\ne0$.
+        misconception: MC-c5-mvt-midpoint
+      - value: 0
+        feedback: >-
+          $\tau=0$ אכן פותר $3\tau^2-2\tau=0$, אבל הוא קצה הקטע; המשפט מבטיח נקודה **בפנים**, $0<\tau<1$.
+        misconception: MC-c5-mvt-segment-needed
+
+  - id: Q-5.6-quadratic
+    type: twotier
+    objectives: [OBJ-5.6-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $f(x)=x^{T}Ax+b\cdot x+c_0$ עם $A$ סימטרית $n\times n$. נכון או לא נכון: לכל $a\ne b$, אמצע הקטע $[a,b]$ הוא
+      נקודה שמקיימת את משפט הערך הממוצע.
+    choices:
+      - text: 'נכון'
+        correct: true
+        feedback: 'נכון. זו תכונה מיוחדת של פונקציות ריבועיות; לפונקציה כללית הנקודה אינה האמצע.'
+      - text: 'לא נכון'
+        feedback: >-
+          זה נכון: לאורך הקטע $\varphi(t)=f(a+t(b-a))$ הוא פולינום ממעלה 2 לכל היותר, ולפולינום כזה
+          $p(1)-p(0)=p'(\frac12)$.
+        misconception: MC-c5-mvt-midpoint
+    reasons:
+      - text: '$\varphi(t)=f(a+t(b-a))=\alpha t^2+\beta t+\gamma$, ו-$\varphi(1)-\varphi(0)=\alpha+\beta=\varphi''(\tfrac12)$'
+        correct: true
+        feedback: >-
+          בדיוק. הצמצום לקטע הופך שאלה על $\mathbb{R}^n$ לשאלה על פולינום של משתנה אחד.
+      - text: 'לכל פונקציה דיפרנציאבילית, הנקודה במשפט הערך הממוצע היא אמצע הקטע'
+        feedback: >-
+          לא: ל-$x^3-y^2$ על הקטע מ-$(0,0)$ ל-$(1,1)$ הנקודה היא $\tau=\frac23$. האמצע עובד רק כש-$\varphi$ ריבועית.
+        misconception: MC-c5-mvt-midpoint
+      - text: 'כי $\nabla f$ קבוע לפונקציה ריבועית'
+        feedback: >-
+          $\nabla f(x)=2Ax+b$ אינו קבוע, הוא **אפיני**. מה שעובד הוא שהממוצע של פונקציה אפינית על קטע מתקבל באמצע.
+          (אם $\nabla f$ היה קבוע, כל נקודה הייתה עובדת.)
+        misconception: MC-c5-mvt-midpoint
+
+  - id: Q-5.6-proof-idea
+    type: mc
+    objectives: [OBJ-5.6-1]
+    level: mid
+    prompt: >-
+      בהוכחה של משפט הערך הממוצע לפונקציה ממשית $f$ על הקטע $[a,b]\subseteq U$, על איזו פונקציה של משתנה אחד
+      מפעילים את משפט לגרנז' מאינפי 1?
+    choices:
+      - text: '$\varphi(t)=f(a+t(b-a))$ על $[0,1]$, עם $\varphi''(t)=\nabla f(a+t(b-a))\cdot(b-a)$ לפי כלל השרשרת'
+        correct: true
+        feedback: >-
+          נכון. $\varphi(1)-\varphi(0)=f(b)-f(a)$, ולגרנז' נותן $\tau\in(0,1)$ עם $\varphi(1)-\varphi(0)=\varphi'(\tau)$.
+          כלל השרשרת מתרגם את $\varphi'(\tau)$ לגרדיאנט בנקודה $c=a+\tau(b-a)$.
+      - text: 'על כל משתנה בנפרד: $x_i\mapsto f(\dots,x_i,\dots)$, ומחברים'
+        feedback: >-
+          כך מקבלים נקודה **אחרת** לכל קואורדינטה (כמו בהוכחה ש-$C^1$ גורר דיפרנציאביליות), והנקודות אינן על הקטע
+          $[a,b]$. המשפט מבטיח נקודה אחת על הקטע.
+        misconception: MC-c5-mvt-coordinatewise
+      - text: 'על הצמצום של $f$ לכדור סביב $a$ שמכיל את $b$'
+        feedback: >-
+          משפט לגרנז' הוא על פונקציה של משתנה אחד בקטע בישר. כדי להגיע לשם צריך מסלול חד-ממדי מ-$a$ ל-$b$, והקטע
+          $[a,b]$ הוא הבחירה שנותנת את הנוסחה.
+        misconception: MC-c5-mvt-segment-needed
+      - text: 'על $t\mapsto\|\nabla f(a+t(b-a))\|$'
+        feedback: >-
+          זו אינה הפונקציה שההפרש $f(b)-f(a)$ מתאר. מתחילים מפונקציה ש-$\varphi(1)-\varphi(0)=f(b)-f(a)$, כלומר
+          $f$ עצמה לאורך הקטע.
+        misconception: MC-c5-mvt-coordinatewise
+
+  - id: Q-5.6-inequality
+    type: mc
+    objectives: [OBJ-5.6-2]
+    level: mid
+    prompt: >-
+      $f:U\to\mathbb{R}^m$ דיפרנציאבילית, $U\subseteq\mathbb{R}^n$ פתוחה, והקטע $[a,b]$ מוכל ב-$U$. מהו אי-שוויון
+      הערך הממוצע (בנורמות האוקלידיות)?
+    choices:
+      - text: '$\|f(b)-f(a)\|_2\le\sup_{c\in[a,b]}\|Df(c)\|_{\mathrm{op}}\,\|b-a\|_2$'
+        correct: true
+        feedback: >-
+          נכון. החסם הוא הסופרמום של נורמת האופרטור **לאורך הקטע** בלבד. כשאין שוויון לפונקציות וקטוריות, זה מה שנשאר,
+          וזה מספיק לכל ההערכות.
+      - text: '$\|f(b)-f(a)\|_2=\|Df(c)\|_{\mathrm{op}}\,\|b-a\|_2$ לנקודה $c$ כלשהי על הקטע'
+        feedback: >-
+          אין שוויון כזה: ל-$\gamma(t)=(\cos t,\sin t)$ על $[0,2\pi]$ האגף השמאלי 0, ו-$\|\gamma'(c)\|=1$ לכל $c$.
+        misconception: MC-c5-mvt-vector-equality
+      - text: '$\|f(b)-f(a)\|_2\le\|Df(a)\|_{\mathrm{op}}\,\|b-a\|_2$'
+        feedback: >-
+          הנגזרת בנקודה אחת אינה שולטת בכל הקטע: ל-$f(x)=x^2$ ב-$\mathbb{R}$, $a=0$, $b=1$, האגף הימני 0 והשמאלי 1.
+        misconception: MC-c5-mvi-wrong-bound
+      - text: '$\|f(b)-f(a)\|_2\le\inf_{c\in[a,b]}\|Df(c)\|_{\mathrm{op}}\,\|b-a\|_2$'
+        feedback: >-
+          אינפימום קטן מדי: לאותה $f(x)=x^2$ על $[0,1]$, $\inf|f'|=0$, אבל $f(1)-f(0)=1$.
+        misconception: MC-c5-mvi-wrong-bound
+
+  - id: Q-5.6-lipschitz
+    type: numeric
+    objectives: [OBJ-5.6-3]
+    level: mid
+    prompt: >-
+      $F(x,y)=\left(\tfrac12\sin x,\ \tfrac13\cos y\right)$ על $\mathbb{R}^2$. מהו $\sup_{(x,y)}\|DF(x,y)\|_{\mathrm{op}}$
+      (נורמת האופרטור לפי $\|\cdot\|_2$)? זה קבוע הליפשיץ שאי-שוויון הערך הממוצע נותן ל-$F$.
+    answer: 0.5
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $J_F=\begin{pmatrix}\frac12\cos x&0\\0&-\frac13\sin y\end{pmatrix}$, ולמטריצה אלכסונית נורמת האופרטור היא
+      הערך המוחלט הגדול על האלכסון: $\max\left(\frac12|\cos x|,\frac13|\sin y|\right)\le\frac12$, עם שוויון ב-$x=0$.
+      $\mathbb{R}^2$ קמורה, ולכן $\|F(p)-F(q)\|_2\le\frac12\|p-q\|_2$.
+    wrongFeedback: >-
+      נורמת האופרטור של מטריצה אלכסונית היא $\max_i|d_i|$. חשבו אותה ומצאו את הסופרמום על כל המישור.
+    commonWrong:
+      - value: 0.6009
+        feedback: >-
+          $\sqrt{\frac14+\frac19}=\frac{\sqrt{13}}{6}\approx0.601$ הוא נורמת פרובניוס (שורש סכום ריבועי האיברים) בנקודה
+          הגרועה ביותר. היא חוסמת את נורמת האופרטור מלמעלה, ולכן נותנת קבוע נכון אבל לא את מה שנשאל.
+        misconception: MC-c5-mvi-wrong-bound
+      - value: 0.8333
+        feedback: >-
+          $\frac12+\frac13$ הוא סכום החסמים של שני הרכיבים. נורמת האופרטור של מטריצה אלכסונית היא המקסימום, לא הסכום.
+        misconception: MC-c5-mvi-wrong-bound
+
+  - id: Q-5.6-conclusions
+    type: multi
+    objectives: [OBJ-5.6-2, OBJ-5.6-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $U\subseteq\mathbb{R}^2$ פתוחה וקמורה, $f:U\to\mathbb{R}^2$ דיפרנציאבילית, ו-$\|Df(x)\|_{\mathrm{op}}\le3$ לכל
+      $x\in U$. מה נובע בוודאות? סמנו את כל הנכונות.
+    choices:
+      - text: '$\|f(x)-f(y)\|_2\le3\|x-y\|_2$ לכל $x,y\in U$'
+        correct: true
+        feedback: 'נכון: הקטע $[x,y]$ ב-$U$ (קמירות), ואי-שוויון הערך הממוצע עם $M=3$.'
+      - text: '$f$ רציפה במידה שווה על $U$'
+        correct: true
+        feedback: >-
+          נכון: פונקציה ליפשיצית רציפה במידה שווה (שיעור 1.6), עם $\delta=\frac\varepsilon3$.
+      - text: 'לכל $x,y\in U$ יש $c$ על הקטע ביניהן עם $f(x)-f(y)=Df(c)(x-y)$'
+        feedback: >-
+          לפונקציה עם ערכים ב-$\mathbb{R}^2$ אין שוויון כזה. למשל $f(s,t)=(\cos s,\sin s)$ על
+          $U=(-1,7)\times(-1,1)$: ל-$x=(0,0)$, $y=(2\pi,0)$ ההפרש 0, ו-$Df(c)(x-y)=-2\pi(-\sin c_1,\cos c_1)\ne0$.
+        misconception: MC-c5-mvt-vector-equality
+      - text: 'אותו חסם $\|f(x)-f(y)\|_2\le3\|x-y\|_2$ נכון גם אם $U$ רק פתוחה וקשירה מסילתית'
+        feedback: >-
+          בלי קמירות זה נכשל: הזווית הקוטבית על עיגול חיצוני עם קרן מוצאת יש לה נגזרת קטנה וקפיצה של כמעט $2\pi$
+          בין נקודות קרובות משני צדי הקרן.
+        misconception: MC-c5-mvt-nonconvex
+
+  - id: Q-5.6-ineq-proof
+    type: rank
+    objectives: [OBJ-5.6-2]
+    level: exam
+    prompt: >-
+      סדרו את שלבי ההוכחה של אי-שוויון הערך הממוצע $\|f(b)-f(a)\|_2\le M\|b-a\|_2$, כש-$M=\sup_{c\in[a,b]}\|Df(c)\|_{\mathrm{op}}$.
+    help: סדרו את שלבי ההוכחה מהראשון לאחרון.
+    items:
+      - id: a
+        label: 'מסמנים $u=f(b)-f(a)$; אם $u=0$ אין מה להוכיח.'
+      - id: b
+        label: 'מגדירים פונקציה ממשית $\varphi(t)=\langle u,\ f(a+t(b-a))\rangle$ על $[0,1]$.'
+      - id: c
+        label: 'לפי לגרנז'' יש $\tau\in(0,1)$ עם $\varphi(1)-\varphi(0)=\varphi''(\tau)$, והאגף השמאלי הוא $\langle u,u\rangle=\|u\|_2^2$.'
+      - id: d
+        label: 'לפי כלל השרשרת $\varphi''(\tau)=\langle u,\ Df(c)(b-a)\rangle$ עם $c=a+\tau(b-a)$, ולפי קושי-שוורץ זה לכל היותר $\|u\|_2\,M\,\|b-a\|_2$.'
+      - id: e
+        label: 'מקבלים $\|u\|_2^2\le\|u\|_2M\|b-a\|_2$ ומחלקים ב-$\|u\|_2>0$.'
+    order: [a, b, c, d, e]
+    correctFeedback: >-
+      נכון. הרעיון: פונקציה וקטורית אין לה ערך ממוצע, אבל ההטלה שלה על הכיוון $u$ היא פונקציה ממשית, ועליה משפט
+      הערך הממוצע חל. הכיוון $u$ נבחר כך שההטלה "רואה" את כל ההפרש.
+    wrongFeedback: >-
+      הצעד המרכזי הוא להפוך את הבעיה לממשית: מטילים על הכיוון $u=f(b)-f(a)$. רק אחרי שהפונקציה $\varphi$ מוגדרת
+      אפשר להפעיל את לגרנז', ואחר כך לחשב את $\varphi'$ ולחסום.
+
+  - id: Q-5.6-constant-proof
+    type: rank
+    objectives: [OBJ-5.6-3]
+    level: exam
+    prompt: >-
+      $U\subseteq\mathbb{R}^n$ פתוחה וקשירה מסילתית (כל שתי נקודות ב-$U$ מחוברות במסילה רציפה שכולה ב-$U$),
+      $f:U\to\mathbb{R}^m$ דיפרנציאבילית ו-$Df\equiv0$. סדרו את שלבי ההוכחה ש-$f$ קבועה.
+    help: סדרו את שלבי ההוכחה מהראשון לאחרון.
+    items:
+      - id: a
+        label: 'בכל כדור $B\subseteq U$ הפונקציה קבועה: הכדור קמור, ואי-שוויון הערך הממוצע עם $M=0$ נותן $\|f(x)-f(y)\|\le0$.'
+      - id: b
+        label: 'מקבעים $p,q\in U$ ומסילה רציפה $\gamma:[0,1]\to U$ מ-$p$ ל-$q$.'
+      - id: c
+        label: 'מגדירים $s=\sup\{t\in[0,1]:\ f(\gamma(t''))=f(p)\ \ \forall t''\in[0,t]\}$.'
+      - id: d
+        label: 'כי $U$ פתוחה יש כדור $B(\gamma(s),r)\subseteq U$, ומרציפות $\gamma$ יש $\delta>0$ כך ש-$\gamma(t)\in B(\gamma(s),r)$ כש-$|t-s|<\delta$.'
+      - id: e
+        label: 'על הכדור $f$ קבועה, ושווה ל-$f(p)$ בנקודות $\gamma(t)$ עם $t<s$ קרוב; לכן $f(\gamma(t))=f(p)$ עד $s+\delta$. אם $s<1$ זו סתירה, ולכן $s=1$ ו-$f(q)=f(p)$.'
+    order: [a, b, c, d, e]
+    correctFeedback: >-
+      נכון. הרעיון: מקומית (בכדורים) $f$ קבועה בזכות הקמירות; הקשירות המסילתית מדביקה את הקביעות המקומית לאורך מסילה,
+      בטיעון הסופרמום המוכר מאינפי 1.
+    wrongFeedback: >-
+      התחילו מהעובדה המקומית (קביעות בכדור קמור), אחר כך קבעו את המסילה, הגדירו את הסופרמום, ורק אז השתמשו בפתיחות
+      של $U$ וברציפות של $\gamma$ כדי לסתור $s<1$.
+
+  - id: Q-5.6-nonconvex
+    type: twotier
+    objectives: [OBJ-5.6-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $U=\{(x,y):x^2+y^2>1\}$ בלי הקרן $\{(x,0):x\le-1\}$, קבוצה פתוחה וקשירה מסילתית. על $U$ תהי $\theta(x,y)\in(-\pi,\pi)$
+      הזווית הקוטבית; היא גזירה ברציפות עם $\nabla\theta=\frac{(-y,\,x)}{x^2+y^2}$, ולכן $\|\nabla\theta\|_2=\frac1r<1$.
+      נכון או לא נכון: $|\theta(p)-\theta(q)|\le\|p-q\|_2$ לכל $p,q\in U$?
+    choices:
+      - text: 'לא נכון'
+        correct: true
+        feedback: >-
+          נכון. ל-$p=(-1,\varepsilon)$ ו-$q=(-1,-\varepsilon)$: $\|p-q\|_2=2\varepsilon$, אבל
+          $\theta(p)-\theta(q)\to2\pi$ כש-$\varepsilon\to0^+$.
+      - text: 'נכון'
+        feedback: >-
+          החסם על הנגזרת נותן קבוע ליפשיץ רק לאורך קטעים בתוך $U$. הקטע בין $(-1,\varepsilon)$ ל-$(-1,-\varepsilon)$ חוצה
+          את הקרן שהוצאה, ושם $\theta$ קופצת ב-$2\pi$.
+        misconception: MC-c5-mvt-nonconvex
+    reasons:
+      - text: '$U$ אינה קמורה: הקטע בין שתי נקודות משני צדי הקרן אינו ב-$U$, ואי-שוויון הערך הממוצע לא חל עליו'
+        correct: true
+        feedback: >-
+          בדיוק. קמירות (או לפחות: הקטע $[p,q]$ בתוך $U$) היא ההנחה שהופכת חסם על $Df$ לקבוע ליפשיץ. בלעדיה אפשר רק
+          לחסום לאורך מסילות בתוך $U$, והמסילה הקצרה ביותר מ-$p$ ל-$q$ סביב העיגול ארוכה בהרבה מ-$2\varepsilon$.
+      - text: 'נכון, כי $\|D\theta\|_{\mathrm{op}}\le1$ בכל $U$ ו-$U$ קשירה מסילתית'
+        feedback: >-
+          קשירות מסילתית מספיקה כדי ש-$D\theta\equiv0$ יגרור קביעות, אבל לא כדי שחסם על הנגזרת יהיה קבוע ליפשיץ. לזה
+          צריך קטעים בתוך הקבוצה.
+        misconception: MC-c5-mvt-nonconvex
+      - text: 'לא נכון, כי $\theta$ אינה דיפרנציאבילית על $U$'
+        feedback: >-
+          על $U$ (בלי הקרן) $\theta$ גזירה ברציפות. הקפיצה היא מעבר לקרן, כלומר מחוץ ל-$U$; זו בדיוק הסיבה שהקטע ביניהן
+          יוצא מ-$U$.
+        misconception: MC-c5-mvt-nonconvex

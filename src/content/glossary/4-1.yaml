@@ -1,0 +1,17 @@
+# Terms first defined in lesson 4.1 (the space C(K) and the sup norm).
+- id: space-c-of-k
+  term: המרחב C(K)
+  en: the space C(K)
+  symbol: 'C(K)'
+  definition: >-
+    לכל מרחב מטרי קומפקטי $K$: אוסף הפונקציות הרציפות $f:K\to\mathbb{R}$, עם נורמת הסופרמום
+    $\|f\|_\infty=\max_{x\in K}|f(x)|$. המקסימום מתקבל כי $|f|$ רציפה על קומפקטי. זהו מרחב בנך.
+  lesson: '4.1'
+- id: convergence-in-c-of-k
+  term: התכנסות במרחב C(K)
+  en: convergence in C(K) (uniform convergence)
+  symbol: '\|f_n-f\|_\infty\to0'
+  definition: >-
+    $f_n\to f$ במרחב $C(K)$ אם $\|f_n-f\|_\infty=\max_{x\in K}|f_n(x)-f(x)|\to0$. זו בדיוק התכנסות במידה שווה
+    על $K$, והיא חזקה יותר מהתכנסות נקודתית.
+  lesson: '4.1'

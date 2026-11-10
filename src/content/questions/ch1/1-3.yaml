@@ -1,0 +1,321 @@
+# Lesson 1.3 — balls, open sets and closed sets.
+# Objectives (src/course.ts):
+#   OBJ-1.3-1  define open and closed balls and sets; prove an open ball is open
+#   OBJ-1.3-2  arbitrary unions and finite intersections of open sets are open; an infinite intersection need not be
+#   OBJ-1.3-3  decide open / closed / both / neither, in the discrete metric and in a subspace too
+chapter: 1
+questions:
+  - id: Q-1.3-open-def
+    type: mc
+    objectives: [OBJ-1.3-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      במרחב מטרי $(X,d)$, מתי תת-קבוצה $U\subseteq X$ נקראת **פתוחה**?
+    choices:
+      - text: 'לכל $x\in U$ קיים $r>0$ כך ש-$B(x,r)\subseteq U$'
+        correct: true
+        feedback: >-
+          נכון. כל נקודה של $U$ "מוקפת" ב-$U$; הרדיוס רשאי להיות תלוי בנקודה.
+      - text: 'קיימים $x\in U$ ו-$r>0$ כך ש-$B(x,r)\subseteq U$'
+        feedback: >-
+          זה אומר רק ש-$U$ מכילה כדור אחד. $[0,2]$ מכילה את $B(1,\frac12)$, ובכל זאת אינה פתוחה: סביב $0$ אין כדור
+          בתוכה.
+        misconception: MC-c1-quantifier-order
+      - text: 'קיים $r>0$ כך שלכל $x\in U$: $B(x,r)\subseteq U$'
+        feedback: >-
+          זה דורש רדיוס אחד לכל הנקודות. $(0,1)$ פתוחה, אבל ליד $0$ הרדיוס חייב להיות קטן מ-$x$, ואין רדיוס אחד
+          שמתאים לכולן.
+        misconception: MC-c1-quantifier-order
+      - text: 'לכל $x\in U$ ולכל $r>0$: $B(x,r)\subseteq U$'
+        feedback: >-
+          זה מתקיים רק ל-$U=\emptyset$ או $U=X$. ההגדרה מבקשת **קיים**
+          רדיוס, לא כל רדיוס.
+        misconception: MC-c1-quantifier-order
+
+  - id: Q-1.3-radius
+    type: numeric
+    objectives: [OBJ-1.3-1]
+    level: basic
+    prompt: >-
+      ב-$(\mathbb{R}^2,d_1)$, עם $d_1(x,y)=|x_1-y_1|+|x_2-y_2|$, הנקודה $y=(1,-1)$ נמצאת בכדור $B((0,0),3)$. ההוכחה
+      שכדור פתוח הוא קבוצה פתוחה בוחרת סביב $y$ כדור ברדיוס $s=r-d(a,y)$. מהו $s$ כאן?
+    answer: 1
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון: $d_1((0,0),(1,-1))=2$, ולכן $s=3-2=1$. כל נקודה $z$ עם $d_1(y,z)<1$ מקיימת
+      $d_1(0,z)\le2+d_1(y,z)<3$.
+    wrongFeedback: >-
+      חשבו את $d_1$ בין המרכז ל-$y$, והחסירו אותו מהרדיוס.
+    commonWrong:
+      - value: 2
+        feedback: >-
+          2 הוא המרחק מהמרכז ל-$y$. הרדיוס של הכדור הקטן הוא מה **שנשאר** עד השפה: $3-2=1$. כדור ברדיוס 2 סביב
+          $y$ יוצא מ-$B(0,3)$, למשל הנקודה $(2.9,-1)$.
+        misconception: MC-c1-radius-distance
+      - value: 1.58578644
+        feedback: >-
+          $3-\sqrt2$ משתמש במרחק האוקלידי. במרחב $(\mathbb{R}^2,d_1)$ המרחק בין $0$ ל-$y$ הוא $|1|+|-1|=2$.
+        misconception: MC-c1-one-distance
+
+  - id: Q-1.3-both
+    type: multi
+    objectives: [OBJ-1.3-3]
+    qualitative: true
+    level: basic
+    prompt: >-
+      אילו מהקבוצות הבאות **גם פתוחות וגם סגורות** ב-$\mathbb{R}$ עם המטריקה הרגילה? סמנו את כולן.
+    choices:
+      - text: '$\emptyset$'
+        correct: true
+        feedback: >-
+          נכון. היא פתוחה באופן ריק (אין נקודה לבדוק), והמשלים שלה, $\mathbb{R}$, פתוח.
+      - text: '$\mathbb{R}$'
+        correct: true
+        feedback: 'נכון: כל כדור מוכל בה, והמשלים $\emptyset$ פתוח.'
+      - text: '$[0,1]$'
+        feedback: >-
+          היא סגורה (המשלים $(-\infty,0)\cup(1,\infty)$ פתוח), אבל לא פתוחה: כל כדור סביב $0$ מכיל מספרים שליליים.
+        misconception: MC-c1-open-not-closed
+      - text: '$\mathbb{Q}$'
+        feedback: >-
+          היא לא פתוחה וגם לא סגורה: כל קטע סביב רציונלי מכיל אי-רציונליים, וכל קטע סביב אי-רציונלי מכיל
+          רציונליים. "לא פתוחה" אינו "סגורה".
+        misconception: MC-c1-open-not-closed
+
+  - id: Q-1.3-ball-proof
+    type: rank
+    objectives: [OBJ-1.3-1]
+    level: mid
+    prompt: >-
+      סדרו את שלבי ההוכחה שהכדור $B(a,r)$ הוא קבוצה פתוחה בכל מרחב מטרי.
+    help: סדרו את השלבים מהראשון לאחרון.
+    items:
+      - id: take
+        label: 'תהי $y\in B(a,r)$, כלומר $d(a,y)<r$.'
+      - id: s
+        label: 'נגדיר $s=r-d(a,y)$; אז $s>0$.'
+      - id: z
+        label: 'תהי $z\in B(y,s)$, כלומר $d(y,z)<s$.'
+      - id: tri
+        label: 'לפי אי-שוויון המשולש: $d(a,z)\le d(a,y)+d(y,z)<d(a,y)+s=r$.'
+      - id: done
+        label: 'לכן $z\in B(a,r)$, כלומר $B(y,s)\subseteq B(a,r)$, ו-$y$ הייתה כלשהי.'
+    order: [take, s, z, tri, done]
+    correctFeedback: >-
+      נכון. הרעיון: הרדיוס של הכדור הקטן הוא המרחק שנשאר עד השפה, ואי-שוויון המשולש מראה שהכדור הקטן לא חוצה
+      אותה.
+    wrongFeedback: >-
+      התחילו מנקודה כלשהי של הכדור; הגדירו רדיוס שתלוי בה; הראו שכל נקודה בכדור הקטן נמצאת בגדול.
+
+  - id: Q-1.3-classify
+    type: multi
+    objectives: [OBJ-1.3-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      אילו מהקבוצות הבאות **סגורות** ב-$\mathbb{R}$ עם המטריקה הרגילה? סמנו את כולן.
+    choices:
+      - text: '$\mathbb{Z}$'
+        correct: true
+        feedback: >-
+          נכון: המשלים הוא איחוד הקטעים הפתוחים $(n,n+1)$, ואיחוד של פתוחות פתוח.
+      - text: '$\{\frac1n:n\in\mathbb{N}\}$'
+        feedback: >-
+          לא סגורה: $0$ במשלים, וכל קטע $(-r,r)$ סביבו מכיל $\frac1n$ עם $n>\frac1r$. לכן המשלים אינו פתוח.
+        misconception: MC-c1-separated-points-closed
+      - text: '$\{\frac1n:n\in\mathbb{N}\}\cup\{0\}$'
+        correct: true
+        feedback: >-
+          נכון. הוספת $0$ סוגרת את הקבוצה: כל נקודה אחרת במשלים נמצאת במרחק חיובי מהקבוצה, ולכן יש קטע סביב הנקודה שזר לקבוצה.
+      - text: '$[0,\infty)$'
+        correct: true
+        feedback: 'נכון: המשלים $(-\infty,0)$ פתוח.'
+      - text: '$\mathbb{R}\setminus\mathbb{Q}$'
+        feedback: >-
+          המשלים שלה הוא $\mathbb{Q}$, שאינה פתוחה. הקבוצה לא פתוחה, אבל זה לא הופך אותה לסגורה.
+        misconception: MC-c1-open-not-closed
+
+  - id: Q-1.3-discrete
+    type: twotier
+    objectives: [OBJ-1.3-3, OBJ-1.3-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $X$ קבוצה עם המטריקה הבדידה. נכון או לא: כל תת-קבוצה $A\subseteq X$ פתוחה.
+    choices:
+      - text: נכון
+        correct: true
+        feedback: >-
+          נכון. ומכאן גם שכל תת-קבוצה סגורה, כי המשלים שלה פתוח.
+      - text: לא נכון
+        feedback: >-
+          ב-$\mathbb{R}$ הרגיל $\{0\}$ אינה פתוחה, אבל במטריקה הבדידה הכדור הקטן סביב $0$ הוא $\{0\}$ עצמה.
+          פתיחות תלויה במטריקה.
+        misconception: MC-c1-one-distance
+    reasons:
+      - text: 'לכל $x\in A$: $B(x,\frac12)=\{x\}\subseteq A$'
+        correct: true
+        feedback: >-
+          בדיוק. כל נקודה מבודדת לגמרי: בתוך מרחק $\frac12$ אין אף נקודה אחרת.
+      - text: 'כל כדור ברדיוס חיובי הוא כל $X$, ו-$X$ פתוחה'
+        feedback: >-
+          $B(x,r)=X$ רק כש-$r>1$. לכל $r\le1$ הכדור הוא $\{x\}$, וזה מה שמאפשר לכל קבוצה להיות פתוחה.
+        misconception: MC-c1-discrete-balls
+      - text: 'כל קבוצה סגורה, ולכן המשלים שלה פתוח'
+        feedback: >-
+          זה נכון, אבל זה מעגלי: כדי לדעת שכל קבוצה סגורה צריך לדעת קודם שכל משלים פתוח. ההוכחה הישירה היא דרך
+          הכדור $\{x\}$.
+        misconception: MC-c1-open-not-closed
+
+  - id: Q-1.3-intersection
+    type: twotier
+    objectives: [OBJ-1.3-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      האם $\bigcap_{n=1}^{\infty}\left(-\frac1n,\frac1n\right)$ היא קבוצה פתוחה ב-$\mathbb{R}$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. החיתוך הוא $\{0\}$, וקבוצה של נקודה אחת אינה פתוחה ב-$\mathbb{R}$.'
+      - text: כן, חיתוך של קבוצות פתוחות פתוח
+        feedback: >-
+          זה נכון רק לחיתוך **סופי**. כאן החיתוך הוא $\{0\}$, ואין קטע סביב $0$ שמוכל בו.
+        misconception: MC-c1-infinite-intersection
+    reasons:
+      - text: 'החיתוך הוא $\{0\}$: ל-$x\neq0$ יש $n$ עם $\frac1n<|x|$; ו-$\{0\}$ אינה מכילה שום קטע סביב $0$'
+        correct: true
+        feedback: >-
+          בדיוק. הרדיוסים $\frac1n$ שואפים ל-0, ובחיתוך לא נשאר "מקום" סביב שום נקודה.
+      - text: 'החיתוך ריק, והקבוצה הריקה פתוחה'
+        feedback: >-
+          $0$ נמצא בכל אחד מהקטעים, ולכן גם בחיתוך. החיתוך הוא $\{0\}$, לא $\emptyset$.
+        misconception: MC-c1-infinite-intersection
+      - text: 'כל אחד מהקטעים פתוח, ולכן החיתוך פתוח'
+        feedback: >-
+          הוכחת החיתוך הסופי לוקחת את הרדיוס $\min(r_1,\dots,r_n)$. לאינסוף קבוצות אין מינימום חיובי מובטח, וכאן
+          האינפימום של הרדיוסים הוא 0.
+        misconception: MC-c1-infinite-intersection
+
+  - id: Q-1.3-finite
+    type: mc
+    objectives: [OBJ-1.3-2]
+    level: mid
+    prompt: >-
+      בהוכחה ש-$U_1\cap\dots\cap U_n$ פתוחה כאשר כל $U_i$ פתוחה, איפה בדיוק משתמשים בכך שיש **מספר סופי** של
+      קבוצות?
+    choices:
+      - text: 'לנקודה $x$ בחיתוך יש $r_i>0$ עם $B(x,r_i)\subseteq U_i$, ו-$r=\min(r_1,\dots,r_n)$ חיובי כי זה מינימום של מספר סופי של חיוביים'
+        correct: true
+        feedback: >-
+          נכון. אז $B(x,r)\subseteq B(x,r_i)\subseteq U_i$ לכל $i$. לאינסוף רדיוסים האינפימום יכול להיות 0, ובדיוק
+          שם ההוכחה נשברת.
+      - text: 'כדי לדעת שהחיתוך אינו ריק'
+        feedback: >-
+          חיתוך ריק הוא פתוח בכל מקרה, ולא צריך לדעת שהוא לא ריק. הסופיות נדרשת כדי שהמינימום של הרדיוסים יהיה חיובי.
+        misconception: MC-c1-infinite-intersection
+      - text: 'לא משתמשים בזה; אותה הוכחה עובדת לכל משפחה'
+        feedback: >-
+          $\bigcap_n(-\frac1n,\frac1n)=\{0\}$ אינה פתוחה, ולכן ההוכחה **חייבת** להשתמש בסופיות: ברדיוס
+          $\min(r_1,\dots,r_n)>0$.
+        misconception: MC-c1-infinite-intersection
+
+  - id: Q-1.3-closed-union
+    type: twotier
+    objectives: [OBJ-1.3-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      נכון או לא: איחוד של אינסוף קבוצות סגורות ב-$\mathbb{R}$ הוא קבוצה סגורה.
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: 'נכון. איחוד **סופי** של סגורות סגור; אינסופי לא בהכרח.'
+      - text: נכון
+        feedback: >-
+          $\bigcup_{n=1}^{\infty}[\frac1n,1]=(0,1]$, ו-$(0,1]$ אינה סגורה.
+        misconception: MC-c1-infinite-intersection
+    reasons:
+      - text: '$\bigcup_n[\frac1n,1]=(0,1]$, וכל קטע סביב $0$ פוגש אותה, אף ש-$0$ אינו בה'
+        correct: true
+        feedback: >-
+          בדיוק. זו התמונה במראה של החיתוך האינסופי של פתוחות: לפי דה מורגן המשלים הוא $\bigcap_n$ של קבוצות
+          פתוחות, והוא אינו פתוח.
+      - text: 'לפי דה מורגן המשלים הוא חיתוך של פתוחות, וחיתוך של פתוחות פתוח'
+        feedback: >-
+          דה מורגן נכון, אבל חיתוך **אינסופי** של פתוחות אינו בהכרח פתוח. לכן גם האיחוד האינסופי של סגורות אינו
+          בהכרח סגור.
+        misconception: MC-c1-infinite-intersection
+      - text: 'כל אחת מהקבוצות סגורה, ולכן האיחוד מכיל את כל הנקודות שהוא "צריך"'
+        feedback: >-
+          כל $[\frac1n,1]$ מכילה את נקודות הקצה שלה, אבל $0$ אינה נקודת קצה של אף אחת מהן. היא מופיעה רק בגבול.
+        misconception: MC-c1-infinite-intersection
+
+  - id: Q-1.3-subspace
+    type: multi
+    objectives: [OBJ-1.3-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      בכל טענה, "פתוחה ב-$Y$" פירושו פתוחה בתת-המרחב $Y\subseteq\mathbb{R}$ עם המטריקה $|x-y|$. אילו מהטענות
+      נכונות? סמנו את כולן.
+    choices:
+      - text: '$[0,1)$ פתוחה ב-$[0,2]$'
+        correct: true
+        feedback: >-
+          נכון. בתת-המרחב $[0,2]$ הכדור $B(0,1)$ הוא $(-1,1)\cap[0,2]=[0,1)$, וסביב נקודה פנימית משתמשים בקטע רגיל.
+      - text: '$[0,1)$ פתוחה ב-$\mathbb{R}$'
+        feedback: >-
+          ב-$\mathbb{R}$ כל קטע סביב $0$ מכיל מספרים שליליים. פתיחות בתת-מרחב אינה גוררת פתיחות במרחב הגדול.
+        misconception: MC-c1-subspace-ignored
+      - text: '$(0,1]$ פתוחה ב-$[0,2]$'
+        feedback: >-
+          ב-$[0,2]$ הכדור סביב $1$ הוא $(1-r,1+r)\cap[0,2]$, והוא מכיל נקודות גדולות מ-1 לכל $r>0$. רק הקצוות
+          של $Y$ עצמו, $0$ ו-$2$, מקבלים כדורים חד-צדדיים.
+        misconception: MC-c1-subspace-ball
+      - text: '$(0,1]$ פתוחה ב-$[0,1]$'
+        correct: true
+        feedback: >-
+          נכון: $(0,1]=(0,2)\cap[0,1]$. כאן $1$ הוא קצה של $Y=[0,1]$, והכדור סביבו ב-$Y$ הוא $(1-r,1]$.
+      - text: '$(0,1]$ סגורה ב-$(0,2)$'
+        correct: true
+        feedback: >-
+          נכון: $(0,1]=[0,1]\cap(0,2)$, חיתוך של סגורה ב-$\mathbb{R}$ עם $Y$. המשלים ב-$Y$, $(1,2)$, פתוח.
+    explanation: >-
+      בתת-מרחב $Y$ הכדורים הם $B_{\mathbb{R}}(y,r)\cap Y$, ולכן הקבוצות הפתוחות ב-$Y$ הן $U\cap Y$ עם $U$
+      פתוחה ב-$\mathbb{R}$, והסגורות הן $F\cap Y$ עם $F$ סגורה. פתיחות היא תכונה של זוג: קבוצה ומרחב.
+
+  - id: Q-1.3-func-space
+    type: twotier
+    objectives: [OBJ-1.3-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      ב-$C[0,1]$ עם נורמת הסופרמום, תהי $U$ קבוצת הפונקציות $f\in C[0,1]$ שמקיימות $f(x)>0$ לכל $x\in[0,1]$. האם $U$ פתוחה?
+    choices:
+      - text: כן
+        correct: true
+        feedback: >-
+          נכון. לכל $f\in U$ יש רדיוס אחד שמתאים לכל הנקודות $x$ בבת אחת, והוא המינימום של $f$.
+      - text: לא
+        feedback: >-
+          כדור במטריקת הסופרמום הוא רצועה סביב הגרף: אם $\|g-f\|_\infty<m$ אז $g(x)>f(x)-m$ **בכל** $x$. עם
+          $m=\min f>0$ נקבל $g>0$.
+        misconception: MC-c1-sup-ball-band
+    reasons:
+      - text: '$f$ רציפה על $[0,1]$ ולכן מקבלת מינימום $m>0$; אם $\|g-f\|_\infty<m$ אז $g(x)>f(x)-m\ge0$ לכל $x$'
+        correct: true
+        feedback: >-
+          בדיוק: $B(f,m)\subseteq U$. משפט ויירשטראס (אינפי 1) הוא מה שנותן $m>0$; על $(0,1]$, למשל, $\inf f$
+          יכול להיות 0.
+      - text: 'לכל $x$ הקבוצה $\{f: f(x)>0\}$ פתוחה, ו-$U$ היא החיתוך שלהן'
+        feedback: >-
+          כל אחת מהקבוצות פתוחה, אבל זה חיתוך **אינסופי** (על כל $x\in[0,1]$), וחיתוך אינסופי של פתוחות אינו
+          בהכרח פתוח. צריך רדיוס אחד לכל $x$, וזה ה-$m$.
+        misconception: MC-c1-infinite-intersection
+      - text: 'כל כדור סביב $f$ מכיל פונקציה שמתאפסת בנקודה כלשהי'
+        feedback: >-
+          לא אם הרדיוס קטן מ-$m=\min f$: כל $g$ בכדור כזה חיובית בכל נקודה. אולי חשבתם על נורמת האינטגרל, שבה
+          "שיא" צר כלפי מטה כן זול.
+        misconception: MC-c1-sup-ball-band

@@ -1,0 +1,367 @@
+# Chapter 4 exam questions — original, in the style of an 80315 final (not taken from a real exam).
+# Each is worth 25 points in lettered parts, with at least one open part graded against a model solution and a rubric.
+chapter: 4
+questions:
+  - id: Q-4-exam-1
+    type: exam
+    title: הפונקציות החיוביות במרחב C[0,1]
+    prompt: >-
+      נסמן $U=\{f\in C[0,1]:\ f(x)>0\ \forall x\in[0,1]\}$, עם נורמת הסופרמום.
+    parts:
+      - label: א
+        points: 9
+        type: open
+        objectives: [OBJ-4.1-3, OBJ-4.1-1]
+        prompt: >-
+          הוכיחו ש-$U$ קבוצה פתוחה ב-$C[0,1]$.
+        solution:
+          - kind: goal
+            text: 'לכל $f\in U$ קיים $r>0$ כך ש-$B(f,r)\subseteq U$.'
+          - kind: idea
+            text: >-
+              הרדיוס הוא "המרווח" של $f$ מעל הציר, $\min f$. הוא חיובי רק כי המינימום **מתקבל**: על קטע סגור
+              $f$ רציפה מקבלת מינימום (שיעור 3.4). אינפימום של מספרים חיוביים יכול להיות 0.
+          - kind: step
+            text: >-
+              תהי $f\in U$. $[0,1]$ קומפקטי ו-$f$ רציפה, ולכן יש $x_0$ עם $f(x_0)=\min_{[0,1]}f=:m$. כי $f(x_0)>0$,
+              מתקבל $m>0$.
+          - kind: step
+            text: 'נבחר $r=m$, ותהי $g\in B(f,m)$, כלומר $\|g-f\|_\infty<m$.'
+          - kind: computation
+            text: 'לכל $x$: $g(x)\ge f(x)-|g(x)-f(x)|>f(x)-m\ge m-m=0$.'
+          - kind: result
+            text: 'לכן $g\in U$, כלומר $B(f,m)\subseteq U$, ו-$U$ פתוחה.'
+        rubric:
+          - text: 'ניסוח נכון של מה שצריך להוכיח: לכל $f\in U$ כדור סביבה שכולו ב-$U$'
+            weight: 1
+          - text: 'שימוש מפורש בקומפקטיות של $[0,1]$ כדי שהמינימום יתקבל ויהיה חיובי'
+            weight: 3
+          - text: 'בחירת רדיוס מפורש (כמו $m$, או כל $0<r\le m$)'
+            weight: 2
+          - text: 'ההערכה $g(x)>f(x)-m\ge0$ לכל $x$, עם אי-שוויון המשולש'
+            weight: 3
+
+      - label: ב
+        points: 5
+        type: numeric
+        objectives: [OBJ-4.1-3]
+        prompt: >-
+          עבור $f(x)=x^2-x+\frac13$, מהו הרדיוס $r$ **הגדול ביותר** כך ש-$B(f,r)\subseteq U$?
+        answer: 0.08333333333333333
+        tolerance: 0.001
+        correctFeedback: >-
+          נכון: $\min_{[0,1]}f=f(\frac12)=\frac14-\frac12+\frac13=\frac1{12}$. לכל $r>\frac1{12}$ הפונקציה
+          $f-\frac1{12}$ (שמתאפסת ב-$\frac12$) ב-$B(f,r)$ ואינה ב-$U$.
+        wrongFeedback: >-
+          הרדיוס הגדול ביותר הוא המינימום של $f$ על הקטע. מצאו את הנקודה הקריטית.
+        commonWrong:
+          - value: 0.3333333333333333
+            feedback: >-
+              $\frac13=f(0)=f(1)$, הערך בקצוות. המינימום בפנים, ב-$x=\frac12$.
+            misconception: MC-c4-max-at-endpoints
+          - value: 0.16666666666666666
+            feedback: >-
+              $\frac16=\int_0^1f$. הכדור הוא בנורמת הסופרמום: קובע הערך הקטן ביותר בנקודה, לא השטח.
+            misconception: MC-c4-sup-vs-integral-norm
+
+      - label: ג
+        points: 6
+        type: twotier
+        objectives: [OBJ-4.1-3, OBJ-4.1-1]
+        qualitative: true
+        prompt: >-
+          $C_b((0,1])$ הוא מרחב הפונקציות הרציפות והחסומות על $(0,1]$, עם $\|f\|_\infty=\sup_{(0,1]}|f|$. האם הקבוצה
+          $V=\{f\in C_b((0,1]):\ f(x)>0\ \forall x\in(0,1]\}$ פתוחה בו?
+        choices:
+          - text: לא
+            correct: true
+            feedback: 'נכון. ההוכחה של סעיף א נשענה על קומפקטיות, ו-$(0,1]$ אינו קומפקטי.'
+          - text: כן, באותה הוכחה כמו בסעיף א
+            feedback: >-
+              בסעיף א המינימום התקבל כי $[0,1]$ קומפקטי. על $(0,1]$ ייתכן ש-$\inf f=0$ ולא מתקבל, ואז אין רדיוס.
+            misconception: MC-c4-noncompact-domain
+        reasons:
+          - text: '$f(x)=x\in V$, ולכל $r>0$ הפונקציה $x-\frac r2$ נמצאת ב-$B(f,r)$ ושלילית ליד 0'
+            correct: true
+            feedback: >-
+              בדיוק. $\inf_{(0,1]}x=0$ אינו מתקבל, ולכן כל הזזה מטה, קטנה ככל שתהיה, יוצאת מ-$V$.
+          - text: 'לכל $x$ הקבוצה $\{f:\ f(x)>0\}$ פתוחה, ו-$V$ היא החיתוך שלהן'
+            feedback: >-
+              חיתוך אינסופי של פתוחות אינו בהכרח פתוח, וכאן הוא באמת לא: $f(x)=x$ היא נקודה של $V$ בלי כדור סביבה.
+            misconception: MC-c4-pointwise-open-intersection
+          - text: '$V$ אינה סגורה, ולכן היא פתוחה'
+            feedback: >-
+              פתוחה וסגורה אינן הפכים. $V$ אכן אינה סגורה ($\frac1n\to0$), וגם אינה פתוחה.
+            misconception: MC-c4-not-closed-means-open
+
+      - label: ד
+        points: 5
+        type: mc
+        objectives: [OBJ-4.1-3]
+        prompt: >-
+          מהו הסגור $\overline{U}$ של $U$ ב-$C[0,1]$?
+        choices:
+          - text: '$\{f:\ f(x)\ge0\ \forall x\}$'
+            correct: true
+            feedback: >-
+              נכון. הקבוצה הזו סגורה ומכילה את $U$, ולכן מכילה את $\overline U$. ולהפך: אם $f\ge0$ אז
+              $f+\frac1n\in U$ ו-$f+\frac1n\to f$.
+          - text: '$U$ עצמה'
+            feedback: >-
+              $U$ אינה סגורה: $\frac1n\in U$ ושואפות לפונקציית האפס, שאינה ב-$U$. אי-שוויון חזק לא נשמר בגבול.
+            misconception: MC-c4-limit-keeps-strict
+          - text: 'הפונקציות $f\ge0$ שמתאפסות לכל היותר בנקודה אחת'
+            feedback: >-
+              פונקציית האפס היא גבול של $\frac1n\in U$ ומתאפסת בכל נקודה. בגבול נשמר רק $f\ge0$, בלי שום הגבלה על מספר
+              האפסים.
+            misconception: MC-c4-limit-keeps-strict
+
+  - id: Q-4-exam-2
+    type: exam
+    title: משפחה עם אנרגיה חסומה
+    prompt: >-
+      נתונה המשפחה
+      $$\mathcal{F}=\Big\{f\in C^1[0,1]:\ f(0)=0,\ \int_0^1 f'(t)^2\,dt\le1\Big\}.$$
+    parts:
+      - label: א
+        points: 10
+        type: open
+        objectives: [OBJ-4.2-2, OBJ-4.3-3]
+        prompt: >-
+          הוכיחו שלכל $f\in\mathcal{F}$ ולכל $x,y\in[0,1]$ מתקיים $|f(x)-f(y)|\le\sqrt{|x-y|}$, והסיקו ש-$\mathcal{F}$
+          חסומה ורציפה במידה אחידה.
+        solution:
+          - kind: given
+            text: '$f\in C^1[0,1]$, $f(0)=0$, $\int_0^1(f'')^2\le1$.'
+          - kind: goal
+            text: '$|f(x)-f(y)|\le\sqrt{|x-y|}$; $\|f\|_\infty\le1$ לכל $f\in\mathcal{F}$; $\mathcal{F}$ רציפה במידה אחידה.'
+          - kind: idea
+            text: >-
+              כותבים את ההפרש כאינטגרל של הנגזרת (המשפט היסודי), ומעריכים אותו באי-שוויון קושי-שוורץ למכפלה הפנימית
+              $\int gh$: הגורם $1$ נותן את $\sqrt{|x-y|}$, והגורם $f'$ נותן את החסם על האנרגיה.
+          - kind: step
+            text: 'נניח $y\le x$. לפי המשפט היסודי $f(x)-f(y)=\int_y^x f''(t)\cdot1\,dt$.'
+          - kind: theorem
+            text: 'קושי-שוורץ על $[y,x]$: $\left|\int_y^x gh\right|\le\left(\int_y^x g^2\right)^{1/2}\left(\int_y^x h^2\right)^{1/2}$.'
+          - kind: computation
+            text: >-
+              $|f(x)-f(y)|\le\left(\int_y^x (f')^2\right)^{1/2}(x-y)^{1/2}\le\left(\int_0^1 (f')^2\right)^{1/2}\sqrt{x-y}\le\sqrt{x-y}$.
+          - kind: step
+            text: 'חסימות: עם $y=0$ ו-$f(0)=0$, $|f(x)|\le\sqrt x\le1$, ולכן $\|f\|_\infty\le1$ לכל $f\in\mathcal{F}$.'
+          - kind: step
+            text: >-
+              רציפות במידה אחידה: יהי $\varepsilon>0$ ו-$\delta=\varepsilon^2$. אם $|x-y|<\delta$ אז
+              $|f(x)-f(y)|\le\sqrt{|x-y|}<\varepsilon$ לכל $f\in\mathcal{F}$; $\delta$ אינו תלוי ב-$f$.
+          - kind: result
+            text: '$\mathcal{F}$ חסומה ב-1 ורציפה במידה אחידה, עם $\delta=\varepsilon^2$.'
+        rubric:
+          - text: 'כתיבת $f(x)-f(y)$ כאינטגרל של $f''$ (המשפט היסודי)'
+            weight: 2
+          - text: 'הפעלה נכונה של קושי-שוורץ, עם הגורם $1$ שנותן $\sqrt{|x-y|}$'
+            weight: 3
+          - text: 'חסם במידה שווה $\|f\|_\infty\le1$ בעזרת $f(0)=0$'
+            weight: 2
+          - text: 'בחירת $\delta=\varepsilon^2$ שאינו תלוי ב-$f$, וניסוח מפורש שזו רציפות במידה אחידה'
+            weight: 3
+
+      - label: ב
+        points: 4
+        type: numeric
+        standalone: false
+        objectives: [OBJ-4.2-2]
+        prompt: >-
+          לפי סעיף א, מהו ה-$\delta$ **הגדול ביותר** שההערכה $|f(x)-f(y)|\le\sqrt{|x-y|}$ מבטיחה עבור $\varepsilon=0.1$
+          (כלומר $\sqrt{|x-y|}<\varepsilon$ לכל $|x-y|<\delta$)?
+        answer: 0.01
+        tolerance: 0.001
+        correctFeedback: >-
+          נכון: $\sqrt{|x-y|}<0.1\iff|x-y|<0.01$, ולכן $\delta=\varepsilon^2=0.01$. שימו לב שהוא קטן בהרבה מ-$\varepsilon$:
+          המשפחה אינה ליפשיצית במשותף.
+        wrongFeedback: >-
+          פתרו $\sqrt{\delta}\le0.1$.
+        commonWrong:
+          - value: 0.1
+            feedback: >-
+              $\delta=\varepsilon$ מתאים להערכה ליפשיצית $|f(x)-f(y)|\le|x-y|$. כאן ההערכה היא שורש, ו-$\sqrt{0.09}=0.3>0.1$.
+            misconception: MC-c4-lipschitz-delta
+          - value: 0.31622776601683794
+            feedback: >-
+              $\sqrt{0.1}$ הופך את הכיוון: צריך $\sqrt\delta\le\varepsilon$, כלומר $\delta\le\varepsilon^2$.
+
+      - label: ג
+        points: 5
+        type: mc
+        standalone: false
+        objectives: [OBJ-4.3-1, OBJ-4.3-3]
+        prompt: >-
+          מה נובע מסעיף א וממשפט ארצלה-אסקולי?
+        choices:
+          - text: 'לכל סדרה ב-$\mathcal{F}$ יש תת-סדרה שמתכנסת במידה שווה על $[0,1]$ לפונקציה רציפה'
+            correct: true
+            feedback: >-
+              נכון. $\mathcal{F}$ חסומה ורציפה במידה אחידה, ולכן קומפקטית יחסית ב-$C[0,1]$. הגבול נמצא ב-$\overline{\mathcal{F}}$,
+              ואין הבטחה שהוא גזיר.
+          - text: 'לכל סדרה ב-$\mathcal{F}$ יש תת-סדרה שמתכנסת במידה שווה לפונקציה ב-$\mathcal{F}$'
+            feedback: >-
+              המשפט נותן קומפקטיות של הסגור, לא של $\mathcal{F}$. גבול במידה שווה של פונקציות גזירות ברציפות לא חייב להיות
+              גזיר.
+            misconception: MC-c4-relatively-compact-is-compact
+          - text: 'כל סדרה ב-$\mathcal{F}$ מתכנסת במידה שווה'
+            feedback: >-
+              המשפט נותן תת-סדרה. $f_n=(-1)^n\frac x2$ ב-$\mathcal{F}$ (כי $\int(f_n')^2=\frac14$) ואינה מתכנסת.
+            misconception: MC-c4-aa-whole-sequence
+          - text: 'לכל סדרה ב-$\mathcal{F}$ יש תת-סדרה שגם הנגזרות שלה מתכנסות במידה שווה'
+            feedback: >-
+              ארצלה-אסקולי מדבר על הפונקציות, לא על הנגזרות, ועל הנגזרות יש כאן רק חסם אינטגרלי. התכנסות במידה שווה לא
+              שולטת בנגזרות.
+            misconception: MC-c4-derivative-condition-closed
+
+      - label: ד
+        points: 6
+        type: twotier
+        objectives: [OBJ-4.3-3]
+        qualitative: true
+        prompt: >-
+          מוחקים מהגדרת $\mathcal{F}$ את התנאי $f(0)=0$. האם המשפחה החדשה עדיין קומפקטית יחסית ב-$C[0,1]$?
+        choices:
+          - text: לא
+            correct: true
+            feedback: 'נכון. רציפות במידה אחידה נשארת, החסימות נעלמת.'
+          - text: כן
+            feedback: >-
+              ההערכה $|f(x)-f(y)|\le\sqrt{|x-y|}$ עדיין נכונה, אבל היא לא חוסמת את הערכים עצמם.
+            misconception: MC-c4-aa-without-bounded
+        reasons:
+          - text: 'הקבועים $f_n\equiv n$ במשפחה החדשה ($f_n''=0$), ו-$\|f_n-f_m\|_\infty\ge1$: אין תת-סדרה מתכנסת'
+            correct: true
+            feedback: >-
+              בדיוק. התנאי $f(0)=0$ היה מה שחסם את המשפחה: יחד עם רציפות במידה אחידה הוא נתן $|f|\le1$.
+          - text: 'המשפחה עדיין רציפה במידה אחידה, וזה מספיק לארצלה-אסקולי'
+            feedback: >-
+              ארצלה-אסקולי דורש גם חסימות. $f_n\equiv n$ רציפות במידה אחידה ואין להן תת-סדרה מתכנסת.
+            misconception: MC-c4-aa-without-bounded
+          - text: 'המשפחה החדשה אינה רציפה במידה אחידה'
+            feedback: >-
+              היא כן: ההוכחה בסעיף א לא השתמשה ב-$f(0)=0$ עבור ההפרש. נכשלת רק החסימות.
+            misconception: MC-c4-equi-needs-bounded
+
+  - id: Q-4-exam-3
+    type: exam
+    title: מומנטים וקירוב בפולינומים
+    prompt: >-
+      $f\in C[0,1]$. המומנט ה-$n$-י של $f$ הוא $\int_0^1 f(x)x^n\,dx$.
+    parts:
+      - label: א
+        points: 10
+        type: open
+        objectives: [OBJ-4.5-3, OBJ-4.5-1]
+        prompt: >-
+          הוכיחו: אם $\int_0^1 f(x)x^n\,dx=0$ לכל $n\ge0$, אז $f\equiv0$.
+        solution:
+          - kind: given
+            text: '$f\in C[0,1]$ ו-$\int_0^1 fx^n=0$ לכל $n=0,1,2,\dots$'
+          - kind: goal
+            text: '$f(x)=0$ לכל $x\in[0,1]$.'
+          - kind: idea
+            text: >-
+              $f$ "מאונכת" לכל החזקות, ולכן לכל הפולינומים. לפי ויירשטראס הפולינומים מקרבים את $f$ עצמה, ולכן $f$ מאונכת
+              לעצמה: $\int f^2=0$.
+          - kind: step
+            text: 'מליניאריות האינטגרל: $\int_0^1 fp=0$ לכל פולינום $p$.'
+          - kind: theorem
+            text: 'משפט הקירוב של ויירשטראס: יש פולינומים $p_k$ עם $\|p_k-f\|_\infty\to0$.'
+          - kind: computation
+            text: >-
+              $\left|\int_0^1 f^2-\int_0^1 fp_k\right|=\left|\int_0^1 f(f-p_k)\right|\le\|f\|_\infty\|f-p_k\|_\infty\to0$,
+              ולכן $\int_0^1 f^2=\lim_k\int_0^1 fp_k=0$.
+          - kind: step
+            text: >-
+              $f^2\ge0$ רציפה. אילו $f(x_0)\ne0$, אז $f^2>\frac{f(x_0)^2}{2}$ בקטע סביב $x_0$, והאינטגרל היה חיובי. לכן
+              $f^2\equiv0$.
+          - kind: result
+            text: '$f\equiv0$ על $[0,1]$.'
+        rubric:
+          - text: 'מעבר מהחזקות לכל הפולינומים בליניאריות'
+            weight: 1
+          - text: 'הפעלת משפט ויירשטראס לקירוב של $f$ עצמה'
+            weight: 3
+          - text: 'הצדקת המעבר לגבול באינטגרל בעזרת החסם $\|f\|_\infty\|f-p_k\|_\infty$'
+            weight: 3
+          - text: 'המסקנה מ-$\int f^2=0$ ל-$f\equiv0$, עם שימוש ברציפות'
+            weight: 2
+
+      - label: ב
+        points: 6
+        type: twotier
+        standalone: false
+        objectives: [OBJ-4.5-3]
+        qualitative: true
+        prompt: >-
+          עכשיו ידוע רק ש-$\int_0^1 f(x)x^n\,dx=0$ לכל $n\ge1$ (המומנט ה-0 אינו ידוע). האם עדיין $f\equiv0$?
+        choices:
+          - text: כן
+            correct: true
+            feedback: 'נכון. מעבירים את הבעיה לפונקציה אחרת שכל המומנטים שלה מתאפסים.'
+          - text: לא
+            feedback: >-
+              נראה שחסר מומנט, אבל $\int f x^{n}=\int (xf)x^{n-1}$: המומנטים של $xf$ הם כולם.
+            misconception: MC-c4-moments-finite
+        reasons:
+          - text: '$g(x)=xf(x)$ רציפה ו-$\int_0^1 gx^m=\int_0^1 fx^{m+1}=0$ לכל $m\ge0$; לפי סעיף א $g\equiv0$, ולכן $f=0$ על $(0,1]$, ומרציפות גם $f(0)=0$'
+            correct: true
+            feedback: >-
+              בדיוק. הצעד האחרון חשוב: מ-$xf(x)=0$ לומדים על $f$ רק כש-$x\ne0$, ואת $f(0)$ נותנת הרציפות.
+          - text: 'מספיק מספר אינסופי של מומנטים, לא משנה אילו'
+            feedback: >-
+              זה אינו המשפט שהוכח. כאן העובדה שהמומנטים הם **כל** $n\ge1$ מאפשרת את ההזזה ל-$xf$.
+            misconception: MC-c4-moments-finite
+          - text: 'בלי המומנט ה-0 ייתכן ש-$f$ קבועה שונה מאפס'
+            feedback: >-
+              קבוע $c\ne0$ נותן $\int_0^1cx\,dx=\frac c2\ne0$, כלומר המומנט ה-1 כבר שולל אותו.
+            misconception: MC-c4-moments-finite
+
+      - label: ג
+        points: 4
+        type: numeric
+        objectives: [OBJ-4.5-2]
+        prompt: >-
+          כדי לקרב את $x^2$ ב-$B_n(x^2)=x^2+\frac{x(1-x)}{n}$: מהו ה-$n$ **הקטן ביותר** כך ש-$\|B_n(x^2)-x^2\|_\infty<0.001$
+          (אי-שוויון חזק)?
+        answer: 251
+        tolerance: 0.001
+        correctFeedback: >-
+          נכון: השגיאה $\frac1{4n}<0.001\iff n>250$, ולכן $n=251$. ב-$n=250$ השגיאה בדיוק $0.001$, שאינה קטנה ממש.
+        wrongFeedback: >-
+          המקסימום של $\frac{x(1-x)}{n}$ הוא $\frac1{4n}$. פתרו $\frac1{4n}<0.001$, ושימו לב לאי-השוויון החזק.
+        commonWrong:
+          - value: 250
+            feedback: >-
+              ב-$n=250$ השגיאה בדיוק $0.001$, ואי-השוויון כאן חזק.
+          - value: 1000
+            feedback: >-
+              $1000$ פותר $\frac1n<0.001$: שכחתם שהמקסימום של $x(1-x)$ הוא $\frac14$.
+
+      - label: ד
+        points: 5
+        type: mc
+        objectives: [OBJ-4.5-3]
+        prompt: >-
+          איזו קבוצה בת מנייה צפופה ב-$C[0,1]$, ובכך מראה שהוא ספרבילי?
+        choices:
+          - text: הפולינומים עם מקדמים רציונליים
+            correct: true
+            feedback: >-
+              נכון. בני מנייה ($\bigcup_n\mathbb{Q}^{n+1}$), וכל פולינום קרוב לאחד מהם: $\|\sum(a_k-r_k)x^k\|_\infty\le\sum|a_k-r_k|$.
+              יחד עם ויירשטראס הם צפופים.
+          - text: הפולינומים עם מקדמים שלמים
+            feedback: >-
+              בני מנייה, אבל $p(0)\in\mathbb{Z}$, ולכן הקבוע $\frac12$ במרחק $\frac12$ לפחות מכולם.
+            misconception: MC-c4-integer-polys-dense
+          - text: החזקות $\{x^n:\ n\ge0\}$
+            feedback: >-
+              בנות מנייה, אבל לא צפופות: הקבוע 2 במרחק 1 לפחות מכל אחת מהן (כולן בין 0 ל-1). צריך את הצירופים הלינאריים.
+            misconception: MC-c4-algebra-definition
+          - text: כל הפולינומים
+            feedback: >-
+              צפופים, אבל לא בני מנייה: כבר הקבועים הממשיים אינם בני מנייה.
+            misconception: MC-c4-separable-countable

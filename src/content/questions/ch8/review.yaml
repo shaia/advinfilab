@@ -1,0 +1,377 @@
+# Chapter 10 review — line integrals (lessons 8.1–8.6), easy to hard.
+# Every lesson is touched; most questions combine two or more lessons. Each hint names the lesson to go back to.
+# ω = (−y, x)/(x²+y²) is the angle field and ω_p(x) = ω(x−p).
+chapter: 8
+questions:
+  - id: Q-8-review-01
+    type: numeric
+    objectives: [OBJ-8.1-1]
+    level: basic
+    prompt: >-
+      חשבו את $V_{-1}^{2}(f)$ עבור $f(x)=|x|$.
+    answer: 3
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $f$ יורדת מ-1 ל-0 ב-$[-1,0]$ ועולה מ-0 ל-2 ב-$[0,2]$: $V=1+2=3$.
+    wrongFeedback: >-
+      חלקו לקטעי מונוטוניות, ובכל אחד ההשתנות היא ההפרש בערך מוחלט בין הערכים בקצוות.
+    commonWrong:
+      - value: 1
+        feedback: '$|f(2)-f(-1)|=1$ הוא רק סכום החלוקה $\{-1,2\}$. הירידה ב-$[-1,0]$ לא נספרה.'
+        misconception: MC-c8-variation-endpoints
+      - value: 2
+        feedback: '$\max f-\min f=2-0$. ההשתנות סופרת גם את הירידה וגם את העלייה.'
+        misconception: MC-c8-variation-range
+    hints:
+      - 'חזרו לשיעור 8.1: ההשתנות של פונקציה מונוטונית למקוטעין.'
+
+  - id: Q-8-review-02
+    type: numeric
+    objectives: [OBJ-8.2-3, OBJ-8.2-1]
+    level: basic
+    prompt: >-
+      חשבו את אורך המסילה $\gamma(t)=(3\cos2t,\ 3\sin2t)$, $t\in[0,2\pi]$ (מקורב לשתי ספרות אחרי הנקודה).
+    answer: 37.699112
+    tolerance: 0.0002
+    correctFeedback: >-
+      נכון, $12\pi\approx37.70$. $\|\gamma'(t)\|=6$, ו-$L=\int_0^{2\pi}6\,dt$. המסילה מקיפה את המעגל ברדיוס 3 **פעמיים**.
+    wrongFeedback: >-
+      חשבו את $\|\gamma'(t)\|$ ושלבו על כל הקטע. כמה פעמים המסילה עוברת על המעגל?
+    commonWrong:
+      - value: 18.849556
+        feedback: >-
+          $6\pi$ הוא היקף המעגל, אורך התמונה. המסילה עוברת עליו פעמיים, והאורך הוא של המסילה.
+        misconception: MC-c8-curve-is-image
+    hints:
+      - 'חזרו לשיעור 8.2: מסילה היא פונקציה, והאורך הוא האינטגרל של גודל הנגזרת.'
+
+  - id: Q-8-review-03
+    type: numeric
+    objectives: [OBJ-8.3-1]
+    level: basic
+    prompt: >-
+      חשבו את $\int_\gamma(x+y)\,dx+y\,dy$ לאורך הקטע $\gamma(t)=(2t,t)$, $t\in[0,1]$. (שבר מותר.)
+    answer: 3.5
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון, $\frac72$. $F(\gamma(t))=(3t,t)$, $\gamma'(t)=(2,1)$, והאינטגרנד $6t+t=7t$.
+    wrongFeedback: >-
+      הציבו את המסילה בשדה והכפילו סקלרית ב-$\gamma'(t)$, לא ב-$\gamma(t)$.
+    commonWrong:
+      - value: 2.3333333
+        feedback: >-
+          $\frac73=\int_0^17t^2\,dt$ מתקבל מהכפלה ב-$\gamma(t)=(2t,t)$ במקום ב-$\gamma'(t)=(2,1)$.
+        misconception: MC-c8-line-integral-no-derivative
+    hints:
+      - 'חזרו לשיעור 8.3: ההגדרה של האינטגרל הקווי.'
+
+  - id: Q-8-review-04
+    type: mc
+    objectives: [OBJ-8.4-2, OBJ-8.4-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $F(x,y)=(x+2y,\ 2x-y)$ ב-$\mathbb{R}^2$. מה נכון?
+    choices:
+      - text: '$F$ משמר, עם הפוטנציאל $\frac{x^2}{2}+2xy-\frac{y^2}{2}$, ולכן האינטגרל שלו על כל מסילה סגורה 0'
+        correct: true
+        feedback: >-
+          נכון. $\partial_yP=2=\partial_xQ$, ובדיקה ישירה: $\nabla\left(\frac{x^2}{2}+2xy-\frac{y^2}{2}\right)=(x+2y,2x-y)$.
+      - text: '$F$ אינו משמר, כי $\frac{\partial P}{\partial x}=1\ne-1=\frac{\partial Q}{\partial y}$'
+        feedback: >-
+          זה הזוג הלא נכון. התנאי ההכרחי משווה את הנגזרות המוצלבות, $\partial_yP$ ו-$\partial_xQ$, ושתיהן 2.
+        misconception: MC-c8-crossed-partials-misread
+      - text: 'אי-אפשר לדעת בלי לבדוק את האינטגרל על הרבה מסילות סגורות'
+        feedback: >-
+          בדיקת מסילות לא תוכיח דבר; פוטנציאל מפורש מוכיח מיד. כאן מוצאים אותו בשתי אינטגרציות.
+        misconception: MC-c8-one-loop-enough
+    hints:
+      - 'חזרו לשיעור 8.4: תנאי הנגזרות המוצלבות ומציאת פוטנציאל.'
+
+  - id: Q-8-review-05
+    type: twotier
+    objectives: [OBJ-8.2-2, OBJ-8.1-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $f:[0,1]\to\mathbb{R}$ רציפה, ו-$\gamma(t)=(\cos t,f(t))$, $t\in[0,1]$. נכון או לא נכון: $\gamma$ ברת-מדידה אם
+      ורק אם $f$ בעלת השתנות חסומה.
+    choices:
+      - text: נכון
+        correct: true
+        feedback: 'נכון. זה בדיוק הקריטריון של שיעור 8.2, כשהרכיב הראשון כבר בסדר.'
+      - text: לא נכון
+        feedback: >-
+          הרכיב הראשון, $\cos t$, יורד ב-$[0,1]$ ולכן בעל השתנות חסומה. מה שנשאר תלוי רק ב-$f$.
+        misconception: MC-c8-continuous-implies-rectifiable
+    reasons:
+      - text: 'מסילה ברת-מדידה אם ורק אם כל רכיביה בעלי השתנות חסומה, ו-$\cos$ מונוטונית ב-$[0,1]$'
+        correct: true
+        feedback: 'בדיוק: $V(f)\le L(\gamma)\le V(\cos)+V(f)$.'
+      - text: 'כל מסילה רציפה ברת-מדידה, ולכן התנאי על $f$ לא נחוץ'
+        feedback: >-
+          עם $f(t)=t\sin\frac1t$ המסילה רציפה ואינה ברת-מדידה.
+        misconception: MC-c8-continuous-implies-rectifiable
+      - text: 'המסילה ברת-מדידה אם ורק אם $f$ גזירה'
+        feedback: >-
+          גזירות אינה התנאי: $t^2\sin\frac1{t^2}$ גזירה ואינה בעלת השתנות חסומה, ו-$\mathbf{1}_{[\frac12,1]}$ לא רציפה
+          ובכל זאת בעלת השתנות חסומה.
+        misconception: MC-c8-differentiable-implies-bv
+    hints:
+      - 'חזרו לשיעור 8.2: מסילה ברת-מדידה אם ורק אם רכיביה בעלי השתנות חסומה; ולשיעור 8.1: פונקציות מונוטוניות.'
+
+  - id: Q-8-review-06
+    type: numeric
+    objectives: [OBJ-8.3-3, OBJ-8.6-2]
+    level: mid
+    prompt: >-
+      $\gamma$ מעגל היחידה סביב הראשית ו-$p=(5,0)$. חשבו את החסם $\frac{L(\gamma)}{2\pi d}$ על
+      $|\operatorname{Ind}(\gamma,p)|$, כאשר $d$ המרחק מ-$p$ למסילה. (שבר מותר.)
+    answer: 0.25
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון, $\frac14$: $L=2\pi$ ו-$d=4$. על המסילה $\|\omega_p\|\le\frac1d$, ולכן
+      $|\operatorname{Ind}|\le\frac{1}{2\pi}\cdot2\pi\cdot\frac14$. מספר שלם שערכו המוחלט לכל היותר $\frac14$ הוא 0.
+    wrongFeedback: >-
+      $d$ הוא המרחק מ-$p$ לנקודה הקרובה ביותר על המעגל, לא למרכז.
+    commonWrong:
+      - value: 1.5707963
+        feedback: >-
+          $\frac{\pi}{2}=\frac{L}{d}$ הוא חסם על האינטגרל של $\omega_p$. מספר הליפוף הוא האינטגרל חלקי $2\pi$.
+        misconception: MC-c8-winding-normalisation
+    hints:
+      - 'חזרו לשיעור 8.3: החסם על אינטגרל קווי; ולשיעור 8.6: מספר הליפוף שלם.'
+
+  - id: Q-8-review-07
+    type: numeric
+    objectives: [OBJ-8.4-2]
+    level: mid
+    prompt: >-
+      $F(x,y)=(e^y+2x,\ xe^y)$. חשבו את $\int_\gamma F\cdot ds$ לאורך מסילה חלקה כלשהי מ-$(0,0)$ ל-$(2,\ln3)$.
+    answer: 10
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $\partial_yP=e^y=\partial_xQ$; $\varphi=xe^y+x^2$, והאינטגרל $\varphi(2,\ln3)-\varphi(0,0)=6+4$.
+    wrongFeedback: >-
+      $\int(e^y+2x)\,dx=xe^y+x^2+c(y)$, ומ-$\partial_y\varphi=xe^y$ נובע $c'=0$.
+    commonWrong:
+      - value: 16
+        feedback: >-
+          16 מתקבל מ-$\varphi=2xe^y+x^2$: חיברתם $\int P\,dx$ ו-$\int Q\,dy$, ו-$xe^y$ נספר פעמיים.
+        misconception: MC-c8-potential-add-both
+      - value: -10
+        feedback: 'הסימן הפוך: ערך הפוטנציאל בסוף פחות ערכו בהתחלה.'
+        misconception: MC-c8-orientation-ignored
+    hints:
+      - 'חזרו לשיעור 8.4: מציאת פונקציית פוטנציאל.'
+
+  - id: Q-8-review-08
+    type: twotier
+    objectives: [OBJ-8.5-3, OBJ-8.5-1, OBJ-8.4-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $F=(P,Q)$ גזיר ברציפות בעיגול הפתוח $B(0,1)$ ומקיים בו $\frac{\partial P}{\partial y}=\frac{\partial Q}{\partial x}$.
+      האם האינטגרל של $F$ על כל מסילה סגורה חלקה למקוטעין בעיגול הוא 0?
+    choices:
+      - text: כן
+        correct: true
+        feedback: 'נכון. בעיגול, בניגוד ל-$\mathbb{R}^2\setminus\{0\}$, התנאי מספיק.'
+      - text: לא בהכרח
+        feedback: >-
+          הדוגמה הנגדית של שדה הזווית דורשת חור בתחום. לעיגול אין חור.
+        misconception: MC-c8-crossed-partials-sufficient
+    reasons:
+      - text: 'העיגול קמור ולכן פשוט קשר; $F$ משמר מקומית; לכן משמר, ואינטגרל של שדה משמר על מסילה סגורה 0'
+        correct: true
+        feedback: >-
+          בדיוק. (בעיגול אפשר גם ישירות: הפוטנציאל של הוכחת 8.5, לאורך הדרך האופקית-אנכית מהמרכז, מוגדר בכל העיגול.)
+      - text: 'תנאי הנגזרות המוצלבות מבטיח זאת בכל קבוצה פתוחה'
+        feedback: >-
+          ב-$\mathbb{R}^2\setminus\{0\}$ שדה הזווית מקיים את התנאי, והאינטגרל שלו על מעגל היחידה $2\pi$.
+        misconception: MC-c8-crossed-partials-sufficient
+      - text: 'רק אם $F$ מוגדר וגזיר ברציפות בכל $\mathbb{R}^2$'
+        feedback: >-
+          מה שקובע הוא התחום שבו השדה חי, לא אם אפשר להרחיב אותו. $\omega$ חי ב-$x>0$, לא מתרחב לראשית, ובכל זאת משמר
+          ב-$x>0$.
+        misconception: MC-c8-conservative-domain-free
+    hints:
+      - 'חזרו לשיעור 8.5: שדה משמר מקומית בתחום פשוט קשר; ולשיעור 8.4: שדה משמר ומסילות סגורות.'
+
+  - id: Q-8-review-09
+    type: multi
+    objectives: [OBJ-8.5-2, OBJ-8.6-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      כל המסילות מוגדרות על $[0,2\pi]$. אילו זוגות הם מסילות סגורות **הומוטופיות** ב-$\mathbb{R}^2\setminus\{0\}$? סמנו
+      את כולם.
+    choices:
+      - text: '$(\cos t,\sin t)$, ושפת הריבוע $[-2,2]^2$ נגד כיוון השעון, בפרמטריזציה לפי הזווית הקוטבית'
+        correct: true
+        feedback: >-
+          נכון. $H(s,t)=(1-s)\gamma_0(t)+s\gamma_1(t)$: שתי הנקודות על אותה קרן מהראשית, והקטע ביניהן לא עובר בה.
+      - text: 'המעגל ברדיוס 1 סביב $(3,0)$, והמסילה הקבועה $(3,0)$'
+        correct: true
+        feedback: >-
+          נכון. $H(s,t)=(3,0)+(1-s)(\cos t,\sin t)$ נשארת בעיגול סביב $(3,0)$, שאינו מכיל את הראשית.
+      - text: '$(\cos t,\sin t)$ ו-$(\cos t,-\sin t)$'
+        feedback: >-
+          מספרי הליפוף סביב הראשית 1 ו-$(-1)$, ומספר הליפוף נשמר בהומוטופיה ב-$\mathbb{R}^2\setminus\{0\}$.
+        misconception: MC-c8-orientation-ignored
+      - text: '$(\cos t,\sin t)$ ו-$(\cos2t,\sin2t)$'
+        feedback: >-
+          אותה תמונה, אבל מספרי ליפוף 1 ו-2. הומוטופיה אינה נקבעת לפי התמונה.
+        misconception: MC-c8-homotopy-by-image
+    hints:
+      - 'חזרו לשיעור 8.5: ההגדרה של הומוטופיה; ולשיעור 8.6: מספר הליפוף כמבחן לאי-הומוטופיה.'
+
+  - id: Q-8-review-10
+    type: multi
+    objectives: [OBJ-8.6-1, OBJ-8.6-2, OBJ-8.3-2]
+    level: exam
+    prompt: >-
+      המסילה הסגורה $\gamma$ היא שרשור של ארבעה חלקים: המעגל ברדיוס 2 סביב הראשית נגד כיוון השעון מ-$(2,0)$; הקטע
+      מ-$(2,0)$ ל-$(1,0)$; מעגל היחידה נגד כיוון השעון מ-$(1,0)$; והקטע מ-$(1,0)$ בחזרה ל-$(2,0)$. אילו מהטענות נכונות?
+      סמנו את כולן.
+    choices:
+      - text: '$\operatorname{Ind}(\gamma,(0,\frac12))=2$'
+        correct: true
+        feedback: >-
+          נכון. שני הקטעים הם אותו קטע בשני כיוונים, ולכן האינטגרלים עליהם מתקזזים; נשארים שני מעגלים שכל אחד מהם מקיף
+          את $(0,\frac12)$ פעם אחת.
+      - text: '$\operatorname{Ind}(\gamma,(0,\frac32))=1$'
+        correct: true
+        feedback: 'נכון. $(0,\frac32)$ בתוך המעגל הגדול ומחוץ לקטן: $1+0$.'
+      - text: '$\operatorname{Ind}(\gamma,(3,0))=0$'
+        correct: true
+        feedback: 'נכון. $(3,0)$ ברכיב הלא חסום.'
+      - text: '$\operatorname{Ind}(\gamma,(0,\frac12))=1$'
+        feedback: >-
+          התמונה נראית כמו "תחום בין שני מעגלים", אבל המסילה עוברת על **שני** המעגלים באותו כיוון, ושניהם מקיפים את
+          $(0,\frac12)$.
+        misconception: MC-c8-curve-is-image
+      - text: '$\operatorname{Ind}(\gamma,(\frac32,0))=1$'
+        feedback: >-
+          $(\frac32,0)$ נמצאת על הקטע מ-$(1,0)$ ל-$(2,0)$, כלומר על המסילה, ושם מספר הליפוף לא מוגדר.
+        misconception: MC-c8-winding-on-curve
+    hints:
+      - 'חזרו לשיעור 8.3: אדיטיביות על שרשור והיפוך כיוון; ולשיעור 8.6: מספר הליפוף על רכיבי המשלים.'
+
+  - id: Q-8-review-11
+    type: twotier
+    objectives: [OBJ-8.1-3, OBJ-8.2-2]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $\gamma=(x,y):[a,b]\to\mathbb{R}^2$ ברת-מדידה, ו-$s(t)=L(\gamma|_{[a,t]})$ אורך החלק של המסילה עד $t$. האם $s$ ו-$s-x$
+      שתיהן עולות, כך ש-$x=s-(s-x)$ הוא פירוק של $x$ להפרש של פונקציות עולות?
+    choices:
+      - text: כן
+        correct: true
+        feedback: 'נכון. אורך הקשת ממלא כאן את התפקיד של ההשתנות בפירוק ז׳ורדן.'
+      - text: לא
+        feedback: >-
+          $s$ עולה כי אורך אדיטיבי, ו-$s-x$ עולה כי כל רכיב משתנה לכל היותר כמו האורך. ראו את הנימוק.
+        misconception: MC-c8-jordan-positive-part
+    reasons:
+      - text: 'ל-$t_1<t_2$: $|x(t_2)-x(t_1)|\le\|\gamma(t_2)-\gamma(t_1)\|\le L(\gamma|_{[t_1,t_2]})=s(t_2)-s(t_1)$'
+        correct: true
+        feedback: >-
+          בדיוק. השוויון האחרון הוא האדיטיביות של האורך. מכאן $s(t_2)-s(t_1)\ge x(t_2)-x(t_1)$, כלומר $s-x$ עולה, ו-$s$
+          עולה כי האורך אי-שלילי.
+      - text: '$x=\max(x,0)-\max(-x,0)$, ושני החלקים עולים'
+        feedback: >-
+          החלק החיובי של $\cos t$ עולה ויורד. זה אינו פירוק לפונקציות עולות.
+        misconception: MC-c8-jordan-positive-part
+      - text: '$s$ עולה, והפרש של פונקציה עולה ופונקציה כלשהי עולה'
+        feedback: >-
+          $t-2t$ יורדת. צריך ש-$s$ תעלה **לפחות כמו** $x$, וזה מה שאי-השוויון בנימוק הנכון נותן.
+        misconception: MC-c8-jordan-positive-part
+    hints:
+      - 'חזרו לשיעור 8.1: פירוק ז׳ורדן; ולשיעור 8.2: האורך כסופרמום, ואי-השוויון בין רכיב למיתר.'
+
+  - id: Q-8-review-12
+    type: numeric
+    objectives: [OBJ-8.4-2, OBJ-8.6-3, OBJ-8.3-2]
+    level: exam
+    prompt: >-
+      $F(x,y)=(2x,2y)+\omega(x,y)$ ב-$\mathbb{R}^2\setminus\{0\}$, ו-$\gamma(t)=(2\cos t,-2\sin t)$, $t\in[0,4\pi]$. חשבו
+      את $\int_\gamma F\cdot ds$ (מקורב לשלוש ספרות אחרי הנקודה).
+    answer: -12.566371
+    tolerance: 0.0002
+    correctFeedback: >-
+      נכון, $(-4\pi)$. $(2x,2y)=\nabla(x^2+y^2)$ משמר ותורם 0 על מסילה סגורה. $\gamma$ מקיפה את הראשית פעמיים עם כיוון
+      השעון, ולכן $\int_\gamma\omega\cdot ds=2\pi\cdot(-2)$.
+    wrongFeedback: >-
+      פצלו לשני שדות. לחלק המשמר מצאו פוטנציאל; לשדה הזווית מצאו את מספר הליפוף, עם הכיוון ומספר הסיבובים.
+    commonWrong:
+      - value: 12.566371
+        feedback: 'המסילה נעה עם כיוון השעון ($t=\frac\pi2$ נותן $(0,-2)$), ולכן מספר הליפוף שלילי.'
+        misconception: MC-c8-orientation-ignored
+      - value: -6.283185
+        feedback: 'הקטע הוא $[0,4\pi]$: המסילה מקיפה את הראשית פעמיים, אף שהתמונה מעגל אחד.'
+        misconception: MC-c8-curve-is-image
+      - value: 0
+        feedback: >-
+          רק החלק $(2x,2y)$ משמר. שדה הזווית מקיים את תנאי הנגזרות המוצלבות, אבל אינו משמר סביב הראשית.
+        misconception: MC-c8-crossed-partials-sufficient
+    hints:
+      - 'חזרו לשיעור 8.4: שדה גרדיאנט על מסילה סגורה; ולשיעור 8.6: אינטגרלים של שדה הזווית.'
+
+  - id: Q-8-review-13
+    type: twotier
+    objectives: [OBJ-8.4-1, OBJ-5.6-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      נכון או לא נכון: אם $\varphi_1,\varphi_2$ שתי פונקציות פוטנציאל של אותו שדה $F$ בקבוצה פתוחה $U$ **כלשהי**, אז
+      $\varphi_1-\varphi_2$ קבועה ב-$U$.
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: 'נכון. צריך גם ש-$U$ תהיה קשירה מסילתית.'
+      - text: נכון
+        feedback: >-
+          בקבוצה לא קשירה ההפרש יכול להיות קבוע אחר בכל חלק. ראו את הדוגמה בנימוק.
+        misconception: MC-c8-conservative-domain-free
+    reasons:
+      - text: 'ב-$U=B((0,0),1)\cup B((3,0),1)$ ול-$F=0$, הפונקציה ששווה 0 בעיגול הראשון ו-1 בשני היא פוטנציאל, וגם $0$; ההפרש אינו קבוע'
+        correct: true
+        feedback: >-
+          בדיוק. בקבוצה פתוחה וקשירה מסילתית הטענה נכונה: $\nabla(\varphi_1-\varphi_2)=0$, ופונקציה שהדיפרנציאל שלה
+          מתאפס בקבוצה פתוחה וקשירה קבועה (שיעור 5.6); או ישירות: $\varphi(q)-\varphi(p)=\int F\cdot ds$ לאורך מסילה
+          מ-$p$ ל-$q$.
+      - text: '$\nabla(\varphi_1-\varphi_2)=0$, ופונקציה עם גרדיאנט אפס קבועה'
+        feedback: >-
+          זה נכון רק בקבוצה פתוחה **וקשירה**. בלי קשירות המשפט של שיעור 5.6 לא חל, והדוגמה בנימוק הנכון מפריכה.
+        misconception: MC-c8-conservative-domain-free
+      - text: 'פונקציית פוטנציאל יחידה, ולכן $\varphi_1=\varphi_2$'
+        feedback: >-
+          גם בתחום קשיר מותר להוסיף קבוע: $\nabla(\varphi+c)=\nabla\varphi$. האינטגרל תלוי רק בהפרש ערכים, ולכן הקבוע לא
+          משנה דבר.
+        misconception: MC-c8-potential-forget-start
+    hints:
+      - 'חזרו לשיעור 8.4: ההגדרה של פונקציית פוטנציאל; ולשיעור 5.6: דיפרנציאל אפס בקבוצה פתוחה וקשירה.'
+
+  - id: Q-8-review-14
+    type: numeric
+    objectives: [OBJ-8.3-3, OBJ-8.2-3]
+    level: mid
+    prompt: >-
+      $\gamma(t)=(\cos t,\sin t,t)$, $t\in[0,2\pi]$, ו-$F(x,y,z)=(z,x,y)$. חשבו את החסם
+      $L(\gamma)\cdot\max_t\|F(\gamma(t))\|$ על $\left|\int_\gamma F\cdot ds\right|$ (מקורב לשתי ספרות אחרי הנקודה).
+    answer: 56.533598
+    tolerance: 0.0002
+    correctFeedback: >-
+      נכון: $L=2\sqrt2\,\pi$, $\|F(\gamma(t))\|=\|(t,\cos t,\sin t)\|=\sqrt{t^2+1}$, והמקסימום ב-$t=2\pi$:
+      $2\sqrt2\,\pi\cdot\sqrt{4\pi^2+1}\approx56.53$.
+    wrongFeedback: >-
+      חשבו את אורך הסליל ואת הגודל של השדה לאורכו כפונקציה של $t$, ומצאו את המקסימום שלו על $[0,2\pi]$.
+    commonWrong:
+      - value: 39.975291
+        feedback: >-
+          זה מתקבל עם $2\pi$, המרחק בין $(1,0,0)$ ל-$(1,0,2\pi)$, במקום אורך הסליל $2\sqrt2\,\pi$.
+        misconception: MC-c8-bound-chord
+    hints:
+      - 'חזרו לשיעור 8.3: החסם על אינטגרל קווי; ולשיעור 8.2: אורך הסליל.'

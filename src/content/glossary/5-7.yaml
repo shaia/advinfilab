@@ -1,0 +1,33 @@
+# Terms first defined in lesson 5.7.
+- id: higher-order-partial-derivatives
+  term: נגזרות חלקיות מסדר גבוה
+  en: higher-order partial derivatives
+  symbol: '\frac{\partial^2 f}{\partial x_j\,\partial x_i}=\frac{\partial}{\partial x_j}\left(\frac{\partial f}{\partial x_i}\right)'
+  definition: >-
+    נגזרות חלקיות של נגזרות חלקיות. בסימון של הקורס $\frac{\partial^2f}{\partial x_j\partial x_i}$ גוזרת קודם לפי $x_i$
+    ואחר כך לפי $x_j$; נגזרת מסדר $k$ מתקבלת מ-$k$ גזירות חלקיות בזו אחר זו.
+  lesson: '5.7'
+- id: mixed-partial-derivatives
+  term: נגזרות חלקיות מעורבות
+  en: mixed partial derivatives
+  definition: >-
+    נגזרות מסדר גבוה שגוזרות לפי יותר ממשתנה אחד, כמו $\frac{\partial^2f}{\partial y\partial x}$ ו-$\frac{\partial^2f}{\partial x\partial y}$.
+    הן שוות כשהן רציפות (משפט שוורץ), ויכולות להיות שונות בלי רציפות.
+  lesson: '5.7'
+- id: class-c-k
+  term: גזירה ברציפות k פעמים
+  en: k times continuously differentiable (class C^k)
+  symbol: 'C^k(U)'
+  definition: >-
+    $f\in C^k(U)$ אם כל הנגזרות החלקיות של $f$ מכל סדר עד $k$ קיימות ורציפות ב-$U$. $C^0$ הן הפונקציות הרציפות,
+    $C^1$ הגזירות ברציפות, ו-$C^\infty$ אלה שבכל $C^k$. $C^{k+1}(U)\subseteq C^k(U)$.
+  lesson: '5.7'
+- id: schwarz-theorem
+  term: משפט שוורץ
+  en: Schwarz's theorem (symmetry of second derivatives)
+  definition: >-
+    אם שתי הנגזרות המעורבות $\frac{\partial^2f}{\partial y\partial x}$ ו-$\frac{\partial^2f}{\partial x\partial y}$ קיימות
+    בסביבה של $a$ ורציפות ב-$a$ (בפרט אם $f\in C^2$), הן שוות ב-$a$. ההוכחה מבטאת את ההפרש השני
+    $f(a+h,b+k)-f(a+h,b)-f(a,b+k)+f(a,b)$ בשתי הדרכים.
+  reject: [שווארץ]
+  lesson: '5.7'

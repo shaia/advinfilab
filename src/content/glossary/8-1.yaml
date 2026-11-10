@@ -1,0 +1,20 @@
+# Terms first defined in lesson 8.1.
+- id: variation
+  term: השתנות
+  en: (total) variation
+  symbol: 'V_a^b(f)'
+  definition: >-
+    לחלוקה $P$: $a=x_0<x_1<\dots<x_n=b$ סכום ההשתנות הוא $V(f,P)=\sum_{i=1}^n|f(x_i)-f(x_{i-1})|$. ההשתנות של
+    $f$ בקטע היא $V_a^b(f)=\sup_P V(f,P)$, אולי $\infty$. עידון של חלוקה רק מגדיל את הסכום. לפונקציה מונוטונית
+    $V_a^b(f)=|f(b)-f(a)|$, ול-$\sin$ על $[0,2\pi]$ ההשתנות היא 4.
+  reject: [וריאציה כוללת]
+  lesson: '8.1'
+- id: bounded-variation
+  term: השתנות חסומה
+  en: bounded variation
+  definition: >-
+    $f:[a,b]\to\mathbb{R}$ היא בעלת השתנות חסומה אם $V_a^b(f)<\infty$, כלומר יש $M$ כך ש-$V(f,P)\le M$ לכל
+    חלוקה $P$. פונקציות מונוטוניות וליפשיציות הן כאלה ($V\le M(b-a)$ לפונקציה ליפשיצית עם קבוע $M$); $x\sin\frac1x$
+    רציפה ואינה כזו. כל פונקציה בעלת השתנות חסומה היא הפרש של שתי פונקציות עולות (פירוק ז׳ורדן):
+    $f(x)=V_a^x(f)-\left(V_a^x(f)-f(x)\right)$.
+  lesson: '8.1'

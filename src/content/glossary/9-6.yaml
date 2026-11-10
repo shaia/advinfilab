@@ -1,0 +1,39 @@
+# Terms first defined in lesson 9.6 (change of variables).
+- id: change-of-variables
+  term: משפט החלפת המשתנים
+  en: change of variables theorem
+  definition: >-
+    אם $A\subseteq\mathbb{R}^n$ פתוחה, $g:A\to\mathbb{R}^n$ חד-חד-ערכית וגזירה ברציפות עם $\det J_g\ne0$ על $A$, ו-$f$
+    אינטגרבילית על $g(A)$, אז $\int_{g(A)}f=\int_A(f\circ g)\,|\det J_g|$.
+  lesson: '9.6'
+- id: jacobian-determinant
+  term: יעקוביאן
+  en: Jacobian determinant
+  symbol: '\det J_g'
+  definition: >-
+    הדטרמיננטה של מטריצת יעקובי של $g$. הערך המוחלט שלה בנקודה $x$ הוא הפקטור שבו $g$ מכפילה נפחים של תיבות קטנות
+    ליד $x$; להעתקה לינארית $T$: $v(T(Q))=|\det T|\,v(Q)$.
+  lesson: '9.6'
+- id: polar-coordinates
+  term: קואורדינטות קוטביות
+  en: polar coordinates
+  symbol: 'x=r\cos\theta,\ y=r\sin\theta'
+  definition: >-
+    $(r,\theta)\mapsto(r\cos\theta,r\sin\theta)$ עם $r\ge0$, $\theta\in[0,2\pi]$. היעקוביאן $r$, ולכן $dx\,dy$ הופך
+    ל-$r\,dr\,d\theta$.
+  lesson: '9.6'
+- id: cylindrical-coordinates
+  term: קואורדינטות גליליות
+  en: cylindrical coordinates
+  symbol: 'x=r\cos\theta,\ y=r\sin\theta,\ z=z'
+  definition: >-
+    קואורדינטות קוטביות במישור $xy$ והשיעור $z$ כמו שהוא. היעקוביאן $r$: $dV=r\,dr\,d\theta\,dz$.
+  lesson: '9.6'
+- id: spherical-coordinates
+  term: קואורדינטות כדוריות
+  en: spherical coordinates
+  symbol: 'x=r\sin\varphi\cos\theta,\ y=r\sin\varphi\sin\theta,\ z=r\cos\varphi'
+  definition: >-
+    $r\ge0$ המרחק מהראשית, $\varphi\in[0,\pi]$ הזווית מציר $z$ החיובי, $\theta\in[0,2\pi]$. הערך המוחלט של
+    היעקוביאן $r^2\sin\varphi$: $dV=r^2\sin\varphi\,dr\,d\varphi\,d\theta$.
+  lesson: '9.6'

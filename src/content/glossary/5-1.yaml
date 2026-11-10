@@ -1,0 +1,32 @@
+# Terms first defined in lesson 5.1.
+- id: function-of-several-variables
+  term: פונקציה של כמה משתנים
+  en: function of several variables
+  symbol: 'f:U\to\mathbb{R}^m,\ U\subseteq\mathbb{R}^n'
+  definition: >-
+    פונקציה שהתחום שלה תת-קבוצה של $\mathbb{R}^n$ והטווח $\mathbb{R}^m$. כותבים אותה בעזרת רכיבים,
+    $f=(f_1,\dots,f_m)$, וכל רכיב הוא פונקציה ממשית של $n$ משתנים. כש-$m=1$ היא נקראת פונקציה ממשית.
+  lesson: '5.1'
+- id: level-set
+  term: קבוצת גובה
+  en: level set
+  symbol: '\{x\in U:\ f(x)=c\}'
+  definition: >-
+    קבוצת הנקודות בתחום שבהן $f$ מקבלת ערך נתון $c$. ב-$\mathbb{R}^2$ היא נקראת קו גובה, וב-$\mathbb{R}^3$ משטח
+    גובה. קבוצות גובה שונות זרות זו לזו, ויכולות להיות ריקות.
+  lesson: '5.1'
+- id: level-curve
+  term: קו גובה
+  en: level curve
+  definition: >-
+    קבוצת גובה של פונקציה ממשית של שני משתנים: $\{(x,y): f(x,y)=c\}$. אוסף קווי הגובה הוא "מפה טופוגרפית" של
+    הגרף.
+  lesson: '5.1'
+- id: limit-along-a-path
+  term: גבול לאורך מסילה
+  en: limit along a path
+  definition: >-
+    לפונקציה $f$ ולמסילה רציפה $\gamma$ עם $\gamma(t)\ne a$ ל-$t>0$ ו-$\gamma(t)\to a$ כש-$t\to0^+$: הגבול
+    $\lim_{t\to0^+}f(\gamma(t))$. אם ל-$f$ יש גבול $L$ ב-$a$, הגבול לאורך כל מסילה כזו הוא $L$; לכן שתי מסילות עם
+    גבולות שונים מוכיחות שאין גבול.
+  lesson: '5.1'

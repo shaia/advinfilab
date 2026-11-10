@@ -1,0 +1,33 @@
+# Terms first defined in lesson 1.8 (bounded linear maps and the operator norm).
+- id: bounded-linear-map
+  term: העתקה לינארית חסומה
+  en: bounded linear map
+  definition: >-
+    העתקה לינארית $T:V\to W$ בין מרחבים נורמיים שיש לה $M$ עם $\|Tx\|\le M\|x\|$ לכל $x$. היא חסומה אם ורק אם
+    היא רציפה, אם ורק אם היא רציפה ב-0. "חסומה" אינו "בעלת תמונה חסומה".
+  lesson: '1.8'
+- id: operator-norm
+  term: נורמת אופרטור
+  en: operator norm
+  symbol: '\|T\|_{\mathrm{op}}=\sup_{\|x\|\le1}\|Tx\|'
+  definition: >-
+    $\|T\|_{\mathrm{op}}=\sup_{\|x\|\le1}\|Tx\|$, הקבוע $M$ הקטן ביותר עם $\|Tx\|\le M\|x\|$. למטריצה: בנורמת
+    אינסוף, הסכום המקסימלי של ערכים מוחלטים בשורה; בנורמת 1, בעמודה; בנורמה האוקלידית
+    $\sqrt{\lambda_{\max}(A^TA)}$.
+  lesson: '1.8'
+- id: linear-functional
+  term: פונקציונל לינארי
+  en: linear functional
+  definition: >-
+    העתקה לינארית $\varphi:V\to\mathbb{R}$ ממרחב נורמי לממשיים, למשל $f\mapsto\int_0^1f$ או $f\mapsto f(0)$ על
+    $C[0,1]$. הנורמה שלו היא $\|\varphi\|_{\mathrm{op}}=\sup_{\|x\|\le1}|\varphi(x)|$, והוא רציף אם ורק אם הוא חסום.
+  lesson: '1.8'
+- id: unit-sphere
+  term: ספרת היחידה
+  en: unit sphere
+  symbol: '\{x: \|x\|=1\}'
+  definition: >-
+    $\{x\in V:\ \|x\|=1\}$, השפה של כדור היחידה: הווקטורים שאורכם בדיוק 1. במישור: שפת המעוין ל-$\|\cdot\|_1$,
+    המעגל ל-$\|\cdot\|_2$ ושפת הריבוע ל-$\|\cdot\|_\infty$. ב-$\mathbb{R}^n$ נורמת האופרטור היא הסופרמום של $\|Tx\|$
+    עליה.
+  lesson: '1.8'

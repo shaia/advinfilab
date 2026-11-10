@@ -1,0 +1,305 @@
+# Lesson 4.4 — separability.
+# Objectives (src/course.ts):
+#   OBJ-4.4-1  define a separable space and prove that Euclidean space is separable
+#   OBJ-4.4-2  prove that a subspace of a separable metric space is separable, and that a compact space is separable
+#   OBJ-4.4-3  prove that the bounded functions with the sup norm are not separable (uncountably many far-apart points)
+chapter: 4
+questions:
+  - id: Q-4.4-def
+    type: mc
+    objectives: [OBJ-4.4-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      מה פירוש "המרחב המטרי $X$ **ספרבילי**"?
+    choices:
+      - text: יש ב-$X$ תת-קבוצה בת מנייה וצפופה
+        correct: true
+        feedback: >-
+          נכון. כלומר יש $D=\{d_1,d_2,\dots\}\subseteq X$ כך שכל כדור פתוח ב-$X$ מכיל נקודה של $D$; או: כל $x\in X$ הוא
+          גבול של סדרה מ-$D$.
+      - text: '$X$ בן מנייה'
+        feedback: >-
+          זה חזק מדי: $\mathbb{R}$ אינו בן מנייה ובכל זאת ספרבילי, כי $\mathbb{Q}$ צפופה בו. (מרחב בן מנייה כן ספרבילי:
+          הוא צפוף בעצמו.)
+        misconception: MC-c4-separable-countable
+      - text: יש ב-$X$ תת-קבוצה בת מנייה
+        feedback: >-
+          בכל מרחב אינסופי יש תת-קבוצה בת מנייה. ההגדרה דורשת שהיא תהיה **צפופה**.
+        misconception: MC-c4-separable-countable
+      - text: '$X$ הוא איחוד של מספר בן מנייה של כדורים'
+        feedback: >-
+          זה נכון בכל מרחב מטרי: $X=\bigcup_{n}B(x_0,n)$. גם $B([0,1])$, שאינו ספרבילי, מקיים זאת.
+        misconception: MC-c4-separable-countable
+
+  - id: Q-4.4-which
+    type: multi
+    objectives: [OBJ-4.4-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      אילו מהמרחבים הבאים ספרביליים? סמנו את כולם.
+    choices:
+      - text: '$\mathbb{R}^n$ עם $\|\cdot\|_1$'
+        correct: true
+        feedback: >-
+          נכון. $\mathbb{Q}^n$ בת מנייה (מכפלה סופית של בנות מנייה) וצפופה: מקרבים כל קואורדינטה במספר רציונלי.
+      - text: '$\mathbb{N}$ עם המטריקה הבדידה'
+        correct: true
+        feedback: 'נכון. המרחב עצמו בן מנייה וצפוף בעצמו.'
+      - text: '$C[0,1]$ עם $\|\cdot\|_\infty$'
+        correct: true
+        feedback: >-
+          נכון. הקווים השבורים עם נקודות שבירה $\frac km$ וערכים רציונליים בהן הם קבוצה בת מנייה, והם צפופים בגלל
+          שכל $f\in C[0,1]$ רציפה במידה שווה (קנטור).
+      - text: '$\mathbb{R}$ עם המטריקה הבדידה'
+        feedback: >-
+          במטריקה הבדידה $B(x,\frac12)=\{x\}$, ולכן קבוצה צפופה חייבת להכיל כל נקודה: היא כל $\mathbb{R}$, שאינו בן
+          מנייה. ספרביליות תלויה במטריקה.
+        misconception: MC-c4-separable-set-not-metric
+      - text: '$[0,1]$ עם המטריקה הרגילה'
+        correct: true
+        feedback: >-
+          נכון: $\mathbb{Q}\cap[0,1]$ צפופה. העובדה ש-$[0,1]$ אינו בן מנייה לא משנה.
+
+  - id: Q-4.4-radius
+    type: numeric
+    objectives: [OBJ-4.4-3]
+    level: basic
+    prompt: >-
+      ב-$B([0,1])$ עם נורמת הסופרמום, לכל $A\subseteq[0,1]$ נסמן ב-$\mathbf{1}_A$ את פונקציית האינדיקטור של $A$. לכל
+      $A\ne A'$ מתקיים $\|\mathbf{1}_A-\mathbf{1}_{A'}\|_\infty=1$. מהו הרדיוס $r$ **הגדול ביותר** כך שהכדורים הפתוחים
+      $B(\mathbf{1}_A,r)$ זרים בזוגות?
+    answer: 0.5
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. אם $g$ בשני כדורים ברדיוס $\frac12$ אז $1\le\|g-\mathbf{1}_A\|+\|g-\mathbf{1}_{A'}\|<1$, סתירה. ולכל
+      $r>\frac12$ הנקודה $\frac{\mathbf{1}_A+\mathbf{1}_{A'}}{2}$ נמצאת במרחק $\frac12$ משני המרכזים.
+    wrongFeedback: >-
+      השתמשו באי-שוויון המשולש: נקודה בשני כדורים ברדיוס $r$ נותנת מרחק קטן מ-$2r$ בין המרכזים.
+    commonWrong:
+      - value: 1
+        feedback: >-
+          ברדיוס 1 הכדורים נחתכים: $\frac{\mathbf{1}_A+\mathbf{1}_{A'}}{2}$ נמצאת במרחק $\frac12$ משני המרכזים.
+        misconception: MC-c4-ball-radius-distance
+
+  - id: Q-4.4-cube
+    type: numeric
+    objectives: [OBJ-4.4-3]
+    level: basic
+    prompt: >-
+      הגרסה הסופית של ההוכחה: ב-$\mathbb{R}^{10}$ עם $\|\cdot\|_\infty$, כמה וקטורים יש שכל הקואורדינטות שלהם 0 או 1?
+      (המרחק בין כל שניים מהם הוא 1.)
+    answer: 1024
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון: $2^{10}=1024$, שתי אפשרויות לכל קואורדינטה. כשהמימד אינסופי (סדרות של 0 ו-1) מקבלים קבוצה **לא בת מנייה**,
+      וזה מה ששובר את הספרביליות של $\ell^\infty$. ב-$\mathbb{R}^{10}$ קבוצה סופית לא מפריעה.
+    wrongFeedback: >-
+      לכל אחת מעשר הקואורדינטות יש שתי אפשרויות, והבחירות בלתי תלויות.
+    commonWrong:
+      - value: 10
+        feedback: >-
+          10 הם רק וקטורי היחידה $e_1,\dots,e_{10}$. גם $(1,1,0,\dots,0)$ וכל שאר הבחירות במשפחה.
+      - value: 20
+        feedback: >-
+          $2\cdot10$ מחבר את האפשרויות במקום לכפול אותן. הבחירות בקואורדינטות בלתי תלויות: $2\cdot2\cdots2=2^{10}$.
+
+  - id: Q-4.4-subspace-rank
+    type: rank
+    objectives: [OBJ-4.4-2]
+    level: mid
+    prompt: >-
+      סדרו את שלבי ההוכחה: אם $X$ ספרבילי ו-$A\subseteq X$, אז $A$ (עם אותה מטריקה) ספרבילי.
+    help: סדרו את שלבי ההוכחה מהראשון לאחרון.
+    items:
+      - id: dense
+        label: 'תהי $D=\{d_1,d_2,\dots\}$ צפופה ב-$X$'
+      - id: pick
+        label: 'לכל זוג $(k,m)\in\mathbb{N}^2$ שעבורו $B(d_k,\frac1m)\cap A\ne\emptyset$, בוחרים נקודה $a_{k,m}$ בחיתוך'
+      - id: count
+        label: 'הקבוצה $E$ של כל ה-$a_{k,m}$ בת מנייה, כי $\mathbb{N}^2$ בת מנייה'
+      - id: approach
+        label: 'יהיו $a\in A$ ו-$\varepsilon>0$; בוחרים $m$ עם $\frac2m<\varepsilon$ ו-$d_k$ עם $d(a,d_k)<\frac1m$'
+      - id: exists
+        label: '$a\in B(d_k,\frac1m)\cap A$, ולכן $a_{k,m}$ קיים, ו-$d(a,a_{k,m})<\frac1m+\frac1m<\varepsilon$'
+      - id: concl
+        label: 'לכן $E\subseteq A$ צפופה ב-$A$, ו-$A$ ספרבילי'
+    order: [dense, pick, count, approach, exists, concl]
+    correctFeedback: >-
+      נכון. הטריק: לא לוקחים את $D\cap A$, שעלולה להיות ריקה, אלא בוחרים נקודה של $A$ ליד כל נקודה של $D$, בכל רזולוציה
+      $\frac1m$.
+    wrongFeedback: >-
+      קודם בונים את הקבוצה $E$ (בחירה אחת לכל זוג $(k,m)$) ומראים שהיא בת מנייה; רק אחר כך מוכיחים שהיא צפופה, עם
+      $a$ ו-$\varepsilon$ כלשהם.
+
+  - id: Q-4.4-intersect
+    type: twotier
+    objectives: [OBJ-4.4-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      טענה: אם $D$ צפופה ב-$X$ ו-$A\subseteq X$, אז $D\cap A$ צפופה ב-$A$. נכון או לא נכון?
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: 'נכון. לכן ההוכחה שתת-מרחב של מרחב ספרבילי ספרבילי צריכה בנייה, לא חיתוך.'
+      - text: נכון
+        feedback: >-
+          החיתוך יכול להיות ריק לגמרי. ראו את הדוגמה בנימוק הנכון.
+        misconception: MC-c4-dense-subset-restricts
+    reasons:
+      - text: '$X=\mathbb{R}$, $D=\mathbb{Q}$, $A=\mathbb{R}\setminus\mathbb{Q}$: $D\cap A=\emptyset$, שאינה צפופה ב-$A$'
+        correct: true
+        feedback: >-
+          בדיוק. ובכל זאת $A$ ספרבילי: למשל $\{q+\sqrt2:\ q\in\mathbb{Q}\}\subseteq A$ בת מנייה וצפופה בו.
+      - text: 'כל כדור ב-$A$ הוא כדור ב-$X$, ולכן הוא מכיל נקודה של $D$, והיא ב-$A$'
+        feedback: >-
+          הכדור ב-$A$ הוא $B(a,r)\cap A$. ב-$B(a,r)$ יש נקודה של $D$, אבל אין סיבה שתהיה ב-$A$: כל הנקודות של
+          $\mathbb{Q}$ שליד $\sqrt2$ אינן ב-$\mathbb{R}\setminus\mathbb{Q}$.
+        misconception: MC-c4-dense-subset-restricts
+      - text: 'הטענה נכונה כש-$A$ פתוחה, ולכן תמיד'
+        feedback: >-
+          כש-$A$ פתוחה זה אכן נכון, כי אז $B(a,r)\subseteq A$ ל-$r$ קטן. ההכללה לכל $A$ נכשלת: $\mathbb{R}\setminus\mathbb{Q}$
+          אינה פתוחה.
+        misconception: MC-c4-dense-subset-restricts
+
+  - id: Q-4.4-compact
+    type: mc
+    objectives: [OBJ-4.4-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      איזה טיעון מוכיח שמרחב מטרי קומפקטי $K$ ספרבילי?
+    choices:
+      - text: 'לכל $k$ יש רשת סופית $F_k$ ברדיוס $\frac1k$ (חסימות כליל), ו-$\bigcup_kF_k$ בת מנייה וצפופה'
+        correct: true
+        feedback: >-
+          נכון. איחוד בן מנייה של קבוצות סופיות בן מנייה, ולכל $x$ ולכל $\varepsilon$ יש $k>\frac1\varepsilon$ ונקודה של
+          $F_k$ במרחק קטן מ-$\frac1k<\varepsilon$.
+      - text: 'מרחב קומפקטי בן מנייה, ולכן צפוף בעצמו'
+        feedback: >-
+          $[0,1]$ קומפקטי ואינו בן מנייה (קנטור). הקומפקטיות לא מגבילה את מספר הנקודות.
+        misconception: MC-c4-separable-countable
+      - text: 'מרחב קומפקטי שלם, ומרחב שלם ספרבילי'
+        feedback: >-
+          מרחב שלם אינו בהכרח ספרבילי: $B([0,1])$ שלם ואינו ספרבילי. מה שעובד הוא החלק השני של "שלם וחסום כליל".
+        misconception: MC-c4-complete-separable
+
+  - id: Q-4.4-polyline
+    type: twotier
+    objectives: [OBJ-4.4-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      כדי להראות ש-$C[0,1]$ ספרבילי מקרבים $f$ בקו שבור $L_m$ שמסכים עם $f$ בנקודות $\frac km$, $k=0,\dots,m$. טענה:
+      לכל $f\in C[0,1]$ ולכל $\varepsilon>0$ יש $m$ כך ש-$\|f-L_m\|_\infty<\varepsilon$. נכון או לא נכון?
+    choices:
+      - text: נכון
+        correct: true
+        feedback: 'נכון. אחר כך מזיזים את הערכים $f(\frac km)$ למספרים רציונליים קרובים, ומקבלים קבוצה בת מנייה.'
+      - text: לא נכון
+        feedback: >-
+          הטענה נכונה לכל פונקציה רציפה על הקטע הסגור, בלי הנחת גזירות. ראו את הנימוק עם משפט קנטור.
+        misconception: MC-c4-pointwise-delta-enough
+    reasons:
+      - text: 'קנטור: $f$ רציפה במידה שווה, ולכן יש $\delta$ אחד כך שבכל קטע $[\frac km,\frac{k+1}m]$ עם $\frac1m<\delta$ הערכים של $f$ ושל $L_m$ קרובים ל-$f(\frac km)$ עד $\frac\varepsilon2$'
+        correct: true
+        feedback: >-
+          בדיוק. $L_m$ בקטע נמצא בין $f(\frac km)$ ל-$f(\frac{k+1}m)$, ושניהם במרחק פחות מ-$\frac\varepsilon2$ מכל ערך
+          של $f$ שם. ה-$\delta$ המשותף לכל הקטעים בא מהרציפות במידה שווה.
+      - text: 'בכל נקודה $x$ הרציפות נותנת $\delta(x)$, ולכן חלוקה עדינה מספיק מתאימה'
+        feedback: >-
+          חלוקה אחת צריכה להתאים לכל $x$ בבת אחת. עם $\delta(x)$ שונה לכל נקודה אין $m$ אחד, אלא אם $\inf_x\delta(x)>0$,
+          וזה בדיוק רציפות במידה שווה.
+        misconception: MC-c4-pointwise-delta-enough
+      - text: 'כל פונקציה רציפה ליפשיצית, ולכן השגיאה לכל היותר $\frac{L}{m}$'
+        feedback: >-
+          $\sqrt x$ רציפה על $[0,1]$ ואינה ליפשיצית. הטענה נכונה, אבל צריך את קנטור, לא ליפשיץ.
+        misconception: MC-c4-continuous-is-lipschitz
+
+  - id: Q-4.4-nonsep-rank
+    type: rank
+    objectives: [OBJ-4.4-3]
+    level: mid
+    prompt: >-
+      סדרו את שלבי ההוכחה ש-$\ell^\infty$ (הסדרות החסומות עם נורמת הסופרמום) אינו ספרבילי.
+    help: סדרו את שלבי ההוכחה מהראשון לאחרון.
+    items:
+      - id: assume
+        label: 'נניח בשלילה ש-$D$ בת מנייה וצפופה ב-$\ell^\infty$'
+      - id: family
+        label: 'קבוצת הסדרות שכל איבריהן 0 או 1 אינה בת מנייה (אלכסון קנטור, שיעור 0.4)'
+      - id: far
+        label: 'לכל שתי סדרות שונות $s\ne s''$ כאלה, $\|s-s''\|_\infty=1$, ולכן הכדורים $B(s,\frac12)$ זרים בזוגות'
+      - id: hit
+        label: 'כל כדור $B(s,\frac12)$ מכיל נקודה $d_s\in D$, כי $D$ צפופה'
+      - id: inject
+        label: 'הכדורים זרים, ולכן $s\mapsto d_s$ חד-חד-ערכית מקבוצה לא בת מנייה לתוך $D$: סתירה'
+    order: [assume, family, far, hit, inject]
+    correctFeedback: >-
+      נכון. אותה הוכחה עובדת ל-$B([0,1])$ עם האינדיקטורים $\mathbf{1}_{\{x\}}$, $x\in[0,1]$: קבוצה לא בת מנייה של
+      נקודות במרחק 1 זו מזו.
+    wrongFeedback: >-
+      הסדר: הנחת השלילה, המשפחה הלא בת מנייה, המרחק ביניהן שנותן כדורים זרים, ורק אז הנקודות של $D$ בכדורים וההעתקה
+      החד-חד-ערכית.
+
+  - id: Q-4.4-bounded
+    type: twotier
+    objectives: [OBJ-4.4-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      האם $B([0,1])$, הפונקציות החסומות על $[0,1]$ עם נורמת הסופרמום, ספרבילי?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון, אף ש-$C[0,1]$, שיושב בתוכו, ספרבילי.'
+      - text: כן
+        feedback: >-
+          הקבוצה הבת מנייה הצפופה של $C[0,1]$ לא מגיעה לפונקציות לא רציפות, ו-$B([0,1])$ מכיל קבוצה לא בת מנייה של
+          נקודות רחוקות.
+        misconception: MC-c4-superset-separable
+    reasons:
+      - text: 'האינדיקטורים $\mathbf{1}_{\{x\}}$, $x\in[0,1]$: לא בני מנייה, והמרחק בין כל שניים 1; כדורים ברדיוס $\frac12$ סביבם זרים'
+        correct: true
+        feedback: >-
+          בדיוק. כל קבוצה צפופה חייבת לפגוש כל אחד מהכדורים הזרים, ולכן אינה בת מנייה.
+      - text: '$C[0,1]$ ספרבילי וצפוף ב-$B([0,1])$, ולכן גם $B([0,1])$ ספרבילי'
+        feedback: >-
+          $C[0,1]$ אינו צפוף ב-$B([0,1])$: הוא סגור בו (גבול במידה שווה של רציפות רציף) ושונה ממנו. למשל
+          $\mathbf{1}_{[0,1/2]}$ במרחק $\frac12$ מכל פונקציה רציפה.
+        misconception: MC-c4-continuous-dense-in-bounded
+      - text: '$B([0,1])$ שלם, ולכן ספרבילי'
+        feedback: >-
+          שלמות אינה קשורה לספרביליות: $B([0,1])$ שלם ואינו ספרבילי, ו-$\mathbb{Q}$ ספרבילי ואינו שלם.
+        misconception: MC-c4-complete-separable
+
+  - id: Q-4.4-up-down
+    type: multi
+    objectives: [OBJ-4.4-2, OBJ-4.4-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      אילו מהטענות הבאות נכונות? סמנו את כולן.
+    choices:
+      - text: מרחב לא ספרבילי יכול להכיל תת-מרחב ספרבילי
+        correct: true
+        feedback: 'נכון: $C[0,1]\subseteq B([0,1])$, או סתם קבוצה בת מנייה בתוך כל מרחב.'
+      - text: מרחב שמכיל תת-מרחב לא ספרבילי אינו ספרבילי
+        correct: true
+        feedback: >-
+          נכון: זו השלילה של המשפט "תת-מרחב של ספרבילי ספרבילי". לכן כל מרחב שמכיל עותק של $\ell^\infty$ אינו ספרבילי.
+      - text: '$C[0,1]$ עם $\|\cdot\|_1$ ספרבילי'
+        correct: true
+        feedback: >-
+          נכון. $\|f\|_1\le\|f\|_\infty$ על $[0,1]$, ולכן קבוצה שצפופה בנורמת הסופרמום צפופה גם בנורמת האינטגרל: כדור
+          בנורמה 1 מכיל כדור בנורמת הסופרמום.
+      - text: מרחב שמכיל תת-מרחב ספרבילי ספרבילי
+        feedback: >-
+          $B([0,1])$ מכיל את $C[0,1]$ הספרבילי ואינו ספרבילי. ספרביליות עוברת רק לתת-מרחבים.
+        misconception: MC-c4-superset-separable
+      - text: '$\mathbb{R}$ עם המטריקה הבדידה ספרבילי, כי $\mathbb{Q}$ צפופה ב-$\mathbb{R}$'
+        feedback: >-
+          $\mathbb{Q}$ צפופה במטריקה הרגילה. במטריקה הבדידה $\{\sqrt2\}$ הוא כדור פתוח שלא פוגש את $\mathbb{Q}$.
+        misconception: MC-c4-separable-set-not-metric

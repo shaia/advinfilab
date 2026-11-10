@@ -1,0 +1,340 @@
+# Lesson 3.4 — continuous functions on compact sets.
+# Objectives (src/course.ts):
+#   OBJ-3.4-1  the continuous image of a compact set is compact; a real continuous function on a compact set attains max and min
+#   OBJ-3.4-2  state and prove Cantor's theorem: continuous on a compact space ⇒ uniformly continuous (רציפה במידה שווה)
+#   OBJ-3.4-3  a continuous bijection from a compact space is a homeomorphism; the distance to a compact set is attained
+chapter: 3
+questions:
+  - id: Q-3.4-image
+    type: multi
+    objectives: [OBJ-3.4-1]
+    level: basic
+    prompt: >-
+      $f:\mathbb{R}\to\mathbb{R}$ רציפה. אילו מהקבוצות הבאות קומפקטיות **בהכרח**, לכל $f$ כזו? סמנו את כולן.
+    choices:
+      - text: '$f([0,1])$'
+        correct: true
+        feedback: >-
+          נכון: התמונה הרציפה של קבוצה קומפקטית קומפקטית. לכן היא סגורה וחסומה, ובפרט $f$ מקבלת בה מקסימום ומינימום.
+      - text: '$f([0,1]\cup[2,3])$'
+        correct: true
+        feedback: >-
+          נכון. איחוד של שתי קבוצות קומפקטיות קומפקטי (סגור וחסום ב-$\mathbb{R}$), ולכן גם התמונה.
+      - text: '$f([0,\infty))$'
+        feedback: >-
+          $[0,\infty)$ סגורה אבל אינה קומפקטית. עבור $f(x)=e^{-x}$ התמונה היא $(0,1]$, שאינה סגורה.
+        misconception: MC-c3-image-of-closed
+      - text: '$f^{-1}([0,1])$'
+        feedback: >-
+          המקור של קבוצה קומפקטית סגור, אבל לא בהכרח חסום: עבור $f\equiv\frac12$ המקור הוא $\mathbb{R}$ כולו.
+        misconception: MC-c3-preimage-of-compact
+
+  - id: Q-3.4-attains
+    type: multi
+    objectives: [OBJ-3.4-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      אילו מהפונקציות הבאות מקבלות **מקסימום** בתחום שלהן? סמנו את כולן.
+    choices:
+      - text: '$x(1-x)$ על $(0,1)$'
+        correct: true
+        feedback: >-
+          נכון: המקסימום $\frac14$ מתקבל ב-$x=\frac12$. התחום אינו קומפקטי, ובכל זאת יש מקסימום: משפט ויירשטראס
+          הוא תנאי מספיק, לא הכרחי.
+      - text: '$e^{-x^2}$ על $\mathbb{R}$'
+        correct: true
+        feedback: >-
+          נכון: $e^{-x^2}\le1=e^0$. שוב תחום לא קומפקטי ומקסימום שמתקבל.
+      - text: '$\arctan x$ על $\mathbb{R}$'
+        feedback: >-
+          היא חסומה, והסופרמום שלה $\frac\pi2$, אבל אין $x$ עם $\arctan x=\frac\pi2$. חסימות לא מספיקה.
+        misconception: MC-c3-bounded-attains
+      - text: '$x$ על $(0,1)$'
+        feedback: >-
+          פונקציה חסומה על תחום חסום, ובכל זאת הסופרמום 1 אינו מתקבל: לכל $x<1$ יש $x'$ גדול ממנו בתחום.
+        misconception: MC-c3-bounded-attains
+
+  - id: Q-3.4-max-num
+    type: numeric
+    objectives: [OBJ-3.4-1]
+    level: basic
+    prompt: >-
+      הקבוצה $K=\{(x,y): |x|+|y|\le1\}$ קומפקטית, ולכן הפונקציה $f(x,y)=x+2y$ מקבלת בה מקסימום. מהו?
+    answer: 2
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $x+2y\le|x|+2|y|\le2(|x|+|y|)\le2$, והשוויון מתקבל ב-$(0,1)\in K$. משפט ויירשטראס מבטיח שיש מקסימום;
+      האי-שוויון מוצא אותו.
+    wrongFeedback: >-
+      $K$ הוא ריבוע מסובב עם הקודקודים $(\pm1,0)$ ו-$(0,\pm1)$. העריכו $x+2y\le|x|+2|y|$ במונחי $|x|+|y|$.
+    commonWrong:
+      - value: 3
+        feedback: >-
+          זה הערך ב-$(1,1)$, אבל $|1|+|1|=2>1$: הנקודה לא ב-$K$. זה המקסימום על הריבוע $[-1,1]^2$, כדור היחידה של
+          $\|\cdot\|_\infty$.
+        misconception: MC-c3-usual-metric-habit
+      - value: 2.236
+        feedback: >-
+          $\sqrt5\approx2.236$ הוא המקסימום על העיגול $x^2+y^2\le1$ (לפי קושי-שוורץ). כאן הקבוצה היא כדור היחידה של
+          $\|\cdot\|_1$, שקטן מהעיגול.
+        misconception: MC-c3-usual-metric-habit
+
+  - id: Q-3.4-cantor-statement
+    type: mc
+    objectives: [OBJ-3.4-2]
+    qualitative: true
+    level: basic
+    prompt: >-
+      מה אומר משפט קנטור?
+    choices:
+      - text: 'פונקציה רציפה על מרחב מטרי קומפקטי רציפה בו במידה שווה'
+        correct: true
+        feedback: >-
+          נכון. בניסוח: לכל $\varepsilon>0$ יש $\delta>0$ **אחד** כך ש-$d(x,y)<\delta$ גורר $|f(x)-f(y)|<\varepsilon$
+          לכל $x,y$ בתחום.
+      - text: 'פונקציה רציפה על קבוצה חסומה רציפה בה במידה שווה'
+        feedback: >-
+          $\frac1x$ רציפה על $(0,1]$, שחסומה, ואינה רציפה בו במידה שווה: ליד 0 צריך $\delta$ קטן כרצוננו.
+        misconception: MC-c3-uniform-without-compact
+      - text: 'פונקציה רציפה על קבוצה סגורה רציפה בה במידה שווה'
+        feedback: >-
+          $x^2$ רציפה על $\mathbb{R}$, שסגורה, ואינה רציפה בו במידה שווה: $(n+\frac1n)^2-n^2>2$ לכל $n$.
+        misconception: MC-c3-uniform-without-compact
+      - text: 'פונקציה רציפה על מרחב מטרי קומפקטי ליפשיצית בו'
+        feedback: >-
+          $\sqrt x$ על $[0,1]$ אינה ליפשיצית: $\frac{\sqrt x-\sqrt0}{x-0}=\frac1{\sqrt x}$ אינו חסום. המשפט נותן רק
+          רציפות במידה שווה.
+        misconception: MC-c3-uniform-is-lipschitz
+
+  - id: Q-3.4-image-closed
+    type: twotier
+    objectives: [OBJ-3.4-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      נכון או לא נכון: אם $f:\mathbb{R}\to\mathbb{R}$ רציפה ו-$F\subseteq\mathbb{R}$ סגורה, אז $f(F)$ סגורה.
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: >-
+          נכון. רציפות מעבירה קבוצות סגורות לסגורות רק בכיוון המקור. לתמונה עוברת קומפקטיות.
+      - text: נכון
+        feedback: >-
+          $F=\mathbb{R}$ סגורה ו-$\arctan(\mathbb{R})=(-\frac\pi2,\frac\pi2)$ אינה סגורה.
+        misconception: MC-c3-image-of-closed
+    reasons:
+      - text: '$\arctan(\mathbb{R})=(-\frac\pi2,\frac\pi2)$, קבוצה לא סגורה'
+        correct: true
+        feedback: >-
+          בדיוק. אילו $F$ הייתה גם חסומה (ולכן קומפקטית), התמונה הייתה קומפקטית ובפרט סגורה.
+      - text: 'המקור של קבוצה סגורה סגור, ולכן גם התמונה'
+        feedback: >-
+          המשפט על המקור לא מתהפך: $f^{-1}$ אינה בהכרח פונקציה, וגם כשהיא קיימת היא לא בהכרח רציפה.
+        misconception: MC-c3-image-of-closed
+      - text: 'ב-$\mathbb{R}$ כל קבוצה סגורה קומפקטית, ולכן התמונה קומפקטית'
+        feedback: >-
+          לפי היינה-בורל צריך גם חסימות: $\mathbb{R}$ סגור ואינו קומפקטי.
+        misconception: MC-c3-half-heine-borel
+
+  - id: Q-3.4-delta-num
+    type: numeric
+    objectives: [OBJ-3.4-2]
+    level: mid
+    prompt: >-
+      $f(x)=\sqrt x$ על $[0,1]$ רציפה בו במידה שווה לפי משפט קנטור. עבור $\varepsilon=0.1$, מהו ה-$\delta$
+      **הגדול ביותר** כך שלכל $x,y\in[0,1]$ עם $|x-y|<\delta$ מתקיים $|\sqrt x-\sqrt y|<0.1$?
+    answer: 0.01
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $|\sqrt x-\sqrt y|\le\sqrt{|x-y|}$ (ריבוע של שני הצדדים), ולכן $\delta=0.01$ עובד. גדול יותר לא עובד:
+      עם $x=0$ ו-$0.01\le y<\delta$ מקבלים $\sqrt y\ge0.1$. כלומר $\delta=\varepsilon^2$, והנקודה הקובעת היא 0.
+    wrongFeedback: >-
+      איפה $\sqrt x$ משתנה הכי מהר? בדקו זוגות עם $x=0$.
+    commonWrong:
+      - value: 0.1
+        feedback: >-
+          $\delta=\varepsilon$ היה עובד לפונקציה ליפשיצית עם קבוע 1, אבל $\sqrt x$ אינה ליפשיצית: עם $x=0$ ו-$y=0.05$
+          מקבלים $\sqrt{0.05}\approx0.22>0.1$.
+        misconception: MC-c3-uniform-is-lipschitz
+      - value: 0.2
+        feedback: >-
+          זה מה שיוצא ליד $x=1$, שם הנגזרת $\frac1{2\sqrt x}=\frac12$. אבל ה-$\delta$ צריך לעבוד בכל הקטע, וליד 0
+          השיפוע אינסופי.
+        misconception: MC-c3-delta-depends-on-point
+
+  - id: Q-3.4-sin1x
+    type: twotier
+    objectives: [OBJ-3.4-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      האם $g(x)=\sin\frac1x$ רציפה במידה שווה על $(0,1]$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. וזה לא סותר את משפט קנטור: $(0,1]$ אינה קומפקטית.
+      - text: כן
+        feedback: >-
+          ליד 0 הפונקציה מתנודדת בין $-1$ ל-1 בקטעים קצרים כרצוננו, ולכן אין $\delta$ אחד שמתאים ל-$\varepsilon=1$.
+        misconception: MC-c3-uniform-without-compact
+    reasons:
+      - text: 'עבור $x_n=\frac1{\frac\pi2+2\pi n}$ ו-$y_n=\frac1{\frac{3\pi}2+2\pi n}$: $|x_n-y_n|\to0$ ו-$|g(x_n)-g(y_n)|=2$'
+        correct: true
+        feedback: >-
+          בדיוק. זוגות נקודות קרובות כרצוננו שהערכים בהן רחוקים 2: זו השלילה של רציפות במידה שווה עם $\varepsilon=1$.
+      - text: '$g$ רציפה על קטע חסום, ולכן רציפה בו במידה שווה'
+        feedback: >-
+          קנטור דורש קומפקטיות, לא רק חסימות. $(0,1]$ חסום ואינו סגור, והסדרות שמתקרבות ל-0 שוברות את הטענה.
+        misconception: MC-c3-uniform-without-compact
+      - text: '$g$ חסומה, ולכן רציפה במידה שווה'
+        feedback: >-
+          חסימות של הפונקציה לא קשורה לזה: דווקא התנודות החסומות בין $-1$ ל-1 הן שמונעות רציפות במידה שווה.
+        misconception: MC-c3-uniform-without-compact
+
+  - id: Q-3.4-homeo-circle
+    type: twotier
+    objectives: [OBJ-3.4-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $\varphi:[0,2\pi)\to S^1$, $\varphi(t)=(\cos t,\sin t)$, רציפה, חד-חד-ערכית ועל המעגל $S^1$. האם $\varphi$
+      הומיאומורפיזם?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. ההופכית "קורעת" את המעגל בנקודה $(1,0)$. המשפט על הומיאומורפיזם דורש תחום קומפקטי, ו-$[0,2\pi)$ אינו
+          קומפקטי.
+      - text: כן
+        feedback: >-
+          רציפה, חד-חד-ערכית ועל אינו מספיק. נקודות על המעגל מתחת ל-$(1,0)$ מתכנסות אליה, וההופכית שולחת אותן ליד
+          $2\pi$, לא ליד $0=\varphi^{-1}(1,0)$.
+        misconception: MC-c3-bijection-homeo
+    reasons:
+      - text: '$p_n=\varphi(2\pi-\frac1n)\to(1,0)=\varphi(0)$, אבל $\varphi^{-1}(p_n)=2\pi-\frac1n\to2\pi\ne0$: ההופכית אינה רציפה ב-$(1,0)$'
+        correct: true
+        feedback: >-
+          בדיוק. זו בדיקת רציפות בסדרות (שיעור 1.6) של $\varphi^{-1}$ בנקודה אחת.
+      - text: 'כל פונקציה רציפה, חד-חד-ערכית ועל היא הומיאומורפיזם'
+        feedback: >-
+          זה נכון רק כשהתחום קומפקטי. הדוגמה הזו היא בדיוק המקרה שבו התחום אינו קומפקטי והמסקנה נכשלת.
+        misconception: MC-c3-bijection-homeo
+      - text: '$[0,2\pi)$ חסום, ולכן קומפקטי, והמשפט נותן הומיאומורפיזם'
+        feedback: >-
+          $[0,2\pi)$ חסום ואינו סגור: $2\pi-\frac1n\to2\pi\notin[0,2\pi)$. לפי היינה-בורל הוא אינו קומפקטי.
+        misconception: MC-c3-half-heine-borel
+
+  - id: Q-3.4-dist-compact
+    type: mc
+    objectives: [OBJ-3.4-3]
+    level: mid
+    prompt: >-
+      $K$ קבוצה קומפקטית לא ריקה במרחב מטרי $(X,d)$ ו-$x\in X$. למה יש $k_0\in K$ עם
+      $d(x,k_0)=\inf_{k\in K}d(x,k)$?
+    choices:
+      - text: 'הפונקציה $k\mapsto d(x,k)$ רציפה (אפילו ליפשיצית עם קבוע 1, מאי-שוויון המשולש), ופונקציה רציפה על קבוצה קומפקטית מקבלת מינימום'
+        correct: true
+        feedback: >-
+          נכון: $|d(x,k)-d(x,k')|\le d(k,k')$, ואז משפט ויירשטראס במרחב מטרי.
+      - text: '$K$ סגורה, והמרחק לקבוצה סגורה תמיד מתקבל'
+        feedback: >-
+          סגירות לא מספיקה במרחב כללי: ב-$B(\mathbb{N})$ הקבוצה $\{(1+\frac1n)e_n\}$ סגורה, המרחק שלה מ-0 הוא 1, ואף
+          נקודה בה אינה במרחק 1 מ-0.
+        misconception: MC-c3-closed-distance-attained
+      - text: '$K$ חסומה, ולכן קבוצת המרחקים $\{d(x,k)\}$ חסומה, והאינפימום שלה מתקבל'
+        feedback: >-
+          לקבוצה חסומה של מספרים יש אינפימום, אבל הוא לא בהכרח שייך לה: $\inf(0,1]=0$. הקומפקטיות היא שמבטיחה שהוא
+          מתקבל.
+        misconception: MC-c3-bounded-attains
+      - text: '$d(x,k)>0$ לכל $k\in K$, ולכן האינפימום חיובי ומתקבל'
+        feedback: >-
+          אם $x\in K$ המרחקים לא כולם חיוביים; ובכל מקרה, חיוביות של פונקציה לא נותנת אינפימום חיובי, כמו $x$ על
+          $(0,1]$.
+        misconception: MC-c3-inf-positive
+
+  - id: Q-3.4-cantor-rank
+    type: rank
+    objectives: [OBJ-3.4-2]
+    level: exam
+    help: 'סדרו את שלבי ההוכחה לפי הסדר הנכון.'
+    prompt: >-
+      ההוכחה של משפט קנטור ($f:K\to\mathbb{R}$ רציפה ו-$K$ קומפקטי גורר $f$ רציפה במידה שווה) התפרקה לשלבים. סדרו
+      אותם.
+    items:
+      - id: neg
+        label: 'נניח בשלילה ש-$f$ אינה רציפה במידה שווה: יש $\varepsilon>0$ ונקודות $x_n,y_n\in K$ עם $d(x_n,y_n)<\frac1n$ ו-$|f(x_n)-f(y_n)|\ge\varepsilon$.'
+      - id: sub
+        label: 'כי $K$ קומפקטי, יש תת-סדרה $x_{n_k}\to p$ עם $p\in K$.'
+      - id: both
+        label: '$d(y_{n_k},p)\le d(y_{n_k},x_{n_k})+d(x_{n_k},p)\to0$, ולכן גם $y_{n_k}\to p$.'
+      - id: contra
+        label: 'מרציפות $f$ ב-$p$: $f(x_{n_k})\to f(p)$ ו-$f(y_{n_k})\to f(p)$, ולכן $|f(x_{n_k})-f(y_{n_k})|\to0$, בסתירה ל-$\ge\varepsilon$.'
+    order: [neg, sub, both, contra]
+    correctFeedback: >-
+      נכון. הקומפקטיות מרכזת את הזוגות ה"רעים" סביב נקודה אחת $p$, ושם הרציפות הרגילה (בנקודה) כבר מספיקה.
+    wrongFeedback: >-
+      מתחילים מהשלילה של רציפות במידה שווה, שנותנת את הזוגות $x_n,y_n$. רק אז יש סדרה להפעיל עליה קומפקטיות, ורק
+      כשיש גבול $p$ אפשר להשתמש ברציפות בו.
+
+  - id: Q-3.4-dist-closed
+    type: twotier
+    objectives: [OBJ-3.4-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      במרחב $B(\mathbb{N})$ של הסדרות החסומות עם נורמת הסופרמום, $e_n$ הוא הסדרה שבמקום ה-$n$ שלה 1 ובשאר המקומות 0,
+      ו-$A=\{(1+\frac1n)e_n: n\in\mathbb{N}\}$. האם יש $a\in A$ עם $\|a\|_\infty=d(0,A)$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. $d(0,A)=\inf_n(1+\frac1n)=1$, וכל נקודה של $A$ בנורמה גדולה ממש מ-1.
+      - text: כן
+        feedback: >-
+          $\|(1+\frac1n)e_n\|_\infty=1+\frac1n>1$ לכל $n$, ו-$d(0,A)=1$. האינפימום אינו מתקבל.
+        misconception: MC-c3-closed-distance-attained
+    reasons:
+      - text: '$A$ סגורה (נקודות שונות שלה רחוקות זו מזו יותר מ-1, ולכן סדרה מתכנסת בה קבועה החל ממקום מסוים) אבל אינה קומפקטית, והאינפימום $1$ של $1+\frac1n$ לא מתקבל'
+        correct: true
+        feedback: >-
+          בדיוק. זו דוגמה לכך שהמשפט "המרחק לקבוצה קומפקטית מתקבל" צריך קומפקטיות, ושסגירות לא מספיקה מחוץ ל-$\mathbb{R}^n$.
+      - text: '$A$ סגורה, והמרחק מנקודה לקבוצה סגורה תמיד מתקבל'
+        feedback: >-
+          ב-$\mathbb{R}^n$ זה נכון (חותכים עם כדור סגור ומקבלים קבוצה קומפקטית). כאן אין היינה-בורל, וזו בדיוק הדוגמה
+          הנגדית.
+        misconception: MC-c3-closed-distance-attained
+      - text: '$A$ אינה סגורה, ולכן המרחק לא מתקבל'
+        feedback: >-
+          $A$ סגורה: אין בה סדרות קושי לא קבועות. הבעיה היא חוסר קומפקטיות, לא חוסר סגירות.
+        misconception: MC-c3-closed-distance-attained
+    explanation: >-
+      גם במרחב לא שלם זה קורה: ב-$\mathbb{Q}$ הקבוצה $A=\{q\in\mathbb{Q}: q\ge\sqrt2\}$ סגורה, המרחק שלה מ-0 הוא
+      $\sqrt2$, ואף נקודה בה אינה במרחק $\sqrt2$.
+
+  - id: Q-3.4-homeo-discrete
+    type: mc
+    objectives: [OBJ-3.4-3]
+    level: exam
+    prompt: >-
+      $\iota:(\mathbb{R},d_{\mathrm{disc}})\to(\mathbb{R},|\cdot|)$ היא פונקציית הזהות, מ-$\mathbb{R}$ עם המטריקה
+      הבדידה ל-$\mathbb{R}$ עם המטריקה הרגילה. היא רציפה, חד-חד-ערכית ועל. מה נכון?
+    choices:
+      - text: 'היא אינה הומיאומורפיזם; המשפט לא חל כי התחום אינו קומפקטי (לסדרה $1,2,3,\dots$ אין בו תת-סדרה מתכנסת)'
+        correct: true
+        feedback: >-
+          נכון. ההופכית אינה רציפה: $\{0\}$ פתוחה במטריקה הבדידה, והמקור שלה תחת $\iota^{-1}$, שהוא $\{0\}$, אינו פתוח
+          ב-$\mathbb{R}$. או בסדרות: $\frac1n\to0$ ב-$\mathbb{R}$ ולא במטריקה הבדידה.
+      - text: 'היא הומיאומורפיזם, כי פונקציית הזהות תמיד הומיאומורפיזם'
+        feedback: >-
+          זהות על אותה קבוצה עם שתי מטריקות שונות היא פונקציה בין שני מרחבים שונים. כאן ההופכית אינה רציפה.
+        misconception: MC-c3-usual-metric-habit
+      - text: 'היא אינה אפילו רציפה, כי $\frac1n\to0$ ב-$\mathbb{R}$ אבל לא במטריקה הבדידה'
+        feedback: >-
+          זה מראה שההופכית אינה רציפה. $\iota$ עצמה רציפה: במטריקה הבדידה כל קבוצה פתוחה, ולכן כל פונקציה ממנה רציפה.
+        misconception: MC-c3-usual-metric-habit
+      - text: 'היא אינה הומיאומורפיזם, כי המשפט דורש שגם הטווח יהיה קומפקטי'
+        feedback: >-
+          המשפט דורש רק תחום קומפקטי (ואז גם הטווח, שהוא התמונה, קומפקטי). מה שנכשל כאן הוא התחום.
+        misconception: MC-c3-bijection-homeo

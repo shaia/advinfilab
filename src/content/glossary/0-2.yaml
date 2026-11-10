@@ -1,0 +1,48 @@
+# Terms first defined in lesson 0.2.
+- id: supremum
+  term: סופרמום
+  en: supremum (least upper bound)
+  symbol: '\sup A'
+  definition: >-
+    החסם מלעיל הקטן ביותר של קבוצה $A\subseteq\mathbb{R}$. אפיון: $s=\sup A$ אם ורק אם $s$ חסם מלעיל של $A$ ולכל
+    $\varepsilon>0$ קיים $a\in A$ עם $a>s-\varepsilon$. הוא לא חייב להיות איבר של $A$; כשהוא איבר, הוא המקסימום.
+  reject: [סופרימום]
+  lesson: '0.2'
+- id: infimum
+  term: אינפימום
+  en: infimum (greatest lower bound)
+  symbol: '\inf A'
+  definition: >-
+    החסם מלרע הגדול ביותר של קבוצה $A\subseteq\mathbb{R}$. אפיון: $m=\inf A$ אם ורק אם $m$ חסם מלרע של $A$ ולכל
+    $\varepsilon>0$ קיים $a\in A$ עם $a<m+\varepsilon$.
+  lesson: '0.2'
+- id: completeness-axiom
+  term: אקסיומת השלמות
+  en: completeness axiom
+  definition: >-
+    לכל תת-קבוצה לא ריקה וחסומה מלעיל של $\mathbb{R}$ יש סופרמום ב-$\mathbb{R}$. היא מבדילה את הממשיים מהרציונליים,
+    וממנה נובעים משפט בולצאנו-ויירשטראס, קריטריון קושי וההתכנסות של סדרות מונוטוניות וחסומות.
+  lesson: '0.2'
+- id: subsequential-limit
+  term: גבול חלקי
+  en: subsequential limit (partial limit)
+  definition: >-
+    מספר $L$ שהוא הגבול של תת-סדרה כלשהי $a_{n_k}$ של הסדרה $a_n$. שקול: לכל $\varepsilon>0$ יש אינסוף אינדקסים $n$
+    עם $|a_n-L|<\varepsilon$.
+  lesson: '0.2'
+- id: limsup
+  term: גבול עליון
+  en: limit superior
+  symbol: '\limsup_{n\to\infty}a_n'
+  definition: >-
+    לסדרה חסומה: $\limsup a_n=\lim_{n\to\infty}\sup_{k\ge n}a_k$, והוא הגבול החלקי הגדול ביותר. לכל $\varepsilon>0$, רק
+    מספר סופי של איברים גדול מ-$\limsup a_n+\varepsilon$, ואינסוף איברים גדולים מ-$\limsup a_n-\varepsilon$.
+  lesson: '0.2'
+- id: liminf
+  term: גבול תחתון
+  en: limit inferior
+  symbol: '\liminf_{n\to\infty}a_n'
+  definition: >-
+    לסדרה חסומה: $\liminf a_n=\lim_{n\to\infty}\inf_{k\ge n}a_k$, הגבול החלקי הקטן ביותר. סדרה חסומה מתכנסת אם ורק אם
+    $\liminf a_n=\limsup a_n$, ואז זה הגבול.
+  lesson: '0.2'

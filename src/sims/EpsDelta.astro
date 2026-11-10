@@ -1,0 +1,7 @@
+---
+/** Lesson 1.6 figure: <Spread figure={EpsDelta} figureProps={{ mode: 'graph' | 'nested', … }}>. */
+import EpsDelta, { type EpsDeltaProps } from './EpsDelta';
+type Props = EpsDeltaProps;
+---
+
+<EpsDelta client:visible {...Astro.props} />

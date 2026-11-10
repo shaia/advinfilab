@@ -1,0 +1,24 @@
+# Terms first defined in lesson 2.5.
+- id: diameter
+  term: קוטר
+  en: diameter
+  symbol: '\operatorname{diam}A'
+  definition: >-
+    הקוטר של קבוצה $A\neq\emptyset$ במרחב מטרי הוא $\operatorname{diam}A=\sup\{d(x,y):x,y\in A\}$ (ייתכן שהוא
+    אינסופי). הוא תלוי במטריקה: לריבוע $[0,1]^2$ קוטר $2$ בנורמה $\|\cdot\|_1$ ו-$1$ בנורמה $\|\cdot\|_\infty$.
+  lesson: '2.5'
+- id: nowhere-dense-set
+  term: קבוצה דלילה
+  en: nowhere dense set
+  definition: >-
+    קבוצה $A$ שלסגור שלה אין נקודות פנימיות: $(\overline{A})^\circ=\emptyset$. למשל $\mathbb{Z}$ ב-$\mathbb{R}$.
+    לא די שלקבוצה עצמה אין פנים: $\mathbb{Q}$ אינה דלילה ב-$\mathbb{R}$.
+  lesson: '2.5'
+- id: baire-category
+  term: קטגוריה ראשונה
+  en: first category (Baire category)
+  definition: >-
+    קבוצה מקטגוריה ראשונה היא איחוד בן מנייה של קבוצות דלילות; קבוצה שאינה כזו היא מקטגוריה שנייה. משפט
+    הקטגוריה של בייר: מרחב מטרי שלם לא ריק הוא מקטגוריה שנייה בעצמו, כלומר אינו איחוד בן מנייה של קבוצות
+    דלילות.
+  lesson: '2.5'

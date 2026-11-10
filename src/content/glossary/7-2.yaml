@@ -1,0 +1,16 @@
+# Terms first defined in lesson 7.2 (the proof of the inverse function theorem).
+- id: open-map
+  term: העתקה פתוחה
+  en: open map
+  definition: >-
+    העתקה $f$ שהתמונה של כל קבוצה פתוחה בתחום שלה היא קבוצה פתוחה. אין לבלבל עם רציפות, שעוסקת במקורות של
+    קבוצות פתוחות: $x\mapsto x^2$ רציפה ואינה פתוחה, כי $(-1,1)$ עוברת ל-$[0,1)$.
+  lesson: '7.2'
+- id: open-mapping-theorem
+  term: משפט ההעתקה הפתוחה
+  en: open mapping theorem
+  definition: >-
+    תהי $U\subseteq\mathbb{R}^n$ פתוחה ו-$f:U\to\mathbb{R}^n$ גזירה ברציפות, עם $Df(x)$ הפיכה לכל $x\in U$. אז $f$
+    העתקה פתוחה: לכל $O\subseteq U$ פתוחה, $f(O)$ פתוחה. ההוכחה: לכל $a\in O$ משפט הפונקציה ההפוכה, מופעל על
+    $f$ המצומצמת ל-$O$, נותן סביבה פתוחה של $f(a)$ שכולה בתוך $f(O)$.
+  lesson: '7.2'

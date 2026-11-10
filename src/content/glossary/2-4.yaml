@@ -1,0 +1,18 @@
+# Terms first defined in lesson 2.4.
+- id: banach-space
+  term: מרחב בנך
+  en: Banach space
+  definition: >-
+    מרחב נורמי $(V,\|\cdot\|)$ שהוא שלם במטריקה $d(x,y)=\|x-y\|$. למשל $(\mathbb{R}^n,\|\cdot\|_p)$, $B(X)$
+    ו-$(C[a,b],\|\cdot\|_\infty)$. במרחב בנך כל טור מתכנס בהחלט ($\sum\|x_k\|<\infty$) מתכנס.
+  reject: [מרחב באנך]
+  lesson: '2.4'
+- id: neumann-series
+  term: טור נוימן
+  en: Neumann series
+  symbol: '(I-A)^{-1}=\sum_{k=0}^{\infty}A^k'
+  definition: >-
+    הטור $\sum_{k\ge0}A^k$ של חזקות של העתקה לינארית חסומה $A$. אם $\|A\|_{\mathrm{op}}<1$ הוא מתכנס, סכומו הוא
+    $(I-A)^{-1}$, ו-$\|(I-A)^{-1}\|_{\mathrm{op}}\le\frac{1}{1-\|A\|_{\mathrm{op}}}$.
+  reject: [טור נוימאן]
+  lesson: '2.4'

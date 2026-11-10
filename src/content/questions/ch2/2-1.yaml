@@ -1,0 +1,418 @@
+# Lesson 2.1 — Cauchy sequences and complete spaces.
+# Objectives (src/course.ts):
+#   OBJ-2.1-1  define a Cauchy sequence; convergent ⇒ Cauchy; Cauchy ⇒ bounded
+#   OBJ-2.1-2  a Cauchy sequence with a convergent subsequence converges
+#   OBJ-2.1-3  define a complete space; ℝⁿ is complete; ℚ and an open interval are not
+chapter: 2
+questions:
+  - id: Q-2.1-def
+    type: mc
+    objectives: [OBJ-2.1-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      איזה מהניסוחים הבאים הוא ההגדרה של "$(x_n)$ היא סדרת קושי במרחב המטרי $(X,d)$"?
+    choices:
+      - text: '$\forall\varepsilon>0\ \exists N\ \forall m,n>N:\ d(x_m,x_n)<\varepsilon$'
+        correct: true
+        feedback: >-
+          נכון. מ-$N$ והלאה **כל שני** איברים קרובים זה לזה. שימו לב שאין כאן שום נקודה $x$: ההגדרה בודקת את
+          הסדרה מבפנים, ולכן היא שימושית גם כשאין במרחב נקודה שהסדרה שואפת אליה.
+      - text: '$\forall\varepsilon>0\ \exists N\ \forall n>N:\ d(x_n,x_{n+1})<\varepsilon$'
+        feedback: >-
+          זה דורש רק ששכנים יהיו קרובים. ב-$\mathbb{R}$ הסדרה $\sqrt n$ מקיימת $\sqrt{n+1}-\sqrt n=\frac{1}{\sqrt{n+1}+\sqrt n}\to0$,
+          אבל $|\sqrt{4n}-\sqrt n|=\sqrt n$, כך שהיא אינה סדרת קושי: הצעדים הקטנים מצטברים למרחק גדול.
+        misconception: MC-c2-consecutive-terms
+      - text: '$\exists x\in X\ \forall\varepsilon>0\ \exists N\ \forall n>N:\ d(x_n,x)<\varepsilon$'
+        feedback: >-
+          זו ההגדרה של **התכנסות** ל-$x$. כל סדרה מתכנסת היא סדרת קושי, אבל ההפך לא תמיד: ב-$(0,1)$ הסדרה
+          $\frac{1}{n+1}$ היא סדרת קושי ואין לה גבול במרחב. ההבדל בין שני המושגים הוא כל הנושא של הפרק.
+        misconception: MC-c2-cauchy-needs-limit
+      - text: '$\forall\varepsilon>0\ \exists N\ \forall n>N:\ d(x_n,x_{2n})<\varepsilon$'
+        feedback: >-
+          גם זה בודק רק חלק מהזוגות. הסדרה $x_n=\ln(\ln(n+1))$ מקיימת $d(x_n,x_{2n})\to0$, אבל היא שואפת לאינסוף
+          ולכן אינה חסומה, ובפרט אינה סדרת קושי.
+        misconception: MC-c2-consecutive-terms
+    explanation: >-
+      סדרת קושי היא "סדרה שהאיברים שלה מתקרבים זה לזה", בלי לומר למה. לכן היא הכלי לזהות סדרות "שהיו צריכות
+      להתכנס": במרחב שלם הן אכן מתכנסות, ובמרחב לא שלם הן מגלות את החורים.
+
+  - id: Q-2.1-neg
+    type: mc
+    objectives: [OBJ-2.1-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      מה פירוש הטענה "$(x_n)$ **אינה** סדרת קושי"?
+    choices:
+      - text: '$\exists\varepsilon>0\ \forall N\ \exists m,n>N:\ d(x_m,x_n)\ge\varepsilon$'
+        correct: true
+        feedback: >-
+          נכון. כל כמת מתהפך, והתנאי שבסוף נשלל: יש $\varepsilon$ אחד כך שבכל זנב של הסדרה יש זוג איברים
+          שרחוקים זה מזה לפחות $\varepsilon$.
+      - text: '$\forall\varepsilon>0\ \forall N\ \exists m,n>N:\ d(x_m,x_n)\ge\varepsilon$'
+        feedback: >-
+          הכמת הראשון לא התהפך. הטענה הזו דורשת זוגות רחוקים לכל $\varepsilon$, גם ל-$\varepsilon=10^6$. הסדרה
+          $(-1)^n$ אינה סדרת קושי, אבל כל המרחקים בה לכל היותר 2.
+        misconception: MC-c2-cauchy-negation
+      - text: '$\exists\varepsilon>0\ \exists N\ \forall m,n>N:\ d(x_m,x_n)\ge\varepsilon$'
+        feedback: >-
+          הטענה הזו לעולם אינה מתקיימת: עם $m=n$ המרחק הוא $0$, שאינו גדול או שווה ל-$\varepsilon$ חיובי. השלילה
+          דורשת רק **זוג אחד** רחוק בכל זנב, לא שכל הזוגות רחוקים.
+        misconception: MC-c2-cauchy-negation
+      - text: '$\exists\varepsilon>0\ \forall N\ \exists n>N:\ d(x_n,x_{n+1})\ge\varepsilon$'
+        feedback: >-
+          זה מספיק כדי שהסדרה לא תהיה סדרת קושי, אבל לא הכרחי. $\sqrt n$ אינה סדרת קושי, ובכל זאת
+          $d(x_n,x_{n+1})\to0$: הזוגות הרחוקים בה אינם שכנים.
+        misconception: MC-c2-consecutive-terms
+
+  - id: Q-2.1-subseq
+    type: twotier
+    objectives: [OBJ-2.1-2]
+    qualitative: true
+    level: basic
+    prompt: >-
+      במרחב מטרי $X$, לסדרה $(x_n)$ יש תת-סדרה שמתכנסת לנקודה $p\in X$. האם מזה נובע ש-$x_n\to p$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. ב-$\mathbb{R}$ הסדרה $(-1)^n$ אינה מתכנסת, אף שהתת-סדרה של האיברים הזוגיים קבועה ושווה ל-1.
+      - text: כן
+        feedback: >-
+          תת-סדרה מספרת רק על חלק מהאיברים. $(-1)^n$ מתחלפת בין $1$ ל-$-1$, יש לה תת-סדרה שמתכנסת ל-1, והיא עצמה
+          לא מתכנסת.
+        misconception: MC-c2-subsequence-enough
+    reasons:
+      - text: 'בלי תנאי קושי שאר האיברים יכולים להתרחק; עם תנאי קושי המסקנה כן נכונה'
+        correct: true
+        feedback: >-
+          בדיוק. אם הסדרה היא גם סדרת קושי, האיברים מ-$N$ והלאה קרובים לאיברי התת-סדרה, ואלה קרובים ל-$p$; זה
+          המשפט של השיעור.
+      - text: 'גבול של סדרה יחיד, ולכן הגבול של התת-סדרה הוא הגבול של הסדרה'
+        feedback: >-
+          יחידות הגבול אומרת שאם הסדרה מתכנסת, הגבול שלה יחיד, ולכן כל תת-סדרה שואפת לאותו גבול. היא לא אומרת
+          שהסדרה מתכנסת: $(-1)^n$ אינה מתכנסת כלל.
+        misconception: MC-c2-subsequence-enough
+      - text: 'הטענה נכשלת רק כשהמרחב אינו שלם'
+        feedback: >-
+          $(-1)^n$ נמצאת ב-$\mathbb{R}$, שהוא שלם, והטענה נכשלת. השלמות לא עוזרת כאן, כי $(-1)^n$ אינה סדרת קושי.
+        misconception: MC-c2-cauchy-always-converges
+
+  - id: Q-2.1-which-complete
+    type: multi
+    objectives: [OBJ-2.1-3]
+    qualitative: true
+    level: basic
+    prompt: >-
+      אילו מהמרחבים הבאים **שלמים**? סמנו את כולם. (בכולם המטריקה היא המרחק הרגיל $|x-y|$, אלא אם נאמר אחרת.)
+    choices:
+      - text: '$\mathbb{Q}$'
+        feedback: >-
+          לא שלם. הקירובים העשרוניים $1,\ 1.4,\ 1.41,\ 1.414,\dots$ של $\sqrt2$ הם רציונליים, וזו סדרת קושי
+          (שני איברים אחרי המקום ה-$k$ נבדלים בפחות מ-$10^{-k}$). ב-$\mathbb{R}$ היא שואפת ל-$\sqrt2$, ולפי יחידות
+          הגבול אין לה גבול רציונלי.
+        misconception: MC-c2-cauchy-always-converges
+      - text: '$(0,1)$'
+        feedback: >-
+          לא שלם, אף שהוא חסום. $\frac{1}{n+1}$ היא סדרת קושי ב-$(0,1)$, ב-$\mathbb{R}$ היא שואפת ל-0, ו-$0\notin(0,1)$.
+        misconception: MC-c2-complete-closed-bounded
+      - text: '$[0,1]$'
+        correct: true
+        feedback: >-
+          נכון. סדרת קושי ב-$[0,1]$ היא סדרת קושי ב-$\mathbb{R}$, ולכן מתכנסת ל-$x\in\mathbb{R}$; ומ-$0\le x_n\le1$
+          נובע $0\le x\le1$, כי מעבר לגבול שומר על אי-שוויונות חלשים.
+      - text: '$\mathbb{Z}$'
+        correct: true
+        feedback: >-
+          נכון. בסדרת קושי ב-$\mathbb{Z}$ ניקח $\varepsilon=\frac12$: מ-$N$ והלאה $|x_m-x_n|<\frac12$, ושני שלמים כאלה
+          שווים. הסדרה קבועה מ-$N$ והלאה, ולכן מתכנסת.
+      - text: '$\mathbb{N}$ עם המטריקה הבדידה'
+        correct: true
+        feedback: >-
+          נכון. עם $\varepsilon=1$: מ-$N$ והלאה $d(x_m,x_n)<1$, כלומר $x_m=x_n$. סדרת קושי במטריקה הבדידה קבועה
+          מאינדקס מסוים. ה"חורים" בין המספרים לא מפריעים, כי אין סדרת קושי שמנסה ליפול לתוכם.
+      - text: '$\mathbb{R}^2$ עם $\|\cdot\|_\infty$'
+        correct: true
+        feedback: >-
+          נכון. בכל קואורדינטה $|x_i-y_i|\le\|x-y\|_\infty$, ולכן כל קואורדינטה היא סדרת קושי ב-$\mathbb{R}$ ומתכנסת;
+          ו-$\|x_n-x\|_\infty$ הוא המקסימום של שני הפרשים ששואפים לאפס.
+
+  - id: Q-2.1-Neps
+    type: numeric
+    objectives: [OBJ-2.1-1]
+    level: mid
+    prompt: >-
+      ב-$\mathbb{R}$, עבור $x_n=\frac1n$ ו-$\varepsilon=0.01$: מהו ה-$N$ **הקטן ביותר** כך שלכל $m,n>N$ מתקיים
+      $|x_m-x_n|<0.01$?
+    answer: 99
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. ל-$m,n\ge100$: שני המספרים ב-$(0,\frac1{100}]$, ולכן $|\frac1m-\frac1n|<\frac1{100}$ (ההפרש קטן ממש, כי
+      $\frac1m>0$). עם $N=98$ אפשר לקחת $n=99$ ו-$m$ גדול מאוד: $\frac1{99}-\frac1m\to\frac1{99}>0.01$.
+    wrongFeedback: >-
+      חשבו מהו המרחק הגדול ביותר בין שני איברים מ-$N$ והלאה: $\sup_{m,n>N}|\frac1m-\frac1n|=\frac1{N+1}$ (מתקרבים
+      אליו כש-$n=N+1$ ו-$m\to\infty$, ולא מגיעים אליו). מתי הוא קטן או שווה ל-$0.01$?
+    commonWrong:
+      - value: 9
+        feedback: >-
+          9 מתקבל מהדרישה על שכנים בלבד: $\frac1n-\frac1{n+1}=\frac{1}{n(n+1)}<0.01$ כבר מ-$n=10$. אבל ההגדרה דורשת כל
+          זוג: $\frac1{10}-\frac1{1000}\approx0.099$, רחוק מ-$0.01$.
+        misconception: MC-c2-consecutive-terms
+      - value: 200
+        feedback: >-
+          $N=200$ מתקבל מהחסם $|\frac1m-\frac1n|\le\frac1m+\frac1n$ ודרישה שכל מחובר יהיה קטן מ-$0.005$. זה $N$ שמתאים,
+          אבל לא הקטן ביותר: החסם מאי-שוויון המשולש מבזבז, כי $\frac1m$ ו-$\frac1n$ מתקזזים בהפרש.
+        misconception: MC-c2-estimate-is-exact
+
+  - id: Q-2.1-bounded
+    type: twotier
+    objectives: [OBJ-2.1-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      ידוע שכל סדרת קושי חסומה. האם כל סדרה חסומה במרחב מטרי היא סדרת קושי?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. גרירה בכיוון אחד לא נותנת את ההפוך. דוגמה נגדית כבר ב-$\mathbb{R}$: $(-1)^n$.
+      - text: כן
+        feedback: >-
+          $(-1)^n$ חסומה על ידי 1, ושני איברים עוקבים בה רחוקים 2 זה מזה, בכל זנב. היא אינה סדרת קושי.
+        misconception: MC-c2-bounded-implies-cauchy
+    reasons:
+      - text: 'ב-$\mathbb{N}$ עם המטריקה הבדידה הסדרה $x_n=n$ חסומה (כל המרחקים לכל היותר 1), ו-$d(x_m,x_n)=1$ לכל $m\ne n$'
+        correct: true
+        feedback: >-
+          בדיוק, וזו דוגמה חזקה: הסדרה חסומה ואין לה אפילו תת-סדרה שהיא סדרת קושי. במרחב מטרי כללי "חסומה" אומרת
+          מעט מאוד.
+      - text: 'סדרה חסומה מתכנסת, וסדרה מתכנסת היא סדרת קושי'
+        feedback: >-
+          הצעד הראשון שגוי: $(-1)^n$ חסומה ולא מתכנסת. גם ב-$\mathbb{R}$, בולצאנו-ויירשטראס נותן רק **תת-סדרה**
+          מתכנסת.
+        misconception: MC-c2-bounded-implies-cauchy
+      - text: 'סדרה חסומה היא סדרת קושי רק במרחב שלם'
+        feedback: >-
+          גם ב-$\mathbb{R}$, שהוא שלם, $(-1)^n$ חסומה ואינה סדרת קושי. שלמות עוסקת בשאלה אם סדרות קושי מתכנסות, לא
+          בשאלה אילו סדרות הן סדרות קושי.
+        misconception: MC-c2-cauchy-always-converges
+
+  - id: Q-2.1-bounded-proof
+    type: rank
+    objectives: [OBJ-2.1-1]
+    level: mid
+    prompt: >-
+      סדרו את שלבי ההוכחה ש**כל סדרת קושי $(x_n)$ במרחב מטרי חסומה**, כלומר מוכלת בכדור סגור כלשהו.
+    help: גררו את השלבים לסדר הנכון, מהשלב הראשון של ההוכחה לאחרון.
+    items:
+      - id: eps
+        label: 'נבחר $\varepsilon=1$ בהגדרת סדרת קושי, ונקבל $N$ כך ש-$d(x_m,x_n)<1$ לכל $m,n>N$.'
+      - id: tail
+        label: 'בפרט, עם $m=N+1$: כל איברי הזנב מקיימים $d(x_n,x_{N+1})<1$ לכל $n>N$.'
+      - id: radius
+        label: 'נגדיר $R=\max\{d(x_1,x_{N+1}),\dots,d(x_N,x_{N+1}),1\}$, מקסימום של מספר סופי של מספרים.'
+      - id: ball
+        label: 'לכל $n$ מתקיים $d(x_n,x_{N+1})\le R$, ולכן כל הסדרה בכדור $B[x_{N+1},R]$.'
+    order: [eps, tail, radius, ball]
+    correctFeedback: >-
+      נכון. הרעיון: הזנב נשלט על ידי תנאי קושי עם $\varepsilon$ אחד, וההתחלה היא מספר סופי של נקודות, שמרחקן
+      מ-$x_{N+1}$ חסום ממילא. ה-$\max$ מאחד את שני החלקים.
+    wrongFeedback: >-
+      קודם משתמשים בתנאי קושי כדי לשלוט בזנב סביב נקודה אחת ($x_{N+1}$), ורק אחר כך בוחרים רדיוס שמכסה גם את
+      $N$ האיברים הראשונים.
+
+  - id: Q-2.1-which-cauchy
+    type: multi
+    objectives: [OBJ-2.1-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      אילו מהסדרות הבאות הן סדרות קושי במרחב שבו הן נתונות? סמנו את כולן.
+    choices:
+      - text: '$x_n=\sqrt n$ ב-$\mathbb{R}$'
+        feedback: >-
+          לא. $\sqrt{n+1}-\sqrt n\to0$, אבל $|x_{4n}-x_n|=\sqrt n$: לכל $N$ יש זוג אחריו במרחק גדול מ-1.
+        misconception: MC-c2-consecutive-terms
+      - text: '$x_n=\sum_{k=1}^{n}\frac1{k^2}$ ב-$\mathbb{R}$'
+        correct: true
+        feedback: >-
+          כן. ל-$m>n$: $x_m-x_n=\sum_{k=n+1}^{m}\frac1{k^2}<\sum_{k=n+1}^{\infty}\frac{1}{k(k-1)}=\frac1n$ (טור טלסקופי),
+          וזה קטן מ-$\varepsilon$ לכל $n>\frac1\varepsilon$.
+      - text: '$x_n=\left(\frac1n,(-1)^n\right)$ ב-$\mathbb{R}^2$ עם $\|\cdot\|_\infty$'
+        feedback: >-
+          לא. הסדרה חסומה, אבל $\|x_{n+1}-x_n\|_\infty\ge|(-1)^{n+1}-(-1)^n|=2$ לכל $n$.
+        misconception: MC-c2-bounded-implies-cauchy
+      - text: '$x_n=\min(n,5)$ ב-$\mathbb{N}$ עם המטריקה הבדידה'
+        correct: true
+        feedback: >-
+          כן. מ-$n=5$ והלאה הסדרה קבועה, ולכן כל המרחקים בזנב הם $0$. במטריקה הבדידה אלה בדיוק סדרות הקושי: הקבועות
+          מאינדקס מסוים.
+      - text: '$f_n(x)=x^n$ ב-$(C[0,1],\|\cdot\|_\infty)$'
+        feedback: >-
+          לא, אף שהיא מתכנסת נקודתית. $\|f_n-f_{2n}\|_\infty=\max_{[0,1]}(t-t^2)=\frac14$ (עם $t=x^n$, שעובר על כל
+          $[0,1]$), לכל $n$. התכנסות נקודתית אינה תנאי קושי בנורמת הסופרמום.
+        misconception: MC-c2-pointwise-limit-enough
+      - text: '$f_n(x)=\frac xn$ ב-$(C[0,1],\|\cdot\|_\infty)$'
+        correct: true
+        feedback: >-
+          כן. $\|f_m-f_n\|_\infty=\max_{[0,1]}|x|\cdot|\frac1m-\frac1n|=|\frac1m-\frac1n|$, וזו סדרת קושי ב-$\mathbb{R}$.
+
+  - id: Q-2.1-subseq-proof
+    type: rank
+    objectives: [OBJ-2.1-2]
+    level: mid
+    prompt: >-
+      $(x_n)$ סדרת קושי במרחב מטרי, ותת-סדרה $x_{n_k}$ שלה מתכנסת ל-$x$. סדרו את שלבי ההוכחה ש-$x_n\to x$.
+    help: גררו את השלבים לסדר הנכון. שני השלבים הראשונים יכולים לבוא בכל סדר ביניהם.
+    items:
+      - id: cauchy
+        label: 'יהי $\varepsilon>0$. מתנאי קושי קיים $N$ כך ש-$d(x_m,x_n)<\frac\varepsilon2$ לכל $m,n>N$.'
+      - id: sub
+        label: 'מהתכנסות התת-סדרה קיים $K$ כך ש-$d(x_{n_k},x)<\frac\varepsilon2$ לכל $k>K$.'
+      - id: pick
+        label: 'יהי $n>N$. נבחר $k>K$ שעבורו גם $n_k>N$; אפשר, כי $n_k\to\infty$.'
+      - id: triangle
+        label: 'מאי-שוויון המשולש: $d(x_n,x)\le d(x_n,x_{n_k})+d(x_{n_k},x)<\frac\varepsilon2+\frac\varepsilon2$.'
+      - id: done
+        label: 'לכל $n>N$ קיבלנו $d(x_n,x)<\varepsilon$, ולכן $x_n\to x$.'
+    order: [[cauchy, sub], pick, triangle, done]
+    correctFeedback: >-
+      נכון. הרעיון: איבר כללי קרוב לאיבר מהתת-סדרה (תנאי קושי), ואיבר התת-סדרה קרוב לגבול. איבר התת-סדרה הוא
+      "גשר", ונבחר אותו רחוק מספיק כדי ששני החסמים יחולו עליו.
+    wrongFeedback: >-
+      קודם מקבלים את שני הקבועים ($N$ מקושי ו-$K$ מהתת-סדרה), אחר כך בוחרים איבר גשר $x_{n_k}$ שעומד בשני התנאים,
+      ורק אז אי-שוויון המשולש.
+
+  - id: Q-2.1-equivalent
+    type: multi
+    objectives: [OBJ-2.1-2, OBJ-2.1-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      אילו מהתכונות הבאות של מרחב מטרי $X$ **שקולות** לכך ש-$X$ שלם? סמנו את כולן.
+    choices:
+      - text: כל סדרת קושי ב-$X$ מתכנסת לנקודה של $X$
+        correct: true
+        feedback: נכון. זו ההגדרה.
+      - text: לכל סדרת קושי ב-$X$ יש תת-סדרה שמתכנסת ב-$X$
+        correct: true
+        feedback: >-
+          נכון, לפי המשפט של השיעור: סדרת קושי עם תת-סדרה מתכנסת מתכנסת. לכן התכונה גוררת שלמות, והכיוון השני
+          ברור (הסדרה עצמה היא תת-סדרה של עצמה).
+      - text: כל סדרה מתכנסת ב-$X$ היא סדרת קושי
+        feedback: >-
+          זה נכון ב**כל** מרחב מטרי, גם ב-$\mathbb{Q}$, ולכן אינו מבחין בין מרחב שלם ללא שלם. זה הכיוון "הקל"
+          (מאי-שוויון המשולש); שלמות היא הכיוון ההפוך.
+        misconception: MC-c2-cauchy-always-converges
+      - text: כל סדרת קושי ב-$X$ חסומה
+        feedback: >-
+          גם זה נכון בכל מרחב מטרי, ובפרט ב-$(0,1)$, שאינו שלם. לכן זו לא תכונה ששקולה לשלמות.
+        misconception: MC-c2-bounded-implies-cauchy
+      - text: לכל סדרה חסומה ב-$X$ יש תת-סדרה מתכנסת
+        feedback: >-
+          זו תכונה חזקה יותר. $\mathbb{N}$ עם המטריקה הבדידה שלם, אבל הסדרה $x_n=n$ חסומה בו (כל המרחקים לכל היותר
+          1) ואין לה תת-סדרה מתכנסת, כי כל שני איברים שונים שלה רחוקים 1. שלמות אינה "בולצאנו-ויירשטראס".
+        misconception: MC-c2-complete-closed-bounded
+
+  - id: Q-2.1-Rn
+    type: twotier
+    objectives: [OBJ-2.1-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      האם המרחב $(\mathbb{R}^2,\|\cdot\|_1)$, עם $\|(a,b)\|_1=|a|+|b|$, שלם?
+    choices:
+      - text: כן
+        correct: true
+        feedback: נכון. שלמות של $\mathbb{R}^n$ עוברת דרך הקואורדינטות, ולכן היא נכונה גם בנורמה הזו.
+      - text: 'לא, כי $\mathbb{R}^2$ אינו חסום'
+        feedback: >-
+          שלמות אינה תכונה של גודל: $\mathbb{R}$ אינו חסום והוא שלם. מה שקובע הוא אם סדרות קושי מתכנסות.
+        misconception: MC-c2-complete-closed-bounded
+    reasons:
+      - text: 'אם $(x_n)$ סדרת קושי, כל קואורדינטה שלה היא סדרת קושי ב-$\mathbb{R}$ (כי $|a|\le\|(a,b)\|_1$), מתכנסת, ו-$\|x_n-x\|_1$ הוא סכום של שני הפרשים ששואפים לאפס'
+        correct: true
+        feedback: >-
+          בדיוק. שני אי-שוויונות פשוטים בין הנורמה לקואורדינטות מעבירים את תנאי קושי לקואורדינטות, ואת ההתכנסות
+          חזרה לנורמה. השלמות של $\mathbb{R}$ עושה את כל השאר.
+      - text: 'כל סדרה חסומה ב-$\mathbb{R}^2$ מתכנסת'
+        feedback: >-
+          זה לא נכון: $((-1)^n,0)$ חסומה ואינה מתכנסת. המסקנה נכונה, אבל צריך לצאת מסדרת קושי.
+        misconception: MC-c2-bounded-implies-cauchy
+      - text: '$\mathbb{R}^2$ הוא קבוצה סגורה, וכל קבוצה סגורה שלמה'
+        feedback: >-
+          "סגורה" היא תכונה יחסית למרחב גדול יותר: $\mathbb{Q}$ סגור בתוך $\mathbb{Q}$, ואינו שלם. כאן אין מרחב גדול
+          יותר ששלמותו ידועה; צריך להוכיח ישירות.
+        misconception: MC-c2-closed-implies-complete
+
+  - id: Q-2.1-summable
+    type: twotier
+    objectives: [OBJ-2.1-1]
+    qualitative: true
+    level: exam
+    prompt: >-
+      במרחב מטרי $X$ נתונה סדרה שמקיימת $d(x_n,x_{n+1})\le2^{-n}$ לכל $n$. האם היא בהכרח סדרת קושי?
+    choices:
+      - text: כן
+        correct: true
+        feedback: >-
+          נכון. כאן לא ידוע רק שהצעדים שואפים לאפס, אלא שסכומם סופי, וזה ההבדל.
+      - text: 'אי אפשר לדעת בלי לדעת לאן הסדרה שואפת'
+        feedback: >-
+          תנאי קושי לא מזכיר שום גבול, ובמרחב לא שלם ייתכן שגבול בכלל אין. כאן אפשר לחסום ישירות את
+          $d(x_m,x_n)$ בעזרת הצעדים.
+        misconception: MC-c2-cauchy-needs-limit
+    reasons:
+      - text: 'ל-$m>n$: $d(x_n,x_m)\le\sum_{k=n}^{m-1}2^{-k}<2^{1-n}$, וזה קטן מ-$\varepsilon$ כש-$n$ גדול'
+        correct: true
+        feedback: >-
+          בדיוק: אי-שוויון המשולש לאורך המסלול $x_n,x_{n+1},\dots,x_m$, ואז זנב של טור הנדסי. זה גם הצעד המרכזי
+          בהוכחת משפט נקודת השבת של בנך (שיעור 2.3).
+      - text: 'כי $d(x_n,x_{n+1})\to0$'
+        feedback: >-
+          המסקנה נכונה, הנימוק לא: גם ל-$\sqrt n$ יש $d(x_n,x_{n+1})\to0$, והיא אינה סדרת קושי. מה שעובד כאן הוא
+          שהצעדים **סכימים**.
+        misconception: MC-c2-consecutive-terms
+      - text: 'כי הסדרה חסומה'
+        feedback: >-
+          היא אכן חסומה, אבל חסימות לא גוררת תנאי קושי: $(-1)^n$.
+        misconception: MC-c2-bounded-implies-cauchy
+
+  - id: Q-2.1-arctan
+    type: twotier
+    objectives: [OBJ-2.1-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      על $\mathbb{R}$ מגדירים $d(x,y)=|\arctan x-\arctan y|$ (זו מטריקה, כי $\arctan$ חד-חד-ערכית). ידוע שהזהות
+      $(\mathbb{R},|x-y|)\to(\mathbb{R},d)$ היא הומיאומורפיזם: לשתי המטריקות אותן קבוצות פתוחות. האם $(\mathbb{R},d)$
+      שלם?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. שלמות תלויה במטריקה עצמה, לא רק בקבוצות הפתוחות. כאן ה"קצוות" $\pm\infty$ נמצאים במרחק סופי.
+      - text: 'כן, כי הוא הומיאומורפי ל-$\mathbb{R}$ עם המרחק הרגיל, שהוא שלם'
+        feedback: >-
+          הומיאומורפיזם שומר קבוצות פתוחות, סגורות והתכנסות של סדרות, אבל לא סדרות קושי. הסדרה $x_n=n$ אינה סדרת
+          קושי במרחק הרגיל, והיא כן סדרת קושי ב-$d$.
+        misconception: MC-c2-completeness-topological
+    reasons:
+      - text: '$x_n=n$ סדרת קושי ב-$d$, כי $\arctan n\to\frac\pi2$; ואם $x_n\to a$ ב-$d$ אז $\arctan n\to\arctan a<\frac\pi2$, סתירה'
+        correct: true
+        feedback: >-
+          בדיוק. $d(m,n)=|\arctan m-\arctan n|$, והמספרים $\arctan n$ מתכנסים ב-$\mathbb{R}$ ולכן הם סדרת קושי שם.
+          גבול ב-$(\mathbb{R},d)$ היה צריך להיות נקודה שה-$\arctan$ שלה הוא $\frac\pi2$, ואין כזו.
+      - text: 'כל המרחקים ב-$(\mathbb{R},d)$ קטנים מ-$\pi$, ומרחב חסום אינו שלם'
+        feedback: >-
+          המרחב אכן חסום, אבל חסימות אינה הסיבה: $[0,1]$ חסום ושלם. צריך סדרת קושי בלי גבול.
+        misconception: MC-c2-complete-closed-bounded
+      - text: '$x_n=n$ סדרת קושי ב-$d$, כי $d(n,n+1)\to0$'
+        feedback: >-
+          הסדרה אכן סדרת קושי, אבל הנימוק לא מספיק: צעדים עוקבים ששואפים לאפס אינם תנאי קושי ($\sqrt n$ במרחק
+          הרגיל). הנימוק הנכון הוא ש-$\arctan n$ מתכנסת. וחסר גם החלק השני: להראות שאין גבול.
+        misconception: MC-c2-consecutive-terms
+    explanation: >-
+      לקח הדוגמה: "שלם" אינו תכונה טופולוגית. $(\mathbb{R},d)$ איזומטרי (עם $x\mapsto\arctan x$) לקטע הפתוח
+      $(-\frac\pi2,\frac\pi2)$ עם המרחק הרגיל, ולכן הוא לא שלם בדיוק כמו קטע פתוח.

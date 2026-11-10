@@ -1,0 +1,371 @@
+# Lesson 2.5 — Cantor's intersection theorem and Baire's theorem.
+# Objectives (src/course.ts):
+#   OBJ-2.5-1  state and prove Cantor's intersection theorem (decreasing nonempty closed sets, diameter → 0, complete space)
+#   OBJ-2.5-2  define a nowhere dense set and state Baire's category theorem
+#   OBJ-2.5-3  use Baire to prove that a complete metric space without isolated points is uncountable
+chapter: 2
+questions:
+  - id: Q-2.5-diam
+    type: numeric
+    objectives: [OBJ-2.5-1]
+    level: basic
+    prompt: >-
+      מהו הקוטר של הריבוע $[0,1]^2$ במרחב $(\mathbb{R}^2,\|\cdot\|_1)$, כלומר
+      $\sup\{\|x-y\|_1:x,y\in[0,1]^2\}$?
+    answer: 2
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $\|x-y\|_1=|x_1-y_1|+|x_2-y_2|\le1+1$, ובין $(0,0)$ ל-$(1,1)$ מתקבל בדיוק $2$.
+    wrongFeedback: >-
+      הקוטר נמדד במטריקה הנתונה. כתבו את $\|x-y\|_1$ כסכום של שני הפרשים, וחסמו כל אחד מהם.
+    commonWrong:
+      - value: 1.4142135624
+        feedback: >-
+          $\sqrt2$ הוא הקוטר במטריקה האוקלידית. בנורמה $\|\cdot\|_1$ המרחק בין הפינות הנגדיות הוא $1+1=2$.
+        misconception: MC-c2-diameter-metric-free
+      - value: 1
+        feedback: >-
+          1 הוא הקוטר בנורמה $\|\cdot\|_\infty$, שבה מודדים רק את ההפרש הגדול מבין השניים.
+        misconception: MC-c2-diameter-metric-free
+
+  - id: Q-2.5-cantor-statement
+    type: mc
+    objectives: [OBJ-2.5-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      איזה מהניסוחים הבאים הוא משפט החיתוך של קנטור?
+    choices:
+      - text: 'אם $X$ שלם, ו-$F_1\supseteq F_2\supseteq\cdots$ קבוצות סגורות לא ריקות עם $\operatorname{diam}F_n\to0$, אז $\bigcap_n F_n$ היא נקודה אחת בדיוק'
+        correct: true
+        feedback: >-
+          נכון. ארבע הנחות (שלמות, סגירות, אי-ריקנות, קוטר ששואף לאפס) ומסקנה כפולה: החיתוך לא ריק, ויש בו נקודה
+          אחת בלבד.
+      - text: 'אם $X$ שלם, ו-$F_1\supseteq F_2\supseteq\cdots$ קבוצות סגורות לא ריקות, אז $\bigcap_n F_n\neq\emptyset$'
+        feedback: >-
+          בלי התנאי על הקוטר זה לא נכון: ב-$\mathbb{R}$ הקבוצות $[n,\infty)$ סגורות, לא ריקות ויורדות, וחיתוכן ריק.
+        misconception: MC-c2-cantor-no-diameter
+      - text: 'בכל מרחב מטרי, אם $F_1\supseteq F_2\supseteq\cdots$ לא ריקות ו-$\operatorname{diam}F_n\to0$, אז $\bigcap_n F_n$ היא נקודה אחת'
+        feedback: >-
+          חסרות שתי הנחות. ב-$\mathbb{R}$ הקטעים $(0,\frac1n)$ (לא סגורים) נחתכים בקבוצה ריקה, ובמרחב $\mathbb{Q}$
+          (לא שלם) גם קבוצות סגורות יכולות להיחתך בקבוצה ריקה.
+        misconception: MC-c2-cantor-closed-optional
+
+  - id: Q-2.5-nd-def
+    type: multi
+    objectives: [OBJ-2.5-2]
+    qualitative: true
+    level: basic
+    prompt: >-
+      אילו מתת-הקבוצות הבאות של $\mathbb{R}$ (עם המרחק הרגיל) הן **דלילות**, כלומר $(\overline{A})^\circ=\emptyset$?
+      סמנו את כולן.
+    choices:
+      - text: '$\mathbb{Z}$'
+        correct: true
+        feedback: >-
+          כן. $\mathbb{Z}$ סגורה, ואין בה אף קטע פתוח, ולכן לסגור שלה (היא עצמה) אין פנים.
+      - text: '$\left\{\frac1n:n\in\mathbb{N}\right\}$'
+        correct: true
+        feedback: >-
+          כן. הסגור הוא $\{0\}\cup\{\frac1n\}$, קבוצה בת מנייה שאינה מכילה אף קטע, ולכן בלי פנים.
+      - text: '$\mathbb{Q}$'
+        feedback: >-
+          ל-$\mathbb{Q}$ עצמה אין פנים, אבל ההגדרה מסתכלת על **הסגור**: $\overline{\mathbb{Q}}=\mathbb{R}$, שכולו
+          פנים. $\mathbb{Q}$ צפופה, ההפך מדלילה.
+        misconception: MC-c2-empty-interior-nowhere-dense
+      - text: '$\mathbb{Q}\cap[0,1]$'
+        feedback: >-
+          הסגור הוא $[0,1]$, שהפנים שלו $(0,1)$. "אין פנים" לקבוצה לא מספיק.
+        misconception: MC-c2-empty-interior-nowhere-dense
+      - text: '$\mathbb{R}\setminus\mathbb{Q}$'
+        feedback: >-
+          גם לאי-הרציונליים אין פנים, אבל הם צפופים: הסגור הוא $\mathbb{R}$.
+        misconception: MC-c2-empty-interior-nowhere-dense
+
+  - id: Q-2.5-baire-statement
+    type: mc
+    objectives: [OBJ-2.5-2]
+    qualitative: true
+    level: basic
+    prompt: >-
+      מהו משפט הקטגוריה של בייר?
+    choices:
+      - text: 'מרחב מטרי שלם ולא ריק אינו איחוד בן מנייה של קבוצות דלילות'
+        correct: true
+        feedback: >-
+          נכון. בניסוח שקול: אם $X=\bigcup_n F_n$ עם $F_n$ סגורות, אז לפחות לאחת מהן יש פנים לא ריק.
+      - text: 'איחוד בן מנייה של קבוצות דלילות הוא קבוצה דלילה'
+        feedback: >-
+          זה לא נכון אפילו ב-$\mathbb{R}$: $\mathbb{Q}=\bigcup_{q}\{q\}$ הוא איחוד בן מנייה של נקודות, כל אחת דלילה, והוא
+          צפוף. בייר אומר רק שאיחוד כזה אינו **כל** המרחב השלם.
+        misconception: MC-c2-union-nowhere-dense
+      - text: 'אף מרחב מטרי אינו איחוד בן מנייה של קבוצות דלילות'
+        feedback: >-
+          חסרה השלמות. $\mathbb{Q}$ הוא איחוד בן מנייה של היחידונים שלו, וכל יחידון דליל ב-$\mathbb{Q}$.
+        misconception: MC-c2-baire-incomplete
+      - text: 'כל מרחב מטרי שלם ולא ריק אינו בן מנייה'
+        feedback: >-
+          זה נכון רק כשאין נקודות מבודדות (מסקנה של המשפט). $\mathbb{Z}$ שלם ובן מנייה.
+        misconception: MC-c2-isolated-ignored
+
+  - id: Q-2.5-no-diameter
+    type: twotier
+    objectives: [OBJ-2.5-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $X$ מרחב מטרי **שלם**, ו-$F_1\supseteq F_2\supseteq\cdots$ קבוצות סגורות ולא ריקות (בלי שום הנחה על הקוטר). האם
+      בהכרח $\bigcap_n F_n\neq\emptyset$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. בלי $\operatorname{diam}F_n\to0$ ההוכחה לא מקבלת סדרת קושי, והמסקנה באמת נכשלת.
+      - text: 'כן, לפי משפט החיתוך של קנטור'
+        feedback: >-
+          משפט קנטור דורש גם $\operatorname{diam}F_n\to0$. בלעדיו: $[n,\infty)$ ב-$\mathbb{R}$.
+        misconception: MC-c2-cantor-no-diameter
+    reasons:
+      - text: 'ב-$\mathbb{N}$ עם המטריקה הבדידה הזנבות $F_n=\{n,n+1,\dots\}$ סגורים, לא ריקים ויורדים, הקוטר של כולם 1, והחיתוך ריק'
+        correct: true
+        feedback: >-
+          בדיוק, והדוגמה הזו חזקה: המרחב שלם וגם **חסום**, ובכל זאת החיתוך ריק. רק $\operatorname{diam}F_n\to0$
+          מציל את המשפט.
+      - text: 'חיתוך של קבוצות סגורות סגור, ולכן לא ריק'
+        feedback: >-
+          חיתוך של סגורות אכן סגור, אבל הקבוצה הריקה סגורה גם היא. סגירות לא מבטיחה אי-ריקנות.
+        misconception: MC-c2-cantor-no-diameter
+      - text: 'החיתוך יכול להיות ריק רק במרחב לא שלם'
+        feedback: >-
+          $\mathbb{R}$ ו-$\mathbb{N}$ הבדיד שלמים, ובשניהם יש דוגמה נגדית. השלמות לבדה לא מספיקה.
+        misconception: MC-c2-cantor-no-diameter
+
+  - id: Q-2.5-open-sets
+    type: mc
+    objectives: [OBJ-2.5-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      ב-$\mathbb{R}$, הקבוצות $F_n=(0,\frac1n)$ יורדות, לא ריקות, $\operatorname{diam}F_n=\frac1n\to0$, ו-$\bigcap_nF_n=\emptyset$.
+      איזו הנחה של משפט קנטור נכשלת?
+    choices:
+      - text: הקבוצות אינן סגורות
+        correct: true
+        feedback: >-
+          נכון. הנקודה שההוכחה בונה, $0$, היא גבול של נקודות מהקבוצות, אבל לא שייכת להן. בהוכחה הסגירות היא שמכניסה
+          את הגבול לכל $F_n$.
+      - text: המרחב אינו שלם
+        feedback: >-
+          $\mathbb{R}$ שלם. בודקים כל הנחה בנפרד.
+        misconception: MC-c2-wrong-hypothesis-blamed
+      - text: הקוטר אינו שואף לאפס
+        feedback: >-
+          $\operatorname{diam}(0,\frac1n)=\frac1n\to0$. ההנחה הזו מתקיימת.
+        misconception: MC-c2-wrong-hypothesis-blamed
+      - text: 'אף הנחה לא נכשלת: החיתוך הוא $\{0\}$'
+        feedback: >-
+          $0\notin(0,\frac1n)$ לאף $n$, ולכן $0$ אינו בחיתוך. החיתוך באמת ריק, ולכן הנחה כלשהי חייבת להיכשל.
+        misconception: MC-c2-cantor-closed-optional
+
+  - id: Q-2.5-rationals
+    type: mc
+    objectives: [OBJ-2.5-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      במרחב $\mathbb{Q}$ (עם המרחק הרגיל) נגדיר $F_n=\mathbb{Q}\cap[\sqrt2-\frac1n,\sqrt2+\frac1n]$. הקבוצות יורדות, לא
+      ריקות, $\operatorname{diam}F_n=\frac2n$, ו-$\bigcap_nF_n=\emptyset$. איזו הנחה של משפט קנטור נכשלת?
+    choices:
+      - text: השלמות של המרחב
+        correct: true
+        feedback: >-
+          נכון. ההוכחה בונה סדרת קושי של רציונליים ששואפת ל-$\sqrt2$, ו-$\mathbb{Q}$ לא מכיל את הגבול. אם מחליפים
+          את $\mathbb{Q}$ ב-$\mathbb{R}$ ואת $F_n$ בקטעים המלאים, החיתוך הוא $\{\sqrt2\}$.
+      - text: 'הקבוצות אינן סגורות, כי קצות הקטעים אי-רציונליים'
+        feedback: >-
+          $F_n$ היא חיתוך של $\mathbb{Q}$ עם קבוצה סגורה של $\mathbb{R}$, ולכן סגורה **במרחב $\mathbb{Q}$**: כל גבול
+          רציונלי של סדרה מ-$F_n$ נמצא ב-$F_n$. סגירות היא תמיד ביחס למרחב.
+        misconception: MC-c2-wrong-hypothesis-blamed
+      - text: הקוטר אינו שואף לאפס
+        feedback: >-
+          $\operatorname{diam}F_n=\frac2n$ (הרציונליים צפופים, ולכן מתקרבים לשני הקצוות). הוא שואף לאפס.
+        misconception: MC-c2-wrong-hypothesis-blamed
+      - text: 'אף הנחה לא נכשלת: החיתוך הוא $\{\sqrt2\}$'
+        feedback: >-
+          $\sqrt2\notin\mathbb{Q}$, ולכן הוא לא נקודה של המרחב ולא נמצא באף $F_n$.
+        misconception: MC-c2-cantor-closed-optional
+
+  - id: Q-2.5-cantor-proof
+    type: rank
+    objectives: [OBJ-2.5-1]
+    level: mid
+    prompt: >-
+      סדרו את שלבי ההוכחה של משפט החיתוך של קנטור: $X$ שלם, $F_1\supseteq F_2\supseteq\cdots$ סגורות ולא ריקות,
+      $\operatorname{diam}F_n\to0$.
+    help: גררו את השלבים לסדר הנכון, מהשלב הראשון של ההוכחה לאחרון.
+    items:
+      - id: pick
+        label: 'נבחר $x_n\in F_n$ לכל $n$; אפשר, כי הקבוצות לא ריקות.'
+      - id: cauchy
+        label: 'ל-$m\ge n$: $x_m\in F_m\subseteq F_n$, ולכן $d(x_m,x_n)\le\operatorname{diam}F_n\to0$; הסדרה היא סדרת קושי.'
+      - id: limit
+        label: '$X$ שלם, ולכן $x_n\to x$ לאיזה $x\in X$.'
+      - id: inside
+        label: 'לכל $n$ קבוע, הזנב $(x_m)_{m\ge n}$ נמצא ב-$F_n$ הסגורה, ולכן $x\in F_n$; כלומר $x\in\bigcap_nF_n$.'
+      - id: unique
+        label: 'אם גם $y\in\bigcap_nF_n$, אז $d(x,y)\le\operatorname{diam}F_n$ לכל $n$, ולכן $y=x$.'
+    order: [pick, cauchy, limit, inside, unique]
+    correctFeedback: >-
+      נכון. הרעיון: נקודה מכל קבוצה נותנת סדרה שמתכווצת (קוטר), לכן קושי; השלמות נותנת גבול, הסגירות מכניסה
+      אותו לכל הקבוצות, והקוטר נותן יחידות. כל הנחה בשלב משלה.
+    wrongFeedback: >-
+      קודם בונים סדרה ומראים שהיא סדרת קושי, אחר כך גבול (שלמות), אחר כך שהגבול בכל $F_n$ (סגירות), ולבסוף יחידות.
+
+  - id: Q-2.5-nd-discrete
+    type: twotier
+    objectives: [OBJ-2.5-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      ב-$\mathbb{N}$ עם המטריקה הבדידה: האם היחידון $\{1\}$ הוא קבוצה דלילה?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. במרחב בדיד כל נקודה מבודדת, ולכן אף קבוצה לא ריקה אינה דלילה.
+      - text: 'כן, נקודה אחת היא תמיד קבוצה דלילה'
+        feedback: >-
+          ב-$\mathbb{R}$ כן, אבל כאן $\{1\}=B(1,\frac12)$ היא קבוצה פתוחה, ולכן היא הפנים של עצמה.
+        misconception: MC-c2-singleton-always-nowhere-dense
+    reasons:
+      - text: '$\{1\}$ סגורה, ו-$\{1\}=B(1,\frac12)$ פתוחה; לכן $(\overline{\{1\}})^\circ=\{1\}\neq\emptyset$'
+        correct: true
+        feedback: >-
+          בדיוק. יחידון $\{x\}$ דליל אם ורק אם $x$ אינה נקודה מבודדת. זו הסיבה שבמשפט על אי-מניות צריך מרחב בלי
+          נקודות מבודדות.
+      - text: 'לקבוצה סופית אין נקודות פנימיות'
+        feedback: >-
+          זה נכון ב-$\mathbb{R}$, לא בכל מרחב מטרי. במטריקה הבדידה כל קבוצה פתוחה, וכל נקודה שלה פנימית.
+        misconception: MC-c2-singleton-always-nowhere-dense
+
+  - id: Q-2.5-baire-Q
+    type: twotier
+    objectives: [OBJ-2.5-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $\mathbb{Q}=\bigcup_{q\in\mathbb{Q}}\{q\}$ הוא איחוד בן מנייה, וכל יחידון $\{q\}$ דליל במרחב $\mathbb{Q}$ (עם
+      המרחק הרגיל). האם זו סתירה למשפט בייר?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. משפט בייר חל רק על מרחבים שלמים, ו-$\mathbb{Q}$ אינו שלם. להפך: זו הוכחה נוספת לכך ש-$\mathbb{Q}$ אינו
+          שלם.
+      - text: כן
+        feedback: >-
+          סתירה הייתה נוצרת רק אילו $\mathbb{Q}$ היה שלם. הוא לא, ולכן משפט בייר לא אומר עליו דבר.
+        misconception: MC-c2-baire-incomplete
+    reasons:
+      - text: 'משפט בייר דורש מרחב שלם, ו-$\mathbb{Q}$ אינו שלם; הפירוק הזה אף מוכיח שהוא אינו שלם'
+        correct: true
+        feedback: >-
+          בדיוק. אילו $\mathbb{Q}$ היה שלם, בייר היה אוסר את הפירוק הזה. כך משפט בייר נותן דרך חדשה להראות
+          שמרחב **אינו** שלם.
+      - text: 'היחידונים אינם דלילים ב-$\mathbb{Q}$'
+        feedback: >-
+          הם כן: ב-$\mathbb{Q}$ אין נקודות מבודדות (כל כדור סביב $q$ מכיל רציונליים אחרים), ולכן ל-$\{q\}$, שהוא סגור,
+          אין פנים.
+        misconception: MC-c2-singleton-always-nowhere-dense
+      - text: 'בייר אומר שאיחוד בן מנייה של דלילות דליל, אבל $\mathbb{Q}$ צפופה בעצמה'
+        feedback: >-
+          זה לא מה שבייר אומר. איחוד בן מנייה של דלילות יכול להיות צפוף ($\mathbb{Q}$ בתוך $\mathbb{R}$); בייר אומר
+          רק שהוא אינו כל המרחב השלם.
+        misconception: MC-c2-union-nowhere-dense
+
+  - id: Q-2.5-uncountable-proof
+    type: rank
+    objectives: [OBJ-2.5-3]
+    level: mid
+    prompt: >-
+      $X$ מרחב מטרי שלם, לא ריק, בלי נקודות מבודדות. סדרו את שלבי ההוכחה ש-$X$ אינו בן מנייה.
+    help: גררו את השלבים לסדר הנכון, מהשלב הראשון של ההוכחה לאחרון.
+    items:
+      - id: assume
+        label: 'נניח בשלילה ש-$X$ בן מנייה: $X=\{x_1,x_2,x_3,\dots\}$.'
+      - id: closed
+        label: 'כל יחידון $\{x_n\}$ הוא קבוצה סגורה, ולכן הוא הסגור של עצמו.'
+      - id: nd
+        label: '$x_n$ אינה מבודדת, ולכן כל כדור $B(x_n,r)$ מכיל נקודה אחרת: ל-$\{x_n\}$ אין פנים, והוא דליל.'
+      - id: union
+        label: 'אז $X=\bigcup_n\{x_n\}$ הוא איחוד בן מנייה של קבוצות דלילות.'
+      - id: contra
+        label: 'זו סתירה למשפט בייר, כי $X$ שלם ולא ריק. לכן $X$ אינו בן מנייה.'
+    order: [assume, closed, nd, union, contra]
+    correctFeedback: >-
+      נכון. הרעיון: "בן מנייה" הוא "איחוד בן מנייה של נקודות", ובלי נקודות מבודדות כל נקודה דלילה. בייר אוסר
+      בדיוק את זה. כך, למשל, $\mathbb{R}$ ו-$[0,1]$ אינם בני מנייה, בלי אלכסון של קנטור.
+    wrongFeedback: >-
+      ההוכחה בשלילה: מניחים מניה, מראים שכל נקודה היא קבוצה דלילה (קודם סגורה, אחר כך בלי פנים), ומקבלים איחוד
+      שבייר אוסר.
+
+  - id: Q-2.5-isolated
+    type: twotier
+    objectives: [OBJ-2.5-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      האם **כל** מרחב מטרי שלם ולא ריק אינו בן מנייה?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. ההנחה "בלי נקודות מבודדות" נחוצה: $\mathbb{Z}$ שלם ובן מנייה, וכך גם כל מרחב סופי.
+      - text: 'כן, לפי משפט בייר'
+        feedback: >-
+          בייר אוסר איחוד בן מנייה של **דלילות**. ב-$\mathbb{Z}$ היחידונים אינם דלילים, ולכן הפירוק
+          $\mathbb{Z}=\bigcup\{n\}$ אינו סותר דבר.
+        misconception: MC-c2-isolated-ignored
+    reasons:
+      - text: '$\mathbb{Z}$ שלם ובן מנייה; כל $\{n\}=B(n,\frac12)$ פתוח, ולכן אינו דליל, ובייר לא נותן סתירה'
+        correct: true
+        feedback: >-
+          בדיוק. ההוכחה של המשפט נשברת בשלב "כל יחידון דליל", וזה בדיוק השלב שמשתמש בכך שאין נקודות מבודדות.
+      - text: 'כל יחידון במרחב מטרי הוא קבוצה דלילה, ולכן מרחב בן מנייה הוא איחוד בן מנייה של דלילות'
+        feedback: >-
+          יחידון של נקודה מבודדת פתוח, ולכן אינו דליל. ב-$\mathbb{Z}$ כל נקודה מבודדת.
+        misconception: MC-c2-singleton-always-nowhere-dense
+
+  - id: Q-2.5-which-uncountable
+    type: multi
+    objectives: [OBJ-2.5-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      על אילו מהמרחבים הבאים (עם המטריקה הרגילה שלהם) אפשר להפעיל **ישירות** את המשפט "מרחב מטרי שלם, לא ריק, בלי
+      נקודות מבודדות, אינו בן מנייה"? סמנו את כולם.
+    choices:
+      - text: '$\mathbb{R}$'
+        correct: true
+        feedback: 'כן: שלם, ולכל $x$ הכדור $B(x,r)$ מכיל את $x+\frac r2$.'
+      - text: '$[0,1]$'
+        correct: true
+        feedback: >-
+          כן: סגור ב-$\mathbb{R}$ ולכן שלם, וכל כדור סביב נקודה של הקטע מכיל עוד נקודות מהקטע.
+      - text: '$(C[0,1],\|\cdot\|_\infty)$'
+        correct: true
+        feedback: >-
+          כן: שלם (שיעור 2.2), ובכל כדור $B(f,r)$ נמצאת גם $f+\frac r2\neq f$.
+      - text: '$\mathbb{R}\setminus\mathbb{Q}$'
+        feedback: >-
+          הוא אמנם אינו בן מנייה (כי $\mathbb{R}$ אינו בן מנייה ו-$\mathbb{Q}$ כן), אבל המשפט לא חל עליו ישירות: הוא
+          אינו שלם. $\frac{\sqrt2}{n}$ היא סדרת קושי של אי-רציונליים, וגבולה $0$ רציונלי.
+        misconception: MC-c2-baire-incomplete
+      - text: '$\mathbb{Z}$'
+        feedback: >-
+          שלם, אבל כל נקודה מבודדת, והוא אכן בן מנייה.
+        misconception: MC-c2-isolated-ignored
+      - text: '$\mathbb{Q}$'
+        feedback: >-
+          בלי נקודות מבודדות, אבל לא שלם, והוא בן מנייה. הדוגמה מראה ששלמות נחוצה.
+        misconception: MC-c2-baire-incomplete

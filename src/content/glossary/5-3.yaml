@@ -1,0 +1,26 @@
+# Terms first defined in lesson 5.3.
+- id: differentiable
+  term: דיפרנציאבילית
+  en: differentiable
+  definition: >-
+    $f:U\to\mathbb{R}^m$ ($U\subseteq\mathbb{R}^n$ פתוחה) דיפרנציאבילית ב-$a\in U$ אם קיימת העתקה לינארית
+    $T:\mathbb{R}^n\to\mathbb{R}^m$ כך ש-$f(a+h)=f(a)+Th+r(h)$ עם $\frac{\|r(h)\|}{\|h\|}\to0$ כש-$h\to0$. ההגדרה
+    אינה תלויה בבחירת הנורמות, ועובדת גם בין מרחבים נורמיים (שם דורשים ש-$T$ תהיה חסומה).
+  reject: [דיפרנציאבלית, דיפרנציאבלי]
+  lesson: '5.3'
+- id: differential
+  term: דיפרנציאל
+  en: differential (total derivative)
+  symbol: 'Df(a)'
+  definition: >-
+    ההעתקה הלינארית $T$ היחידה מהגדרת הדיפרנציאביליות. היא הקירוב הלינארי הטוב ביותר להפרש $f(a+h)-f(a)$, ולכל
+    וקטור יחידה $v$ מתקיים $D_vf(a)=Df(a)v$.
+  lesson: '5.3'
+- id: jacobian-matrix
+  term: מטריצת יעקובי
+  en: Jacobian matrix
+  symbol: 'J_f(a)=\left(\frac{\partial f_i}{\partial x_j}(a)\right)'
+  definition: >-
+    המטריצה $m\times n$ של $Df(a)$ בבסיסים הסטנדרטיים: בשורה $i$ ובעמודה $j$ הנגזרת החלקית
+    $\frac{\partial f_i}{\partial x_j}(a)$. שורה $i$ היא הגרדיאנט של הרכיב $f_i$, ו-$Df(a)h=J_f(a)h$.
+  lesson: '5.3'

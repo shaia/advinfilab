@@ -1,0 +1,62 @@
+# Terms first defined in lesson 9.1 (boxes, partitions and Darboux sums).
+- id: box
+  term: תיבה
+  en: box (closed rectangle)
+  symbol: 'Q=[a_1,b_1]\times\cdots\times[a_n,b_n]'
+  definition: >-
+    מכפלה של $n$ קטעים סגורים, $Q=[a_1,b_1]\times\cdots\times[a_n,b_n]\subseteq\mathbb{R}^n$. הנפח שלה הוא
+    $v(Q)=(b_1-a_1)\cdots(b_n-a_n)$.
+  lesson: '9.1'
+- id: partition-of-a-box
+  term: חלוקה של תיבה
+  en: partition of a box
+  definition: >-
+    $P=(P_1,\dots,P_n)$, כש-$P_i$ חלוקה של הקטע $[a_i,b_i]$. החלוקה מפרקת את $Q$ לתת-תיבות $S=I_1\times\cdots\times I_n$,
+    כש-$I_i$ אחד הקטעים ש-$P_i$ יוצרת; התת-תיבות זרות פרט לשפות שלהן וסכום נפחיהן $v(Q)$.
+  lesson: '9.1'
+- id: refinement
+  term: עידון
+  en: refinement
+  definition: >-
+    חלוקה $P'$ מעדנת את $P$ אם כל נקודת חלוקה של $P_i$ היא גם נקודת חלוקה של $P'_i$, לכל $i$. לכל שתי חלוקות יש עידון
+    משותף: מאחדים את נקודות החלוקה בכל צלע.
+  lesson: '9.1'
+- id: upper-darboux-sum
+  term: סכום דרבו עליון
+  en: upper Darboux sum
+  symbol: 'U(f,P)=\sum_S M_S(f)\,v(S)'
+  definition: >-
+    לפונקציה חסומה $f$ על $Q$ ולחלוקה $P$: $U(f,P)=\sum_S M_S(f)\,v(S)$, כש-$M_S(f)=\sup_S f$ והסכום על כל
+    התת-תיבות של $P$.
+  reject: [סכום דארבו עליון]
+  lesson: '9.1'
+- id: lower-darboux-sum
+  term: סכום דרבו תחתון
+  en: lower Darboux sum
+  symbol: 'L(f,P)=\sum_S m_S(f)\,v(S)'
+  definition: >-
+    $L(f,P)=\sum_S m_S(f)\,v(S)$, כש-$m_S(f)=\inf_S f$. לכל שתי חלוקות $L(f,P_1)\le U(f,P_2)$.
+  reject: [סכום דארבו תחתון]
+  lesson: '9.1'
+- id: upper-integral
+  term: אינטגרל עליון
+  en: upper integral
+  symbol: '\overline{\int_Q} f=\inf_P U(f,P)'
+  definition: >-
+    האינפימום של הסכומים העליונים על כל החלוקות של $Q$. קיים לכל פונקציה חסומה.
+  lesson: '9.1'
+- id: lower-integral
+  term: אינטגרל תחתון
+  en: lower integral
+  symbol: '\underline{\int_Q} f=\sup_P L(f,P)'
+  definition: >-
+    הסופרמום של הסכומים התחתונים על כל החלוקות של $Q$. תמיד $\underline{\int_Q} f\le\overline{\int_Q} f$.
+  lesson: '9.1'
+- id: riemann-integrable-several-variables
+  term: פונקציה אינטגרבילית לפי רימן (בכמה משתנים)
+  en: Riemann integrable function (several variables)
+  symbol: '\int_Q f'
+  definition: >-
+    פונקציה חסומה $f$ על תיבה $Q$ שהאינטגרל העליון והתחתון שלה שווים; הערך המשותף הוא $\int_Q f$. שקול לכך שלכל
+    $\varepsilon>0$ יש חלוקה $P$ עם $U(f,P)-L(f,P)<\varepsilon$.
+  lesson: '9.1'

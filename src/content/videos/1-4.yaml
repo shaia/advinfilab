@@ -1,0 +1,27 @@
+- id: v-1-4-closure-dense
+  youtubeId: LgCfWmoJYFs
+  title: 3 - Open and closed sets
+  channel: Frank Swenton
+  lang: en
+  captions: []
+  start: 1031
+  end: 1355
+  minutes: 6
+  why: >-
+    הקטע מתוך הסרטון על קבוצות פתוחות וסגורות, לפי פרקיו: הסגור של קבוצה (17:11) וקבוצות צפופות ומרחבים
+    ספרביליים (20:51). הספרביליות שייכת לפרק 4 של הקורס; כאן התמקדו בסגור ובהגדרת הצפיפות, והשוו אותן
+    לאפיון הסגור בעזרת נקודות הצטברות שבשיעור.
+  verified: 2026-11-09
+- id: v-1-4-boundary
+  youtubeId: oCrksF8OOpM
+  title: Boundary of a set in a metric space, Real Analysis II
+  channel: Dr. Bevin Maultsby
+  lang: en
+  captions: [en]
+  start: 0
+  minutes: 17
+  why: >-
+    לפי תיאור הסרטון: השפה מוגדרת כחיתוך הסגור של הקבוצה עם הסגור של המשלים, ומחושבת לדוגמאות: השלמים,
+    הרציונליים, קטעים, רביעים במישור ותת-קבוצות של מרחב מטרי בדיד. בסוף מוכחים שני אפיונים נוספים, ביניהם
+    שהשפה היא הסגור פחות הפנים. השוו את החישובים במטריקה הבדידה לתשובות שלכם בשיעור.
+  verified: 2026-11-09

@@ -1,0 +1,22 @@
+# Terms first defined in lesson 6.2 (critical points and the necessary condition for an extremum).
+- id: local-extremum
+  term: קיצון מקומי
+  en: local extremum
+  definition: >-
+    $a$ נקודת מינימום מקומי של $f$ אם קיים $r>0$ כך ש-$f(x)\ge f(a)$ לכל $x$ בתחום עם $\|x-a\|<r$; מקסימום
+    מקומי באי-השוויון ההפוך; "ממש" כש-$f(x)>f(a)$ לכל $x\ne a$ כזה. קיצון מקומי הוא מינימום מקומי או מקסימום מקומי.
+  lesson: '6.2'
+- id: critical-point
+  term: נקודה קריטית
+  en: critical point
+  definition: >-
+    נקודה פנימית $a$ שבה $f$ דיפרנציאבילית ו-$\nabla f(a)=0$. בנקודת קיצון מקומי פנימית של פונקציה
+    דיפרנציאבילית הגרדיאנט מתאפס, אבל לא כל נקודה קריטית היא קיצון.
+  lesson: '6.2'
+- id: saddle-point
+  term: נקודת אוכף
+  en: saddle point
+  definition: >-
+    נקודה קריטית שאינה נקודת קיצון מקומי: בכל כדור סביבה יש נקודות שבהן $f$ גדולה מ-$f(a)$ ונקודות שבהן היא קטנה
+    ממנה. דוגמה: $x^2-y^2$ בראשית.
+  lesson: '6.2'

@@ -1,0 +1,47 @@
+# Misconceptions first detected in lesson 7.3 (the implicit function theorem).
+- id: MC-c7-implicit-wrong-partial
+  title: בודקים את הנגזרת החלקית לפי המשתנה הלא נכון
+  belief: >-
+    כדי לבטא את $y$ כפונקציה של $x$ מתוך $F(x,y)=0$ צריך $\frac{\partial F}{\partial x}\neq0$, או רק
+    $\nabla F\neq0$.
+  truth: >-
+    התנאי הוא הפיכות הנגזרת לפי המשתנים **שמבטאים**: $\frac{\partial F}{\partial y}(a,b)\neq0$, ובמערכת
+    $D_yF(a,b)$ הפיכה. במעגל $x^2+y^2=1$ בנקודה $(1,0)$ מתקיים $\nabla F=(2,0)\neq0$, אבל
+    $\frac{\partial F}{\partial y}=0$, ואין שם פונקציה $y(x)$; יש $x(y)$.
+  remedy: { lesson: '7.3', label: 'המעגל: איפה יש y כפונקציה של x ואיפה x כפונקציה של y' }
+
+- id: MC-c7-implicit-inverted-ratio
+  title: מחלקים בסדר הפוך בנוסחת הגזירה הסתומה
+  belief: >-
+    הנגזרת של הפונקציה הסתומה היא $y'=-\frac{F_y}{F_x}$.
+  truth: >-
+    גוזרים את $F(x,y(x))=0$ לפי $x$: $F_x+F_y\,y'=0$, ולכן $y'=-\frac{F_x}{F_y}$. במכנה עומדת הנגזרת לפי המשתנה
+    שמבטאים, בדיוק זו שהמשפט דורש שלא תתאפס.
+  remedy: { lesson: '7.3', label: 'גזירת פונקציה סתומה בכלל השרשרת' }
+
+- id: MC-c7-implicit-sign
+  title: שוכחים את סימן המינוס בגזירה סתומה
+  belief: >-
+    הנגזרת של הפונקציה הסתומה היא $y'=\frac{F_x}{F_y}$.
+  truth: >-
+    מ-$F_x+F_y\,y'=0$ מקבלים $y'=-\frac{F_x}{F_y}$. בדיקה מהירה במעגל: בחצי העליון, ימינה מ-$x=0$, העקום יורד,
+    ואכן $y'=-\frac{x}{y}<0$ שם.
+  remedy: { lesson: '7.3', label: 'גזירת פונקציה סתומה בכלל השרשרת' }
+
+- id: MC-c7-implicit-y-constant
+  title: מתייחסים ל-y כקבוע בגזירה השנייה
+  belief: >-
+    מ-$y'=-\frac{x}{y}$ גוזרים שוב ומקבלים $y''=-\frac1y$.
+  truth: >-
+    $y$ היא פונקציה של $x$, ולכן גוזרים מנה: $y''=-\frac{y-x\,y'}{y^2}$. אחרי הצבת $y'=-\frac{x}{y}$
+    ו-$x^2+y^2=1$ מקבלים $y''=-\frac{1}{y^3}$.
+  remedy: { lesson: '7.3', label: 'נגזרת שנייה של פונקציה סתומה' }
+
+- id: MC-c7-implicit-only-c1
+  title: חושבים שהפונקציה הסתומה רק גזירה ברציפות גם כש-F חלקה יותר
+  belief: >-
+    משפט הפונקציה הסתומה נותן פונקציה גזירה ברציפות בלבד, ולכן אין משמעות לנגזרת השנייה שלה.
+  truth: >-
+    אם $F\in C^2$, אז בנוסחה $g'(x)=-\frac{F_x(x,g(x))}{F_y(x,g(x))}$ האגף הימני הוא הרכבה של פונקציות
+    $C^1$, ולכן $g'\in C^1$ ו-$g\in C^2$. באינדוקציה, $F\in C^k$ גורר $g\in C^k$.
+  remedy: { lesson: '7.3', label: 'נגזרת שנייה של פונקציה סתומה' }

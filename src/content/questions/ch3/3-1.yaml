@@ -1,0 +1,348 @@
+# Lesson 3.1 — sequential compactness.
+# Objectives (src/course.ts):
+#   OBJ-3.1-1  define a sequentially compact set; prove compact ⇒ closed and bounded in every metric space
+#   OBJ-3.1-2  prove with Bolzano–Weierstrass that closed and bounded ⇒ compact in Euclidean space
+#   OBJ-3.1-3  give a closed bounded set that is not compact: discrete metric, a space of functions
+# In this lesson "קומפקטית" means sequentially compact; covers come in 3.2.
+chapter: 3
+questions:
+  - id: Q-3.1-def
+    type: mc
+    objectives: [OBJ-3.1-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      יהי $(X,d)$ מרחב מטרי ו-$K\subseteq X$. מהי ההגדרה של "$K$ קומפקטית סדרתית"?
+    choices:
+      - text: לכל סדרה של נקודות של $K$ יש תת-סדרה שמתכנסת לנקודה של $K$
+        correct: true
+        feedback: >-
+          נכון. שני חלקים: תת-סדרה (לא כל הסדרה), והגבול שלה בתוך $K$ (לא סתם ב-$X$).
+      - text: לכל סדרה של נקודות של $K$ יש תת-סדרה שמתכנסת לנקודה של $X$
+        feedback: >-
+          חסר כאן שהגבול ב-$K$. ב-$X=\mathbb{R}$, לכל סדרה ב-$(0,1)$ יש תת-סדרה מתכנסת ב-$\mathbb{R}$
+          (בולצאנו-ויירשטראס), אבל $\frac1n$ מתכנסת ל-0, שאינו ב-$(0,1)$; ו-$(0,1)$ אינה קומפקטית.
+        misconception: MC-c3-limit-in-set
+      - text: כל סדרה של נקודות של $K$ מתכנסת לנקודה של $K$
+        feedback: >-
+          חזק מדי: אז אפילו $[-1,1]$ לא הייתה קומפקטית, כי $(-1)^n$ אינה מתכנסת. ההגדרה מבקשת רק תת-סדרה מתכנסת.
+        misconception: MC-c3-whole-sequence
+      - text: לכל סדרה **חסומה** של נקודות של $K$ יש תת-סדרה מתכנסת ב-$K$
+        feedback: >-
+          זו תכונת בולצאנו-ויירשטראס, והיא חלשה יותר: $\mathbb{R}$ מקיים אותה, אבל לסדרה $a_n=n$ אין תת-סדרה
+          מתכנסת, ולכן $\mathbb{R}$ אינו קומפקטי.
+        misconception: MC-c3-bw-is-compactness
+
+  - id: Q-3.1-negate
+    type: mc
+    objectives: [OBJ-3.1-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      מה פירוש הטענה "$K$ **אינה** קומפקטית סדרתית"?
+    choices:
+      - text: קיימת סדרה ב-$K$ שלאף תת-סדרה שלה אין גבול ששייך ל-$K$
+        correct: true
+        feedback: >-
+          נכון. "לכל סדרה קיימת תת-סדרה עם גבול ב-$K$" נשלל ל"קיימת סדרה שלכל תת-סדרה שלה אין גבול ב-$K$".
+      - text: קיימת סדרה ב-$K$ שאינה מתכנסת
+        feedback: >-
+          זה לא מספיק: $(-1)^n$ אינה מתכנסת, ובכל זאת $[-1,1]$ קומפקטית. צריך סדרה שאף תת-סדרה שלה לא מתכנסת
+          לנקודה של $K$.
+        misconception: MC-c3-negate-compact
+      - text: לאף סדרה ב-$K$ אין תת-סדרה מתכנסת
+        feedback: >-
+          חזק מדי, ולמעשה אף פעם לא מתקיים בקבוצה לא ריקה: סדרה קבועה $x_n=p$ מתכנסת. בשלילה מספיקה סדרה אחת רעה.
+        misconception: MC-c3-negate-compact
+      - text: '$K$ אינה סגורה או אינה חסומה'
+        feedback: >-
+          זה מספיק כדי ש-$K$ לא תהיה קומפקטית, אבל זה לא הפירוש: $\mathbb{N}$ במטריקה הבדידה סגורה וחסומה ואינה
+          קומפקטית.
+        misconception: MC-c3-closed-bounded-compact
+
+  - id: Q-3.1-which
+    type: multi
+    objectives: [OBJ-3.1-2]
+    level: basic
+    prompt: >-
+      אילו מהקבוצות הבאות במישור, עם המטריקה האוקלידית, קומפקטיות? סמנו את כולן.
+    choices:
+      - text: 'העיגול הסגור $\{(x,y): x^2+y^2\le1\}$'
+        correct: true
+        feedback: >-
+          נכון: סגורה (מכילה את גבולות הסדרות שלה, כי $x^2+y^2$ רציפה) וחסומה, ולכן קומפקטית לפי בולצאנו-ויירשטראס
+          בקואורדינטות.
+      - text: 'ההיפרבולה $\{(x,y): xy=1\}$'
+        feedback: >-
+          סגורה אבל לא חסומה: הסדרה $(n,\frac1n)$ בורחת לאינסוף, ולאף תת-סדרה שלה אין גבול.
+        misconception: MC-c3-closed-bounded-compact
+      - text: '$\{(\frac1n,0): n\in\mathbb{N}\}\cup\{(0,0)\}$'
+        correct: true
+        feedback: >-
+          נכון. חסומה, וסגורה: הנקודה היחידה שהסדרה $(\frac1n,0)$ מתקרבת אליה, $(0,0)$, נמצאת בקבוצה.
+      - text: '$\{(\frac1n,0): n\in\mathbb{N}\}$'
+        feedback: >-
+          חסומה אבל לא סגורה: הסדרה $(\frac1n,0)$ מתכנסת ל-$(0,0)$, שאינו בקבוצה, וכך גם כל תת-סדרה שלה.
+        misconception: MC-c3-limit-in-set
+      - text: 'הריבוע $[0,1]\times[0,1)$'
+        feedback: >-
+          חסום ולא סגור: $(0,1-\frac1n)\to(0,1)$, שאינה בריבוע.
+        misconception: MC-c3-limit-in-set
+
+  - id: Q-3.1-closed-proof
+    type: rank
+    objectives: [OBJ-3.1-1]
+    level: mid
+    help: 'סדרו את שלבי ההוכחה לפי הסדר הנכון.'
+    prompt: >-
+      ההוכחה ש"קבוצה קומפקטית $K$ במרחב מטרי היא סגורה" התפרקה לשלבים. סדרו אותם.
+    items:
+      - id: seq
+        label: 'יהי $x\in\overline{K}$. יש סדרה $x_n\in K$ עם $x_n\to x$ (אפיון הסגור בסדרות, שיעור 1.5).'
+      - id: sub
+        label: 'כי $K$ קומפקטית, יש תת-סדרה $x_{n_k}\to y$ עם $y\in K$.'
+      - id: same
+        label: 'תת-סדרה של סדרה מתכנסת מתכנסת לאותו גבול, ולכן גם $x_{n_k}\to x$.'
+      - id: uniq
+        label: 'מיחידות הגבול $x=y\in K$. לכן $\overline{K}\subseteq K$, ו-$K$ סגורה.'
+    order: [seq, sub, same, uniq]
+    correctFeedback: >-
+      נכון. שימו לב איפה נכנס "הגבול בתוך $K$" שבהגדרה: בלעדיו היינו מקבלים רק $y\in X$, ולא היה ממה להסיק $x\in K$.
+    wrongFeedback: >-
+      מתחילים מנקודה של הסגור ומסדרה ב-$K$ שמתכנסת אליה. רק אז יש סדרה להפעיל עליה את הקומפקטיות, ובסוף
+      משווים בין שני הגבולות.
+
+  - id: Q-3.1-unbounded
+    type: twotier
+    objectives: [OBJ-3.1-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      נכון או לא נכון: במרחב מטרי כלשהו, קבוצה **לא חסומה** אינה קומפקטית סדרתית.
+    choices:
+      - text: נכון
+        correct: true
+        feedback: 'נכון: זה החצי השני של "קומפקטית גורר סגורה וחסומה".'
+      - text: לא נכון
+        feedback: >-
+          זה נכון בכל מרחב מטרי, וההוכחה קצרה: בונים סדרה שבורחת מנקודה קבועה, ואף תת-סדרה שלה אינה חסומה.
+        misconception: MC-c3-closed-in-itself
+    reasons:
+      - text: 'נקבע $p\in X$ ונבחר $x_n\in K$ עם $d(x_n,p)>n$. כל תת-סדרה שלה אינה חסומה, וסדרה מתכנסת חסומה; לכן לאף תת-סדרה אין גבול'
+        correct: true
+        feedback: >-
+          בדיוק. אי-החסימות היא שמאפשרת לבחור את $x_n$, וחסימות של סדרה מתכנסת (שיעור 1.5) סוגרת את הטיעון.
+      - text: 'כל סדרה בקבוצה לא חסומה מתבדרת'
+        feedback: >-
+          לא נכון: גם בקבוצה לא חסומה יש סדרות קבועות, והן מתכנסות. השלילה של קומפקטיות דורשת סדרה **אחת** בלי
+          תת-סדרה מתכנסת, וצריך לבנות אותה.
+        misconception: MC-c3-negate-compact
+      - text: 'קבוצה לא חסומה אינה סגורה'
+        feedback: >-
+          לא נכון: $\mathbb{R}$ כולו לא חסום וסגור (בעצמו). סגירות וחסימות הן שתי תכונות נפרדות.
+        misconception: MC-c3-closed-bounded-compact
+
+  - id: Q-3.1-subsub
+    type: mc
+    objectives: [OBJ-3.1-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      בהוכחה שקבוצה סגורה וחסומה $K\subseteq\mathbb{R}^2$ קומפקטית, נתונה סדרה $(a_n,b_n)\in K$. מוצאים תת-סדרה
+      $a_{n_k}\to a$, ואז מפעילים את בולצאנו-ויירשטראס על $(b_{n_k})$, **לא** על $(b_n)$. למה?
+    choices:
+      - text: 'כדי לקבל תת-סדרה אחת שבה שתי הקואורדינטות מתכנסות: בתת-סדרה של $(a_{n_k})$ הקואורדינטה הראשונה עדיין מתכנסת ל-$a$'
+        correct: true
+        feedback: >-
+          נכון. תת-סדרה של סדרה מתכנסת מתכנסת לאותו גבול, וכך שומרים את מה שכבר הושג בקואורדינטה הראשונה.
+      - text: 'אין צורך: אפשר להפעיל את בולצאנו-ויירשטראס על $(a_n)$ ועל $(b_n)$ בנפרד'
+        feedback: >-
+          שתי הבחירות לא מתואמות. למשל ב-$(a_n,b_n)=((-1)^n,\ (-1)^{\lfloor n/2\rfloor})$ התת-סדרה של
+          האינדקסים הזוגיים מתאימה ל-$(a_n)$, והתת-סדרה של האינדקסים $4k+1$ מתאימה ל-$(b_n)$, ואין להן אף איבר
+          משותף. ההוכחה צריכה תת-סדרה **אחת** שבה שתי הקואורדינטות מתכנסות.
+        misconception: MC-c3-separate-subsequences
+      - text: 'כי $(b_n)$ אולי לא חסומה'
+        feedback: >-
+          $(b_n)$ חסומה: $|b_n|\le\|(a_n,b_n)\|_2$, ו-$K$ חסומה. הסיבה היא תיאום האינדקסים בין שתי הקואורדינטות.
+        misconception: MC-c3-separate-subsequences
+      - text: 'כדי שהגבול יהיה ב-$K$'
+        feedback: >-
+          הגבול ב-$K$ בגלל ש-$K$ סגורה, וזה הצעד האחרון של ההוכחה. בחירת תת-הסדרה של תת-הסדרה לא קשורה לזה.
+        misconception: MC-c3-limit-in-set
+
+  - id: Q-3.1-where-closed
+    type: mc
+    objectives: [OBJ-3.1-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      באותה הוכחה (סגורה וחסומה ב-$\mathbb{R}^n$ גורר קומפקטית), באיזה צעד משתמשים בכך ש-$K$ **סגורה**?
+    choices:
+      - text: 'בסוף: תת-הסדרה מתכנסת לנקודה $x\in\mathbb{R}^n$, וסגירות נותנת $x\in K$'
+        correct: true
+        feedback: >-
+          נכון. החסימות מאפשרת את בולצאנו-ויירשטראס, והסגירות מכניסה את הגבול לתוך $K$. בלי סגירות, כמו ב-$(0,1]$,
+          תת-הסדרה מתכנסת, אבל אולי לנקודה שמחוץ לקבוצה.
+      - text: 'בהתחלה: כדי שכל קואורדינטה של הסדרה תהיה חסומה'
+        feedback: >-
+          לזה משתמשים בחסימות של $K$: $|x_i|\le\|x\|_2$. גם קבוצה חסומה לא סגורה נותנת קואורדינטות חסומות.
+        misconception: MC-c3-half-heine-borel
+      - text: 'באמצע: כדי להפעיל את בולצאנו-ויירשטראס על הקואורדינטות'
+        feedback: >-
+          בולצאנו-ויירשטראס דורש רק סדרה חסומה של ממשיים. הגבול שהוא נותן נמצא ב-$\mathbb{R}$, ושם הסגירות עוד
+          לא נדרשת.
+        misconception: MC-c3-bw-is-compactness
+      - text: 'בשום צעד: חסימות מספיקה במרחב האוקלידי'
+        feedback: >-
+          $(0,1]$ חסומה ואינה קומפקטית: $\frac1n\to0\notin(0,1]$. הסגירות הכרחית.
+        misconception: MC-c3-limit-in-set
+
+  - id: Q-3.1-discrete
+    type: twotier
+    objectives: [OBJ-3.1-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      על $\mathbb{N}$ שמים את המטריקה הבדידה: $d(m,n)=1$ אם $m\ne n$ ו-0 אם $m=n$. האם $\mathbb{N}$ (כמרחב
+      בפני עצמו) קומפקטי סדרתית?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. וזו דוגמה למרחב סגור (כל מרחב סגור בעצמו) וחסום (כל המרחקים לכל היותר 1) שאינו קומפקטי.
+      - text: כן
+        feedback: >-
+          המרחב אכן סגור וחסום, אבל זה לא מספיק מחוץ למרחב האוקלידי: הסדרה $1,2,3,\dots$ לא מכילה תת-סדרה מתכנסת.
+        misconception: MC-c3-closed-bounded-compact
+    reasons:
+      - text: 'במטריקה הבדידה סדרה מתכנסת היא קבועה החל ממקום מסוים (קחו $\varepsilon=\frac12$), ולתת-סדרה של $1,2,3,\dots$ אין זנב קבוע'
+        correct: true
+        feedback: >-
+          בדיוק. $d(x_n,x)<\frac12$ פירושו $x_n=x$, ולכן התכנסות במטריקה הבדידה היא "קבועה מ-$N$ והלאה". לאיברים
+          השונים זה מזה של $1,2,3,\dots$ אין זנב כזה.
+      - text: '$\mathbb{N}$ אינה חסומה, ולכן אינה קומפקטית'
+        feedback: >-
+          במטריקה הבדידה $\mathbb{N}\subseteq B(1,2)$: כל המרחקים 0 או 1. החסימות נשפטת לפי המטריקה הנתונה, לא לפי
+          הערך המוחלט.
+        misconception: MC-c3-usual-metric-habit
+      - text: 'בכל מרחב מטרי לכל סדרה חסומה יש תת-סדרה מתכנסת, אז הבעיה חייבת להיות בסגירות'
+        feedback: >-
+          ההנחה שגויה: הסדרה $1,2,3,\dots$ חסומה במטריקה הבדידה ואין לה תת-סדרה מתכנסת. בולצאנו-ויירשטראס הוא משפט
+          על $\mathbb{R}^n$.
+        misconception: MC-c3-bw-everywhere
+
+  - id: Q-3.1-xn-gap
+    type: numeric
+    objectives: [OBJ-3.1-3]
+    level: mid
+    prompt: >-
+      ב-$(C[0,1],\|\cdot\|_\infty)$ נסמן $f_n(x)=x^n$. חשבו את $\|f_n-f_{2n}\|_\infty$. (התשובה אינה תלויה
+      ב-$n$.)
+    answer: 0.25
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. עם $t=x^n$, שעובר על כל $[0,1]$, ההפרש הוא $t-t^2$, שהמקסימום שלו ב-$t=\frac12$ הוא $\frac14$. כלומר
+      איברי הסדרה לא מתקרבים זה לזה במידה שווה, אף שהם מתכנסים נקודתית.
+    wrongFeedback: >-
+      הציבו $t=x^n$: אז $f_n(x)-f_{2n}(x)=t-t^2$ עם $t\in[0,1]$. מצאו את המקסימום של $t-t^2$.
+    commonWrong:
+      - value: 0
+        feedback: >-
+          לכל $x$ קבוע $x^n-x^{2n}\to0$, אבל הנורמה היא סופרמום על כל הקטע, לכל $n$ בנפרד: בנקודה
+          $x=2^{-1/n}$ ההפרש הוא $\frac12-\frac14=\frac14$.
+        misconception: MC-c3-pointwise-is-enough
+    hints:
+      - 'הציבו $t=x^n$, ומצאו את המקסימום של $t-t^2$ בקטע $[0,1]$.'
+
+  - id: Q-3.1-ball-C
+    type: twotier
+    objectives: [OBJ-3.1-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      האם כדור היחידה הסגור $B[0,1]=\{f\in C[0,1]: \|f\|_\infty\le1\}$ קומפקטי סדרתית ב-$(C[0,1],\|\cdot\|_\infty)$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. הוא סגור וחסום, וזו הדוגמה המרכזית לכך שבמרחב ממימד אינסופי "סגורה וחסומה" אינה מספיקה לקומפקטיות.
+      - text: כן
+        feedback: >-
+          $B[0,1]$ סגור וחסום, אבל זה לא מספיק במרחב פונקציות: לסדרה $x^n$ שבו אין תת-סדרה מתכנסת.
+        misconception: MC-c3-closed-bounded-compact
+    reasons:
+      - text: 'הסדרה $x^n\in B[0,1]$: כל תת-סדרה מתכנסת נקודתית לפונקציה שהיא 0 ב-$[0,1)$ ו-1 ב-1; גבול במידה שווה היה שווה לה ורציף, וזו סתירה'
+        correct: true
+        feedback: >-
+          בדיוק. התכנסות בנורמת הסופרמום היא התכנסות במידה שווה (שיעור 1.5), והגבול במידה שווה של פונקציות רציפות
+          רציף (שיעור 0.3). הגבול הנקודתי היחיד האפשרי אינו רציף.
+      - text: '$x^n$ מתכנסת נקודתית, ולכן יש לה תת-סדרה מתכנסת, אבל הגבול מחוץ לכדור'
+        feedback: >-
+          התכנסות נקודתית אינה התכנסות במרחב הזה. לאף תת-סדרה של $x^n$ אין גבול ב-$C[0,1]$ בכלל: אפילו
+          $\|x^n-x^{2n}\|_\infty=\frac14$ לכל $n$.
+        misconception: MC-c3-pointwise-is-enough
+      - text: '$B[0,1]$ אינו סגור'
+        feedback: >-
+          הוא סגור: אם $\|f_n\|_\infty\le1$ ו-$f_n\to f$ במידה שווה, אז $|f(x)|=\lim|f_n(x)|\le1$ לכל $x$. הבעיה היא
+          קומפקטיות, לא סגירות.
+        misconception: MC-c3-limit-in-set
+    explanation: >-
+      דרך נוספת: פונקציות "אוהל" $g_k$ עם גובה 1 ותומכים זרים, למשל על הקטעים $[\frac1{k+1},\frac1k]$, מקיימות
+      $\|g_j-g_k\|_\infty=1$ לכל $j\ne k$, ולכן לאף תת-סדרה שלהן אין אפילו תת-סדרה קושי.
+
+  - id: Q-3.1-linf
+    type: mc
+    objectives: [OBJ-3.1-3]
+    level: exam
+    prompt: >-
+      במרחב $B(\mathbb{N})$ של הסדרות החסומות עם נורמת הסופרמום, $e_k$ הוא הסדרה שבמקום ה-$k$ שלה 1 ובשאר
+      המקומות 0. מה נכון?
+    choices:
+      - text: '$\|e_j-e_k\|_\infty=1$ לכל $j\ne k$, ולכן לסדרה $(e_k)$ אין תת-סדרה מתכנסת, וכדור היחידה הסגור אינו קומפקטי'
+        correct: true
+        feedback: >-
+          נכון. תת-סדרה מתכנסת הייתה סדרת קושי, ואיבריה במרחק 1 זה מזה. הכדור סגור וחסום ובכל זאת אינו קומפקטי.
+      - text: '$e_k\to0$, כי כל קואורדינטה של $e_k$ שואפת ל-0'
+        feedback: >-
+          התכנסות בכל קואורדינטה אינה התכנסות בנורמת הסופרמום כשיש אינסוף קואורדינטות: $\|e_k-0\|_\infty=1$ לכל $k$.
+        misconception: MC-c3-pointwise-is-enough
+      - text: 'לסדרה $(e_k)$ יש תת-סדרה מתכנסת, כי היא חסומה'
+        feedback: >-
+          זה בולצאנו-ויירשטראס, שנכון ב-$\mathbb{R}^n$ ולא כאן: המרחקים בין האיברים כולם 1.
+        misconception: MC-c3-bw-everywhere
+      - text: 'כדור היחידה הסגור אינו קומפקטי כי הוא אינו חסום'
+        feedback: >-
+          הכדור חסום בהגדרה (מוכל ב-$B(0,2)$). הוא סגור וחסום, והבעיה היא שבמימד אינסופי זה לא מספיק.
+        misconception: MC-c3-closed-bounded-compact
+
+  - id: Q-3.1-relative
+    type: twotier
+    objectives: [OBJ-3.1-1]
+    qualitative: true
+    level: exam
+    prompt: >-
+      נתבונן ב-$X=(0,1]$ עם המטריקה $d(x,y)=|x-y|$ כמרחב מטרי בפני עצמו. $X$ סגור ב-$X$ וחסום. האם $X$ קומפקטי
+      סדרתית?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. קומפקטיות היא תכונה של המרחב עצמו, ולכן "סגור בתוך עצמו" אינו אומר עליה דבר.
+      - text: כן
+        feedback: >-
+          כל מרחב סגור בתוך עצמו, ולכן הנימוק הזה היה מוכיח שכל מרחב חסום קומפקטי. הסדרה $\frac1n$ מראה שלא.
+        misconception: MC-c3-closed-in-itself
+    reasons:
+      - text: 'הסדרה $\frac1n$ מתכנסת ב-$\mathbb{R}$ ל-0, ולכן כל תת-סדרה שלה מתכנסת ל-0 ב-$\mathbb{R}$; אילו התכנסה ב-$X$ לנקודה $p\in(0,1]$, הייתה מתכנסת ל-$p$ גם ב-$\mathbb{R}$, וזה סותר את יחידות הגבול'
+        correct: true
+        feedback: >-
+          בדיוק. ההתכנסות ב-$X$ היא אותה התכנסות כמו ב-$\mathbb{R}$, כי המטריקה זהה; רק הנקודה 0 חסרה.
+      - text: '$X$ אינו סגור, ולכן אינו קומפקטי'
+        feedback: >-
+          $X$ אינו סגור ב-$\mathbb{R}$, אבל כמרחב בפני עצמו הוא סגור. הטיעון הנכון לא תלוי במרחב שמסביב, אלא בסדרה
+          שבתוך $X$ שאין לה גבול ב-$X$.
+        misconception: MC-c3-closed-in-itself
+      - text: 'לסדרה $\frac1n$ אין תת-סדרה שמתכנסת במרחב כלשהו'
+        feedback: >-
+          ב-$\mathbb{R}$ היא מתכנסת, ל-0. הבעיה היא רק שהגבול אינו נקודה של $X$.
+        misconception: MC-c3-limit-in-set

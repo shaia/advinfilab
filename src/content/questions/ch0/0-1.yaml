@@ -1,0 +1,424 @@
+# Lesson 0.1 — how to study an advanced course, how to read an abstract definition and a proof with several epsilons.
+# Objectives (src/course.ts):
+#   OBJ-0.1-1  the course pattern (definition, examples, counterexamples, theorem); test an abstract definition on examples
+#   OBJ-0.1-2  read a multi-epsilon proof: what justifies each step and where each constant comes from
+#   OBJ-0.1-3  plan self-study: understanding questions after each lesson, review and exam questions per chapter
+chapter: 0
+questions:
+  - id: Q-0.1-hyp-example
+    type: mc
+    objectives: [OBJ-0.1-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      משפט ויירשטראס מאינפי 1: פונקציה **רציפה** על קטע **סגור** ו**חסום** $[a,b]$ מקבלת בו מקסימום. איזו
+      דוגמה מראה שאי אפשר לוותר על ההנחה שהקטע **חסום**?
+    choices:
+      - text: '$f(x)=x$ על הקרן $[0,\infty)$'
+        correct: true
+        feedback: >-
+          נכון. $f$ רציפה, והתחום $[0,\infty)$ סגור (מכיל את נקודת הקצה שלו), אבל אינו חסום, ו-$f$ אינה מקבלת
+          מקסימום. הדוגמה מפרה **רק** את החסימות, ולכן היא מראה שהחסימות נחוצה.
+      - text: '$f(x)=x$ על $[0,1)$'
+        feedback: >-
+          כאן המסקנה אכן נכשלת (אין מקסימום, הסופרמום 1 לא מתקבל), אבל הקטע $[0,1)$ חסום. מה שהוא מפר הוא
+          הסגירות, ולכן הדוגמה מראה שהסגירות נחוצה, לא החסימות.
+        misconception: MC-c0-example-tests-other-hypothesis
+      - text: '$f(x)=x$ ל-$x<1$ ו-$f(1)=0$, על $[0,1]$'
+        feedback: >-
+          הקטע סגור וחסום, ו-$f$ לא מקבלת מקסימום, כי היא **לא רציפה** ב-1. הדוגמה מראה שהרציפות נחוצה, לא
+          החסימות.
+        misconception: MC-c0-example-tests-other-hypothesis
+      - text: '$f(x)=x^2$ על $[-1,2]$'
+        feedback: >-
+          הדוגמה מקיימת את כל ההנחות, ולכן המשפט כבר מבטיח לה מקסימום ($f(2)=4$). דוגמה כזו לא יכולה להראות
+          שהנחה כלשהי נחוצה.
+        misconception: MC-c0-satisfying-example-tests-hypothesis
+    explanation: >-
+      המתכון: כדי להראות שהנחה נחוצה, מחפשים דוגמה שמקיימת את **כל שאר** ההנחות, מפרה רק אותה, והמסקנה
+      נכשלת בה. בקורס הזה תפגשו את התבנית הזו בכל משפט.
+
+  - id: Q-0.1-defcheck
+    type: multi
+    objectives: [OBJ-0.1-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      הגדרה (המצאנו אותה לתרגול): פונקציה $f:\mathbb{R}\to\mathbb{R}$ נקראת **כמעט-עולה** אם קיים $C\ge0$ כך
+      שלכל $x<y$ מתקיים $f(y)\ge f(x)-C$. אילו מהפונקציות הבאות כמעט-עולות? סמנו את כולן.
+    choices:
+      - text: '$\sin x$'
+        correct: true
+        feedback: >-
+          נכון, עם $C=2$: לכל $x,y$ מתקיים $\sin y-\sin x\ge-1-1=-2$. כל פונקציה חסומה היא כמעט-עולה.
+      - text: '$x+2\sin x$'
+        correct: true
+        feedback: >-
+          נכון, עם $C=4$: לכל $x<y$ מתקיים $f(y)-f(x)=(y-x)+2(\sin y-\sin x)\ge0-4$. הפונקציה יורדת בקטעים
+          קצרים, אבל הירידה הכוללת חסומה.
+      - text: '$-x$'
+        feedback: >-
+          לא: $f(y)-f(x)=-(y-x)$, ולכן $f(y)-f(x)<-C$ לכל $C$ שנבחר, כשלוקחים $y-x>C$. מי שבוחר "$C=y-x$" בוחר $C$
+          אחרי הנקודות, וההגדרה דורשת $C$ אחד לכל הזוגות.
+        misconception: MC-c0-quantifier-order-definition
+      - text: '$e^{-x}$'
+        feedback: >-
+          לא: עם $x=-t$ ו-$y=0$ מקבלים $f(y)-f(x)=1-e^{t}$, ולכן $f(y)-f(x)<-C$ לכל $C$ כש-$t$ גדול. הירידה מאינסוף
+          לכיוון 0 אינה חסומה, ואי אפשר לבחור $C$ אחר לכל זוג.
+        misconception: MC-c0-quantifier-order-definition
+      - text: '$x^3-3x$'
+        correct: true
+        feedback: >-
+          נכון, עם $C=4$. הפונקציה יורדת רק ב-$[-1,1]$, מ-$f(-1)=2$ ל-$f(1)=-2$, ובשאר הישר עולה. לכן
+          הירידה הגדולה ביותר מ-$x$ ל-$y>x$ היא 4.
+    explanation: >-
+      בדיקה של הגדרה מופשטת: לכל דוגמה שואלים "מי בוחר מה, ובאיזה סדר". כאן $C$ נבחר **ראשון**, ורק אחריו
+      מגיע היריב עם $x<y$. לכן השאלה היא אם הירידה הכוללת של $f$ חסומה.
+
+  - id: Q-0.1-negdef
+    type: mc
+    objectives: [OBJ-0.1-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $f$ נקראת כמעט-עולה אם $\exists C\ge0\ \forall x<y:\ f(y)\ge f(x)-C$. מה פירוש "$f$ **אינה**
+      כמעט-עולה"?
+    choices:
+      - text: '$\forall C\ge0\ \exists x<y:\ f(y)<f(x)-C$'
+        correct: true
+        feedback: >-
+          נכון. "קיים" הופך ל"לכל", "לכל" הופך ל"קיים", ואי-השוויון נשלל. במילים: לכל רף $C$ יש זוג נקודות שבו
+          $f$ יורדת ביותר מ-$C$.
+      - text: '$\exists C\ge0\ \exists x<y:\ f(y)<f(x)-C$'
+        feedback: >-
+          כאן לא הפכו את הכמת הראשון. הטענה הזו נכונה גם ל-$\sin x$, שכמעט-עולה: עם $C=0$ יש $x<y$ שבהם
+          הסינוס יורד.
+        misconception: MC-c0-negation-partial
+      - text: '$\exists C\ge0\ \forall x<y:\ f(y)<f(x)-C$'
+        feedback: >-
+          כאן שללו רק את אי-השוויון והשאירו את הכמתים. זה אומר שהפונקציה יורדת ביותר מ-$C$ בין **כל** שתי
+          נקודות, טענה חזקה בהרבה. הפונקציה $f(x)=-x+2\sin x$ אינה כמעט-עולה (הירידה הכוללת שלה לא חסומה), ובכל זאת לא מקיימת
+          אותה: ליד 0 היא עולה, כי $f'(0)=-1+2\cos0=1>0$.
+        misconception: MC-c0-negation-partial
+      - text: '$\forall C\ge0\ \forall x<y:\ f(y)<f(x)-C$'
+        feedback: >-
+          את הכמת השני שכחו להפוך. זה דורש ירידה גדולה מכל $C$ בין כל שתי נקודות, וזה בלתי אפשרי לכל פונקציה:
+          לזוג קבוע $x<y$ מספיק לקחת $C\ge f(x)-f(y)$.
+        misconception: MC-c0-negation-partial
+
+  - id: Q-0.1-eps-half
+    type: mc
+    objectives: [OBJ-0.1-2]
+    qualitative: true
+    level: basic
+    prompt: >-
+      בהוכחה ש-$a_n\to a$ ו-$b_n\to b$ גוררים $a_n+b_n\to a+b$ בוחרים $N_1$ כך ש-$|a_n-a|<\frac{\varepsilon}{2}$
+      לכל $n>N_1$, ו-$N_2$ כך ש-$|b_n-b|<\frac{\varepsilon}{2}$ לכל $n>N_2$. למה דווקא $\frac{\varepsilon}{2}$?
+    choices:
+      - text: 'אי-שוויון המשולש מפצל את ההפרש לשני מחוברים, וכשכל אחד קטן מחצי אפסילון הסכום קטן מאפסילון'
+        correct: true
+        feedback: >-
+          נכון. $|(a_n+b_n)-(a+b)|\le|a_n-a|+|b_n-b|$: שני מחוברים, ולכן $\frac{\varepsilon}{2}$ לכל אחד. זו
+          נוחות, לא חובה: גם סיום ב-$2\varepsilon$ תקין, כי $\varepsilon$ שרירותי.
+      - text: 'כי הגדרת הגבול מחייבת לעבוד עם חצי אפסילון'
+        feedback: >-
+          הגדרת הגבול לא מזכירה $\frac{\varepsilon}{2}$. ההגדרה מופעלת על **כל** מספר חיובי, ובוחרים לה את
+          $\frac{\varepsilon}{2}$ רק כי שני מחוברים יתחברו בסוף ל-$\varepsilon$. עם שלושה מחוברים בוחרים
+          $\frac{\varepsilon}{3}$.
+        misconception: MC-c0-eps-half-always
+      - text: 'כי עם $\varepsilon$ לכל סדרה מקבלים $2\varepsilon$, וזו כבר אינה הוכחה'
+        feedback: >-
+          הוכחה שמסתיימת ב-$<2\varepsilon$ היא הוכחה תקינה: $2\varepsilon$ הוא מספר חיובי שרירותי כמו
+          $\varepsilon$. החלוקה ל-$\frac{\varepsilon}{2}$ רק חוסכת את השורה האחרונה.
+        misconception: MC-c0-must-end-exactly-eps
+      - text: 'כי צריך את אותו $N$ לשתי הסדרות, והחלוקה בשתיים מבטיחה זאת'
+        feedback: >-
+          החלוקה של $\varepsilon$ לא קשורה ל-$N$. יש שני $N$-ים שונים, ומאחדים אותם ב-$N=\max(N_1,N_2)$: מ-$N$
+          והלאה שני התנאים מתקיימים.
+        misconception: MC-c0-same-N
+
+  - id: Q-0.1-path
+    type: rank
+    objectives: [OBJ-0.1-3]
+    qualitative: true
+    level: basic
+    help: 'סדרו את שלבי המסלול של פרק אחד, מהראשון לאחרון.'
+    prompt: >-
+      בקורס הזה לכל פרק יש מסלול לימוד עצמי קבוע. סדרו את שלביו.
+    items:
+      - id: lesson
+        label: 'קוראים את השיעור: הגדרה, דוגמאות, דוגמאות נגדיות, משפט והוכחה'
+      - id: understand
+        label: 'פותרים את שאלות ההבנה של השיעור, מבסיס דרך בינוני ועד מבחן'
+      - id: review
+        label: 'בסוף הפרק: שאלות החזרה, שמשלבות כמה שיעורים'
+      - id: exam
+        label: 'שאלות המבחן של הפרק, עם הוכחה כתובה שבודקים מול פתרון ומחוון'
+      - id: test
+        label: 'המבחן של הפרק, בלי רמזים, ואחריו הסיכום'
+    order: [lesson, understand, review, exam, test]
+    correctFeedback: >-
+      נכון. כל שלב בודק את מה שקודמו בנה: שאלות ההבנה בודקות שיעור אחד, שאלות החזרה מערבבות שיעורים, ושאלות
+      המבחן דורשות הוכחה כתובה ומלאה.
+    wrongFeedback: >-
+      התחילו ממה שבודק הכי מעט (שיעור אחד) והתקדמו למה שבודק הכי הרבה (פרק שלם, בלי רמזים).
+
+  - id: Q-0.1-sure-wrong
+    type: mc
+    objectives: [OBJ-0.1-3]
+    qualitative: true
+    level: basic
+    prompt: >-
+      ענו על שאלה, סימנו "בטוח", והתשובה התבררה כשגויה. מה הצעד הבא הנכון?
+    choices:
+      - text: 'לקרוא את המשוב, לחזור לשיעור שהוא מפנה אליו, ולחזור לשאלות על אותו נושא אחרי יום או יומיים'
+        correct: true
+        feedback: >-
+          נכון. טעות עם ביטחון היא הסימן לתפיסה שגויה, לא לפער מקרי. המשוב מסביר מה האמנתם ולמה זה לא נכון,
+          והחזרה אחרי הפסקה בודקת שהתיקון נשאר.
+      - text: 'להמשיך לשאלה הבאה: טעות אחת לא אומרת הרבה'
+        feedback: >-
+          דווקא טעות שסומנה "בטוח" אומרת הרבה: היא מראה טענה שגויה שאתם מחזיקים בה. אם לא מתקנים אותה, היא
+          תחזור בכל פרק שנשען על אותו רעיון.
+        misconception: MC-c0-mistake-is-noise
+      - text: 'מעכשיו לסמן תמיד "לא בטוח", כדי שטעויות לא ייחשבו'
+        feedback: >-
+          כך מסתירים בדיוק את המידע החשוב. הסימון לא מוריד ציון; הוא מבדיל בין "לא ידעתי" לבין "חשבתי שאני יודע
+          וטעיתי", ורק את השני צריך לתקן בדחיפות.
+        misconception: MC-c0-mistake-is-noise
+      - text: 'לקרוא את השיעור כולו שוב מההתחלה'
+        feedback: >-
+          קריאה חוזרת של כל השיעור לא מכוונת לטעות. המשוב מצביע על הרעיון המסוים שהשתבש ועל המקום בשיעור שמטפל
+          בו; לכו לשם, ואחר כך בדקו את עצמכם בשאלה חדשה.
+        misconception: MC-c0-passive-review
+
+  - id: Q-0.1-test-hyp
+    type: mc
+    objectives: [OBJ-0.1-1, OBJ-0.1-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      קראתם את משפט לגרנז' (הערך הממוצע): אם $f$ רציפה ב-$[a,b]$ וגזירה ב-$(a,b)$, יש $c\in(a,b)$ עם
+      $f'(c)=\frac{f(b)-f(a)}{b-a}$. איזו פעולה בודקת הכי טוב שהבנתם למה צריך את הרציפות **בקצוות**?
+    choices:
+      - text: 'למצוא פונקציה גזירה ב-$(0,1)$ ולא רציפה ב-1 שהמסקנה נכשלת בה, למשל $f=0$ ב-$[0,1)$ ו-$f(1)=1$'
+        correct: true
+        feedback: >-
+          נכון. כאן $\frac{f(1)-f(0)}{1-0}=1$, אבל $f'(c)=0$ לכל $c\in(0,1)$. הדוגמה מפרה רק את הרציפות ב-1,
+          והמסקנה נכשלת: ההנחה נחוצה.
+      - text: 'לבדוק את המשפט על $f(x)=x^2$ ב-$[0,1]$'
+        feedback: >-
+          $x^2$ מקיימת את כל ההנחות, ולכן המשפט מבטיח לה את המסקנה ($c=\frac12$). הבדיקה מראה שהמשפט עובד, אבל
+          לא אומרת דבר על תפקיד הרציפות בקצוות.
+        misconception: MC-c0-satisfying-example-tests-hypothesis
+      - text: 'למצוא פונקציה רציפה ב-$[0,1]$ ולא גזירה ב-$\frac12$ שהמסקנה נכשלת בה, למשל $\left|x-\frac12\right|$'
+        feedback: >-
+          המסקנה אכן נכשלת: השיפוע הממוצע 0, והנגזרת רק 1 או מינוס 1. אבל הדוגמה מפרה את הגזירות בפנים, לא את
+          הרציפות בקצוות; היא בודקת הנחה אחרת.
+        misconception: MC-c0-example-tests-other-hypothesis
+      - text: 'לקרוא את ההוכחה שוב עד שכל שורה ברורה'
+        feedback: >-
+          קריאה חוזרת נותנת תחושה של הבנה, לא בדיקה שלה. דוגמה שמפרה את ההנחה ומפילה את המסקנה מראה לכם בדיוק
+          מה ההנחה עושה.
+        misconception: MC-c0-passive-review
+
+  - id: Q-0.1-constants
+    type: multi
+    objectives: [OBJ-0.1-2]
+    level: mid
+    prompt: >-
+      בהוכחה ש-$a_n\to L$ ו-$b_n\to M$ גוררים $a_nb_n\to LM$ הגענו ל-
+      $$|a_nb_n-LM|\le|a_n|\,|b_n-M|+|M|\,|a_n-L|,$$
+      וידוע ש-$|a_n|\le3$ לכל $n$ ו-$M=4$. מבקשים $|b_n-M|<\eta_1$ ו-$|a_n-L|<\eta_2$ מ-$N$ מסוים והלאה. אילו
+      בחירות של $(\eta_1,\eta_2)$ מבטיחות $|a_nb_n-LM|<\varepsilon$? סמנו את כולן.
+    choices:
+      - text: '$\left(\frac{\varepsilon}{6},\ \frac{\varepsilon}{8}\right)$'
+        correct: true
+        feedback: >-
+          נכון: $3\cdot\frac{\varepsilon}{6}+4\cdot\frac{\varepsilon}{8}=\frac{\varepsilon}{2}+\frac{\varepsilon}{2}=\varepsilon$,
+          ואי-השוויונות חזקים, ולכן הסכום קטן ממש מ-$\varepsilon$.
+      - text: '$\left(\frac{\varepsilon}{7},\ \frac{\varepsilon}{7}\right)$'
+        correct: true
+        feedback: >-
+          נכון: $3\cdot\frac{\varepsilon}{7}+4\cdot\frac{\varepsilon}{7}=\varepsilon$. אותו $\eta$ לשני
+          המחוברים, מחולק בסכום המקדמים.
+      - text: '$\left(\frac{\varepsilon}{10},\ \frac{\varepsilon}{10}\right)$'
+        correct: true
+        feedback: >-
+          נכון: הסכום קטן מ-$\frac{7\varepsilon}{10}<\varepsilon$. אין קבוע "נכון" אחד: כל בחירה שהסכום שלה
+          לכל היותר $\varepsilon$ עובדת.
+      - text: '$\left(\frac{\varepsilon}{2},\ \frac{\varepsilon}{2}\right)$'
+        feedback: >-
+          זה נותן רק $|a_nb_n-LM|<3\cdot\frac{\varepsilon}{2}+4\cdot\frac{\varepsilon}{2}=\frac{7\varepsilon}{2}$.
+          חצי אפסילון מתאים לשני מחוברים **בלי מקדמים**; כאן המקדמים 3 ו-4 משנים את החשבון.
+        misconception: MC-c0-eps-half-always
+      - text: '$\left(\frac{\varepsilon}{3},\ \frac{\varepsilon}{4}\right)$'
+        feedback: >-
+          כך כל מחובר קטן מ-$\varepsilon$, והסכום רק מ-$2\varepsilon$. החלוקה במקדם מטפלת במקדם, אבל שוכחת
+          שיש **שני** מחוברים.
+        misconception: MC-c0-constants-ignore-coefficients
+    explanation: >-
+      את הקבועים קוראים מהשורה האחרונה: כותבים את החסם $3\eta_1+4\eta_2$ ודורשים שיהיה לכל היותר $\varepsilon$.
+      בהוכחה כתובה בוחרים אותם מראש, ולכן הם נראים "מהאוויר", אבל הם תמיד באים מהחסם שבסוף.
+
+  - id: Q-0.1-largest-c
+    type: numeric
+    objectives: [OBJ-0.1-2]
+    level: mid
+    prompt: >-
+      בהוכחה הגענו לחסם $|x_n-L|\le2|y_n-a|+5|z_n-b|$, ורוצים $|x_n-L|<\varepsilon$. בוחרים $\eta=c\,\varepsilon$
+      ודורשים $|y_n-a|<\eta$ ו-$|z_n-b|<\eta$. מהו ה-$c$ **הגדול ביותר** שמבטיח $|x_n-L|<\varepsilon$? אפשר
+      לענות בשבר.
+    answer: 0.14285714285714285
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון, $c=\frac17$: אז $|x_n-L|<2\eta+5\eta=7\eta=\varepsilon$. כל $c>\frac17$ נכשל, כי כשהמרחקים קרובים
+      ל-$\eta$ החסם קרוב ל-$7c\varepsilon>\varepsilon$.
+    wrongFeedback: >-
+      כתבו את החסם בעזרת $\eta$: $2\eta+5\eta$. דרשו שיהיה לכל היותר $\varepsilon$, ובודדו את $\eta$.
+    commonWrong:
+      - value: 0.5
+        feedback: >-
+          $\frac12$ הוא הטקס של שני מחוברים, אבל כאן הם מוכפלים ב-2 וב-5: עם $\eta=\frac{\varepsilon}{2}$ החסם
+          הוא $\frac{7\varepsilon}{2}$.
+        misconception: MC-c0-eps-half-always
+      - value: 0.2
+        feedback: >-
+          $\frac15$ מטפל רק במקדם הגדול: $5\eta=\varepsilon$, אבל נשאר עוד המחובר $2\eta$, והסכום מגיע
+          ל-$\frac{7\varepsilon}{5}$.
+        misconception: MC-c0-constants-ignore-coefficients
+      - value: 0.1
+        feedback: >-
+          $\frac{1}{10}$ מתקבל מחלוקה לחצאים ואחר כך במקדם הגדול. הוא **עובד** (החסם $\frac{7\varepsilon}{10}$),
+          אבל הוא לא הגדול ביותר: השאלה מבקשת את הקבוע המדויק שהחסם נותן.
+        misconception: MC-c0-eps-half-always
+
+  - id: Q-0.1-stuck
+    type: multi
+    objectives: [OBJ-0.1-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      אתם נתקעים בתרגיל: "הוכיחו שאם $a_n\to a$ אז $|a_n|\to|a|$". אילו מהצעדים הבאים מקדמים אתכם? סמנו את
+      כולם.
+    choices:
+      - text: 'לכתוב את מה שצריך להוכיח עם הכמתים: לכל $\varepsilon>0$ קיים $N$ כך ש-$\big||a_n|-|a|\big|<\varepsilon$ לכל $n>N$'
+        correct: true
+        feedback: >-
+          נכון. ניסוח המטרה בכמתים אומר מה מותר להניח ומה צריך למצוא, וכאן הוא מראה שמספיק לחסום את
+          $\big||a_n|-|a|\big|$ במשהו שקטן כש-$n$ גדל.
+      - text: 'לחפש אי-שוויון בין $\big||a_n|-|a|\big|$ לבין $|a_n-a|$'
+        correct: true
+        feedback: >-
+          נכון. אי-שוויון המשולש ההפוך, $\big||u|-|v|\big|\le|u-v|$, נותן את כל ההוכחה: אותו $N$ של $a_n\to a$
+          מתאים.
+      - text: 'לבדוק על $a_n=(-1)^n$ אם הכיוון ההפוך נכון, כדי לדעת איזה כיוון "קשה"'
+        correct: true
+        feedback: >-
+          נכון, זו בדיקה טובה: $|(-1)^n|=1\to1$, אבל $(-1)^n$ אינה מתכנסת. לכן ההפוך שקרי, וההוכחה חייבת להשתמש
+          בכיוון הנתון.
+      - text: 'להוכיח במקום זה את ההפוך, $|a_n|\to|a|\Rightarrow a_n\to a$, שנראה פשוט יותר'
+        feedback: >-
+          ההפוך הוא טענה אחרת, והוא שקרי: $a_n=(-1)^n$ ו-$a=1$ נותנים $|a_n|\to|a|$ בלי $a_n\to a$. הוכחה שלו
+          (אילו הייתה) לא הייתה מוכיחה את התרגיל.
+        misconception: MC-c0-converse-equivalent
+      - text: 'לפתוח את הפתרון המלא אחרי שתי דקות של תקיעות'
+        feedback: >-
+          הצצה מוקדמת הופכת את התרגיל לקריאה. נסו קודם את הצעדים שלמעלה (מטרה בכמתים, אי-שוויון מוכר, דוגמה);
+          ברוב המקרים אחד מהם פותח את הדרך.
+        misconception: MC-c0-passive-review
+
+  - id: Q-0.1-def-test
+    type: mc
+    objectives: [OBJ-0.1-1, OBJ-0.1-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      קראתם הגדרה חדשה: "$f:\mathbb{R}\to\mathbb{R}$ כמעט-עולה אם קיים $C\ge0$ כך ש-$f(y)\ge f(x)-C$ לכל
+      $x<y$". איזו פעילות בודקת הכי טוב שהבנתם אותה?
+    choices:
+      - text: 'למצוא פונקציה שמקיימת אותה ופונקציה שלא, ולהסביר באיזה חלק של ההגדרה השנייה נכשלת'
+        correct: true
+        feedback: >-
+          נכון. למשל $\sin x$ (עם $C=2$) מול $f(x)=-x$ (לכל $C$ יש $x<y$ עם $y-x>C$). ההבדל ביניהן מראה מה ההגדרה
+          באמת דורשת: ירידה כוללת חסומה.
+      - text: 'לבדוק ש-$f(x)=x$ מקיימת אותה'
+        feedback: >-
+          $f(x)=x$ עולה, ולכן מקיימת את ההגדרה גם עם $C=0$. בדיקה אחת חיובית וקלה לא מראה מה ההגדרה **פוסלת**,
+          וזה עיקר ההבנה.
+        misconception: MC-c0-only-positive-examples
+      - text: 'להעתיק את ההגדרה כמה פעמים עד שזוכרים אותה בעל פה'
+        feedback: >-
+          לזכור את הניסוח זה לא להבין אותו. הבנה נבדקת כשמפעילים את ההגדרה על דוגמה ועל דוגמה נגדית.
+        misconception: MC-c0-passive-review
+      - text: 'לבדוק שההגדרה מתקיימת ל-$C=0$, ואז היא מתקיימת לכל $C$'
+        feedback: >-
+          עם $C=0$ ההגדרה היא "$f$ לא יורדת", מקרה פרטי בלבד. בדיקה של מקרה אחד לא מראה מה קורה בפונקציות
+          שיורדות מעט, כמו $\sin x$, שהן כל העניין של ההגדרה.
+        misconception: MC-c0-only-positive-examples
+
+  - id: Q-0.1-same-N
+    type: twotier
+    objectives: [OBJ-0.1-2]
+    qualitative: true
+    level: exam
+    prompt: >-
+      "הוכחה" ש-$a_n\to a$ ו-$b_n\to b$ גוררים $a_n+b_n\to a+b$: "יהי $\varepsilon>0$. כי $a_n\to a$, קיים $N$
+      כך ש-$|a_n-a|<\varepsilon$ לכל $n>N$. כי $b_n\to b$, מתקיים $|b_n-b|<\varepsilon$ לכל $n>N$. לכן
+      $|(a_n+b_n)-(a+b)|<2\varepsilon$ לכל $n>N$." האם ההוכחה נכונה כפי שהיא כתובה?
+    choices:
+      - text: לא, יש בה פער
+        correct: true
+        feedback: >-
+          נכון. הפער הוא במשפט השני: ה-$N$ שנבחר לפי $a_n$ לא בהכרח מתאים ל-$b_n$.
+      - text: כן, היא נכונה
+        feedback: >-
+          ההתכנסות של $b_n$ נותנת $N$ **משלה**. אם $b_n$ מתכנסת לאט, ה-$N$ של $a_n$ קטן מדי בשבילה.
+        misconception: MC-c0-same-N
+    reasons:
+      - text: 'לכל סדרה יש $N$ משלה; צריך $N=\max(N_1,N_2)$. הסיום ב-$2\varepsilon$ דווקא תקין'
+        correct: true
+        feedback: >-
+          בדיוק. עם $N=\max(N_1,N_2)$ שני התנאים מתקיימים יחד. ו-$2\varepsilon$ הוא מספר חיובי שרירותי, ולכן
+          הסיום בו מוכיח את ההתכנסות.
+      - text: 'הפער הוא בסיום: הוכחה חייבת להגיע ל-$<\varepsilon$, לא ל-$<2\varepsilon$'
+        feedback: >-
+          זה לא פער: אם לכל $\varepsilon>0$ יש $N$ עם $|\dots|<2\varepsilon$, אז לכל $\varepsilon'>0$ מפעילים את
+          זה עם $\varepsilon=\frac{\varepsilon'}{2}$. הפער האמיתי הוא ה-$N$ המשותף.
+        misconception: MC-c0-must-end-exactly-eps
+      - text: 'הפער הוא ש-$N$ לא נתון בנוסחה מפורשת ב-$\varepsilon$'
+        feedback: >-
+          ההגדרה דורשת רק **קיום** של $N$. מותר לקבל אותו מההתכנסות הנתונה בלי לדעת אותו במפורש; בחלק גדול
+          מההוכחות בקורס אין לו נוסחה.
+        misconception: MC-c0-N-must-be-formula
+
+  - id: Q-0.1-average
+    type: numeric
+    objectives: [OBJ-0.1-2]
+    level: exam
+    prompt: >-
+      ידוע ש-$a_n\to L$, ומוכיחים ש-$b_n=\frac{a_n+a_{n+1}+a_{n+2}}{3}\to L$. בוחרים $\eta=c\,\varepsilon$ ו-$N$ כך
+      ש-$|a_k-L|<\eta$ לכל $k>N$. מהו ה-$c$ **הגדול ביותר** שמבטיח $|b_n-L|<\varepsilon$ לכל $n>N$ מתוך החסם
+      $|b_n-L|\le\frac{|a_n-L|+|a_{n+1}-L|+|a_{n+2}-L|}{3}$?
+    answer: 1
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון, $c=1$: לכל $n>N$ שלושת האינדקסים $n,n+1,n+2$ גדולים מ-$N$, ולכן
+      $|b_n-L|<\frac{\eta+\eta+\eta}{3}=\eta=\varepsilon$. המקדם $\frac13$ כבר מחלק בשלושה, ואין צורך בעוד חלוקה.
+    wrongFeedback: >-
+      הציבו $\eta$ בכל אחד משלושת המחוברים, וזכרו שהסכום מחולק ב-3. מה צריך להיות $\eta$ כדי שהתוצאה תהיה
+      לכל היותר $\varepsilon$?
+    commonWrong:
+      - value: 0.3333333333333333
+        feedback: >-
+          $\frac{\varepsilon}{3}$ הוא הרגל של "שלושה מחוברים, שליש לכל אחד". הוא עובד, אבל כאן הוא מיותר: הממוצע
+          כבר מחלק בשלושה, והחסם המדויק נותן $c=1$.
+        misconception: MC-c0-eps-half-always
+      - value: 0.1111111111111111
+        feedback: >-
+          $\frac19$ מתקבל מחלוקה כפולה בשלושה: פעם בשביל שלושת המחוברים ופעם בשביל הממוצע. הקבוע בא מהחסם עצמו:
+          $\frac{3\eta}{3}=\eta$.
+        misconception: MC-c0-constants-ignore-coefficients
+    explanation: >-
+      מוסר ההשכל: לא מחלקים את $\varepsilon$ לפי מספר המחוברים באופן אוטומטי. כותבים את החסם האחרון וקוראים
+      ממנו את הקבוע.

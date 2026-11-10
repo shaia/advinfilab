@@ -1,0 +1,26 @@
+- id: v-1-5-sequences
+  youtubeId: GZDLjeieaJo
+  title: Sequences in a metric space, Real Analysis II
+  channel: Dr. Bevin Maultsby
+  lang: en
+  captions: [en]
+  start: 0
+  minutes: 19
+  why: >-
+    לפי תיאור הסרטון ופרקיו: הגדרת התכנסות במרחב מטרי (0:00), הניסוח השקול בעזרת אפסילון (3:55), סדרות
+    חסומות (10:28), ובסוף סדרות במרחב האוקלידי (14:28) עם הוכחה שסדרת וקטורים מתכנסת אם ורק אם כל סדרת
+    קואורדינטות מתכנסת. זו בדיוק הטענה שבשיעור: עקבו אחרי שני הכיוונים שלה.
+  verified: 2026-11-09
+- id: v-1-5-closed-sets
+  youtubeId: AWydRGdxtwQ
+  title: Sequences and closed sets, Real Analysis II
+  channel: Dr. Bevin Maultsby
+  lang: en
+  captions: [en]
+  start: 0
+  minutes: 15
+  why: >-
+    לפי תיאור הסרטון ופרקיו: הוכחה שקבוצה סגורה אם ורק אם הגבול של כל סדרה מתכנסת בה נמצא בה (הכיוון
+    הראשון ב-2:29, השני ב-7:16), ואפיון הסגור כקבוצת הגבולות של סדרות מהקבוצה (9:48). שימו לב איך בכיוון
+    השני בונים סדרה מנקודת הצטברות שמחוץ לקבוצה.
+  verified: 2026-11-09

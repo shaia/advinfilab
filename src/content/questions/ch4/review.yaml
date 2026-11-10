@@ -1,0 +1,385 @@
+# Chapter 4 review — the space C(K) (lessons 4.1–4.6), easy to hard.
+# Every lesson is touched; most questions combine two or more lessons, some reach back to chapters 0, 2 and 3.
+# Each hint names the lesson to go back to.
+chapter: 4
+questions:
+  - id: Q-4-review-01
+    type: multi
+    objectives: [OBJ-4.1-2, OBJ-0.3-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $f_n,f\in C(K)$, $K$ קומפקטי. אילו מהטענות הבאות **שקולות** ל"$f_n\to f$ במרחב $C(K)$"? סמנו את כולן.
+    choices:
+      - text: '$\max_{x\in K}|f_n(x)-f(x)|\to0$'
+        correct: true
+        feedback: 'נכון: זו ההגדרה, $\|f_n-f\|_\infty\to0$.'
+      - text: '$f_n\to f$ במידה שווה על $K$'
+        correct: true
+        feedback: >-
+          נכון: לכל $\varepsilon$ יש $N$ כך ש-$|f_n(x)-f(x)|<\varepsilon$ לכל $n>N$ ולכל $x$, וזה בדיוק
+          $\|f_n-f\|_\infty\le\varepsilon$.
+      - text: '$f_n(x)\to f(x)$ לכל $x\in K$'
+        feedback: >-
+          התכנסות נקודתית חלשה יותר: האוהל הנודד בגובה 1 שואף ל-0 בכל נקודה, ו-$\|f_n\|_\infty=1$.
+        misconception: MC-c4-pointwise-is-ck-convergence
+      - text: '$\int_K|f_n-f|\to0$ (כש-$K=[0,1]$)'
+        feedback: >-
+          זו התכנסות בנורמת האינטגרל, חלשה יותר: אוהל בגובה 1 וברוחב $\frac2n$ שואף ל-0 בנורמה הזו ולא בנורמת הסופרמום.
+        misconception: MC-c4-sup-vs-integral-norm
+    hints:
+      - 'חזרו לשיעור 4.1: התכנסות ב-$C(K)$, ולשיעור 0.3: התכנסות במידה שווה.'
+
+  - id: Q-4-review-02
+    type: numeric
+    objectives: [OBJ-4.1-1]
+    level: basic
+    prompt: >-
+      ב-$C[0,2]$: מהו $\|f\|_\infty$ עבור $f(x)=xe^{-x}$? (תשובה עשרונית, בדיוק של שלוש ספרות.)
+    answer: 0.36787944117144233
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון: $f'(x)=(1-x)e^{-x}$ מתאפסת ב-$x=1$, ו-$f(1)=\frac1e\approx0.368$. בקצוות $f(0)=0$ ו-$f(2)=2e^{-2}\approx0.271$.
+    wrongFeedback: >-
+      מצאו את הנקודה הקריטית של $xe^{-x}$ בקטע, והשוו את הערך בה לערכים בקצוות.
+    commonWrong:
+      - value: 0.2706705664732254
+        feedback: >-
+          $2e^{-2}\approx0.271$ הוא הערך בקצה $x=2$. המקסימום בפנים, ב-$x=1$.
+        misconception: MC-c4-max-at-endpoints
+    hints:
+      - 'חזרו לשיעור 4.1: נורמת הסופרמום היא מקסימום שמתקבל, ומחשבים אותו כמו באינפי 1.'
+
+  - id: Q-4-review-03
+    type: twotier
+    objectives: [OBJ-4.2-1, OBJ-1.6-3]
+    qualitative: true
+    level: basic
+    prompt: >-
+      טענה: כל אחת מהפונקציות $x^n$ **רציפה במידה שווה** על $[0,1]$, אבל המשפחה $\{x^n:\ n\in\mathbb{N}\}$ **אינה רציפה
+      במידה אחידה** על $[0,1]$. נכון או לא נכון?
+    choices:
+      - text: נכון
+        correct: true
+        feedback: 'נכון. שני המונחים נבדלים במילה אחת ובכמת אחד: האם $\delta$ משותף לכל המשפחה.'
+      - text: לא נכון
+        feedback: >-
+          שני החלקים נכונים: קנטור לכל פונקציה בנפרד, ו-$\varepsilon=\frac12$ עם הנקודות $1$ ו-$1-\frac\delta2$ למשפחה.
+        misconception: MC-c4-equi-vs-uniform
+    reasons:
+      - text: 'לכל $n$ יש $\delta_n$ (קנטור), אבל $\delta_n\to0$: לכל $\delta$ יש $n$ עם $1-(1-\frac\delta2)^n\ge\frac12$'
+        correct: true
+        feedback: >-
+          בדיוק. רציפות במידה אחידה הייתה דורשת $\inf_n\delta_n>0$.
+      - text: 'רציפה במידה שווה ורציפה במידה אחידה הם אותו מושג, ולכן הטענה סותרת את עצמה'
+        feedback: >-
+          הם שני מושגים: הראשון על פונקציה אחת, השני על משפחה. הטענה עקבית ונכונה.
+        misconception: MC-c4-equi-vs-uniform
+      - text: 'המשפחה חסומה ב-1, ולכן היא כן רציפה במידה אחידה'
+        feedback: >-
+          חסימות אינה גוררת רציפות במידה אחידה, ו-$\{x^n\}$ היא בדיוק הדוגמה.
+        misconception: MC-c4-bounded-family-equicontinuous
+    hints:
+      - 'חזרו לשיעור 4.2: ההגדרה וההבדל מרציפות במידה שווה (שיעור 1.6).'
+
+  - id: Q-4-review-04
+    type: mc
+    objectives: [OBJ-4.4-1, OBJ-4.4-3]
+    qualitative: true
+    level: basic
+    prompt: >-
+      איזה מהמרחבים הבאים **אינו** ספרבילי?
+    choices:
+      - text: '$\ell^\infty$, הסדרות החסומות עם נורמת הסופרמום'
+        correct: true
+        feedback: >-
+          נכון. הסדרות שאיבריהן 0 או 1 הן קבוצה לא בת מנייה של נקודות במרחק 1 זו מזו.
+      - text: '$C[0,1]$ עם נורמת הסופרמום'
+        feedback: >-
+          ספרבילי: הקווים השבורים הרציונליים, או הפולינומים עם מקדמים רציונליים, צפופים. העובדה שהוא ממימד אינסופי לא
+          משנה.
+        misconception: MC-c4-separable-countable
+      - text: '$\mathbb{R}^3$ עם $\|\cdot\|_\infty$'
+        feedback: 'ספרבילי: $\mathbb{Q}^3$ צפופה בכל נורמה מהנורמות האלה.'
+        misconception: MC-c4-separable-countable
+      - text: '$[0,1]$, שאינו בן מנייה'
+        feedback: >-
+          ספרבילי: $\mathbb{Q}\cap[0,1]$ צפופה. ספרבילי אינו "בן מנייה".
+        misconception: MC-c4-separable-countable
+    hints:
+      - 'חזרו לשיעור 4.4: ההגדרה, והדוגמה הנגדית של נקודות רחוקות זו מזו.'
+
+  - id: Q-4-review-05
+    type: numeric
+    objectives: [OBJ-4.2-2, OBJ-4.3-3]
+    level: mid
+    prompt: >-
+      $\mathcal{F}=\{f\in C^1[0,1]:\ |f(0)|\le1,\ |f'(t)|\le1\ \forall t\}$. הראו ש-$\mathcal{F}$ קומפקטית יחסית ב-$C[0,1]$, וחשבו
+      את $\sup_{f\in\mathcal{F}}\|f\|_\infty$.
+    answer: 2
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $|f(x)|\le|f(0)|+|x|\cdot\max|f'|\le2$, ו-$f(x)=1+x$ מגיעה ל-2. החסם על הנגזרות נותן קבוע ליפשיץ משותף 1
+      (רציפות במידה אחידה), ולכן לפי ארצלה-אסקולי $\mathcal{F}$ קומפקטית יחסית.
+    wrongFeedback: >-
+      משפט הערך הממוצע: $|f(x)-f(0)|\le|x|$. הוסיפו את $|f(0)|$.
+    commonWrong:
+      - value: 1
+        feedback: >-
+          $|f(0)|\le1$ חוסם רק את הערך ב-0. הפונקציה $1+x$ במשפחה ומגיעה ל-2.
+        misconception: MC-c4-pointwise-bounded-uniform
+    hints:
+      - 'חזרו לשיעור 4.2 (חסם משותף לנגזרות) ולשיעור 4.3 (ארצלה-אסקולי).'
+
+  - id: Q-4-review-06
+    type: twotier
+    objectives: [OBJ-4.1-3, OBJ-4.3-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      בשיעור 4.1 ראיתם שכדור היחידה הסגור של $C[0,1]$ אינו קומפקטי. איזו הנחה של ארצלה-אסקולי הוא מפר?
+    choices:
+      - text: רציפות במידה אחידה
+        correct: true
+        feedback: 'נכון. הוא חסום (ב-1) וסגור, אבל אינו רציף במידה אחידה.'
+      - text: חסימות
+        feedback: '$\|f\|_\infty\le1$ לכל $f$ בכדור: הוא חסום.'
+        misconception: MC-c4-aa-hypothesis-role
+    reasons:
+      - text: 'הכדור מכיל את $\{x^n\}$ (או את $\{\sin(nx)\}$), שאינה רציפה במידה אחידה; קבוצה שמכילה משפחה כזו אינה רציפה במידה אחידה'
+        correct: true
+        feedback: >-
+          בדיוק. ולפי הכיוון "רק אם" של ארצלה-אסקולי, קבוצה קומפקטית ב-$C[0,1]$ חייבת להיות רציפה במידה אחידה.
+      - text: 'כל פונקציה בכדור רציפה במידה שווה, ולכן הבעיה בחסימות'
+        feedback: >-
+          כל פונקציה בכדור אכן רציפה במידה שווה (קנטור), אבל זה לא נותן $\delta$ משותף לכל הכדור.
+        misconception: MC-c4-equi-vs-uniform
+      - text: 'הכדור אינו סגור, כי $x^n$ מתכנסת לפונקציה לא רציפה'
+        feedback: >-
+          כדור סגור סגור. $x^n$ אינה מתכנסת ב-$C[0,1]$ בכלל; הגבול הנקודתי שלה אינו גבול בנורמה.
+        misconception: MC-c4-pointwise-is-ck-convergence
+    hints:
+      - 'חזרו לשיעור 4.3: שני הכיוונים של ארצלה-אסקולי, ולשיעור 4.2: $x^n$.'
+
+  - id: Q-4-review-07
+    type: mc
+    objectives: [OBJ-4.3-2, OBJ-4.4-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      בהוכחת ארצלה-אסקולי מפעילים שיטת אלכסון על קבוצה צפופה $D\subseteq K$. למה חשוב ש-$D$ תהיה **בת מנייה**, ומה
+      מבטיח שיש כזו?
+    choices:
+      - text: 'שיטת האלכסון עוברת על נקודות $D$ אחת אחרי השנייה; $D$ קיימת כי מרחב קומפקטי ספרבילי'
+        correct: true
+        feedback: >-
+          נכון. הבנייה בונה תת-סדרה $S_k$ לנקודה ה-$k$, ובוחרת את האיבר ה-$k$ של $S_k$. קבוצה לא בת מנייה אי אפשר לסדר
+          כך. ספרביליות של קומפקטי באה מחסימות כליל.
+      - text: 'כי $C(K)$ ספרבילי'
+        feedback: >-
+          ההוכחה צריכה קבוצה צפופה ב-$K$, התחום, לא ב-$C(K)$. ($C(K)$ אכן ספרבילי, אבל זה לא מה שנדרש כאן.)
+        misconception: MC-c4-aa-hypothesis-role
+      - text: 'כי $K$ בן מנייה'
+        feedback: >-
+          $K=[0,1]$ אינו בן מנייה. מה שבן מנייה הוא תת-קבוצה צפופה, למשל $\mathbb{Q}\cap[0,1]$.
+        misconception: MC-c4-separable-countable
+      - text: 'כי התכנסות על $D$ גוררת לבד התכנסות במידה שווה'
+        feedback: >-
+          לא: $\sin(k!\,\pi x)$ מתכנסת על הרציונליים ולא במידה שווה. בשביל המעבר מ-$D$ לכל $K$ צריך רציפות במידה אחידה.
+        misconception: MC-c4-dense-convergence-enough
+    hints:
+      - 'חזרו לשיעור 4.3 (שיטת האלכסון) ולשיעור 4.4 (מרחב קומפקטי ספרבילי).'
+
+  - id: Q-4-review-08
+    type: numeric
+    objectives: [OBJ-4.5-2]
+    level: mid
+    prompt: >-
+      $B_n(x^2)=x^2+\frac{x(1-x)}{n}$. מהי השגיאה $B_5(x^2)-x^2$ בנקודה $x=\frac13$? (שבר מותר.)
+    answer: 0.044444444444444446
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון: $\frac{\frac13\cdot\frac23}{5}=\frac{2}{45}\approx0.0444$. השגיאה הגדולה ביותר ב-$n=5$ היא $\frac1{20}$, באמצע.
+    wrongFeedback: >-
+      הציבו $x=\frac13$ ו-$n=5$ ב-$\frac{x(1-x)}{n}$.
+    commonWrong:
+      - value: 0.05
+        feedback: >-
+          $\frac1{20}=\frac1{4n}$ היא השגיאה ב-$x=\frac12$, המקסימלית. השאלה על $x=\frac13$.
+      - value: 0
+        feedback: >-
+          $\frac13$ אינה נקודת חלוקה $\frac k5$, ובכל מקרה פולינום ברנשטיין שווה ל-$f$ רק בקצוות.
+        misconception: MC-c4-bernstein-interpolates
+    hints:
+      - 'חזרו לשיעור 4.5: פולינומי ברנשטיין של $x^2$.'
+
+  - id: Q-4-review-09
+    type: twotier
+    objectives: [OBJ-4.5-1, OBJ-2.2-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      האם קבוצת הפולינומים על $[0,1]$, עם נורמת הסופרמום, היא מרחב שלם?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. היא תת-מרחב לא סגור של המרחב השלם $C[0,1]$.'
+      - text: כן
+        feedback: >-
+          $C[0,1]$ שלם, אבל תת-מרחב שלו שלם רק אם הוא סגור בו. הפולינומים אינם סגורים.
+        misconception: MC-c4-poly-limit-poly
+    reasons:
+      - text: 'תת-מרחב שלם של מרחב מטרי סגור בו (שיעור 2.2); לפי ויירשטראס הסגור של הפולינומים הוא כל $C[0,1]$, והם אינם כל $C[0,1]$'
+        correct: true
+        feedback: >-
+          בדיוק. בפרט $\sum_{k\le n}\frac{x^k}{k!}$ היא סדרת קושי של פולינומים שהגבול שלה, $e^x$, אינו פולינום.
+      - text: 'כל תת-מרחב של מרחב שלם שלם'
+        feedback: >-
+          רק תת-מרחב **סגור**. $(0,1)$ בתוך $\mathbb{R}$ אינו שלם.
+        misconception: MC-c4-ck-not-complete
+      - text: 'גבול במידה שווה של פולינומים הוא פולינום, ולכן הם סגורים ושלמים'
+        feedback: >-
+          על קטע זה לא נכון: $e^x$ היא גבול במידה שווה של פולינומי טיילור שלה על $[0,1]$.
+        misconception: MC-c4-poly-limit-poly
+    hints:
+      - 'חזרו לשיעור 2.2 (תת-מרחב שלם סגור) ולשיעור 4.5 (הפולינומים צפופים).'
+
+  - id: Q-4-review-10
+    type: mc
+    objectives: [OBJ-4.6-2, OBJ-4.4-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      הפונקציות הרציפות ה-$2\pi$-מחזוריות, עם נורמת הסופרמום, הן מרחב ספרבילי. איזו קבוצה בת מנייה צפופה בו?
+    choices:
+      - text: 'הפולינומים הטריגונומטריים עם מקדמים רציונליים'
+        correct: true
+        feedback: >-
+          נכון. הפולינומים הטריגונומטריים צפופים (סטון-ויירשטראס על המעגל), ו-$|\cos kx|,|\sin kx|\le1$, אז החלפת מקדם
+          ממשי ברציונלי קרוב משנה את הפונקציה בפחות מההפרש במקדם. הקבוצה בת מנייה: איחוד על $N$ של $\mathbb{Q}^{2N+1}$.
+      - text: 'הפולינומים (באלגברי) עם מקדמים רציונליים, מוגבלים ל-$[-\pi,\pi]$'
+        feedback: >-
+          פולינום שאינו קבוע אינו מחזורי, ולכן אינו במרחב. (הם כן צפופים ב-$C[-\pi,\pi]$, מרחב אחר.)
+        misconception: MC-c4-periodic-interval
+      - text: 'כל הפולינומים הטריגונומטריים'
+        feedback: >-
+          צפופים כן, בני מנייה לא: כבר הקבועים $c\in\mathbb{R}$ אינם בני מנייה.
+        misconception: MC-c4-separable-countable
+      - text: '$\{\cos kx,\ \sin kx:\ k\in\mathbb{N}\}$'
+        feedback: >-
+          בת מנייה, אבל לא צפופה: למשל הקבוע 2 נמצא במרחק 1 לפחות מכל אחת מהן. הקבוצה אינה סגורה לחיבור ולכפל; צריך
+          את כל הצירופים הלינאריים, עם מקדמים רציונליים.
+        misconception: MC-c4-algebra-definition
+    hints:
+      - 'חזרו לשיעור 4.6 (פולינומים טריגונומטריים) ולשיעור 4.4 (ספרביליות).'
+
+  - id: Q-4-review-11
+    type: numeric
+    objectives: [OBJ-4.3-3, OBJ-4.2-2]
+    level: exam
+    prompt: >-
+      $(Tf)(x)=\int_0^1\sin(xt)f(t)\,dt$ על $C[0,1]$. לכל $f$ עם $\|f\|_\infty\le1$, ההערכה $|\sin(xt)-\sin(yt)|\le t|x-y|$
+      נותנת $|Tf(x)-Tf(y)|\le L|x-y|$. מהו הקבוע $L$ שמתקבל כך?
+    answer: 0.5
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון: $|Tf(x)-Tf(y)|\le\int_0^1t|x-y|\cdot|f(t)|\,dt\le|x-y|\int_0^1t\,dt=\frac12|x-y|$. עם $|Tf|\le1$, התמונה של כדור
+      היחידה חסומה וליפשיצית עם קבוע משותף $\frac12$: קומפקטית יחסית לפי ארצלה-אסקולי.
+    wrongFeedback: >-
+      הכניסו את ההערכה לתוך האינטגרל, השתמשו ב-$|f(t)|\le1$, וחשבו את $\int_0^1t\,dt$.
+    commonWrong:
+      - value: 1
+        feedback: >-
+          $L=1$ מתקבל מ-$t\le1$, וזה נכון אבל גס יותר. ההערכה שבשאלה שומרת את $t$ בתוך האינטגרל ונותנת $\frac12$.
+    hints:
+      - 'חזרו לשיעור 4.3: אופרטורים אינטגרליים מעבירים את כדור היחידה לקבוצה קומפקטית יחסית.'
+
+  - id: Q-4-review-12
+    type: numeric
+    objectives: [OBJ-4.4-3, OBJ-0.3-2]
+    level: exam
+    prompt: >-
+      ב-$B([0,1])$ עם נורמת הסופרמום: מהו המרחק של $\mathbf{1}_{[0,1/2]}$ (1 על $[0,\frac12]$ ו-0 אחריו) מהתת-מרחב $C[0,1]$?
+    answer: 0.5
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. לכל $g$ רציפה עם $c=g(\frac12)$: ב-$\frac12$ ההפרש $|1-c|$, ומימין ל-$\frac12$ ההפרשים $|g(x)|\to|c|$, ולכן
+      $\|\mathbf{1}_{[0,1/2]}-g\|_\infty\ge\max(|1-c|,|c|)\ge\frac12$. הקבוע $\frac12$ משיג את זה. לכן $C[0,1]$ אינו צפוף
+      ב-$B([0,1])$.
+    wrongFeedback: >-
+      תהי $g$ רציפה ו-$c=g(\frac12)$. השוו את ההפרש ב-$\frac12$ עצמה ובנקודות קרובות מימין.
+    commonWrong:
+      - value: 0
+        feedback: >-
+          0 היה אומר ש-$\mathbf{1}_{[0,1/2]}$ גבול במידה שווה של רציפות, ואז היא הייתה רציפה (שיעור 0.3).
+        misconception: MC-c4-continuous-dense-in-bounded
+      - value: 1
+        feedback: >-
+          1 הוא המרחק מ-$g\equiv0$ או מ-$g\equiv1$. הקבוע $\frac12$ קרוב יותר: ההפרש ממנו הוא $\frac12$ בכל נקודה.
+    hints:
+      - 'חזרו לשיעור 4.4 ($B([0,1])$ אינו ספרבילי) ולשיעור 0.3 (גבול במידה שווה של רציפות).'
+
+  - id: Q-4-review-13
+    type: twotier
+    objectives: [OBJ-4.6-3, OBJ-4.5-1]
+    qualitative: true
+    level: exam
+    prompt: >-
+      ב-$C[-1,1]$: הפולינומים ב-$x^2$ אינם צפופים. האם הפולינומים ב-$x^3$ (כלומר $q(x^3)$) צפופים?
+    choices:
+      - text: כן
+        correct: true
+        feedback: 'נכון. ההבדל הוא הפרדת נקודות.'
+      - text: לא
+        feedback: >-
+          שתי האלגברות נראות דומות, אבל $x^3$ חד-חד-ערכית על $[-1,1]$ ו-$x^2$ לא.
+        misconception: MC-c4-sw-separation-forgotten
+    reasons:
+      - text: 'תת-אלגברה עם הקבועים, ו-$x^3$ חד-חד-ערכית על $[-1,1]$, ולכן מפרידה נקודות (סטון-ויירשטראס)'
+        correct: true
+        feedback: >-
+          בדיוק. אפשר גם בלי סטון-ויירשטראס: אם $p$ פולינום שמקרב את $f(\sqrt[3]{u})$ על $[-1,1]$, אז $p(x^3)$ מקרב את $f$.
+      - text: 'כי $x$ אינו פולינום ב-$x^3$, האלגברה אינה צפופה'
+        feedback: >-
+          צפיפות היא קירוב, לא שייכות: $x=\sqrt[3]{x^3}$, ו-$\sqrt[3]{u}$ רציפה על $[-1,1]$ ולכן מקורבת בפולינומים
+          ב-$u$; ההצבה $u=x^3$ נותנת קירוב של $x$ בפולינומים ב-$x^3$.
+        misconception: MC-c4-dense-means-contains
+      - text: 'כל אלגברה עם הקבועים צפופה, ולכן גם הפולינומים ב-$x^2$ צפופים'
+        feedback: >-
+          הפולינומים ב-$x^2$ אינם צפופים ב-$C[-1,1]$: כולם זוגיים, ו-$x$ במרחק 1 מהם.
+        misconception: MC-c4-sw-separation-forgotten
+    hints:
+      - 'חזרו לשיעור 4.6: שלוש ההנחות, ובמיוחד הפרדת נקודות.'
+
+  - id: Q-4-review-14
+    type: twotier
+    objectives: [OBJ-4.3-3, OBJ-4.1-2]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $f_n\in C[0,1]$ עם $|f_n|\le1$ ו-$|f_n(x)-f_n(y)|\le|x-y|$ לכל $n,x,y$, ו-$f_n(x)\to f(x)$ לכל $x$. האם בהכרח
+      $f_n\to f$ במידה שווה?
+    choices:
+      - text: כן
+        correct: true
+        feedback: 'נכון. כאן התכנסות נקודתית כן גוררת התכנסות במידה שווה, בזכות ארצלה-אסקולי.'
+      - text: לא
+        feedback: >-
+          בדרך כלל התכנסות נקודתית אינה במידה שווה, אבל כאן יש חסימות ורציפות במידה אחידה. ראו את טיעון "תת-תת-סדרה".
+        misconception: MC-c4-pointwise-is-ck-convergence
+    reasons:
+      - text: 'אם לא, יש $\varepsilon$ ותת-סדרה עם $\|f_{n_k}-f\|_\infty\ge\varepsilon$; לפי ארצלה-אסקולי יש לה תת-תת-סדרה מתכנסת במידה שווה, והגבול חייב להיות $f$: סתירה'
+        correct: true
+        feedback: >-
+          בדיוק. הגבול במידה שווה של תת-תת-הסדרה שווה לגבול הנקודתי $f$, ולכן המרחק שלה מ-$f$ שואף ל-0, בסתירה
+          ל-$\ge\varepsilon$.
+      - text: 'ארצלה-אסקולי אומר שהסדרה כולה מתכנסת במידה שווה'
+        feedback: >-
+          המשפט נותן רק תת-סדרה; $(-1)^n$ מראה שהסדרה כולה לא חייבת להתכנס. כאן ההתכנסות הנקודתית היא שמשלימה את הטיעון.
+        misconception: MC-c4-aa-whole-sequence
+      - text: 'על קטע קומפקטי התכנסות נקודתית לגבול רציף תמיד במידה שווה'
+        feedback: >-
+          האוהל הנודד בגובה 1 שואף נקודתית לאפס ולא במידה שווה. בלי רציפות במידה אחידה זה נכשל.
+        misconception: MC-c4-pointwise-is-ck-convergence
+    hints:
+      - 'חזרו לשיעור 4.3: מה המשפט נותן, ולשיעור 4.1: התכנסות ב-$C(K)$.'

@@ -1,0 +1,351 @@
+# Lesson 1.8 — bounded linear maps and the operator norm.
+# Objectives (src/course.ts):
+#   OBJ-1.8-1  a linear map between normed spaces is continuous iff bounded iff continuous at 0
+#   OBJ-1.8-2  the operator norm; matrices in the 1- and ∞-norms, an estimate in the Euclidean norm
+#   OBJ-1.8-3  an unbounded linear map in infinite dimension: differentiation in the sup norm
+chapter: 1
+questions:
+  - id: Q-1.8-bounded-def
+    type: mc
+    objectives: [OBJ-1.8-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $T:V\to W$ לינארית בין מרחבים נורמיים. מה פירוש "$T$ **חסומה**"?
+    choices:
+      - text: 'קיים $M\ge0$ כך ש-$\|Tx\|\le M\|x\|$ לכל $x\in V$'
+        correct: true
+        feedback: >-
+          נכון. בשקילות: $T$ חסומה על כדור היחידה, $\sup_{\|x\|\le1}\|Tx\|<\infty$, והסופרמום הזה הוא $\|T\|_{\mathrm{op}}$.
+      - text: 'קיים $M$ כך ש-$\|Tx\|\le M$ לכל $x\in V$'
+        feedback: >-
+          רק העתקת האפס מקיימת זאת: אם $Tx\neq0$ אז $\|T(tx)\|=|t|\,\|Tx\|\to\infty$. "חסומה" נמדדת ביחס ל-$\|x\|$.
+        misconception: MC-c1-bounded-image
+      - text: 'לכל $x\in V$ קיים $M$ כך ש-$\|Tx\|\le M\|x\|$'
+        feedback: >-
+          זה נכון לכל העתקה (קחו $M=\frac{\|Tx\|}{\|x\|}$). ה-$M$ צריך להיות אחד לכל $x$, ולכן הוא בא לפני "לכל $x$".
+        misconception: MC-c1-quantifier-order
+
+  - id: Q-1.8-norm-inf
+    type: numeric
+    objectives: [OBJ-1.8-2]
+    level: basic
+    prompt: >-
+      $A=\begin{pmatrix}1&2\\3&4\end{pmatrix}$ כהעתקה $(\mathbb{R}^2,\|\cdot\|_\infty)\to(\mathbb{R}^2,\|\cdot\|_\infty)$.
+      חשבו את $\|A\|_{\mathrm{op}}$.
+    answer: 7
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון: הסכום המקסימלי של ערכים מוחלטים בשורה, $\max(1+2,\ 3+4)=7$. הוא מתקבל ב-$x=(1,1)$: $Ax=(3,7)$.
+    wrongFeedback: >-
+      כל רכיב של $Ax$ הוא שורה כפול $x$, ולכן $|(Ax)_i|\le\sum_j|a_{ij}|\cdot\|x\|_\infty$. מצאו את השורה הגרועה.
+    commonWrong:
+      - value: 6
+        feedback: >-
+          6 הוא הסכום המקסימלי של **עמודה**, $\max(1+3,2+4)$: זו הנורמה בנורמת 1. בנורמת אינסוף סוכמים שורות.
+        misconception: MC-c1-opnorm-rowcol-swap
+      - value: 4
+        feedback: >-
+          4 היא הכניסה הגדולה. $x=(1,1)$ עם $\|x\|_\infty=1$ נותן $\|Ax\|_\infty=7$, ולכן הנורמה לפחות 7.
+        misconception: MC-c1-opnorm-entrywise
+      - value: 10
+        feedback: >-
+          10 הוא סכום כל הכניסות. נורמת האופרטור היא $\sup_{\|x\|_\infty\le1}\|Ax\|_\infty$, וב-$x=(1,1)$ מקבלים 7.
+        misconception: MC-c1-opnorm-entrywise
+
+  - id: Q-1.8-norm-1
+    type: numeric
+    objectives: [OBJ-1.8-2]
+    level: basic
+    prompt: >-
+      $A=\begin{pmatrix}2&-1&0\\1&3&-2\end{pmatrix}$ כהעתקה $(\mathbb{R}^3,\|\cdot\|_1)\to(\mathbb{R}^2,\|\cdot\|_1)$.
+      חשבו את $\|A\|_{\mathrm{op}}$.
+    answer: 4
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון: סכומי העמודות בערך מוחלט הם $3$, $4$, $2$, והגדול הוא $4$. הוא מתקבל ב-$x=e_2$: $\|Ae_2\|_1=|-1|+|3|=4$.
+    wrongFeedback: >-
+      $Ax=\sum_j x_j\,a_j$ (צירוף של העמודות), ולכן $\|Ax\|_1\le\sum_j|x_j|\,\|a_j\|_1$. מצאו את העמודה הגדולה.
+    commonWrong:
+      - value: 6
+        feedback: >-
+          6 הוא סכום **השורה** השנייה, $1+3+2$: זו הנורמה בנורמת אינסוף. בנורמת 1 סוכמים עמודות.
+        misconception: MC-c1-opnorm-rowcol-swap
+      - value: 3
+        feedback: >-
+          ייתכן שסכמתם עמודות בלי ערך מוחלט ($2+1=3$, $-1+3=2$, $0-2=-2$). העמודה השנייה נותנת $|-1|+|3|=4$.
+        misconception: MC-c1-norm-no-abs
+
+  - id: Q-1.8-cont-zero
+    type: rank
+    objectives: [OBJ-1.8-1]
+    level: mid
+    prompt: >-
+      סדרו את שלבי ההוכחה: אם $T:V\to W$ לינארית ורציפה ב-$0$, אז $T$ חסומה.
+    help: סדרו את השלבים מהראשון לאחרון.
+    items:
+      - id: eps
+        label: 'מרציפות ב-0 עם $\varepsilon=1$ (ו-$T0=0$): יש $\delta>0$ כך ש-$\|y\|<\delta$ גורר $\|Ty\|<1$.'
+      - id: scale
+        label: 'יהי $x\neq0$, ונגדיר $y=\frac{\delta}{2\|x\|}\,x$; אז $\|y\|=\frac\delta2<\delta$.'
+      - id: apply
+        label: 'לכן $\|Ty\|<1$, ולפי הלינאריות $\|Ty\|=\frac{\delta}{2\|x\|}\,\|Tx\|$.'
+      - id: bound
+        label: 'מכאן $\|Tx\|<\frac2\delta\|x\|$; ול-$x=0$ זה טריוויאלי. לכן $T$ חסומה עם $M=\frac2\delta$.'
+    order: [eps, scale, apply, bound]
+    correctFeedback: >-
+      נכון. הרעיון: רציפות נותנת חסם על כדור קטן אחד, ולינאריות "מנפחת" אותו לכל המרחב, בתמורה לגורם $\frac2\delta$.
+    wrongFeedback: >-
+      התחילו מהגדרת הרציפות ב-0 עם $\varepsilon$ קבוע; כווצו $x$ לתוך הכדור; הפעילו את $T$; החזירו את הגורם.
+
+  - id: Q-1.8-lin-cont
+    type: twotier
+    objectives: [OBJ-1.8-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      נכון או לא: העתקה **לינארית** בין מרחבים נורמיים שרציפה ב-$0$ רציפה בכל נקודה.
+    choices:
+      - text: נכון
+        correct: true
+        feedback: 'נכון. לפונקציה כללית זה שקרי, אבל לינאריות מעבירה את ההתנהגות ב-0 לכל נקודה.'
+      - text: לא נכון
+        feedback: >-
+          לפונקציה כללית רציפות בנקודה אחת לא אומרת דבר על אחרות, אבל כאן $\|Tx-Ty\|=\|T(x-y)\|$: מה שקורה ליד 0
+          קורה ליד כל נקודה.
+        misconception: MC-c1-linear-structure-ignored
+    reasons:
+      - text: 'אם $x_n\to x$ אז $x_n-x\to0$, ולכן $Tx_n-Tx=T(x_n-x)\to T0=0$'
+        correct: true
+        feedback: >-
+          בדיוק. ואפילו יותר: $T$ חסומה, ולכן ליפשיצית, $\|Tx-Ty\|\le\|T\|_{\mathrm{op}}\|x-y\|$.
+      - text: 'כל העתקה לינארית רציפה, ולכן גם זו'
+        feedback: >-
+          זה שקרי במימד אינסופי (הגזירה על פולינומים). כאן הרציפות נובעת מההנחה שהיא רציפה ב-0, לא מלינאריות לבד.
+        misconception: MC-c1-linear-always-continuous
+      - text: 'רציפות בנקודה אחת גוררת תמיד רציפות בכל נקודה'
+        feedback: >-
+          לפונקציה כללית לא: $f(x)=x$ ל-$x\in\mathbb{Q}$ ו-$0$ אחרת רציפה רק ב-0. לינאריות היא מה שעושה את ההבדל.
+        misconception: MC-c1-linear-structure-ignored
+
+  - id: Q-1.8-norm-2
+    type: numeric
+    objectives: [OBJ-1.8-2]
+    level: mid
+    prompt: >-
+      $A=\begin{pmatrix}1&1\\0&1\end{pmatrix}$ כהעתקה $(\mathbb{R}^2,\|\cdot\|_2)\to(\mathbb{R}^2,\|\cdot\|_2)$.
+      חשבו את $\|A\|_{\mathrm{op}}=\sqrt{\lambda_{\max}(A^TA)}$. (תשובה עשרונית בשלוש ספרות אחרי הנקודה מתקבלת.)
+    answer: 1.61803399
+    tolerance: 0.0005
+    correctFeedback: >-
+      נכון: $A^TA=\begin{pmatrix}1&1\\1&2\end{pmatrix}$, ערכיה העצמיים $\frac{3\pm\sqrt5}{2}$, והשורש של הגדול הוא
+      $\frac{1+\sqrt5}{2}\approx1.618$.
+    wrongFeedback: >-
+      חשבו את $A^TA$, את הפולינום האופייני שלה $\lambda^2-3\lambda+1$, ואת השורש של הערך העצמי הגדול.
+    commonWrong:
+      - value: 1
+        feedback: >-
+          1 הוא הערך העצמי (היחיד) של $A$. הנורמה האוקלידית היא שורש הערך העצמי הגדול של $A^TA$; לא-סימטרית כמו $A$
+          יכולה למתוח יותר: $\|A(0,1)\|_2=\|(1,1)\|_2=\sqrt2>1$.
+        misconception: MC-c1-opnorm-2-eigen
+      - value: 1.7320508
+        feedback: >-
+          $\sqrt3=\sqrt{1+1+0+1}$ הוא שורש סכום ריבועי הכניסות. זה רק חסם מלעיל לנורמה, לא הנורמה.
+        misconception: MC-c1-opnorm-entrywise
+      - value: 2
+        feedback: >-
+          2 הוא $\|A\|_{\mathrm{op}}$ בנורמת 1 או בנורמת אינסוף. בנורמה האוקלידית התשובה אחרת.
+        misconception: MC-c1-one-distance
+
+  - id: Q-1.8-frobenius
+    type: twotier
+    objectives: [OBJ-1.8-2, OBJ-1.8-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      נכון או לא: לכל מטריצה $A$ מסדר $m\times n$, כהעתקה בין המרחבים האוקלידיים,
+      $\|A\|_{\mathrm{op}}\le\sqrt{\sum_{i,j}a_{ij}^2}$. (בפרט כל העתקה כזו חסומה, ולכן רציפה.)
+    choices:
+      - text: נכון
+        correct: true
+        feedback: 'נכון. זה קושי-שוורץ, שורה אחר שורה.'
+      - text: לא נכון
+        feedback: >-
+          לכל שורה $r_i$: $|(Ax)_i|=|\langle r_i,x\rangle|\le\|r_i\|_2\|x\|_2$, ומסכמים ריבועים. ל-$\begin{pmatrix}1&2\\3&4\end{pmatrix}$:
+          $\|A\|_{\mathrm{op}}\approx5.465\le\sqrt{30}\approx5.477$.
+        misconception: MC-c1-opnorm-entrywise
+    reasons:
+      - text: '$\|Ax\|_2^2=\sum_i\langle r_i,x\rangle^2\le\sum_i\|r_i\|_2^2\|x\|_2^2=\left(\sum_{i,j}a_{ij}^2\right)\|x\|_2^2$'
+        correct: true
+        feedback: >-
+          בדיוק. זה חסם מפורש שלא משתמש בשום משפט על שקילות נורמות, ולכן אפשר להשתמש בו כבר עכשיו.
+      - text: 'נורמת האופרטור **שווה** ל-$\sqrt{\sum a_{ij}^2}$'
+        feedback: >-
+          לא תמיד: ל-$\begin{pmatrix}1&1\\0&1\end{pmatrix}$ הנורמה $\frac{1+\sqrt5}2\approx1.618$ והביטוי $\sqrt3$.
+          ולמטריצת היחידה $n\times n$: נורמה 1, ביטוי $\sqrt n$.
+        misconception: MC-c1-opnorm-entrywise
+      - text: 'נורמת האופרטור קטנה מהכניסה הגדולה ביותר'
+        feedback: >-
+          ל-$\begin{pmatrix}1&1\\1&1\end{pmatrix}$ הכניסה הגדולה 1, ו-$\|A(1,1)\|_2=\|(2,2)\|_2=2\sqrt2=2\|(1,1)\|_2$, כלומר
+          הנורמה לפחות 2.
+        misconception: MC-c1-opnorm-entrywise
+
+  - id: Q-1.8-integral
+    type: numeric
+    objectives: [OBJ-1.8-2]
+    level: mid
+    prompt: >-
+      $T:(C[0,1],\|\cdot\|_\infty)\to\mathbb{R}$, $Tf=\int_0^1x\,f(x)\,dx$. חשבו את $\|T\|_{\mathrm{op}}$.
+    answer: 0.5
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. חסם מלעיל: $|Tf|\le\int_0^1x|f(x)|\,dx\le\|f\|_\infty\int_0^1x\,dx=\frac12\|f\|_\infty$. חסם מלרע: $f\equiv1$
+      נותנת $T1=\frac12$ עם $\|1\|_\infty=1$. לכן $\|T\|=\frac12$, והוא מתקבל.
+    wrongFeedback: >-
+      חסמו $|Tf|$ בעזרת $\|f\|_\infty$, ומצאו $f$ עם $\|f\|_\infty=1$ שבה החסם מתקבל.
+    commonWrong:
+      - value: 1
+        feedback: >-
+          1 הוא $\max_{[0,1]}x$, הנורמה של $T$ אילו התחום היה עם נורמת **האינטגרל**. עם נורמת הסופרמום החסם הוא
+          $\int_0^1x\,dx$.
+        misconception: MC-c1-one-distance
+
+  - id: Q-1.8-deriv
+    type: twotier
+    objectives: [OBJ-1.8-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $P$ הוא מרחב הפולינומים על $[0,1]$ עם נורמת הסופרמום, ו-$D:P\to P$, $Dp=p'$. האם $D$ חסומה?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. לכן $D$ לינארית ואינה רציפה.'
+      - text: כן
+        feedback: >-
+          $\|x^n\|_\infty=1$ ו-$\|Dx^n\|_\infty=\|nx^{n-1}\|_\infty=n$. אין $M$ עם $n\le M\cdot1$ לכל $n$.
+        misconception: MC-c1-linear-always-continuous
+    reasons:
+      - text: '$\|x^n\|_\infty=1$ אבל $\|nx^{n-1}\|_\infty=n$, ולכן $\frac{\|Dp\|}{\|p\|}$ אינו חסום'
+        correct: true
+        feedback: >-
+          בדיוק. פולינום יכול להיות קטן ותלול מאוד. ($\frac{x^n}{\sqrt n}\to0$ במידה שווה, והנגזרות שלו אינן שואפות
+          ל-0: זו אי-רציפות ב-0.)
+      - text: 'כל העתקה לינארית רציפה'
+        feedback: >-
+          זה נכון במרחב האוקלידי, לא בכל מרחב נורמי. $D$ היא הדוגמה הנגדית.
+        misconception: MC-c1-linear-always-continuous
+      - text: 'הנגזרת של פולינום היא פולינום, ולכן $D$ מעבירה את $P$ ל-$P$ בצורה חסומה'
+        feedback: >-
+          זה מראה רק ש-$D$ מוגדרת כהעתקה $P\to P$. חסימות היא אי-שוויון $\|Dp\|\le M\|p\|$, ו-$x^n$ מפריכה אותו.
+        misconception: MC-c1-bounded-image
+
+  - id: Q-1.8-props
+    type: multi
+    objectives: [OBJ-1.8-2]
+    level: mid
+    prompt: >-
+      $S,T$ העתקות לינאריות חסומות (כך ש-$ST$ מוגדרת). אילו מהטענות נכונות תמיד? סמנו את כולן.
+    choices:
+      - text: '$\|Tx\|\le\|T\|_{\mathrm{op}}\|x\|$ לכל $x$'
+        correct: true
+        feedback: 'נכון: ל-$x\neq0$, $\frac{x}{\|x\|}$ בכדור היחידה, ולכן $\|T\frac{x}{\|x\|}\|\le\|T\|$.'
+      - text: '$\|ST\|_{\mathrm{op}}\le\|S\|_{\mathrm{op}}\|T\|_{\mathrm{op}}$'
+        correct: true
+        feedback: 'נכון: $\|STx\|\le\|S\|\,\|Tx\|\le\|S\|\,\|T\|\,\|x\|$.'
+      - text: '$\|ST\|_{\mathrm{op}}=\|S\|_{\mathrm{op}}\|T\|_{\mathrm{op}}$'
+        feedback: >-
+          עם $S=\begin{pmatrix}1&0\\0&0\end{pmatrix}$, $T=\begin{pmatrix}0&0\\0&1\end{pmatrix}$: $ST=0$ ואילו
+          $\|S\|\,\|T\|=1$. זה אי-שוויון, לא שוויון.
+        misconception: MC-c1-triangle-wrong-form
+      - text: '$\|S+T\|_{\mathrm{op}}\le\|S\|_{\mathrm{op}}+\|T\|_{\mathrm{op}}$'
+        correct: true
+        feedback: 'נכון: $\|(S+T)x\|\le\|Sx\|+\|Tx\|$. נורמת האופרטור היא נורמה על מרחב ההעתקות החסומות.'
+
+  - id: Q-1.8-sign
+    type: numeric
+    objectives: [OBJ-1.8-2]
+    level: exam
+    prompt: >-
+      $T:(C[0,1],\|\cdot\|_\infty)\to\mathbb{R}$, $Tf=\int_0^1(2x-1)f(x)\,dx$. חשבו את $\|T\|_{\mathrm{op}}$.
+    answer: 0.5
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון: $\frac12$. חסם מלעיל: $|Tf|\le\|f\|_\infty\int_0^1|2x-1|\,dx=\frac12\|f\|_\infty$. חסם מלרע: $f_n$ רציפה
+      שווה ל-$-1$ עד $\frac12-\frac1{2n}$, ל-$1$ מ-$\frac12+\frac1{2n}$, ולינארית ביניהן; $Tf_n\to\frac12$. הנורמה אינה
+      מתקבלת: זה ידרוש $f=\operatorname{sign}(2x-1)$.
+    wrongFeedback: >-
+      חסם מלעיל מ-$|2x-1|$; חסם מלרע מפונקציות רציפות שמקרבות את הסימן של $2x-1$.
+    commonWrong:
+      - value: 0
+        feedback: >-
+          $f\equiv1$ נותנת $T1=0$, אבל זה וקטור אחד, וכל וקטור נותן רק חסם מלרע. פונקציה שמתיישרת עם הסימן של $2x-1$
+          נותנת ערכים קרובים ל-$\frac12$.
+        misconception: MC-c1-opnorm-test-one
+      - value: 1
+        feedback: >-
+          $1=\max_{[0,1]}|2x-1|$ היה הנורמה אילו התחום היה עם נורמת **האינטגרל**. עם נורמת הסופרמום החסם הוא
+          $\int_0^1|2x-1|\,dx=\frac12$.
+        misconception: MC-c1-one-distance
+
+  - id: Q-1.8-eval-L1
+    type: twotier
+    objectives: [OBJ-1.8-1, OBJ-1.8-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      האם הפונקציונל $\varphi(f)=f(0)$ רציף על $(C[0,1],\|\cdot\|_1)$, עם $\|f\|_1=\int_0^1|f|$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. הוא לינארי ואינו חסום, ולכן אינו רציף. (על $(C[0,1],\|\cdot\|_\infty)$ הוא חסום עם נורמה 1.)
+      - text: כן, כי $|f(0)|\le\|f\|_\infty$
+        feedback: >-
+          זה חסם בנורמת **הסופרמום**. בנורמת האינטגרל: $f_n(x)=\max(0,1-nx)$ מקיימת $\|f_n\|_1=\frac1{2n}$ ו-$\varphi(f_n)=1$.
+        misconception: MC-c1-one-distance
+    reasons:
+      - text: '$f_n=\max(0,1-nx)$: $\|f_n\|_1=\frac1{2n}$ ו-$|\varphi(f_n)|=1$, ולכן $\frac{|\varphi(f_n)|}{\|f_n\|_1}=2n$ אינו חסום'
+        correct: true
+        feedback: >-
+          בדיוק. ובלשון סדרות: $f_n\to0$ בנורמת האינטגרל, ו-$\varphi(f_n)=1\not\to0=\varphi(0)$.
+      - text: 'כל פונקציונל לינארי רציף'
+        feedback: >-
+          לא במימד אינסופי. כאן "קוץ" צר ב-0 עולה מעט בנורמת האינטגרל ומזיז את $f(0)$ הרבה.
+        misconception: MC-c1-linear-always-continuous
+      - text: 'הוא לא רציף, כי התמונה שלו, $\mathbb{R}$, אינה חסומה'
+        feedback: >-
+          גם $f\mapsto\int_0^1f$ מקבל כל ערך ממשי, והוא חסום (נורמה 1). חסימות היא $|\varphi(f)|\le M\|f\|$, לא תמונה חסומה.
+        misconception: MC-c1-bounded-image
+
+  - id: Q-1.8-C1-norm
+    type: twotier
+    objectives: [OBJ-1.8-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      על הפולינומים $P$ ב-$[0,1]$ נשנה את הנורמה **בתחום** ל-$\|p\|_{C^1}=\|p\|_\infty+\|p'\|_\infty$, ונשאיר
+      $\|\cdot\|_\infty$ בטווח. האם $D:(P,\|\cdot\|_{C^1})\to(P,\|\cdot\|_\infty)$, $Dp=p'$, חסומה?
+    choices:
+      - text: כן, עם $\|D\|_{\mathrm{op}}\le1$
+        correct: true
+        feedback: >-
+          נכון: $\|Dp\|_\infty=\|p'\|_\infty\le\|p\|_{C^1}$. (למעשה $\|D\|=1$: עם $x^n$ היחס $\frac{n}{1+n}\to1$.)
+      - text: לא, כמו בנורמת הסופרמום
+        feedback: >-
+          חסימות תלויה בנורמות. הנורמה החדשה "משלמת" על התלילות: $\|x^n\|_{C^1}=1+n$, והיחס $\frac{n}{1+n}<1$.
+        misconception: MC-c1-one-distance
+    reasons:
+      - text: '$\|p''\|_\infty\le\|p\|_\infty+\|p''\|_\infty=\|p\|_{C^1}$ לכל $p$'
+        correct: true
+        feedback: >-
+          בדיוק. אותה העתקה, שתי נורמות בתחום, שתי תשובות. זו הסיבה שבמרחבי פונקציות בוחרים את הנורמה לפי מה שרוצים
+          שיהיה רציף.
+      - text: '$\|x^n\|_\infty=1$ ו-$\|nx^{n-1}\|_\infty=n$, ולכן לא חסומה'
+        feedback: >-
+          זה החישוב עם נורמת הסופרמום בתחום. בנורמה $\|\cdot\|_{C^1}$, $\|x^n\|_{C^1}=1+n$, והיחס $\frac{n}{n+1}\le1$.
+        misconception: MC-c1-one-distance
+      - text: 'כל העתקה לינארית חסומה'
+        feedback: >-
+          לא: עם נורמת הסופרמום בתחום אותה $D$ אינה חסומה. כאן היא חסומה בגלל הנורמה שבחרנו, לא בגלל לינאריות.
+        misconception: MC-c1-linear-always-continuous

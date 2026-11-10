@@ -1,0 +1,390 @@
+# Chapter 2 exam questions — original, in the style of an 80315 final (not taken from a real exam).
+# Each is worth 25 points in lettered parts, with at least one open part graded against a model solution and a rubric.
+chapter: 2
+questions:
+  - id: Q-2-exam-1
+    type: exam
+    title: איטרציה לשורש של 2
+    prompt: >-
+      נתונה הפונקציה $g(x)=\frac x2+\frac1x$, והסדרה $x_{n+1}=g(x_n)$.
+    parts:
+      - label: א
+        points: 9
+        type: open
+        objectives: [OBJ-2.3-1, OBJ-2.3-3, OBJ-2.2-1]
+        prompt: >-
+          הוכיחו שמשפט נקודת השבת של בנך חל על $g$ בקטע $X=[1,2]$ עם מקדם כיווץ $q=\frac12$, ומצאו את נקודת השבת. מה
+          המשפט אומר על הסדרה $x_n$ כש-$x_0\in[1,2]$?
+        solution:
+          - kind: given
+            text: '$g(x)=\frac x2+\frac1x$ על $X=[1,2]$, עם המרחק הרגיל.'
+          - kind: goal
+            text: >-
+              $X$ שלם, $g(X)\subseteq X$, ו-$|g(x)-g(y)|\le\frac12|x-y|$ לכל $x,y\in X$; ומכאן נקודת שבת יחידה והתכנסות
+              האיטרציות אליה.
+          - kind: idea
+            text: >-
+              בודקים את שלוש ההנחות של משפט בנך אחת-אחת: שלמות מסגירות, הכלה מהמקסימום והמינימום של $g$, ומקדם כיווץ
+              מסופרמום הנגזרת על **כל** הקטע.
+          - kind: step
+            text: '$[1,2]$ סגור ב-$\mathbb{R}$, ו-$\mathbb{R}$ שלם, ולכן $[1,2]$ שלם (שיעור 2.2).'
+          - kind: computation
+            text: >-
+              $g'(x)=\frac12-\frac1{x^2}$: שלילית על $[1,\sqrt2)$ וחיובית על $(\sqrt2,2]$. לכן המינימום הוא
+              $g(\sqrt2)=\sqrt2$ והמקסימום $\max(g(1),g(2))=\frac32$, כלומר $g([1,2])=[\sqrt2,\frac32]\subseteq[1,2]$.
+          - kind: computation
+            text: >-
+              $g'$ עולה על $[1,2]$, מ-$g'(1)=-\frac12$ עד $g'(2)=\frac14$, ולכן $|g'|\le\frac12$ על הקטע. לפי משפט הערך
+              הממוצע, $|g(x)-g(y)|=|g'(c)|\,|x-y|\le\frac12|x-y|$.
+          - kind: theorem
+            text: >-
+              משפט בנך: ל-$g$ נקודת שבת יחידה $x^*\in[1,2]$, והסדרה $x_n$ מתכנסת אליה מכל $x_0\in[1,2]$.
+          - kind: computation
+            text: '$g(x)=x\iff\frac1x=\frac x2\iff x^2=2$, והפתרון בקטע הוא $x^*=\sqrt2$.'
+          - kind: result
+            text: >-
+              נקודת השבת היחידה ב-$[1,2]$ היא $\sqrt2$, ולכל $x_0\in[1,2]$ מתקיים $x_n\to\sqrt2$, עם
+              $|x_n-\sqrt2|\le2^{1-n}|x_1-x_0|$.
+        rubric:
+          - text: 'השלמות של $[1,2]$ מנומקת (סגור במרחב שלם)'
+            weight: 2
+          - text: 'ההכלה $g([1,2])\subseteq[1,2]$ מוכחת בחישוב, לא רק נטענת'
+            weight: 2
+          - text: 'מקדם הכיווץ $\frac12$ מסופרמום $|g''|$ על כל הקטע, עם משפט הערך הממוצע'
+            weight: 3
+          - text: 'נקודת השבת $\sqrt2$, ומסקנת המשפט: יחידות והתכנסות מכל נקודת התחלה בקטע'
+            weight: 2
+
+      - label: ב
+        points: 5
+        type: numeric
+        standalone: false
+        objectives: [OBJ-2.3-2]
+        prompt: >-
+          עם $x_0=1$ ו-$q=\frac12$ מסעיף א: מהו ה-$n$ הקטן ביותר שעבורו החסם המוקדם $\frac{q^n}{1-q}\,|x_1-x_0|$ קטן
+          מ-$10^{-6}$?
+        answer: 20
+        tolerance: 0.001
+        correctFeedback: >-
+          נכון. $x_1=g(1)=\frac32$, ולכן החסם הוא $\frac{2^{-n}}{1/2}\cdot\frac12=2^{-n}$; $2^{-19}\approx1.9\cdot10^{-6}$
+          ו-$2^{-20}\approx9.5\cdot10^{-7}$.
+        wrongFeedback: >-
+          חשבו את $x_1$, את $|x_1-x_0|$, ופשטו את החסם לחזקה של 2.
+        commonWrong:
+          - value: 19
+            feedback: >-
+              19 מתקבל מ-$q^n|x_1-x_0|$, בלי הגורם $\frac1{1-q}=2$ שסוכם את כל הצעדים הבאים.
+            misconception: MC-c2-bound-formula
+
+      - label: ג
+        points: 6
+        type: twotier
+        objectives: [OBJ-2.3-3, OBJ-2.1-3]
+        qualitative: true
+        prompt: >-
+          האם משפט בנך חל על $g$ גם בקטע **הלא חסום** $X=[1,\infty)$?
+        choices:
+          - text: כן
+            correct: true
+            feedback: >-
+              נכון, ולכן מכל $x_0\ge1$ האיטרציות מתכנסות ל-$\sqrt2$.
+          - text: 'לא, כי $[1,\infty)$ אינו חסום ולכן אינו שלם'
+            feedback: >-
+              שלמות אינה חסימות: $[1,\infty)$ סגור ב-$\mathbb{R}$ ולכן שלם.
+            misconception: MC-c2-complete-closed-bounded
+        reasons:
+          - text: '$[1,\infty)$ סגור ולכן שלם; $g(x)\ge\sqrt2\ge1$ (ממוצע חשבוני-הנדסי של $\frac x2$ ו-$\frac1x$); ו-$g''(x)=\frac12-\frac1{x^2}\in[-\frac12,\frac12)$, כך ש-$q=\frac12$'
+            correct: true
+            feedback: >-
+              בדיוק. הנגזרת מתקרבת ל-$\frac12$ כש-$x\to\infty$ ולא עוברת אותו, ולכן $\frac12$ עדיין מקדם כיווץ.
+          - text: '$g''(x)\to\frac12$ כש-$x\to\infty$, ולכן אין מקדם כיווץ אחיד'
+            feedback: >-
+              מקדם כיווץ צריך להיות קטן מ-1, לא מתחת לכל ערך של $|g'|$. כאן $\sup|g'|=\frac12<1$, וזה מספיק.
+            misconception: MC-c2-wrong-hypothesis-blamed
+
+      - label: ד
+        points: 5
+        type: mc
+        standalone: false
+        objectives: [OBJ-2.3-2]
+        qualitative: true
+        prompt: >-
+          בפועל, מ-$x_0=1$: $x_3\approx1.4142157$ ו-$|x_4-\sqrt2|<2\cdot10^{-12}$. כלומר ארבעה צעדים מספיקים, והחסם בסעיף
+          ב ביקש עשרים. מה נכון?
+        choices:
+          - text: 'אין סתירה: החסם מבטיח שגיאה לכל מכווצת עם $q=\frac12$; כאן $g''(\sqrt2)=0$, וליד נקודת השבת ההתכנסות מהירה בהרבה'
+            correct: true
+            feedback: >-
+              נכון. החסם צריך לעבוד לכל העתקה עם אותו $q$, למשל גם ל-$\frac x2+c$, שבה הוא כמעט הדוק. ל-$g$ הזו
+              הכיווץ האמיתי ליד $\sqrt2$ חזק בהרבה (זו שיטת ניוטון לשורש של 2).
+          - text: 'יש טעות בסעיף ב: החסם היה צריך לתת 4'
+            feedback: >-
+              החסם לא מודד את השגיאה, הוא חוסם אותה. 20 נכון לחסם; 4 הוא מה שקרה בפועל.
+            misconception: MC-c2-estimate-is-exact
+          - text: 'מקדם הכיווץ הנכון הוא $0$, כי $g''(\sqrt2)=0$'
+            feedback: >-
+              הנגזרת בנקודת השבת אינה מקדם כיווץ: ב-$x=1$ השיפוע $-\frac12$. מקדם כיווץ חייב לעבוד לכל הזוגות בקטע.
+            misconception: MC-c2-q-at-one-point
+
+  - id: Q-2-exam-2
+    type: exam
+    title: שתי נורמות על הפונקציות הרציפות
+    prompt: >-
+      לכל $n\ge2$ תהי $f_n\in C[0,1]$ ה"שיפוע": $f_n=0$ על $[0,\frac12]$, $f_n(x)=n(x-\frac12)$ על
+      $[\frac12,\frac12+\frac1n]$, ו-$f_n=1$ על $[\frac12+\frac1n,1]$. נסמן $X=(C[0,1],\|\cdot\|_1)$, עם
+      $\|f\|_1=\int_0^1|f|$.
+    parts:
+      - label: א
+        points: 10
+        type: open
+        objectives: [OBJ-2.2-3, OBJ-2.1-1]
+        prompt: >-
+          הוכיחו ש-$(f_n)$ סדרת קושי ב-$X$, ושאין לה גבול ב-$X$. הסיקו ש-$X$ אינו שלם.
+        solution:
+          - kind: given
+            text: 'השיפועים $f_n$, והמרחב $X=(C[0,1],\|\cdot\|_1)$.'
+          - kind: goal
+            text: '$(f_n)$ סדרת קושי ב-$X$, ואין $g\in C[0,1]$ עם $\|f_n-g\|_1\to0$.'
+          - kind: idea
+            text: >-
+              את המרחקים מחשבים כשטחים. גבול רציף היה חייב להתאפס משמאל ל-$\frac12$ ולהיות 1 מימין לו, ואין פונקציה רציפה
+              כזו. צריך לשלול **כל** $g$ רציפה, לא רק את פונקציית המדרגה.
+          - kind: computation
+            text: >-
+              $\int_0^1f_n=\left(\frac12-\frac1n\right)+\frac1{2n}=\frac12-\frac1{2n}$, ול-$m>n$ מתקיים $f_m\ge f_n$, ולכן
+              $\|f_n-f_m\|_1=\int(f_m-f_n)=\frac1{2n}-\frac1{2m}<\frac1{2n}$.
+          - kind: step
+            text: >-
+              יהי $\varepsilon>0$ ו-$N>\frac1{2\varepsilon}$. לכל $m>n>N$: $\|f_n-f_m\|_1<\frac1{2n}<\varepsilon$. לכן
+              $(f_n)$ סדרת קושי.
+          - kind: step
+            text: >-
+              נניח ש-$g\in C[0,1]$ ו-$\|f_n-g\|_1\to0$. כי $f_n=0$ על $[0,\frac12]$:
+              $\int_0^{1/2}|g|=\int_0^{1/2}|f_n-g|\le\|f_n-g\|_1\to0$. אז $\int_0^{1/2}|g|=0$, ו-$|g|$ רציפה ואי-שלילית,
+              ולכן $g=0$ על $[0,\frac12]$.
+          - kind: step
+            text: >-
+              יהי $c\in(\frac12,1]$. לכל $n>\frac{1}{c-1/2}$ מתקיים $f_n=1$ על $[c,1]$, ולכן
+              $\int_c^1|g-1|\le\|f_n-g\|_1\to0$, ומרציפות $g=1$ על $[c,1]$. כי $c$ שרירותי, $g=1$ על $(\frac12,1]$.
+          - kind: check
+            text: >-
+              $g(\frac12)=0$ אבל $\lim_{x\to1/2^+}g(x)=1$: $g$ אינה רציפה ב-$\frac12$, בסתירה ל-$g\in C[0,1]$.
+          - kind: result
+            text: '$(f_n)$ סדרת קושי ב-$X$ בלי גבול ב-$X$, ולכן $(C[0,1],\|\cdot\|_1)$ אינו שלם.'
+        rubric:
+          - text: 'חישוב נכון של $\|f_n-f_m\|_1$ והסקה מפורשת של תנאי קושי'
+            weight: 3
+          - text: 'מ-$\|f_n-g\|_1\to0$ נובע $g=0$ על $[0,\frac12]$, עם השימוש ברציפות ובאי-שליליות'
+            weight: 2
+          - text: '$g=1$ על $(\frac12,1]$, דרך קטעים $[c,1]$ שעליהם $f_n=1$ מ-$n$ מסוים'
+            weight: 3
+          - text: 'הסתירה לרציפות, והמסקנה נשללת לכל $g$ רציפה (לא רק לגבול הנקודתי)'
+            weight: 2
+
+      - label: ב
+        points: 4
+        type: numeric
+        objectives: [OBJ-2.2-3]
+        prompt: >-
+          חשבו את $\|f_3-f_6\|_1$.
+        answer: 0.0833333333
+        tolerance: 0.001
+        correctFeedback: >-
+          נכון, $\frac1{12}$: $\frac1{2\cdot3}-\frac1{2\cdot6}=\frac16-\frac1{12}$.
+        wrongFeedback: >-
+          השתמשו ב-$\|f_n-f_m\|_1=\frac1{2n}-\frac1{2m}$ ל-$m>n$, או חשבו את השטח בין הגרפים ישירות.
+        commonWrong:
+          - value: 0.5
+            feedback: >-
+              $\frac12=\|f_3-f_6\|_\infty$, ההפרש הגדול ביותר (ב-$x=\frac23$). כאן הנורמה היא האינטגרל.
+            misconception: MC-c2-norm-irrelevant
+
+      - label: ג
+        points: 5
+        type: twotier
+        objectives: [OBJ-2.2-2, OBJ-2.2-3]
+        qualitative: true
+        prompt: >-
+          האם $(f_n)$ סדרת קושי גם בנורמת הסופרמום $\|\cdot\|_\infty$?
+        choices:
+          - text: לא
+            correct: true
+            feedback: >-
+              נכון. וטוב שכך: $(C[0,1],\|\cdot\|_\infty)$ שלם, ולו הייתה סדרת קושי בו, היה לה גבול רציף.
+          - text: 'כן, כי $\|\cdot\|_1\le\|\cdot\|_\infty$'
+            feedback: >-
+              אי-השוויון $\|h\|_1\le\|h\|_\infty$ מעביר תנאי קושי **מ**-$\|\cdot\|_\infty$ **ל**-$\|\cdot\|_1$, לא בכיוון
+              ההפוך.
+            misconception: MC-c2-norm-irrelevant
+        reasons:
+          - text: 'ב-$x=\frac12+\frac1{2n}$: $f_{2n}=1$ ו-$f_n=\frac12$, ולכן $\|f_n-f_{2n}\|_\infty\ge\frac12$ לכל $n$'
+            correct: true
+            feedback: 'בדיוק: לכל $N$ יש זוג אחריו ($n$ ו-$2n$) במרחק $\frac12$.'
+          - text: 'הסדרה מתכנסת נקודתית, ולכן היא סדרת קושי בכל נורמה'
+            feedback: >-
+              התכנסות נקודתית אינה תנאי קושי בנורמת הסופרמום (ראו $x^n$). כאן הגבול הנקודתי אפילו לא רציף.
+            misconception: MC-c2-pointwise-limit-enough
+
+      - label: ד
+        points: 6
+        type: mc
+        standalone: false
+        objectives: [OBJ-2.6-1, OBJ-2.6-2]
+        qualitative: true
+        prompt: >-
+          תהי $i:X\to\widehat X$ ההשלמה של $X$, הבנויה ממחלקות שקילות של סדרות קושי. מה נכון לגבי המחלקה $[(f_n)]$?
+        choices:
+          - text: 'היא נקודה של $\widehat X$ שאינה בתמונה $i(X)$'
+            correct: true
+            feedback: >-
+              נכון. $i(g)$ היא המחלקה של הסדרה הקבועה $g$, ו-$(f_n)\sim(g,g,\dots)$ פירושו $\|f_n-g\|_1\to0$, וזה בדיוק
+              מה שסעיף א שולל. זו "נקודה חדשה", שמתנהגת כמו פונקציית המדרגה.
+          - text: 'היא שווה ל-$i(g)$, כאשר $g$ היא הגבול הנקודתי של $f_n$'
+            feedback: >-
+              הגבול הנקודתי (המדרגה) אינו רציף, ולכן אינו איבר של $X$ בכלל; ו-$i$ מוגדרת רק על $X$.
+            misconception: MC-c2-completion-adds-limits
+          - text: 'היא שווה למחלקה של הסדרה $(f_2,f_2,f_2,\dots)$, כי $f_n$ ו-$f_2$ שוות על $[0,\frac12]$'
+            feedback: >-
+              שקילות היא $\|f_n-f_2\|_1\to0$, ו-$\|f_n-f_2\|_1=\frac14-\frac1{2n}\to\frac14\ne0$. שוויון על חלק מהקטע לא
+              מספיק.
+            misconception: MC-c2-equivalence-too-strict
+          - text: '$\widehat X$ הוא $(C[0,1],\|\cdot\|_\infty)$, כי הוא שלם ומכיל אותן פונקציות'
+            feedback: >-
+              הזהות $X\to(C[0,1],\|\cdot\|_\infty)$ אינה איזומטריה (הנורמות שונות), והשיפועים אינם סדרת קושי בנורמה
+              השנייה (סעיף ג). השלמה תלויה במטריקה.
+            misconception: MC-c2-completion-ignores-metric
+
+  - id: Q-2-exam-3
+    type: exam
+    title: טורים במרחב בנך וטור נוימן
+    prompt: >-
+      $(V,\|\cdot\|)$ מרחב בנך. בסעיפים ב–ד, $A$ היא מטריצה $n\times n$, ו-$\|A\|$ היא נורמת האופרטור שלה ביחס
+      ל-$\|\cdot\|_\infty$ על $\mathbb{R}^n$ (סכום שורה מקסימלי).
+    parts:
+      - label: א
+        points: 8
+        type: open
+        objectives: [OBJ-2.4-1]
+        prompt: >-
+          הוכיחו: אם $x_k\in V$ ו-$\sum_k\|x_k\|<\infty$, אז הטור $\sum_kx_k$ מתכנס ב-$V$, ו-$\left\|\sum_kx_k\right\|\le\sum_k\|x_k\|$.
+        solution:
+          - kind: given
+            text: '$V$ מרחב בנך, $\sum_k\|x_k\|<\infty$. נסמן $S_n=\sum_{k=1}^nx_k$.'
+          - kind: goal
+            text: '$(S_n)$ מתכנסת ב-$V$ לאיזה $S$, ו-$\|S\|\le\sum_k\|x_k\|$.'
+          - kind: idea
+            text: >-
+              תנאי קושי של הטור הממשי $\sum\|x_k\|$ עובר דרך אי-שוויון המשולש לסכומים החלקיים; את הגבול נותנת השלמות,
+              ואת אי-השוויון מעבר לגבול.
+          - kind: step
+            text: >-
+              יהי $\varepsilon>0$. לפי קריטריון קושי לטורים ממשיים יש $N$ כך ש-$\sum_{k=n+1}^m\|x_k\|<\varepsilon$ לכל
+              $m>n>N$.
+          - kind: step
+            text: >-
+              לכל $m>n>N$: $\|S_m-S_n\|=\left\|\sum_{k=n+1}^mx_k\right\|\le\sum_{k=n+1}^m\|x_k\|<\varepsilon$. לכן $(S_n)$
+              סדרת קושי ב-$V$.
+          - kind: theorem
+            text: '$V$ שלם, ולכן $S_n\to S$ לאיזה $S\in V$: הטור מתכנס.'
+          - kind: step
+            text: >-
+              לכל $n$: $\|S_n\|\le\sum_{k=1}^n\|x_k\|\le\sum_{k=1}^\infty\|x_k\|$. הנורמה רציפה
+              ($\big|\|S_n\|-\|S\|\big|\le\|S_n-S\|$), ולכן במעבר לגבול $\|S\|\le\sum_k\|x_k\|$.
+          - kind: result
+            text: 'הטור $\sum x_k$ מתכנס ב-$V$, וסכומו מקיים $\left\|\sum x_k\right\|\le\sum\|x_k\|$.'
+        rubric:
+          - text: 'תנאי קושי של הטור הממשי מנוסח נכון'
+            weight: 2
+          - text: 'אי-שוויון המשולש מעביר אותו לסכומים החלקיים: $(S_n)$ סדרת קושי'
+            weight: 3
+          - text: 'השימוש בשלמות של $V$ מפורש'
+            weight: 2
+          - text: 'אי-השוויון על הנורמה בגבול, עם רציפות הנורמה'
+            weight: 1
+
+      - label: ב
+        points: 8
+        type: open
+        objectives: [OBJ-2.4-3]
+        prompt: >-
+          הוכיחו שאם $\|A\|<1$ אז $I-A$ הפיכה ו-$\|(I-A)^{-1}\|\le\frac1{1-\|A\|}$. מותר להשתמש בסעיף א.
+        solution:
+          - kind: given
+            text: 'מטריצה $A$ עם $\|A\|<1$, בנורמת האופרטור.'
+          - kind: goal
+            text: '$I-A$ הפיכה, $(I-A)^{-1}=\sum_{k\ge0}A^k$, ו-$\|(I-A)^{-1}\|\le\frac1{1-\|A\|}$.'
+          - kind: idea
+            text: 'כמו $\frac1{1-t}=\sum t^k$ ל-$|t|<1$: הטור מתכנס בהחלט, וטלסקופ מראה שסכומו הוא ההופכית.'
+          - kind: step
+            text: >-
+              מרחב המטריצות עם נורמת האופרטור הוא מרחב בנך: כל איבר מקיים $|a_{ij}|\le\|A\|$, ו-$\|A\|\le\sum_{i,j}|a_{ij}|$;
+              לכן סדרת קושי בנורמה היא סדרת קושי בכל איבר, מתכנסת איבר-איבר, ולכן גם בנורמה.
+          - kind: step
+            text: >-
+              $\|A^k\|\le\|A\|^k$ (תת-כפליות), ולכן $\sum_k\|A^k\|\le\frac1{1-\|A\|}<\infty$. לפי סעיף א, $S=\sum_{k\ge0}A^k$
+              מתכנס ו-$\|S\|\le\frac1{1-\|A\|}$.
+          - kind: computation
+            text: '$(I-A)\sum_{k=0}^NA^k=\left(\sum_{k=0}^NA^k\right)(I-A)=I-A^{N+1}$.'
+          - kind: step
+            text: >-
+              $\|A^{N+1}\|\le\|A\|^{N+1}\to0$, וכפל במטריצה קבועה רציף בנורמה; במעבר לגבול $(I-A)S=S(I-A)=I$.
+          - kind: result
+            text: '$I-A$ הפיכה, $(I-A)^{-1}=\sum_{k\ge0}A^k$, ו-$\|(I-A)^{-1}\|\le\frac1{1-\|A\|}$.'
+        rubric:
+          - text: 'חסם $\|A^k\|\le\|A\|^k$ והתכנסות בהחלט של הטור'
+            weight: 2
+          - text: 'נימוק לשלמות מרחב המטריצות (או הפניה מפורשת אליה) והפעלת סעיף א'
+            weight: 2
+          - text: 'הזהות הטלסקופית משני הצדדים, ומעבר לגבול מוצדק'
+            weight: 3
+          - text: 'החסם על נורמת ההופכית'
+            weight: 1
+
+      - label: ג
+        points: 5
+        type: numeric
+        objectives: [OBJ-2.4-3]
+        prompt: >-
+          $A=\begin{pmatrix}0.2&0.4\\0.3&0.1\end{pmatrix}$, ולכן $\|A\|=0.6$ והחסם מסעיף ב הוא $2.5$. חשבו את
+          $\|(I-A)^{-1}\|$ המדויקת. (אפשר לענות בשבר.)
+        answer: 2.1666666667
+        tolerance: 0.001
+        correctFeedback: >-
+          נכון, $\frac{13}6$. $\det(I-A)=0.8\cdot0.9-0.4\cdot0.3=0.6$, ולכן
+          $(I-A)^{-1}=\frac1{0.6}\begin{pmatrix}0.9&0.4\\0.3&0.8\end{pmatrix}=\begin{pmatrix}\frac32&\frac23\\\frac12&\frac43\end{pmatrix}$,
+          וסכומי השורות $\frac{13}6$ ו-$\frac{11}6$.
+        wrongFeedback: >-
+          חשבו את $I-A$, את ההופכית שלה (מטריצה $2\times2$), ואת סכום הערכים המוחלטים בכל שורה.
+        commonWrong:
+          - value: 2.5
+            feedback: >-
+              $2.5$ הוא החסם $\frac1{1-0.6}$. החסם מבטיח, הוא לא הערך; כאן הערך $\frac{13}6<2.5$.
+            misconception: MC-c2-estimate-is-exact
+          - value: 1.5
+            feedback: >-
+              $\frac32$ הוא האיבר הגדול ביותר של ההופכית. הנורמה היא סכום שורה.
+            misconception: MC-c2-neumann-entrywise
+
+      - label: ד
+        points: 4
+        type: twotier
+        objectives: [OBJ-2.4-3]
+        qualitative: true
+        prompt: >-
+          האם $\|A\|\ge1$ גורר ש-$I-A$ אינה הפיכה?
+        choices:
+          - text: לא
+            correct: true
+            feedback: 'נכון: התנאי $\|A\|<1$ מספיק, ואינו הכרחי.'
+          - text: כן
+            feedback: >-
+              $A=2I$: $\|A\|=2$, ו-$I-A=-I$ הפיכה.
+            misconception: MC-c2-neumann-necessary
+        reasons:
+          - text: '$A=2I$ נותנת $\|A\|=2$ ו-$I-A=-I$, הפיכה'
+            correct: true
+            feedback: 'בדיוק. טור נוימן מתבדר כאן, אבל ההופכית קיימת מסיבות אחרות.'
+          - text: 'אם $\|A\|\ge1$ טור נוימן מתבדר, ולכן אין הופכית'
+            feedback: >-
+              התבדרות הטור אומרת רק שהשיטה הזו לא מוצאת את ההופכית, לא שהיא לא קיימת.
+            misconception: MC-c2-neumann-necessary

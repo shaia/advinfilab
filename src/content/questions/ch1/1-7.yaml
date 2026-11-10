@@ -1,0 +1,321 @@
+# Lesson 1.7 — Lipschitz equivalence of metrics.
+# Objectives (src/course.ts):
+#   OBJ-1.7-1  define Lipschitz equivalence; best constants between d1, d2, d-infinity on R^n
+#   OBJ-1.7-2  Lipschitz-equivalent metrics: same open sets, same convergent sequences, same continuous functions
+#   OBJ-1.7-3  one-sided bound is not enough; same open sets without Lipschitz equivalence
+chapter: 1
+questions:
+  - id: Q-1.7-def
+    type: mc
+    objectives: [OBJ-1.7-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      מתי שתי מטריקות $d$ ו-$d'$ על אותה קבוצה $X$ נקראות **שקולות ליפשיץ**?
+    choices:
+      - text: 'יש קבועים $c,C>0$ כך ש-$c\,d(x,y)\le d''(x,y)\le C\,d(x,y)$ לכל $x,y\in X$'
+        correct: true
+        feedback: >-
+          נכון. במילים אחרות: העתקת הזהות $(X,d)\to(X,d')$ ליפשיצית, וגם ההפכית שלה.
+      - text: 'יש קבוע $C>0$ כך ש-$d''(x,y)\le C\,d(x,y)$ לכל $x,y$'
+        feedback: >-
+          זה כיוון אחד בלבד. $d'=\min(d,1)$ מקיימת $d'\le d$, אבל על $\mathbb{R}$ אין $c>0$ עם
+          $c|x-y|\le\min(|x-y|,1)$ לכל $x,y$.
+        misconception: MC-c1-lipschitz-equiv-one-side
+      - text: 'יש להן אותן קבוצות פתוחות'
+        feedback: >-
+          זו תכונה חלשה יותר. $|x-y|$ ו-$\min(|x-y|,1)$ על $\mathbb{R}$ נותנות אותן קבוצות פתוחות ואינן שקולות
+          ליפשיץ.
+        misconception: MC-c1-same-open-lipschitz
+      - text: '$d(x,y)=d''(x,y)$ לכל $x,y$'
+        feedback: >-
+          זו זהות, לא שקילות. $d_1$ ו-$d_\infty$ על $\mathbb{R}^2$ שונות ($d_1((0,0),(1,1))=2$, $d_\infty=1$), ושקולות
+          ליפשיץ.
+        misconception: MC-c1-one-distance
+
+  - id: Q-1.7-const-r4
+    type: numeric
+    objectives: [OBJ-1.7-1]
+    level: mid
+    prompt: >-
+      ב-$\mathbb{R}^4$, מהו הקבוע **הקטן ביותר** $C$ כך ש-$d_1(x,y)\le C\,d_2(x,y)$ לכל $x,y$?
+    answer: 2
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון: $C=\sqrt4=2$. לפי קושי-שוורץ $\sum|x_i-y_i|\cdot1\le\sqrt{\sum(x_i-y_i)^2}\cdot\sqrt4$, ועם $x-y=(1,1,1,1)$
+      מקבלים $d_1=4=2\cdot2=2d_2$. יחד עם $d_2\le d_1$ זה מראה ש-$d_1$ ו-$d_2$ שקולות ליפשיץ.
+    wrongFeedback: >-
+      הפעילו את קושי-שוורץ על הווקטור $(|x_1-y_1|,\dots,|x_4-y_4|)$ ועל $(1,1,1,1)$, ובדקו את הווקטור שבו יש שוויון.
+    commonWrong:
+      - value: 4
+        feedback: >-
+          4 הוא הקבוע ב-$d_1\le4d_\infty$. מול $d_2$ הקבוע קטן יותר, $\sqrt4$, כי $d_2\ge d_\infty$.
+        misconception: MC-c1-norm-order
+      - value: 1
+        feedback: >-
+          $d_1\le d_2$ הוא הכיוון ההפוך מהנכון: $d_2\le d_1$. עם $x-y=(1,1,1,1)$, $d_1=4>2=d_2$.
+        misconception: MC-c1-norm-order
+
+  - id: Q-1.7-discrete
+    type: twotier
+    objectives: [OBJ-1.7-2, OBJ-1.7-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      האם המטריקה הבדידה $d_0$ והמטריקה הרגילה $|x-y|$ על $\mathbb{R}$ שקולות ליפשיץ?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. ולמעשה אפילו הקבוצות הפתוחות שלהן שונות: $\{0\}=B_{d_0}(0,\tfrac12)$ פתוחה ב-$d_0$, ואינה פתוחה
+          ב-$|x-y|$.
+      - text: כן, עם $c=C=1$
+        feedback: >-
+          ב-$x=0$, $y=\frac1n$: $d_0=1$ ו-$|x-y|=\frac1n$, כך ש-$d_0\le C|x-y|$ דורש $C\ge n$ לכל $n$.
+        misconception: MC-c1-lipschitz-equiv-one-side
+    reasons:
+      - text: 'בזוגות $0$ ו-$\frac1n$ היחס $\frac{d_0}{|x-y|}$ שווה ל-$n$'
+        correct: true
+        feedback: >-
+          בדיוק. היחס אינו חסום, ולכן אין $C$ עם $d_0\le C|x-y|$. הבעיה היא בזוגות **קרובים** במטריקה הרגילה, שהבדידה
+          רואה אותם במרחק 1.
+      - text: 'מטריקה שמקבלת רק את הערכים 0 ו-1 אינה יכולה להיות שקולה ליפשיץ לשום מטריקה אחרת'
+        feedback: >-
+          לא נכון: על קבוצה סופית כל שתי מטריקות שקולות ליפשיץ. למשל על $X=\{0,1,3\}$ עם $|x-y|$, היחס
+          $\frac{|x-y|}{d_0}$ מקבל רק את הערכים 1, 2 ו-3, ולכן $d_0\le|x-y|\le3\,d_0$. על $\mathbb{R}$ השקילות נכשלת
+          בגלל זוגות קרובים, לא בגלל שני הערכים.
+        misconception: MC-c1-discrete-never-equivalent
+      - text: 'יש $C$ עם $|x-y|\le C\,d_0(x,y)$, וזה מספיק'
+        feedback: >-
+          אין אפילו $C$ כזה ($|0-1000|=1000$, $d_0=1$), ובכל מקרה צריך את שני הכיוונים.
+        misconception: MC-c1-lipschitz-equiv-one-side
+
+  - id: Q-1.7-truncated
+    type: twotier
+    objectives: [OBJ-1.7-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      על $\mathbb{R}$ נתונות $d(x,y)=|x-y|$ ו-$d'(x,y)=\min(|x-y|,1)$. נכון או לא: ל-$d$ ול-$d'$ יש אותן קבוצות
+      פתוחות, אבל הן **אינן** שקולות ליפשיץ.
+    choices:
+      - text: נכון
+        correct: true
+        feedback: >-
+          נכון. שקילות ליפשיץ גוררת אותן קבוצות פתוחות, אבל לא להפך, וזו הדוגמה.
+      - text: 'לא נכון: אותן קבוצות פתוחות פירושן שקילות ליפשיץ'
+        feedback: >-
+          $d'\le d$, אבל $d\le C d'$ נכשל: $d(0,1000)=1000$ ו-$d'(0,1000)=1$. אותן קבוצות פתוחות אינן מחייבות קבועים.
+        misconception: MC-c1-same-open-lipschitz
+    reasons:
+      - text: 'לכל $r<1$ הכדורים זהים, $B_d(x,r)=B_{d''}(x,r)$, ולכן אותן פתוחות; אבל $d(0,n)=n$ ו-$d''(0,n)=1$, ואין $C$'
+        correct: true
+        feedback: >-
+          בדיוק. פתיחות נבדקת רק בכדורים קטנים, וקבועי ליפשיץ רואים גם מרחקים גדולים. מאותה סיבה יש להן גם אותן סדרות
+          מתכנסות.
+      - text: '$d''\le d$, ולכן הן שקולות ליפשיץ עם $C=1$'
+        feedback: >-
+          זה רק כיוון אחד. שקילות דורשת גם $c\,d\le d'$, ו-$c\cdot n\le1$ לכל $n$ אפשרי רק עם $c=0$.
+        misconception: MC-c1-lipschitz-equiv-one-side
+      - text: 'הן נותנות קבוצות פתוחות שונות, כי $d''$ חסומה ו-$d$ לא'
+        feedback: >-
+          חסימות היא תכונה של מרחקים גדולים, ופתיחות של קטנים. הכדורים ברדיוס קטן מ-1 זהים בשתי המטריקות.
+        misconception: MC-c1-homeo-preserves-metric
+
+  - id: Q-1.7-r5
+    type: numeric
+    objectives: [OBJ-1.7-1]
+    level: basic
+    prompt: >-
+      ב-$\mathbb{R}^5$, מהו הקבוע **הקטן ביותר** $C$ כך ש-$d_2(x,y)\le C\,d_\infty(x,y)$ לכל $x,y$? כתבו מספר עשרוני
+      עם שלוש ספרות אחרי הנקודה.
+    answer: 2.2360680
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון: $C=\sqrt5\approx2.236$. כל אחד מחמשת ההפרשים $|x_i-y_i|$ קטן או שווה ל-$d_\infty$, ולכן
+      $d_2^2\le5\,d_\infty^2$. עם $x-y=(1,1,1,1,1)$ מקבלים $d_2=\sqrt5$ ו-$d_\infty=1$: שוויון, ולכן אי אפשר להקטין.
+    wrongFeedback: >-
+      חסמו כל ריבוע $|x_i-y_i|^2$ ב-$d_\infty^2$, סכמו, והוציאו שורש. אחר כך בדקו את הווקטור $(1,1,1,1,1)$.
+    commonWrong:
+      - value: 5
+        feedback: >-
+          5 הוא הקבוע ב-$d_1\le5\,d_\infty$: סכום של חמישה הפרשים. ב-$d_2$ סוכמים ריבועים ואז מוציאים שורש, ולכן
+          הקבוע הוא $\sqrt5$.
+        misconception: MC-c1-one-distance
+      - value: 1
+        feedback: >-
+          $d_2\le d_\infty$ הוא הכיוון ההפוך מהנכון: $d_\infty\le d_2$. עם $x-y=(1,1,1,1,1)$, $d_2=\sqrt5>1=d_\infty$.
+        misconception: MC-c1-norm-order
+
+  - id: Q-1.7-cont
+    type: mc
+    objectives: [OBJ-1.7-2]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $d$ ו-$d'$ מטריקות שקולות ליפשיץ על $X$, ו-$f:X\to\mathbb{R}$ רציפה כשעל $X$ המטריקה $d$. מה אפשר לומר על $f$
+      כשעל $X$ המטריקה $d'$?
+    choices:
+      - text: 'היא רציפה גם ביחס ל-$d''$'
+        correct: true
+        feedback: >-
+          נכון. ל-$d$ ול-$d'$ אותן קבוצות פתוחות, ורציפות נקבעת רק לפי מקורות של קבוצות פתוחות (שיעור 1.6). לכן
+          המקור של כל קבוצה פתוחה בישר פתוח בשתי המטריקות.
+      - text: 'היא רציפה ביחס ל-$d''$ רק אם הקבועים הם $c=C=1$'
+        feedback: >-
+          הקבועים לא משנים: כל קבוע חיובי נותן כדורים מקוננים, ולכן אותן קבוצות פתוחות. $d_1$ ו-$d_\infty$ במישור
+          שקולות עם $C=2$, ואותן פונקציות רציפות בשתיהן.
+      - text: 'אי אפשר לדעת: צריך לבדוק מחדש עם אפסילון ודלתא'
+        feedback: >-
+          אין צורך: אם $\delta$ מתאים ל-$d$ אז $c\,\delta$ מתאים ל-$d'$, כי $d'<c\delta$ גורר $d<\delta$. המשפט עושה את
+          הבדיקה פעם אחת לכל הפונקציות.
+        misconception: MC-c1-lipschitz-equiv-one-side
+      - text: 'היא רציפה ביחס ל-$d''$ רק אם היא ליפשיצית'
+        feedback: >-
+          ליפשיציות לא נדרשת. $f(x,y)=x^2$ על $\mathbb{R}^2$, למשל, רציפה ואינה ליפשיצית, והיא רציפה גם ב-$d_1$ וגם
+          ב-$d_\infty$.
+        misconception: MC-c1-uniform-lipschitz
+
+  - id: Q-1.7-nested-proof
+    type: rank
+    objectives: [OBJ-1.7-2]
+    level: mid
+    prompt: >-
+      סדרו את שלבי ההוכחה של הטענה: אם $d\le C\,d'$ על $X$ (עם $C>0$), אז כל קבוצה שפתוחה ב-$d$ פתוחה גם ב-$d'$.
+    help: סדרו את השלבים מהראשון לאחרון.
+    items:
+      - id: take
+        label: 'תהי $U$ פתוחה ב-$d$ ותהי $x\in U$.'
+      - id: ball
+        label: 'יש $r>0$ עם $B_d(x,r)\subseteq U$, לפי ההגדרה של קבוצה פתוחה ב-$d$.'
+      - id: z
+        label: 'תהי $z$ עם $d''(x,z)<\frac rC$.'
+      - id: est
+        label: 'אז $d(x,z)\le C\,d''(x,z)<C\cdot\frac rC=r$, ולכן $z\in B_d(x,r)\subseteq U$.'
+      - id: done
+        label: 'לכן $B_{d''}(x,\frac rC)\subseteq U$, ו-$x$ הייתה כלשהי: $U$ פתוחה ב-$d''$.'
+    order: [take, ball, z, est, done]
+    correctFeedback: >-
+      נכון. הרעיון: הקבוע הופך כל כדור של $d$ לכדור של $d'$ ברדיוס קטן פי $C$ שנכנס בתוכו.
+    wrongFeedback: >-
+      התחילו מנקודה של $U$ ומהכדור של $d$ שההגדרה נותנת סביבה; רק אחר כך בחרו את הרדיוס של $d'$, ובדקו נקודה בכדור
+      הקטן.
+
+  - id: Q-1.7-one-side
+    type: twotier
+    objectives: [OBJ-1.7-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      על $C[0,1]$ מתקיים $d_1(f,g)=\int_0^1|f-g|\le\max|f-g|=d_\infty(f,g)$. תהי $V$ קבוצת הפונקציות
+      $f\in C[0,1]$ עם $|f(0)|<1$. הקבוצה $V$ פתוחה ב-$d_\infty$ (אם $|f(0)|<1$, הכדור $B_{d_\infty}(f,\ 1-|f(0)|)$
+      בתוכה). נכון או לא: $V$ פתוחה גם ב-$d_1$.
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: >-
+          נכון. הקבוע היחיד שיש הוא $d_1\le d_\infty$, והוא מעביר פתיחות רק מ-$d_1$ ל-$d_\infty$. כאן $V$ פתוחה
+          ב-$d_\infty$, והשאלה היא על הכיוון ההפוך.
+      - text: נכון
+        feedback: >-
+          פונקציית האפס ב-$V$, אבל בכל כדור של $d_1$ סביבה יש פונקציה ששווה 2 בנקודה $0$: משולש צר וגבוה, שהשטח שלו
+          קטן כרצונכם.
+        misconception: MC-c1-lipschitz-equiv-one-side
+    reasons:
+      - text: 'לכל $r>0$ יש $h\in C[0,1]$ עם $\int_0^1|h|<r$ ו-$h(0)=2$'
+        correct: true
+        feedback: >-
+          בדיוק. למשל $h=2g_n$ עם $g_n(x)=\max(0,1-nx)$ ו-$n>\frac1r$: $d_1(h,\theta)=\frac1n<r$, אבל $h\notin V$.
+          לכן לפונקציית האפס $\theta\in V$ אין כדור של $d_1$ בתוך $V$. $d_1$ "לא רואה" את הערך בנקודה אחת.
+      - text: '$V$ פתוחה ב-$d_\infty$ ו-$d_1\le d_\infty$, ולכן $V$ פתוחה גם ב-$d_1$'
+        feedback: >-
+          זה הכיוון ההפוך. מ-$d_1\le d_\infty$ נובע $B_{d_\infty}(f,r)\subseteq B_{d_1}(f,r)$: המטריקה הקטנה, $d_1$,
+          נותנת כדורים גדולים יותר, ולכן כל קבוצה פתוחה ב-$d_1$ פתוחה ב-$d_\infty$, ולא להפך.
+        misconception: MC-c1-one-side-direction
+      - text: 'התנאי $|f(0)|<1$ הוא אי-שוויון ממש, ולכן $V$ פתוחה בכל מטריקה'
+        feedback: >-
+          פתיחות תלויה במטריקה. ב-$d_\infty$ ערך בנקודה אחת זז מעט כשהפונקציה זזה מעט; ב-$d_1$ הוא יכול לזוז
+          הרבה, כמו ב-$2g_n$.
+        misconception: MC-c1-one-distance
+
+  - id: Q-1.7-sqrt
+    type: twotier
+    objectives: [OBJ-1.7-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      על $\mathbb{R}$ נגדיר $\sigma(x,y)=\sqrt{|x-y|}$ (מטריקה, שיעור 1.1). נכון או לא: ל-$\sigma$ ולמטריקה הרגילה
+      $|x-y|$ אותן קבוצות פתוחות, אבל הן **אינן** שקולות ליפשיץ.
+    choices:
+      - text: נכון
+        correct: true
+        feedback: >-
+          נכון. אותן קבוצות פתוחות, ואין קבוע $C$ עם $\sigma\le C|x-y|$.
+      - text: 'לא נכון: יש להן קבוצות פתוחות שונות'
+        feedback: >-
+          כל כדור של $\sigma$ הוא כדור רגיל עם רדיוס אחר: $B_\sigma(x,r)=(x-r^2,\ x+r^2)$. לכן ההגדרה של פתוחה נותנת
+          אותן קבוצות.
+        misconception: MC-c1-one-distance
+      - text: 'לא נכון: הן שקולות ליפשיץ'
+        feedback: >-
+          $\sigma(0,t)=\sqrt t$ ו-$|0-t|=t$. היחס $\frac{\sqrt t}{t}=\frac1{\sqrt t}$ גדל בלי חסם כש-$t\to0$, ולכן אין
+          $C$ עם $\sigma\le C|x-y|$.
+        misconception: MC-c1-same-open-lipschitz
+    reasons:
+      - text: '$B_\sigma(x,r)=B(x,r^2)$, ולכן אותן פתוחות; אבל $\frac{\sigma(0,t)}{t}=\frac1{\sqrt t}\to\infty$ כש-$t\to0$'
+        correct: true
+        feedback: >-
+          בדיוק. הקבוע ב-$\sigma\le C|x-y|$ נכשל במרחקים **קטנים** ($\frac1{\sqrt t}\to\infty$ כש-$t\to0$), והקבוע
+          ב-$|x-y|\le C\sigma$ נכשל במרחקים **גדולים** ($\frac{t}{\sqrt t}=\sqrt t\to\infty$). ב-$\min(|x-y|,1)$ נכשל
+          רק הקבוע של המרחקים הגדולים.
+      - text: '$\sigma\ge|x-y|$ לכל $x,y$, ולכן אחד הקבועים הוא 1'
+        feedback: >-
+          זה נכון רק כש-$|x-y|\le1$: עם $|x-y|=4$, $\sigma=2<4$. וגם קבוע אחד לא היה מספיק לשקילות.
+        misconception: MC-c1-lipschitz-equiv-one-side
+      - text: 'אותן קבוצות פתוחות גוררות שקילות ליפשיץ'
+        feedback: >-
+          לא: זו בדיוק הדוגמה שמראה שהשקילות מספיקה ואינה הכרחית.
+        misconception: MC-c1-same-open-lipschitz
+
+  - id: Q-1.7-one-way
+    type: multi
+    objectives: [OBJ-1.7-2, OBJ-1.7-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $d$ ו-$d'$ מטריקות על קבוצה $X$, וידוע **רק** ש-$d'(x,y)\le3\,d(x,y)$ לכל $x,y\in X$. אילו מהטענות הבאות
+      נכונות בהכרח? סמנו את כולן.
+    choices:
+      - text: 'כל קבוצה פתוחה ב-$d''$ פתוחה ב-$d$'
+        correct: true
+        feedback: >-
+          נכון. לפי הלמה, $B_d(x,\tfrac r3)\subseteq B_{d'}(x,r)$: בתוך כל כדור של $d'$ יש כדור של $d$ סביב אותה
+          נקודה.
+      - text: 'כל קבוצה פתוחה ב-$d$ פתוחה ב-$d''$'
+        feedback: >-
+          לא בהכרח. עם $X=C[0,1]$, $d=d_\infty$ ו-$d'=d_1$ מתקיים $d'\le d\le3d$, והכדור $B_{d_\infty}(\theta,1)$
+          פתוח ב-$d_\infty$ ואינו פתוח ב-$d_1$.
+        misconception: MC-c1-one-side-direction
+      - text: 'כל סדרה שמתכנסת ב-$d$ מתכנסת ב-$d''$, לאותו גבול'
+        correct: true
+        feedback: >-
+          נכון: $0\le d'(x_n,x)\le3\,d(x_n,x)\to0$.
+      - text: 'כל פונקציה $f:X\to\mathbb{R}$ שרציפה ביחס ל-$d''$ רציפה ביחס ל-$d$'
+        correct: true
+        feedback: >-
+          נכון, בשני צעדים. אם $f$ רציפה ביחס ל-$d'$, המקור של כל קבוצה פתוחה ב-$\mathbb{R}$ פתוח ב-$d'$ (שיעור 1.6),
+          ולפי הטענה הראשונה הוא פתוח גם ב-$d$. לכן $f$ רציפה ביחס ל-$d$.
+      - text: 'כל פונקציה $f:X\to\mathbb{R}$ שרציפה ביחס ל-$d$ רציפה ביחס ל-$d''$'
+        feedback: >-
+          לא בהכרח. ב-$C[0,1]$ עם $d=d_\infty$ ו-$d'=d_1$, הפונקציה $f(g)=g(0)$ רציפה ב-$d_\infty$
+          ($|g(0)-h(0)|\le d_\infty(g,h)$), אבל לא ב-$d_1$: $g_n(x)=\max(0,1-nx)$ מקיימת $d_1(g_n,\theta)=\frac1{2n}\to0$
+          ו-$g_n(0)=1$ לכל $n$.
+        misconception: MC-c1-one-side-direction
+      - text: 'כל קבוצה שחסומה ב-$d$ חסומה ב-$d''$'
+        correct: true
+        feedback: >-
+          נכון: אם $d(a,b)\le M$ לכל $a,b\in A$, אז $d'(a,b)\le3M$.
+    explanation: >-
+      אי-שוויון אחד, $d'\le3d$, אומר ש-$d'$ "קטנה": הכדורים שלה גדולים יותר. לכן כל מה שעובר מ-$d'$ ל-$d$ הוא
+      פתיחות (ורציפות, דרך מקורות), וכל מה שעובר מ-$d$ ל-$d'$ הוא התכנסות וחסימות. כדי לקבל את כל השאר צריך גם קבוע
+      בכיוון השני, כלומר שקילות ליפשיץ.

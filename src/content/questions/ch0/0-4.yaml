@@ -1,0 +1,391 @@
+# Lesson 0.4 — countable sets.
+# Convention: "בת מנייה" = in bijection with ℕ (countably infinite); "לכל היותר בת מנייה" = finite or countable.
+# Objectives (src/course.ts):
+#   OBJ-0.4-1  define a countable set; prove that ℚ and a product of two countable sets are countable
+#   OBJ-0.4-2  prove by Cantor's diagonal argument that ℝ is not countable
+#   OBJ-0.4-3  a countable union of countable sets is countable; a subset of a countable set is finite or countable
+chapter: 0
+questions:
+  - id: Q-0.4-def
+    type: mc
+    objectives: [OBJ-0.4-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      בקורס, קבוצה $A$ נקראת **בת מנייה** אם... (בחרו את ההגדרה)
+    choices:
+      - text: 'יש פונקציה חד-חד-ערכית ועל $f:\mathbb{N}\to A$'
+        correct: true
+        feedback: >-
+          נכון. אז $A=\{f(1),f(2),f(3),\dots\}$: רשימה אינסופית שבה כל איבר של $A$ מופיע בדיוק פעם אחת.
+      - text: 'יש פונקציה על $f:A\to\mathbb{N}$'
+        feedback: >-
+          גם ל-$\mathbb{R}$ יש פונקציה על ל-$\mathbb{N}$ (למשל $x\mapsto\max(1,\lceil x\rceil)$), והיא אינה בת מנייה. פונקציה
+          על **ל-$A$** מ-$\mathbb{N}$ היא שאומרת משהו: ש-$A$ סופית או בת מנייה.
+        misconception: MC-c0-countable-direction
+      - text: 'יש פונקציה חד-חד-ערכית $f:\mathbb{N}\to A$'
+        feedback: >-
+          זה אומר רק ש-$A$ אינסופית: יש כזו גם ל-$\mathbb{R}$ ($n\mapsto n$). חסרה הדרישה שכל איבר של $A$ יתקבל.
+        misconception: MC-c0-countable-direction
+      - text: '$A$ אינסופית'
+        feedback: >-
+          לא כל קבוצה אינסופית בת מנייה: קנטור הוכיח ש-$\mathbb{R}$ אינה בת מנייה.
+        misconception: MC-c0-infinite-is-countable
+
+  - id: Q-0.4-which
+    type: multi
+    objectives: [OBJ-0.4-1, OBJ-0.4-3]
+    qualitative: true
+    level: basic
+    prompt: >-
+      אילו מהקבוצות הבאות בנות מנייה? סמנו את כולן.
+    choices:
+      - text: '$\mathbb{N}\times\mathbb{N}$'
+        correct: true
+        feedback: 'נכון: מונים לפי אלכסונים, $(1,1),(1,2),(2,1),(1,3),(2,2),(3,1),\dots$, או בהתאמה $(m,n)\mapsto2^{m-1}(2n-1)$.'
+      - text: 'קבוצת כל תת-הקבוצות **הסופיות** של $\mathbb{N}$'
+        correct: true
+        feedback: >-
+          נכון. היא איחוד על $k\in\mathbb{N}$ של קבוצות תת-הקבוצות של $\{1,\dots,k\}$, וכל אחת מהן סופית ($2^k$
+          איברים): איחוד בן מנייה של קבוצות סופיות, והיא אינסופית.
+      - text: 'קבוצת הפולינומים עם מקדמים רציונליים'
+        correct: true
+        feedback: >-
+          נכון. פולינומים ממעלה לכל היותר $d$ מתאימים ל-$\mathbb{Q}^{d+1}$, שהיא בת מנייה, וכל הפולינומים הם איחוד
+          על $d$ של קבוצות כאלה.
+      - text: 'קבוצת **כל** תת-הקבוצות של $\mathbb{N}$'
+        feedback: >-
+          אינה בת מנייה: תת-קבוצה $S$ מתאימה לסדרת אפסים ואחדים ($s_n=1$ אם $n\in S$), וקבוצת כל הסדרות האלה
+          אינה בת מנייה לפי האלכסון.
+        misconception: MC-c0-sequences-countable
+      - text: 'הקטע $(0,1)$'
+        feedback: >-
+          אינו בן מנייה: זה בדיוק משפט קנטור, שמוכח בעזרת הפיתוחים העשרוניים.
+        misconception: MC-c0-infinite-is-countable
+
+  - id: Q-0.4-pairing
+    type: numeric
+    objectives: [OBJ-0.4-1]
+    level: basic
+    prompt: >-
+      מונים את $\mathbb{N}\times\mathbb{N}$ לפי אלכסונים: קודם הזוגות עם $m+n=2$, אחר כך $m+n=3$, וכן הלאה, ובתוך
+      כל אלכסון לפי $m$ עולה: $(1,1),(1,2),(2,1),(1,3),(2,2),(3,1),(1,4),\dots$. באיזה מקום ברשימה נמצא הזוג
+      $(3,4)$?
+    answer: 18
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. לפני האלכסון $m+n=7$ יש $1+2+3+4+5=15$ זוגות, ובתוך האלכסון $(3,4)$ שלישי: $15+3=18$. בנוסחה,
+      המקום של $(m,n)$ הוא $\frac{(m+n-1)(m+n-2)}{2}+m$.
+    wrongFeedback: >-
+      ספרו כמה זוגות יש באלכסונים $m+n=2,3,\dots,6$ (באלכסון $m+n=s$ יש $s-1$ זוגות), והוסיפו את המקום של
+      $(3,4)$ בתוך האלכסון שלו.
+    commonWrong:
+      - value: 21
+        feedback: >-
+          21 הוא מספר הזוגות עד **סוף** האלכסון $m+n=7$, כולל כולו. $(3,4)$ הוא השלישי מתוך שישה באלכסון הזה.
+        misconception: MC-c0-enumeration-count
+      - value: 24
+        feedback: >-
+          24 מתקבל מ-$\frac{(m+n)(m+n-1)}{2}+m$, כלומר מספירה של אלכסון אחד יותר מדי לפני $(3,4)$. לפני האלכסון
+          $m+n=7$ יש רק האלכסונים $2,\dots,6$: $15$ זוגות.
+        misconception: MC-c0-enumeration-count
+
+  - id: Q-0.4-subset
+    type: twotier
+    objectives: [OBJ-0.4-3]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $A\subseteq\mathbb{Q}$ אינסופית. האם $A$ בהכרח בת מנייה?
+    choices:
+      - text: כן
+        correct: true
+        feedback: 'נכון. תת-קבוצה של קבוצה בת מנייה היא סופית או בת מנייה, ו-$A$ אינסופית.'
+      - text: לא
+        feedback: >-
+          ייתכן שחשבתם על קבוצה "גדולה" כמו $\mathbb{Q}\cap(0,1)$, אבל היא חלק מ-$\mathbb{Q}$, ולכן אינה יכולה להיות
+          גדולה ממנה: תת-קבוצה אינסופית של בת מנייה בת מנייה.
+        misconception: MC-c0-dense-vs-countable
+    reasons:
+      - text: 'תת-קבוצה של קבוצה בת מנייה היא סופית או בת מנייה: עוברים על הרשימה של $\mathbb{Q}$ ושומרים רק את איברי $A$'
+        correct: true
+        feedback: >-
+          בדיוק. אם $q_1,q_2,\dots$ רשימה של $\mathbb{Q}$, האיברים שלה ששייכים ל-$A$, לפי הסדר, הם רשימה של $A$;
+          היא אינסופית כי $A$ אינסופית.
+      - text: 'כל קבוצה אינסופית בת מנייה'
+        feedback: >-
+          המסקנה כאן נכונה, אבל הנימוק לא: $\mathbb{R}$ אינסופית ואינה בת מנייה. מה שעובד הוא ש-$A$ **מוכלת** בקבוצה
+          בת מנייה.
+        misconception: MC-c0-infinite-is-countable
+      - text: 'אם $A$ צפופה בקטע כלשהו היא אינה בת מנייה, ואחרת היא בת מנייה'
+        feedback: >-
+          צפיפות לא קובעת מנייה: $\mathbb{Q}\cap(0,1)$ צפופה ב-$(0,1)$ ובת מנייה.
+        misconception: MC-c0-dense-vs-countable
+
+  - id: Q-0.4-union
+    type: mc
+    objectives: [OBJ-0.4-3]
+    level: basic
+    prompt: >-
+      $A_k=\left\{\frac mk:\ m\in\mathbb{Z}\right\}$ לכל $k\in\mathbb{N}$. מה נכון לגבי $\bigcup_{k=1}^{\infty}A_k$?
+    choices:
+      - text: 'זו בדיוק $\mathbb{Q}$, והיא בת מנייה: איחוד בן מנייה של קבוצות בנות מנייה'
+        correct: true
+        feedback: >-
+          נכון. כל רציונלי $\frac mk$ נמצא ב-$A_k$, וכל $A_k$ בת מנייה (כמו $\mathbb{Z}$). הרשימה המשותפת:
+          $(k,j)\mapsto$ האיבר ה-$j$ של $A_k$, התאמה על מ-$\mathbb{N}\times\mathbb{N}$.
+      - text: 'אינה בת מנייה: איחוד של אינסוף קבוצות אינסופיות גדול מדי'
+        feedback: >-
+          איחוד **בן מנייה** של קבוצות בנות מנייה הוא בן מנייה, כי $\mathbb{N}\times\mathbb{N}$ בת מנייה. האיחוד כאן
+          הוא $\mathbb{Q}$.
+        misconception: MC-c0-infinite-is-countable
+      - text: 'בת מנייה, כי היא צפופה בישר'
+        feedback: >-
+          המסקנה נכונה, הנימוק לא: צפיפות לא גוררת מנייה ($\mathbb{R}$ צפופה ואינה בת מנייה). הנימוק הוא משפט
+          האיחוד.
+        misconception: MC-c0-dense-vs-countable
+
+  - id: Q-0.4-rationals
+    type: mc
+    objectives: [OBJ-0.4-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      איזה טיעון מוכיח נכון ש-$\mathbb{Q}$ בת מנייה?
+    choices:
+      - text: 'כל רציונלי נכתב יחיד כ-$\frac pq$ מצומצם עם $q>0$; ההתאמה $\frac pq\mapsto(p,q)$ חד-חד-ערכית לתוך $\mathbb{Z}\times\mathbb{N}$, שבת מנייה, ו-$\mathbb{Q}$ אינסופית'
+        correct: true
+        feedback: >-
+          נכון. תת-קבוצה של קבוצה בת מנייה היא סופית או בת מנייה, ו-$\mathbb{Q}\supseteq\mathbb{N}$ אינסופית, ולכן בת
+          מנייה.
+      - text: 'מסדרים את הרציונליים החיוביים בסדר עולה ומוסיפים את השליליים לסירוגין'
+        feedback: >-
+          אין "רציונלי חיובי ראשון" ואין "הבא אחרי": בין כל שניים יש עוד. מנייה של $\mathbb{Q}$ אינה לפי הגודל.
+        misconception: MC-c0-list-in-order
+      - text: 'הרציונליים צפופים בישר, ולכן אפשר למנות אותם'
+        feedback: >-
+          צפיפות לא קשורה למנייה: גם $\mathbb{R}$ צפופה, ואינה בת מנייה. מה שעושה את $\mathbb{Q}$ בת מנייה הוא
+          שכל איבר מתואר בזוג מספרים שלמים.
+        misconception: MC-c0-dense-vs-countable
+      - text: 'בין כל שני רציונליים יש אי-רציונלי, ולכן הרציונליים "מעטים"'
+        feedback: >-
+          גם בין כל שני אי-רציונליים יש רציונלי, ובכל זאת אין ביניהם "אותו גודל". צפיפות הדדית לא משווה גדלים;
+          הוכחה דורשת התאמה מפורשת.
+        misconception: MC-c0-interleave-same-size
+
+  - id: Q-0.4-product
+    type: rank
+    objectives: [OBJ-0.4-1]
+    level: mid
+    help: 'סדרו את שלבי ההוכחה לפי הסדר הנכון.'
+    prompt: >-
+      $A$ ו-$B$ בנות מנייה. ההוכחה ש-$A\times B$ בת מנייה התפרקה לשלבים. סדרו אותם.
+    items:
+      - id: enum
+        label: 'יש התאמות חד-חד-ערכיות ועל $a:\mathbb{N}\to A$ ו-$b:\mathbb{N}\to B$.'
+      - id: lift
+        label: 'ההעתקה $(m,n)\mapsto(a(m),b(n))$ היא התאמה חד-חד-ערכית ועל מ-$\mathbb{N}\times\mathbb{N}$ ל-$A\times B$.'
+      - id: nn
+        label: 'ההעתקה $(m,n)\mapsto2^{m-1}(2n-1)$ היא התאמה חד-חד-ערכית ועל מ-$\mathbb{N}\times\mathbb{N}$ ל-$\mathbb{N}$ (כל טבעי הוא חזקה של 2 כפול אי-זוגי, ביחידות).'
+      - id: compose
+        label: 'הרכבה של התאמות חד-חד-ערכיות ועל היא התאמה כזו, ולכן יש התאמה בין $\mathbb{N}$ ל-$A\times B$.'
+    order: [enum, lift, nn, compose]
+    correctFeedback: >-
+      נכון. הרעיון: מעבירים את הבעיה מ-$A\times B$ ל-$\mathbb{N}\times\mathbb{N}$, ופותרים אותה שם פעם אחת. אותו
+      רעיון נותן ש-$A_1\times\dots\times A_k$ בת מנייה, ובפרט $\mathbb{Q}^k$.
+    wrongFeedback: >-
+      התחילו מהנתונים (ההתאמות של $A$ ושל $B$), העבירו את $A\times B$ ל-$\mathbb{N}\times\mathbb{N}$, ורק אז מנו את
+      $\mathbb{N}\times\mathbb{N}$ והרכיבו.
+
+  - id: Q-0.4-diag-why
+    type: mc
+    objectives: [OBJ-0.4-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      נתונה רשימה $x_1,x_2,\dots$ של מספרים ב-$(0,1)$, כל אחד בפיתוח עשרוני. בונים $y=0.d_1d_2d_3\ldots$ עם
+      $d_n=5$ אם הספרה ה-$n$ של $x_n$ אינה 5, ו-$d_n=4$ אם היא 5. למה $y\ne x_7$?
+    choices:
+      - text: 'הספרה השביעית של $y$ שונה מהספרה השביעית של $x_7$, ולפיתוח של $y$ (רק ספרות 4 ו-5) אין פיתוח עשרוני אחר'
+        correct: true
+        feedback: >-
+          נכון. שני פיתוחים שונים מייצגים מספרים שונים, אלא אם אחד מהם מסתיים ב-$000\ldots$ והשני ב-$999\ldots$. ל-$y$
+          אין זנב כזה, ולכן הפיתוח שלו יחיד, ו-$y\ne x_7$ כמספרים.
+      - text: '$y$ שונה מ-$x_7$ בכל הספרות'
+        feedback: >-
+          הבנייה משנה רק ספרה אחת של כל $x_n$, הספרה ה-$n$. שאר הספרות של $y$ ושל $x_7$ יכולות להיות זהות; ספרה
+          אחת שונה מספיקה.
+        misconception: MC-c0-diagonal-all-digits
+      - text: '$y$ אי-רציונלי, וכל $x_n$ ברשימה רציונלי'
+        feedback: >-
+          הרשימה יכולה להכיל אי-רציונליים, ו-$y$ יכול להיות רציונלי: אם כל הספרות האלכסוניות 5, אז
+          $y=0.444\ldots=\frac49$.
+        misconception: MC-c0-diagonal-all-digits
+      - text: 'שני פיתוחים עשרוניים שונים תמיד מייצגים מספרים שונים'
+        feedback: >-
+          לא תמיד: $0.0999\ldots=0.1000\ldots$. בגלל זה בוחרים ספרות 4 ו-5: כך הפיתוח של $y$ יחיד, וההבדל
+          בספרה אחת אכן נותן מספר אחר.
+        misconception: MC-c0-diagonal-double-expansion
+
+  - id: Q-0.4-add-to-list
+    type: twotier
+    objectives: [OBJ-0.4-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      הוכחת האלכסון בנתה מספר $y$ שחסר ברשימה $x_1,x_2,\dots$. מישהו מציע: "נוסיף את $y$ בתחילת הרשימה, ועכשיו
+      הרשימה מכילה את כל המספרים". האם ההצעה מצילה את האפשרות לרשום את כל $(0,1)$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. גם לרשימה החדשה $y,x_1,x_2,\dots$ יש אלכסון, והוא נותן מספר חדש $y'$ שחסר בה.
+      - text: כן
+        feedback: >-
+          הטיעון לא הראה שרשימה **מסוימת** חסרה; הוא הראה שכל רשימה, כולל המתוקנת, חסרה מספר.
+        misconception: MC-c0-diagonal-fix-list
+    reasons:
+      - text: 'האלכסון עובד על כל רשימה: לרשימה המתוקנת הוא נותן מספר אחר שחסר בה'
+        correct: true
+        feedback: >-
+          בדיוק. ההוכחה מתחילה ב"תהי רשימה כלשהי", ולכן היא שוללת קיום של רשימה שלמה, לא רק של הרשימה שהתחלנו בה.
+      - text: 'אפשר להוסיף את $y$, אבל אז מספר אחר נמחק מהרשימה'
+        feedback: >-
+          הוספה בתחילת רשימה לא מוחקת דבר: $x_n$ פשוט עובר למקום $n+1$. הבעיה היא שיש מספר **חדש** שחסר.
+        misconception: MC-c0-diagonal-fix-list
+      - text: 'אי אפשר להוסיף איבר לרשימה אינסופית'
+        feedback: >-
+          אפשר: $y,x_1,x_2,\dots$ היא רשימה תקינה. הבעיה היא שגם ממנה חסר מספר, וכך עם כל תיקון.
+        misconception: MC-c0-diagonal-fix-list
+
+  - id: Q-0.4-01seq
+    type: twotier
+    objectives: [OBJ-0.4-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $S$ היא קבוצת כל הסדרות האינסופיות $(s_1,s_2,\dots)$ שכל איבר בהן 0 או 1. האם $S$ בת מנייה?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. זו הגרסה הנקייה של האלכסון, בלי בעיית הפיתוחים הכפולים. הקבוצה הזו תחזור בפרק 4, כשנראה שמרחב
+          של פונקציות אינו ספרבילי.
+      - text: כן
+        feedback: >-
+          המחרוזות **הסופיות** של אפסים ואחדים בנות מנייה; הסדרות האינסופיות לא. לכל רשימה של סדרות יש סדרה
+          שחסרה בה.
+        misconception: MC-c0-sequences-countable
+    reasons:
+      - text: 'לכל רשימה $s^{(1)},s^{(2)},\dots$ הסדרה $t_n=1-s^{(n)}_n$ שונה מ-$s^{(n)}$ במקום ה-$n$, ולכן חסרה ברשימה'
+        correct: true
+        feedback: >-
+          בדיוק. $t$ שונה מכל $s^{(n)}$ במקום אחד לפחות, ולכן אינה ברשימה. אין כאן פיתוחים כפולים: שתי סדרות שונות
+          בקואורדינטה אחת שונות.
+      - text: 'יש רק שני ערכים אפשריים לכל איבר, ולכן $S$ סופית או בת מנייה'
+        feedback: >-
+          לסדרות **באורך $k$** יש $2^k$ אפשרויות: סופי. אבל הסדרות אינסופיות, והאלכסון מראה שכל רשימה שלהן חסרה.
+        misconception: MC-c0-sequences-countable
+      - text: '$S$ היא איחוד בן מנייה (על $k$) של קבוצות סופיות, ולכן בת מנייה'
+        feedback: >-
+          זה נכון לסדרות שמתאפסות מ-$k$ והלאה, לא לכל הסדרות: הסדרה $1,1,1,\dots$ אינה בשום קבוצה כזו.
+        misconception: MC-c0-sequences-countable
+
+  - id: Q-0.4-eventually-zero
+    type: twotier
+    objectives: [OBJ-0.4-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $Z$ היא קבוצת הסדרות של אפסים ואחדים **שמתאפסות מאינדקס מסוים והלאה** (כלומר יש בהן רק מספר סופי של
+      אחדים). האם $Z$ בת מנייה?
+    choices:
+      - text: כן
+        correct: true
+        feedback: >-
+          נכון. בניגוד לקבוצת **כל** הסדרות של אפסים ואחדים, כאן כל סדרה נקבעת על ידי מחרוזת סופית.
+      - text: לא
+        feedback: >-
+          האלכסון לא עובד כאן: הסדרה $t_n=1-s^{(n)}_n$ שהוא בונה יכולה להכיל אינסוף אחדים, ואז אינה ב-$Z$. מותר
+          שהיא תחסר ברשימה של $Z$.
+        misconception: MC-c0-sequences-countable
+    reasons:
+      - text: '$Z=\bigcup_kZ_k$, כאשר $Z_k$ הן הסדרות שמתאפסות אחרי המקום ה-$k$; ב-$Z_k$ יש $2^k$ סדרות'
+        correct: true
+        feedback: >-
+          בדיוק: איחוד בן מנייה של קבוצות סופיות, ו-$Z$ אינסופית, ולכן בת מנייה.
+      - text: 'כל תת-קבוצה של קבוצה שאינה בת מנייה אינה בת מנייה'
+        feedback: >-
+          זה הפוך מהמשפט: תת-קבוצה של קבוצה **בת** מנייה היא לכל היותר בת מנייה. תת-קבוצה של קבוצה גדולה יכולה
+          להיות כל דבר, למשל $\mathbb{N}\subseteq\mathbb{R}$.
+        misconception: MC-c0-converse-equivalent
+      - text: 'אפשר להפעיל את האלכסון ולקבל סדרה חסרה, ולכן $Z$ אינה בת מנייה'
+        feedback: >-
+          האלכסון בונה סדרה שחסרה ברשימה, אבל לא בהכרח סדרה **של $Z$**. אם כל $s^{(n)}_n=0$, הוא בונה
+          $1,1,1,\dots\notin Z$, ואין סתירה.
+        misconception: MC-c0-sequences-countable
+
+  - id: Q-0.4-diag-double
+    type: twotier
+    objectives: [OBJ-0.4-2]
+    qualitative: true
+    level: exam
+    prompt: >-
+      בגרסה אחרת של ההוכחה ש-$(0,1)$ אינה בת מנייה בוחרים $d_n=a_{nn}+1$ אם $a_{nn}\le8$ ו-$d_n=0$ אם $a_{nn}=9$, כאשר
+      $a_{nn}$ היא הספרה ה-$n$ של $x_n$. האם ההוכחה תקינה כפי שהיא?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. הבחירה יכולה לבנות פיתוח שמסתיים באפסים, ואז $y$ שווה למספר ברשימה שנכתב בפיתוח עם תשיעיות.
+      - text: כן
+        feedback: >-
+          $y$ אמנם שונה מכל $x_n$ **כפיתוח**, אבל לאותו מספר יש לפעמים שני פיתוחים: $0.1000\ldots=0.0999\ldots$.
+        misconception: MC-c0-diagonal-double-expansion
+    reasons:
+      - text: 'אם $x_1=0.05$, $x_2$ נכתב $0.0999\ldots$ ולכל $n\ge3$ הספרה $a_{nn}=9$, מתקבל $y=0.1000\ldots=x_2$'
+        correct: true
+        feedback: >-
+          בדיוק: $d_1=0+1=1$ ו-$d_n=0$ לכל $n\ge2$, כלומר $y=0.1$, שהוא $x_2$. ספרות 4 ו-5 (בלי 0 ו-9) מונעות את זה,
+          כי לפיתוח כזה אין פיתוח אחר.
+      - text: 'הבחירה תקינה, כי $d_n\ne a_{nn}$ לכל $n$'
+        feedback: >-
+          $d_n\ne a_{nn}$ מבטיח ש-$y$ שונה מכל $x_n$ **בפיתוח**, לא בהכרח **כמספר**. הדוגמה $y=0.1000\ldots$ מול
+          $x_2=0.0999\ldots$ מראה את ההבדל.
+        misconception: MC-c0-diagonal-double-expansion
+      - text: 'הבעיה היא ש-$y$ עלול לצאת רציונלי'
+        feedback: >-
+          $y$ רציונלי אינו בעיה: ההוכחה צריכה רק ש-$y\in(0,1)$ ו-$y$ אינו ברשימה. הבעיה היא פיתוחים כפולים.
+        misconception: MC-c0-diagonal-all-digits
+
+  - id: Q-0.4-irrationals
+    type: twotier
+    objectives: [OBJ-0.4-3, OBJ-0.4-2]
+    qualitative: true
+    level: exam
+    prompt: >-
+      האם קבוצת האי-רציונליים $\mathbb{R}\setminus\mathbb{Q}$ בת מנייה?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. יתרה מזו, "רוב" הממשיים אי-רציונליים: הרציונליים הם רק חלק בן מנייה.
+      - text: כן
+        feedback: >-
+          אילו האי-רציונליים היו בני מנייה, גם $\mathbb{R}=\mathbb{Q}\cup(\mathbb{R}\setminus\mathbb{Q})$ הייתה בת מנייה,
+          בסתירה לקנטור.
+        misconception: MC-c0-interleave-same-size
+    reasons:
+      - text: 'אחרת $\mathbb{R}$ הייתה איחוד של שתי קבוצות בנות מנייה, ולכן בת מנייה: סתירה לאלכסון של קנטור'
+        correct: true
+        feedback: >-
+          בדיוק: הוכחה בשלילה שמשלבת את משפט האיחוד עם משפט קנטור.
+      - text: 'בין כל שני רציונליים יש אי-רציונלי, ולכן יש "אותו מספר" משני הסוגים'
+        feedback: >-
+          צפיפות הדדית לא משווה גדלים. $\mathbb{Q}$ בת מנייה, והאי-רציונליים לא, אף ששתי הקבוצות צפופות.
+        misconception: MC-c0-interleave-same-size
+      - text: 'כל תת-קבוצה של $\mathbb{R}$ אינה בת מנייה'
+        feedback: >-
+          $\mathbb{Q}$ ו-$\mathbb{N}$ הן תת-קבוצות של $\mathbb{R}$, ושתיהן בנות מנייה. צריך טיעון שמתאים
+          לאי-רציונליים דווקא.
+        misconception: MC-c0-infinite-is-countable

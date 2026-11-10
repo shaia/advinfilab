@@ -1,0 +1,47 @@
+# Terms first defined in lesson 7.4 (level sets and the tangent space).
+- id: regular-point
+  term: נקודה רגולרית
+  en: regular point
+  definition: >-
+    נקודה $a$ שבה הדיפרנציאל של $F:U\to\mathbb{R}^k$, עם $U\subseteq\mathbb{R}^n$ פתוחה, הוא על $\mathbb{R}^k$, כלומר
+    $J_F(a)$ מדרגה $k$. כש-$k=1$ זה $\nabla F(a)\neq0$. נקודה שאינה רגולרית נקראת נקודה קריטית של $F$.
+  lesson: '7.4'
+- id: regular-value
+  term: ערך רגולרי
+  en: regular value
+  definition: >-
+    ערך $c$ שכל נקודה של קבוצת הגובה $F^{-1}(c)$ היא נקודה רגולרית של $F$. נקודות קריטיות של $F$ שאינן על
+    $F^{-1}(c)$ אינן משנות.
+  lesson: '7.4'
+- id: level-set-as-surface
+  term: קבוצת גובה כמשטח
+  en: level set as a surface
+  definition: >-
+    אם $c$ ערך רגולרי של $F:U\to\mathbb{R}^k$ גזירה ברציפות, $U\subseteq\mathbb{R}^n$, אז לפי משפט הפונקציה
+    הסתומה קבוצת הגובה $F^{-1}(c)$ היא, ליד כל אחת מנקודותיה, גרף של פונקציה גזירה ברציפות של $n-k$ מהמשתנים:
+    עקום כש-$n-k=1$, משטח כש-$n-k=2$.
+  lesson: '7.4'
+- id: tangent-space
+  term: מרחב משיק
+  en: tangent space
+  symbol: 'T_aS'
+  definition: >-
+    לקבוצת גובה $S=F^{-1}(c)$ בנקודה רגולרית $a$: תת-המרחב $T_aS=\ker DF(a)$, ממימד $n-k$. אלה הכיוונים
+    $\gamma'(0)$ של מסילות גזירות ב-$S$ עם $\gamma(0)=a$. המישור המשיק שעובר בנקודה הוא ההזזה $a+T_aS$.
+  lesson: '7.4'
+- id: normal-vector
+  term: וקטור נורמלי
+  en: normal vector
+  definition: >-
+    וקטור שניצב למרחב המשיק. לקבוצת גובה של $F:U\to\mathbb{R}$ בנקודה רגולרית $a$, הגרדיאנט $\nabla F(a)$ הוא
+    וקטור נורמלי, ו-$T_aS=\nabla F(a)^{\perp}$. כש-$F:U\to\mathbb{R}^k$, הגרדיאנטים של הרכיבים פורשים את המרחב
+    הנורמלי.
+  lesson: '7.4'
+- id: singular-point
+  term: נקודה סינגולרית
+  en: singular point
+  definition: >-
+    נקודה של קבוצת הגובה $F^{-1}(c)$ שאינה רגולרית. בה משפט הפונקציה הסתומה אינו חל, וקבוצת הגובה יכולה שלא
+    להיות גרף חלק: קודקוד החרוט $x^2+y^2=z^2$, ההצטלבות של הלמניסקטה, החוד של $y^2=x^3$. היא גם יכולה להיות חלקה
+    לגמרי, כמו ציר ה-$x$ בתור $\{y^2=0\}$.
+  lesson: '7.4'

@@ -1,0 +1,357 @@
+# Lesson 7.1 — the inverse function theorem.
+# Objectives (src/course.ts):
+#   OBJ-7.1-1  state the inverse function theorem and explain what local invertibility means
+#   OBJ-7.1-2  compute the differential of the local inverse as the inverse of the Jacobian matrix
+#   OBJ-7.1-3  show by example that local invertibility at every point does not imply global invertibility
+chapter: 7
+questions:
+  - id: Q-7.1-statement
+    type: mc
+    objectives: [OBJ-7.1-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      תהי $U\subseteq\mathbb{R}^n$ פתוחה, $f:U\to\mathbb{R}^n$ ו-$a\in U$. איזה מהניסוחים הבאים הוא משפט הפונקציה
+      ההפוכה?
+    choices:
+      - text: >-
+          אם $f$ גזירה ברציפות ו-$Df(a)$ הפיכה, יש סביבות פתוחות $V\ni a$ ו-$W\ni f(a)$ כך ש-$f:V\to W$ חד-חד-ערכית
+          ועל, וההופכית גזירה ברציפות עם $D(f^{-1})(f(a))=Df(a)^{-1}$
+        correct: true
+        feedback: >-
+          נכון. שלושה חלקים: ההנחה ($C^1$ ונגזרת הפיכה בנקודה אחת), המסקנה המקומית (סביבה $V$ ותמונה פתוחה $W$),
+          והנוסחה לדיפרנציאל של ההופכית.
+      - text: >-
+          אם $f$ גזירה ברציפות ו-$Df(x)$ הפיכה לכל $x\in U$, אז $f$ חד-חד-ערכית על $U$ ויש לה הופכית גזירה על $f(U)$
+        feedback: >-
+          זו מסקנה גלובלית, והמשפט לא נותן אותה. $F(x,y)=(e^x\cos y,\ e^x\sin y)$ מקיימת $\det J_F=e^{2x}\neq0$
+          בכל המישור, ובכל זאת $F(0,0)=F(0,2\pi)$.
+        misconception: MC-c7-local-is-global
+      - text: >-
+          אם $f$ גזירה ב-$a$ ו-$Df(a)$ הפיכה, יש סביבה של $a$ שעליה $f$ חד-חד-ערכית
+        feedback: >-
+          גזירות בנקודה אחת אינה מספיקה: צריך שהנגזרת תהיה רציפה. $f(x)=x+2x^2\sin\frac1x$ (עם $f(0)=0$) גזירה
+          בכל מקום עם $f'(0)=1$, ואינה חד-חד-ערכית באף סביבה של 0 (שיעור 7.2).
+        misconception: MC-c7-differentiable-enough
+      - text: >-
+          אם $f$ גזירה ברציפות, אז $f$ חד-חד-ערכית על סביבה של $a$ אם ורק אם $Df(a)$ הפיכה
+        feedback: >-
+          הכיוון "רק אם" שגוי: $f(x)=x^3$ גזירה ברציפות וחד-חד-ערכית על כל $\mathbb{R}$, ו-$f'(0)=0$. הפיכות של
+          $Df(a)$ היא תנאי מספיק, לא הכרחי. (היא כן הכרחית אם דורשים שגם ההופכית תהיה גזירה.)
+        misconception: MC-c7-ift-iff
+    explanation: >-
+      המשפט אומר שאם הקירוב הלינארי $Df(a)$ הפיך, אז גם $f$ עצמה הפיכה, **ליד** $a$. הוא לא אומר כמה גדולה
+      הסביבה, ולא אומר דבר מחוץ לה.
+
+  - id: Q-7.1-cube
+    type: twotier
+    objectives: [OBJ-7.1-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $f(x)=x^3$ על $\mathbb{R}$, ו-$f'(0)=0$. האם יש קטע פתוח סביב 0 שעליו $f$ הפיכה?
+    choices:
+      - text: כן
+        correct: true
+        feedback: >-
+          נכון: $x^3$ עולה ממש על כל $\mathbb{R}$, ולכן הפיכה על כל קטע, עם ההופכית $\sqrt[3]{y}$.
+      - text: לא
+        feedback: >-
+          משפט הפונקציה ההפוכה לא חל כאן, אבל כשהנחה נכשלת המשפט פשוט לא אומר דבר. $x^3$ עולה ממש, ולכן הפיכה.
+        misconception: MC-c7-ift-iff
+    reasons:
+      - text: >-
+          $f$ עולה ממש; מה שנכשל הוא הגזירות של ההופכית $\sqrt[3]{y}$ ב-0, ולכן אין סתירה למשפט
+        correct: true
+        feedback: >-
+          בדיוק. אילו $g=f^{-1}$ הייתה גזירה ב-0, מכלל השרשרת $g'(0)f'(0)=1$, וזה בלתי אפשרי כש-$f'(0)=0$. ואכן
+          $\frac{\sqrt[3]{h}}{h}=h^{-2/3}\to\infty$.
+      - text: >-
+          משפט הפונקציה ההפוכה נותן הופכית בכל נקודה שבה $f$ גזירה ברציפות
+        feedback: >-
+          המשפט דורש גם ש-$Df(a)$ תהיה הפיכה, וכאן $f'(0)=0$. התשובה נכונה מסיבה אחרת: המונוטוניות.
+        misconception: MC-c7-differentiable-enough
+      - text: >-
+          כש-$f'(0)=0$ הפונקציה אינה חד-חד-ערכית באף סביבה של 0
+        feedback: >-
+          זה נכון ל-$x^2$, אבל לא ל-$x^3$. נגזרת מתאפסת אינה מונעת חד-חד-ערכיות; היא רק מונעת הופכית גזירה.
+        misconception: MC-c7-ift-iff
+
+  - id: Q-7.1-dims
+    type: mc
+    objectives: [OBJ-7.1-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $f:\mathbb{R}^2\to\mathbb{R}^3$ גזירה ברציפות, ו-$J_f(a)$ מדרגה 2 (העמודות בלתי תלויות). מה אומר משפט
+      הפונקציה ההפוכה על $f$ ליד $a$?
+    choices:
+      - text: 'שום דבר: המשפט עוסק רק בפונקציות מ-$\mathbb{R}^n$ ל-$\mathbb{R}^n$'
+        correct: true
+        feedback: >-
+          נכון. $J_f(a)$ היא מטריצה $3\times2$, ומטריצה לא ריבועית אינה הפיכה. ($f$ עשויה להיות חד-חד-ערכית ליד
+          $a$, אבל התמונה שלה אינה מכילה קבוצה פתוחה של $\mathbb{R}^3$, כמו משטח במרחב.)
+      - text: '$f$ הפיכה מקומית, כי הדרגה מלאה'
+        feedback: >-
+          "הפיכה מקומית" דורשת שהתמונה של סביבה תכיל סביבה של $f(a)$. למשל $f(x,y)=(x,y,0)$ מדרגה 2 בכל נקודה,
+          והתמונה שלה, המישור $z=0$, אינה מכילה אף כדור של $\mathbb{R}^3$.
+        misconception: MC-c7-ift-any-dimensions
+      - text: '$f$ אינה חד-חד-ערכית באף סביבה של $a$'
+        feedback: >-
+          המשפט אינו אומר דבר כשההנחות שלו לא מתקיימות, גם לא את השלילה. $f(x,y)=(x,y,0)$ חד-חד-ערכית על כל
+          המישור.
+        misconception: MC-c7-ift-iff
+      - text: '$f$ הפיכה מקומית אם מוחקים את השורה השלישית של $J_f(a)$'
+        feedback: >-
+          מחיקת שורה משנה את הפונקציה: היא נותנת את הטלה של $f$ על שני רכיבים. ההטלה אולי הפיכה מקומית, אבל זו
+          טענה על פונקציה אחרת, $\mathbb{R}^2\to\mathbb{R}^2$.
+        misconception: MC-c7-ift-any-dimensions
+
+  - id: Q-7.1-xexp
+    type: numeric
+    objectives: [OBJ-7.1-2]
+    level: basic
+    prompt: >-
+      $f(x)=x+e^x$ עולה ממש על $\mathbb{R}$. חשבו את $(f^{-1})'(1)$.
+    answer: 0.5
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. קודם המקור: $f(0)=0+1=1$, ולכן $(f^{-1})'(1)=\frac{1}{f'(0)}=\frac{1}{1+e^0}=\frac12$.
+    wrongFeedback: >-
+      $(f^{-1})'(b)=\frac{1}{f'(a)}$ כאשר $f(a)=b$. מצאו קודם $a$ עם $a+e^a=1$ (נסו מספר פשוט).
+    commonWrong:
+      - value: 0.2689
+        feedback: >-
+          זה $\frac{1}{f'(1)}=\frac{1}{1+e}\approx0.269$: הצבתם את $b=1$ בנגזרת של $f$. צריך להציב את המקור
+          $a=f^{-1}(1)=0$.
+        misconception: MC-c7-inverse-derivative-wrong-point
+      - value: 2
+        feedback: >-
+          $2=f'(0)$, הנגזרת של $f$ עצמה. הנגזרת של ההופכית היא ההופכי שלה.
+
+  - id: Q-7.1-polar
+    type: numeric
+    objectives: [OBJ-7.1-2]
+    level: basic
+    prompt: >-
+      $P(r,\theta)=(r\cos\theta,\ r\sin\theta)$ על $r>0$. ליד הנקודה $(r,\theta)=(2,\frac\pi3)$ יש ל-$P$ הופכית
+      מקומית $Q$ (המעבר מקואורדינטות קרטזיות לקוטביות). מהי הדטרמיננטה של $J_Q$ בנקודה $P(2,\frac\pi3)=(1,\sqrt3)$?
+    answer: 0.5
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $J_P=\begin{pmatrix}\cos\theta&-r\sin\theta\\\sin\theta&r\cos\theta\end{pmatrix}$, ולכן $\det J_P=r=2$.
+      $J_Q(1,\sqrt3)=J_P(2,\frac\pi3)^{-1}$, והדטרמיננטה של ההופכית היא $\frac12$. בדיקה ישירה:
+      $\det J_Q=\frac{1}{\sqrt{x^2+y^2}}=\frac12$.
+    wrongFeedback: >-
+      חשבו את $\det J_P(r,\theta)$ והשתמשו ב-$J_Q(P(a))=J_P(a)^{-1}$ וב-$\det(A^{-1})=\frac{1}{\det A}$.
+    commonWrong:
+      - value: 2
+        feedback: >-
+          $2=\det J_P(2,\frac\pi3)$, הדטרמיננטה של $P$ עצמה. של ההופכית היא ההופכי שלה.
+        misconception: MC-c7-inverse-derivative-wrong-point
+      - value: 1
+        feedback: >-
+          $\det J_P=r$, לא 1: המעבר לקוטביות מותח שטחים בפקטור $r$. לכן של ההופכית $\frac1r=\frac12$.
+
+  - id: Q-7.1-quadratic
+    type: numeric
+    objectives: [OBJ-7.1-2]
+    level: mid
+    prompt: >-
+      $f(x,y)=(x+y^2,\ y+x^2)$, ו-$f(1,1)=(2,2)$. תהי $g=(g_1,g_2)$ ההופכית המקומית של $f$ ליד $(1,1)$. חשבו את
+      $\frac{\partial g_1}{\partial v}(2,2)$, כאשר $(u,v)$ הם המשתנים של $g$.
+    answer: 0.6666667
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $J_f(1,1)=\begin{pmatrix}1&2\\2&1\end{pmatrix}$ עם דטרמיננטה $-3\neq0$, ולכן
+      $$J_g(2,2)=J_f(1,1)^{-1}=\frac{1}{-3}\begin{pmatrix}1&-2\\-2&1\end{pmatrix}=\begin{pmatrix}-\frac13&\frac23\\\frac23&-\frac13\end{pmatrix}.$$
+      האיבר בשורה 1 ועמודה 2 הוא $\frac23$.
+    wrongFeedback: >-
+      חשבו את $J_f(1,1)$, הפכו את **המטריצה** כולה (מטריצה $2\times2$: מחליפים את האלכסון, הופכים סימן מחוץ
+      לאלכסון ומחלקים בדטרמיננטה), וקראו את האיבר בשורה 1, עמודה 2.
+    commonWrong:
+      - value: 0.5
+        feedback: >-
+          $\frac12$ הוא אחד חלקי $\frac{\partial f_1}{\partial y}(1,1)=2$. הופכים את המטריצה, לא כל איבר בנפרד.
+        misconception: MC-c7-inverse-jacobian-entrywise
+      - value: 2
+        feedback: >-
+          זה האיבר של $J_f(1,1)$ עצמה. הדיפרנציאל של ההופכית הוא $J_f(1,1)^{-1}$.
+      - value: -0.6666667
+        feedback: >-
+          סימן שגוי: הדטרמיננטה היא $1\cdot1-2\cdot2=-3$, והאיבר מחוץ לאלכסון במטריצה המצורפת הוא $-2$. שני
+          המינוסים מתבטלים.
+    hints:
+      - 'הנוסחה: $D(f^{-1})(f(a))=Df(a)^{-1}$, ובמטריצות $J_g(2,2)=J_f(1,1)^{-1}$.'
+
+  - id: Q-7.1-necessary
+    type: twotier
+    objectives: [OBJ-7.1-1, OBJ-7.1-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $f:U\to\mathbb{R}^n$ גזירה ב-$a$, חד-חד-ערכית על סביבה $V$ של $a$, ו-$f(V)$ מכילה סביבה של $f(a)$ שעליה
+      ההופכית $g$ גזירה ב-$f(a)$. האם בהכרח $Df(a)$ הפיכה?
+    choices:
+      - text: כן, בהכרח
+        correct: true
+        feedback: >-
+          נכון. גזירות של ההופכית מכריחה נגזרת הפיכה. זה הכיוון ההפוך של משפט הפונקציה ההפוכה, והוא קל.
+      - text: לא בהכרח, כפי ש-$x^3$ מראה
+        feedback: >-
+          ב-$x^3$ ההופכית $\sqrt[3]{y}$ **אינה** גזירה ב-0, ולכן היא לא מקיימת את ההנחה כאן. הדוגמה מראה רק
+          שהפיכות של $f$ לבדה אינה מכריחה נגזרת הפיכה.
+        misconception: MC-c7-ift-iff
+    reasons:
+      - text: >-
+          $g(f(x))=x$ ליד $a$; מכלל השרשרת $Dg(f(a))\,Df(a)=I$, ולכן ל-$Df(a)$ יש הופכית
+        correct: true
+        feedback: >-
+          בדיוק. מטריצה ריבועית שיש לה הופכית משמאל הפיכה. זה גם מסביר את הנוסחה $D(f^{-1})(f(a))=Df(a)^{-1}$:
+          היא נכפית ברגע שיודעים שההופכית גזירה.
+      - text: זה מה שמשפט הפונקציה ההפוכה אומר
+        feedback: >-
+          משפט הפונקציה ההפוכה הולך בכיוון השני: מ"$Df(a)$ הפיכה" ל"$f$ הפיכה מקומית". הכיוון כאן בא מכלל
+          השרשרת.
+        misconception: MC-c7-ift-iff
+      - text: כי $f$ חד-חד-ערכית ליד $a$, ולכן גם $Df(a)$ חד-חד-ערכית
+        feedback: >-
+          חד-חד-ערכיות של $f$ אינה עוברת לדיפרנציאל: $x^3$ חד-חד-ערכית, ו-$Df(0)=0$. כאן מה שעובד הוא הגזירות
+          של ההופכית.
+        misconception: MC-c7-ift-iff
+
+  - id: Q-7.1-exp-plane
+    type: twotier
+    objectives: [OBJ-7.1-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $F(x,y)=(e^x\cos y,\ e^x\sin y)$. מתקיים $\det J_F(x,y)=e^{2x}$. האם $F$ חד-חד-ערכית על $\mathbb{R}^2$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. $F$ הפיכה מקומית ליד כל נקודה, ובכל זאת אינה חד-חד-ערכית על המישור.
+      - text: כן
+        feedback: >-
+          $F(0,0)=(1,0)=F(0,2\pi)$. הדטרמיננטה שונה מאפס בכל מקום, אבל זה נותן רק הפיכות מקומית.
+        misconception: MC-c7-local-is-global
+    reasons:
+      - text: '$F(x,y+2\pi)=F(x,y)$ לכל $(x,y)$, כי $\cos$ ו-$\sin$ מחזוריות'
+        correct: true
+        feedback: >-
+          בדיוק. כל נקודה בתמונה, $\mathbb{R}^2\setminus\{0\}$, מתקבלת אינסוף פעמים. על כל רצועה
+          $\{a<y<a+2\pi\}$ דווקא כן יש הופכית: שם $F$ חד-חד-ערכית.
+      - text: 'יש נקודות שבהן $\det J_F=0$, ושם $F$ "מתקפלת"'
+        feedback: >-
+          $e^{2x}>0$ לכל $x$: אין נקודה כזו. חד-חד-ערכיות נכשלת כאן מסיבה גלובלית, לא בגלל נקודה סינגולרית.
+      - text: 'הפיכות מקומית בכל נקודה גוררת חד-חד-ערכיות'
+        feedback: >-
+          זה בדיוק מה שהדוגמה הזו מפריכה. הסביבות של המשפט יכולות להיות קטנות, וההופכיות המקומיות לא "מתחברות"
+          להופכית אחת.
+        misconception: MC-c7-local-is-global
+
+  - id: Q-7.1-exp-count
+    type: numeric
+    objectives: [OBJ-7.1-3]
+    level: mid
+    prompt: >-
+      $F(x,y)=(e^x\cos y,\ e^x\sin y)$. כמה נקודות $(x,y)$ עם $0\le y<10$ מקיימות $F(x,y)=(1,0)$?
+    answer: 2
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $\|F(x,y)\|=e^x=1$ נותן $x=0$, ואז $\cos y=1$, $\sin y=0$, כלומר $y\in2\pi\mathbb{Z}$. בקטע $[0,10)$ יש
+      $y=0$ ו-$y=2\pi\approx6.28$; הבא, $4\pi\approx12.57$, כבר בחוץ.
+    wrongFeedback: >-
+      השוו קודם נורמות: $\|F(x,y)\|=e^x$. אחר כך מצאו את כל ה-$y$ עם $(\cos y,\sin y)=(1,0)$ בקטע.
+    commonWrong:
+      - value: 1
+        feedback: >-
+          $y=0$ אינו היחיד: גם $y=2\pi<10$ מקיים $\cos y=1$, $\sin y=0$. ההפיכות המקומית לא מבטיחה מקור יחיד.
+        misconception: MC-c7-local-is-global
+      - value: 3
+        feedback: >-
+          $4\pi\approx12.57>10$, ולכן אינו בטווח. בדקו את כפולות $2\pi$ שקטנות מ-10.
+
+  - id: Q-7.1-global
+    type: multi
+    objectives: [OBJ-7.1-3, OBJ-7.1-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      אילו מהטענות הבאות נכונות? סמנו את כולן.
+    choices:
+      - text: 'אם $f:\mathbb{R}\to\mathbb{R}$ גזירה ברציפות ו-$f''(x)\neq0$ לכל $x$, אז $f$ חד-חד-ערכית על $\mathbb{R}$'
+        correct: true
+        feedback: >-
+          נכון. $f'$ רציפה ואינה מתאפסת, ולכן לפי משפט ערך הביניים היא בעלת סימן קבוע, ו-$f$ מונוטונית ממש. במשתנה
+          אחד, מקומי בכל נקודה כן נותן גלובלי.
+      - text: 'אם $f:\mathbb{R}^2\to\mathbb{R}^2$ גזירה ברציפות ו-$\det J_f(x)\neq0$ לכל $x$, אז $f$ חד-חד-ערכית על $\mathbb{R}^2$'
+        feedback: >-
+          לא נכון. $F(x,y)=(e^x\cos y,\ e^x\sin y)$ מקיימת $\det J_F=e^{2x}\neq0$, ו-$F(0,0)=F(0,2\pi)$. ב-$\mathbb{R}^2$
+          אין "סימן" לדטרמיננטה שמכריח מונוטוניות.
+        misconception: MC-c7-local-is-global
+      - text: '$f(x,y)=(x+y^2,\ y+x^2)$ חד-חד-ערכית על $\mathbb{R}^2$'
+        feedback: >-
+          לא נכון: $f(0,0)=(0,0)=f(-1,-1)$. ($\det J_f=1-4xy$, והיא מתאפסת על ההיפרבולה $xy=\frac14$, שמפרידה בין
+          שתי הנקודות.)
+        misconception: MC-c7-local-is-global
+      - text: 'אם $f:U\to\mathbb{R}^n$ גזירה ברציפות ו-$Df(x)$ הפיכה לכל $x\in U$ ($U$ פתוחה), אז $f(U)$ פתוחה'
+        correct: true
+        feedback: >-
+          נכון. לכל $b=f(a)\in f(U)$ המשפט נותן סביבה פתוחה $W\ni b$ עם $W=f(V)\subseteq f(U)$. כלומר מהמשפט כן
+          נובעת תכונה גלובלית אחת: $f$ פתוחה.
+
+  - id: Q-7.1-squaring
+    type: mc
+    objectives: [OBJ-7.1-1, OBJ-7.1-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $f(x,y)=(x^2-y^2,\ 2xy)$, ו-$\det J_f(x,y)=4(x^2+y^2)$. איזו טענה נכונה?
+    choices:
+      - text: '$f$ הפיכה מקומית ליד כל נקודה פרט לראשית, אינה חד-חד-ערכית על $\mathbb{R}^2\setminus\{0\}$, ואינה חד-חד-ערכית באף סביבה של הראשית'
+        correct: true
+        feedback: >-
+          נכון. מחוץ לראשית הדטרמיננטה חיובית והמשפט חל. $f(-x,-y)=f(x,y)$, ולכן כל סביבה של הראשית, וגם
+          $\mathbb{R}^2\setminus\{0\}$, מכילה שתי נקודות עם אותה תמונה. (בשפה של מספרים מרוכבים, $f$ היא $z\mapsto z^2$.)
+      - text: '$f$ הפיכה מקומית ליד כל נקודה פרט לראשית, ולכן היא חד-חד-ערכית על $\mathbb{R}^2\setminus\{0\}$'
+        feedback: >-
+          $f(1,0)=(1,0)=f(-1,0)$, ושתי הנקודות ב-$\mathbb{R}^2\setminus\{0\}$. הפיכות מקומית אינה גוררת חד-חד-ערכיות.
+        misconception: MC-c7-local-is-global
+      - text: 'ליד הראשית אין ל-$f$ הופכית מקומית רק בגלל ש-$\det J_f(0,0)=0$'
+        feedback: >-
+          דטרמיננטה מתאפסת רק אומרת שהמשפט לא חל; היא לא מוכיחה דבר. מה שמוכיח שאין הופכית הוא $f(-x,-y)=f(x,y)$
+          (השוו ל-$x^3$, הפיכה למרות נגזרת אפס).
+        misconception: MC-c7-ift-iff
+      - text: '$f$ הפיכה מקומית ליד כל נקודה, כי היא גזירה ברציפות'
+        feedback: >-
+          המשפט דורש גם $Df(a)$ הפיכה, וזה נכשל בראשית. ושם באמת אין הופכית מקומית: $f(t,0)=f(-t,0)$ לכל $t$.
+        misconception: MC-c7-differentiable-enough
+
+  - id: Q-7.1-squaring-inverse
+    type: numeric
+    objectives: [OBJ-7.1-2]
+    level: exam
+    prompt: >-
+      $f(x,y)=(x^2-y^2,\ 2xy)$ ו-$f(1,1)=(0,2)$. תהי $g=(g_1,g_2)$ ההופכית המקומית של $f$ ליד $(1,1)$, כפונקציה של
+      $(u,v)$. חשבו את $\frac{\partial g_2}{\partial u}(0,2)$.
+    answer: -0.25
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $J_f(1,1)=\begin{pmatrix}2&-2\\2&2\end{pmatrix}$ עם דטרמיננטה 8, ולכן
+      $$J_g(0,2)=\frac18\begin{pmatrix}2&2\\-2&2\end{pmatrix}=\begin{pmatrix}\frac14&\frac14\\-\frac14&\frac14\end{pmatrix}.$$
+      שורה 2, עמודה 1: $-\frac14$. בדיקה: אם מזיזים את $u$ מעט למעלה, $g$ זזה בכיוון $(\frac14,-\frac14)$, ואכן
+      $f(1+\frac{t}{4},1-\frac{t}{4})\approx(t,2)$.
+    wrongFeedback: >-
+      $J_f=\begin{pmatrix}2x&-2y\\2y&2x\end{pmatrix}$. הציבו $(1,1)$ (המקור, לא $(0,2)$), הפכו את המטריצה, וקראו
+      את שורה 2, עמודה 1.
+    commonWrong:
+      - value: 0.5
+        feedback: >-
+          $\frac12$ הוא אחד חלקי $\frac{\partial f_2}{\partial x}(1,1)=2$. הופכים את המטריצה כולה, לא כל איבר.
+        misconception: MC-c7-inverse-jacobian-entrywise
+      - value: 0.25
+        feedback: >-
+          זה האיבר בשורה 1, עמודה 1 (או 2) של $J_g$. בשורה 2, עמודה 1 יש סימן מינוס: במטריצה המצורפת האיבר
+          מחוץ לאלכסון הוא $-2y=-2$.

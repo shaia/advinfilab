@@ -1,0 +1,376 @@
+# Lesson 4.3 — the Arzelà–Ascoli theorem.
+# Objectives (src/course.ts):
+#   OBJ-4.3-1  state Arzelà–Ascoli: a subset of C(K) has compact closure iff it is bounded and equicontinuous
+#   OBJ-4.3-2  build the subsequence by the diagonal argument on a countable dense set; the role of each hypothesis
+#   OBJ-4.3-3  apply it to get a uniformly convergent subsequence, and show the conclusion fails without a hypothesis
+# A compact metric space has a countable dense subset (from total boundedness, lesson 3.3); 4.4 states it in general.
+chapter: 4
+questions:
+  - id: Q-4.3-statement
+    type: mc
+    objectives: [OBJ-4.3-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $K$ מרחב מטרי קומפקטי ו-$\mathcal{F}\subseteq C(K)$. מהו הניסוח של משפט ארצלה-אסקולי?
+    choices:
+      - text: '$\overline{\mathcal{F}}$ קומפקטית אם ורק אם $\mathcal{F}$ חסומה ורציפה במידה אחידה'
+        correct: true
+        feedback: >-
+          נכון. "קומפקטית יחסית" (סגור קומפקטי) שקול לשתי ההנחות יחד, חסימות בנורמת הסופרמום ורציפות במידה אחידה.
+      - text: '$\mathcal{F}$ קומפקטית אם ורק אם $\mathcal{F}$ חסומה ורציפה במידה אחידה'
+        feedback: >-
+          $\{\frac{x}{n}:\ n\in\mathbb{N}\}$ חסומה ב-1 וליפשיצית עם קבוע 1, אבל אינה סגורה: הגבול 0 אינו בה, ולכן אינה
+          קומפקטית. המשפט מדבר על הסגור.
+        misconception: MC-c4-relatively-compact-is-compact
+      - text: '$\overline{\mathcal{F}}$ קומפקטית אם ורק אם $\mathcal{F}$ חסומה וכל $f\in\mathcal{F}$ רציפה במידה שווה'
+        feedback: >-
+          ב-$C(K)$ כל פונקציה רציפה במידה שווה (קנטור), כך שזה היה אומר שכל קבוצה חסומה קומפקטית יחסית. $\{x^n\}$ חסומה
+          ואין לה תת-סדרה מתכנסת ב-$C[0,1]$.
+        misconception: MC-c4-equi-vs-uniform
+      - text: '$\overline{\mathcal{F}}$ קומפקטית אם ורק אם $\mathcal{F}$ סגורה וחסומה'
+        feedback: >-
+          כדור היחידה הסגור של $C[0,1]$ סגור וחסום ואינו קומפקטי. ההנחה החסרה היא רציפות במידה אחידה.
+        misconception: MC-c4-closed-bounded-compact
+
+  - id: Q-4.3-x-over-n
+    type: twotier
+    objectives: [OBJ-4.3-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      האם הקבוצה $\mathcal{F}=\{\frac{x}{n}:\ n\in\mathbb{N}\}\subseteq C[0,1]$ קומפקטית?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. היא קומפקטית יחסית, אבל אינה קומפקטית.'
+      - text: כן
+        feedback: >-
+          ארצלה-אסקולי נותן רק שהסגור קומפקטי. כאן הסגור גדול מהקבוצה בנקודה אחת.
+        misconception: MC-c4-relatively-compact-is-compact
+    reasons:
+      - text: '$\frac xn\to0$ במידה שווה ו-$0\notin\mathcal{F}$, ולכן $\mathcal{F}$ אינה סגורה; הסגור $\mathcal{F}\cup\{0\}$ כן קומפקטי'
+        correct: true
+        feedback: >-
+          בדיוק. קבוצה קומפקטית סגורה, ו-$\mathcal{F}$ אינה סגורה. $\mathcal{F}\cup\{0\}$ קומפקטית: כל סדרה בה מתכנסת
+          ל-0 או חוזרת אינסוף פעמים על איבר אחד.
+      - text: 'המשפחה אינה רציפה במידה אחידה'
+        feedback: >-
+          היא רציפה במידה אחידה: $|\frac xn-\frac yn|\le|x-y|$, ו-$\delta=\varepsilon$. מה שחסר לקומפקטיות אינו אחת
+          מהנחות המשפט אלא הסגירות.
+        misconception: MC-c4-aa-hypothesis-role
+      - text: 'היא חסומה ורציפה במידה אחידה, ולכן לפי ארצלה-אסקולי קומפקטית'
+        feedback: >-
+          זה נימוק לתשובה "כן", והוא שוכח את הסגור: המשפט נותן קומפקטיות של $\overline{\mathcal{F}}$, לא של $\mathcal{F}$.
+        misconception: MC-c4-relatively-compact-is-compact
+
+  - id: Q-4.3-constants
+    type: mc
+    objectives: [OBJ-4.3-3]
+    qualitative: true
+    level: basic
+    prompt: >-
+      לסדרה $f_n\equiv n$ ב-$C[0,1]$ אין תת-סדרה מתכנסת במידה שווה. איזו הנחה של ארצלה-אסקולי נכשלת?
+    choices:
+      - text: החסימות
+        correct: true
+        feedback: >-
+          נכון. $\|f_n\|_\infty=n$. ו-$\|f_n-f_m\|_\infty=|n-m|\ge1$, כך שאין תת-סדרה קושי.
+      - text: הרציפות במידה אחידה
+        feedback: >-
+          פונקציות קבועות רציפות במידה אחידה עם כל $\delta$: $|f_n(x)-f_n(y)|=0$.
+        misconception: MC-c4-equi-needs-bounded
+      - text: אף אחת; כל $f_n$ חסומה כי $[0,1]$ קומפקטי, ולכן המשפט חל
+        feedback: >-
+          כל $f_n$ חסומה, אבל בחסם שתלוי ב-$n$. המשפט דורש חסם **אחד** לכל המשפחה.
+        misconception: MC-c4-pointwise-bounded-uniform
+      - text: הקומפקטיות של התחום
+        feedback: 'התחום $[0,1]$ קומפקטי. מה שנכשל הוא תכונה של המשפחה.'
+        misconception: MC-c4-aa-hypothesis-role
+
+  - id: Q-4.3-bound
+    type: numeric
+    objectives: [OBJ-4.3-3]
+    level: basic
+    prompt: >-
+      $\mathcal{F}=\{f\in C^1[0,3]:\ |f(0)|\le1,\ |f'(t)|\le2\ \forall t\}$. מהו החסם $M$ **הקטן ביותר** כך
+      ש-$\|f\|_\infty\le M$ לכל $f\in\mathcal{F}$?
+    answer: 7
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $|f(x)|\le|f(0)|+|f(x)-f(0)|\le1+2x\le7$, ו-$f(x)=1+2x$ במשפחה ומגיעה ל-7. לכן המשפחה חסומה במידה שווה,
+      ועם החסם על הנגזרות היא רציפה במידה אחידה: קומפקטית יחסית.
+    wrongFeedback: >-
+      כתבו $f(x)=f(0)+(f(x)-f(0))$ והעריכו את ההפרש בעזרת משפט הערך הממוצע על הקטע $[0,x]$, עם $x$ עד 3.
+    commonWrong:
+      - value: 1
+        feedback: >-
+          $|f(0)|\le1$ חוסם רק את הערך ב-0. בלי החסם על הנגזרת, ערך אחד לא חוסם את השאר.
+        misconception: MC-c4-pointwise-bounded-uniform
+      - value: 6
+        feedback: >-
+          $6=2\cdot3$ חוסם את $|f(x)-f(0)|$, אבל שכחתם להוסיף את $|f(0)|\le1$.
+
+  - id: Q-4.3-xn-dist
+    type: numeric
+    objectives: [OBJ-4.3-3]
+    level: mid
+    prompt: >-
+      $\{x^n\}$ חסומה ב-$C[0,1]$ ואינה רציפה במידה אחידה. כדי לראות שאין לה תת-סדרה מתכנסת חשבו את
+      $\|x^{7}-x^{14}\|_\infty$ על $[0,1]$.
+    answer: 0.25
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. עם $t=x^7\in[0,1]$ ההפרש הוא $t-t^2$, והמקסימום שלו $\frac14$ ב-$t=\frac12$. אותו חישוב נותן
+      $\|x^m-x^k\|_\infty\ge\frac14$ לכל $k\ge2m$, ולכן אין תת-סדרה קושי.
+    wrongFeedback: >-
+      הציבו $t=x^7$: אז $x^{14}=t^2$, ו-$t$ עובר על כל $[0,1]$. מצאו את $\max_{t\in[0,1]}(t-t^2)$.
+    commonWrong:
+      - value: 0
+        feedback: >-
+          בקצוות 0 ו-1 שתי הפונקציות שוות, אבל ההפרש הגדול ביותר בפנים, ב-$x=2^{-1/7}$.
+        misconception: MC-c4-max-at-endpoints
+
+  - id: Q-4.3-diagonal-rank
+    type: rank
+    objectives: [OBJ-4.3-2]
+    level: mid
+    prompt: >-
+      סדרו את שלבי ההוכחה: לסדרה $(f_n)$ ב-$C(K)$, $K$ קומפקטי, שחסומה ורציפה במידה אחידה, יש תת-סדרה מתכנסת במידה
+      שווה.
+    help: סדרו את שלבי ההוכחה מהראשון לאחרון.
+    items:
+      - id: dense
+        label: 'ל-$K$ הקומפקטי יש קבוצה צפופה בת מנייה $D=\{q_1,q_2,\dots\}$ (איחוד של רשתות סופיות ברדיוס $\frac1k$)'
+      - id: first
+        label: '$(f_n(q_1))$ חסומה בישר, ולפי בולצאנו-ויירשטראס יש תת-סדרה $S_1$ שמתכנסת ב-$q_1$'
+      - id: induct
+        label: 'באינדוקציה: מתוך $S_k$ בוחרים תת-סדרה $S_{k+1}$ שמתכנסת גם ב-$q_{k+1}$'
+      - id: diag
+        label: 'האלכסון: $g_k$ הוא האיבר ה-$k$ של $S_k$. מהמקום ה-$j$ והלאה זו תת-סדרה של $S_j$, ולכן $(g_k)$ מתכנסת בכל $q_j$'
+      - id: net
+        label: 'יהי $\varepsilon>0$; רציפות במידה אחידה נותנת $\delta$, והקומפקטיות נותנת מספר סופי של נקודות של $D$ שהן רשת ברדיוס $\delta$'
+      - id: cauchy
+        label: 'מ-$k,l$ גדולים, $|g_k-g_l|<\varepsilon$ בנקודות הרשת, ומאי-שוויון המשולש $|g_k(x)-g_l(x)|<3\varepsilon$ לכל $x$'
+      - id: complete
+        label: '$(g_k)$ סדרת קושי ב-$C(K)$, ו-$C(K)$ שלם: היא מתכנסת במידה שווה'
+    order: [dense, first, induct, diag, net, cauchy, complete]
+    correctFeedback: >-
+      נכון. שני חלקים: שיטת האלכסון (חסימות + בולצאנו-ויירשטראס) נותנת התכנסות על $D$; רציפות במידה אחידה ורשת סופית
+      מעבירות אותה לכל $K$ במידה שווה; השלמות נותנת את הגבול.
+    wrongFeedback: >-
+      קודם צריך את הקבוצה הבת מנייה, כי שיטת האלכסון עוברת על נקודותיה אחת אחת. רק אחרי שיש התכנסות על $D$ משתמשים
+      ברציפות במידה אחידה, ובסוף בשלמות של $C(K)$.
+
+  - id: Q-4.3-dense-enough
+    type: twotier
+    objectives: [OBJ-4.3-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      בהוכחה, אחרי שיטת האלכסון, יש תת-סדרה $(g_k)$ של פונקציות רציפות שמתכנסת בכל נקודה של קבוצה צפופה $D\subseteq K$.
+      טענה: כבר מזה (בלי רציפות במידה אחידה) נובע ש-$(g_k)$ מתכנסת במידה שווה על $K$. נכון או לא נכון?
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: 'נכון. כאן בדיוק נכנסת ההנחה השנייה של המשפט.'
+      - text: נכון
+        feedback: >-
+          התכנסות על קבוצה צפופה, אפילו של פונקציות רציפות, לא עוברת לבד לכל המרחב. ראו את הדוגמה בנימוק הנכון.
+        misconception: MC-c4-dense-convergence-enough
+    reasons:
+      - text: '$g_k(x)=\sin(k!\,\pi x)$ שואפת ל-0 בכל רציונלי $\frac pq\in[0,1]$ (מ-$k\ge q$ המספר $k!\frac pq$ שלם), אבל $\|g_k\|_\infty=1$'
+        correct: true
+        feedback: >-
+          בדיוק. הסדרה חסומה, מתכנסת על $\mathbb{Q}\cap[0,1]$ הצפופה, ואינה מתכנסת במידה שווה. מה שחסר הוא רציפות במידה
+          אחידה: $\delta$ משותף שמעביר את המידע מנקודות $D$ לנקודות הסמוכות.
+      - text: 'הפונקציות רציפות ו-$D$ צפופה, ולכן הערך בכל $x$ נקבע מהערכים על $D$, וההתכנסות עוברת'
+        feedback: >-
+          כל $g_k$ אכן נקבעת מערכיה על $D$, אבל הגבול לא: קצב הרציפות של $g_k$ משתנה עם $k$. זה בדיוק הפער שרציפות במידה
+          אחידה סוגרת.
+        misconception: MC-c4-dense-convergence-enough
+      - text: 'החסימות של הסדרה מספיקה כדי להעביר את ההתכנסות'
+        feedback: >-
+          $\sin(k!\,\pi x)$ חסומה ב-1, וההעברה נכשלת. החסימות שימשה רק בשלב האלכסון, כדי לקבל התכנסות בכל נקודה של $D$.
+        misconception: MC-c4-aa-hypothesis-role
+
+  - id: Q-4.3-roles
+    type: mc
+    objectives: [OBJ-4.3-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      בהוכחה של ארצלה-אסקולי, למה בדיוק משמשת הקומפקטיות של $K$?
+    choices:
+      - text: לקבוצה צפופה בת מנייה, ולכך שלכל $\delta$ מספר סופי מנקודותיה הוא רשת ברדיוס $\delta$
+        correct: true
+        feedback: >-
+          נכון. שני השימושים באים מחסימות כליל (שיעור 3.3): שיטת האלכסון צריכה קבוצה בת מנייה, והמעבר לכל $K$ צריך רשת
+          **סופית**, כדי שיהיה $k$ אחד שמתאים לכל נקודותיה.
+      - text: כדי שהגבול של תת-הסדרה יהיה פונקציה רציפה
+        feedback: >-
+          את זה נותנת השלמות של $C(K)$, כלומר המשפט שגבול במידה שווה של רציפות רציף. הוא נכון על כל תחום.
+        misconception: MC-c4-aa-hypothesis-role
+      - text: כדי שהערכים $f_n(q)$ יהיו חסומים בכל נקודה
+        feedback: >-
+          זה תפקיד הנחת החסימות של המשפחה. על $K$ קומפקטי כל $f_n$ חסומה, אבל בחסם שתלוי ב-$n$.
+        misconception: MC-c4-pointwise-bounded-uniform
+      - text: 'היא לא נחוצה: המשפט נכון לכל מרחב מטרי'
+        feedback: >-
+          על $\mathbb{R}$, "גבעות" בגובה 1 סביב הנקודות $n$ חסומות וליפשיציות עם קבוע 1, והמרחק בין כל שתיים 1.
+        misconception: MC-c4-aa-noncompact-domain
+
+  - id: Q-4.3-integral-op
+    type: multi
+    objectives: [OBJ-4.3-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $T:C[0,1]\to C[0,1]$, $(Tf)(x)=\int_0^x f(t)\,dt$, ו-$B$ כדור היחידה הסגור של $C[0,1]$. אילו מהטענות נכונות?
+      סמנו את כולן.
+    choices:
+      - text: '$\|Tf\|_\infty\le1$ לכל $f\in B$'
+        correct: true
+        feedback: 'נכון: $|Tf(x)|\le\int_0^x|f|\le x\le1$.'
+      - text: '$|Tf(x)-Tf(y)|\le|x-y|$ לכל $f\in B$'
+        correct: true
+        feedback: 'נכון: $|Tf(x)-Tf(y)|=|\int_y^x f|\le|x-y|\,\|f\|_\infty$. קבוע ליפשיץ משותף 1.'
+      - text: '$T(B)$ קומפקטית יחסית ב-$C[0,1]$'
+        correct: true
+        feedback: >-
+          נכון, מארצלה-אסקולי: חסומה ורציפה במידה אחידה. לכן לכל סדרה $(f_n)$ ב-$B$ יש תת-סדרה שעבורה $Tf_{n_k}$
+          מתכנסת במידה שווה.
+      - text: '$T(B)$ קומפקטית'
+        feedback: >-
+          $T(B)$ אינה סגורה: הפונקציות בה גזירות ברציפות, אבל $|x-\frac12|-\frac12$ (ליפשיצית עם קבוע 1, מתאפסת ב-0)
+          היא גבול במידה שווה של איברי $T(B)$ ואינה גזירה ב-$\frac12$. הסגור קומפקטי, הקבוצה לא.
+        misconception: MC-c4-relatively-compact-is-compact
+      - text: '$B$ עצמו קומפקטי יחסית'
+        feedback: >-
+          $B$ סגור, כך שזה היה אומר ש-$B$ קומפקטי. $x^n\in B$ ואין לה תת-סדרה מתכנסת: $B$ אינו רציף במידה אחידה.
+        misconception: MC-c4-closed-bounded-compact
+    explanation: >-
+      $T$ "מחליק": הוא הופך קבוצה חסומה (שאינה רציפה במידה אחידה) לקבוצה ליפשיצית במשותף. זו הדוגמה הבסיסית לאופרטור
+      שמעביר קבוצות חסומות לקבוצות קומפקטיות יחסית.
+
+  - id: Q-4.3-sqrt-n
+    type: twotier
+    objectives: [OBJ-4.3-3, OBJ-4.3-1]
+    qualitative: true
+    level: exam
+    prompt: >-
+      האם המשפחה $\{\frac{\sin(nx)}{\sqrt n}:\ n\in\mathbb{N}\}$ רציפה במידה אחידה על $[0,\pi]$?
+    choices:
+      - text: כן
+        correct: true
+        feedback: 'נכון, אף שהנגזרות $\sqrt n\cos(nx)$ אינן חסומות במשותף.'
+      - text: לא
+        feedback: >-
+          חסם משותף לנגזרות הוא תנאי מספיק בלבד. כאן הפונקציות עצמן קטנות, וזה מספיק.
+        misconception: MC-c4-equi-needs-derivative-bound
+    reasons:
+      - text: '$\|f_n\|_\infty\le\frac1{\sqrt n}\to0$, אז $\{f_n\}\cup\{0\}$ קומפקטית, ולפי הכיוון "רק אם" של ארצלה-אסקולי היא רציפה במידה אחידה'
+        correct: true
+        feedback: >-
+          בדיוק. גם ישירות: עבור $\varepsilon$, מ-$n>\frac4{\varepsilon^2}$ והלאה $|f_n(x)-f_n(y)|\le\frac2{\sqrt n}<\varepsilon$
+          לכל $x,y$, ולמספר הסופי של הראשונות לוקחים את המינימום של הדלתות שלהן.
+      - text: 'המשפחה חסומה ב-1, ולכן רציפה במידה אחידה'
+        feedback: >-
+          חסימות לבדה אינה מספיקה: $\{\sin(nx)\}$ חסומה ב-1 ואינה רציפה במידה אחידה. מה שעוזר כאן הוא ש-$\|f_n\|\to0$.
+        misconception: MC-c4-bounded-family-equicontinuous
+      - text: 'כל $f_n$ רציפה במידה שווה על הקטע הקומפקטי'
+        feedback: >-
+          זה נכון לכל משפחה ב-$C[0,\pi]$, גם ל-$\{\sin(nx)\}$, ולכן אינו נימוק לרציפות במידה אחידה.
+        misconception: MC-c4-equi-vs-uniform
+
+  - id: Q-4.3-bumps
+    type: twotier
+    objectives: [OBJ-4.3-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      על $\mathbb{R}$ נתונות $f_n(x)=\max(0,\ 1-|x-n|)$: "גבעה" בגובה 1 סביב $n$. האם יש ל-$(f_n)$ תת-סדרה שמתכנסת
+      במידה שווה על $\mathbb{R}$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. ארצלה-אסקולי לא חל, והמסקנה באמת נכשלת.'
+      - text: כן
+        feedback: >-
+          הסדרה חסומה ורציפה במידה אחידה, אבל התחום $\mathbb{R}$ אינו קומפקטי, והמשפט לא חל.
+        misconception: MC-c4-aa-noncompact-domain
+    reasons:
+      - text: 'לכל $n\ne m$: $\|f_n-f_m\|_\infty=1$ (ב-$x=n$ אחת שווה 1 והשנייה 0), ולכן אין תת-סדרה קושי; התחום אינו קומפקטי'
+        correct: true
+        feedback: >-
+          בדיוק. ההנחות על המשפחה מתקיימות (חסם 1, קבוע ליפשיץ 1), והכישלון בא מהתחום: ה"מסה" בורחת לאינסוף.
+      - text: '$f_n(x)\to0$ לכל $x$, ולכן $f_n\to0$ במידה שווה'
+        feedback: >-
+          התכנסות נקודתית אינה במידה שווה: $\sup|f_n-0|=1$ לכל $n$.
+        misconception: MC-c4-pointwise-is-ck-convergence
+      - text: 'המשפחה אינה רציפה במידה אחידה'
+        feedback: >-
+          היא רציפה במידה אחידה: כל $f_n$ ליפשיצית עם קבוע 1, ו-$\delta=\varepsilon$ מתאים לכולן.
+        misconception: MC-c4-aa-hypothesis-role
+
+  - id: Q-4.3-pointwise-bounded
+    type: twotier
+    objectives: [OBJ-4.3-1]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $K$ קומפקטי ו-$\mathcal{F}\subseteq C(K)$ רציפה במידה אחידה וחסומה **נקודתית** (לכל $x$ יש $M_x$ עם $|f(x)|\le M_x$
+      לכל $f\in\mathcal{F}$). האם $\mathcal{F}$ בהכרח חסומה במידה שווה?
+    choices:
+      - text: כן
+        correct: true
+        feedback: 'נכון. לכן בארצלה-אסקולי מספיק לבדוק חסימות נקודתית, כשהמשפחה רציפה במידה אחידה.'
+      - text: לא
+        feedback: >-
+          בלי רציפות במידה אחידה זה אכן נכשל, אבל כאן היא נתונה. ראו את הנימוק עם הרשת הסופית.
+        misconception: MC-c4-pointwise-bounded-uniform
+    reasons:
+      - text: '$\delta$ עבור $\varepsilon=1$, רשת סופית $x_1,\dots,x_m$ ברדיוס $\delta$; לכל $x$ יש $x_i$ קרוב ו-$|f(x)|\le|f(x_i)|+1\le\max_iM_{x_i}+1$'
+        correct: true
+        feedback: >-
+          בדיוק. רציפות במידה אחידה מעבירה את החסם ממספר סופי של נקודות לכל $K$, והקומפקטיות נותנת את הרשת הסופית.
+      - text: 'כל $f\in C(K)$ חסומה כי $K$ קומפקטי, ולכן המשפחה חסומה'
+        feedback: >-
+          החסם של כל $f$ תלוי ב-$f$: $f_n\equiv n$ חסומה כל אחת, והמשפחה לא. (שימו לב שהמשפחה הזו אינה חסומה נקודתית.)
+        misconception: MC-c4-pointwise-bounded-uniform
+      - text: 'חסימות נקודתית תמיד גוררת חסימות במידה שווה על קומפקטי'
+        feedback: >-
+          לא בלי רציפות במידה אחידה: $f_n$ אוהל בגובה $n$ על $[\frac1{n+1},\frac1n]$ שואפת ל-0 בכל נקודה (לכן חסומה
+          נקודתית) ו-$\|f_n\|_\infty=n$.
+        misconception: MC-c4-pointwise-bounded-uniform
+
+  - id: Q-4.3-whole-sequence
+    type: twotier
+    objectives: [OBJ-4.3-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $(f_n)$ ב-$C[0,1]$ עם $|f_n|\le1$ ו-$|f_n(x)-f_n(y)|\le|x-y|$ לכל $n,x,y$. מה אפשר להסיק?
+    choices:
+      - text: יש תת-סדרה מתכנסת במידה שווה, וייתכן שהסדרה כולה אינה מתכנסת
+        correct: true
+        feedback: 'נכון. זה בדיוק מה שארצלה-אסקולי נותן, לא יותר.'
+      - text: הסדרה כולה מתכנסת במידה שווה
+        feedback: >-
+          $f_n\equiv(-1)^n$ מקיימת את ההנחות ואינה מתכנסת. המשפט מבטיח תת-סדרה.
+        misconception: MC-c4-aa-whole-sequence
+    reasons:
+      - text: 'המשפחה חסומה ב-1 וליפשיצית עם קבוע משותף 1; $(-1)^n$ מראה שהסדרה כולה לא חייבת להתכנס'
+        correct: true
+        feedback: >-
+          בדיוק. (ואם ידוע בנוסף ש-$f_n$ מתכנסת נקודתית, אז היא מתכנסת במידה שווה: לכל תת-סדרה יש תת-תת-סדרה שמתכנסת
+          במידה שווה, והגבול שלה חייב להיות הגבול הנקודתי.)
+      - text: 'סדרה חסומה ב-$C[0,1]$ תמיד מתכנסת, כי $C[0,1]$ שלם'
+        feedback: >-
+          שלמות מבטיחה התכנסות של סדרות **קושי**, לא של סדרות חסומות. $(-1)^n$ חסומה ואינה קושי.
+        misconception: MC-c4-aa-whole-sequence
+      - text: 'אי אפשר להסיק דבר, כי $C[0,1]$ ממימד אינסופי'
+        feedback: >-
+          ממימד אינסופי אכן מונע בולצאנו-ויירשטראס לכל קבוצה חסומה, אבל רציפות במידה אחידה מחזירה אותו: זה כל העניין של
+          המשפט.
+        misconception: MC-c4-closed-bounded-compact

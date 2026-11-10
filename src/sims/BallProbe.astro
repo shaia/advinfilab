@@ -1,0 +1,7 @@
+---
+/** Lessons 1.3–1.4 figure: <Spread figure={BallProbe} figureProps={{ mode: 'ball' | 'set', … }}>. */
+import BallProbe, { type BallProbeProps } from './BallProbe';
+type Props = BallProbeProps;
+---
+
+<BallProbe client:visible {...Astro.props} />

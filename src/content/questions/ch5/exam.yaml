@@ -1,0 +1,399 @@
+# Chapter 7 exam questions — original, in the style of an 80315 final (not taken from a real exam).
+# Each is worth 25 points in lettered parts, with at least one open part graded against a model solution and a rubric.
+chapter: 5
+questions:
+  - id: Q-5-exam-1
+    type: exam
+    title: רציפה, גזירה בכל כיוון, ולא דיפרנציאבילית
+    prompt: >-
+      תהי $f:\mathbb{R}^2\to\mathbb{R}$ המוגדרת על ידי $f(x,y)=\frac{x^3+y^3}{x^2+y^2}$ ל-$(x,y)\ne(0,0)$ ו-$f(0,0)=0$.
+    parts:
+      - label: א
+        points: 4
+        type: numeric
+        objectives: [OBJ-5.2-1]
+        prompt: >-
+          חשבו מההגדרה את $\frac{\partial f}{\partial x}(0,0)$.
+        answer: 1
+        tolerance: 0.001
+        correctFeedback: >-
+          נכון. $\frac{f(t,0)-f(0,0)}{t}=\frac{t^3/t^2}{t}=1$ לכל $t\ne0$. באותו אופן גם $\frac{\partial f}{\partial y}(0,0)=1$.
+        wrongFeedback: >-
+          הציבו $y=0$: $f(t,0)=t$. מהי המנה $\frac{f(t,0)-f(0,0)}{t}$?
+        commonWrong:
+          - value: 0
+            feedback: >-
+              0 הוא $f(0,0)$, או הגבול של $f(t,0)$ כש-$t\to0$. הנגזרת היא הגבול של **המנה**, וכאן $f(t,0)=t$.
+            misconception: MC-c5-value-vs-derivative
+
+      - label: ב
+        points: 5
+        type: numeric
+        objectives: [OBJ-5.2-3]
+        prompt: >-
+          חשבו מההגדרה את $D_vf(0,0)$ עבור $v=\left(\tfrac35,\tfrac45\right)$.
+        answer: 0.728
+        tolerance: 0.001
+        correctFeedback: >-
+          נכון. לווקטור יחידה $v$: $\frac{f(tv)}{t}=\frac{t^3(v_1^3+v_2^3)}{t\cdot t^2}=v_1^3+v_2^3$, וכאן
+          $\frac{27+64}{125}=\frac{91}{125}$.
+        wrongFeedback: >-
+          כתבו את $f(tv)$ והשתמשו ב-$v_1^2+v_2^2=1$ במכנה.
+        commonWrong:
+          - value: 1.4
+            feedback: >-
+              $\frac75=\nabla f(0)\cdot v=\frac35+\frac45$: הנוסחה $D_vf=\nabla f\cdot v$ תקפה רק לפונקציה דיפרנציאבילית,
+              וזה בדיוק מה שסעיף ג בודק. חשבו מההגדרה.
+            misconception: MC-c5-partials-imply-differentiable
+
+      - label: ג
+        points: 10
+        type: open
+        objectives: [OBJ-5.1-3, OBJ-5.3-3]
+        prompt: >-
+          הוכיחו ש-$f$ רציפה ב-$(0,0)$, ושהיא **אינה** דיפרנציאבילית שם.
+        solution:
+          - kind: given
+            text: '$f(x,y)=\frac{x^3+y^3}{x^2+y^2}$ מחוץ לראשית, $f(0,0)=0$. נסמן $\rho=\|(x,y)\|_2$.'
+          - kind: goal
+            text: '(1) $f(x,y)\to0$ כש-$(x,y)\to(0,0)$. (2) אין העתקה לינארית $T$ עם $f(h)-f(0)-Th=o(\|h\|)$.'
+          - kind: idea
+            text: >-
+              לרציפות: חסם שתלוי רק ב-$\rho$. לאי-דיפרנציאביליות: אילו $f$ הייתה דיפרנציאבילית, הנגזרות הכיווניות היו
+              לינאריות בכיוון, $D_vf(0)=Df(0)v$; מחשבים אותן ומראים שאינן לינאריות.
+          - kind: step
+            text: >-
+              $|x^3+y^3|\le|x|\,x^2+|y|\,y^2\le\rho\,(x^2+y^2)$, כי $|x|,|y|\le\rho$. לכן $|f(x,y)|\le\rho\to0=f(0,0)$, ו-$f$
+              רציפה בראשית (בהינתן $\varepsilon$ מתאים $\delta=\varepsilon$).
+          - kind: computation
+            text: >-
+              לווקטור יחידה $v$ ו-$t\ne0$: $\frac{f(tv)-f(0)}{t}=\frac{t^3(v_1^3+v_2^3)}{t^3(v_1^2+v_2^2)}=v_1^3+v_2^3$. לכן
+              $D_vf(0)=v_1^3+v_2^3$ לכל $v$, ובפרט $\frac{\partial f}{\partial x}(0)=\frac{\partial f}{\partial y}(0)=1$.
+          - kind: theorem
+            text: >-
+              אם $f$ דיפרנציאבילית ב-0 אז לכל $v$, $D_vf(0)=Df(0)v=\frac{\partial f}{\partial x}(0)v_1+\frac{\partial f}{\partial y}(0)v_2=v_1+v_2$.
+          - kind: check
+            text: >-
+              ב-$v=\frac{1}{\sqrt2}(1,1)$: $v_1^3+v_2^3=\frac{2}{2\sqrt2}=\frac{1}{\sqrt2}$, ואילו $v_1+v_2=\sqrt2$. סתירה.
+          - kind: result
+            text: >-
+              $f$ רציפה בראשית ויש לה נגזרת כיוונית בכל כיוון, אבל $v\mapsto D_vf(0)$ אינה לינארית, ולכן $f$ אינה
+              דיפרנציאבילית ב-$(0,0)$.
+        rubric:
+          - text: 'חסם $|f|\le\rho$ (או חסם אחר שתלוי רק במרחק ושואף ל-0), ומסקנת הרציפות'
+            weight: 3
+          - text: 'חישוב נכון של $D_vf(0)=v_1^3+v_2^3$ מההגדרה (או של המנה לאורך כיוון מסוים)'
+            weight: 3
+          - text: 'שימוש נכון במשפט: דיפרנציאבילית גורר $D_vf(0)=Df(0)v$, והמועמד היחיד נבנה מהנגזרות החלקיות'
+            weight: 2
+          - text: 'כיוון מפורש שבו מתקבלת סתירה, או בדיקה ישירה שהשארית אינה $o(\|h\|)$'
+            weight: 2
+
+      - label: ד
+        points: 6
+        type: twotier
+        objectives: [OBJ-5.5-3]
+        qualitative: true
+        prompt: >-
+          נכון או לא נכון: $x\frac{\partial f}{\partial x}+y\frac{\partial f}{\partial y}=f$ בכל נקודה $(x,y)\ne(0,0)$.
+        choices:
+          - text: 'נכון'
+            correct: true
+            feedback: >-
+              נכון. מחוץ לראשית $f$ גזירה ברציפות (מנה של פולינומים עם מכנה שאינו מתאפס) והומוגנית מדרגה 1.
+          - text: 'לא נכון'
+            feedback: >-
+              $f(tx,ty)=\frac{t^3}{t^2}f(x,y)=tf(x,y)$: הומוגנית מדרגה 1, ומשפט אוילר נותן בדיוק את הזהות. העובדה ש-$f$
+              אינה דיפרנציאבילית בראשית לא מפריעה מחוץ לה.
+            misconception: MC-c5-euler-any-function
+        reasons:
+          - text: '$f$ הומוגנית מדרגה 1 ודיפרנציאבילית על $\mathbb{R}^2\setminus\{0\}$, ומשפט אוילר נותן $x\cdot\nabla f=1\cdot f$'
+            correct: true
+            feedback: 'בדיוק. ההוכחה של משפט אוילר משתמשת רק בנקודות $tx$ עם $t>0$, שכולן מחוץ לראשית.'
+          - text: 'כל מנה של פולינומים מקיימת $x\cdot\nabla f=f$'
+            feedback: >-
+              לא: ל-$\frac{x^4+y^4}{x^2+y^2}$ מתקבל $2f$, ול-$\frac{x^2+1}{y^2+1}$ הזהות נכשלת לגמרי. צריך הומוגניות,
+              והמקדם הוא הדרגה.
+            misconception: MC-c5-euler-any-function
+          - text: 'הזהות דורשת ש-$f$ תהיה דיפרנציאבילית גם בראשית, ולכן היא נכשלת'
+            feedback: >-
+              משפט אוילר מנוסח על $\mathbb{R}^n\setminus\{0\}$, וההוכחה גוזרת את $t\mapsto f(tx)$ רק ב-$t>0$. הראשית
+              אינה מעורבת.
+            misconception: MC-c5-euler-any-function
+
+  - id: Q-5-exam-2
+    type: exam
+    title: כלל השרשרת
+    prompt: >-
+      $F:\mathbb{R}^2\to\mathbb{R}^2$, $F(x,y)=(x^2-y^2,\ 2xy)$.
+    parts:
+      - label: א
+        points: 11
+        type: open
+        objectives: [OBJ-5.5-1]
+        prompt: >-
+          נסחו והוכיחו את כלל השרשרת: אם $f:\mathbb{R}^n\to\mathbb{R}^m$ דיפרנציאבילית ב-$a$ ו-$g:\mathbb{R}^m\to\mathbb{R}^k$
+          דיפרנציאבילית ב-$f(a)$, אז $g\circ f$ דיפרנציאבילית ב-$a$ ו-$D(g\circ f)(a)=Dg(f(a))\circ Df(a)$.
+        solution:
+          - kind: given
+            text: >-
+              $b=f(a)$, $A=Df(a)$, $B=Dg(b)$: $f(a+h)=b+Ah+r(h)$ עם $\frac{\|r(h)\|}{\|h\|}\to0$, ו-$g(b+k)=g(b)+Bk+s(k)$
+              עם $\frac{\|s(k)\|}{\|k\|}\to0$. נגדיר $\sigma(k)=\frac{\|s(k)\|}{\|k\|}$ ל-$k\ne0$ ו-$\sigma(0)=0$; אז $\sigma$ רציפה ב-0
+              ו-$\|s(k)\|=\sigma(k)\|k\|$ לכל $k$.
+          - kind: goal
+            text: '$g(f(a+h))-g(b)-BAh=o(\|h\|)$.'
+          - kind: idea
+            text: >-
+              מציבים בקירוב של $g$ את התזוזה $k$ ש-$f$ יוצרת. נשארות שתי שאריות; את הראשונה חוסמים בנורמת האופרטור של
+              $B$, ואת השנייה מעבירים מ"קטנה ביחס ל-$\|k\|$" ל"קטנה ביחס ל-$\|h\|$" בעזרת החסם $\|k\|\le C\|h\|$.
+          - kind: step
+            text: >-
+              נסמן $k(h)=f(a+h)-b=Ah+r(h)$. אז
+              $g(f(a+h))-g(b)=Bk+s(k)=BAh+Br(h)+s(k(h))$.
+          - kind: step
+            text: >-
+              $\frac{\|Br(h)\|}{\|h\|}\le\|B\|_{\mathrm{op}}\frac{\|r(h)\|}{\|h\|}\to0$ (העתקה לינארית על
+              $\mathbb{R}^m$ חסומה).
+          - kind: step
+            text: >-
+              קיים $\delta>0$ כך ש-$\|r(h)\|\le\|h\|$ כש-$\|h\|<\delta$, ושם $\|k(h)\|\le(\|A\|_{\mathrm{op}}+1)\|h\|$. בפרט
+              $k(h)\to0$.
+          - kind: step
+            text: >-
+              לכן $\frac{\|s(k(h))\|}{\|h\|}=\sigma(k(h))\frac{\|k(h)\|}{\|h\|}\le\sigma(k(h))(\|A\|_{\mathrm{op}}+1)\to0$,
+              כי $\sigma$ רציפה ב-0 ו-$k(h)\to0$.
+          - kind: result
+            text: >-
+              $g(f(a+h))-g(f(a))=BAh+o(\|h\|)$, ו-$BA$ לינארית. לכן $g\circ f$ דיפרנציאבילית ב-$a$,
+              ו-$D(g\circ f)(a)=Dg(f(a))\circ Df(a)$; במטריצות $J_{g\circ f}(a)=J_g(f(a))J_f(a)$.
+        rubric:
+          - text: 'ניסוח מלא: ההנחות (דיפרנציאביליות של $f$ ב-$a$ ושל $g$ ב-$f(a)$) והמסקנה'
+            weight: 2
+          - text: 'כתיבת שתי ההגדרות עם השאריות, והצבת $k=f(a+h)-f(a)$'
+            weight: 2
+          - text: 'חסימת $Br(h)$ בעזרת נורמת האופרטור'
+            weight: 2
+          - text: 'החסם $\|k\|\le C\|h\|$ והטיפול ב-$k=0$ (הפונקציה $\sigma$ או טיעון שקול)'
+            weight: 3
+          - text: 'מסקנה מסודרת: השארית $o(\|h\|)$ ו-$D(g\circ f)(a)=BA$'
+            weight: 2
+
+      - label: ב
+        points: 5
+        type: numeric
+        objectives: [OBJ-5.5-1, OBJ-5.5-2]
+        prompt: >-
+          עבור $g(u,v)=uv$ ו-$h=g\circ F$, חשבו בעזרת כלל השרשרת את $\frac{\partial h}{\partial x}(2,1)$.
+        answer: 22
+        tolerance: 0.001
+        correctFeedback: >-
+          נכון. $F(2,1)=(3,4)$, $\nabla g(3,4)=(v,u)=(4,3)$, $J_F(2,1)=\begin{pmatrix}4&-2\\2&4\end{pmatrix}$,
+          ולכן $\nabla h(2,1)=(4,3)J_F(2,1)=(22,4)$. בדיקה: $h=2x^3y-2xy^3$, ו-$h_x=6x^2y-2y^3=24-2=22$.
+        wrongFeedback: >-
+          קודם $F(2,1)$, אחר כך $\nabla g$ **בנקודה הזו**, ואז מכפלה בשורה: $\nabla g(F(a))\,J_F(a)$.
+        commonWrong:
+          - value: 8
+            feedback: >-
+              זה מתקבל עם $\nabla g(2,1)=(1,2)$, כלומר הגרדיאנט של $g$ חושב ב-$a$ במקום ב-$F(a)=(3,4)$.
+            misconception: MC-c5-chain-wrong-point
+          - value: 10
+            feedback: >-
+              זה הרכיב הראשון של $J_F(a)\,\nabla g(F(a))^{T}$, המכפלה בסדר ההפוך. הנגזרת של הפונקציה הפנימית מימין.
+            misconception: MC-c5-chain-order
+
+      - label: ג
+        points: 5
+        type: numeric
+        objectives: [OBJ-5.5-3]
+        prompt: >-
+          עם אותה $h=g\circ F$ (כאשר $g(u,v)=uv$), חשבו את $2\frac{\partial h}{\partial x}(2,1)+\frac{\partial h}{\partial y}(2,1)$.
+          (רמז: $h$ הומוגנית.)
+        answer: 48
+        tolerance: 0.001
+        correctFeedback: >-
+          נכון. $F$ הומוגנית מדרגה 2 ($F(tx)=t^2F(x)$) ו-$g$ מדרגה 2, ולכן $h(tx)=g(t^2F(x))=t^4h(x)$: דרגה 4. לפי
+          משפט אוילר $(2,1)\cdot\nabla h(2,1)=4h(2,1)=4\cdot3\cdot4=48$. בדיקה: $2\cdot22+4=48$.
+        wrongFeedback: >-
+          מצאו את הדרגה של $h$: כמה פעמים מופיע $t$ ב-$h(tx,ty)$? אחר כך משפט אוילר.
+        commonWrong:
+          - value: 24
+            feedback: >-
+              זה $2h(2,1)$: לקחתם את הדרגה של $g$ או של $F$ בלבד. בהרכבה הדרגות **נכפלות**: $g(t^2F)=t^4g(F)$.
+            misconception: MC-c5-euler-any-function
+          - value: 12
+            feedback: '$12=h(2,1)$. משפט אוילר מכפיל אותו בדרגה, 4.'
+            misconception: MC-c5-euler-any-function
+
+      - label: ד
+        points: 4
+        type: twotier
+        objectives: [OBJ-5.5-1, OBJ-5.3-2]
+        qualitative: true
+        prompt: >-
+          תהי $\gamma(t)=(t,t^2)$, ו-$q(x,y)=1$ על הפרבולה $y=x^2$ ($x\ne0$), $q=0$ בכל מקום אחר. ידוע שכל הנגזרות
+          הכיווניות של $q$ בראשית הן 0. האם $(q\circ\gamma)'(0)=\nabla q(0)\cdot\gamma'(0)=0$?
+        choices:
+          - text: 'לא'
+            correct: true
+            feedback: >-
+              נכון. $q(\gamma(t))=1$ לכל $t\ne0$ ו-$q(\gamma(0))=0$: ההרכבה אפילו אינה רציפה ב-0, ולכן אינה גזירה שם.
+          - text: 'כן'
+            feedback: >-
+              כלל השרשרת דורש ש-$q$ תהיה דיפרנציאבילית ב-$\gamma(0)$. כאן $q$ אינה אפילו רציפה בראשית, וההרכבה
+              $q\circ\gamma$ קופצת מ-0 ל-1.
+            misconception: MC-c5-gateaux-enough
+        reasons:
+          - text: '$q$ אינה דיפרנציאבילית בראשית (היא אינה רציפה שם), ולכן כלל השרשרת אינו חל'
+            correct: true
+            feedback: >-
+              בדיוק. נגזרות כיווניות לינאריות, אפילו כולן 0, אינן מספיקות: המסילה $\gamma$ אינה ישר, והיא רואה את מה
+              שהישרים מחמיצים.
+          - text: 'כל הנגזרות הכיווניות של $q$ בראשית 0 ולינאריות בכיוון, וזה מה שכלל השרשרת צריך'
+            feedback: >-
+              כלל השרשרת צריך דיפרנציאביליות: קירוב לינארי עם שגיאה $o(\|k\|)$ לכל תזוזה $k$, לא רק לאורך ישרים.
+            misconception: MC-c5-gateaux-enough
+          - text: '$\gamma$ אינה דיפרנציאבילית ב-0'
+            feedback: >-
+              $\gamma(t)=(t,t^2)$ גזירה ברציפות, עם $\gamma'(0)=(1,0)$. ההנחה שנכשלת היא על $q$.
+            misconception: MC-c5-chain-partials-enough
+
+  - id: Q-5-exam-3
+    type: exam
+    title: אי-שוויון הערך הממוצע והעתקה מכווצת
+    prompt: >-
+      $F:\mathbb{R}^2\to\mathbb{R}^2$, $F(x,y)=\left(\tfrac12\sin(x+y),\ \tfrac12\cos(x-y)\right)$. כל הנורמות
+      אוקלידיות.
+    parts:
+      - label: א
+        points: 10
+        type: open
+        objectives: [OBJ-5.6-2]
+        prompt: >-
+          תהי $U\subseteq\mathbb{R}^n$ פתוחה וקמורה, $f:U\to\mathbb{R}^m$ דיפרנציאבילית, ו-$M=\sup_{x\in U}\|Df(x)\|_{\mathrm{op}}<\infty$.
+          הוכיחו: $\|f(b)-f(a)\|_2\le M\|b-a\|_2$ לכל $a,b\in U$.
+        solution:
+          - kind: given
+            text: '$U$ פתוחה וקמורה, $f$ דיפרנציאבילית ב-$U$, $\|Df(x)\|_{\mathrm{op}}\le M$ לכל $x\in U$.'
+          - kind: goal
+            text: '$\|f(b)-f(a)\|_2\le M\|b-a\|_2$ לכל $a,b\in U$.'
+          - kind: idea
+            text: >-
+              לפונקציה וקטורית אין משפט ערך ממוצע, אבל להטלה שלה על כיוון קבוע יש. מטילים על הכיוון $u=f(b)-f(a)$, ואז
+              הפונקציה הממשית "רואה" את כל ההפרש.
+          - kind: step
+            text: >-
+              נסמן $u=f(b)-f(a)$; אם $u=0$ אין מה להוכיח. מקמירות הקטע $a+t(b-a)$, $0\le t\le1$, מוכל ב-$U$, ולכן
+              $\varphi(t)=\langle u,\ f(a+t(b-a))\rangle$ מוגדרת על $[0,1]$.
+          - kind: theorem
+            text: >-
+              לפי כלל השרשרת $\varphi$ גזירה ו-$\varphi'(t)=\langle u,\ Df(a+t(b-a))(b-a)\rangle$ (המכפלה הפנימית עם
+              $u$ לינארית). לפי משפט לגרנז' יש $\tau\in(0,1)$ עם $\varphi(1)-\varphi(0)=\varphi'(\tau)$.
+          - kind: computation
+            text: >-
+              $\varphi(1)-\varphi(0)=\langle u,f(b)-f(a)\rangle=\|u\|_2^2$. ומקושי-שוורץ ומהגדרת נורמת האופרטור, עם
+              $c=a+\tau(b-a)$: $\varphi'(\tau)\le\|u\|_2\,\|Df(c)(b-a)\|_2\le\|u\|_2\,M\,\|b-a\|_2$.
+          - kind: result
+            text: '$\|u\|_2^2\le\|u\|_2M\|b-a\|_2$, ואחרי חלוקה ב-$\|u\|_2>0$: $\|f(b)-f(a)\|_2\le M\|b-a\|_2$.'
+        rubric:
+          - text: 'בחירת פונקציה ממשית מתאימה, ההטלה $\varphi(t)=\langle u,f(a+t(b-a))\rangle$, והסבר למה היא מוגדרת (קמירות)'
+            weight: 3
+          - text: 'הפעלת משפט לגרנז'' על $\varphi$ וחישוב $\varphi''$ בכלל השרשרת'
+            weight: 3
+          - text: 'החסם בעזרת קושי-שוורץ ונורמת האופרטור'
+            weight: 2
+          - text: 'טיפול במקרה $u=0$ והחלוקה ב-$\|u\|_2$'
+            weight: 1
+
+      - label: ב
+        points: 5
+        type: numeric
+        objectives: [OBJ-5.6-2, OBJ-1.8-2]
+        prompt: >-
+          חשבו את $\sup_{(x,y)\in\mathbb{R}^2}\|DF(x,y)\|_{\mathrm{op}}$.
+        answer: 0.7071068
+        tolerance: 0.001
+        correctFeedback: >-
+          נכון, $\frac{1}{\sqrt2}$. עם $c=\cos(x+y)$ ו-$s=\sin(x-y)$:
+          $J_F=\frac12\begin{pmatrix}c&c\\-s&s\end{pmatrix}$, ו-$J_F^{T}J_F=\frac14\begin{pmatrix}c^2+s^2&c^2-s^2\\c^2-s^2&c^2+s^2\end{pmatrix}$
+          עם ערכים עצמיים $\frac{c^2}{2}$ ו-$\frac{s^2}{2}$. לכן $\|J_F\|_{\mathrm{op}}=\frac{\max(|c|,|s|)}{\sqrt2}\le\frac{1}{\sqrt2}$,
+          עם שוויון למשל ב-$(0,0)$.
+        wrongFeedback: >-
+          נורמת האופרטור האוקלידית היא שורש הערך העצמי הגדול של $J^{T}J$. חשבו את $J_F^{T}J_F$; האיברים מחוץ לאלכסון
+          מתקזזים יפה.
+        commonWrong:
+          - value: 1
+            feedback: >-
+              1 הוא הסופרמום של נורמת פרובניוס, $\sqrt{\frac{c^2+s^2}{2}}$, כש-$|c|=|s|=1$. נורמת פרובניוס חוסמת את נורמת
+              האופרטור מלמעלה ואינה שווה לה.
+            misconception: MC-c5-mvi-wrong-bound
+          - value: 0.5
+            feedback: >-
+              $\frac12$ הוא האיבר הגדול במטריצה. נורמת האופרטור לוקחת בחשבון את כל השורה: למשל $J_F(0,0)$ שולחת את
+              $\frac{1}{\sqrt2}(1,1)$ לווקטור באורך $\frac{1}{\sqrt2}$.
+            misconception: MC-c5-mvi-wrong-bound
+
+      - label: ג
+        points: 5
+        type: twotier
+        standalone: false
+        objectives: [OBJ-5.6-3, OBJ-2.3-1]
+        qualitative: true
+        prompt: >-
+          האם ל-$F$ יש נקודת שבת יחידה ב-$\mathbb{R}^2$?
+        choices:
+          - text: 'כן'
+            correct: true
+            feedback: 'נכון. $F$ מכווצת עם מקדם $\frac{1}{\sqrt2}$ על המרחב השלם $\mathbb{R}^2$.'
+          - text: 'לא בהכרח'
+            feedback: >-
+              מסעיפים א ו-ב: $\|F(p)-F(q)\|_2\le\frac{1}{\sqrt2}\|p-q\|_2$, ומקדם הכיווץ קטן מ-1. משפט בנך חל.
+            misconception: MC-c5-mvi-wrong-bound
+        reasons:
+          - text: 'סעיף א עם $U=\mathbb{R}^2$ (קמורה) ו-$M=\frac{1}{\sqrt2}<1$ נותן העתקה מכווצת, ו-$\mathbb{R}^2$ שלם: משפט נקודת השבת של בנך'
+            correct: true
+            feedback: >-
+              בדיוק. ואפשר אף לחשב אותה באיטרציות $p_{k+1}=F(p_k)$ מכל נקודת התחלה, עם שגיאה שקטנה פי $\sqrt2$ בכל צעד.
+          - text: 'מספיק ש-$\|DF(p)\|_{\mathrm{op}}<1$ בכל נקודה $p$, גם בלי חסם אחיד'
+            feedback: >-
+              לא מספיק: $x+\frac1x$ על $[1,\infty)$ מקיימת $|f'|<1$ ואין לה נקודת שבת. כאן יש חסם אחיד, $\frac{1}{\sqrt2}$,
+              וזה מה שנותן מקדם כיווץ.
+            misconception: MC-c5-mvi-wrong-bound
+          - text: 'לפי משפט הערך הממוצע $F(p)-F(q)=DF(c)(p-q)$ לנקודה $c$ כלשהי, ולכן $F$ מכווצת'
+            feedback: >-
+              לפונקציה עם ערכים ב-$\mathbb{R}^2$ אין שוויון כזה; משתמשים באי-שוויון של סעיף א.
+            misconception: MC-c5-mvt-vector-equality
+
+      - label: ד
+        points: 5
+        type: twotier
+        objectives: [OBJ-5.7-2]
+        qualitative: true
+        prompt: >-
+          האם קיימת $\Phi:\mathbb{R}^2\to\mathbb{R}$ דיפרנציאבילית עם $\nabla\Phi=F$, כלומר
+          $\frac{\partial\Phi}{\partial x}=\frac12\sin(x+y)$ ו-$\frac{\partial\Phi}{\partial y}=\frac12\cos(x-y)$?
+        choices:
+          - text: 'לא'
+            correct: true
+            feedback: >-
+              נכון. $\frac{\partial}{\partial y}\left(\tfrac12\sin(x+y)\right)=\tfrac12\cos(x+y)$ ואילו
+              $\frac{\partial}{\partial x}\left(\tfrac12\cos(x-y)\right)=-\tfrac12\sin(x-y)$; ב-$(0,0)$ אלה $\frac12$ ו-0.
+          - text: 'כן'
+            feedback: >-
+              אילו $\Phi$ הייתה קיימת היא הייתה $C^2$ (נגזרותיה הראשונות $C^1$), ושוורץ היה מחייב שוויון של הנגזרות
+              המעורבות. ב-$(0,0)$ הן $\frac12$ ו-0.
+            misconception: MC-c5-schwarz-unused
+        reasons:
+          - text: 'רכיבי $F$ גזירים ברציפות, ולכן $\Phi\in C^2$; לפי שוורץ צריך $\frac{\partial F_1}{\partial y}=\frac{\partial F_2}{\partial x}$, וב-$(0,0)$ זה $\frac12\ne0$'
+            correct: true
+            feedback: >-
+              בדיוק. תנאי הסימטריה $\frac{\partial F_1}{\partial y}=\frac{\partial F_2}{\partial x}$ הוא תנאי הכרחי לכך
+              ששדה $C^1$ יהיה גרדיאנט.
+          - text: 'כל שדה גזיר ברציפות הוא גרדיאנט של פונקציה כלשהי'
+            feedback: >-
+              לא: גרדיאנט של פונקציה $C^2$ מקיים את תנאי הסימטריה של שוורץ, ושדה כללי אינו מקיים אותו.
+            misconception: MC-c5-schwarz-unused
+          - text: 'לא, כי הנגזרות המעורבות של כל פונקציה תמיד שוות, ואילו כאן הן שונות'
+            feedback: >-
+              המסקנה נכונה אבל הנימוק לא: בלי רציפות הנגזרות המעורבות יכולות להיות שונות ($xy\frac{x^2-y^2}{x^2+y^2}$).
+              כאן הרציפות מובטחת כי $F\in C^1$.
+            misconception: MC-c5-mixed-always-equal

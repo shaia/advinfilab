@@ -1,0 +1,352 @@
+# Chapter 0 exam questions — original, in the style of an 80315 final (not taken from a real exam).
+# Each is worth 25 points in lettered parts, with at least one open part graded against a model solution and a rubric.
+chapter: 0
+questions:
+  - id: Q-0-exam-1
+    type: exam
+    title: התכנסות במידה שווה ואינטגרלים
+    prompt: >-
+      לכל $n\in\mathbb{N}$ נגדיר על $[0,1]$ את הפונקציה $f_n(x)=nxe^{-nx^2}$.
+    parts:
+      - label: א
+        points: 4
+        type: mc
+        objectives: [OBJ-0.3-1]
+        prompt: >-
+          מהו הגבול הנקודתי $f(x)=\lim_{n\to\infty}f_n(x)$ על $[0,1]$?
+        choices:
+          - text: '$f(x)=0$ לכל $x\in[0,1]$'
+            correct: true
+            feedback: >-
+              נכון. $f_n(0)=0$ לכל $n$, ולכל $x>0$ קבוע $nxe^{-nx^2}\to0$, כי האקספוננט הדועך גובר על הגורם
+              הלינארי $n$.
+          - text: '$f(x)=0$ ל-$x>0$, ובנקודה 0 הגבול לא קיים'
+            feedback: >-
+              ב-$x=0$ הסדרה היא $f_n(0)=0$ לכל $n$, קבועה, והגבול 0. מחשבים כל נקודה בנפרד, כסדרת מספרים.
+            misconception: MC-c0-pointwise-limit-wrong
+          - text: '$f(x)=\infty$ ל-$x>0$, כי הגורם $n$ גדל'
+            feedback: >-
+              לכל $x>0$ קבוע, $e^{-nx^2}$ דועך מהר מכל חזקה של $n$. למשל ב-$x=1$: $f_n(1)=ne^{-n}\to0$.
+            misconception: MC-c0-pointwise-limit-wrong
+
+      - label: ב
+        points: 5
+        type: numeric
+        objectives: [OBJ-0.3-1]
+        prompt: >-
+          חשבו את $\sup_{x\in[0,1]}|f_8(x)-f(x)|$, בדיוק של שלוש ספרות אחרי הנקודה.
+        answer: 1.2130613194252668
+        tolerance: 0.001
+        correctFeedback: >-
+          נכון, $2e^{-1/2}\approx1.213$. הנגזרת $f_n'(x)=ne^{-nx^2}(1-2nx^2)$ מתאפסת ב-$x=\frac{1}{\sqrt{2n}}$, שעבור
+          $n=8$ היא $\frac14$, ושם $f_8\left(\frac14\right)=2e^{-1/2}$. באופן כללי המקסימום $\sqrt{\frac n2}\,e^{-1/2}$.
+        wrongFeedback: >-
+          $f=0$, ולכן מחפשים את המקסימום של $f_8\ge0$ על $[0,1]$: גזרו והשוו לאפס.
+        commonWrong:
+          - value: 0
+            feedback: >-
+              0 הוא הגבול הנקודתי. הסופרמום מחושב ל-$n=8$ קבוע, על כל ה-$x$.
+            misconception: MC-c0-sup-of-limit
+          - value: 0.002683701023220095
+            feedback: >-
+              $8e^{-8}=f_8(1)$, הערך בקצה. המקסימום בפנים, ב-$x=\frac14$.
+            misconception: MC-c0-sup-diff-at-fixed-x
+
+      - label: ג
+        points: 11
+        type: open
+        objectives: [OBJ-0.3-1]
+        prompt: >-
+          הוכיחו ש-$f_n$ **אינה** מתכנסת במידה שווה על $[0,1]$, אבל לכל $0<a<1$ היא מתכנסת במידה שווה על $[a,1]$.
+        solution:
+          - kind: given
+            text: '$f_n(x)=nxe^{-nx^2}$ על $[0,1]$, והגבול הנקודתי $f\equiv0$ (סעיף א).'
+          - kind: goal
+            text: '$\sup_{[0,1]}|f_n|\not\to0$, ולכל $0<a<1$: $\sup_{[a,1]}|f_n|\to0$.'
+          - kind: idea
+            text: >-
+              מחשבים את הסופרמום של ההפרש בעזרת הנגזרת. נקודת המקסימום $x_n=\frac{1}{\sqrt{2n}}$ זזה לעבר 0, ולכן
+              על $[a,1]$ היא יוצאת מהקטע מ-$n$ מסוים, ושם המקסימום בקצה $a$.
+          - kind: computation
+            text: >-
+              $f_n'(x)=ne^{-nx^2}(1-2nx^2)$: חיובית ל-$x<x_n$ ושלילית ל-$x>x_n$. לכן $f_n$ עולה ב-$[0,x_n]$ ויורדת
+              ב-$[x_n,\infty)$.
+          - kind: step
+            text: >-
+              על $[0,1]$: $x_n\le\frac{1}{\sqrt2}<1$, ולכן $\sup_{[0,1]}|f_n-f|=f_n(x_n)=\sqrt{\frac n2}\,e^{-1/2}$, שואף
+              לאינסוף. בפרט אינו שואף ל-0: ההתכנסות אינה במידה שווה.
+          - kind: step
+            text: >-
+              יהי $0<a<1$. אם $n\ge\frac{1}{2a^2}$ אז $x_n\le a$, ולכן $f_n$ יורדת ב-$[a,1]$ ו-$\sup_{[a,1]}|f_n|=f_n(a)=nae^{-na^2}$.
+          - kind: computation
+            text: >-
+              $nae^{-na^2}=a\cdot\frac{n}{e^{na^2}}\to0$, כי $e^{na^2}\ge1+na^2+\frac{(na^2)^2}{2}$, ולכן
+              $\frac{n}{e^{na^2}}\le\frac{2}{na^4}\to0$.
+          - kind: result
+            text: 'על $[0,1]$ הסופרמום $\sqrt{n/2}\,e^{-1/2}\to\infty$: לא במידה שווה. על $[a,1]$ הסופרמום $nae^{-na^2}\to0$: במידה שווה.'
+        rubric:
+          - text: 'נגזרת נכונה ונקודת המקסימום $x_n=\frac{1}{\sqrt{2n}}$, עם תחומי העלייה והירידה'
+            weight: 3
+          - text: 'הסופרמום על $[0,1]$ מחושב ומוסקת אי-התכנסות במידה שווה (לא מספיק לומר "הגבול רציף")'
+            weight: 3
+          - text: 'על $[a,1]$: הסבר למה מ-$n$ מסוים המקסימום בקצה $a$, והסופרמום $f_n(a)$'
+            weight: 3
+          - text: 'הוכחה ש-$nae^{-na^2}\to0$, עם נימוק (לא רק "אקספוננט גובר")'
+            weight: 2
+
+      - label: ד
+        points: 5
+        type: numeric
+        objectives: [OBJ-0.3-3]
+        prompt: >-
+          חשבו את $\lim_{n\to\infty}\int_0^1f_n(x)\,dx$. אפשר לענות בשבר.
+        answer: 0.5
+        tolerance: 0.001
+        correctFeedback: >-
+          נכון. $\int_0^1nxe^{-nx^2}\,dx=\left[-\tfrac12e^{-nx^2}\right]_0^1=\frac{1-e^{-n}}{2}\to\frac12$, ואילו
+          $\int_0^1\lim f_n=0$. ההחלפה אסורה כאן, בהתאם לסעיף ג: ההתכנסות על $[0,1]$ אינה במידה שווה.
+        wrongFeedback: >-
+          חשבו את האינטגרל עבור $n$ כללי (פונקציה קדומה של $xe^{-nx^2}$), ורק אחר כך שלחו $n\to\infty$.
+        commonWrong:
+          - value: 0
+            feedback: >-
+              0 הוא $\int_0^1\lim f_n$: החלפת גבול ואינטגרל, שאסורה כאן. המסה של $f_n$ מתרכזת ליד 0 ולא נעלמת.
+            misconception: MC-c0-swap-always
+
+  - id: Q-0-exam-2
+    type: exam
+    title: סדרות של אפסים ואחדים
+    prompt: >-
+      $S$ היא קבוצת כל הסדרות $s=(s_1,s_2,\dots)$ שכל איבריהן 0 או 1. לשתי סדרות $s,t\in S$ נגדיר
+      $\rho(s,t)=\sup_n|s_n-t_n|$.
+    parts:
+      - label: א
+        points: 10
+        type: open
+        objectives: [OBJ-0.4-2]
+        prompt: >-
+          הוכיחו ש-$S$ אינה בת מנייה.
+        solution:
+          - kind: goal
+            text: 'אין התאמה חד-חד-ערכית ועל מ-$\mathbb{N}$ ל-$S$; מספיק להראות שלכל פונקציה $k\mapsto s^{(k)}$ מ-$\mathbb{N}$ ל-$S$ יש $t\in S$ שאינה בתמונה.'
+          - kind: idea
+            text: 'האלכסון של קנטור: בונים $t$ ששונה מ-$s^{(k)}$ במקום ה-$k$, לכל $k$.'
+          - kind: step
+            text: 'תהי $s^{(1)},s^{(2)},\dots$ רשימה כלשהי של איברי $S$. נגדיר $t_n=1-s^{(n)}_n$ לכל $n\in\mathbb{N}$.'
+          - kind: check
+            text: 'כל $t_n$ הוא 0 או 1, ולכן $t\in S$.'
+          - kind: step
+            text: 'לכל $k$: $t_k=1-s^{(k)}_k\ne s^{(k)}_k$, ולכן $t\ne s^{(k)}$. כלומר $t$ אינה ברשימה.'
+          - kind: step
+            text: '$S$ אינסופית (הסדרות שיש בהן 1 יחיד, במקום ה-$k$, שונות זו מזו), ואין רשימה שמכילה את כולה.'
+          - kind: result
+            text: 'אף פונקציה מ-$\mathbb{N}$ ל-$S$ אינה על, ולכן $S$ אינה בת מנייה.'
+        rubric:
+          - text: 'מתחילים מרשימה **כלשהי** (לא מרשימה מסוימת)'
+            weight: 2
+          - text: 'הגדרה מפורשת של $t$ על האלכסון, $t_n=1-s^{(n)}_n$'
+            weight: 3
+          - text: 'בדיקה ש-$t\in S$ וש-$t\ne s^{(k)}$ לכל $k$, עם המקום שבו הן שונות'
+            weight: 3
+          - text: 'מסקנה נכונה: שום רשימה אינה מכילה את $S$, ולכן אינה בת מנייה'
+            weight: 2
+
+      - label: ב
+        points: 4
+        type: numeric
+        objectives: [OBJ-0.4-2, OBJ-0.2-1]
+        prompt: >-
+          יהיו $s\ne t$ שתי סדרות ב-$S$. מהו $\rho(s,t)$?
+        answer: 1
+        tolerance: 0.001
+        correctFeedback: >-
+          נכון. כל $|s_n-t_n|$ הוא 0 או 1, ויש מקום אחד לפחות שבו הן שונות, ולכן הסופרמום 1, תמיד. יחד עם סעיף א: $S$
+          היא קבוצה שאינה בת מנייה שכל שתי נקודות בה "במרחק" 1. בפרק 4 זה מה שיראה שמרחב הסדרות החסומות עם
+          נורמת הסופרמום אינו ספרבילי.
+        wrongFeedback: >-
+          אילו ערכים יכול לקבל $|s_n-t_n|$? ומה הסופרמום, אם יש מקום אחד לפחות שבו הסדרות שונות?
+        commonWrong:
+          - value: 0
+            feedback: >-
+              0 הוא $|s_n-t_n|$ במקום שבו הסדרות שוות. הסופרמום עובר על כל המקומות, ובמקום שבו הן שונות ההפרש 1.
+            misconception: MC-c0-sup-diff-at-fixed-x
+
+      - label: ג
+        points: 6
+        type: twotier
+        objectives: [OBJ-0.4-3, OBJ-0.4-2]
+        qualitative: true
+        prompt: >-
+          $T\subseteq S$ היא קבוצת הסדרות שאין בהן שני אחדים צמודים ($s_n=s_{n+1}=1$ לא קורה לאף $n$). האם $T$ בת
+          מנייה?
+        choices:
+          - text: לא
+            correct: true
+            feedback: >-
+              נכון. מכניסים 0 אחרי כל איבר: $s\mapsto(s_1,0,s_2,0,s_3,0,\dots)$.
+          - text: כן
+            feedback: >-
+              ההגבלה "אין שני אחדים צמודים" לא מקטינה את $T$ עד כדי מנייה: יש התאמה חד-חד-ערכית מ-$S$ לתוך $T$.
+            misconception: MC-c0-sequences-countable
+        reasons:
+          - text: 'ההעתקה $s\mapsto(s_1,0,s_2,0,\dots)$ חד-חד-ערכית מ-$S$ ל-$T$; אילו $T$ הייתה בת מנייה, גם $S$ הייתה סופית או בת מנייה'
+            correct: true
+            feedback: >-
+              בדיוק: תמונת $S$ היא תת-קבוצה של $T$, ותת-קבוצה של קבוצה בת מנייה היא לכל היותר בת מנייה. זה היה סותר את
+              סעיף א.
+          - text: '$T\subseteq S$ ו-$S$ אינה בת מנייה, ולכן גם $T$ אינה בת מנייה'
+            feedback: >-
+              המסקנה נכונה, אבל הנימוק לא: תת-קבוצה של קבוצה שאינה בת מנייה יכולה להיות בת מנייה, למשל הסדרות
+              שמתאפסות מאינדקס מסוים. המשפט הולך רק בכיוון "תת-קבוצה של בת מנייה".
+            misconception: MC-c0-converse-equivalent
+          - text: 'בסדרה של $T$ יש "פחות חופש", ולכן $T$ היא איחוד בן מנייה של קבוצות סופיות'
+            feedback: >-
+              $(1,0,1,0,1,0,\dots)\in T$ אינה באף קבוצה של סדרות שמתאפסות אחרי מקום סופי. ההגבלה מקומית, ונשאר חופש
+              אינסופי.
+            misconception: MC-c0-sequences-countable
+
+      - label: ד
+        points: 5
+        type: mc
+        objectives: [OBJ-0.4-3]
+        prompt: >-
+          $Z\subseteq S$ היא קבוצת הסדרות שיש בהן רק מספר סופי של אחדים. מה נכון?
+        choices:
+          - text: '$Z$ בת מנייה: $Z=\bigcup_kZ_k$, כש-$Z_k$ הן הסדרות שמתאפסות אחרי המקום ה-$k$, ובכל $Z_k$ יש $2^k$ איברים'
+            correct: true
+            feedback: >-
+              נכון: איחוד בן מנייה של קבוצות סופיות, ו-$Z$ אינסופית. סדרה ב-$Z$ נקבעת על ידי מחרוזת סופית.
+          - text: '$Z$ אינה בת מנייה: האלכסון בונה סדרה שחסרה בכל רשימה של $Z$'
+            feedback: >-
+              האלכסון בונה סדרה שחסרה ברשימה, אבל היא לא בהכרח ב-$Z$: אם כל $s^{(n)}_n=0$, היא $(1,1,1,\dots)\notin Z$.
+              אין כאן סתירה.
+            misconception: MC-c0-sequences-countable
+          - text: '$Z$ אינה בת מנייה, כי היא תת-קבוצה של $S$'
+            feedback: >-
+              תת-קבוצה של קבוצה שאינה בת מנייה יכולה להיות בת מנייה, כמו $\mathbb{N}\subseteq\mathbb{R}$. המשפט על
+              תת-קבוצות מדבר על תת-קבוצה של קבוצה **בת** מנייה.
+            misconception: MC-c0-converse-equivalent
+
+  - id: Q-0-exam-3
+    type: exam
+    title: תבנית ריבועית והמשפט הספקטרלי
+    prompt: >-
+      נתונה התבנית הריבועית $Q(x,y)=5x^2-4xy+2y^2$ על $\mathbb{R}^2$.
+    parts:
+      - label: א
+        points: 5
+        type: numeric
+        objectives: [OBJ-0.5-3]
+        prompt: >-
+          מהו הערך העצמי **הקטן** של המטריצה הסימטרית $A$ שמקיימת $Q(v)=v^TAv$?
+        answer: 1
+        tolerance: 0.001
+        correctFeedback: >-
+          נכון. $A=\begin{pmatrix}5&-2\\-2&2\end{pmatrix}$, $\operatorname{tr}A=7$ ו-$\det A=6$, ולכן הפולינום האופייני
+          $\lambda^2-7\lambda+6=(\lambda-1)(\lambda-6)$: הערכים העצמיים 1 ו-6.
+        wrongFeedback: >-
+          כתבו את $A$ עם חצי מהמקדם של $xy$ מחוץ לאלכסון, ופתרו $\det(A-\lambda I)=0$.
+        commonWrong:
+          - value: 2
+            feedback: >-
+              2 הוא האיבר הקטן באלכסון, לא ערך עצמי. המחובר המעורב משנה את הערכים העצמיים: הם 1 ו-6.
+            misconception: MC-c0-diagonal-positive-definite
+          - value: -0.7720018726587652
+            feedback: >-
+              זה הערך העצמי הקטן של $\begin{pmatrix}5&-4\\-4&2\end{pmatrix}$, שבה המקדם של $xy$, מינוס 4, הוכנס במלואו לשני הצדדים.
+              המטריצה הזו מייצגת את $5x^2-8xy+2y^2$.
+            misconception: MC-c0-form-matrix-full-coefficient
+
+      - label: ב
+        points: 4
+        type: mc
+        standalone: false
+        objectives: [OBJ-0.5-3]
+        prompt: >-
+          מה הסימן של $Q$, ולמה?
+        choices:
+          - text: 'חיובית מוגדרת, כי שני הערכים העצמיים, 1 ו-6, חיוביים'
+            correct: true
+            feedback: >-
+              נכון. לפי המשפט הספקטרלי, בבסיס אורתונורמלי של וקטורים עצמיים $Q=u^2+6w^2$, שחיובית לכל וקטור שאינו 0.
+          - text: 'לא מוגדרת, כי המקדם של $xy$ שלילי ולכן $Q$ שלילית במקומות מסוימים'
+            feedback: >-
+              מקדם שלילי של $xy$ לא קובע את הסימן: למשל $Q(1,1)=5-4+2=3>0$, ו-$Q(1,-1)=11>0$. הסימן נקבע לפי הערכים
+              העצמיים.
+            misconception: MC-c0-diagonal-positive-definite
+          - text: 'חיובית מוגדרת, כי $\det A=6>0$'
+            feedback: >-
+              המסקנה נכונה, הנימוק לא: גם המטריצה $B=-A$ סימטרית עם דטרמיננטה 6, והיא שלילית מוגדרת. דטרמיננטה חיובית אומרת רק
+              ששני הערכים העצמיים באותו סימן.
+            misconception: MC-c0-det-positive-definite
+
+      - label: ג
+        points: 11
+        type: open
+        objectives: [OBJ-0.5-3, OBJ-0.5-1]
+        prompt: >-
+          תהי $A$ מטריצה ממשית סימטרית $n\times n$ עם ערכים עצמיים $\lambda_1\le\dots\le\lambda_n$. הוכיחו
+          ש-$\lambda_1\|v\|_2^2\le v^TAv\le\lambda_n\|v\|_2^2$ לכל $v\in\mathbb{R}^n$, והסיקו חסמים ל-$Q$.
+        solution:
+          - kind: given
+            text: '$A$ סימטרית ממשית, עם ערכים עצמיים $\lambda_1\le\dots\le\lambda_n$.'
+          - kind: goal
+            text: '$\lambda_1\|v\|^2\le v^TAv\le\lambda_n\|v\|^2$ לכל $v$.'
+          - kind: idea
+            text: 'בבסיס אורתונורמלי של וקטורים עצמיים התבנית היא סכום משוקלל של ריבועים, והמשקלים הם הערכים העצמיים.'
+          - kind: theorem
+            text: 'המשפט הספקטרלי: יש בסיס אורתונורמלי $u_1,\dots,u_n$ של $\mathbb{R}^n$ עם $Au_i=\lambda_iu_i$.'
+          - kind: step
+            text: 'נכתוב $v=\sum_ic_iu_i$. מהאורתונורמליות, $\|v\|^2=\langle v,v\rangle=\sum_ic_i^2$.'
+          - kind: computation
+            text: '$v^TAv=\langle v,Av\rangle=\left\langle\sum_ic_iu_i,\sum_jc_j\lambda_ju_j\right\rangle=\sum_i\lambda_ic_i^2$.'
+          - kind: step
+            text: 'כי $\lambda_1\le\lambda_i\le\lambda_n$ ו-$c_i^2\ge0$: $\lambda_1\sum c_i^2\le\sum\lambda_ic_i^2\le\lambda_n\sum c_i^2$.'
+          - kind: check
+            text: 'ב-$v=u_1$ וב-$v=u_n$ מתקבל שוויון, ולכן אי אפשר לשפר את הקבועים.'
+          - kind: result
+            text: 'לכל $v$: $\lambda_1\|v\|^2\le v^TAv\le\lambda_n\|v\|^2$. עבור $Q$ (סעיף א): $\|v\|^2\le Q(v)\le6\|v\|^2$ לכל $v\in\mathbb{R}^2$.'
+        rubric:
+          - text: 'ציטוט נכון של המשפט הספקטרלי, עם בסיס **אורתונורמלי** של וקטורים עצמיים'
+            weight: 3
+          - text: 'נימוק ל-$\|v\|^2=\sum c_i^2$ מהאורתונורמליות'
+            weight: 2
+          - text: 'חישוב $v^TAv=\sum\lambda_ic_i^2$'
+            weight: 3
+          - text: 'החסמים, והמסקנה עבור $Q$ עם הקבועים 1 ו-6'
+            weight: 2
+
+      - label: ד
+        points: 5
+        type: twotier
+        standalone: false
+        objectives: [OBJ-0.5-1]
+        qualitative: true
+        prompt: >-
+          האם $\langle u,v\rangle_A=u^TAv$, עם $A$ של סעיף א, היא מכפלה פנימית על $\mathbb{R}^2$?
+        choices:
+          - text: כן
+            correct: true
+            feedback: >-
+              נכון. לכן קושי-שוורץ חל גם עליה: $(u^TAv)^2\le Q(u)\,Q(v)$.
+          - text: לא
+            feedback: >-
+              שלוש האקסיומות מתקיימות: סימטריה כי $A$ סימטרית, לינאריות של כפל מטריצות, וחיוביות מסעיף ג:
+              $Q(v)\ge\|v\|^2>0$ ל-$v\ne0$.
+            misconception: MC-c0-ip-partial-check
+        reasons:
+          - text: 'הביטוי בילינארי, סימטרי כי $A^T=A$, וחיובי כי $\langle v,v\rangle_A=Q(v)\ge\|v\|_2^2>0$ לכל $v\ne0$'
+            correct: true
+            feedback: >-
+              בדיוק. כל מטריצה סימטרית **חיובית מוגדרת** נותנת מכפלה פנימית כזו, וכל מכפלה פנימית על $\mathbb{R}^n$ היא
+              מהצורה הזו.
+          - text: 'כל מטריצה סימטרית נותנת מכפלה פנימית'
+            feedback: >-
+              סימטריה לבד לא מספיקה: עם $\begin{pmatrix}1&0\\0&-1\end{pmatrix}$ מקבלים $\langle e_2,e_2\rangle=-1<0$.
+              החיוביות דורשת שהמטריצה תהיה חיובית מוגדרת.
+            misconception: MC-c0-ip-partial-check
+          - text: 'מכפלה פנימית על $\mathbb{R}^2$ חייבת להיות $u_1v_1+u_2v_2$, כלומר $A=I$'
+            feedback: >-
+              יש הרבה מכפלות פנימיות על $\mathbb{R}^2$; הסטנדרטית היא רק אחת מהן. $u_1v_1+2u_2v_2$, למשל, מקיימת את כל
+              האקסיומות.
+            misconception: MC-c0-ip-partial-check

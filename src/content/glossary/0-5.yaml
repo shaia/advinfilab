@@ -1,0 +1,28 @@
+# Terms first defined in lesson 0.5.
+- id: inner-product
+  term: מכפלה פנימית
+  en: inner product
+  symbol: '\langle x,y\rangle'
+  definition: >-
+    פונקציה $\langle\cdot,\cdot\rangle:V\times V\to\mathbb{R}$ על מרחב וקטורי ממשי שהיא סימטרית, לינארית ברכיב הראשון
+    (ולכן בשניהם), וחיובית: $\langle x,x\rangle>0$ לכל $x\ne0$. היא משרה אורך $\|x\|=\sqrt{\langle x,x\rangle}$ ומקיימת
+    את אי-שוויון קושי-שוורץ $|\langle x,y\rangle|\le\|x\|\,\|y\|$.
+  reject: [קושי-שווארץ, קושי שווארץ]
+  lesson: '0.5'
+- id: quadratic-form
+  term: תבנית ריבועית
+  en: quadratic form
+  symbol: 'Q(x)=x^TAx'
+  definition: >-
+    פונקציה $Q:\mathbb{R}^n\to\mathbb{R}$ מהצורה $Q(x)=x^TAx=\sum_{i,j}a_{ij}x_ix_j$, עם $A$ סימטרית: המקדם של $x_ix_j$
+    ($i\ne j$) מתחלק שווה בשווה בין $a_{ij}$ ל-$a_{ji}$. הסימן שלה נקבע לפי הערכים העצמיים של $A$.
+  lesson: '0.5'
+- id: positive-definite
+  term: חיובית מוגדרת
+  en: positive definite
+  reject: [מוגדרת חיובית, מוגדרת שלילית]
+  definition: >-
+    מטריצה סימטרית $A$ (או התבנית $x^TAx$) נקראת חיובית מוגדרת אם $x^TAx>0$ לכל $x\ne0$; לפי המשפט הספקטרלי זה שקול
+    לכך שכל הערכים העצמיים של $A$ חיוביים, ואז $x^TAx\ge\lambda_{\min}\|x\|_2^2$. שלילית מוגדרת: $x^TAx<0$ לכל
+    $x\ne0$; לא מוגדרת: מקבלת ערכים משני הסימנים.
+  lesson: '0.5'

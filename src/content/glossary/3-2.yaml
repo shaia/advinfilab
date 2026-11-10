@@ -1,0 +1,38 @@
+# Terms first defined in lesson 3.2.
+- id: open-cover
+  term: כיסוי פתוח
+  en: open cover
+  definition: >-
+    משפחה $\{U_\alpha\}_{\alpha\in I}$ של קבוצות פתוחות ב-$X$ שהאיחוד שלה מכיל את $K$:
+    $K\subseteq\bigcup_{\alpha\in I}U_\alpha$. המשפחה יכולה להיות סופית, בת מנייה או גדולה יותר.
+  lesson: '3.2'
+- id: finite-subcover
+  term: תת-כיסוי סופי
+  en: finite subcover
+  definition: >-
+    מספר סופי של קבוצות מתוך כיסוי נתון, $U_{\alpha_1},\dots,U_{\alpha_m}$, שגם הן לבדן מכסות את $K$.
+    $K$ קומפקטית (בכיסויים) אם לכל כיסוי פתוח שלה יש תת-כיסוי סופי; במרחב מטרי זה שקול לקומפקטיות סדרתית.
+  lesson: '3.2'
+- id: lebesgue-number
+  term: מספר לבג
+  en: Lebesgue number
+  symbol: '\delta'
+  definition: >-
+    מספר $\delta>0$ עבור כיסוי פתוח $\{U_\alpha\}$ של מרחב $X$, כך שלכל $x\in X$ הכדור $B(x,\delta)$ מוכל באחת
+    מקבוצות הכיסוי. הלמה של לבג: לכל כיסוי פתוח של מרחב מטרי קומפקטי יש מספר לבג.
+  lesson: '3.2'
+- id: heine-borel
+  term: משפט היינה-בורל
+  en: Heine–Borel theorem
+  definition: >-
+    במרחב האוקלידי $\mathbb{R}^n$ קבוצה קומפקטית אם ורק אם היא סגורה וחסומה. במרחב מטרי כללי רק הכיוון
+    "קומפקטית גורר סגורה וחסומה" נכון.
+  lesson: '3.2'
+- id: finite-intersection-property
+  term: תכונת החיתוך הסופי
+  en: finite intersection property
+  definition: >-
+    למשפחה $\{F_\alpha\}$ של קבוצות יש תכונת החיתוך הסופי אם כל תת-משפחה סופית שלה נחתכת:
+    $F_{\alpha_1}\cap\dots\cap F_{\alpha_m}\ne\emptyset$. מרחב מטרי קומפקטי אם ורק אם לכל משפחה של קבוצות סגורות
+    עם תכונת החיתוך הסופי יש חיתוך כולל לא ריק.
+  lesson: '3.2'

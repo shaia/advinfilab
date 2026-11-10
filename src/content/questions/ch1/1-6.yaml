@@ -1,0 +1,343 @@
+# Lesson 1.6 — continuity between metric spaces.
+# Objectives (src/course.ts):
+#   OBJ-1.6-1  continuity at a point by ε-δ and by sequences, and their equivalence
+#   OBJ-1.6-2  continuous iff preimages of open sets are open; use it to show sets open or closed
+#   OBJ-1.6-3  Lipschitz functions, uniform continuity, homeomorphisms, told apart by examples
+chapter: 1
+questions:
+  - id: Q-1.6-epsdelta
+    type: mc
+    objectives: [OBJ-1.6-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $f:(X,d_X)\to(Y,d_Y)$. מה פירוש "$f$ רציפה בנקודה $a\in X$"?
+    choices:
+      - text: 'לכל $\varepsilon>0$ קיים $\delta>0$ כך שלכל $x$ עם $d_X(x,a)<\delta$: $d_Y(f(x),f(a))<\varepsilon$'
+        correct: true
+        feedback: >-
+          נכון. קודם בוחרים כמה קרוב רוצים להיות בתמונה ($\varepsilon$), ואז מוצאים כמה קרוב צריך להיות בתחום ($\delta$).
+      - text: 'קיים $\delta>0$ כך שלכל $\varepsilon>0$ ולכל $x$ עם $d_X(x,a)<\delta$: $d_Y(f(x),f(a))<\varepsilon$'
+        feedback: >-
+          כש-$\delta$ בא קודם, הוא צריך להתאים לכל $\varepsilon$, ואז $f(x)=f(a)$ לכל $x$ ב-$B(a,\delta)$: $f$ קבועה
+          ליד $a$. זו דרישה חזקה בהרבה מרציפות.
+        misconception: MC-c1-quantifier-order
+      - text: 'לכל $\varepsilon>0$ קיים $\delta>0$ כך שלכל $x$ עם $d_Y(f(x),f(a))<\delta$: $d_X(x,a)<\varepsilon$'
+        feedback: >-
+          הכיוון הפוך: זה אומר "קרוב בתמונה גורר קרוב בתחום". פונקציה קבועה רציפה, ובכל זאת כל $x$ מקיים
+          $d_Y(f(x),f(a))=0$, גם $x$ רחוק מ-$a$.
+        misconception: MC-c1-continuity-direction
+      - text: 'לכל $\delta>0$ קיים $\varepsilon>0$ כך שלכל $x$ עם $d_X(x,a)<\delta$: $d_Y(f(x),f(a))<\varepsilon$'
+        feedback: >-
+          זה אומר רק שהתמונה של כל כדור סביב $a$ חסומה, וזה נכון גם לפונקציית מדרגה חסומה שקופצת ב-$a$.
+        misconception: MC-c1-quantifier-order
+
+  - id: Q-1.6-seq
+    type: twotier
+    objectives: [OBJ-1.6-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $f:\mathbb{R}^2\to\mathbb{R}$, $f(x,y)=\frac{xy}{x^2+y^2}$ כש-$(x,y)\neq(0,0)$, ו-$f(0,0)=0$. האם $f$ רציפה
+      ב-$(0,0)$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. לפי האפיון הסדרתי מספיקה סדרה אחת $x_n\to(0,0)$ עם $f(x_n)\not\to0$.'
+      - text: כן
+        feedback: >-
+          על הצירים $f=0$, אבל לאורך האלכסון $f(\frac1n,\frac1n)=\frac{1/n^2}{2/n^2}=\frac12$ לכל $n$.
+        misconception: MC-c1-few-sequences
+    reasons:
+      - text: '$(\frac1n,\frac1n)\to(0,0)$, ו-$f(\frac1n,\frac1n)=\frac12\not\to0=f(0,0)$'
+        correct: true
+        feedback: >-
+          בדיוק. רציפות דורשת $f(x_n)\to f(a)$ **לכל** סדרה $x_n\to a$; סדרה אחת שנכשלת מפריכה.
+      - text: '$f(\frac1n,0)=0\to0$ ו-$f(0,\frac1n)=0\to0$, ולכן $f$ רציפה'
+        feedback: >-
+          שתי סדרות אינן כל הסדרות. סדרה אחת יכולה להפריך רציפות, אבל לא להוכיח אותה.
+        misconception: MC-c1-few-sequences
+      - text: 'לכל $y$ קבוע, $x\mapsto f(x,y)$ רציפה'
+        feedback: >-
+          רציפות בכל משתנה בנפרד היא בדיקה לאורך ישרים מקבילים לצירים, ולא כל הסדרות. האלכסון מפריך.
+        misconception: MC-c1-few-sequences
+
+  - id: Q-1.6-preimage
+    type: multi
+    objectives: [OBJ-1.6-2]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $f:\mathbb{R}\to\mathbb{R}$ רציפה. אילו מהטענות נכונות **בהכרח**? סמנו את כולן.
+    choices:
+      - text: '$\{x: f(x)>0\}$ פתוחה'
+        correct: true
+        feedback: 'נכון: זו $f^{-1}((0,\infty))$, מקור של קבוצה פתוחה.'
+      - text: '$\{x: 0\le f(x)\le1\}$ סגורה'
+        correct: true
+        feedback: >-
+          נכון: זו $f^{-1}([0,1])$. המשלים שלה הוא $f^{-1}(\mathbb{R}\setminus[0,1])$, מקור של פתוחה, ולכן פתוח.
+      - text: '$f((0,1))$ פתוחה'
+        feedback: >-
+          רציפות מדברת על מקורות, לא על תמונות. $f\equiv5$ רציפה ו-$f((0,1))=\{5\}$ אינה פתוחה.
+        misconception: MC-c1-continuity-direction
+      - text: '$f(\mathbb{R})$ פתוחה'
+        feedback: >-
+          $f(x)=x^2$ רציפה ו-$f(\mathbb{R})=[0,\infty)$ אינה פתוחה.
+        misconception: MC-c1-continuity-direction
+      - text: '$\{x: f(x)=0\}$ סגורה'
+        correct: true
+        feedback: 'נכון: $f^{-1}(\{0\})$, ו-$\{0\}$ סגורה ב-$\mathbb{R}$.'
+
+  - id: Q-1.6-lipconst
+    type: numeric
+    objectives: [OBJ-1.6-3]
+    level: basic
+    prompt: >-
+      $g:(\mathbb{R}^2,d_\infty)\to\mathbb{R}$, $g(x,y)=x+y$. מהו קבוע ליפשיץ **הקטן ביותר** $L$, כלומר
+      $|g(p)-g(q)|\le L\,d_\infty(p,q)$ לכל $p,q$?
+    answer: 2
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $|(x-x')+(y-y')|\le|x-x'|+|y-y'|\le2d_\infty(p,q)$, ועם $p=(1,1)$, $q=(0,0)$ מקבלים
+      $|g(p)-g(q)|=2=2d_\infty(p,q)$. לכן קבוע קטן מ-2 לא עובד.
+    wrongFeedback: >-
+      חסמו $|g(p)-g(q)|$ בעזרת $\max(|x-x'|,|y-y'|)$, ומצאו זוג נקודות שבו החסם מתקבל בשוויון.
+    commonWrong:
+      - value: 1
+        feedback: >-
+          1 הוא הקבוע עבור $d_1$ בתחום. עם $d_\infty$ שתי הקואורדינטות יכולות לזוז בבת אחת עד המרחק המלא: $p=(1,1)$.
+        misconception: MC-c1-one-distance
+      - value: 1.41421356
+        feedback: >-
+          $\sqrt2$ הוא הקבוע עבור $d_2$ בתחום (קושי-שוורץ). כאן התחום עם $d_\infty$, והקבוע 2.
+        misconception: MC-c1-one-distance
+
+  - id: Q-1.6-dist-lip
+    type: rank
+    objectives: [OBJ-1.6-3]
+    level: mid
+    prompt: >-
+      סדרו את שלבי ההוכחה שהפונקציה $f(x)=d(x,a)$ על מרחב מטרי היא 1-ליפשיצית:
+      $|d(x,a)-d(y,a)|\le d(x,y)$.
+    help: סדרו את השלבים מהראשון לאחרון.
+    items:
+      - id: tri
+        label: 'לפי אי-שוויון המשולש: $d(x,a)\le d(x,y)+d(y,a)$, כלומר $d(x,a)-d(y,a)\le d(x,y)$.'
+      - id: swap
+        label: 'מחליפים את התפקידים של $x$ ו-$y$: $d(y,a)-d(x,a)\le d(y,x)$.'
+      - id: sym
+        label: 'לפי הסימטריה $d(y,x)=d(x,y)$.'
+      - id: abs
+        label: 'שני אי-השוויונים יחד: $|d(x,a)-d(y,a)|\le d(x,y)$.'
+      - id: conc
+        label: 'לכן $f$ ליפשיצית עם קבוע 1, ובפרט רציפה במידה שווה, עם $\delta=\varepsilon$.'
+    order: [tri, swap, sym, abs, conc]
+    correctFeedback: >-
+      נכון. זה אי-שוויון המשולש ההפוך. מכאן, למשל, ש-$B(a,r)=f^{-1}((-\infty,r))$ פתוח ו-$B[a,r]=f^{-1}([0,r])$ סגור.
+    wrongFeedback: >-
+      ערך מוחלט קטן מ-$t$ פירושו שני אי-שוויונים, אחד לכל כיוון. השיגו כל אחד ממשולש, ואחדו בסוף.
+
+  - id: Q-1.6-closed-ball
+    type: twotier
+    objectives: [OBJ-1.6-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      נכון או לא: בכל מרחב מטרי הכדור הסגור $B[a,r]$ הוא קבוצה סגורה.
+    choices:
+      - text: נכון
+        correct: true
+        feedback: 'נכון. האפיון של רציפות דרך מקורות נותן את זה בשורה אחת.'
+      - text: לא נכון, למשל במטריקה הבדידה
+        feedback: >-
+          במטריקה הבדידה כל קבוצה סגורה, כולל $B[a,1]=X$. מה שנכשל שם הוא $\overline{B(a,1)}=B[a,1]$, לא הסגירות
+          של הכדור הסגור.
+        misconception: MC-c1-closure-of-ball
+    reasons:
+      - text: '$B[a,r]=f^{-1}\big((-\infty,r]\big)$ עם $f(x)=d(x,a)$ רציפה, ו-$(-\infty,r]$ סגורה בישר'
+        correct: true
+        feedback: >-
+          בדיוק: מקור של קבוצה סגורה תחת פונקציה רציפה סגור. (אפשר גם ישירות: המשלים $\{x: d(x,a)>r\}$ פתוח.)
+      - text: 'הוא הסגור של $B(a,r)$, וסגור הוא תמיד סגור'
+        feedback: >-
+          $B[a,r]$ אינו תמיד הסגור של $B(a,r)$: במטריקה הבדידה $\overline{B(a,1)}=\{a\}\neq X=B[a,1]$.
+        misconception: MC-c1-closure-of-ball
+      - text: 'לכל $y$ במשלים, הכדור $B(y,d(y,a))$ זר ל-$B[a,r]$'
+        feedback: >-
+          הרדיוס גדול מדי: ב-$\mathbb{R}$ עם $a=0$, $r=1$, $y=3$, הכדור $B(3,3)=(0,6)$ מכיל את $\frac12\in B[0,1]$.
+          הרדיוס הנכון הוא $d(y,a)-r$.
+        misconception: MC-c1-radius-distance
+
+  - id: Q-1.6-uc-def
+    type: mc
+    objectives: [OBJ-1.6-3]
+    qualitative: true
+    level: basic
+    prompt: >-
+      מתי $f:(X,d_X)\to(Y,d_Y)$ **רציפה במידה שווה**?
+    choices:
+      - text: 'לכל $\varepsilon>0$ קיים $\delta>0$ כך שלכל $x,y\in X$ עם $d_X(x,y)<\delta$: $d_Y(f(x),f(y))<\varepsilon$'
+        correct: true
+        feedback: >-
+          נכון. $\delta$ נבחר לפני הנקודות, ולכן מתאים לכולן בבת אחת.
+      - text: 'לכל $\varepsilon>0$ ולכל $x\in X$ קיים $\delta>0$ כך שלכל $y$ עם $d_X(x,y)<\delta$: $d_Y(f(x),f(y))<\varepsilon$'
+        feedback: >-
+          זו רציפות רגילה בכל נקודה: $\delta$ רשאי להיות תלוי ב-$x$. ב-$x^2$ על $\mathbb{R}$ ה-$\delta$ חייב לקטון
+          כש-$x$ גדל.
+        misconception: MC-c1-quantifier-order
+      - text: 'יש $L$ כך ש-$d_Y(f(x),f(y))\le L\,d_X(x,y)$ לכל $x,y$'
+        feedback: >-
+          זו ליפשיציות, תנאי חזק יותר. $\sqrt x$ על $[0,1]$ רציפה במידה שווה ואינה ליפשיצית.
+        misconception: MC-c1-uniform-lipschitz
+
+  - id: Q-1.6-sqrt
+    type: twotier
+    objectives: [OBJ-1.6-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      האם $f(x)=\sqrt x$ ליפשיצית על $[0,1]$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. היא רציפה במידה שווה, אבל אינה ליפשיצית.'
+      - text: כן, כי היא רציפה במידה שווה
+        feedback: >-
+          רציפה במידה שווה אינה גוררת ליפשיצית. עם $x=\frac1{n^2}$ ו-$y=0$ היחס $\frac{|\sqrt x-\sqrt y|}{|x-y|}=n$ אינו
+          חסום.
+        misconception: MC-c1-uniform-lipschitz
+    reasons:
+      - text: 'עם $x=\frac1{n^2}$, $y=0$: $\frac{|f(x)-f(y)|}{|x-y|}=n$, ולכן אין קבוע $L$'
+        correct: true
+        feedback: >-
+          בדיוק. ובכל זאת $|\sqrt x-\sqrt y|\le\sqrt{|x-y|}$, כך ש-$\delta=\varepsilon^2$ מתאים לכל הנקודות:
+          רציפה במידה שווה.
+      - text: 'הנגזרת $\frac{1}{2\sqrt x}$ אינה חסומה, ולכן $f$ אינה אפילו רציפה במידה שווה'
+        feedback: >-
+          המסקנה שגויה: $|\sqrt x-\sqrt y|\le\sqrt{|x-y|}$, ולכן $f$ רציפה במידה שווה. נגזרת לא חסומה שוללת
+          ליפשיציות, לא רציפות במידה שווה.
+        misconception: MC-c1-uniform-lipschitz
+      - text: 'כל פונקציה רציפה על קטע סגור ליפשיצית'
+        feedback: >-
+          $\sqrt x$ עצמה רציפה על $[0,1]$ ואינה ליפשיצית. על קטע סגור רציפות גוררת רציפות במידה שווה (משפט קנטור-היינה מאינפי 1),
+          לא ליפשיציות.
+        misconception: MC-c1-uniform-lipschitz
+
+  - id: Q-1.6-x2
+    type: twotier
+    objectives: [OBJ-1.6-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      האם $f(x)=x^2$ רציפה במידה שווה על $\mathbb{R}$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. היא רציפה בכל נקודה, אבל אין $\delta$ אחד לכל הנקודות.'
+      - text: כן
+        feedback: >-
+          עם $x=n$, $y=n+\frac1n$: $|x-y|=\frac1n\to0$, ו-$|y^2-x^2|=2+\frac1{n^2}\ge2$. לכן ל-$\varepsilon=1$ אין
+          $\delta$ מתאים.
+        misconception: MC-c1-continuous-uniform
+    reasons:
+      - text: 'ל-$\varepsilon=1$ ולכל $\delta>0$: עם $n>\frac1\delta$, $x=n$, $y=n+\frac1n$ קרובים מ-$\delta$ ו-$|y^2-x^2|>1$'
+        correct: true
+        feedback: >-
+          בדיוק: זו השלילה של ההגדרה. השיפוע של $x^2$ גדל בלי חסם, ולכן אותו הפרש ב-$x$ נותן הפרש גדל ב-$x^2$.
+      - text: 'כל פונקציה רציפה רציפה במידה שווה'
+        feedback: >-
+          לא נכון: $x^2$ על $\mathbb{R}$ ו-$\frac1x$ על $(0,1)$ הן דוגמאות נגדיות.
+        misconception: MC-c1-continuous-uniform
+      - text: 'היא אינה רציפה כלל ב-$\pm\infty$'
+        feedback: >-
+          $\pm\infty$ אינן נקודות של $\mathbb{R}$, והיא רציפה בכל נקודה. הבעיה היא ש-$\delta$ תלוי בנקודה.
+        misconception: MC-c1-axiom-misdiagnosed
+
+  - id: Q-1.6-homeo
+    type: multi
+    objectives: [OBJ-1.6-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      אילו מההעתקות הבאות הן **הומיאומורפיזמים** (עם המטריקות הרגילות, אלא אם נאמר אחרת)? סמנו את כולן.
+    choices:
+      - text: '$(0,1)\to\mathbb{R}$, $x\mapsto\tan\left(\pi\left(x-\frac12\right)\right)$'
+        correct: true
+        feedback: >-
+          נכון: רציפה, חד-חד-ערכית ועל, וההפכית $y\mapsto\frac12+\frac1\pi\arctan y$ רציפה.
+      - text: 'הזהות מ-$\mathbb{R}$ עם המטריקה הבדידה ל-$\mathbb{R}$ עם המטריקה הרגילה'
+        feedback: >-
+          היא רציפה (כל פונקציה מהמטריקה הבדידה רציפה: כל מקור פתוח) וחד-חד-ערכית ועל. אבל ההפכית, הזהות מ-$\mathbb{R}$
+          הרגיל לבדידה, אינה רציפה: המקור של הפתוחה $\{0\}$ הוא $\{0\}$, שאינה פתוחה ב-$\mathbb{R}$.
+        misconception: MC-c1-bijection-homeomorphism
+      - text: '$[0,2\pi)\to\{(u,v):u^2+v^2=1\}$, $t\mapsto(\cos t,\sin t)$'
+        feedback: >-
+          רציפה, חד-חד-ערכית ועל, אבל ההפכית קופצת ב-$(1,0)$: נקודות על המעגל מתחת ל-$(1,0)$ נשלחות ל-$t$ קרוב
+          ל-$2\pi$, ו-$(1,0)$ עצמה ל-$0$.
+        misconception: MC-c1-bijection-homeomorphism
+      - text: '$\mathbb{R}\to\mathbb{R}$, $x\mapsto x^3$'
+        correct: true
+        feedback: 'נכון: רציפה ועולה ממש, וההפכית $\sqrt[3]{y}$ רציפה.'
+
+  - id: Q-1.6-bounded-homeo
+    type: twotier
+    objectives: [OBJ-1.6-3]
+    qualitative: true
+    level: basic
+    prompt: >-
+      נכון או לא: אם $X$ ו-$Y$ מרחבים מטריים הומיאומורפיים ו-$X$ חסום, אז גם $Y$ חסום.
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: 'נכון. חסימות תלויה במרחקים, והומיאומורפיזם לא שומר עליהם.'
+      - text: נכון
+        feedback: >-
+          $(0,1)$ חסום, $\mathbb{R}$ לא, ו-$x\mapsto\tan(\pi(x-\frac12))$ הומיאומורפיזם ביניהם.
+        misconception: MC-c1-homeo-preserves-metric
+    reasons:
+      - text: '$(0,1)$ חסום, $\mathbb{R}$ אינו חסום, ו-$\tan(\pi(x-\frac12))$ הומיאומורפיזם ביניהם'
+        correct: true
+        feedback: >-
+          בדיוק. הומיאומורפיזם שומר על תכונות שמוגדרות דרך קבוצות פתוחות או סדרות מתכנסות: פתיחות, סגירות, רציפות.
+          חסימות אינה כזו.
+      - text: 'הומיאומורפיזם הוא ליפשיצי, ולכן שומר על חסימות'
+        feedback: >-
+          הומיאומורפיזם רק רציף בשני הכיוונים, לא ליפשיצי. $\tan$ מותחת את הקצוות של $(0,1)$ עד אינסוף.
+        misconception: MC-c1-homeo-preserves-metric
+      - text: 'מרחבים הומיאומורפיים הם "אותו מרחב", ולכן יש להם אותן תכונות'
+        feedback: >-
+          יש להם אותן תכונות **טופולוגיות** (קבוצות פתוחות, סדרות מתכנסות), לא אותם מרחקים.
+        misconception: MC-c1-homeo-preserves-metric
+
+  - id: Q-1.6-eval
+    type: twotier
+    objectives: [OBJ-1.6-1, OBJ-1.6-2]
+    qualitative: true
+    level: exam
+    prompt: >-
+      ב-$C[0,1]$ עם נורמת **האינטגרל** $\|f\|_1=\int_0^1|f|$, האם $U=\{f: f(0)>0\}$ פתוחה?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. בנורמת הסופרמום היא פתוחה, אבל לא בנורמת האינטגרל: שם ערך בנקודה אחת לא נשלט.
+      - text: כן
+        feedback: >-
+          $U=\varphi^{-1}((0,\infty))$ עם $\varphi(f)=f(0)$, אבל $\varphi$ אינה רציפה בנורמת האינטגרל: "קוץ" צר
+          כלפי מטה ב-0 משנה את $f(0)$ ועולה מעט מאוד בנורמה.
+        misconception: MC-c1-one-distance
+    reasons:
+      - text: '$1\in U$, ו-$g_n(x)=1-2\max(0,1-nx)$ מקיימת $\|g_n-1\|_1=\frac1n\to0$ ו-$g_n(0)=-1\notin U$'
+        correct: true
+        feedback: >-
+          בדיוק: כל כדור סביב הפונקציה הקבועה 1 מכיל פונקציה מחוץ ל-$U$. ($\|g_n-1\|_1=2\int_0^{1/n}(1-nx)\,dx=\frac1n$.)
+      - text: '$U$ מקור של הקבוצה הפתוחה $(0,\infty)$ תחת $f\mapsto f(0)$, שהיא רציפה'
+        feedback: >-
+          $f\mapsto f(0)$ רציפה (אפילו 1-ליפשיצית) בנורמת **הסופרמום**. בנורמת האינטגרל $f_n=\max(0,1-nx)$ שואפת
+          ל-0 ו-$f_n(0)=1\not\to0$.
+        misconception: MC-c1-one-distance
+      - text: '$U$ פתוחה בנורמת הסופרמום, ולכן בכל נורמה'
+        feedback: >-
+          פתיחות תלויה בנורמה. כאן $\|g_n-1\|_1\to0$ ובכל זאת $g_n\notin U$.
+        misconception: MC-c1-one-distance

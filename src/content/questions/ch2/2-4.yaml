@@ -1,0 +1,369 @@
+# Lesson 2.4 — series in a normed space, the M-test, the Neumann series.
+# Objectives (src/course.ts):
+#   OBJ-2.4-1  define a Banach space; in a Banach space every absolutely convergent series converges
+#   OBJ-2.4-2  read the Weierstrass M-test as absolute convergence in (C[a,b], ‖·‖∞)
+#   OBJ-2.4-3  Neumann series: ‖A‖op < 1 ⇒ I − A invertible, with ‖(I − A)⁻¹‖ ≤ 1/(1 − ‖A‖)
+# Matrix norms below are operator norms: ‖A‖∞ = largest row sum of |entries|, ‖A‖₁ = largest column sum (lesson 1.8).
+chapter: 2
+questions:
+  - id: Q-2.4-def
+    type: multi
+    objectives: [OBJ-2.4-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      אילו מהבאים הם **מרחבי בנך**? סמנו את כולם.
+    choices:
+      - text: '$(\mathbb{R}^3,\|\cdot\|_1)$'
+        correct: true
+        feedback: >-
+          נכון: מרחב נורמי, ושלם (סדרת קושי היא סדרת קושי בכל קואורדינטה, שיעור 2.1).
+      - text: '$(C[0,1],\|\cdot\|_\infty)$'
+        correct: true
+        feedback: 'נכון: שיעור 2.2.'
+      - text: 'הסדרות החסומות $B(\mathbb{N})$ עם $\|x\|_\infty=\sup_n|x_n|$'
+        correct: true
+        feedback: >-
+          נכון: זה $B(X)$ עם $X=\mathbb{N}$, ו-$B(X)$ שלם לכל קבוצה $X$.
+      - text: '$(C[0,1],\|\cdot\|_1)$'
+        feedback: >-
+          מרחב נורמי, אבל לא שלם: השיפועים סביב $\frac12$ הם סדרת קושי בלי גבול רציף. הנורמה קובעת.
+        misconception: MC-c2-norm-irrelevant
+      - text: 'הפולינומים על $[0,1]$ עם $\|\cdot\|_\infty$'
+        feedback: >-
+          מרחב נורמי שאינו שלם: הסכומים החלקיים של טור טיילור של $e^x$ הם סדרת קושי, וגבולם אינו פולינום.
+        misconception: MC-c2-subset-of-complete
+      - text: '$\mathbb{Z}$ עם $d(x,y)=|x-y|$'
+        feedback: >-
+          זה מרחב מטרי שלם, אבל לא מרחב נורמי: $\mathbb{Z}$ אינו מרחב וקטורי (אין בו $\frac12\cdot1$). מרחב בנך הוא
+          קודם כול מרחב נורמי.
+        misconception: MC-c2-banach-is-complete-metric
+
+  - id: Q-2.4-mtest-meaning
+    type: mc
+    objectives: [OBJ-2.4-2]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $f_k\in C[a,b]$. מה אומר מבחן ה-M של ויירשטראס, בשפה של מרחבי בנך?
+    choices:
+      - text: 'אם $\|f_k\|_\infty\le M_k$ ו-$\sum M_k<\infty$, הטור מתכנס בהחלט במרחב הבנך $(C[a,b],\|\cdot\|_\infty)$, ולכן מתכנס בו: במידה שווה, לפונקציה רציפה'
+        correct: true
+        feedback: >-
+          נכון. התנאי של המבחן הוא בדיוק $\sum\|f_k\|_\infty<\infty$, התכנסות בהחלט. המשפט "בהחלט גורר התכנסות"
+          במרחב בנך נותן את השאר, כולל רציפות הסכום (הגבול הוא איבר של $C[a,b]$).
+      - text: 'אם לכל $x$ הטור $\sum|f_k(x)|$ מתכנס, הטור מתכנס במידה שווה'
+        feedback: >-
+          זו התכנסות בהחלט **נקודתית**. $\sum x^k$ על $[0,1)$ מתכנס בהחלט בכל נקודה, אבל $\|x^k\|_\infty=1$ שם,
+          וההתכנסות אינה במידה שווה.
+        misconception: MC-c2-mtest-pointwise-bound
+      - text: 'אם $\|f_k\|_\infty\to0$, הטור מתכנס במידה שווה'
+        feedback: >-
+          איברים ששואפים לאפס אינם מספיקים, כמו בטורים של מספרים: על $[0,1]$, $\left\|\frac{x^k}{k}\right\|_\infty=\frac1k\to0$,
+          אבל ב-$x=1$ הטור הוא הטור ההרמוני.
+        misconception: MC-c2-consecutive-terms
+      - text: 'טור מתכנס במידה שווה אם ורק אם $\sum\|f_k\|_\infty<\infty$'
+        feedback: >-
+          מבחן ה-M הוא בכיוון אחד בלבד. $\sum\frac{(-1)^kx^k}{k}$ מתכנס במידה שווה על $[0,1]$ ו-$\sum\frac1k=\infty$.
+        misconception: MC-c2-mtest-necessary
+
+  - id: Q-2.4-neumann-bound
+    type: numeric
+    objectives: [OBJ-2.4-3]
+    level: basic
+    prompt: >-
+      $A$ העתקה לינארית חסומה על מרחב בנך, עם $\|A\|_{\mathrm{op}}=\frac14$. איזה חסם עליון נותן טור נוימן ל-$\|(I-A)^{-1}\|_{\mathrm{op}}$?
+      (אפשר לענות בשבר.)
+    answer: 1.3333333333
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון, $\frac43$. $(I-A)^{-1}=\sum_{k\ge0}A^k$, ולכן $\|(I-A)^{-1}\|\le\sum_{k\ge0}\left(\frac14\right)^k=\frac{1}{1-\frac14}=\frac43$.
+    wrongFeedback: >-
+      כתבו את ההופכית כטור $\sum A^k$, חסמו כל איבר על ידי $\|A\|^k$, וסכמו טור הנדסי.
+    commonWrong:
+      - value: 0.8
+        feedback: >-
+          $\frac45=\frac1{1+\|A\|}$: זה הטור $\sum(-1)^k\|A\|^k$. אבל חוסמים כל איבר בערכו המוחלט, ולכן כל המחוברים
+          חיוביים.
+        misconception: MC-c2-neumann-bound-formula
+      - value: 0.75
+        feedback: >-
+          $\frac34=1-\|A\|$ הוא חסם ל-$\|I-A\|$ מלמטה, לא להופכית. ההופכית גדולה יותר: היא "מבטלת" את הכיווץ.
+        misconception: MC-c2-neumann-bound-formula
+
+  - id: Q-2.4-entries
+    type: twotier
+    objectives: [OBJ-2.4-3]
+    qualitative: true
+    level: basic
+    prompt: >-
+      כל האיברים של $H=\begin{pmatrix}\frac12&\frac12\\\frac12&\frac12\end{pmatrix}$ שווים ל-$\frac12$. האם $I-H$
+      הפיכה?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. $(I-H)\binom11=\binom{1-\frac12-\frac12}{-\frac12+1-\frac12}=\binom00$, כלומר יש וקטור שונה מאפס בגרעין.
+      - text: 'כן, לפי טור נוימן, כי כל האיברים קטנים מ-1'
+        feedback: >-
+          טור נוימן דורש **נורמת אופרטור** קטנה מ-1, לא איברים קטנים. כאן $\|H\|_\infty=\|H\|_1=1$.
+        misconception: MC-c2-neumann-entrywise
+    reasons:
+      - text: '$H\binom11=\binom11$: יש ל-$H$ ערך עצמי 1, ולכן $\|H\|_{\mathrm{op}}\ge1$ בכל נורמה, ו-$I-H$ שולחת את $\binom11$ לאפס'
+        correct: true
+        feedback: >-
+          בדיוק. ערך עצמי 1 של $H$ הוא ערך עצמי 0 של $I-H$. ומכיוון ש-$\|Hv\|=\|v\|$ לווקטור הזה, אף נורמת אופרטור
+          לא תהיה קטנה מ-1.
+      - text: 'נורמת האופרטור של $H$ היא האיבר הגדול ביותר, $\frac12$'
+        feedback: >-
+          נורמת האופרטור במקסימום היא סכום השורה הגדול ביותר: $\frac12+\frac12=1$. האיבר הגדול ביותר רק חוסם אותה
+          מלמטה.
+        misconception: MC-c2-neumann-entrywise
+
+  - id: Q-2.4-abs-proof
+    type: rank
+    objectives: [OBJ-2.4-1]
+    level: mid
+    prompt: >-
+      $X$ מרחב בנך, $x_k\in X$ ו-$\sum_k\|x_k\|<\infty$. סדרו את שלבי ההוכחה שהטור $\sum x_k$ מתכנס ב-$X$, כאשר
+      $S_n=\sum_{k=1}^{n}x_k$.
+    help: גררו את השלבים לסדר הנכון, מהשלב הראשון של ההוכחה לאחרון.
+    items:
+      - id: real
+        label: 'יהי $\varepsilon>0$. הטור הממשי $\sum\|x_k\|$ מתכנס, ולכן קיים $N$ כך ש-$\sum_{k=n+1}^{m}\|x_k\|<\varepsilon$ לכל $m>n>N$.'
+      - id: triangle
+        label: 'לכל $m>n>N$: $\|S_m-S_n\|=\left\|\sum_{k=n+1}^{m}x_k\right\|\le\sum_{k=n+1}^{m}\|x_k\|<\varepsilon$.'
+      - id: cauchy
+        label: 'לכן $(S_n)$ סדרת קושי ב-$X$.'
+      - id: complete
+        label: '$X$ שלם, ולכן $(S_n)$ מתכנסת: הטור $\sum x_k$ מתכנס ב-$X$.'
+    order: [real, triangle, cauchy, complete]
+    correctFeedback: >-
+      נכון. הרעיון: תנאי קושי של הטור **הממשי** עובר, דרך אי-שוויון המשולש, לסכומים החלקיים במרחב; ואת מה שתנאי
+      קושי לא יכול לתת, גבול, נותנת השלמות.
+    wrongFeedback: >-
+      מתחילים בתנאי קושי של הטור הממשי $\sum\|x_k\|$ (קריטריון קושי לטורים, שיעור 0.2), מעבירים אותו לסכומים
+      החלקיים, ורק בסוף משתמשים בשלמות.
+
+  - id: Q-2.4-abs-incomplete
+    type: twotier
+    objectives: [OBJ-2.4-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $P$ מרחב הפולינומים על $[0,1]$ עם נורמת הסופרמום. הטור $\sum_{k\ge0}\frac{x^k}{k!}$ מקיים
+      $\sum_k\left\|\frac{x^k}{k!}\right\|_\infty=\sum_k\frac1{k!}<\infty$. האם הוא מתכנס **במרחב $P$**?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. זו דוגמה לכך שהמשפט "בהחלט גורר התכנסות" באמת צריך שלמות.
+      - text: 'כן, כי כל טור מתכנס בהחלט מתכנס'
+        feedback: >-
+          זה נכון במרחב בנך. $P$ אינו שלם, ושם טור מתכנס בהחלט יכול "לברוח" מהמרחב.
+        misconception: MC-c2-abs-converges-anywhere
+    reasons:
+      - text: 'הסכומים החלקיים מתכנסים ב-$C[0,1]$ ל-$e^x$, שאינו פולינום; מיחידות הגבול אין להם גבול ב-$P$'
+        correct: true
+        feedback: >-
+          בדיוק. אילו $p_n\to p$ ב-$P$, אז $p_n\to p$ גם ב-$C[0,1]$, ולכן $p=e^x$, שאינו פולינום.
+      - text: 'מאי-שוויון המשולש הסכומים החלקיים הם סדרת קושי, ולכן הטור מתכנס בכל מרחב נורמי'
+        feedback: >-
+          החלק הראשון נכון: הם סדרת קושי. החלק השני הוא בדיוק ההגדרה של שלמות, ו-$P$ אינו שלם.
+        misconception: MC-c2-abs-converges-anywhere
+      - text: 'הסכומים החלקיים אינם סדרת קושי ב-$P$'
+        feedback: >-
+          הם כן: ההוכחה של "בהחלט גורר קושי" משתמשת רק באי-שוויון המשולש. מה שחסר הוא גבול, לא תנאי קושי.
+        misconception: MC-c2-cauchy-always-converges
+
+  - id: Q-2.4-mtest-apply
+    type: multi
+    objectives: [OBJ-2.4-2]
+    level: mid
+    prompt: >-
+      לאילו מהטורים הבאים מבחן ה-M (עם $M_k=\|f_k\|_\infty$ על הקטע הנתון) **מוכיח** התכנסות במידה שווה? סמנו את
+      כולם.
+    choices:
+      - text: '$\sum_{k\ge1}\frac{\sin kx}{k^2}$ על $[-\pi,\pi]$'
+        correct: true
+        feedback: >-
+          כן. $\left\|\frac{\sin kx}{k^2}\right\|_\infty=\frac1{k^2}$, ו-$\sum\frac1{k^2}<\infty$.
+      - text: '$\sum_{k\ge1}\frac{x^k}{k}$ על $[0,1]$'
+        feedback: >-
+          לא. $\left\|\frac{x^k}{k}\right\|_\infty=\frac1k$, ו-$\sum\frac1k=\infty$; ובאמת ב-$x=1$ הטור מתבדר. איברים
+          ששואפים לאפס אינם מספיקים.
+        misconception: MC-c2-consecutive-terms
+      - text: '$\sum_{k\ge0}x^k$ על $[0,\frac12]$'
+        correct: true
+        feedback: >-
+          כן. על $[0,\frac12]$: $\|x^k\|_\infty=2^{-k}$, טור הנדסי מתכנס.
+      - text: '$\sum_{k\ge0}x^k$ על $[0,1)$'
+        feedback: >-
+          לא. לכל $x$ הטור מתכנס, אבל $\sup_{[0,1)}x^k=1$ לכל $k$, ולכן אין $M_k$ סכימים. החסמים $x^k$ תלויים
+          ב-$x$, וזה לא מבחן ה-M.
+        misconception: MC-c2-mtest-pointwise-bound
+      - text: '$\sum_{k\ge1}e^{-kx}$ על $[1,2]$'
+        correct: true
+        feedback: >-
+          כן. על $[1,2]$ הפונקציה $e^{-kx}$ יורדת, ולכן $\|e^{-kx}\|_\infty=e^{-k}$, טור הנדסי עם מנה $e^{-1}<1$.
+
+  - id: Q-2.4-mtest-not-necessary
+    type: twotier
+    objectives: [OBJ-2.4-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $f_k\in C[a,b]$, והטור $\sum f_k$ מתכנס במידה שווה על $[a,b]$. האם בהכרח $\sum_k\|f_k\|_\infty<\infty$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. מבחן ה-M הוא תנאי מספיק, לא הכרחי: גם במרחב בנך יש טורים מתכנסים שאינם מתכנסים בהחלט.
+      - text: כן
+        feedback: >-
+          זה הכיוון ההפוך של מבחן ה-M, והוא לא נכון, כמו שב-$\mathbb{R}$ הטור $\sum\frac{(-1)^k}{k}$ מתכנס בלי להתכנס
+          בהחלט.
+        misconception: MC-c2-mtest-necessary
+    reasons:
+      - text: '$\sum_{k\ge1}\frac{(-1)^kx^k}{k}$ על $[0,1]$: לפי לייבניץ הזנב אחרי $N$ חסום על ידי $\frac{x^{N+1}}{N+1}\le\frac1{N+1}$, באופן אחיד ב-$x$; ו-$\left\|\frac{x^k}{k}\right\|_\infty=\frac1k$'
+        correct: true
+        feedback: >-
+          בדיוק. לכל $x\in[0,1]$ האיברים $\frac{x^k}{k}$ יורדים לאפס, ולכן חסם לייבניץ חל, והוא אחיד. אבל
+          $\sum\frac1k=\infty$.
+      - text: 'התכנסות במידה שווה היא התכנסות במרחב הבנך $C[a,b]$, ובמרחב בנך טור מתכנס הוא מתכנס בהחלט'
+        feedback: >-
+          המשפט הוא "בהחלט גורר התכנסות", לא להפך. גם ב-$\mathbb{R}$, שהוא מרחב בנך, יש טורים שמתכנסים בתנאי.
+        misconception: MC-c2-mtest-necessary
+
+  - id: Q-2.4-neumann-matrix
+    type: numeric
+    objectives: [OBJ-2.4-3]
+    level: mid
+    prompt: >-
+      $A=\begin{pmatrix}0&\frac12\\\frac14&0\end{pmatrix}$, ולכן $\|A\|_\infty=\frac12$ וטור נוימן מבטיח
+      $\|(I-A)^{-1}\|_\infty\le2$. חשבו את $(I-A)^{-1}$ ואת $\|(I-A)^{-1}\|_\infty$ המדויקת (סכום שורה מקסימלי).
+      (אפשר לענות בשבר.)
+    answer: 1.7142857143
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון, $\frac{12}{7}$. $\det(I-A)=1-\frac18=\frac78$, ולכן
+      $(I-A)^{-1}=\frac87\begin{pmatrix}1&\frac12\\\frac14&1\end{pmatrix}=\begin{pmatrix}\frac87&\frac47\\\frac27&\frac87\end{pmatrix}$.
+      סכומי השורות: $\frac{12}{7}$ ו-$\frac{10}{7}$. החסם $2$ מתקיים, ואינו הדוק.
+    wrongFeedback: >-
+      חשבו את $I-A=\begin{pmatrix}1&-\frac12\\-\frac14&1\end{pmatrix}$, את הדטרמיננטה ואת ההופכית, ואז את סכום הערכים
+      המוחלטים בכל שורה.
+    commonWrong:
+      - value: 2
+        feedback: >-
+          2 הוא החסם $\frac{1}{1-\|A\|}$, לא הערך. החסם מבטיח שהנורמה לכל היותר 2; כאן היא $\frac{12}{7}$.
+        misconception: MC-c2-estimate-is-exact
+      - value: 1.1428571429
+        feedback: >-
+          $\frac87$ הוא האיבר הגדול ביותר של ההופכית. נורמת האופרטור $\|\cdot\|_\infty$ היא סכום שורה, לא איבר.
+        misconception: MC-c2-neumann-entrywise
+
+  - id: Q-2.4-norm-choice
+    type: mc
+    objectives: [OBJ-2.4-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $B=\begin{pmatrix}0.5&0.6\\0&0.3\end{pmatrix}$, ו-$\|B\|_\infty=1.1$. מה אפשר להסיק בעזרת טור נוימן על $I-B$?
+    choices:
+      - text: '$\|B\|_1=0.9<1$ (סכום עמודה מקסימלי), ולכן $I-B$ הפיכה ו-$\|(I-B)^{-1}\|_1\le10$'
+        correct: true
+        feedback: >-
+          נכון. התנאי הוא $\|B\|<1$ בנורמת אופרטור **כלשהי**, ומותר לבחור את הנורמה הנוחה. (בפועל
+          $(I-B)^{-1}=\begin{pmatrix}2&\frac{12}{7}\\0&\frac{10}{7}\end{pmatrix}$ ו-$\|(I-B)^{-1}\|_1=\frac{22}{7}$.)
+      - text: '$\|B\|_\infty>1$, ולכן $I-B$ אינה הפיכה'
+        feedback: >-
+          $\|A\|<1$ הוא תנאי מספיק, לא הכרחי. גם ל-$A=2I$ יש $\|A\|=2$, ו-$I-A=-I$ הפיכה.
+        misconception: MC-c2-neumann-necessary
+      - text: '$\|B\|_\infty>1$, ולכן טור נוימן לא אומר כאן דבר'
+        feedback: >-
+          בנורמה $\|\cdot\|_\infty$ הוא לא אומר דבר, אבל בנורמה $\|\cdot\|_1$ הוא כן: $\|B\|_1=\max(0.5,\ 0.9)=0.9$.
+        misconception: MC-c2-neumann-necessary
+      - text: 'כל האיברים של $B$ קטנים מ-1, ולכן $\|B\|<1$ בכל נורמה'
+        feedback: >-
+          $\|B\|_\infty=1.1$ כבר מפריך את זה. נורמת אופרטור היא סכום של איברים (בשורה או בעמודה), לא איבר בודד.
+        misconception: MC-c2-neumann-entrywise
+
+  - id: Q-2.4-mtest-continuity
+    type: twotier
+    objectives: [OBJ-2.4-2, OBJ-2.4-1]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $f(x)=\sum_{k\ge1}\frac{x^k}{k^2}$. האם $f$ רציפה על **כל** $[0,1]$, כולל בנקודה $x=1$?
+    choices:
+      - text: כן
+        correct: true
+        feedback: >-
+          נכון. ב-$x=1$ הטור הוא $\sum\frac1{k^2}$, והסכום רציף שם כמו בכל נקודה אחרת של הקטע.
+      - text: 'רק על $[0,1)$: ליד $x=1$ צריך חסם שתלוי ב-$x$'
+        feedback: >-
+          החסם $\left|\frac{x^k}{k^2}\right|\le\frac1{k^2}$ אחיד על כל $[0,1]$, כולל $x=1$. זה בדיוק מה שמבחן ה-M
+          צריך.
+        misconception: MC-c2-mtest-pointwise-bound
+    reasons:
+      - text: '$\left\|\frac{x^k}{k^2}\right\|_\infty=\frac1{k^2}$ סכימים, הטור מתכנס בהחלט במרחב הבנך $(C[0,1],\|\cdot\|_\infty)$, וסכומו הוא איבר של $C[0,1]$'
+        correct: true
+        feedback: >-
+          בדיוק. הרציפות של הסכום אינה צעד נוסף: היא נובעת מכך שהגבול נמצא **במרחב** $C[0,1]$, כלומר מהשלמות שלו.
+      - text: 'כל סכום חלקי רציף, והטור מתכנס בכל נקודה, ולכן הסכום רציף'
+        feedback: >-
+          התכנסות נקודתית לא שומרת רציפות: הסכומים החלקיים של $\sum_{k\ge0}(x^{k+1}-x^k)$ הם $x^{n+1}-1$, רציפים,
+          והסכום הוא $-1$ על $[0,1)$ ו-$0$ ב-$x=1$. צריך התכנסות במידה שווה.
+        misconception: MC-c2-pointwise-limit-enough
+
+  - id: Q-2.4-neumann-proof
+    type: rank
+    objectives: [OBJ-2.4-3, OBJ-2.4-1]
+    level: exam
+    prompt: >-
+      $A$ מטריצה $n\times n$ עם $\|A\|_{\mathrm{op}}<1$. סדרו את שלבי ההוכחה ש-$I-A$ הפיכה
+      ו-$\|(I-A)^{-1}\|_{\mathrm{op}}\le\frac{1}{1-\|A\|_{\mathrm{op}}}$.
+    help: 'גררו את השלבים לסדר הנכון: קודם התכנסות הטור, אחר כך הטלסקופ והמעבר לגבול.'
+    items:
+      - id: bound
+        label: '$\|A^k\|\le\|A\|^k$ (נורמת אופרטור תת-כפלית), ולכן $\sum_k\|A^k\|\le\sum_k\|A\|^k=\frac{1}{1-\|A\|}<\infty$.'
+      - id: converge
+        label: 'מרחב המטריצות עם נורמת האופרטור שלם (כל איבר חסום על ידי הנורמה), ולכן $S=\sum_{k\ge0}A^k$ מתכנס, ו-$\|S\|\le\frac{1}{1-\|A\|}$.'
+      - id: telescope
+        label: 'טלסקופ: $(I-A)\sum_{k=0}^{N}A^k=\left(\sum_{k=0}^{N}A^k\right)(I-A)=I-A^{N+1}$.'
+      - id: limit
+        label: '$\|A^{N+1}\|\le\|A\|^{N+1}\to0$, וכפל במטריצה קבועה רציף; במעבר לגבול $(I-A)S=S(I-A)=I$.'
+      - id: done
+        label: 'לכן $I-A$ הפיכה, $(I-A)^{-1}=S$, והחסם על $\|S\|$ הוא החסם על ההופכית.'
+    order: [bound, converge, telescope, limit, done]
+    correctFeedback: >-
+      נכון. הרעיון: כמו $\frac{1}{1-t}=\sum t^k$ ל-$|t|<1$. הטור מתכנס בהחלט, השלמות נותנת לו סכום, והטלסקופ מראה
+      שהסכום הוא ההופכית. אותה הוכחה עובדת לכל העתקה חסומה על מרחב בנך.
+    wrongFeedback: >-
+      קודם צריך לדעת ש-$S$ קיים (התכנסות בהחלט ושלמות), ורק אז אפשר לעבור לגבול בזהות הטלסקופית.
+
+  - id: Q-2.4-neumann-terms
+    type: numeric
+    objectives: [OBJ-2.4-3]
+    level: exam
+    prompt: >-
+      $\|A\|_{\mathrm{op}}=\frac12$. מהו ה-$N$ **הקטן ביותר** שעבורו החסם
+      $\left\|(I-A)^{-1}-\sum_{k=0}^{N}A^k\right\|\le\sum_{k>N}\|A\|^k$ מבטיח שגיאה קטנה מ-$10^{-3}$?
+    answer: 10
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $\sum_{k>N}2^{-k}=\frac{2^{-(N+1)}}{1-\frac12}=2^{-N}$. $2^{-9}\approx1.95\cdot10^{-3}$ ו-$2^{-10}\approx0.98\cdot10^{-3}$,
+      ולכן $N=10$: מספיקים 11 המחוברים $A^0,\dots,A^{10}$.
+    wrongFeedback: >-
+      סכמו את הזנב ההנדסי $\sum_{k=N+1}^{\infty}\|A\|^k=\frac{\|A\|^{N+1}}{1-\|A\|}$, והשוו ל-$10^{-3}$.
+    commonWrong:
+      - value: 9
+        feedback: >-
+          9 מתקבל מ-$\|A\|^{N+1}=2^{-(N+1)}$, כלומר מהמחובר הראשון בזנב בלבד. הזנב הוא כל המחוברים מ-$N+1$ והלאה,
+          ולכן צריך עוד גורם $\frac{1}{1-\|A\|}=2$.
+        misconception: MC-c2-bound-formula
+      - value: 11
+        feedback: >-
+          11 מתקבל מ-$\frac{\|A\|^{N}}{1-\|A\|}$, זנב שמתחיל ב-$k=N$. אבל $A^N$ כבר בתוך הסכום החלקי; הזנב מתחיל
+          ב-$k=N+1$.
+        misconception: MC-c2-bound-formula

@@ -1,0 +1,424 @@
+# Lesson 0.2 — review: supremum, sequences and limits on the real line.
+# Objectives (src/course.ts):
+#   OBJ-0.2-1  use the epsilon characterisation of sup and inf and the completeness axiom
+#   OBJ-0.2-2  state and apply Bolzano–Weierstrass and the Cauchy criterion in ℝ
+#   OBJ-0.2-3  compute lim sup and lim inf and use them to decide convergence
+chapter: 0
+questions:
+  - id: Q-0.2-sup-char
+    type: mc
+    objectives: [OBJ-0.2-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $A\subseteq\mathbb{R}$ קבוצה לא ריקה וחסומה מלעיל, ו-$s$ חסם מלעיל של $A$. איזה תנאי שקול ל-$s=\sup A$?
+    choices:
+      - text: 'לכל $\varepsilon>0$ קיים $a\in A$ עם $a>s-\varepsilon$'
+        correct: true
+        feedback: >-
+          נכון. זה אפיון האפסילון: אף מספר קטן מ-$s$ אינו חסם מלעיל, כי לכל $s-\varepsilon$ יש איבר של $A$
+          מעליו. יחד עם "$s$ חסם מלעיל" זה אומר ש-$s$ הוא החסם מלעיל הקטן ביותר.
+      - text: '$s\in A$'
+        feedback: >-
+          זה תנאי מספיק (אז $s$ הוא המקסימום), אבל לא הכרחי: $\sup\{1-\frac1n:n\in\mathbb{N}\}=1$, ו-1 אינו
+          איבר של הקבוצה.
+        misconception: MC-c0-sup-is-max
+      - text: 'לכל $\varepsilon>0$ ולכל $a\in A$ מתקיים $a>s-\varepsilon$'
+        feedback: >-
+          זה דורש שכל האיברים יהיו קרובים ל-$s$ כרצוננו, כלומר $A=\{s\}$. ב-$A=[0,1]$ הסופרמום 1, ו-0 רחוק ממנו.
+          האפיון דורש איבר **אחד** ליד $s$ לכל $\varepsilon$.
+        misconception: MC-c0-sup-char-all-elements
+      - text: 'לכל $\varepsilon>0$ קיים $a\in A$ עם $a<s+\varepsilon$'
+        feedback: >-
+          זה מתקיים לכל חסם מלעיל $s$ של קבוצה לא ריקה (כל איבר קטן מ-$s+\varepsilon$), גם ל-$s=100$ כש-$A=[0,1]$.
+          התנאי חייב לשלול חסמים גדולים מדי, ולכן הוא מדבר על $s-\varepsilon$.
+        misconception: MC-c0-sup-char-all-elements
+
+  - id: Q-0.2-sup-value
+    type: numeric
+    objectives: [OBJ-0.2-1]
+    level: basic
+    prompt: >-
+      $A=\left\{(-1)^n+\frac1n:\ n\in\mathbb{N}\right\}$. מהו $\sup A$? אפשר לענות בשבר.
+    answer: 1.5
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. האיברים הזוגיים הם $1+\frac1n\le1+\frac12$, והאי-זוגיים $a_n=-1+\frac1n\le0$. לכן $\frac32$ חסם מלעיל,
+      והוא מתקבל ב-$n=2$: זה המקסימום, ולכן גם הסופרמום.
+    wrongFeedback: >-
+      הפרידו בין $n$ זוגי ל-$n$ אי-זוגי, ומצאו את הגדול ביותר בכל אחת מהקבוצות.
+    commonWrong:
+      - value: 1
+        feedback: >-
+          1 הוא הגבול של האיברים הזוגיים, כלומר הגבול העליון של הסדרה. אבל הסופרמום תלוי בכל האיברים, ו-$a_2=\frac32>1$.
+        misconception: MC-c0-sup-is-limit
+      - value: 1.25
+        feedback: >-
+          $\frac54=a_4$. אולי חושבו כמה איברים והאחרון שנראה גדול נבחר; אבל $a_2=\frac32$ גדול ממנו. סופרמום מוצאים
+          בטיעון לכל $n$, לא בחישוב של כמה איברים.
+        misconception: MC-c0-probe-proves
+
+  - id: Q-0.2-inf-attained
+    type: twotier
+    objectives: [OBJ-0.2-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      עבור אותה קבוצה $A=\left\{(-1)^n+\frac1n:\ n\in\mathbb{N}\right\}$: האם $\inf A$ הוא איבר של $A$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. $\inf A=-1$, ואף איבר אינו שווה ל-$(-1)$: האי-זוגיים $a_n=-1+\frac1n$ גדולים ממנו ממש.
+      - text: כן
+        feedback: >-
+          ייתכן שחשבתם שלכל קבוצה חסומה יש איבר קטן ביותר. כאן האיברים האי-זוגיים יורדים לעבר $(-1)$ בלי להגיע
+          אליו, ולכן אין מינימום.
+        misconception: MC-c0-sup-is-max
+    reasons:
+      - text: 'כל איבר גדול מ-$(-1)$, ולכל $\varepsilon>0$ יש $n$ אי-זוגי עם $a_n=-1+\frac1n<-1+\varepsilon$; לכן $\inf A=-1\notin A$'
+        correct: true
+        feedback: >-
+          בדיוק: זה אפיון האפסילון של האינפימום. $(-1)$ חסם מלרע, ושום מספר גדול ממנו אינו חסם מלרע.
+      - text: 'לקבוצה אינסופית אין איבר קטן ביותר'
+        feedback: >-
+          זה לא נכון באופן כללי: ל-$\mathbb{N}$ יש מינימום 1, ולקבוצה $\{1-\frac1n\}$ יש מינימום 0. בכל קבוצה בודקים
+          אם החסם ההדוק שייך אליה.
+        misconception: MC-c0-infinite-no-min
+      - text: 'האינפימום הוא $a_1=0$, כי זה האיבר הראשון'
+        feedback: >-
+          $a_3=-1+\frac13=-\frac23<0$, ולכן 0 אינו אפילו חסם מלרע. האיבר הראשון אינו בהכרח הקטן ביותר.
+        misconception: MC-c0-probe-proves
+
+  - id: Q-0.2-bw-converse
+    type: twotier
+    objectives: [OBJ-0.2-2]
+    qualitative: true
+    level: basic
+    prompt: >-
+      משפט בולצאנו-ויירשטראס: לכל סדרה חסומה בממשיים יש תת-סדרה מתכנסת. האם כל סדרה שיש לה תת-סדרה מתכנסת
+      חסומה?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. המשפט הוא גרירה בכיוון אחד, וההפוכה שקרית.'
+      - text: כן
+        feedback: >-
+          זה הכיוון ההפוך של המשפט, והוא לא נובע ממנו. הסדרה $0,2,0,4,0,6,\dots$ אינה חסומה, ותת-הסדרה של האפסים
+          מתכנסת.
+        misconception: MC-c0-bw-converse
+    reasons:
+      - text: 'הסדרה ששווה ל-$n$ ב-$n$ זוגי ול-0 ב-$n$ אי-זוגי אינה חסומה, ותת-הסדרה האי-זוגית מתכנסת ל-0'
+        correct: true
+        feedback: >-
+          בדיוק. תת-סדרה מתכנסת אחת לא אומרת דבר על שאר האיברים.
+      - text: 'אם תת-סדרה מתכנסת, היא חסומה, ולכן כל הסדרה חסומה'
+        feedback: >-
+          תת-הסדרה חסומה, אבל האיברים שמחוצה לה יכולים להיות כל דבר. ב-$0,2,0,4,\dots$ האפסים חסומים, והשאר לא.
+        misconception: MC-c0-bw-converse
+      - text: 'משפט בולצאנו-ויירשטראס הוא "אם ורק אם"'
+        feedback: >-
+          המשפט נותן רק כיוון אחד: חסומה גורר תת-סדרה מתכנסת. הדוגמה $0,2,0,4,\dots$ מראה שההפוך שקרי.
+        misconception: MC-c0-bw-converse
+
+  - id: Q-0.2-cauchy-neg
+    type: mc
+    objectives: [OBJ-0.2-2]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $a_n$ סדרת קושי אם $\forall\varepsilon>0\ \exists N\ \forall m,n>N:\ |a_m-a_n|<\varepsilon$. מה פירוש "$a_n$
+      **אינה** סדרת קושי"?
+    choices:
+      - text: '$\exists\varepsilon>0\ \forall N\ \exists m,n>N:\ |a_m-a_n|\ge\varepsilon$'
+        correct: true
+        feedback: >-
+          נכון. יש רוחב $\varepsilon$ אחד כך שבכל זנב של הסדרה יש שני איברים שרחוקים זה מזה לפחות $\varepsilon$.
+          כך מוכיחים ש-$(-1)^n$ אינה קושי: $\varepsilon=1$, ו-$n,n+1$ רחוקים ב-2.
+      - text: '$\exists\varepsilon>0\ \forall N\ \exists n>N:\ |a_{n+1}-a_n|\ge\varepsilon$'
+        feedback: >-
+          זו שלילה של תנאי על **שכנים** בלבד, תנאי חלש יותר מקושי. $\sqrt n$ אינה קושי, ובכל זאת
+          $\sqrt{n+1}-\sqrt n\to0$, כך שהיא לא מקיימת את הניסוח הזה.
+        misconception: MC-c0-cauchy-consecutive
+      - text: '$\forall\varepsilon>0\ \forall N\ \exists m,n>N:\ |a_m-a_n|\ge\varepsilon$'
+        feedback: >-
+          את הכמת הראשון לא הפכו. זה דורש איברים רחוקים לכל $\varepsilon$, גם $\varepsilon=10^6$. הסדרה $(-1)^n$
+          אינה קושי, אבל כל איבריה במרחק לכל היותר 2 זה מזה.
+        misconception: MC-c0-negation-partial
+      - text: '$\exists\varepsilon>0\ \exists N\ \forall m,n>N:\ |a_m-a_n|\ge\varepsilon$'
+        feedback: >-
+          זה אומר שכל שני איברים בזנב רחוקים, כולל $m=n$, שנותן $0\ge\varepsilon$: הטענה סותרת את עצמה. בשלילה
+          "לכל $m,n$" הופך ל"קיימים $m,n$".
+        misconception: MC-c0-negation-partial
+
+  - id: Q-0.2-limsup-value
+    type: numeric
+    objectives: [OBJ-0.2-3]
+    level: basic
+    prompt: >-
+      $a_n=(-1)^n\left(1+\frac1n\right)$. מהו $\limsup_{n\to\infty}a_n$?
+    answer: 1
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. האיברים הזוגיים $1+\frac1n\to1$, והאי-זוגיים $a_n=-1-\frac1n\to-1$. הגבולות החלקיים הם $\pm1$, והגבול
+      העליון הוא הגדול שבהם, 1.
+    wrongFeedback: >-
+      מצאו את הגבולות של תת-הסדרה הזוגית ושל האי-זוגית. הגבול העליון הוא הגבול החלקי הגדול ביותר.
+    commonWrong:
+      - value: 1.5
+        feedback: >-
+          $\frac32=a_2$ הוא הסופרמום של קבוצת האיברים, לא הגבול העליון. הגבול העליון תלוי רק בזנבות:
+          $\sup_{k\ge n}a_k$ יורד ל-1.
+        misconception: MC-c0-limsup-is-sup
+      - value: 1.1
+        feedback: >-
+          $1.1=a_{10}$. איבר מאוחר הוא רמז לגבול, לא הגבול עצמו: האיברים הזוגיים ממשיכים לרדת לעבר 1.
+        misconception: MC-c0-probe-proves
+
+  - id: Q-0.2-near-sup
+    type: twotier
+    objectives: [OBJ-0.2-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $A$ לא ריקה וחסומה מלעיל, $s=\sup A$. טענה: לכל $\varepsilon>0$ יש **אינסוף** איברים של $A$ בקטע
+      $(s-\varepsilon,\ s]$. האם הטענה נכונה?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. ב-$A=\{0,1\}$ הסופרמום 1, ובקטע $(\frac12,1]$ יש איבר אחד בלבד.
+      - text: כן
+        feedback: >-
+          האפיון מבטיח איבר **אחד** לכל $\varepsilon$. אם $s$ עצמו ב-$A$, ייתכן שהוא האיבר היחיד שם: $A=\{0,1\}$.
+        misconception: MC-c0-near-sup-infinitely-many
+    reasons:
+      - text: 'כש-$s\in A$ ייתכן ש-$s$ הוא האיבר היחיד ליד עצמו, כמו ב-$A=\{0,1\}$; הטענה נכונה רק כש-$s\notin A$'
+        correct: true
+        feedback: >-
+          בדיוק. כש-$s\notin A$, לכל $\varepsilon$ יש $a_1\in(s-\varepsilon,s)$, ואז עוד $a_2\in(a_1,s)$, וכן הלאה:
+          אינסוף איברים. כשהסופרמום מתקבל, זה לא מובטח.
+      - text: 'האפיון נותן איבר לכל $\varepsilon$, וכש-$\varepsilon\to0$ מקבלים אינסוף איברים שונים'
+        feedback: >-
+          ב-$A=\{0,1\}$ האיבר שהאפיון נותן לכל $\varepsilon$ הוא תמיד אותו איבר, 1. אינסוף ערכים של
+          $\varepsilon$ לא מבטיחים אינסוף איברים **שונים**.
+        misconception: MC-c0-near-sup-infinitely-many
+      - text: 'כל קבוצה חסומה מלעיל היא אינסופית'
+        feedback: >-
+          $\{0,1\}$ סופית וחסומה. חסימות לא אומרת דבר על מספר האיברים.
+        misconception: MC-c0-near-sup-infinitely-many
+
+  - id: Q-0.2-q-props
+    type: multi
+    objectives: [OBJ-0.2-1, OBJ-0.2-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      אילו מהתכונות הבאות נכונות גם בשדה הרציונליים $\mathbb{Q}$ (כשכל המספרים, החסמים והגבולות צריכים להיות
+      רציונליים)? סמנו את כולן.
+    choices:
+      - text: 'תכונת ארכימדס: לכל $q>0$ רציונלי יש $n\in\mathbb{N}$ עם $n>q$'
+        correct: true
+        feedback: 'נכון: אם $q=\frac{a}{b}$ עם $a,b\in\mathbb{N}$, אז $n=a+1$ מתאים.'
+      - text: 'בין כל שני רציונליים שונים יש רציונלי שלישי'
+        correct: true
+        feedback: 'נכון: הממוצע $\frac{p+q}{2}$ רציונלי.'
+      - text: 'לכל תת-קבוצה לא ריקה וחסומה מלעיל יש סופרמום רציונלי'
+        feedback: >-
+          זו בדיוק אקסיומת השלמות, והיא נכשלת: ל-$\{q\in\mathbb{Q}:q^2<2\}$ אין סופרמום ב-$\mathbb{Q}$, כי בממשיים
+          הסופרמום שלה $\sqrt2$.
+        misconception: MC-c0-rational-complete
+      - text: 'כל סדרת קושי של רציונליים מתכנסת לרציונלי'
+        feedback: >-
+          הקירובים העשרוניים $1,\ 1.4,\ 1.41,\ 1.414,\dots$ של $\sqrt2$ הם סדרת קושי של רציונליים, והגבול שלה
+          אי-רציונלי. קריטריון קושי בישר נשען על השלמות.
+        misconception: MC-c0-rational-complete
+      - text: 'כל סדרה מונוטונית וחסומה של רציונליים מתכנסת לרציונלי'
+        feedback: >-
+          אותה סדרה של קירובים עשרוניים עולה וחסומה על ידי 2, ואין לה גבול רציונלי. גם משפט זה שקול לשלמות.
+        misconception: MC-c0-rational-complete
+    explanation: >-
+      ארכימדס וצפיפות הן תכונות "אלגבריות-סדריות" ש-$\mathbb{Q}$ כבר מקיים. כל התכונות שמבטיחות שגבול **קיים**
+      (סופרמום, קושי, מונוטונית וחסומה, בולצאנו-ויירשטראס) שקולות לשלמות, ונכשלות ברציונליים. בפרק 2 נכליל את
+      ההבחנה הזו למרחבים מטריים: מרחב שלם ומרחב שאינו שלם.
+
+  - id: Q-0.2-consecutive
+    type: twotier
+    objectives: [OBJ-0.2-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      טענה: אם $a_{n+1}-a_n\to0$, אז $a_n$ מתכנסת. האם הטענה נכונה?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. $a_n=\sqrt n$ היא דוגמה נגדית.'
+      - text: כן
+        feedback: >-
+          ייתכן שחשבתם ש"איברים שכנים קרובים" הוא תנאי קושי. אבל $a_n=\sqrt n$ מקיימת
+          $\sqrt{n+1}-\sqrt n=\frac{1}{\sqrt{n+1}+\sqrt n}\to0$, ושואפת לאינסוף.
+        misconception: MC-c0-cauchy-consecutive
+    reasons:
+      - text: 'ב-$a_n=\sqrt n$ ההפרשים העוקבים שואפים ל-0, אבל $|a_{4n}-a_n|=\sqrt n$ גדל: הפרשים קטנים מצטברים'
+        correct: true
+        feedback: >-
+          בדיוק. תנאי קושי משווה **כל** שני איברים בזנב, גם רחוקים זה מזה, ולכן $\sqrt n$ אינה קושי.
+      - text: 'קריטריון קושי אומר שאם ההפרשים העוקבים שואפים ל-0, הסדרה מתכנסת'
+        feedback: >-
+          זה לא קריטריון קושי. קושי דורש $|a_m-a_n|<\varepsilon$ לכל $m,n>N$, לא רק ל-$m=n+1$. הטור ההרמוני,
+          $a_n=1+\frac12+\dots+\frac1n$, הוא דוגמה נגדית נוספת: $a_{n+1}-a_n=\frac{1}{n+1}\to0$, והסדרה מתבדרת.
+        misconception: MC-c0-cauchy-consecutive
+      - text: 'הסדרה חסומה, ולכן לפי בולצאנו-ויירשטראס מתכנסת'
+        feedback: >-
+          שני צעדים שגויים: $\sqrt n$ אינה חסומה, ובולצאנו-ויירשטראס נותן רק **תת-סדרה** מתכנסת, לא התכנסות של
+          כל הסדרה.
+        misconception: MC-c0-bw-converse
+
+  - id: Q-0.2-geometric
+    type: numeric
+    objectives: [OBJ-0.2-2]
+    level: mid
+    prompt: >-
+      ידוע ש-$|a_{k+1}-a_k|\le2^{-k}$ לכל $k$. מהו החסם הקטן ביותר שאפשר לקבל מאי-שוויון המשולש ומסכום
+      הטור הגאומטרי עבור $|a_m-a_{10}|$, שתקף **לכל** $m>10$? אפשר לענות בשבר.
+    answer: 0.001953125
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון: $|a_m-a_{10}|\le\sum_{k=10}^{m-1}2^{-k}<\sum_{k=10}^{\infty}2^{-k}=2^{-9}=\frac{1}{512}$. אותו חשבון
+      נותן $|a_m-a_n|<2^{1-n}$ לכל $m>n$, ולכן הסדרה קושי ומתכנסת.
+    wrongFeedback: >-
+      כתבו $a_m-a_{10}$ כסכום טלסקופי של הפרשים עוקבים, הפעילו את אי-שוויון המשולש, וחסמו בזנב של טור
+      גאומטרי.
+    commonWrong:
+      - value: 0.0009765625
+        feedback: >-
+          $2^{-10}$ חוסם רק הפרש אחד, $|a_{11}-a_{10}|$. עבור $m$ רחוק יותר מצטברים עוד הפרשים: הזנב
+          $2^{-10}+2^{-11}+\dots=2^{-9}$.
+        misconception: MC-c0-cauchy-consecutive
+      - value: 0.00048828125
+        feedback: >-
+          $2^{-11}$ מתחיל את הסכום מ-$k=11$. ההפרש הראשון הוא $a_{11}-a_{10}$, עם החסם $2^{-10}$, ולכן הזנב
+          מתחיל ב-$k=10$.
+        misconception: MC-c0-N-is-first-index
+    explanation: >-
+      זה הדפוס שיחזור במשפט נקודת השבת של בנך (פרק 2): הפרשים עוקבים שקטנים **גאומטרית** מצטברים לסכום
+      סופי, ולכן הסדרה קושי. הפרשים שרק שואפים ל-0 לא מספיקים.
+
+  - id: Q-0.2-liminf-sin
+    type: numeric
+    objectives: [OBJ-0.2-3]
+    level: mid
+    prompt: >-
+      מהו $\liminf_{n\to\infty}\sin\frac{n\pi}{3}$? ענו בדיוק של שלוש ספרות אחרי הנקודה.
+    answer: -0.8660254037844386
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון, $-\frac{\sqrt3}{2}\approx-0.866$. הסדרה מחזורית עם מחזור 6:
+      $\frac{\sqrt3}{2},\frac{\sqrt3}{2},0,-\frac{\sqrt3}{2},-\frac{\sqrt3}{2},0,\dots$; כל ערך מתקבל אינסוף פעמים,
+      ולכן הגבולות החלקיים הם בדיוק שלושת הערכים, והקטן שבהם הוא הגבול התחתון.
+    wrongFeedback: >-
+      חשבו את ששת האיברים הראשונים ושימו לב שהסדרה חוזרת על עצמה. מה הם הגבולות החלקיים?
+    commonWrong:
+      - value: -1
+        feedback: >-
+          מינוס 1 הוא המינימום של הסינוס על כל הישר, אבל הסדרה לא מקבלת אותו: $\frac{n\pi}{3}$ אינו שווה
+          ל-$\frac{3\pi}{2}$ (מודולו $2\pi$) לאף $n$. הגבול התחתון נקבע לפי הערכים שהסדרה מקבלת.
+        misconception: MC-c0-limsup-from-range
+      - value: 0
+        feedback: >-
+          0 הוא גבול חלקי (ב-$n=3,6,9,\dots$), אבל לא הקטן ביותר: ב-$n=4,5$ ובכל מחזור מתקבל הערך $\sin\frac{4\pi}{3}=-\frac{\sqrt3}{2}$.
+        misconception: MC-c0-limsup-from-range
+
+  - id: Q-0.2-limsup-bound
+    type: twotier
+    objectives: [OBJ-0.2-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $a_n$ חסומה ו-$\limsup a_n=1$. האם מכאן ש-$a_n<1+\varepsilon$ **לכל** $n$, לכל $\varepsilon>0$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. הסדרה $a_1=100$ ו-$a_n=1$ לכל $n\ge2$ מקיימת $\limsup a_n=1$, ו-$a_1=100$.
+      - text: כן
+        feedback: >-
+          זה נכון לסופרמום, לא לגבול העליון. מספר סופי של איברים לא משפיע על הגבול העליון: $a_1=100$ ו-$a_n=1$
+          לשאר.
+        misconception: MC-c0-limsup-is-sup
+    reasons:
+      - text: 'הגבול העליון תלוי רק בזנבות: $a_n<1+\varepsilon$ מתקיים רק מ-$N$ מסוים והלאה'
+        correct: true
+        feedback: >-
+          בדיוק. האפיון: לכל $\varepsilon>0$, רק מספר **סופי** של איברים גדול מ-$1+\varepsilon$, ואינסוף
+          איברים גדולים מ-$1-\varepsilon$.
+      - text: 'הגבול העליון הוא החסם מלעיל הקטן ביותר של איברי הסדרה'
+        feedback: >-
+          זו ההגדרה של הסופרמום. הגבול העליון הוא $\lim_{n\to\infty}\sup_{k\ge n}a_k$: הסופרמום של הזנבות, ולא של
+          כל הסדרה.
+        misconception: MC-c0-limsup-is-sup
+      - text: 'אם רק מספר סופי של איברים גדול מ-$1+\varepsilon$, אפשר להתעלם מהם ולכן אין כאלה'
+        feedback: >-
+          "אפשר להתעלם" אומר שהם לא משנים את הגבול העליון, לא שהם לא קיימים. $a_1=100$ קיים וגדול מ-$1+\varepsilon$.
+        misconception: MC-c0-limsup-is-sup
+
+  - id: Q-0.2-cauchy-proof
+    type: rank
+    objectives: [OBJ-0.2-2]
+    level: exam
+    help: 'סדרו את שלבי ההוכחה לפי הסדר הנכון.'
+    prompt: >-
+      ההוכחה שכל סדרת קושי בממשיים מתכנסת התפרקה לשלבים. סדרו אותם.
+    items:
+      - id: bounded
+        label: 'עם $\varepsilon=1$ יש $N_0$ כך ש-$|a_n-a_{N_0+1}|<1$ לכל $n>N_0$, ולכן הסדרה חסומה.'
+      - id: bw
+        label: 'לפי בולצאנו-ויירשטראס יש לה תת-סדרה מתכנסת $a_{n_k}\to L$.'
+      - id: eps
+        label: 'נראה ש-$a_n\to L$. יהי $\varepsilon>0$; מתנאי קושי יש $N$ כך ש-$|a_m-a_n|<\frac{\varepsilon}{2}$ לכל $m,n>N$.'
+      - id: pick
+        label: 'נבחר $k$ כך ש-$n_k>N$ וגם $|a_{n_k}-L|<\frac{\varepsilon}{2}$.'
+      - id: tri
+        label: 'לכל $n>N$: $|a_n-L|\le|a_n-a_{n_k}|+|a_{n_k}-L|<\frac{\varepsilon}{2}+\frac{\varepsilon}{2}=\varepsilon$.'
+    order: [bounded, bw, eps, pick, tri]
+    correctFeedback: >-
+      נכון. השלמות נכנסת דרך בולצאנו-ויירשטראס, שנותן מועמד לגבול. אחר כך תנאי קושי מושך את כל הסדרה אחרי
+      תת-הסדרה, ו-$\frac{\varepsilon}{2}$ נבחר כי בסוף יש שני מחוברים.
+    wrongFeedback: >-
+      שאלו מה כל שלב צריך: בולצאנו-ויירשטראס צריך חסימות; בחירת $k$ צריכה את $N$ ואת הגבול $L$; אי-שוויון
+      המשולש צריך את שני החסמים.
+
+  - id: Q-0.2-limsup-sum
+    type: twotier
+    objectives: [OBJ-0.2-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      טענה: לכל שתי סדרות חסומות, $\limsup(a_n+b_n)=\limsup a_n+\limsup b_n$. האם הטענה נכונה?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. $a_n=(-1)^n$ ו-$b_n=(-1)^{n+1}$: $a_n+b_n=0$ לכל $n$, ולכן הצד השמאלי 0, והימני $1+1=2$.
+      - text: כן
+        feedback: >-
+          לגבול רגיל זה נכון, לגבול העליון לא. $a_n=(-1)^n$ ו-$b_n=(-1)^{n+1}$ נותנות 0 משמאל ו-2 מימין.
+        misconception: MC-c0-limsup-additive
+    reasons:
+      - text: 'מתקיים רק $\le$: שתי הסדרות יכולות להגיע לשיא באינדקסים שונים, כמו $(-1)^n$ ו-$(-1)^{n+1}$'
+        correct: true
+        feedback: >-
+          בדיוק. $\sup_{k\ge n}(a_k+b_k)\le\sup_{k\ge n}a_k+\sup_{k\ge n}b_k$, ובגבול מקבלים $\le$. שוויון מובטח
+          כשאחת הסדרות מתכנסת.
+      - text: 'גבול של סכום הוא סכום הגבולות, ולכן כך גם לגבול העליון'
+        feedback: >-
+          כלל הסכום דורש ששתי הסדרות מתכנסות. הגבול העליון קיים תמיד (לסדרה חסומה), אבל הוא לא לינארי: הדוגמה
+          $(-1)^n$, $(-1)^{n+1}$ מראה שאי-השוויון יכול להיות חזק.
+        misconception: MC-c0-limsup-additive
+      - text: 'הטענה נכשלת רק כשהסדרות אינן חסומות'
+        feedback: >-
+          $(-1)^n$ ו-$(-1)^{n+1}$ חסומות, והטענה נכשלת עליהן. החסימות רק מבטיחה שכל הגבולות העליונים סופיים.
+        misconception: MC-c0-limsup-additive
+    explanation: >-
+      הכלי שנשאר נכון: $a_n$ מתכנסת אם ורק אם היא חסומה ו-$\liminf a_n=\limsup a_n$, ואז הגבול הוא הערך
+      המשותף. כך משתמשים בגבול העליון והתחתון כדי להכריע התכנסות.

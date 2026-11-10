@@ -1,0 +1,326 @@
+# Lesson 9.6 — change of variables.
+# Objectives (src/course.ts):
+#   OBJ-9.6-1  state the change-of-variables theorem with the absolute value of the Jacobian, and explain it as the
+#               volume-scaling factor
+#   OBJ-9.6-2  compute integrals in polar, cylindrical and spherical coordinates
+#   OBJ-9.6-3  use a change of variables to compute volumes such as the ball, the cone and the paraboloid
+# Theorem (stated without proof): A ⊆ ℝⁿ open, g: A → ℝⁿ one-to-one, C¹, det J_g(x) ≠ 0 on A; f integrable on g(A):
+# ∫_{g(A)} f = ∫_A (f∘g)·|det J_g|. Spherical: x = r sinφ cosθ, y = r sinφ sinθ, z = r cosφ, φ ∈ [0,π] from the
+# z axis, |det J| = r² sinφ.
+chapter: 9
+questions:
+  - id: Q-9.6-statement
+    type: mc
+    objectives: [OBJ-9.6-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $A\subseteq\mathbb{R}^n$ פתוחה, $g:A\to\mathbb{R}^n$ חד-חד-ערכית וגזירה ברציפות עם $\det J_g(x)\ne0$ לכל $x\in A$,
+      ו-$f$ אינטגרבילית על $g(A)$. מה אומר משפט החלפת המשתנים?
+    choices:
+      - text: '$\int_{g(A)}f=\int_A (f\circ g)\,|\det J_g|$'
+        correct: true
+        feedback: >-
+          נכון. $|\det J_g(x)|$ הוא הפקטור שבו $g$ מכפילה נפחים של תיבות קטנות ליד $x$: הדיפרנציאל $Dg(x)$ הוא העתקה
+          לינארית, והעתקה לינארית מכפילה נפחים ב-$|\det|$.
+      - text: '$\int_{g(A)}f=\int_A (f\circ g)\,\det J_g$'
+        feedback: >-
+          בלי ערך מוחלט, שיקוף כמו $g(x,y)=(y,x)$ (עם $\det J_g=-1$) היה הופך את השטח של ריבוע לשלילי. נפח אינו שלילי,
+          ולכן הנוסחה עם $|\det J_g|$.
+        misconception: MC-c9-jacobian-no-abs
+      - text: '$\int_{g(A)}f=\int_A f\circ g$'
+        feedback: >-
+          זה נכון רק כש-$g$ שומרת נפח. ל-$g(x)=2x$ על $(0,1)$: $\int_0^2 1\,dx=2$, אבל $\int_0^1 1\,dx=1$. חסר הפקטור
+          $|\det J_g|=2$.
+        misconception: MC-c9-forget-jacobian
+      - text: '$\int_{g(A)}f=\int_A \frac{f\circ g}{|\det J_g|}$'
+        feedback: >-
+          כאן השתמשו ביעקוביאן של $g^{-1}$. באותה דוגמה $g(x)=2x$ זה נותן $\frac12$ במקום 2: $g$ **מותחת** את $A$, ולכן
+          צריך להכפיל, לא לחלק.
+        misconception: MC-c9-inverse-jacobian
+
+  - id: Q-9.6-linear
+    type: numeric
+    objectives: [OBJ-9.6-1]
+    level: basic
+    prompt: >-
+      $T(x,y)=(x+3y,\ 2x+y)$. מהו השטח של המקבילית $T([0,1]^2)$?
+    answer: 5
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $\det\begin{pmatrix}1&3\\2&1\end{pmatrix}=1-6=-5$, והשטח הוא $|\det T|\cdot v([0,1]^2)=5$. הסימן השלילי
+      אומר רק ש-$T$ הופכת את הכיוון (סיבוב ושיקוף).
+    wrongFeedback: >-
+      העתקה לינארית $T$ מכפילה כל נפח ב-$|\det T|$. חשבו את הדטרמיננטה של המטריצה של $T$ וקחו ערך מוחלט.
+    commonWrong:
+      - value: -5
+        feedback: >-
+          זו הדטרמיננטה, לא השטח. שטח אינו שלילי: לוקחים $|\det T|$.
+        misconception: MC-c9-jacobian-no-abs
+      - value: 0.2
+        feedback: >-
+          $\frac15$ הוא הפקטור של $T^{-1}$. $T$ מעתיקה את ריבוע היחידה למקבילית, ולכן השטח מוכפל ב-$|\det T|$, לא מחולק בו.
+        misconception: MC-c9-inverse-jacobian
+
+  - id: Q-9.6-polar-factor
+    type: mc
+    objectives: [OBJ-9.6-2]
+    qualitative: true
+    level: basic
+    prompt: >-
+      במעבר לקואורדינטות קוטביות $x=r\cos\theta$, $y=r\sin\theta$ האלמנט $dx\,dy$ הופך ל-$r\,dr\,d\theta$. מאיפה בא
+      ה-$r$?
+    choices:
+      - text: 'מ-$|\det J|=\left|\det\begin{pmatrix}\cos\theta&-r\sin\theta\\\sin\theta&r\cos\theta\end{pmatrix}\right|=r$: המלבן $[r,r+\Delta r]\times[\theta,\theta+\Delta\theta]$ עובר לחתיכת טבעת ששטחה בערך $r\,\Delta r\,\Delta\theta$'
+        correct: true
+        feedback: >-
+          נכון. אורך הקשת $r\,\Delta\theta$ גדל עם המרחק מהראשית, ולכן אותו $\Delta\theta$ "שווה" יותר שטח רחוק מהראשית.
+      - text: 'אין צורך ב-$r$; הוא מופיע רק כדי שהחישוב ייצא נוח'
+        feedback: >-
+          בלי $r$ מקבלים שטח עיגול היחידה $\int_0^{2\pi}\int_0^1dr\,d\theta=2\pi$, במקום $\pi$.
+        misconception: MC-c9-forget-jacobian
+      - text: 'מההעתקה ההפוכה $r=\sqrt{x^2+y^2}$; היעקוביאן שלה הוא $\frac1r$, ולכן כופלים ב-$r$'
+        feedback: >-
+          התוצאה נכונה במקרה, אבל הנימוק הפוך: במשפט מופיע היעקוביאן של $g(r,\theta)=(r\cos\theta,r\sin\theta)$, ההעתקה
+          מהמשתנים **החדשים** לישנים, ואותו מחשבים ישירות.
+        misconception: MC-c9-inverse-jacobian
+      - text: 'בכל החלפה לקואורדינטות "עגולות" כופלים ב-$r^2$'
+        feedback: >-
+          $r^2\sin\varphi$ שייך לקואורדינטות כדוריות במרחב. במישור הגורם הוא $r$.
+        misconception: MC-c9-spherical-jacobian
+
+  - id: Q-9.6-gauss
+    type: numeric
+    objectives: [OBJ-9.6-2]
+    level: basic
+    prompt: >-
+      חשבו את $\iint_{x^2+y^2\le1}e^{-x^2-y^2}\,dA$ בקואורדינטות קוטביות. תנו את התשובה בדיוק של שלוש ספרות אחרי
+      הנקודה.
+    answer: 1.9858653
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון, $\pi(1-e^{-1})\approx1.986$:
+      $\int_0^{2\pi}\int_0^1 e^{-r^2}\,r\,dr\,d\theta=2\pi\left[-\tfrac12e^{-r^2}\right]_0^1=\pi(1-e^{-1})$. ה-$r$ של
+      היעקוביאן הוא שהופך את $e^{-r^2}$ לנגזרת מפורשת. באותו אופן לעיגול ברדיוס $R$: $\pi(1-e^{-R^2})$.
+    wrongFeedback: >-
+      עברו ל-$r,\theta$ עם $dA=r\,dr\,d\theta$: האינטגרנד $e^{-r^2}r$, ו-$-\frac12e^{-r^2}$ היא פונקציה קדומה שלו.
+    commonWrong:
+      - value: 4.6924344
+        feedback: >-
+          זה $2\pi\int_0^1e^{-r^2}\,dr$, בלי גורם היעקוביאן $r$. גם המספר עצמו חשוד: הוא גדול מ-$\pi$, השטח של העיגול,
+          אף שהאינטגרנד קטן או שווה ל-1.
+        misconception: MC-c9-forget-jacobian
+
+  - id: Q-9.6-spherical
+    type: mc
+    objectives: [OBJ-9.6-2]
+    level: basic
+    prompt: >-
+      בקואורדינטות כדוריות $x=r\sin\varphi\cos\theta$, $y=r\sin\varphi\sin\theta$, $z=r\cos\varphi$ (עם $\varphi\in[0,\pi]$
+      הזווית מציר $z$), מהו $|\det J|$?
+    choices:
+      - text: '$r^2\sin\varphi$'
+        correct: true
+        feedback: >-
+          נכון. בדיקה: $\int_0^{2\pi}\int_0^\pi\int_0^R r^2\sin\varphi\,dr\,d\varphi\,d\theta=\frac{R^3}{3}\cdot2\cdot2\pi=\frac43\pi R^3$.
+          גאומטרית: תיבה קטנה בכיוון $r$ אורכה $\Delta r$, בכיוון $\varphi$ קשת $r\,\Delta\varphi$, ובכיוון $\theta$ קשת
+          על מעגל ברדיוס $r\sin\varphi$.
+      - text: '$r\sin\varphi$'
+        feedback: >-
+          חסר גורם $r$: יש **שתי** קשתות (בכיוון $\varphi$ ובכיוון $\theta$), וכל אחת מהן פרופורציונית ל-$r$. עם הגורם
+          הזה נפח כדור היה יוצא פרופורציוני ל-$R^2$, לא ל-$R^3$.
+        misconception: MC-c9-spherical-jacobian
+      - text: '$r^2$'
+        feedback: >-
+          בלי $\sin\varphi$ נפח כדור היחידה היה $\frac13\cdot\pi\cdot2\pi=\frac{2\pi^2}{3}\ne\frac{4\pi}{3}$. המעגלים בגובה קבוע
+          קטנים ליד הקטבים, ורדיוסם $r\sin\varphi$.
+        misconception: MC-c9-spherical-jacobian
+      - text: '$r^2\cos\varphi$'
+        feedback: >-
+          $\cos$ מתאים לזווית שנמדדת **ממישור** $xy$ (קו רוחב). כאן $\varphi$ נמדדת מציר $z$, ו-$z=r\cos\varphi$, ולכן
+          הגורם $r^2\sin\varphi$, שהוא אי-שלילי על $[0,\pi]$.
+        misconception: MC-c9-spherical-jacobian
+
+  - id: Q-9.6-diamond
+    type: numeric
+    objectives: [OBJ-9.6-1]
+    level: mid
+    prompt: >-
+      $D=\{(x,y): |x|+|y|\le1\}$ (ריבוע מסובב). חשבו את $\iint_D (x+y)^2\,dA$ בעזרת $u=x+y$, $v=x-y$.
+    answer: 0.6666667
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון, $\frac23$. כי $|x|+|y|=\max(|x+y|,|x-y|)$, התחום $D$ עובר לריבוע $[-1,1]^2$ במשתנים $u,v$. ההעתקה
+      מהמשתנים החדשים לישנים היא $(x,y)=\left(\frac{u+v}{2},\frac{u-v}{2}\right)$ עם $|\det J|=\frac12$, ולכן
+      $\int_{-1}^1\int_{-1}^1u^2\cdot\frac12\,du\,dv=\frac12\cdot\frac23\cdot2=\frac23$.
+    wrongFeedback: >-
+      מצאו את התחום במשתנים $u,v$, בטאו את $x,y$ בעזרת $u,v$, וחשבו את היעקוביאן של **ההעתקה הזו**.
+    commonWrong:
+      - value: 2.6666667
+        feedback: >-
+          $\frac83$ מתקבל מכפל ב-$\left|\det\frac{\partial(u,v)}{\partial(x,y)}\right|=2$. אבל היעקוביאן שבמשפט הוא של
+          $(u,v)\mapsto(x,y)$, ההופכי: $\frac12$. סימן אזהרה: השטח של $D$ הוא 2, ובשיטה הזו היה יוצא 8.
+        misconception: MC-c9-inverse-jacobian
+      - value: 1.3333333
+        feedback: >-
+          $\frac43$ מתקבל בלי גורם יעקוביאן. ההחלפה $u=x+y$, $v=x-y$ אינה שומרת שטח: הריבוע $D$, שטחו 2, הופך לריבוע
+          ששטחו 4.
+        misconception: MC-c9-forget-jacobian
+
+  - id: Q-9.6-boundary
+    type: twotier
+    objectives: [OBJ-9.6-1, OBJ-9.6-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      ההעתקה הקוטבית $g(r,\theta)=(r\cos\theta,r\sin\theta)$ על $[0,R]\times[0,2\pi]$ אינה חד-חד-ערכית (כל הנקודות
+      עם $r=0$ הולכות לראשית, ו-$\theta=0$, $\theta=2\pi$ נותנות אותה נקודה), ו-$\det J_g=0$ כש-$r=0$. האם בכל זאת מותר
+      לחשב אינטגרלים על עיגול בקואורדינטות קוטביות?
+    choices:
+      - text: כן
+        correct: true
+        feedback: 'נכון. החריגות קורות על קבוצות בעלות תכולה אפס, ושם הן אינן משנות אף אינטגרל.'
+      - text: לא, המשפט אינו חל
+        feedback: >-
+          המשפט אינו חל על $[0,R]\times[0,2\pi]$, אבל הוא חל על המלבן הפתוח, ומה שבחוץ זניח.
+        misconception: MC-c9-polar-boundary-breaks
+    reasons:
+      - text: 'מפעילים את המשפט על $A=(0,R)\times(0,2\pi)$, שעליה $g$ חד-חד-ערכית ו-$\det J_g=r>0$; השפה של $A$ ו-$\overline{B(0,R)}\setminus g(A)$ (רדיוס ומעגל) בעלות תכולה אפס, ולכן הוספתן אינה משנה את האינטגרלים'
+        correct: true
+        feedback: >-
+          בדיוק. $g(A)$ הוא העיגול בלי הרדיוס $\{(x,0): 0\le x\le R\}$ ובלי המעגל, ופונקציה אינטגרבילית על העיגול נותנת
+          אותו אינטגרל על $g(A)$.
+      - text: 'המשפט אינו צריך את ההנחות של חד-חד-ערכיות ויעקוביאן שונה מאפס; הן רק לנוחות'
+        feedback: >-
+          ההנחות נחוצות: $g(r,\theta)=(r\cos\theta,r\sin\theta)$ על $(0,1)\times(0,4\pi)$ מכסה את העיגול פעמיים, והנוסחה
+          הייתה נותנת שטח $2\pi$ במקום $\pi$.
+        misconception: MC-c9-polar-boundary-breaks
+      - text: 'בנקודות שבהן היעקוביאן מתאפס פשוט משמיטים את הגורם $r$'
+        feedback: >-
+          הגורם $r$ הוא חלק מהנוסחה בכל הנקודות. מה שמותר להשמיט הוא קבוצה בעלת תכולה אפס של נקודות, לא גורם בנוסחה.
+        misconception: MC-c9-forget-jacobian
+
+  - id: Q-9.6-ball
+    type: numeric
+    objectives: [OBJ-9.6-3]
+    level: mid
+    prompt: >-
+      חשבו בקואורדינטות כדוריות את הנפח של הכדור $\{x^2+y^2+z^2\le4\}$. הנפח הוא $c\pi$; הקלידו את $c$.
+    answer: 10.6666667
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון, $c=\frac{32}{3}$:
+      $\int_0^{2\pi}\int_0^\pi\int_0^2r^2\sin\varphi\,dr\,d\varphi\,d\theta=\frac83\cdot2\cdot2\pi=\frac{32\pi}{3}$. בדיקה:
+      $\frac43\pi R^3$ עם $R=2$.
+    wrongFeedback: >-
+      $dV=r^2\sin\varphi\,dr\,d\varphi\,d\theta$, והתחום הוא $0\le r\le2$, $0\le\varphi\le\pi$, $0\le\theta\le2\pi$.
+      האינטגרל מתפרק למכפלה של שלושה אינטגרלים במשתנה אחד.
+    commonWrong:
+      - value: 16.7551608
+        feedback: >-
+          זה $\frac{16\pi}{3}$, כלומר נפח $\frac{16\pi^2}{3}$: שכחתם את $\sin\varphi$. בלעדיו $\int_0^\pi d\varphi=\pi$ במקום
+          $\int_0^\pi\sin\varphi\,d\varphi=2$.
+        misconception: MC-c9-spherical-jacobian
+      - value: 12.5663706
+        feedback: >-
+          זה $4\pi$, כלומר נפח $4\pi^2$: הנפח של התיבה $[0,2]\times[0,\pi]\times[0,2\pi]$ במשתנים החדשים, בלי
+          $r^2\sin\varphi$ בכלל.
+        misconception: MC-c9-forget-jacobian
+
+  - id: Q-9.6-paraboloid
+    type: numeric
+    objectives: [OBJ-9.6-3, OBJ-9.6-2]
+    level: mid
+    prompt: >-
+      חשבו בקואורדינטות גליליות את הנפח של $\{(x,y,z): x^2+y^2\le z\le1\}$. הנפח הוא $c\pi$; הקלידו את $c$.
+    answer: 0.5
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון, $c=\frac12$. בגליליות ($x=r\cos\theta$, $y=r\sin\theta$, $z=z$, $|\det J|=r$) התחום הוא $r^2\le z\le1$,
+      $0\le r\le1$, ולכן $\int_0^{2\pi}\int_0^1(1-r^2)\,r\,dr\,d\theta=2\pi\left(\tfrac12-\tfrac14\right)=\frac\pi2$.
+    wrongFeedback: >-
+      לכל $(r,\theta)$, $z$ רץ מ-$r^2$ עד 1, ו-$r$ רץ מ-0 עד 1 (שם $r^2=1$). אל תשכחו את הגורם $r$.
+    commonWrong:
+      - value: 1.3333333
+        feedback: >-
+          $\frac43$ מתקבל מ-$2\pi\int_0^1(1-r^2)\,dr$, בלי הגורם $r$. סימן אזהרה: הגוף מוכל בגליל ברדיוס 1 ובגובה 1, שנפחו
+          $\pi$, ו-$\frac{4\pi}{3}>\pi$.
+        misconception: MC-c9-forget-jacobian
+
+  - id: Q-9.6-cone-vs-paraboloid
+    type: twotier
+    objectives: [OBJ-9.6-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $K_1=\{\sqrt{x^2+y^2}\le z\le1\}$ (חרוט) ו-$K_2=\{x^2+y^2\le z\le1\}$ (פרבולואיד). נכון או לא נכון:
+      $v(K_1)<v(K_2)$.
+    choices:
+      - text: נכון
+        correct: true
+        feedback: 'נכון: $v(K_1)=\frac\pi3$ ו-$v(K_2)=\frac\pi2$.'
+      - text: לא נכון
+        feedback: >-
+          בגובה $z\in[0,1]$ החתך של $K_2$ ברדיוס $\sqrt z$, והחתך של $K_1$ ברדיוס $z$, ו-$\sqrt z\ge z$ שם.
+        misconception: MC-c9-slice-radius
+    reasons:
+      - text: 'בכל גובה $0\le z\le1$ החתך של $K_1$ הוא עיגול ברדיוס $z$ ושל $K_2$ ברדיוס $\sqrt z\ge z$; לכן $K_1\subseteq K_2$, והחישוב בגליליות נותן $\frac\pi3<\frac\pi2$'
+        correct: true
+        feedback: >-
+          בדיוק: ההכלה נותנת $\le$ (מונוטוניות של הנפח), והחישוב נותן את אי-השוויון החזק. בגליליות
+          $v(K_1)=2\pi\int_0^1(1-r)r\,dr=\frac\pi3$.
+      - text: '$r^2\ge r$, ולכן הפרבולואיד "צר" מהחרוט ונפחו קטן יותר'
+        feedback: >-
+          ל-$0\le r\le1$ דווקא $r^2\le r$. השוו בעזרת רדיוס החתך בכל גובה, ולא בעזרת הנוסחה של המשטח.
+        misconception: MC-c9-slice-radius
+      - text: 'לשני הגופים אותו גובה ואותו בסיס עליון (עיגול היחידה), ולכן אותו נפח'
+        feedback: >-
+          נפח נקבע לפי **כל** החתכים, לא רק לפי העליון: לפי פוביני $v=\int_0^1A(z)\,dz$, ושטחי החתכים כאן שונים.
+        misconception: MC-c9-slice-radius
+
+  - id: Q-9.6-ellipsoid
+    type: numeric
+    objectives: [OBJ-9.6-3, OBJ-9.6-1]
+    level: exam
+    prompt: >-
+      חשבו את הנפח של האליפסואיד $E=\left\{\frac{x^2}{4}+\frac{y^2}{9}+\frac{z^2}{16}\le1\right\}$ בעזרת ההחלפה
+      $(x,y,z)=(2u,3v,4w)$. הנפח הוא $c\pi$; הקלידו את $c$.
+    answer: 32
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון, $c=32$. ההעתקה $g(u,v,w)=(2u,3v,4w)$ לינארית עם $|\det J_g|=24$, והיא מעתיקה את כדור היחידה $B$ על $E$.
+      לכן $v(E)=\int_B24=24\cdot\frac{4\pi}{3}=32\pi$. באופן כללי לחצאי צירים $a,b,c$: $\frac43\pi abc$.
+    wrongFeedback: >-
+      הציבו את ההחלפה באי-השוויון וקבלו את כדור היחידה. הנפח של $E$ הוא האינטגרל של $|\det J_g|$ על כדור היחידה.
+    commonWrong:
+      - value: 0.0555556
+        feedback: >-
+          $\frac1{18}=\frac{4}{3}\cdot\frac1{24}$: חילקתם ב-24 במקום להכפיל. $g$ מותחת את כדור היחידה לאליפסואיד הגדול
+          ממנו, ולכן הנפח גדל פי $|\det J_g|$.
+        misconception: MC-c9-inverse-jacobian
+
+  - id: Q-9.6-rank
+    type: rank
+    objectives: [OBJ-9.6-3]
+    level: exam
+    help: 'סדרו את הגופים מהנפח הגדול לקטן.'
+    prompt: >-
+      כל הגופים הבאים בין המישורים $z=0$ ו-$z=1$ ובתוך הגליל $x^2+y^2\le1$. סדרו אותם לפי הנפח, מהגדול לקטן (חשבו
+      כל נפח בגליליות או בכדוריות).
+    items:
+      - id: cyl
+        label: 'הגליל $\{x^2+y^2\le1,\ 0\le z\le1\}$'
+      - id: hemi
+        label: 'חצי הכדור $\{x^2+y^2+z^2\le1,\ z\ge0\}$'
+      - id: parab
+        label: 'הפרבולואיד $\{x^2+y^2\le z\le1\}$'
+      - id: cone
+        label: 'החרוט $\{\sqrt{x^2+y^2}\le z\le1\}$'
+    order: [cyl, hemi, parab, cone]
+    correctFeedback: >-
+      נכון: $\pi>\frac{2\pi}{3}>\frac\pi2>\frac\pi3$. בגליליות: $2\pi\int_0^1\sqrt{1-r^2}\,r\,dr=\frac{2\pi}{3}$,
+      $2\pi\int_0^1(1-r^2)r\,dr=\frac\pi2$, $2\pi\int_0^1(1-r)r\,dr=\frac\pi3$. היחס 3:2 בין הגליל לחצי הכדור הוא התגלית
+      של ארכימדס.
+    wrongFeedback: >-
+      חשבו כל נפח כ-$2\pi\int_0^1 h(r)\,r\,dr$, כש-$h(r)$ גובה הגוף מעל הנקודה ברדיוס $r$: $1$, $\sqrt{1-r^2}$,
+      $1-r^2$ ו-$1-r$.

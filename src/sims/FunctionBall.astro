@@ -1,0 +1,7 @@
+---
+/** Lesson 1.5 figure: <Spread figure={FunctionBall} figureProps={{ seq, seqs, n, eps, … }}>. */
+import FunctionBall, { type FunctionBallProps } from './FunctionBall';
+type Props = FunctionBallProps;
+---
+
+<FunctionBall client:visible {...Astro.props} />

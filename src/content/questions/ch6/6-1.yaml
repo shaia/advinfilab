@@ -1,0 +1,393 @@
+# Lesson 6.1 — Taylor's theorem in several variables.
+# Objectives (src/course.ts):
+#   OBJ-6.1-1  state Taylor's theorem with the Lagrange remainder and prove it by restriction to a segment
+#   OBJ-6.1-2  compute the second-order Taylor polynomial from the gradient and the Hessian
+#   OBJ-6.1-3  approximate values with the Taylor polynomial and estimate the error
+chapter: 6
+questions:
+  - id: Q-6.1-statement
+    type: mc
+    objectives: [OBJ-6.1-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      תהי $f:U\to\mathbb{R}$ מסוג $C^2$ בקבוצה פתוחה $U\subseteq\mathbb{R}^n$, ונניח שהקטע $[a,a+h]$ מוכל כולו
+      ב-$U$. מה אומר משפט טיילור מסדר ראשון עם שארית לגרנז'?
+    choices:
+      - text: >-
+          קיימת נקודה $c$ על הקטע $[a,a+h]$ כך ש-$f(a+h)=f(a)+\nabla f(a)\cdot h+\frac12h^{T}H_f(c)\,h$
+        correct: true
+        feedback: >-
+          נכון. זו בדיוק נוסחת טיילור של $g(t)=f(a+th)$ במשתנה אחד, $g(1)=g(0)+g'(0)+\frac12g''(\theta)$, אחרי
+          שמציבים $g'(0)=\nabla f(a)\cdot h$ ו-$g''(\theta)=h^{T}H_f(c)h$ עם $c=a+\theta h$.
+      - text: >-
+          קיימת נקודה $c$ על הקטע $[a,a+h]$ כך ש-$f(a+h)=f(a)+\nabla f(a)\cdot h+h^{T}H_f(c)\,h$
+        feedback: >-
+          חסר החצי. בדקו על $f(x)=x^2$ במשתנה אחד, $a=0$, $h=1$: אגף שמאל 1, ואגף ימין $0+0+2=2$ לכל $c$.
+        misconception: MC-c6-taylor-factorial
+      - text: >-
+          $f(a+h)=f(a)+\nabla f(a)\cdot h+\frac12h^{T}H_f(a)\,h$ בדיוק
+        feedback: >-
+          זה נכון רק לפולינומים ממעלה 2 לכל היותר. ל-$f(x)=x^3$, $a=0$, $h=1$: אגף שמאל 1 ואגף ימין 0. השארית
+          מחושבת בנקודה לא ידועה $c$, לא ב-$a$.
+        misconception: MC-c6-remainder-at-a
+      - text: >-
+          לכל נקודה $c$ על הקטע $[a,a+h]$ מתקיים $f(a+h)=f(a)+\nabla f(a)\cdot h+\frac12h^{T}H_f(c)\,h$
+        feedback: >-
+          המשפט אומר "קיימת", לא "לכל". ל-$f(x)=x^3$, $a=0$, $h=1$ אגף ימין הוא $3c$, ושווה ל-1 רק ב-$c=\frac13$.
+        misconception: MC-c6-remainder-at-a
+
+  - id: Q-6.1-gsecond
+    type: mc
+    objectives: [OBJ-6.1-1]
+    level: basic
+    prompt: >-
+      תהי $f$ מסוג $C^2$, ונגדיר $g(t)=f(a+th)$. מהי $g''(t)$?
+    choices:
+      - text: >-
+          $\sum_{i,j=1}^{n}\partial_i\partial_j f(a+th)\,h_ih_j=h^{T}H_f(a+th)\,h$
+        correct: true
+        feedback: >-
+          נכון. לפי כלל השרשרת $g'(t)=\sum_i\partial_i f(a+th)\,h_i$, ובגזירה נוספת של כל מחובר שוב לפי כלל השרשרת
+          מקבלים את הסכום הכפול.
+      - text: >-
+          $\sum_{i=1}^{n}\partial_i^2 f(a+th)\,h_i^2$
+        feedback: >-
+          חסרים האיברים המעורבים. ל-$f=xy$, $a=0$, $h=(1,1)$: $g(t)=t^2$ ו-$g''=2$, אבל הסכום הזה נותן 0, כי
+          $\partial_x^2f=\partial_y^2f=0$.
+        misconception: MC-c6-hessian-diagonal-only
+      - text: >-
+          $h^{T}H_f(a)\,h$
+        feedback: >-
+          ההסיאן מחושב בנקודה $a+th$, לא ב-$a$: $g''$ תלויה ב-$t$. ל-$f(x)=x^3$, $a=0$, $h=1$: $g(t)=t^3$ ו-$g''(t)=6t$,
+          לא 0.
+        misconception: MC-c6-remainder-at-a
+      - text: >-
+          $\frac12h^{T}H_f(a+th)\,h$
+        feedback: >-
+          החצי שייך לנוסחת טיילור ($\frac{g''}{2!}$), לא לנגזרת עצמה. ל-$f=x^2$ ו-$h=1$: $g(t)=(a+t)^2$, ו-$g''=2$,
+          לא 1.
+        misconception: MC-c6-taylor-factorial
+
+  - id: Q-6.1-excos
+    type: mc
+    objectives: [OBJ-6.1-2]
+    level: basic
+    prompt: >-
+      מהו פולינום טיילור מסדר שני של $f(x,y)=e^x\cos y$ בנקודה $(0,0)$?
+    choices:
+      - text: '$1+x+\frac12x^2-\frac12y^2$'
+        correct: true
+        feedback: >-
+          נכון. $f(0)=1$, $\nabla f(0)=(1,0)$, ו-$H_f(0)=\begin{pmatrix}1&0\\0&-1\end{pmatrix}$ (הנגזרת המעורבת
+          $(-e^x\sin y)$ מתאפסת בראשית). $\frac12h^{T}Hh=\frac12(x^2-y^2)$.
+      - text: '$1+x+x^2-y^2$'
+        feedback: >-
+          חסר החצי שלפני התבנית הריבועית: האיבר הוא $\frac12h^{T}H_f(0)h$, כמו $\frac{f''(0)}{2!}x^2$ במשתנה אחד.
+        misconception: MC-c6-taylor-factorial
+      - text: '$1+x+\frac12x^2-\frac12y^2-\frac12xy^2-\frac14x^2y^2$'
+        feedback: >-
+          זו כל המכפלה $\left(1+x+\frac12x^2\right)\left(1-\frac12y^2\right)$. "מסדר שני" פירושו מעלה **כוללת** 2
+          לכל היותר: $xy^2$ ממעלה 3 ו-$x^2y^2$ ממעלה 4, ושייכים לשארית.
+        misconception: MC-c6-degree-per-variable
+
+  - id: Q-6.1-xycoef
+    type: numeric
+    objectives: [OBJ-6.1-2]
+    level: basic
+    prompt: >-
+      בפולינום טיילור מסדר שני של $f(x,y)=e^x\sin y$ בנקודה $(0,0)$, מהו המקדם של $xy$?
+    answer: 1
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $\partial_x\partial_y f=e^x\cos y$, ובראשית זה 1. ב-$\frac12h^{T}Hh$ האיבר שמחוץ לאלכסון מופיע פעמיים:
+      $\frac12\cdot2\cdot1\cdot xy=xy$. הפולינום כולו: $y+xy$.
+    wrongFeedback: >-
+      חשבו את $\partial_x\partial_y f(0,0)$, ופרסו את $\frac12\left(f_{xx}x^2+2f_{xy}xy+f_{yy}y^2\right)$.
+    commonWrong:
+      - value: 0.5
+        feedback: >-
+          זה חצי מהנגזרת המעורבת. אבל ב-$\frac12h^{T}Hh$ מופיעים גם $H_{12}xy$ וגם $H_{21}yx$, כלומר
+          $\frac12\cdot2f_{xy}\,xy$, והחצי מצטמצם.
+        misconception: MC-c6-mixed-coefficient
+      - value: 0
+        feedback: >-
+          $f_{xx}(0,0)=0$ ו-$f_{yy}(0,0)=0$, אבל האיבר מסדר שני כולל גם את הנגזרת המעורבת, והיא 1.
+        misconception: MC-c6-hessian-diagonal-only
+
+  - id: Q-6.1-ln
+    type: numeric
+    objectives: [OBJ-6.1-2]
+    level: mid
+    prompt: >-
+      בפולינום טיילור מסדר שני של $f(x,y)=\ln(1+x+y)$ בנקודה $(0,0)$, מהו המקדם של $xy$?
+    answer: -1
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. כל הנגזרות השניות שוות ל-$\frac{-1}{(1+x+y)^2}$, כלומר $H_f(0)=\begin{pmatrix}-1&-1\\-1&-1\end{pmatrix}$,
+      והפולינום הוא $x+y-\frac12(x+y)^2=x+y-\frac12x^2-xy-\frac12y^2$. אותו דבר מתקבל מהצבת $u=x+y$
+      ב-$\ln(1+u)=u-\frac{u^2}{2}+\dots$.
+    wrongFeedback: >-
+      חשבו את ההסיאן בראשית, או הציבו $u=x+y$ בטור של $\ln(1+u)$ ופתחו את $u^2$.
+    commonWrong:
+      - value: -0.5
+        feedback: >-
+          זה חצי מהנגזרת המעורבת. באיבר $\left(-\frac12\right)(x+y)^2$ המקדם של $xy$ הוא
+          $\left(-\frac12\right)\cdot2=(-1)$.
+        misconception: MC-c6-mixed-coefficient
+      - value: -2
+        feedback: >-
+          זה המקדם של $\left(-(x+y)^2\right)$, בלי החצי של $\frac{u^2}{2!}$. בדקו: המקדם של $x^2$ חייב להיות
+          $\frac12f_{xx}(0)=\left(-\frac12\right)$, לא $(-1)$.
+        misconception: MC-c6-taylor-factorial
+
+  - id: Q-6.1-unique
+    type: twotier
+    objectives: [OBJ-6.1-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      כדי למצוא את פולינום טיילור מסדר שני של $e^x\cos y$ בראשית, מכפילים
+      $\left(1+x+\frac{x^2}{2}\right)\left(1-\frac{y^2}{2}\right)$ ומשמיטים כל איבר שהמעלה הכוללת שלו גדולה מ-2.
+      האם הדרך הזו נותנת בוודאות את הפולינום הנכון?
+    choices:
+      - text: כן
+        correct: true
+        feedback: 'נכון. מתקבל $1+x+\frac12x^2-\frac12y^2$, אותו פולינום שנותנים הגרדיאנט וההסיאן.'
+      - text: לא, הפולינום מוגדר רק דרך הגרדיאנט וההסיאן, וקיצור דרך כזה יכול לטעות
+        feedback: >-
+          ההגדרה דרך הנגזרות היא דרך אחת לחשב אותו, אבל הפולינום נקבע ביחידות על ידי תכונת הקירוב, ולכן כל דרך
+          ששומרת על שגיאה $o(\|h\|^2)$ מגיעה אליו.
+        misconception: MC-c6-taylor-only-by-formula
+    reasons:
+      - text: >-
+          השגיאה של המכפלה המקוצצת היא $O(\|h\|^3)$, כלומר $o(\|h\|^2)$; ופולינום ממעלה 2 לכל היותר שמקרב את $f$
+          עם שגיאה כזו הוא יחיד
+        correct: true
+        feedback: >-
+          בדיוק. אם שני פולינומים כאלה קיימים, ההפרש $Q$ שלהם ממעלה $\le2$ ומקיים $Q(h)=o(\|h\|^2)$; הצבה של $th$
+          ושאיפה $t\to0$ מאפסת את החלק הקבוע, אחר כך את הלינארי ואחר כך את הריבועי.
+      - text: >-
+          כי $e^x\cos y$ היא מכפלה של פונקציה של $x$ בפונקציה של $y$, ולכן כל איבר במכפלה שייך לפולינום
+        feedback: >-
+          אם כל איבר היה שייך, היו נשארים $\left(-\frac12xy^2\right)$ ו-$\left(-\frac14x^2y^2\right)$, ממעלה 3 ו-4. קוצצים לפי המעלה הכוללת.
+        misconception: MC-c6-degree-per-variable
+      - text: >-
+          כי הנגזרות המעורבות של $e^x\cos y$ מתאפסות בכל נקודה, ולכן אין איברים מעורבים לאבד
+        feedback: >-
+          $\partial_x\partial_y(e^x\cos y)=-e^x\sin y$, ושונה מאפס למשל ב-$(0,\frac{\pi}{2})$. היא מתאפסת בראשית,
+          אבל זה לא מה שמצדיק את השיטה.
+        misconception: MC-c6-hessian-diagonal-only
+
+  - id: Q-6.1-proof
+    type: rank
+    objectives: [OBJ-6.1-1]
+    level: mid
+    prompt: >-
+      סדרו את שלבי ההוכחה של משפט טיילור מסדר ראשון עם שארית לגרנז' לפונקציה $f\in C^2(U)$, כשהקטע $[a,a+h]$
+      מוכל ב-$U$.
+    help: גררו את השלבים לסדר הנכון, מהשלב הראשון של ההוכחה לאחרון.
+    items:
+      - id: def
+        label: >-
+          מגדירים $g(t)=f(a+th)$ לכל $t$ בקטע $[0,1]$; היא מוגדרת כי הקטע $[a,a+h]$ מוכל ב-$U$.
+      - id: chain
+        label: >-
+          לפי כלל השרשרת $g$ מסוג $C^2$, עם $g'(t)=\nabla f(a+th)\cdot h$ ו-$g''(t)=h^{T}H_f(a+th)\,h$.
+      - id: one
+        label: >-
+          משפט טיילור במשתנה אחד עם שארית לגרנז': קיים $\theta\in(0,1)$ כך ש-$g(1)=g(0)+g'(0)+\frac12g''(\theta)$.
+      - id: sub
+        label: >-
+          מציבים $g(1)=f(a+h)$, $g(0)=f(a)$, $g'(0)=\nabla f(a)\cdot h$, ומסמנים $c=a+\theta h$, נקודה על הקטע.
+      - id: end
+        label: >-
+          מקבלים $f(a+h)=f(a)+\nabla f(a)\cdot h+\frac12h^{T}H_f(c)\,h$.
+    order: [def, chain, one, sub, end]
+    correctFeedback: >-
+      נכון. הרעיון: לצמצם את $f$ לקטע ולהפעיל את המשפט המוכר במשתנה אחד. כל ההנחות משמשות: $C^2$ בשביל $g''$ רציפה,
+      והקטע בתוך $U$ בשביל ש-$g$ מוגדרת.
+    wrongFeedback: >-
+      ההוכחה מתחילה בהגדרת פונקציה של משתנה אחד, ממשיכה בחישוב הנגזרות שלה, ורק אז מפעילה את משפט טיילור
+      במשתנה אחד ומתרגמת חזרה.
+
+  - id: Q-6.1-approx
+    type: numeric
+    objectives: [OBJ-6.1-3]
+    level: mid
+    prompt: >-
+      השתמשו בפולינום טיילור מסדר שני של $f(x,y)=e^x\cos y$ בראשית כדי לקרב את $f(0.1,\,-0.2)$. מהו הקירוב?
+    answer: 1.085
+    tolerance: 0.0005
+    correctFeedback: >-
+      נכון. $P_2=1+x+\frac12(x^2-y^2)$, ולכן $P_2(0.1,-0.2)=1+0.1+\frac12(0.01-0.04)=1.085$. הערך האמיתי הוא
+      $e^{0.1}\cos0.2\approx1.0831$, והשגיאה כ-$0.0019$.
+    wrongFeedback: >-
+      הקירוב הוא ערך הפולינום $1+x+\frac12x^2-\frac12y^2$ בנקודה, לא הערך המדויק של $f$ ממחשבון.
+    commonWrong:
+      - value: 1.07
+        feedback: >-
+          זה $1+0.1+(0.01-0.04)$, בלי החצי שלפני האיבר הריבועי.
+        misconception: MC-c6-taylor-factorial
+
+  - id: Q-6.1-littleo
+    type: twotier
+    objectives: [OBJ-6.1-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      ידוע ש-$f(a+h)=P_2(h)+o(\|h\|^2)$ כש-$h\to0$. האם מזה נובע שעבור $\|h\|=0.1$ השגיאה $|f(a+h)-P_2(h)|$
+      קטנה מ-$0.01$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. ל-$f(x,y)=1000x^3$ בראשית $P_2=0$, וב-$h=(0.1,0)$ השגיאה היא 1.
+      - text: כן
+        feedback: >-
+          הסימון $o(\|h\|^2)$ לא נותן שום מספר. ל-$f(x,y)=1000x^3$ השגיאה ב-$h=(0.1,0)$ היא 1, פי מאה מ-$0.01$.
+        misconception: MC-c6-little-o-bound
+    reasons:
+      - text: >-
+          $o(\|h\|^2)$ מתאר רק את קצב ההתאפסות כש-$h\to0$ ולא חוסם את השגיאה לשום $h$ קבוע; חסם מספרי דורש שארית
+          לגרנז' וחסם על הנגזרות מסדר שלישי על הקטע
+        correct: true
+        feedback: >-
+          בדיוק. "קטן מ-$\varepsilon\|h\|^2$" מתקיים רק עבור $h$ קטן מספיק, ו"קטן מספיק" תלוי ב-$f$.
+      - text: >-
+          $o(\|h\|^2)$ פירושו ביטוי שקטן מ-$\|h\|^2$, ולכן השגיאה קטנה מ-$0.01$
+        feedback: >-
+          $o(\|h\|^2)$ פירושו $\frac{R(h)}{\|h\|^2}\to0$. אין הבטחה שהיחס קטן מ-1 כבר ב-$\|h\|=0.1$: ב-$1000x^3$ הוא 100.
+        misconception: MC-c6-little-o-bound
+      - text: >-
+          השגיאה של קירוב טיילור תמיד קטנה מהאיבר האחרון שנכלל בפולינום
+        feedback: >-
+          אין כלל כזה. ב-$1000x^3$ האיבר האחרון ב-$P_2$ הוא 0, והשגיאה 1.
+        misconception: MC-c6-little-o-bound
+
+  - id: Q-6.1-where
+    type: mc
+    objectives: [OBJ-6.1-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      כדי לחסום את השגיאה $|f(a+h)-f(a)-\nabla f(a)\cdot h|$ בעזרת שארית לגרנז', על מה צריך חסם?
+    choices:
+      - text: על כל הנגזרות החלקיות מסדר שני, בכל הנקודות של הקטע $[a,a+h]$
+        correct: true
+        feedback: >-
+          נכון. השגיאה היא $\frac12\sum_{i,j}\partial_i\partial_jf(c)h_ih_j$ בנקודה לא ידועה $c$ על הקטע. אם
+          $|\partial_i\partial_jf|\le M$ על כל הקטע, השגיאה לכל היותר $\frac M2\left(\sum_i|h_i|\right)^2$.
+      - text: על הנגזרות החלקיות מסדר שני בנקודה $a$ בלבד
+        feedback: >-
+          הנקודה $c$ לא ידועה, ולכן חסם ב-$a$ לא אומר כלום. ל-$f=x^4$ ב-$a=0$: כל הנגזרות השניות מתאפסות שם, ובכל זאת
+          ב-$h=(1,0)$ השגיאה היא 1.
+        misconception: MC-c6-remainder-at-a
+      - text: על הנגזרות הטהורות $\partial_i^2f$ בלבד, על הקטע
+        feedback: >-
+          גם הנגזרות המעורבות נכנסות. ל-$f=xy$ בראשית הנגזרות הטהורות אפס בכל מקום, ובכל זאת ב-$h=(1,1)$ השגיאה היא 1.
+        misconception: MC-c6-hessian-diagonal-only
+
+  - id: Q-6.1-bound
+    type: numeric
+    objectives: [OBJ-6.1-3]
+    level: exam
+    prompt: >-
+      ל-$f(x,y)=\sin x\sin y$ פולינום טיילור מסדר שני בראשית הוא $P_2=xy$, ולכן $f(0.1,\,0.2)\approx0.02$. לפי שארית
+      לגרנז' מסדר שלישי,
+      $$|f(h)-P_2(h)|\le\frac{M}{3!}\left(|h_1|+|h_2|\right)^3,$$
+      כאשר $M$ חוסם את כל הנגזרות החלקיות מסדר שלישי על הקטע. כל נגזרת כזו היא מכפלה של $\pm\sin$ או $\pm\cos$,
+      ולכן אפשר לקחת $M=1$. מהו החסם שמתקבל?
+    answer: 0.0045
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $\frac16(0.1+0.2)^3=\frac{0.027}{6}=0.0045$. השגיאה האמיתית קטנה בהרבה, כ-$0.00017$: חסם לא חייב
+      להיות הדוק, רק נכון.
+    wrongFeedback: >-
+      הציבו $|h_1|+|h_2|=0.3$, העלו בחזקה שלישית, וחלקו ב-$3!=6$.
+    commonWrong:
+      - value: 0.027
+        feedback: >-
+          זה $(0.3)^3$ בלי החלוקה ב-$3!$. האיבר מסדר שלישי של טיילור הוא $\frac{g'''(\theta)}{3!}$.
+        misconception: MC-c6-taylor-factorial
+      - value: 0.0015
+        feedback: >-
+          זה $\frac16(0.1^3+0.2^3)$, כאילו רק $\partial_x^3f$ ו-$\partial_y^3f$ משתתפות. בפיתוח של
+          $\sum_{i,j,k}\partial_i\partial_j\partial_kf\,h_ih_jh_k$ יש גם איברים מעורבים, וביחד הם חסומים על ידי
+          $M(|h_1|+|h_2|)^3$.
+        misconception: MC-c6-hessian-diagonal-only
+
+  - id: Q-6.1-vector
+    type: twotier
+    objectives: [OBJ-6.1-1]
+    qualitative: true
+    level: exam
+    prompt: >-
+      נכון או לא נכון: לכל $F:\mathbb{R}\to\mathbb{R}^2$ מסוג $C^2$ ולכל $a,h$ קיימת נקודה $c$ על הקטע $[a,a+h]$ כך
+      ש-$F(a+h)=F(a)+F'(a)h+\frac12F''(c)h^2$.
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: >-
+          נכון. כל רכיב מקיים את המשפט, אבל כל אחד עם נקודה משלו, ולא תמיד יש נקודה משותפת.
+      - text: נכון
+        feedback: >-
+          ל-$F(t)=(\cos t,\sin t)$, $a=0$, $h=2\pi$ אגף שמאל פחות האיבר הלינארי הוא $(0,-2\pi)$, ואילו
+          $\frac12F''(c)(2\pi)^2=2\pi^2(-\cos c,-\sin c)$. אין $c$ שנותן את שניהם.
+        misconception: MC-c6-vector-lagrange
+    reasons:
+      - text: >-
+          ל-$F(t)=(\cos t,\sin t)$, $a=0$, $h=2\pi$ צריך $(0,-2\pi)=2\pi^2(-\cos c,-\sin c)$: מהרכיב הראשון
+          $\cos c=0$, ואז $|\sin c|=1$, והרכיב השני $\mp2\pi^2\ne-2\pi$
+        correct: true
+        feedback: >-
+          בדיוק. זה אותו כישלון כמו של שוויון הערך הממוצע לפונקציה וקטורית (שיעור 5.6). לכן משפט טיילור עם שארית
+          לגרנז' מנוסח לפונקציה ממשית.
+      - text: >-
+          כל רכיב מקיים את משפט טיילור במשתנה אחד, ולכן גם הווקטור
+        feedback: >-
+          כל רכיב מקיים אותו עם נקודה $c_k$ משלו. הטענה דורשת נקודה **אחת** לשני הרכיבים, וזה לא נובע.
+        misconception: MC-c6-vector-lagrange
+      - text: >-
+          שארית לגרנז' נובעת ממשפט הערך הממוצע, ומשפט הערך הממוצע נכון גם לפונקציות וקטוריות
+        feedback: >-
+          לפונקציה וקטורית אין שוויון ערך ממוצע: ל-$(\cos t,\sin t)$ על $[0,2\pi]$ ההפרש אפס, והנגזרת לעולם לא
+          אפס. נשאר רק אי-שוויון הערך הממוצע.
+        misconception: MC-c6-vector-lagrange
+
+  - id: Q-6.1-segment
+    type: twotier
+    objectives: [OBJ-6.1-1]
+    qualitative: true
+    level: exam
+    prompt: >-
+      תהי $f(x,y)=\frac{1}{x^2+y^2}$ על $U=\mathbb{R}^2\setminus\{0\}$; היא מסוג $C^2$ ב-$U$. נקחו $a=(-1,0)$
+      ו-$h=(2,0)$, כך ש-$a,a+h\in U$. האם קיימת נקודה $c\ne0$ על הקטע $[a,a+h]$ כך
+      ש-$f(a+h)=f(a)+\nabla f(a)\cdot h+\frac12h^{T}H_f(c)\,h$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. המשפט לא חל, כי הקטע עובר דרך הראשית, שאינה ב-$U$, והנוסחה אכן נכשלת.'
+      - text: כן
+        feedback: >-
+          $f$ אכן מסוג $C^2$ ב-$U$ ושתי הנקודות ב-$U$, אבל ההוכחה מצמצמת את $f$ לכל הקטע, והקטע יוצא מ-$U$ בראשית.
+          החישוב מראה שאין נקודה כזו.
+        misconception: MC-c6-segment-not-needed
+    reasons:
+      - text: >-
+          על הקטע $c=(s,0)$ ו-$\frac12h^{T}H_f(c)h=2\,\partial_x^2f(s,0)=\frac{12}{s^4}>0$, ואילו
+          $f(a+h)-f(a)-\nabla f(a)\cdot h=1-1-4=-4$
+        correct: true
+        feedback: >-
+          בדיוק. $\partial_xf=\frac{-2x}{(x^2+y^2)^2}$, ולכן $\nabla f(a)=(2,0)$ ו-$\nabla f(a)\cdot h=4$. על ציר $x$
+          $f=x^{-2}$ ו-$\partial_x^2f=6x^{-4}$. אגף שלילי מול אגף חיובי.
+      - text: >-
+          $f$ מסוג $C^2$ ב-$U$ ושתי הנקודות ב-$U$, וזה כל מה שהמשפט דורש
+        feedback: >-
+          המשפט דורש שהקטע **כולו** יהיה ב-$U$, כי $g(t)=f(a+th)$ צריכה להיות מוגדרת וגזירה פעמיים על כל $[0,1]$.
+        misconception: MC-c6-segment-not-needed
+      - text: >-
+          המשפט חל, והנקודה $c$ שמקיימת אותו היא הראשית עצמה
+        feedback: >-
+          $f$ אינה מוגדרת בראשית, ולכן גם $H_f(0)$ אינה מוגדרת. הבעיה היא בדיוק שהקטע עובר שם.
+        misconception: MC-c6-segment-not-needed

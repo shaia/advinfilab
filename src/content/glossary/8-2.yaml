@@ -1,0 +1,58 @@
+# Terms first defined in lesson 8.2.
+- id: curve
+  term: מסילה
+  en: curve (path)
+  symbol: '\gamma:[a,b]\to\mathbb{R}^n'
+  definition: >-
+    פונקציה רציפה $\gamma:[a,b]\to\mathbb{R}^n$. התמונה $\gamma([a,b])$ היא קבוצה; המסילה היא הפונקציה, ולכן
+    המעגל שעוברים עליו פעם אחת והמעגל שעוברים עליו פעמיים הם מסילות שונות עם אותה תמונה. מסילה גזירה (גזירה
+    ברציפות) היא מסילה שכל רכיביה גזירים (גזירים ברציפות), עם נגזרות חד-צדדיות בקצוות.
+  lesson: '8.2'
+- id: simple-curve
+  term: מסילה פשוטה
+  en: simple curve
+  definition: >-
+    מסילה חד-חד-ערכית: $\gamma(s)\ne\gamma(t)$ לכל $s\ne t$. מסילה סגורה פשוטה היא מסילה סגורה שהיא חד-חד-ערכית
+    ב-$[a,b)$, כמו מעגל שעוברים עליו פעם אחת.
+  lesson: '8.2'
+- id: closed-curve
+  term: מסילה סגורה
+  en: closed curve
+  definition: >-
+    מסילה $\gamma:[a,b]\to\mathbb{R}^n$ עם $\gamma(a)=\gamma(b)$. סגורה ופשוטה הן תכונות בלתי תלויות: ה"שמונה"
+    $(\sin2t,\sin t)$, $t\in[0,2\pi]$, סגורה ואינה פשוטה.
+  lesson: '8.2'
+- id: smooth-curve
+  term: מסילה חלקה
+  en: smooth (regular) curve
+  definition: >-
+    מסילה גזירה ברציפות עם $\gamma'(t)\ne0$ לכל $t$. מסילה חלקה למקוטעין היא מסילה רציפה שיש לה חלוקה
+    $a=t_0<\dots<t_k=b$ כך שהצמצום לכל $[t_{j-1},t_j]$ חלק. $(t^2,t^3)$ גזירה ברציפות ואינה חלקה: $\gamma'(0)=0$,
+    ובתמונה יש חוד.
+  lesson: '8.2'
+- id: rectifiable-curve
+  term: מסילה ברת-מדידה
+  en: rectifiable curve
+  definition: >-
+    מסילה שאורכה סופי. מסילה ברת-מדידה אם ורק אם כל רכיביה בעלי השתנות חסומה; כל מסילה גזירה ברציפות ברת-מדידה,
+    ו-$(t,t\sin\frac1t)$ רציפה ואינה ברת-מדידה.
+  reject: [מסילה מדידה]
+  lesson: '8.2'
+- id: arc-length
+  term: אורך מסילה
+  en: arc length
+  symbol: 'L(\gamma)'
+  definition: >-
+    $L(\gamma)=\sup_P\sum_{i=1}^m\|\gamma(t_i)-\gamma(t_{i-1})\|_2$, הסופרמום של אורכי הקווים השבורים החסומים
+    במסילה, על כל החלוקות $P$ של $[a,b]$. למסילה גזירה ברציפות $L(\gamma)=\int_a^b\|\gamma'(t)\|_2\,dt$; מעגל
+    ברדיוס $r$: $2\pi r$; קשת ציקלואידה ברדיוס $r$: $8r$.
+  lesson: '8.2'
+- id: arc-length-parametrisation
+  term: פרמטר אורך הקשת
+  en: arc-length parametrisation
+  symbol: 's(t)=\int_a^t\|\gamma^{\prime}(u)\|\,du'
+  definition: >-
+    למסילה חלקה $s(t)=\int_a^t\|\gamma'(u)\|\,du$ עולה ממש וגזירה ברציפות עם $s'>0$, ולכן הפיכה; המסילה
+    $\tilde\gamma(s)=\gamma(t(s))$, $s\in[0,L(\gamma)]$, עוברת על אותן נקודות באותו סדר במהירות
+    $\|\tilde\gamma'(s)\|=1$. בלי התנאי $\gamma'\ne0$ הפרמטריזציה החדשה יכולה לא להיות גזירה.
+  lesson: '8.2'

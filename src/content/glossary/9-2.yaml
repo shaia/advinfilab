@@ -1,0 +1,16 @@
+# Terms first defined in lesson 9.2 (sets of measure zero and of content zero).
+- id: measure-zero
+  term: קבוצה ממידה אפס
+  en: set of measure zero
+  definition: >-
+    $A\subseteq\mathbb{R}^n$ שלכל $\varepsilon>0$ יש תיבות $Q_1,Q_2,\dots$ (מספר בן מנייה שלהן) עם
+    $A\subseteq\bigcup_kQ_k$ ו-$\sum_kv(Q_k)<\varepsilon$. כל קבוצה בת מנייה ממידה אפס, ואיחוד בן מנייה של קבוצות ממידה
+    אפס ממידה אפס.
+  lesson: '9.2'
+- id: content-zero
+  term: קבוצה בעלת תכולה אפס
+  en: set of content zero
+  definition: >-
+    $A\subseteq\mathbb{R}^n$ שלכל $\varepsilon>0$ יש מספר **סופי** של תיבות שמכסות אותה וסכום נפחיהן קטן
+    מ-$\varepsilon$. קבוצה כזו חסומה וממידה אפס; קבוצה קומפקטית ממידה אפס היא בעלת תכולה אפס.
+  lesson: '9.2'

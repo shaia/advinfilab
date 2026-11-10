@@ -1,0 +1,22 @@
+# Terms first defined in lesson 2.6.
+- id: isometry
+  term: איזומטריה
+  en: isometry
+  definition: >-
+    העתקה $\varphi:X\to Y$ בין מרחבים מטריים ששומרת מרחקים: $d_Y(\varphi(x),\varphi(x'))=d_X(x,x')$ לכל $x,x'$.
+    איזומטריה היא תמיד חד-חד-ערכית; איזומטריה על (שהיא גם על $Y$) מזהה את שני המרחבים כמרחבים מטריים.
+  lesson: '2.6'
+- id: isometric-embedding
+  term: שיכון איזומטרי
+  en: isometric embedding
+  definition: >-
+    איזומטריה $i:X\to Y$ שאינה בהכרח על: היא מציגה את $X$ כתת-מרחב $i(X)$ של $Y$, עם אותם מרחקים.
+  lesson: '2.6'
+- id: completion
+  term: השלמה של מרחב מטרי
+  en: completion of a metric space
+  symbol: '\widehat{X}'
+  definition: >-
+    מרחב מטרי שלם $\widehat X$ יחד עם שיכון איזומטרי $i:X\to\widehat X$ שתמונתו צפופה. לכל מרחב מטרי יש השלמה
+    (ממחלקות שקילות של סדרות קושי), והיא יחידה עד כדי איזומטריה. למשל $\mathbb{R}$ היא ההשלמה של $\mathbb{Q}$.
+  lesson: '2.6'

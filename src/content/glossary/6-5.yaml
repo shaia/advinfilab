@@ -1,0 +1,15 @@
+# Terms first defined in lesson 6.5 (absolute extrema on a compact set).
+- id: absolute-extremum
+  term: קיצון מוחלט
+  en: absolute (global) extremum
+  definition: >-
+    $a$ נקודת מינימום מוחלט של $f$ בקבוצה $K$ אם $f(a)\le f(x)$ לכל $x\in K$ (מקסימום מוחלט באי-השוויון ההפוך). על
+    קבוצה קומפקטית פונקציה רציפה מקבלת מקסימום ומינימום מוחלטים (משפט ויירשטראס).
+  lesson: '6.5'
+- id: coercive-function
+  term: פונקציה קוארסיבית
+  en: coercive function
+  definition: >-
+    פונקציה $f:\mathbb{R}^n\to\mathbb{R}$ שמקיימת $f(x)\to\infty$ כש-$\|x\|\to\infty$: לכל $M$ קיים $R$ כך
+    ש-$f(x)>M$ לכל $\|x\|>R$. פונקציה רציפה וקוארסיבית מקבלת מינימום מוחלט ב-$\mathbb{R}^n$.
+  lesson: '6.5'

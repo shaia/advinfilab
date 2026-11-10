@@ -1,0 +1,341 @@
+# Lesson 7.3 — the implicit function theorem.
+# Objectives (src/course.ts):
+#   OBJ-7.3-1  state the implicit function theorem and check the invertibility of the partial derivative
+#   OBJ-7.3-2  differentiate an implicit function with the chain rule, including second derivatives
+#   OBJ-7.3-3  prove the implicit function theorem from the inverse function theorem
+chapter: 7
+questions:
+  - id: Q-7.3-statement
+    type: mc
+    objectives: [OBJ-7.3-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $F:U\to\mathbb{R}^m$ גזירה ברציפות על קבוצה פתוחה $U\subseteq\mathbb{R}^n\times\mathbb{R}^m$, ו-$F(a,b)=0$. איזה
+      ניסוח הוא משפט הפונקציה הסתומה?
+    choices:
+      - text: >-
+          אם $D_yF(a,b)$ (מטריצה $m\times m$) הפיכה, יש סביבות $A\ni a$, $B\ni b$ ו-$g:A\to B$ גזירה ברציפות כך
+          שלכל $(x,y)\in A\times B$: $F(x,y)=0$ אם ורק אם $y=g(x)$
+        correct: true
+        feedback: >-
+          נכון. התנאי הוא על הנגזרת לפי המשתנים **שמבטאים** ($y$). המסקנה כוללת גם יחידות: בתוך $A\times B$ אין
+          פתרונות אחרים מלבד הגרף של $g$.
+      - text: >-
+          אם $D_xF(a,b)$ הפיכה, יש סביבות $A\ni a$, $B\ni b$ ו-$g:A\to B$ גזירה ברציפות כך ש-$F(x,g(x))=0$
+        feedback: >-
+          זה התנאי לבטא את $x$ כפונקציה של $y$, לא להפך (וכש-$n\neq m$ המטריצה $D_xF$ אפילו אינה ריבועית). במעגל
+          $x^2+y^2=1$ בנקודה $(1,0)$: $F_x=2\neq0$, אבל אין שם $y(x)$.
+        misconception: MC-c7-implicit-wrong-partial
+      - text: >-
+          אם $D_yF(a,b)$ הפיכה, יש $g:\mathbb{R}^n\to\mathbb{R}^m$ גזירה ברציפות כך ש-$F(x,g(x))=0$ לכל $x$
+        feedback: >-
+          המשפט מקומי. ב-$x^2+y^2=1$ ליד $(0,1)$ הפונקציה $g(x)=\sqrt{1-x^2}$ מוגדרת רק ל-$|x|\le1$.
+        misconception: MC-c7-local-is-global
+      - text: >-
+          $D_yF(a,b)$ הפיכה אם ורק אם יש סביבות $A\ni a$, $B\ni b$ ופונקציה $g:A\to B$ שהגרף שלה הוא אוסף הפתרונות
+          ב-$A\times B$
+        feedback: >-
+          הכיוון "רק אם" שגוי: ל-$y^3-x=0$ ליד $(0,0)$ יש פונקציה כזו, $g(x)=\sqrt[3]{x}$, אף ש-$F_y(0,0)=0$.
+        misconception: MC-c7-ift-iff
+
+  - id: Q-7.3-circle-points
+    type: multi
+    objectives: [OBJ-7.3-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      המעגל $x^2+y^2=1$, כלומר $F(x,y)=x^2+y^2-1=0$. אילו מהטענות נכונות? סמנו את כולן.
+    choices:
+      - text: 'ליד $(0,1)$ המעגל הוא גרף של פונקציה גזירה ברציפות $y=g(x)$'
+        correct: true
+        feedback: >-
+          נכון: $F_y(0,1)=2\neq0$, ו-$g(x)=\sqrt{1-x^2}$.
+      - text: 'ליד $(1,0)$ המעגל הוא גרף של פונקציה $y=g(x)$, כי $\nabla F(1,0)=(2,0)\neq0$'
+        feedback: >-
+          $F_y(1,0)=0$. ואכן אין שם $y(x)$: ל-$x<1$ קרוב יש שני ערכים $\pm\sqrt{1-x^2}$, ול-$x>1$ אף אחד. גרדיאנט
+          שונה מאפס אומר רק שאפשר לבטא **איזשהו** משתנה.
+        misconception: MC-c7-implicit-wrong-partial
+      - text: 'ליד $(1,0)$ המעגל הוא גרף של פונקציה גזירה ברציפות $x=h(y)$'
+        correct: true
+        feedback: >-
+          נכון: $F_x(1,0)=2\neq0$, ו-$h(y)=\sqrt{1-y^2}$.
+      - text: 'ליד $\left(\frac{1}{\sqrt2},-\frac{1}{\sqrt2}\right)$ המעגל הוא גרף של פונקציה גזירה ברציפות $y=g(x)$'
+        correct: true
+        feedback: >-
+          נכון: $F_y=2y=-\sqrt2\neq0$, ו-$g(x)=-\sqrt{1-x^2}$. ליד הנקודה הזו גם $x=h(y)$ עובד, כי גם $F_x\neq0$.
+
+  - id: Q-7.3-graph-map
+    type: numeric
+    objectives: [OBJ-7.3-3]
+    level: basic
+    prompt: >-
+      $F(x,y)=x^2+y^3+y-3$, ו-$F(1,1)=0$. בהוכחת משפט הפונקציה הסתומה מגדירים $G(x,y)=(x,\ F(x,y))$. חשבו את
+      $\det J_G(1,1)$.
+    answer: 4
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $J_G=\begin{pmatrix}1&0\\F_x&F_y\end{pmatrix}=\begin{pmatrix}1&0\\2x&3y^2+1\end{pmatrix}$, משולשית, ולכן
+      $\det J_G=F_y=3+1=4$ בנקודה. כלומר $G$ הפיכה מקומית בדיוק כש-$F_y\neq0$.
+    wrongFeedback: >-
+      השורה הראשונה של $J_G$ היא הנגזרת של הרכיב $x$, כלומר $(1,0)$. המטריצה משולשית: הדטרמיננטה היא מכפלת
+      האלכסון.
+    commonWrong:
+      - value: 2
+        feedback: >-
+          $2=F_x(1,1)$. האיבר על האלכסון בשורה השנייה הוא $F_y$, לא $F_x$, ולכן הדטרמיננטה היא $F_y(1,1)$.
+        misconception: MC-c7-implicit-wrong-partial
+      - value: 8
+        feedback: >-
+          $8=F_x\cdot F_y$. אבל $F_x$ יושב מתחת לאלכסון, ובמטריצה משולשית הוא לא משפיע על הדטרמיננטה.
+
+  - id: Q-7.3-circle-slope
+    type: numeric
+    objectives: [OBJ-7.3-2]
+    level: basic
+    prompt: >-
+      ליד $(\frac35,\frac45)$ המעגל $x^2+y^2=1$ הוא גרף של $y=g(x)$. חשבו את $g'(\frac35)$.
+    answer: -0.75
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. גוזרים את $x^2+g(x)^2=1$: $2x+2g\,g'=0$, ולכן $g'=-\frac{x}{g}=-\frac{3/5}{4/5}=-\frac34$.
+    wrongFeedback: >-
+      גזרו את $x^2+g(x)^2=1$ לפי $x$ בכלל השרשרת, ובודדו את $g'$.
+    commonWrong:
+      - value: 0.75
+        feedback: >-
+          סימן שגוי. מ-$F_x+F_y\,g'=0$ יוצא $g'=-\frac{F_x}{F_y}$. בבדיקה: בחצי העליון של המעגל, מימין לציר $y$,
+          העקום יורד.
+        misconception: MC-c7-implicit-sign
+      - value: -1.3333333
+        feedback: >-
+          $-\frac43=-\frac{F_y}{F_x}$ זו הנגזרת $\frac{dx}{dy}$ של הפונקציה ההפוכה. במכנה צריך לעמוד $F_y$.
+        misconception: MC-c7-implicit-inverted-ratio
+
+  - id: Q-7.3-sphere-partial
+    type: numeric
+    objectives: [OBJ-7.3-2]
+    level: basic
+    prompt: >-
+      ליד $(1,2,2)$ הספרה $x^2+y^2+z^2=9$ היא גרף של $z=g(x,y)$. חשבו את $\frac{\partial g}{\partial x}(1,2)$.
+    answer: -0.5
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. גוזרים לפי $x$ כש-$y$ קבוע: $2x+2g\,g_x=0$, ולכן $g_x=-\frac{x}{z}=-\frac12$. זה $-\frac{F_x}{F_z}$.
+    wrongFeedback: >-
+      גזרו את $x^2+y^2+g(x,y)^2=9$ לפי $x$, עם $y$ קבוע ו-$g$ תלוי ב-$x$.
+    commonWrong:
+      - value: -2
+        feedback: >-
+          $-2=-\frac{F_z}{F_x}$: הפכתם את המנה. במכנה עומדת הנגזרת לפי המשתנה שמבטאים, $F_z$.
+        misconception: MC-c7-implicit-inverted-ratio
+      - value: 0.5
+        feedback: >-
+          סימן שגוי: $F_x+F_z\,g_x=0$ נותן $g_x=-\frac{F_x}{F_z}$.
+        misconception: MC-c7-implicit-sign
+
+  - id: Q-7.3-circle-second
+    type: numeric
+    objectives: [OBJ-7.3-2]
+    level: mid
+    prompt: >-
+      $y=g(x)$ היא הפונקציה הסתומה של $x^2+y^2=1$ ליד $(\frac35,\frac45)$. חשבו את $g''(\frac35)$.
+    answer: -1.953125
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון, $-\frac{125}{64}$. מ-$g'=-\frac{x}{g}$, בכלל המנה:
+      $$g''=-\frac{g-x\,g'}{g^2}=-\frac{g+\frac{x^2}{g}}{g^2}=-\frac{x^2+g^2}{g^3}=-\frac{1}{g^3},$$
+      ובנקודה $-\frac{1}{(4/5)^3}=-\frac{125}{64}$.
+    wrongFeedback: >-
+      גזרו את $g'=-\frac{x}{g}$ שוב בכלל המנה, וזכרו ש-$g$ תלויה ב-$x$. אחר כך הציבו את $g'$ ואת $x^2+g^2=1$.
+    commonWrong:
+      - value: -1.25
+        feedback: >-
+          $-\frac54=-\frac1g$: גזרתם את $-\frac{x}{g}$ כאילו $g$ קבוע. גם המכנה תלוי ב-$x$.
+        misconception: MC-c7-implicit-y-constant
+      - value: -0.546875
+        feedback: >-
+          $-\frac{35}{64}$ מתקבל מהצבת $g'=+\frac{x}{g}$ בנוסחת $g''$: טעות הסימן בנגזרת הראשונה עברה הלאה.
+        misconception: MC-c7-implicit-sign
+    hints:
+      - 'אחרי הגזירה השנייה, השתמשו בכך ש-$x^2+g(x)^2=1$ כדי לפשט.'
+
+  - id: Q-7.3-cube-root
+    type: twotier
+    objectives: [OBJ-7.3-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $F(x,y)=y^3-x$, ו-$F_y(0,0)=0$. האם יש סביבה של $(0,0)$ שבה קבוצת הפתרונות של $F=0$ היא גרף של פונקציה
+      **רציפה** $y=g(x)$?
+    choices:
+      - text: כן
+        correct: true
+        feedback: >-
+          נכון: $g(x)=\sqrt[3]{x}$, והפתרון יחיד לכל $x$. המשפט לא חל, ובכל זאת יש פונקציה סתומה.
+      - text: לא
+        feedback: >-
+          ל-$y^3=x$ יש פתרון יחיד $y=\sqrt[3]{x}$ לכל $x$, והוא רציף. כשהנחת המשפט נכשלת, המשפט שותק; הוא לא
+          אומר שאין פונקציה.
+        misconception: MC-c7-ift-iff
+    reasons:
+      - text: '$g(x)=\sqrt[3]{x}$ רציפה; היא לא גזירה ב-0, ואכן לא יכולה להיות: גזירה של $g(x)^3=x$ הייתה נותנת $3g(0)^2g''(0)=1$, כלומר $0=1$'
+        correct: true
+        feedback: >-
+          בדיוק. מה שהתנאי $F_y\neq0$ מבטיח הוא פונקציה **גזירה**; בלעדיו יכולה להיות פונקציה, אבל לא גזירה.
+      - text: '$\nabla F(0,0)=(-1,0)\neq0$, ולכן לפי המשפט יש $y=g(x)$'
+        feedback: >-
+          גרדיאנט שונה מאפס נותן את $x$ כפונקציה של $y$ (כאן $x=y^3$), כי $F_x\neq0$. כדי לבטא את $y$ צריך
+          $F_y\neq0$.
+        misconception: MC-c7-implicit-wrong-partial
+      - text: 'כש-$F_y=0$ אין פונקציה סתומה'
+        feedback: >-
+          זה הכיוון ההפוך של המשפט, והוא שגוי: $\sqrt[3]{x}$ היא פונקציה סתומה כזו.
+        misconception: MC-c7-ift-iff
+
+  - id: Q-7.3-system
+    type: numeric
+    objectives: [OBJ-7.3-1, OBJ-7.3-2]
+    level: mid
+    prompt: >-
+      המערכת $x+y+z=6$, $x^2+y^2+z^2=14$ מתקיימת ב-$(1,2,3)$. מטריצת הנגזרות לפי $(y,z)$ שם היא
+      $\begin{pmatrix}1&1\\4&6\end{pmatrix}$, עם דטרמיננטה 2, ולכן ליד $x=1$ יש פונקציות $y(x)$, $z(x)$. חשבו את
+      $y'(1)$.
+    answer: -2
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. גוזרים את שתי המשוואות לפי $x$: $1+y'+z'=0$ ו-$2x+2yy'+2zz'=0$. בנקודה: $y'+z'=-1$ ו-$4y'+6z'=-2$.
+      מהראשונה $z'=-1-y'$, ואז $4y'-6-6y'=-2$, כלומר $y'=-2$ ו-$z'=1$.
+    wrongFeedback: >-
+      גזרו את **שתי** המשוואות לפי $x$, כש-$y$ ו-$z$ שתיהן פונקציות של $x$, ופתרו מערכת לינארית ב-$y'$, $z'$.
+    commonWrong:
+      - value: -0.5
+        feedback: >-
+          $-\frac12=-\frac{x}{y}$ יוצא מהמשוואה השנייה כש-$z$ נשאר קבוע. אבל $z$ תלוי ב-$x$ כמו $y$; שתי המשוואות
+          יחד קובעות את $y'$ ואת $z'$.
+        misconception: MC-c7-implicit-y-constant
+      - value: -1
+        feedback: >-
+          $-1$ יוצא מהמשוואה הראשונה עם $z'=0$. מהמערכת המלאה $z'=1$, ולכן $y'=-2$.
+        misconception: MC-c7-implicit-y-constant
+
+  - id: Q-7.3-why-G
+    type: mc
+    objectives: [OBJ-7.3-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      למה ההוכחה של משפט הפונקציה הסתומה מגדירה $G(x,y)=(x,\ F(x,y))$ ולא מפעילה את משפט הפונקציה ההפוכה ישירות על
+      $F:\mathbb{R}^n\times\mathbb{R}^m\to\mathbb{R}^m$?
+    choices:
+      - text: 'כי $F$ מ-$\mathbb{R}^{n+m}$ ל-$\mathbb{R}^m$, והמשפט צריך העתקה ממימד למימד זהה; $G$ ריבועית, ו-$\det J_G=\det D_yF$'
+        correct: true
+        feedback: >-
+          נכון. הרכיב $x$ "שומר" את המשתנים החופשיים, ולכן $G$ הפיכה מקומית בדיוק כש-$D_yF(a,b)$ הפיכה, וההופכית
+          שלה שומרת על $x$.
+      - text: 'אפשר להפעיל ישירות על $F$, כי $DF(a,b)$ מדרגה מלאה $m$; $G$ רק מקצרת את החישוב'
+        feedback: >-
+          $J_F$ היא מטריצה $m\times(n+m)$, לא ריבועית, ולא יכולה להיות הפיכה. $F$ גם אינה חד-חד-ערכית: קבוצת
+          האפסים שלה היא עקום או משטח שלם.
+        misconception: MC-c7-ift-any-dimensions
+      - text: 'כי $F$ אינה גזירה ברציפות, ו-$G$ כן'
+        feedback: >-
+          $F$ גזירה ברציפות לפי ההנחה, ו-$G$ גזירה ברציפות בדיוק בגלל זה. הבעיה היא המימדים.
+      - text: 'כי $G$ חד-חד-ערכית על כל $\mathbb{R}^{n+m}$'
+        feedback: >-
+          ההוכחה לא צריכה את זה, וזה גם לא נכון בדרך כלל: אם $F(x,\cdot)$ אינה חד-חד-ערכית (כמו $y^2-1$), גם $G$
+          לא. משתמשים רק בהפיכות **המקומית** של $G$.
+        misconception: MC-c7-local-is-global
+
+  - id: Q-7.3-solve-xy
+    type: twotier
+    objectives: [OBJ-7.3-1]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $S$ הוא החיתוך של הספרה $x^2+y^2+z^2=6$ עם המישור $x+y+z=0$, והנקודה $(1,1,-2)$ עליו. האם יש סביבה של
+      $(1,1,-2)$ שבה $S$ הוא גרף של פונקציות גזירות ברציפות $x=p(z)$, $y=q(z)$ המוגדרות על קטע פתוח סביב $-2$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. $z=-2$ הוא הערך הקטן ביותר של $z$ על $S$, ולכן אין בכלל נקודות של $S$ עם $z<-2$.
+      - text: כן
+        feedback: >-
+          לו היו כאלה, היו נקודות של $S$ עם $z$ מעט קטן מ-$-2$, וראו בנימוק הנכון שאין כאלה.
+        misconception: MC-c7-implicit-wrong-partial
+    reasons:
+      - text: 'על $S$: $x+y=-z$ ו-$x^2+y^2=6-z^2$, ומ-$(x+y)^2\le2(x^2+y^2)$ יוצא $z^2\le12-2z^2$, כלומר $|z|\le2$'
+        correct: true
+        feedback: >-
+          בדיוק. בהתאם, מטריצת הנגזרות לפי $(x,y)$ ב-$(1,1,-2)$ היא $\begin{pmatrix}2x&2y\\1&1\end{pmatrix}=\begin{pmatrix}2&2\\1&1\end{pmatrix}$,
+          סינגולרית. ההוכחה הישירה היא שמכריעה; הדטרמיננטה רק מסמנת איפה לחפש.
+      - text: 'הדטרמיננטה של מטריצת הנגזרות לפי $(x,y)$ מתאפסת שם, ולכן אין פונקציות כאלה'
+        feedback: >-
+          הדטרמיננטה אכן 0, אבל מזה לבד לא נובע דבר (השוו $y^3=x$). כאן הטענה נכונה בגלל החסם $|z|\le2$.
+        misconception: MC-c7-ift-iff
+      - text: 'הגרדיאנטים $(2,2,-4)$ ו-$(1,1,1)$ בלתי תלויים, ולכן המשפט נותן את $x$ ו-$y$ כפונקציות של $z$'
+        feedback: >-
+          אי-תלות הגרדיאנטים מבטיחה שאפשר לבטא **שני משתנים כלשהם** כפונקציות של השלישי. אילו שניים, קובעת
+          ההפיכות של תת-המטריצה המתאימה: כאן $(y,z)$ כפונקציות של $x$ כן עובד, ו-$(x,y)$ של $z$ לא.
+        misconception: MC-c7-implicit-wrong-partial
+
+  - id: Q-7.3-proof
+    type: rank
+    objectives: [OBJ-7.3-3]
+    level: exam
+    prompt: >-
+      הוכיחו את משפט הפונקציה הסתומה מתוך משפט הפונקציה ההפוכה: $F:U\to\mathbb{R}^m$ גזירה ברציפות,
+      $U\subseteq\mathbb{R}^n\times\mathbb{R}^m$ פתוחה, $F(a,b)=0$, ו-$D_yF(a,b)$ הפיכה.
+    help: סדרו את שלבי ההוכחה, מהראשון לאחרון.
+    items:
+      - id: defG
+        label: 'מגדירים $G:U\to\mathbb{R}^n\times\mathbb{R}^m$ על ידי $G(x,y)=(x,\ F(x,y))$; היא גזירה ברציפות.'
+      - id: detG
+        label: '$J_G(a,b)=\begin{pmatrix}I&0\\D_xF&D_yF\end{pmatrix}$ משולשית בבלוקים, ו-$\det J_G(a,b)=\det D_yF(a,b)\neq0$.'
+      - id: invG
+        label: 'לפי משפט הפונקציה ההפוכה יש ל-$G$ הופכית גזירה ברציפות $H$ מסביבה $W$ של $G(a,b)=(a,0)$ על סביבה של $(a,b)$.'
+      - id: formH
+        label: '$G$ אינה משנה את הרכיב $x$, ולכן גם $H$ לא: $H(x,w)=(x,\ h(x,w))$.'
+      - id: defg
+        label: 'מגדירים $g(x)=h(x,0)$. ליד $(a,b)$: $F(x,y)=0$ אם ורק אם $G(x,y)=(x,0)$ אם ורק אם $y=h(x,0)=g(x)$.'
+      - id: smooth
+        label: '$g$ גזירה ברציפות כהרכבה של $H$ עם $x\mapsto(x,0)$.'
+    order: [defG, detG, invG, formH, defg, smooth]
+    correctFeedback: >-
+      נכון. הרעיון: משלימים את $F$ להעתקה ריבועית בעזרת המשתנים החופשיים, הופכים אותה, וקוראים את $g$ מהשורה
+      $w=0$ של ההופכית.
+    wrongFeedback: >-
+      קודם בונים את $G$ ובודקים שהמשפט חל עליה (הדטרמיננטה), אחר כך הופכים, אחר כך מבינים את צורת ההופכית, ורק
+      אז מגדירים את $g$ ומסיקים את תכונותיה.
+
+  - id: Q-7.3-smoothness
+    type: twotier
+    objectives: [OBJ-7.3-2]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $F:\mathbb{R}^2\to\mathbb{R}$ גזירה פעמיים ברציפות ($C^2$), $F(a,b)=0$ ו-$F_y(a,b)\neq0$. האם הפונקציה הסתומה
+      $g$ ליד $a$ גזירה פעמיים ברציפות?
+    choices:
+      - text: כן
+        correct: true
+        feedback: >-
+          נכון. וזה מה שמצדיק את חישובי $g''$ בשיעור.
+      - text: 'לא בהכרח: המשפט נותן רק $g\in C^1$'
+        feedback: >-
+          המשפט כפי שנוסח נותן $C^1$, אבל מהנוסחה ל-$g'$ אפשר להסיק יותר, כמו בנימוק הנכון.
+        misconception: MC-c7-implicit-only-c1
+    reasons:
+      - text: '$g''(x)=-\frac{F_x(x,g(x))}{F_y(x,g(x))}$, והאגף הימני הוא הרכבה ומנה של פונקציות גזירות ברציפות (עם מכנה שונה מאפס ליד $a$)'
+        correct: true
+        feedback: >-
+          בדיוק: $F_x$, $F_y$ הן $C^1$ ו-$g$ היא $C^1$, ולכן $g'$ היא $C^1$. באינדוקציה, $F\in C^k$ נותן $g\in C^k$.
+      - text: 'כל פונקציה גזירה ברציפות היא גזירה פעמיים'
+        feedback: >-
+          לא נכון: $x|x|$ גזירה ברציפות, עם נגזרת $2|x|$ שאינה גזירה באפס.
+      - text: 'גזירה פעמיים מותרת תמיד, כי $g$ מוגדרת על ידי משוואה'
+        feedback: >-
+          משוואה לבד לא מבטיחה כלום: ל-$y^3=x$ יש פונקציה סתומה שאינה גזירה אפילו פעם אחת. החלקות באה מהחלקות של
+          $F$ ומהתנאי $F_y\neq0$.
+        misconception: MC-c7-implicit-only-c1

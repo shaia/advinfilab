@@ -1,0 +1,324 @@
+# Lesson 3.5 — equivalent norms.
+# Objectives (src/course.ts):
+#   OBJ-3.5-1  define equivalent norms; equivalent norms give the same convergent sequences and the same open sets
+#   OBJ-3.5-2  prove that all norms on Euclidean space are equivalent, using the compactness of the unit sphere
+#   OBJ-3.5-3  every linear map on Euclidean space is continuous; the sup norm and the integral norm on C[0,1] are not equivalent
+chapter: 3
+questions:
+  - id: Q-3.5-def
+    type: mc
+    objectives: [OBJ-3.5-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      מתי שתי נורמות $\|\cdot\|_a$ ו-$\|\cdot\|_b$ על מרחב וקטורי $V$ נקראות שקולות?
+    choices:
+      - text: 'כשיש $c,C>0$ כך ש-$c\|x\|_a\le\|x\|_b\le C\|x\|_a$ לכל $x\in V$'
+        correct: true
+        feedback: >-
+          נכון. כל נורמה חסומה מלעיל על ידי כפולה של השנייה, **בשני הכיוונים**.
+      - text: 'כשיש $C>0$ כך ש-$\|x\|_b\le C\|x\|_a$ לכל $x\in V$'
+        feedback: >-
+          זה רק חצי. ב-$C[0,1]$ מתקיים $\|f\|_1\le\|f\|_\infty$, אבל $\|x^n\|_\infty=1$ ו-$\|x^n\|_1=\frac1{n+1}$, ולכן
+          אין חסם בכיוון השני.
+        misconception: MC-c3-one-sided-bound
+      - text: 'כשיש $C>0$ כך ש-$\|x\|_b=C\|x\|_a$ לכל $x\in V$'
+        feedback: >-
+          זה מקרה פרטי חזק מדי. $\|\cdot\|_1$ ו-$\|\cdot\|_\infty$ במישור שקולות, אבל היחס ביניהן משתנה: 1 ב-$(1,0)$
+          ו-2 ב-$(1,1)$.
+        misconception: MC-c3-equivalent-same-numbers
+      - text: 'כשיש להן אותו כדור יחידה'
+        feedback: >-
+          אז הן שוות. נורמות שקולות יכולות להיות עם כדורים שונים לגמרי: ריבוע מסובב מול ריבוע מול עיגול.
+        misconception: MC-c3-equivalent-same-numbers
+
+  - id: Q-3.5-const-num
+    type: numeric
+    objectives: [OBJ-3.5-1]
+    level: basic
+    prompt: >-
+      ב-$\mathbb{R}^9$: מהו הקבוע **הקטן ביותר** $C$ כך ש-$\|x\|_1\le C\|x\|_2$ לכל $x$?
+    answer: 3
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. לפי קושי-שוורץ $\|x\|_1=\sum|x_i|\cdot1\le\|x\|_2\sqrt9$, ובווקטור $(1,\dots,1)$ יש שוויון: $\|x\|_1=9$
+      ו-$\|x\|_2=3$. לכן $C=\sqrt n=3$ ואי אפשר פחות.
+    wrongFeedback: >-
+      כתבו $\|x\|_1=\sum|x_i|\cdot1$ והפעילו קושי-שוורץ. אחר כך בדקו את הווקטור $(1,\dots,1)$.
+    commonWrong:
+      - value: 9
+        feedback: >-
+          $9$ עובד ($\|x\|_1\le9\|x\|_\infty\le9\|x\|_2$), אבל אינו הקטן ביותר. השרשרת מאבדת מידע; קושי-שוורץ נותן $\sqrt9$.
+        misconception: MC-c3-best-constant
+      - value: 1
+        feedback: >-
+          $\|x\|_2\le\|x\|_1$ עם קבוע 1 נכון, אבל זה הכיוון ההפוך. עבור $(1,1,\dots,1)$ מקבלים $\|x\|_1=9>1\cdot\|x\|_2=3$.
+        misconception: MC-c3-one-sided-bound
+
+  - id: Q-3.5-convergence
+    type: multi
+    objectives: [OBJ-3.5-1]
+    level: basic
+    prompt: >-
+      אילו מהטענות הבאות נכונות? סמנו את כולן.
+    choices:
+      - text: 'ב-$\mathbb{R}^3$, $x_k\to x$ בנורמה $\|\cdot\|_1$ אם ורק אם $x_k\to x$ בנורמה $\|\cdot\|_\infty$'
+        correct: true
+        feedback: >-
+          נכון: $\|y\|_\infty\le\|y\|_1\le3\|y\|_\infty$, ולכן $\|x_k-x\|_1\to0$ אם ורק אם $\|x_k-x\|_\infty\to0$.
+      - text: 'ב-$C[0,1]$, אם $f_k\to f$ בנורמת הסופרמום אז $f_k\to f$ בנורמת האינטגרל'
+        correct: true
+        feedback: >-
+          נכון: $\|g\|_1=\int_0^1|g|\le\|g\|_\infty$. אי-שוויון בכיוון אחד מספיק להעברת התכנסות בכיוון אחד.
+      - text: 'ב-$C[0,1]$, אם $f_k\to0$ בנורמת האינטגרל אז $f_k\to0$ בנורמת הסופרמום'
+        feedback: >-
+          $\|x^k\|_1=\frac1{k+1}\to0$ אבל $\|x^k\|_\infty=1$. במרחב ממימד אינסופי נורמות יכולות להיות לא שקולות.
+        misconception: MC-c3-all-norms-infinite-dim
+      - text: 'ב-$\mathbb{R}^3$ לנורמות $\|\cdot\|_1$ ו-$\|\cdot\|_\infty$ אותו כדור יחידה, כי הן שקולות'
+        feedback: >-
+          $(1,1,1)$ בכדור היחידה של $\|\cdot\|_\infty$, ו-$\|(1,1,1)\|_1=3$. השקילות שומרת על התכנסות, לא על הכדורים.
+        misconception: MC-c3-equivalent-same-numbers
+
+  - id: Q-3.5-linear-cont
+    type: mc
+    objectives: [OBJ-3.5-3]
+    level: basic
+    prompt: >-
+      $T:\mathbb{R}^n\to W$ לינארית, כש-$\mathbb{R}^n$ עם נורמה כלשהי $N$ ו-$W$ מרחב נורמי כלשהו. למה $T$ רציפה?
+    choices:
+      - text: '$\|Tx\|\le\sum|x_i|\,\|Te_i\|\le M\|x\|_1\le MC\,N(x)$ עם $M=\max_i\|Te_i\|$, כי $\|\cdot\|_1$ ו-$N$ שקולות; העתקה לינארית חסומה רציפה'
+        correct: true
+        feedback: >-
+          נכון. החסם $M\|x\|_1$ הוא חישוב ישיר; שקילות הנורמות מעבירה אותו לכל נורמה $N$, ושיעור 1.8 הופך חסימות
+          לרציפות.
+      - text: 'כל העתקה לינארית בין מרחבים נורמיים רציפה'
+        feedback: >-
+          לא במימד אינסופי: הגזירה ב-$(C^1[0,1],\|\cdot\|_\infty)$ (שיעור 1.8), או $f\mapsto f(0)$ על
+          $(C[0,1],\|\cdot\|_1)$, אינן חסומות. המימד הסופי של התחום הוא שמציל.
+        misconception: MC-c3-linear-always-continuous
+      - text: 'כי $\mathbb{R}^n$ קומפקטי, ופונקציה על מרחב קומפקטי רציפה'
+        feedback: >-
+          $\mathbb{R}^n$ אינו קומפקטי (סגור ולא חסום), ופונקציה על מרחב קומפקטי אינה רציפה אוטומטית. הקומפקטיות
+          נכנסת דרך הספרה, בהוכחת שקילות הנורמות.
+        misconception: MC-c3-half-heine-borel
+
+  - id: Q-3.5-same-open
+    type: twotier
+    objectives: [OBJ-3.5-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $\|\cdot\|_a$ ו-$\|\cdot\|_b$ נורמות שקולות על $V$. נכון או לא נכון: כל קבוצה פתוחה לפי $\|\cdot\|_a$ פתוחה
+      גם לפי $\|\cdot\|_b$.
+    choices:
+      - text: נכון
+        correct: true
+        feedback: >-
+          נכון. לכן לנורמות שקולות אותן קבוצות פתוחות, אותן סגורות ואותן פונקציות רציפות.
+      - text: לא נכון
+        feedback: >-
+          הכדורים של שתי הנורמות שונים, אבל כל כדור של אחת מכיל כדור (קטן יותר) של השנייה סביב אותו מרכז, וזה מה
+          שפתיחות צריכה.
+        misconception: MC-c3-equivalent-same-numbers
+    reasons:
+      - text: 'מ-$c\|y\|_a\le\|y\|_b$: אם $\|y-x\|_b<cr$ אז $\|y-x\|_a<r$, כלומר $B_b(x,cr)\subseteq B_a(x,r)$. אז אם $U$ פתוחה לפי $a$ ו-$B_a(x,r)\subseteq U$, גם $B_b(x,cr)\subseteq U$'
+        correct: true
+        feedback: >-
+          בדיוק. שימו לב שכאן נדרש אי-השוויון $c\|y\|_a\le\|y\|_b$; לכיוון ההפוך משתמשים באי-השוויון השני.
+      - text: 'לנורמות שקולות יש אותם כדורים'
+        feedback: >-
+          לא: כדור היחידה של $\|\cdot\|_1$ במישור הוא ריבוע מסובב ושל $\|\cdot\|_\infty$ ריבוע. מה שנכון הוא שכל כדור
+          של אחת מכיל כדור של השנייה.
+        misconception: MC-c3-equivalent-same-numbers
+      - text: 'מספיק $\|y\|_b\le C\|y\|_a$: הוא נותן $B_a(x,\frac rC)\subseteq B_b(x,r)$'
+        feedback: >-
+          ההכלה הזו נכונה, אבל היא מראה שפתוחה לפי $b$ פתוחה לפי $a$, הכיוון ההפוך. לכיוון המבוקש צריך את
+          אי-השוויון השני.
+        misconception: MC-c3-one-sided-bound
+
+  - id: Q-3.5-opnorm
+    type: mc
+    objectives: [OBJ-3.5-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      עבור $A=\begin{pmatrix}1&2\\3&4\end{pmatrix}$ נורמת האופרטור היא 6 כש-$\mathbb{R}^2$ עם $\|\cdot\|_1$, ו-7 כשהוא
+      עם $\|\cdot\|_\infty$ (שיעור 1.8). מה נכון?
+    choices:
+      - text: 'נורמת האופרטור תלויה בנורמה, אבל העובדה שהיא סופית (כלומר ש-$A$ רציפה) לא תלויה בה, כי הנורמות שקולות'
+        correct: true
+        feedback: >-
+          נכון. שקילות שומרת על חסימות ורציפות, לא על המספרים עצמם.
+      - text: 'אחד החישובים שגוי: לנורמות שקולות אותה נורמת אופרטור'
+        feedback: >-
+          שני החישובים נכונים: 6 הוא סכום העמודה השנייה, $2+4$, ו-7 הוא סכום השורה השנייה, $3+4$. שקילות לא שומרת על
+          המספרים.
+        misconception: MC-c3-equivalent-same-numbers
+      - text: 'הנורמות $\|\cdot\|_1$ ו-$\|\cdot\|_\infty$ על $\mathbb{R}^2$ אינן שקולות, כי נורמות האופרטור שונות'
+        feedback: >-
+          הן שקולות: $\|x\|_\infty\le\|x\|_1\le2\|x\|_\infty$. מספרים שונים לא סותרים שקילות.
+        misconception: MC-c3-equivalent-same-numbers
+
+  - id: Q-3.5-why-sphere
+    type: mc
+    objectives: [OBJ-3.5-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      בהוכחה שכל נורמה $N$ על $\mathbb{R}^n$ שקולה ל-$\|\cdot\|_2$, למה צריך את הקומפקטיות של הספרה
+      $S=\{x: \|x\|_2=1\}$?
+    choices:
+      - text: 'כדי ש-$N$, שהיא רציפה, תקבל מינימום $m$ על $S$; כי $0\notin S$, $m>0$, וזה החסם התחתון $m\|x\|_2\le N(x)$'
+        correct: true
+        feedback: >-
+          נכון. החסם העליון בא מאי-שוויון המשולש בלבד; החסם התחתון הוא החלק הקשה, ושם הקומפקטיות הופכת "$N>0$ על
+          $S$" ל"$N\ge m>0$ על $S$".
+      - text: 'אין צורך: $N(x)>0$ לכל $x\in S$, ולכן $\inf_S N>0$'
+        feedback: >-
+          פונקציה חיובית יכולה להיות עם אינפימום 0, כמו $x$ על $(0,1]$. בלי קומפקטיות ההוכחה נופלת, ואכן ב-$C[0,1]$
+          $\inf\{\|f\|_1: \|f\|_\infty=1\}=0$.
+        misconception: MC-c3-inf-positive
+      - text: 'כדי לקבל את החסם העליון $N(x)\le C\|x\|_2$'
+        feedback: >-
+          החסם העליון בא בלי קומפקטיות: $N(x)\le\sum|x_i|N(e_i)\le\max_iN(e_i)\sqrt n\,\|x\|_2$. חסם אחד בלבד אינו
+          שקילות, והחסם השני הוא שדורש קומפקטיות.
+        misconception: MC-c3-one-sided-bound
+      - text: 'כי ספרת היחידה קומפקטית בכל מרחב נורמי, וכך ההוכחה עובדת בכל מרחב'
+        feedback: >-
+          ספרת היחידה של $(C[0,1],\|\cdot\|_\infty)$ סגורה וחסומה ואינה קומפקטית ($x^n$ שוב). היינה-בורל הוא מה שהופך
+          את ההוכחה לנכונה דווקא ב-$\mathbb{R}^n$.
+        misconception: MC-c3-closed-bounded-compact
+
+  - id: Q-3.5-not-equiv
+    type: twotier
+    objectives: [OBJ-3.5-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      האם $\|\cdot\|_\infty$ ו-$\|\cdot\|_1$ שקולות על $C[0,1]$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. וזה מראה שמשפט שקילות הנורמות דורש מימד סופי.
+      - text: כן
+        feedback: >-
+          $\|f\|_1\le\|f\|_\infty$ נכון, אבל בכיוון ההפוך אין קבוע: $\frac{\|x^n\|_\infty}{\|x^n\|_1}=n+1\to\infty$.
+        misconception: MC-c3-one-sided-bound
+    reasons:
+      - text: '$\|x^n\|_\infty=1$ ו-$\|x^n\|_1=\frac1{n+1}$, ולכן אין $C$ עם $\|f\|_\infty\le C\|f\|_1$ לכל $f$'
+        correct: true
+        feedback: >-
+          בדיוק. אילו היה $C$, היה $1\le\frac C{n+1}$ לכל $n$.
+      - text: '$\|f\|_1\le\|f\|_\infty$ לכל $f$, ולכן הן שקולות'
+        feedback: >-
+          זה חצי מהשקילות בלבד; החצי השני נכשל ב-$x^n$.
+        misconception: MC-c3-one-sided-bound
+      - text: 'כל שתי נורמות על מרחב וקטורי שקולות'
+        feedback: >-
+          רק במימד סופי. $C[0,1]$ ממימד אינסופי, והזוג הזה הוא הדוגמה הנגדית.
+        misconception: MC-c3-all-norms-infinite-dim
+
+  - id: Q-3.5-normalized-num
+    type: numeric
+    objectives: [OBJ-3.5-3]
+    level: mid
+    prompt: >-
+      $g_n(x)=(n+1)x^n$ מקיימת $\|g_n\|_1=1$ לכל $n$. חשבו את $\|g_9\|_\infty$ על $[0,1]$.
+    answer: 10
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון: $\|g_9\|_\infty=10\cdot1^9=10$. כלומר $g_n$ על ספרת היחידה של $\|\cdot\|_1$, ו-$\|g_n\|_\infty=n+1$ לא
+      חסום: אין $C$ עם $\|f\|_\infty\le C\|f\|_1$.
+    wrongFeedback: >-
+      $x^9$ עולה ב-$[0,1]$, ולכן המקסימום של $10x^9$ מתקבל ב-$x=1$.
+    commonWrong:
+      - value: 1
+        feedback: >-
+          $\|g_9\|_1=1$, אבל זה לא אומר דבר על $\|g_9\|_\infty$: החסם $\|f\|_1\le\|f\|_\infty$ הולך רק בכיוון אחד.
+        misconception: MC-c3-one-sided-bound
+
+  - id: Q-3.5-proof-rank
+    type: rank
+    objectives: [OBJ-3.5-2]
+    level: exam
+    help: 'סדרו את שלבי ההוכחה לפי הסדר הנכון. שני השלבים הראשונים בלתי תלויים זה בזה, וכל סדר ביניהם נכון.'
+    prompt: >-
+      ההוכחה ש"כל נורמה $N$ על $\mathbb{R}^n$ שקולה ל-$\|\cdot\|_2$" התפרקה לשלבים. סדרו אותם.
+    items:
+      - id: upper
+        label: '$N(x)\le\sum|x_i|N(e_i)\le M\sqrt n\,\|x\|_2$ עם $M=\max_iN(e_i)$; לכן $|N(x)-N(y)|\le N(x-y)\le M\sqrt n\,\|x-y\|_2$, ו-$N$ רציפה לפי $\|\cdot\|_2$.'
+      - id: sphere
+        label: 'הספרה $S=\{\|x\|_2=1\}$ סגורה וחסומה, ולכן קומפקטית לפי היינה-בורל.'
+      - id: min
+        label: '$N$ מקבלת על $S$ מינימום $m$, ו-$m>0$ כי $N(x)=0$ רק עבור $x=0\notin S$.'
+      - id: scale
+        label: 'לכל $x\ne0$, $\frac{x}{\|x\|_2}\in S$, ולכן $N(x)\ge m\|x\|_2$. יחד: $m\|x\|_2\le N(x)\le M\sqrt n\,\|x\|_2$.'
+    order: [[upper, sphere], min, scale]
+    correctFeedback: >-
+      נכון. מהשקילות ל-$\|\cdot\|_2$ נובעת שקילות של כל שתי נורמות על $\mathbb{R}^n$, כי שקילות היא יחס שקילות.
+    wrongFeedback: >-
+      כדי להפעיל את משפט ויירשטראס על $N$ צריך גם את הרציפות שלה וגם את הקומפקטיות של $S$; ורק עם המינימום ביד
+      אפשר להרחיב מ-$S$ לכל $x$ בכפל בסקלר.
+
+  - id: Q-3.5-step-fails
+    type: twotier
+    objectives: [OBJ-3.5-2, OBJ-3.5-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      מנסים להעתיק את ההוכחה ל-$C[0,1]$: $N(f)=\|f\|_1$ רציפה לפי $\|\cdot\|_\infty$, ו-$S=\{f:\|f\|_\infty=1\}$. האם $N$
+      מקבלת על $S$ מינימום חיובי?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. האינפימום הוא 0 והוא לא מתקבל, ולכן אין חסם $\|f\|_\infty\le C\|f\|_1$, וההוכחה נעצרת בדיוק בצעד הזה.
+      - text: כן
+        feedback: >-
+          $x^n\in S$ ו-$\|x^n\|_1=\frac1{n+1}\to0$, כך ש-$\inf_S N=0$; ולכל $f\in S$ מתקיים $\|f\|_1>0$, אז 0 אינו מתקבל.
+        misconception: MC-c3-inf-positive
+    reasons:
+      - text: '$\inf_S N=0$ (לפי $x^n$), ו-$S$ אינה קומפקטית, כך שמשפט ויירשטראס לא חל ואין מינימום'
+        correct: true
+        feedback: >-
+          בדיוק. המקום היחיד בהוכחה שבו מימד סופי באמת נדרש הוא הקומפקטיות של הספרה.
+      - text: '$\|f\|_1>0$ לכל $f\in S$, ולכן המינימום חיובי'
+        feedback: >-
+          חיוביות נקודתית לא נותנת אינפימום חיובי: $\|x^n\|_1=\frac1{n+1}$ קטן כרצוננו.
+        misconception: MC-c3-inf-positive
+      - text: '$S$ סגורה וחסומה, ולכן קומפקטית, ו-$N$ מקבלת עליה מינימום'
+        feedback: >-
+          סגורה וחסומה אינה קומפקטית ב-$C[0,1]$: לסדרה $x^n\in S$ אין תת-סדרה מתכנסת במידה שווה.
+        misconception: MC-c3-closed-bounded-compact
+
+  - id: Q-3.5-functional
+    type: twotier
+    objectives: [OBJ-3.5-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $\varphi(f)=f(0)$ הוא פונקציונל לינארי על $C[0,1]$. האם הוא רציף כש-$C[0,1]$ עם נורמת האינטגרל $\|\cdot\|_1$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. אותו $\varphi$ רציף לפי $\|\cdot\|_\infty$ ($|f(0)|\le\|f\|_\infty$), ולא רציף לפי $\|\cdot\|_1$; זה
+          אפשרי רק כי הנורמות אינן שקולות.
+      - text: כן
+        feedback: >-
+          יש פונקציות עם נורמת אינטגרל קטנה כרצוננו ו-$f(0)=1$: "שיניים" צרות ליד 0.
+        misconception: MC-c3-linear-always-continuous
+    reasons:
+      - text: '$f_n(x)=\max(1-nx,0)$ מקיימת $\|f_n\|_1=\frac1{2n}\to0$ ו-$\varphi(f_n)=1$, ולכן $\varphi$ אינו חסום'
+        correct: true
+        feedback: >-
+          בדיוק. $f_n\to0$ בנורמה 1, אבל $\varphi(f_n)\not\to\varphi(0)=0$.
+      - text: 'כל העתקה לינארית רציפה'
+        feedback: >-
+          זה נכון כשהתחום ממימד סופי, ו-$C[0,1]$ אינו כזה. כאן הדוגמה הנגדית מפורשת.
+        misconception: MC-c3-linear-always-continuous
+      - text: '$\varphi$ רציף לפי $\|\cdot\|_\infty$, ולכן לפי כל נורמה'
+        feedback: >-
+          רציפות עוברת בין נורמות רק כשהן שקולות. $\|\cdot\|_1$ ו-$\|\cdot\|_\infty$ על $C[0,1]$ אינן שקולות.
+        misconception: MC-c3-all-norms-infinite-dim

@@ -1,0 +1,520 @@
+# Workbook of lesson 1.8 — bounded linear maps and the operator norm.
+# Objectives (src/course.ts):
+#   OBJ-1.8-1  a linear map between normed spaces is continuous iff bounded iff continuous at 0
+#   OBJ-1.8-2  the operator norm; matrices in the 1- and ∞-norms, an estimate in the Euclidean norm
+#   OBJ-1.8-3  an unbounded linear map in infinite dimension: differentiation in the sup norm
+# Matrix norms recomputed with src/math/multivar.ts (opNorm, symEigenvalues); integrals with simpson.
+lesson: '1.8'
+practice:
+  - id: W-1.8-01
+    level: basic
+    objectives: [OBJ-1.8-2]
+    prompt: >-
+      $A=\begin{pmatrix}1&-2\\3&0\\-1&1\end{pmatrix}$ כהעתקה מ-$\mathbb{R}^2$ ל-$\mathbb{R}^3$.
+
+      (א) חשבו את $\|A\|_{\mathrm{op}}$ בנורמת אינסוף (בשני הצדדים), ומצאו $x$ עם $\|x\|_\infty=1$ שמשיג אותה.
+
+      (ב) אותו דבר בנורמה 1.
+    answer: >-
+      (א) 3, למשל ב-$x=(1,-1)$. (ב) 5, ב-$x=e_1$.
+    solution:
+      - kind: theorem
+        text: >-
+          בנורמת אינסוף $\|A\|_{\mathrm{op}}=\max_i\sum_j|a_{ij}|$ (שורות), ובנורמה 1 $\|A\|_{\mathrm{op}}=\max_j\sum_i|a_{ij}|$
+          (עמודות).
+      - kind: computation
+        text: >-
+          (א) סכומי השורות: $1+2=3$, $3+0=3$, $1+1=2$. המקסימום 3. וקטור הסימנים של השורה הראשונה, $x=(1,-1)$, נותן
+          $Ax=(3,\ 3,\ -2)$, ו-$\|Ax\|_\infty=3$.
+      - kind: computation
+        text: >-
+          (ב) סכומי העמודות: $1+3+1=5$ ו-$2+0+1=3$. המקסימום 5, ב-$x=e_1$: $Ae_1=(1,3,-1)$, ו-$\|Ae_1\|_1=5$.
+      - kind: check
+        text: >-
+          בשני הסעיפים מצאנו וקטור יחידה שמשיג את החסם, ולכן אלה הנורמות ולא רק חסמים.
+      - kind: result
+        text: >-
+          (א) $\|A\|_{\mathrm{op}}=3$; (ב) $\|A\|_{\mathrm{op}}=5$.
+
+  - id: W-1.8-02
+    level: basic
+    objectives: [OBJ-1.8-2]
+    prompt: >-
+      $T:\mathbb{R}^2\to\mathbb{R}^2$, $T(x,y)=(x+y,\ x-y)$, עם הנורמה האוקלידית בשני הצדדים.
+
+      (א) הראו ש-$\|T(x,y)\|_2=\sqrt2\,\|(x,y)\|_2$ לכל $(x,y)$.
+
+      (ב) מהי $\|T\|_{\mathrm{op}}$? ומה הנורמות של אותה מטריצה בנורמה 1 ובנורמת אינסוף?
+    answer: >-
+      (א) $\|T(x,y)\|_2^2=2(x^2+y^2)$. (ב) $\sqrt2$; בנורמות 1 ואינסוף: 2.
+    solution:
+      - kind: computation
+        text: >-
+          (א) $(x+y)^2+(x-y)^2=x^2+2xy+y^2+x^2-2xy+y^2=2(x^2+y^2)$. מוציאים שורש.
+      - kind: step
+        text: >-
+          (ב) לפי (א) כל וקטור נמתח פי $\sqrt2$ בדיוק. לכן $\sup_{\|v\|_2\le1}\|Tv\|_2=\sqrt2$, והנורמה מתקבלת בכל
+          וקטור יחידה.
+      - kind: computation
+        text: >-
+          המטריצה היא $\begin{pmatrix}1&1\\1&-1\end{pmatrix}$. סכומי השורות ושל העמודות בערך מוחלט כולם 2, ולכן בנורמה
+          1 ובנורמת אינסוף $\|T\|_{\mathrm{op}}=2$.
+      - kind: check
+        text: >-
+          $\sqrt2\approx1.414$ קטן מ-2, ושלוש הנורמות לא חייבות להיות שוות. וכאן לא היה צורך בערכים עצמיים: חישוב ישיר
+          של $\|Tv\|_2$ הספיק.
+      - kind: result
+        text: >-
+          בנורמה האוקלידית $\sqrt2$; בנורמה 1 ובנורמת אינסוף 2.
+
+  - id: W-1.8-03
+    level: mid
+    qualitative: true
+    objectives: [OBJ-1.8-1]
+    prompt: >-
+      $T:V\to W$ לינארית בין מרחבים נורמיים. נכון או לא? נמקו.
+
+      (א) אם $\|Tx\|\le3$ לכל $x$ עם $\|x\|=1$, אז $\|Tx\|\le3\|x\|$ לכל $x$.
+
+      (ב) אם $T$ רציפה בנקודה אחת $x_0$ כלשהי, אז היא רציפה בכל נקודה.
+
+      (ג) $\|T\|_{\mathrm{op}}=0$ אם ורק אם $T=0$.
+    answer: >-
+      שלושתן נכונות.
+    solution:
+      - kind: step
+        text: >-
+          (א) **נכון.** ל-$x\ne0$, $\frac{x}{\|x\|}$ וקטור יחידה, ולכן $\|Tx\|=\|x\|\cdot\left\|T\frac{x}{\|x\|}\right\|\le3\|x\|$.
+          ל-$x=0$ שני הצדדים 0. כאן הלינאריות היא שמעבירה חסם מהספרה לכל המרחב.
+      - kind: step
+        text: >-
+          (ב) **נכון.** אם $y_n\to y$, אז $x_0+(y_n-y)\to x_0$, ומהרציפות ב-$x_0$:
+          $T(x_0+y_n-y)\to Tx_0$. לפי הלינאריות $T(x_0+y_n-y)=Tx_0+Ty_n-Ty$, ולכן $Ty_n-Ty\to0$, כלומר $Ty_n\to Ty$.
+      - kind: step
+        text: >-
+          (ג) **נכון.** אם $T=0$ אז כל $\|Tx\|=0$. ולהפך, אם $\|T\|_{\mathrm{op}}=0$ אז $\|Tx\|\le0\cdot\|x\|=0$ לכל $x$,
+          ולכן $T=0$. (זו אחת מאקסיומות הנורמה, לנורמת האופרטור.)
+      - kind: result
+        text: >-
+          (א), (ב), (ג) נכונות.
+
+  - id: W-1.8-04
+    level: mid
+    objectives: [OBJ-1.8-2]
+    prompt: >-
+      על $(C[0,1],\|\cdot\|_\infty)$ יהי $\varphi(f)=f(0)+f(1)-\int_0^1f(x)\,dx$.
+
+      (א) הוכיחו ש-$\|\varphi\|_{\mathrm{op}}\le3$.
+
+      (ב) מצאו פונקציות $f_n$ עם $\|f_n\|_\infty=1$ ו-$\varphi(f_n)\to3$, והסיקו את הנורמה.
+    answer: >-
+      $\|\varphi\|_{\mathrm{op}}=3$. למשל $f_n$ ששווה 1 בקצוות ו-$-1$ על $[\frac1n,1-\frac1n]$, עם $\varphi(f_n)=3-\frac2n$.
+    solution:
+      - kind: idea
+        text: >-
+          חסם מלעיל מאי-שוויון המשולש; חסם מלרע מפונקציה שהיא 1 בקצוות (כדי שהשניים הראשונים יתרמו $+2$) ו-$-1$ כמעט
+          בכל הקטע (כדי ש"מינוס האינטגרל" יתרום כמעט $+1$).
+      - kind: computation
+        text: >-
+          (א) $|\varphi(f)|\le|f(0)|+|f(1)|+\int_0^1|f|\le\|f\|_\infty+\|f\|_\infty+\|f\|_\infty=3\|f\|_\infty$.
+      - kind: step
+        text: >-
+          (ב) ל-$n\ge2$ תהי $f_n$ רציפה, לינארית מ-1 ב-$0$ עד $-1$ ב-$\frac1n$, שווה ל-$-1$ על $\left[\frac1n,1-\frac1n\right]$,
+          ולינארית מ-$-1$ עד 1 ב-$\left[1-\frac1n,1\right]$. אז $\|f_n\|_\infty=1$.
+      - kind: computation
+        text: >-
+          על כל אחד משני קטעי המעבר האינטגרל 0 (הקו עובר מ-1 ל-$-1$ באופן סימטרי). על הקטע האמצעי, שאורכו $1-\frac2n$,
+          האינטגרל $-\left(1-\frac2n\right)$. לכן $\int_0^1f_n=-1+\frac2n$, ו-$\varphi(f_n)=1+1-\left(-1+\frac2n\right)=3-\frac2n$.
+      - kind: check
+        text: >-
+          עם $n=4$ ו-$n=10$: $3-\frac2n$ נותן $2.5$ ו-$2.8$. והסופרמום אינו מתקבל. נניח $\|f\|_\infty\le1$
+          ו-$\varphi(f)=3$. כל אחד משלושת המחוברים קטן או שווה ל-1: $f(0)\le1$, $f(1)\le1$, ו-$-\int_0^1f\le\int_0^1|f|\le1$.
+          הסכום שלהם 3, ולכן כל אחד מהם שווה ל-1 בדיוק: $f(0)=f(1)=1$ ו-$\int_0^1(1+f)=0$. הפונקציה $1+f$ רציפה
+          ואי-שלילית (כי $f\ge-1$), ולכן $1+f\equiv0$, כלומר $f\equiv-1$, בסתירה ל-$f(0)=1$. המקרה $\varphi(f)=-3$ זהה,
+          עם $-f$ במקום $f$.
+      - kind: result
+        text: >-
+          $\|\varphi\|_{\mathrm{op}}=3$ (ואינה מתקבלת).
+
+  - id: W-1.8-05
+    level: mid
+    objectives: [OBJ-1.8-2]
+    prompt: >-
+      $A=\begin{pmatrix}3&0\\4&5\end{pmatrix}$ עם הנורמה האוקלידית בשני הצדדים.
+
+      (א) חסמו את $\|A\|_{\mathrm{op}}$ מלעיל בעזרת קושי-שוורץ.
+
+      (ב) חשבו את $\|A\|_{\mathrm{op}}$ בדיוק, והשוו לערכים העצמיים של $A$.
+    answer: >-
+      (א) $\sqrt{50}\approx7.071$. (ב) $\sqrt{45}=3\sqrt5\approx6.708$, גדול מהערך העצמי הגדול, 5.
+    solution:
+      - kind: computation
+        text: >-
+          (א) $\|A\|_{\mathrm{op}}\le\sqrt{\sum a_{ij}^2}=\sqrt{9+0+16+25}=\sqrt{50}\approx7.071$.
+      - kind: computation
+        text: >-
+          (ב) $A^TA=\begin{pmatrix}3&4\\0&5\end{pmatrix}\begin{pmatrix}3&0\\4&5\end{pmatrix}=\begin{pmatrix}25&20\\20&25\end{pmatrix}$.
+          העקבה 50 והדטרמיננטה $625-400=225$, ולכן $\lambda^2-50\lambda+225=0$, $\lambda\in\{5,\ 45\}$.
+      - kind: step
+        text: >-
+          $\|A\|_{\mathrm{op}}=\sqrt{\lambda_{\max}(A^TA)}=\sqrt{45}=3\sqrt5\approx6.708$, מתקבלת בווקטור העצמי
+          $\frac1{\sqrt2}(1,1)$ של $A^TA$: $A\frac{(1,1)}{\sqrt2}=\frac{(3,9)}{\sqrt2}$, שאורכו $\sqrt{\frac{90}{2}}=\sqrt{45}$.
+      - kind: check
+        text: >-
+          הערכים העצמיים של $A$ (משולשת) הם 3 ו-5, ו-$5\le6.708\le7.071$: ערך עצמי חוסם את הנורמה מלרע, וקושי-שוורץ
+          מלעיל. והחישוב מראה שהנורמה גדולה ממש מ-5: מטריצה לא סימטרית יכולה למתוח יותר מכל ערך עצמי שלה.
+      - kind: result
+        text: >-
+          (א) $\le\sqrt{50}$; (ב) $\|A\|_{\mathrm{op}}=3\sqrt5\approx6.708$.
+
+  - id: W-1.8-06
+    level: basic
+    objectives: [OBJ-1.8-1, OBJ-1.8-2]
+    prompt: >-
+      תהי $g\in C[0,1]$, ונגדיר על $(C[0,1],\|\cdot\|_\infty)$ את העתקת הכפל $(M_gf)(x)=g(x)f(x)$.
+
+      (א) הוכיחו ש-$M_g$ לינארית, חסומה ורציפה.
+
+      (ב) הוכיחו ש-$\|M_g\|_{\mathrm{op}}=\|g\|_\infty$.
+    answer: >-
+      $\|M_gf\|_\infty\le\|g\|_\infty\|f\|_\infty$, ושוויון ב-$f\equiv1$.
+    solution:
+      - kind: step
+        text: >-
+          (א) מכפלה של רציפות רציפה, ולכן $M_gf\in C[0,1]$. לינאריות: $g(af+bh)=a\,gf+b\,gh$.
+      - kind: computation
+        text: >-
+          חסם: לכל $x$, $|g(x)f(x)|\le\|g\|_\infty\,\|f\|_\infty$, ולכן $\|M_gf\|_\infty\le\|g\|_\infty\|f\|_\infty$. זו חסימות
+          עם $M=\|g\|_\infty$, ולפי המשפט על העתקות לינאריות $M_g$ רציפה (ואפילו ליפשיצית).
+      - kind: step
+        text: >-
+          (ב) החסם נותן $\|M_g\|_{\mathrm{op}}\le\|g\|_\infty$. מלרע: $f\equiv1$ מקיימת $\|f\|_\infty=1$ ו-$M_g1=g$, ולכן
+          $\|M_g\|_{\mathrm{op}}\ge\|g\|_\infty$.
+      - kind: check
+        text: >-
+          עם $g(x)=x$ מקבלים $\|M_g\|=1$, כמו שצריך: $(M_gf)(x)=xf(x)$ אינה גדולה מ-$|f(x)|$.
+      - kind: result
+        text: >-
+          $M_g$ חסומה ורציפה, ו-$\|M_g\|_{\mathrm{op}}=\|g\|_\infty$.
+
+  - id: W-1.8-07
+    level: mid
+    qualitative: true
+    objectives: [OBJ-1.8-3]
+    prompt: >-
+      $P$ הפולינומים על $[0,1]$, הפעם עם נורמת האינטגרל $\|p\|_1=\int_0^1|p(x)|\,dx$ בשני הצדדים. האם הגזירה
+      $D:(P,\|\cdot\|_1)\to(P,\|\cdot\|_1)$, $Dp=p'$, חסומה?
+    answer: >-
+      לא: $\|x^n\|_1=\frac1{n+1}$ ו-$\|nx^{n-1}\|_1=1$, והיחס $n+1$ אינו חסום.
+    solution:
+      - kind: idea
+        text: >-
+          ננסה את אותם פולינומים שהפילו את $D$ בנורמת הסופרמום: $x^n$. צריך לחשב את שתי הנורמות מחדש, כי הנורמה השתנתה.
+      - kind: computation
+        text: >-
+          $\|x^n\|_1=\int_0^1x^n\,dx=\frac1{n+1}$, ו-$\|Dx^n\|_1=\int_0^1nx^{n-1}\,dx=1$.
+      - kind: step
+        text: >-
+          לכן $\frac{\|Dx^n\|_1}{\|x^n\|_1}=n+1$. אילו $D$ הייתה חסומה עם קבוע $M$, היה מתקיים $n+1\le M$ לכל $n$. לכן
+          $D$ אינה חסומה, ולפי המשפט אינה רציפה.
+      - kind: check
+        text: >-
+          ל-$n=10$: $\|x^{10}\|_1=\frac1{11}\approx0.0909$ ו-$\|10x^9\|_1=1$, והיחס 11. בנורמת הסופרמום היחס היה $n=10$:
+          הנורמה השתנתה, אבל הפולינומים $x^n$ מפילים את $D$ בשתיהן.
+      - kind: result
+        text: >-
+          $D$ אינה חסומה גם בנורמת האינטגרל.
+
+  - id: W-1.8-08
+    level: exam
+    qualitative: true
+    objectives: [OBJ-1.8-1, OBJ-1.8-3]
+    prompt: >-
+      $V$ מרחב נורמי, ו-$\varphi:V\to\mathbb{R}$ פונקציונל לינארי. הגרעין שלו הוא $\ker\varphi=\{x\in V:\ \varphi(x)=0\}$.
+
+      (א) הוכיחו: אם $\varphi$ חסום, אז $\ker\varphi$ קבוצה סגורה.
+
+      (ב) הוכיחו את הכיוון ההפוך: אם $\ker\varphi$ סגורה, אז $\varphi$ חסום. רמז: הניחו שלא, בחרו $x_n$ עם
+      $\|x_n\|\le1$ ו-$|\varphi(x_n)|>n$, ו-$z$ עם $\varphi(z)=1$, והסתכלו על $y_n=z-\frac{x_n}{\varphi(x_n)}$.
+
+      (ג) האם (ב) נכון גם להעתקה לינארית $T:V\to W$ כללית, כלומר: גרעין סגור גורר חסומה? בדקו את הגזירה
+      $D:P\to P$ מהשיעור, על הפולינומים עם נורמת הסופרמום.
+    answer: >-
+      (א) $\ker\varphi=\varphi^{-1}(\{0\})$, מקור של קבוצה סגורה תחת העתקה רציפה. (ב) $y_n\in\ker\varphi$ ו-$y_n\to z$,
+      אבל $\varphi(z)=1$: סתירה לסגירות. (ג) לא: $\ker D$ היא הפולינומים הקבועים, קבוצה סגורה, ו-$D$ אינה חסומה.
+    solution:
+      - kind: step
+        text: >-
+          (א) $\varphi$ חסום, ולכן לפי המשפט שבשיעור רציף. $\{0\}$ סגורה ב-$\mathbb{R}$, ומקור של קבוצה סגורה תחת
+          פונקציה רציפה סגור (שיעור 1.6). לכן $\ker\varphi=\varphi^{-1}(\{0\})$ סגורה.
+      - kind: idea
+        text: >-
+          (ב) אם $\varphi$ אינו חסום, יש וקטורים קצרים שבהם $\varphi$ עצום. מחלקים אותם בערך של $\varphi$ ומקבלים וקטורים
+          זעירים; מזיזים בהם נקודה $z$ שמחוץ לגרעין בדיוק לתוך הגרעין. כך נקודות מהגרעין מתכנסות ל-$z$, והגרעין
+          אינו סגור.
+      - kind: step
+        text: >-
+          אם $\varphi=0$, הוא חסום ואין מה להוכיח. אחרת יש $w$ עם $\varphi(w)\ne0$, ונגדיר $z=\frac{w}{\varphi(w)}$; אז
+          $\varphi(z)=1$, ובפרט $z\notin\ker\varphi$.
+      - kind: step
+        text: >-
+          נניח בשלילה ש-$\varphi$ אינו חסום. אז $\sup_{\|x\|\le1}|\varphi(x)|$ אינו סופי, ולכן לכל $n\in\mathbb{N}$ יש
+          $x_n$ עם $\|x_n\|\le1$ ו-$|\varphi(x_n)|>n$. בפרט $\varphi(x_n)\ne0$, ונגדיר
+          $y_n=z-\frac{x_n}{\varphi(x_n)}$.
+      - kind: computation
+        text: >-
+          לפי הלינאריות $\varphi(y_n)=\varphi(z)-\frac{\varphi(x_n)}{\varphi(x_n)}=1-1=0$, כלומר $y_n\in\ker\varphi$.
+          והמרחק: $\|y_n-z\|=\frac{\|x_n\|}{|\varphi(x_n)|}<\frac1n\to0$, כלומר $y_n\to z$.
+      - kind: step
+        text: >-
+          קבוצה סגורה מכילה את הגבולות של כל הסדרות המתכנסות שלה (שיעור 1.5). $\ker\varphi$ סגורה ו-$y_n\to z$, ולכן
+          $z\in\ker\varphi$, כלומר $\varphi(z)=0$. אבל $\varphi(z)=1$: סתירה. לכן $\varphi$ חסום.
+      - kind: step
+        text: >-
+          (ג) **לא.** $Dp=0$ אם ורק אם $p$ קבוע, ולכן $\ker D$ היא קבוצת הפולינומים הקבועים. היא סגורה: אם קבועים
+          $c_n$ מתכנסים ל-$p$ בנורמת הסופרמום, אז לכל $x$, $p(x)=\lim c_n=p(0)$, ולכן גם $p$ קבוע. ובכל זאת $D$ אינה
+          חסומה, לפי המשפט שבשיעור.
+      - kind: check
+        text: >-
+          איפה השתמשנו ב-(ב) בכך שהטווח הוא $\mathbb{R}$? ב-$z$: לפונקציונל שאינו אפס יש וקטור שעליו הוא 1, ו-$y_n$ "נופלת"
+          לגרעין כי $\varphi(x_n)$ הוא מספר שאפשר לחלק בו. להעתקה ל-$W$ כללי אין מספר כזה, ו-(ג) מראה שהטענה אכן נשברת.
+          ועם הפונקציונל $\varphi(p)=p'(0)$ מדוגמה 6 של השיעור: הגרעין שם צפוף ואינו סגור, ו-(א) מסביר למה $\varphi$
+          אינו חסום.
+      - kind: result
+        text: >-
+          לפונקציונל לינארי: חסום אם ורק אם הגרעין סגור. להעתקה לינארית כללית רק הכיוון של (א) נכון: הגזירה $D$ היא
+          דוגמה נגדית לכיוון השני.
+
+  - id: W-1.8-09
+    level: exam
+    qualitative: true
+    objectives: [OBJ-1.8-1, OBJ-1.8-3]
+    prompt: >-
+      $P$ הפולינומים על $[0,1]$ עם נורמת הסופרמום (על $[0,1]$ בלבד).
+
+      (א) הוכיחו ש-$S(p)=p(2)$ הוא פונקציונל לינארי שאינו חסום.
+
+      (ב) מצאו סדרה $q_n\to0$ ב-$P$ עם $S(q_n)\to\infty$.
+
+      (ג) לעומת זאת, הוכיחו ש-$E(p)=p(\tfrac12)$ חסום, ומצאו את הנורמה שלו.
+
+      (ד) לכל $a\in\mathbb{R}$ נגדיר $E_a(p)=p(a)$ (כך ש-$E=E_{1/2}$ ו-$S=E_2$). לאילו $a$ הפונקציונל $E_a$ חסום, ומה
+      הנורמה שלו? רמז למספרים שליליים: $(1-x)^n$.
+    answer: >-
+      (א) $\|x^n\|_\infty=1$ ו-$S(x^n)=2^n$. (ב) $q_n=\frac{x^n}{2^{n/2}}$. (ג) $|p(\frac12)|\le\|p\|_\infty$, ו-$\|E\|=1$.
+
+      (ד) $E_a$ חסום, עם נורמה 1, בדיוק כש-$a\in[0,1]$; ל-$a>1$ ול-$a<0$ הוא אינו חסום.
+    solution:
+      - kind: idea
+        text: >-
+          הנורמה מודדת את $p$ רק על $[0,1]$, אבל $S$ מסתכל מחוץ לקטע, ב-2. פולינום יכול להיות קטן על $[0,1]$ ועצום
+          ב-2. לעומת זאת $\frac12$ בתוך הקטע.
+      - kind: step
+        text: >-
+          (א) לינאריות: $(ap+bq)(2)=ap(2)+bq(2)$. ל-$p_n=x^n$: $\|p_n\|_\infty=\max_{[0,1]}x^n=1$, ואילו $S(p_n)=2^n$. לכן
+          היחס $\frac{|S(p_n)|}{\|p_n\|}=2^n$ אינו חסום, ו-$S$ אינו חסום.
+      - kind: step
+        text: >-
+          (ב) $q_n=\frac{x^n}{2^{n/2}}$: $\|q_n\|_\infty=2^{-n/2}\to0$, ו-$S(q_n)=\frac{2^n}{2^{n/2}}=2^{n/2}\to\infty$.
+          זו הפרה ישירה של רציפות ב-0: $q_n\to0$, אבל $S(q_n)\not\to S(0)=0$.
+      - kind: step
+        text: >-
+          (ג) $|E(p)|=|p(\tfrac12)|\le\max_{[0,1]}|p|=\|p\|_\infty$, ולכן $\|E\|\le1$; והפולינום הקבוע 1 נותן $E(1)=1$.
+          לכן $\|E\|_{\mathrm{op}}=1$.
+      - kind: step
+        text: >-
+          (ד) ל-$a\in[0,1]$: בדיוק כמו ב-(ג), $|p(a)|\le\|p\|_\infty$ והקבוע 1 משיג שוויון, ולכן $\|E_a\|_{\mathrm{op}}=1$.
+          ל-$a>1$: כמו ב-(א), $\|x^n\|_\infty=1$ ו-$E_a(x^n)=a^n\to\infty$, ולכן $E_a$ אינו חסום.
+      - kind: step
+        text: >-
+          ל-$a<0$ הפולינומים $x^n$ לא עוזרים: $|a^n|$ יכול להיות קטן. במקומם $u_n(x)=(1-x)^n$: על $[0,1]$ מתקיים
+          $0\le u_n\le1$ ו-$u_n(0)=1$, ולכן $\|u_n\|_\infty=1$. ואילו $E_a(u_n)=(1-a)^n$, ו-$1-a>1$, ולכן $E_a(u_n)\to\infty$.
+          גם כאן $E_a$ אינו חסום.
+      - kind: check
+        text: >-
+          מספרית: $q_{10}=\frac{x^{10}}{32}$, $\|q_{10}\|_\infty=\frac1{32}$, $S(q_{10})=\frac{1024}{32}=32$. וב-(ד) עם
+          $a=-1$: $u_{10}(-1)=2^{10}=1024$, בעוד $\|u_{10}\|_\infty=1$. הקו המפריד הוא הקטע עצמו: בתוכו הערך בנקודה
+          חסום בנורמה, ומחוצה לו פולינום קטן על הקטע יכול להיות עצום.
+      - kind: result
+        text: >-
+          $S$ לינארי, לא חסום ולא רציף; $E$ חסום עם נורמה 1. ובכלל, $E_a$ חסום (עם נורמה 1) אם ורק אם $a\in[0,1]$.
+
+  - id: W-1.8-10
+    level: exam
+    qualitative: true
+    objectives: [OBJ-1.8-2]
+    prompt: >-
+      על $C[0,1]$ עם **נורמת האינטגרל** $\|f\|_1=\int_0^1|f|$, יהי $\varphi(f)=\int_0^1x\,f(x)\,dx$.
+
+      (א) הוכיחו ש-$\|\varphi\|_{\mathrm{op}}\le1$.
+
+      (ב) הוכיחו ש-$\|\varphi\|_{\mathrm{op}}=1$, בעזרת פונקציות משולש צרות ליד הנקודה 1.
+
+      (ג) הוכיחו שהנורמה אינה מתקבלת.
+    answer: >-
+      (א) $|\varphi(f)|\le\int x|f|\le\|f\|_1$. (ב) $f_n=\max(0,\ 1-n(1-x))$ נותנת יחס $\ge1-\frac1n$. (ג) שוויון גורר $f=0$.
+    solution:
+      - kind: computation
+        text: >-
+          (א) $|\varphi(f)|\le\int_0^1x|f(x)|\,dx\le\int_0^1|f(x)|\,dx=\|f\|_1$, כי $x\le1$ בקטע.
+      - kind: idea
+        text: >-
+          החסם $x\le1$ כמעט הדוק רק ליד $x=1$. לכן ניקח פונקציות שכל המסה שלהן ליד 1.
+      - kind: step
+        text: >-
+          (ב) $f_n(x)=\max(0,\ 1-n(1-x))$: משולש בגובה 1 על $\left[1-\frac1n,1\right]$, עם $\|f_n\|_1=\frac1{2n}$. בקטע
+          שבו $f_n\ne0$ מתקיים $x\ge1-\frac1n$, ולכן $\varphi(f_n)\ge\left(1-\frac1n\right)\int f_n=\left(1-\frac1n\right)\|f_n\|_1$. היחס
+          לפחות $1-\frac1n\to1$, ולכן $\|\varphi\|\ge1$, ויחד עם (א) $\|\varphi\|=1$.
+      - kind: step
+        text: >-
+          (ג) נניח $\|f\|_1\le1$ ו-$|\varphi(f)|=1$. אז $1=|\varphi(f)|\le\int_0^1x|f|\le\int_0^1|f|\le1$, ולכן
+          $\int_0^1(1-x)|f(x)|\,dx=0$. הפונקציה $(1-x)|f(x)|$ רציפה ואי-שלילית, ולכן אפס בכל הקטע, ו-$f=0$ על $[0,1)$,
+          ומרציפות גם ב-1. אבל אז $\varphi(f)=0$: סתירה.
+      - kind: check
+        text: >-
+          היחס ב-$f_n$ הוא בדיוק $1-\frac1{3n}$, כי $\varphi(f_n)/\|f_n\|_1$ הוא מרכז הכובד של המשולש, שנמצא במרחק שליש
+          מאורך הבסיס מהצלע האנכית שב-$x=1$: עם $n=10$ זה $1-\frac1{30}\approx0.967$, מעל $1-\frac1{10}=0.9$, כמו שהחסם מבטיח.
+      - kind: result
+        text: >-
+          $\|\varphi\|_{\mathrm{op}}=1$, והיא אינה מתקבלת. השוו: בנורמת הסופרמום אותו $\varphi$ חסום עם נורמה $\frac12$,
+          והיא מתקבלת ב-$f\equiv1$.
+challenge:
+  - id: W-1.8-c1
+    stars: 1
+    objectives: [OBJ-1.8-1, OBJ-1.8-2]
+    prompt: >-
+      תהי $k$ פונקציה רציפה על הריבוע $[0,1]\times[0,1]$ עם $k(x,y)\ge0$ לכל $x,y$, ונגדיר על $(C[0,1],\|\cdot\|_\infty)$
+      את **העתקת האינטגרל** $(Tf)(x)=\int_0^1k(x,y)\,f(y)\,dy$. הניחו (נוכיח את זה בפרק 3) ש-$Tf\in C[0,1]$ לכל
+      $f\in C[0,1]$, ושהפונקציה $K(x)=\int_0^1k(x,y)\,dy$ רציפה על $[0,1]$.
+
+      (א) הוכיחו ש-$T$ לינארית וחסומה, ולכן רציפה, וש-$\|T\|_{\mathrm{op}}=\max_{x\in[0,1]}K(x)$.
+
+      (ב) חשבו את $\|T\|_{\mathrm{op}}$ עבור $k(x,y)=x+y$.
+
+      (ג) עבור $k(x,y)=x-y$, שמחליף סימן, (א) אינו חל. הוכיחו בכל זאת ש-$\|T\|_{\mathrm{op}}=\max_x\int_0^1|x-y|\,dy$,
+      וחשבו אותה.
+    answer: >-
+      (א) $|Tf(x)|\le K(x)\|f\|_\infty$ נותן $\|T\|_{\mathrm{op}}\le\max K$, ו-$f\equiv1$ נותנת $Tf=K$, ולכן שוויון. (ב)
+      $K(x)=x+\frac12$, $\|T\|_{\mathrm{op}}=\frac32$. (ג) $\int_0^1|x-y|\,dy=\frac{x^2+(1-x)^2}2\le\frac12$, ו-$f\equiv-1$
+      נותנת $Tf(x)=\frac12-x$ עם $\|Tf\|_\infty=\frac12$; לכן $\|T\|_{\mathrm{op}}=\frac12$.
+    solution:
+      - kind: given
+        text: >-
+          $k$ רציפה ו-$k\ge0$ על $[0,1]^2$; $Tf\in C[0,1]$ ו-$K(x)=\int_0^1k(x,y)\,dy$ רציפה (נתון). לפי משפט
+          ויירשטראס מאינפי 1, ל-$K$ יש מקסימום $M=\max_{[0,1]}K$.
+      - kind: goal
+        text: >-
+          $\|T\|_{\mathrm{op}}=M$: חסם מלעיל $\|Tf\|_\infty\le M\|f\|_\infty$, ופונקציה אחת עם $\|f\|_\infty=1$ שמשיגה
+          $\|Tf\|_\infty=M$.
+      - kind: idea
+        text: >-
+          חסם מלעיל מתקבל כשמוציאים את $\|f\|_\infty$ מהאינטגרל. כדי שהחסם יושג צריך $f$ אחת שבה כל המחוברים
+          באינטגרל "דוחפים באותו כיוון", כלומר $k(x,y)f(y)=|k(x,y)|$. כש-$k\ge0$, הפונקציה הקבועה $1$ עושה את זה.
+      - kind: step
+        text: >-
+          (א) **לינאריות:** $T(af+bg)(x)=\int_0^1k(x,y)\big(af(y)+bg(y)\big)dy=a(Tf)(x)+b(Tg)(x)$, מהלינאריות של
+          האינטגרל.
+      - kind: step
+        text: >-
+          **חסם מלעיל:** לכל $f$ ולכל $x$, מכיוון ש-$k\ge0$,
+          $|(Tf)(x)|\le\int_0^1k(x,y)\,|f(y)|\,dy\le\|f\|_\infty\int_0^1k(x,y)\,dy=K(x)\|f\|_\infty\le M\|f\|_\infty$.
+          לכן $\|Tf\|_\infty\le M\|f\|_\infty$: $T$ חסומה, ולפי המשפט של השיעור רציפה, עם $\|T\|_{\mathrm{op}}\le M$.
+      - kind: step
+        text: >-
+          **חסם מלרע:** $f\equiv1$ מקיימת $\|f\|_\infty=1$ ו-$(Tf)(x)=\int_0^1k(x,y)\,dy=K(x)$, ולכן
+          $\|Tf\|_\infty=\max|K|=M$ (כי $K\ge0$). לכן $\|T\|_{\mathrm{op}}\ge M$, וביחד $\|T\|_{\mathrm{op}}=M$. הסופרמום
+          בהגדרת נורמת האופרטור מתקבל כאן.
+      - kind: computation
+        text: >-
+          (ב) $k=x+y\ge0$ על הריבוע. $K(x)=\int_0^1(x+y)\,dy=x+\frac12$, עולה, ולכן $M=K(1)=\frac32$
+          ו-$\|T\|_{\mathrm{op}}=\frac32$.
+      - kind: computation
+        text: >-
+          (ג) **חסם מלעיל:** אותו חישוב כמו ב-(א), עם $|k|$ במקום $k$: $|(Tf)(x)|\le\|f\|_\infty\int_0^1|x-y|\,dy$.
+          מפצלים ב-$y=x$: $\int_0^x(x-y)\,dy+\int_x^1(y-x)\,dy=\frac{x^2}2+\frac{(1-x)^2}2$. זו פרבולה קמורה ב-$x$,
+          ולכן המקסימום שלה על $[0,1]$ בקצוות: $\frac12$ ב-$x=0$ וב-$x=1$. לכן $\|T\|_{\mathrm{op}}\le\frac12$.
+      - kind: step
+        text: >-
+          **חסם מלרע:** $f\equiv-1$: $(Tf)(x)=\int_0^1(y-x)\,dy=\frac12-x$, ו-$\|Tf\|_\infty=\max_{[0,1]}|\tfrac12-x|=\frac12$,
+          בנקודה $x=0$. לכן $\|T\|_{\mathrm{op}}=\frac12$.
+      - kind: check
+        text: >-
+          למה פונקציה קבועה הצליחה ב-(ג), אף ש-$k$ מחליף סימן? כי בנקודה שבה $\int|k|$ מקסימלי, $x=0$, הפונקציה
+          $k(0,y)=-y$ אינה מחליפה סימן, ו-$f\equiv-1$ היא בדיוק הסימן שלה. ובמספרים: $\int_0^1|x-y|\,dy=\frac{x^2+(1-x)^2}2$
+          הוא $\frac12$ בקצוות ו-$\frac14$ ב-$x=\frac12$, ו-$(Tf)(0)=\frac12$ ל-$f\equiv-1$.
+      - kind: result
+        text: >-
+          לגרעין אי-שלילי $\|T\|_{\mathrm{op}}=\max_x\int_0^1k(x,y)\,dy$, והיא מתקבלת בפונקציה הקבועה $1$. (ב) $\frac32$;
+          (ג) $\frac12$.
+    source:
+      name: 'NTNU, TMA4145 Linear Methods, Fall 2021, Solutions to exercise set 9'
+      year: 2021
+      problem: 'Problem 2'
+      url: 'https://wiki.math.ntnu.no/_media/tma4145/2021h/lf9.pdf'
+      verified: '2026-11-09'
+      adapted: true
+
+  - id: W-1.8-c2
+    stars: 1
+    objectives: [OBJ-1.8-2, OBJ-1.8-1]
+    prompt: >-
+      על $(C[0,1],\|\cdot\|_\infty)$ נגדיר $(Tf)(x)=f\big(\tfrac x2\big)$. מספר $\lambda$ הוא **ערך עצמי** של $T$ אם יש
+      $f\in C[0,1]$, $f\ne0$, עם $Tf=\lambda f$, כמו באלגברה לינארית.
+
+      (א) הוכיחו ש-$T$ לינארית וחסומה, וחשבו את $\|T\|_{\mathrm{op}}$.
+
+      (ב) הוכיחו שכל $\lambda\in(0,1]$ הוא ערך עצמי של $T$. רמז: $f_p(x)=x^p$ עם $p\ge0$.
+
+      (ג) יהי $\lambda\in\mathbb{R}$ עם $|\lambda|>\|T\|_{\mathrm{op}}$, ו-$g(x)=x$. מצאו את **כל** הפונקציות
+      $f\in C[0,1]$ עם $Tf-\lambda f=g$.
+    answer: >-
+      (א) $\|T\|_{\mathrm{op}}=1$. (ב) $Tx^p=2^{-p}x^p$, ו-$\lambda=2^{-p}$ עם $p=\log_2\frac1\lambda\ge0$. (ג) הפתרון
+      היחיד הוא $f(x)=\dfrac{x}{\frac12-\lambda}$.
+    solution:
+      - kind: given
+        text: >-
+          $(Tf)(x)=f(\tfrac x2)$ על $(C[0,1],\|\cdot\|_\infty)$. $Tf$ רציפה כהרכבה של רציפות, ו-$\tfrac x2\in[0,\tfrac12]\subseteq[0,1]$,
+          ולכן $Tf\in C[0,1]$.
+      - kind: idea
+        text: >-
+          $Tf$ מסתכלת רק על הערכים של $f$ ב-$[0,\tfrac12]$, ולכן לא יכולה להיות גדולה מ-$f$; קבועים מראים שהיא גם לא
+          קטנה ממנה. ב-(ג) מנחשים פתרון מאותה צורה כמו $g$, ומשתמשים בנורמה כדי להראות שההפרש בין שני פתרונות חייב
+          להתאפס כש-$|\lambda|>\|T\|_{\mathrm{op}}$.
+      - kind: step
+        text: >-
+          (א) **לינאריות:** $T(af+bh)(x)=af(\tfrac x2)+bh(\tfrac x2)=a(Tf)(x)+b(Th)(x)$.
+          **חסם מלעיל:** $\{f(\tfrac x2):\ x\in[0,1]\}=\{f(t):\ t\in[0,\tfrac12]\}\subseteq\{f(t):\ t\in[0,1]\}$, ולכן
+          $\|Tf\|_\infty\le\|f\|_\infty$: $T$ חסומה (ולכן רציפה), ו-$\|T\|_{\mathrm{op}}\le1$.
+      - kind: step
+        text: >-
+          **חסם מלרע:** $f\equiv1$ נותנת $Tf\equiv1$, כלומר $\|Tf\|_\infty=1=\|f\|_\infty$. לכן $\|T\|_{\mathrm{op}}=1$.
+      - kind: step
+        text: >-
+          (ב) ל-$p\ge0$, $f_p(x)=x^p$ (ו-$f_0\equiv1$) רציפה על $[0,1]$ ואינה אפס,
+          ו-$(Tf_p)(x)=\left(\tfrac x2\right)^p=2^{-p}x^p=2^{-p}f_p(x)$. לכן $2^{-p}$ ערך עצמי. בהינתן $\lambda\in(0,1]$,
+          נבחר $p=\log_2\frac1\lambda$; מכיוון ש-$\frac1\lambda\ge1$, $p\ge0$, ו-$2^{-p}=\lambda$.
+      - kind: step
+        text: >-
+          (ג) **קיום.** נחפש $f(x)=cx$: $(Tf-\lambda f)(x)=\frac{cx}2-\lambda cx=c\left(\tfrac12-\lambda\right)x$. מכיוון
+          ש-$|\lambda|>1$, $\lambda\ne\frac12$, ולכן $c=\frac{1}{\frac12-\lambda}$ נותן $Tf-\lambda f=g$.
+      - kind: step
+        text: >-
+          **יחידות.** אם $f_1,f_2$ שני פתרונות, $h=f_1-f_2$ מקיימת, מהלינאריות, $Th-\lambda h=g-g=0$, כלומר $Th=\lambda h$.
+          אז $|\lambda|\,\|h\|_\infty=\|\lambda h\|_\infty=\|Th\|_\infty\le\|T\|_{\mathrm{op}}\|h\|_\infty=\|h\|_\infty$,
+          ולכן $(|\lambda|-1)\|h\|_\infty\le0$. מכיוון ש-$|\lambda|-1>0$, $\|h\|_\infty=0$, כלומר $h=0$ ו-$f_1=f_2$.
+      - kind: check
+        text: >-
+          $\lambda=3$: $f(x)=\frac{x}{\frac12-3}=-0.4x$. ב-$x=0.7$: $f(0.35)-3f(0.7)=-0.14+0.84=0.7=g(0.7)$.
+          ובניסוח של (ב): היחידות אומרת שאין ערך עצמי $\lambda$ עם $|\lambda|>1$, כי וקטור עצמי $h\ne0$ היה נותן
+          $|\lambda|\le\|T\|_{\mathrm{op}}=1$.
+      - kind: result
+        text: >-
+          $\|T\|_{\mathrm{op}}=1$; כל $\lambda\in(0,1]$ ערך עצמי; ל-$|\lambda|>1$ הפתרון היחיד של $Tf-\lambda f=x$ הוא
+          $f(x)=\dfrac{x}{\frac12-\lambda}$.
+    source:
+      name: 'University of Groningen, Functional Analysis (WBMA033-05), Final Exam, 4 April 2023'
+      year: 2023
+      problem: 'Problem 2(a), (b), (d)'
+      url: 'https://toetscie.fmf.nl/%F0%9F%94%A2%20Mathematics/Functional%20Analysis/2023-04-04_Exam%20+%20Solutions.pdf'
+      verified: '2026-11-09'
+      adapted: true

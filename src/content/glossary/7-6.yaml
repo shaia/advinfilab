@@ -1,0 +1,9 @@
+# Terms first defined in lesson 7.6 (several constraints).
+- id: rank-condition
+  term: תנאי הדרגה
+  en: rank condition
+  definition: >-
+    בבעיית קיצון עם אילוצים $g_1=\dots=g_k=0$: הדרישה שהגרדיאנטים $\nabla g_1(a),\dots,\nabla g_k(a)$ יהיו בלתי
+    תלויים לינארית, כלומר שמטריצת יעקובי של $g=(g_1,\dots,g_k)$ ב-$a$ תהיה מדרגה $k$. תחת התנאי הזה, בקיצון
+    $\nabla f(a)=\lambda_1\nabla g_1(a)+\dots+\lambda_k\nabla g_k(a)$.
+  lesson: '7.6'

@@ -1,0 +1,309 @@
+# Lesson 8.4 — conservative fields and potential functions.
+# Objectives (src/course.ts):
+#   OBJ-8.4-1  define conservative fields and potentials; in a connected domain, conservative iff every closed integral is 0
+#   OBJ-8.4-2  the crossed-partials condition is necessary for a C¹ conservative field; find potentials
+#   OBJ-8.4-3  the angle field on the punctured plane shows the condition is not sufficient
+# "Connected domain" = an open set in which every two points are joined by a piecewise smooth curve (connectedness, 3.6,
+# is enrichment, so the questions state this). ω = (−y, x)/(x²+y²) is the angle field.
+chapter: 8
+questions:
+  - id: Q-8.4-ftc
+    type: mc
+    objectives: [OBJ-8.4-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $\varphi:U\to\mathbb{R}$ גזירה ברציפות, $F=\nabla\varphi$, ו-$\gamma:[a,b]\to U$ מסילה חלקה למקוטעין מ-$p$
+      ל-$q$. כמה הוא $\int_\gamma F\cdot ds$?
+    choices:
+      - text: '$\varphi(q)-\varphi(p)$, בלי קשר למסילה'
+        correct: true
+        feedback: >-
+          נכון. לפי כלל השרשרת $\frac{d}{dt}\varphi(\gamma(t))=\nabla\varphi(\gamma(t))\cdot\gamma'(t)$, ולפי המשפט
+          היסודי של החשבון האינטגרלי האינטגרל הוא $\varphi(\gamma(b))-\varphi(\gamma(a))$.
+      - text: '$\varphi(p)-\varphi(q)$'
+        feedback: >-
+          הסימן הפוך. המשפט היסודי נותן "ערך בסוף פחות ערך בהתחלה": $\varphi(\gamma(b))-\varphi(\gamma(a))$.
+        misconception: MC-c8-orientation-ignored
+      - text: '$\int_a^b\|\nabla\varphi(\gamma(t))\|\,\|\gamma^{\prime}(t)\|\,dt$'
+        feedback: >-
+          זה אי-שלילי ותלוי במסילה. האינטגרל הקווי משתמש במכפלה הסקלרית, ואז הנגזרת של $\varphi\circ\gamma$ מופיעה.
+        misconception: MC-c8-line-integral-norms
+      - text: '$L(\gamma)\cdot\max\|\nabla\varphi\|$'
+        feedback: >-
+          זה חסם על הערך המוחלט של האינטגרל, לא ערכו. לשדה גרדיאנט הערך המדויק ידוע: הפרש הפוטנציאלים.
+        misconception: MC-c8-bound-is-value
+
+  - id: Q-8.4-potential
+    type: numeric
+    objectives: [OBJ-8.4-2]
+    level: basic
+    prompt: >-
+      $F(x,y)=(2xy,\ x^2+3y^2)$. מצאו פונקציית פוטנציאל וחשבו את $\int_\gamma F\cdot ds$ לאורך מסילה חלקה כלשהי
+      מ-$(0,0)$ ל-$(1,2)$.
+    answer: 10
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $\partial_y(2xy)=2x=\partial_x(x^2+3y^2)$. $\int2xy\,dx=x^2y+c(y)$, ו-$\partial_y(x^2y+c(y))=x^2+c'(y)$
+      חייב להיות $x^2+3y^2$, ולכן $c(y)=y^3$: $\varphi=x^2y+y^3$, והאינטגרל $\varphi(1,2)-\varphi(0,0)=2+8=10$.
+    wrongFeedback: >-
+      שלבו את $P$ לפי $x$ עם "קבוע" $c(y)$, וקבעו את $c$ מהדרישה $\partial_y\varphi=Q$. בדקו ש-$\nabla\varphi=F$.
+    commonWrong:
+      - value: 12
+        feedback: >-
+          12 מתקבל מ-$\varphi=2x^2y+y^3$, כלומר מחיבור $\int P\,dx$ ו-$\int Q\,dy$: האיבר $x^2y$ נספר פעמיים. בדקו:
+          $\partial_x(2x^2y)=4xy\ne2xy$.
+        misconception: MC-c8-potential-add-both
+      - value: -10
+        feedback: 'הסימן הפוך: האינטגרל הוא ערך הפוטנציאל בסוף פחות ערכו בהתחלה, כאן $\varphi(1,2)-\varphi(0,0)$.'
+        misconception: MC-c8-orientation-ignored
+
+  - id: Q-8.4-which
+    type: mc
+    objectives: [OBJ-8.4-2]
+    qualitative: true
+    level: basic
+    prompt: >-
+      איזה מהשדות הבאים **אינו** משמר ב-$\mathbb{R}^2$?
+    choices:
+      - text: '$(y,\ -x)$'
+        correct: true
+        feedback: >-
+          נכון. $\partial_yP=1$ ו-$\partial_xQ=-1$, והתנאי ההכרחי נכשל. (על מעגל היחידה האינטגרל $(-2\pi)$.)
+      - text: '$(x,\ -y)$'
+        feedback: >-
+          הוא משמר: $\varphi=\frac{x^2-y^2}{2}$. התנאי משווה את הנגזרות **המוצלבות**, $\partial_yP=0=\partial_xQ$,
+          לא את $\partial_xP$ ו-$\partial_yQ$.
+        misconception: MC-c8-crossed-partials-misread
+      - text: '$(ye^{xy},\ xe^{xy})$'
+        feedback: >-
+          הוא משמר: $\varphi=e^{xy}$. $\partial_y(ye^{xy})=(1+xy)e^{xy}=\partial_x(xe^{xy})$. ההשוואה
+          $\partial_xP=y^2e^{xy}$ מול $\partial_yQ=x^2e^{xy}$ היא של הזוג הלא נכון.
+        misconception: MC-c8-crossed-partials-misread
+      - text: '$(x^2-y,\ y^2-x)$'
+        feedback: >-
+          הוא משמר: $\varphi=\frac{x^3+y^3}{3}-xy$, ו-$\partial_yP=-1=\partial_xQ$. $\partial_xP=2x$ ו-$\partial_yQ=2y$
+          אינם הזוג שצריך להשוות.
+        misconception: MC-c8-crossed-partials-misread
+
+  - id: Q-8.4-angle-r5
+    type: numeric
+    objectives: [OBJ-8.4-3]
+    level: basic
+    prompt: >-
+      חשבו את $\int_\gamma\omega\cdot ds$ לשדה הזווית, כאשר $\gamma(t)=(5\cos t,5\sin t)$, $t\in[0,2\pi]$ (מקורב
+      לשלוש ספרות אחרי הנקודה).
+    answer: 6.283185
+    tolerance: 0.0002
+    correctFeedback: >-
+      נכון, $2\pi$. $\omega(\gamma(t))=\frac{1}{25}(-5\sin t,5\cos t)$ ו-$\gamma'(t)=(-5\sin t,5\cos t)$, ולכן
+      האינטגרנד $\frac{25}{25}=1$. הרדיוס מתבטל: השדה חלש פי 5 והדרך ארוכה פי 5.
+    wrongFeedback: >-
+      הציבו את המסילה בשדה: המכנה $x^2+y^2=25$. הכפילו סקלרית ב-$\gamma'(t)$.
+    commonWrong:
+      - value: 0
+        feedback: >-
+          השדה מקיים את תנאי הנגזרות המוצלבות, אבל זה לא מבטיח אפס על מסילות סגורות ב-$\mathbb{R}^2\setminus\{0\}$.
+        misconception: MC-c8-crossed-partials-sufficient
+      - value: 31.415927
+        feedback: >-
+          $10\pi$ הוא אורך המעגל. השדה על המעגל הזה בגודל $\frac15$ בלבד, ולכן האינטגרל אינו גדל עם הרדיוס.
+        misconception: MC-c8-angle-scales
+
+  - id: Q-8.4-exp
+    type: numeric
+    objectives: [OBJ-8.4-2]
+    level: mid
+    prompt: >-
+      $F(x,y)=(ye^{xy},\ xe^{xy}+2y)$. חשבו את $\int_\gamma F\cdot ds$ לאורך מסילה חלקה כלשהי מ-$(0,0)$ ל-$(1,2)$
+      (מקורב לשלוש ספרות אחרי הנקודה).
+    answer: 10.389056
+    tolerance: 0.0001
+    correctFeedback: >-
+      נכון: $e^2+3\approx10.389$. $\varphi=e^{xy}+y^2$ ($\partial_x\varphi=ye^{xy}$, $\partial_y\varphi=xe^{xy}+2y$), ולכן
+      האינטגרל $\varphi(1,2)-\varphi(0,0)=(e^2+4)-1$.
+    wrongFeedback: >-
+      מצאו פוטנציאל: $\int ye^{xy}\,dx=e^{xy}+c(y)$, וקבעו את $c$ מהרכיב השני. אחר כך הפרש ערכים בקצוות.
+    commonWrong:
+      - value: 11.389056
+        feedback: >-
+          $e^2+4=\varphi(1,2)$ בלבד. $\varphi(0,0)=e^0=1$, לא 0, ולכן צריך להחסיר אותו.
+        misconception: MC-c8-potential-forget-start
+      - value: 16.778112
+        feedback: >-
+          $2e^2+2$ מתקבל מ-$\varphi=2e^{xy}+y^2$, חיבור של שתי האינטגרציות שבו $e^{xy}$ נספר פעמיים.
+        misconception: MC-c8-potential-add-both
+
+  - id: Q-8.4-3d
+    type: numeric
+    objectives: [OBJ-8.4-2]
+    level: mid
+    prompt: >-
+      $F(x,y,z)=(yz,\ xz,\ xy+2z)$. בדקו את תנאי הנגזרות המוצלבות, מצאו פוטנציאל, וחשבו את
+      $\int_\gamma F\cdot ds$ לאורך מסילה חלקה כלשהי מ-$(0,0,0)$ ל-$(1,2,3)$.
+    answer: 15
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. שלושת התנאים: $\partial_yF_1=z=\partial_xF_2$, $\partial_zF_1=y=\partial_xF_3$, $\partial_zF_2=x=\partial_yF_3$.
+      $\int yz\,dx=xyz+c(y,z)$; מהרכיב השני $c$ אינו תלוי ב-$y$, ומהשלישי $\partial_zc=2z$: $\varphi=xyz+z^2$, והאינטגרל
+      $6+9=15$.
+    wrongFeedback: >-
+      ב-$\mathbb{R}^3$ "קבוע האינטגרציה" אחרי השילוב לפי $x$ הוא פונקציה של $y$ ו-$z$. קבעו אותו מהרכיבים השני
+      והשלישי.
+    commonWrong:
+      - value: 6
+        feedback: >-
+          6 הוא $xyz$ בנקודה $(1,2,3)$: עצרתם אחרי השילוב של הרכיב הראשון. הרכיב השלישי $xy+2z$ דורש גם את $z^2$.
+        misconception: MC-c8-potential-incomplete
+      - value: -15
+        feedback: 'הסימן הפוך: ערך הפוטנציאל בסוף פחות ערכו בהתחלה.'
+        misconception: MC-c8-orientation-ignored
+
+  - id: Q-8.4-necessary
+    type: twotier
+    objectives: [OBJ-8.4-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      נכון או לא נכון: אם $F=(P,Q)$ גזיר ברציפות ומשמר בקבוצה פתוחה $U\subseteq\mathbb{R}^2$, אז
+      $\frac{\partial P}{\partial y}=\frac{\partial Q}{\partial x}$ בכל $U$.
+    choices:
+      - text: נכון
+        correct: true
+        feedback: 'נכון. זה התנאי ההכרחי.'
+      - text: לא נכון
+        feedback: >-
+          שדה משמר גזיר ברציפות תמיד מקיים את התנאי; ראו את הנימוק. (מה שלא נכון הוא הכיוון ההפוך.)
+        misconception: MC-c8-crossed-partials-sufficient
+    reasons:
+      - text: 'יש $\varphi$ עם $\partial_x\varphi=P$ ו-$\partial_y\varphi=Q$, ונגזרות אלה גזירות ברציפות; לכן $\varphi$ גזירה ברציפות פעמיים, ולפי משפט שוורץ $\partial_y\partial_x\varphi=\partial_x\partial_y\varphi$'
+        correct: true
+        feedback: >-
+          בדיוק. ההנחה "גזיר ברציפות" על $F$ היא מה שמאפשר את משפט שוורץ (שיעור 5.7) על $\varphi$.
+      - text: 'התנאי שקול להיותו של השדה משמר, ולכן הוא מתקיים'
+        feedback: >-
+          זה לא שקול: שדה הזווית מקיים את התנאי ב-$\mathbb{R}^2\setminus\{0\}$ ואינו משמר שם. הכיוון שנשאל כאן נכון,
+          אבל מסיבה אחרת.
+        misconception: MC-c8-crossed-partials-sufficient
+      - text: 'לגרדיאנט תמיד $\frac{\partial P}{\partial x}=\frac{\partial Q}{\partial y}$'
+        feedback: >-
+          זה הזוג הלא נכון: ל-$\varphi=\frac{x^2-y^2}{2}$, $\partial_xP=1$ ו-$\partial_yQ=-1$.
+        misconception: MC-c8-crossed-partials-misread
+
+  - id: Q-8.4-closed
+    type: twotier
+    objectives: [OBJ-8.4-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $F$ רציף בקבוצה פתוחה $U$, והאינטגרל שלו על **כל** מסילה סגורה חלקה למקוטעין ב-$U$ הוא 0. האם לכל שתי
+      מסילות חלקות למקוטעין $\gamma_1,\gamma_2$ ב-$U$ מ-$p$ ל-$q$ מתקיים $\int_{\gamma_1}F\cdot ds=\int_{\gamma_2}F\cdot ds$?
+    choices:
+      - text: כן
+        correct: true
+        feedback: 'נכון: אפס על מסילות סגורות שקול לאי-תלות במסילה.'
+      - text: לא בהכרח
+        feedback: >-
+          משתי המסילות בונים מסילה סגורה אחת, ואז הנתון חל עליה. ראו את הנימוק.
+        misconception: MC-c8-one-loop-enough
+    reasons:
+      - text: 'השרשור של $\gamma_1$ ואחריה $\gamma_2^-$ הוא מסילה סגורה מ-$p$ ל-$p$, ולכן $0=\int_{\gamma_1}F\cdot ds-\int_{\gamma_2}F\cdot ds$'
+        correct: true
+        feedback: >-
+          בדיוק: אדיטיביות על שרשור והיפוך סימן בהיפוך כיוון (שיעור 8.3). בכיוון ההפוך, מסילה סגורה היא מסילה מ-$p$
+          ל-$p$, ואי-תלות משווה אותה למסילה הקבועה, שהאינטגרל עליה 0.
+      - text: 'כל אינטגרל קווי תלוי רק בנקודות הקצה'
+        feedback: >-
+          לא לכל שדה: ל-$(x^2,xy)$ הישר והפרבולה מ-$(0,0)$ ל-$(1,1)$ נותנים $\frac23$ ו-$\frac{11}{15}$. כאן זה נכון
+          בגלל הנתון.
+        misconception: MC-c8-path-independent-always
+      - text: 'מספיק שהאינטגרל מתאפס על מסילה סגורה אחת שעוברת דרך $p$ ו-$q$'
+        feedback: >-
+          מסילה סגורה אחת נותנת מידע על זוג מסילות אחד. כדי להשוות כל זוג צריך את הנתון על כל השרשורים האפשריים.
+        misconception: MC-c8-one-loop-enough
+
+  - id: Q-8.4-angle
+    type: twotier
+    objectives: [OBJ-8.4-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      האם שדה הזווית $\omega=\left(\frac{-y}{x^2+y^2},\frac{x}{x^2+y^2}\right)$ משמר ב-$\mathbb{R}^2\setminus\{0\}$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון, אף שהוא מקיים את תנאי הנגזרות המוצלבות.'
+      - text: כן
+        feedback: >-
+          $\partial_yP=\frac{y^2-x^2}{(x^2+y^2)^2}=\partial_xQ$, אבל התנאי הזה רק הכרחי. ראו את הנימוק הנכון.
+        misconception: MC-c8-crossed-partials-sufficient
+    reasons:
+      - text: 'על מעגל היחידה $\omega(\gamma(t))\cdot\gamma^{\prime}(t)=\sin^2t+\cos^2t=1$, והאינטגרל $2\pi\ne0$'
+        correct: true
+        feedback: >-
+          בדיוק. מסילה סגורה אחת עם אינטגרל שונה מאפס מספיקה כדי **להפריך** שדה משמר.
+      - text: 'תנאי הנגזרות המוצלבות נכשל עבורו'
+        feedback: >-
+          הוא מתקיים: $\partial_y\frac{-y}{x^2+y^2}=\frac{y^2-x^2}{(x^2+y^2)^2}$ ו-$\partial_x\frac{x}{x^2+y^2}=\frac{y^2-x^2}{(x^2+y^2)^2}$.
+          לכן הדוגמה מעניינת: התנאי מתקיים והשדה בכל זאת אינו משמר.
+        misconception: MC-c8-crossed-partials-misread
+      - text: '$\arctan\frac yx$ היא פוטנציאל שלו'
+        feedback: >-
+          היא פוטנציאל רק בחצאי המישור $x>0$ ו-$x<0$, כל אחד לחוד. היא אינה מוגדרת על הציר $x=0$ ואין לה הרחבה רציפה
+          לכל $\mathbb{R}^2\setminus\{0\}$.
+        misconception: MC-c8-arctan-potential
+
+  - id: Q-8.4-construct
+    type: rank
+    objectives: [OBJ-8.4-1]
+    level: exam
+    prompt: >-
+      $U\subseteq\mathbb{R}^n$ פתוחה, כל שתי נקודות בה מחוברות במסילה חלקה למקוטעין בתוך $U$, ו-$F$ רציף ב-$U$
+      עם אינטגרל 0 על כל מסילה סגורה חלקה למקוטעין ב-$U$. סדרו את שלבי ההוכחה ש-$F$ משמר.
+    help: סדרו את שלבי ההוכחה מהראשון לאחרון.
+    items:
+      - id: a
+        label: 'מקבעים $x_0\in U$, ולכל $x\in U$ מגדירים $\varphi(x)=\int_{\gamma_x}F\cdot ds$, כאשר $\gamma_x$ מסילה חלקה למקוטעין ב-$U$ מ-$x_0$ ל-$x$.'
+      - id: b
+        label: '$\varphi$ מוגדרת היטב: לשתי מסילות כאלה $\gamma_x,\delta_x$, השרשור של $\gamma_x$ ושל $\delta_x^-$ סגור, ולכן שני האינטגרלים שווים.'
+      - id: c
+        label: 'מקבעים $x\in U$ ו-$r>0$ עם $B(x,r)\subseteq U$. ל-$0<|h|<r$ משרשרים ל-$\gamma_x$ את הקטע מ-$x$ ל-$x+he_i$: $\varphi(x+he_i)-\varphi(x)=\int_0^hF_i(x+se_i)\,ds$.'
+      - id: d
+        label: 'מחלקים ב-$h$ ומשתמשים ברציפות $F_i$ ב-$x$: המנה שואפת ל-$F_i(x)$, כלומר $\partial_i\varphi(x)=F_i(x)$.'
+      - id: e
+        label: 'הנגזרות החלקיות של $\varphi$ קיימות ורציפות, ולכן $\varphi$ גזירה ברציפות ו-$\nabla\varphi=F$.'
+    order: [a, b, c, d, e]
+    correctFeedback: >-
+      נכון. הקשירות משמשת בשלב הראשון (יש מסילה מ-$x_0$ לכל $x$), הנתון על מסילות סגורות בשני, והפתיחות של $U$
+      בשלישי (הקטע הקטן נשאר ב-$U$).
+    wrongFeedback: >-
+      קודם מגדירים את המועמד, אחר כך מראים שהוא מוגדר היטב, ורק אז גוזרים אותו. רציפות הנגזרות החלקיות היא הצעד
+      האחרון (שיעור 5.4).
+
+  - id: Q-8.4-slit
+    type: mc
+    objectives: [OBJ-8.4-3, OBJ-8.4-1]
+    level: exam
+    prompt: >-
+      תהי $U=\mathbb{R}^2\setminus\{(x,0):x\le0\}$, המישור בלי חצי הציר השלילי (כולל הראשית). מה נכון לגבי שדה
+      הזווית $\omega$ ב-$U$?
+    choices:
+      - text: 'הוא משמר ב-$U$: הזווית הקוטבית $\theta(x,y)\in(-\pi,\pi)$, שמוגדרת על ידי $(x,y)=r(\cos\theta,\sin\theta)$, היא פוטנציאל'
+        correct: true
+        feedback: >-
+          נכון. ב-$U$ אפשר לבחור את הזווית ברציפות (אין מסילה ב-$U$ שמקיפה את הראשית), והיא גזירה עם
+          $\nabla\theta=\omega$. בחצי המישור $x>0$ היא $\arctan\frac yx$.
+      - text: 'הוא אינו משמר ב-$U$, כי האינטגרל שלו על מעגל היחידה $2\pi$'
+        feedback: >-
+          מעגל היחידה אינו מסילה ב-$U$: הוא חוצה את חצי הציר השלילי ב-$(-1,0)$. "משמר" תלוי בתחום.
+        misconception: MC-c8-conservative-domain-free
+      - text: '$\arctan\frac yx$ היא פוטנציאל שלו ב-$U$'
+        feedback: >-
+          $\arctan\frac yx$ אינה מוגדרת על החלק של הציר $x=0$ שבתוך $U$, ולמשל ב-$(-1,1)$ היא נותנת $-\frac\pi4$ במקום
+          $\frac{3\pi}{4}$. היא פוטנציאל רק ב-$x>0$.
+        misconception: MC-c8-arctan-potential
+      - text: 'הזווית $\theta\in[0,2\pi)$ היא פוטנציאל שלו ב-$U$'
+        feedback: >-
+          הענף הזה קופץ מ-$2\pi$ ל-0 על חצי הציר **החיובי**, שנמצא ב-$U$, ולכן אינו רציף שם. הענף צריך לקפוץ דווקא על
+          חצי הציר שהוצא.
+        misconception: MC-c8-arctan-potential

@@ -1,0 +1,379 @@
+# Lesson 1.2 — normed spaces and inner products.
+# Objectives (src/course.ts):
+#   OBJ-1.2-1  define a norm, show every norm induces a metric, recognise a metric that comes from no norm
+#   OBJ-1.2-2  compute the 1-, 2- and ∞-norms on R^n and draw their unit balls
+#   OBJ-1.2-3  norms from an inner product; decide by the parallelogram law
+#   OBJ-1.2-4  the sup norm and the integral norm on C[a,b]
+chapter: 1
+questions:
+  - id: Q-1.2-def
+    type: mc
+    objectives: [OBJ-1.2-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      איזו מהתכונות הבאות היא אחת האקסיומות של **נורמה** על מרחב וקטורי ממשי $V$ (לכל $x,y\in V$ ולכל
+      $\lambda\in\mathbb{R}$)?
+    choices:
+      - text: '$\|\lambda x\|=|\lambda|\,\|x\|$'
+        correct: true
+        feedback: >-
+          נכון: הומוגניות. יחד איתה: $\|x\|=0$ רק ל-$x=0$, ואי-שוויון המשולש $\|x+y\|\le\|x\|+\|y\|$.
+      - text: '$\|\lambda x\|=\lambda\|x\|$'
+        feedback: >-
+          עם $\lambda=-1$ זה נותן $\|-x\|=-\|x\|$, מספר שלילי לכל $x\neq0$. חסר הערך המוחלט.
+        misconception: MC-c1-homogeneity-sign
+      - text: '$\|x+y\|=\|x\|+\|y\|$'
+        feedback: >-
+          זה שוויון, והוא נכשל כבר לערך המוחלט על $\mathbb{R}$: $|1+(-1)|=0<2$. האקסיומה היא אי-שוויון.
+        misconception: MC-c1-triangle-wrong-form
+      - text: '$\|x\|\ge0$, ו-$\|x\|=0$ מותר גם לוקטור שונה מאפס'
+        feedback: >-
+          נורמה מתאפסת **רק** על וקטור האפס. "נורמה" שמתאפסת על $x\neq0$ משרה "מרחק" 0 בין $x$ לבין $0$.
+        misconception: MC-c1-zero-axiom
+
+  - id: Q-1.2-p1
+    type: numeric
+    objectives: [OBJ-1.2-2]
+    level: basic
+    prompt: >-
+      חשבו את $\|x\|_1$ עבור $x=(3,-4,1)\in\mathbb{R}^3$.
+    answer: 8
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון: $|3|+|-4|+|1|=8$. לשם השוואה $\|x\|_2=\sqrt{26}\approx5.10$ ו-$\|x\|_\infty=4$, ואכן
+      $\|x\|_\infty\le\|x\|_2\le\|x\|_1$.
+    wrongFeedback: >-
+      $\|x\|_1$ הוא סכום הערכים המוחלטים של הקואורדינטות.
+    commonWrong:
+      - value: 0
+        feedback: >-
+          $3-4+1=0$: חסר הערך המוחלט. בלעדיו לווקטור שונה מאפס הייתה "נורמה" 0.
+        misconception: MC-c1-norm-no-abs
+      - value: 4
+        feedback: >-
+          4 הוא $\|x\|_\infty$, הקואורדינטה הגדולה בערכה המוחלט. נורמת 1 מחברת את כולן.
+        misconception: MC-c1-one-distance
+      - value: 26
+        feedback: >-
+          26 הוא $\|x\|_2^2$, סכום הריבועים. ממנו מקבלים את הנורמה האוקלידית בשורש, ונורמת 1 היא בכלל סכום
+          הערכים המוחלטים.
+        misconception: MC-c1-norm-squared
+
+  - id: Q-1.2-balls
+    type: mc
+    objectives: [OBJ-1.2-2]
+    qualitative: true
+    level: basic
+    prompt: >-
+      מהו כדור היחידה הסגור $\{x\in\mathbb{R}^2:\|x\|_1\le1\}$?
+    choices:
+      - text: 'מעוין עם קודקודים $(\pm1,0)$ ו-$(0,\pm1)$'
+        correct: true
+        feedback: >-
+          נכון. ברביע הראשון $x+y\le1$ הוא משולש מתחת לישר מ-$(1,0)$ ל-$(0,1)$, ובשאר הרביעים בסימטריה.
+      - text: 'הריבוע $[-1,1]\times[-1,1]$'
+        feedback: >-
+          זה כדור היחידה של $\|\cdot\|_\infty$. הנקודה $(1,1)$ בריבוע, אבל $\|(1,1)\|_1=2>1$.
+        misconception: MC-c1-unit-ball-swap
+      - text: 'העיגול $x^2+y^2\le1$'
+        feedback: >-
+          זה כדור היחידה של הנורמה האוקלידית. לכל נורמה כדור יחידה משלה; העיגול הוא רק אחד מהם.
+        misconception: MC-c1-one-distance
+
+  - id: Q-1.2-supnorm
+    type: numeric
+    objectives: [OBJ-1.2-4]
+    level: basic
+    prompt: >-
+      חשבו את $\|f\|_\infty=\max_{[0,1]}|f|$ עבור $f(x)=3x^2-1$ ב-$C[0,1]$.
+    answer: 2
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $f$ עולה על $[0,1]$ מ-$f(0)=-1$ עד $f(1)=2$, ולכן $\max|f|=\max(1,2)=2$.
+    wrongFeedback: >-
+      מצאו את טווח הערכים של $f$ על הקטע, ואז את הערך המוחלט הגדול ביותר.
+    commonWrong:
+      - value: 1
+        feedback: >-
+          $|f(0)|=1$, אבל זו רק נקודה אחת. ב-$x=1$ הערך $|f(1)|=2$ גדול יותר: בודקים את כל הקטע.
+        misconception: MC-c1-sup-metric-shortcut
+
+  - id: Q-1.2-induced
+    type: rank
+    objectives: [OBJ-1.2-1]
+    level: mid
+    prompt: >-
+      סדרו את שלבי ההוכחה ש-$d(x,y)=\|x-y\|$ היא מטריקה על מרחב נורמי $V$, לפי סדר האקסיומות של מטריקה: אפס,
+      סימטריה, משולש.
+    help: סדרו את השלבים מהראשון לאחרון, לפי סדר האקסיומות.
+    items:
+      - id: zero
+        label: '$d(x,y)=\|x-y\|\ge0$, ו-$d(x,y)=0\iff x-y=0\iff x=y$, לפי אקסיומת האפס של הנורמה.'
+      - id: sym
+        label: '$d(y,x)=\|(-1)(x-y)\|=|-1|\,\|x-y\|=d(x,y)$, לפי ההומוגניות.'
+      - id: split
+        label: 'לכל $x,y,z$ כותבים $x-z=(x-y)+(y-z)$.'
+      - id: tri
+        label: 'לפי אי-שוויון המשולש של הנורמה: $d(x,z)\le\|x-y\|+\|y-z\|=d(x,y)+d(y,z)$.'
+    order: [zero, sym, split, tri]
+    correctFeedback: >-
+      נכון. כל אקסיומה של מטריקה נובעת מאקסיומה של נורמה: אפס מאפס, סימטריה מהומוגניות עם $\lambda=-1$, ומשולש
+      ממשולש אחרי פירוק $x-z$.
+    wrongFeedback: >-
+      עברו על שלוש האקסיומות של מטריקה לפי הסדר: אפס, סימטריה, משולש. במשולש צריך קודם לפרק את $x-z$.
+
+  - id: Q-1.2-inclusions
+    type: multi
+    objectives: [OBJ-1.2-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      נסמן ב-$B_1$, $B_2$, $B_\infty$ את כדורי היחידה הסגורים של $\|\cdot\|_1$, $\|\cdot\|_2$, $\|\cdot\|_\infty$
+      ב-$\mathbb{R}^2$. אילו מהטענות נכונות? סמנו את כולן.
+    choices:
+      - text: '$B_1\subseteq B_2$'
+        correct: true
+        feedback: >-
+          נכון: $\|x\|_2\le\|x\|_1$, ולכן $\|x\|_1\le1$ גורר $\|x\|_2\le1$. המעוין חסום בתוך העיגול.
+      - text: '$B_2\subseteq B_\infty$'
+        correct: true
+        feedback: 'נכון: $\|x\|_\infty\le\|x\|_2$. העיגול חסום בתוך הריבוע.'
+      - text: '$B_\infty\subseteq B_2$'
+        feedback: >-
+          הפינה $(1,1)$ של הריבוע מקיימת $\|(1,1)\|_2=\sqrt2>1$. נורמה **קטנה** יותר נותנת כדור **גדול** יותר.
+        misconception: MC-c1-norm-order
+      - text: '$\|x\|_1\le\|x\|_\infty$ לכל $x$'
+        feedback: >-
+          $\|(1,1)\|_1=2>1=\|(1,1)\|_\infty$. הכיוון הנכון: $\|x\|_\infty\le\|x\|_1$.
+        misconception: MC-c1-norm-order
+      - text: '$\|x\|_1\le2\|x\|_\infty$ לכל $x\in\mathbb{R}^2$'
+        correct: true
+        feedback: >-
+          נכון: כל אחד משני המחוברים לכל היותר $\|x\|_\infty$. ב-$\mathbb{R}^n$ הקבוע הוא $n$. לכן $B_\infty\subseteq2B_1$.
+
+  - id: Q-1.2-discrete-norm
+    type: twotier
+    objectives: [OBJ-1.2-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      האם המטריקה הבדידה על $\mathbb{R}^2$ היא המטריקה המושרית של נורמה כלשהי, כלומר $d(x,y)=\|x-y\|$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. הומוגניות של נורמה סותרת את זה שכל המרחקים 0 או 1.'
+      - text: כן
+        feedback: >-
+          ה"נורמה" המתבקשת, $\|x\|=1$ לכל $x\neq0$, אינה הומוגנית: $\|2x\|=1\neq2=2\|x\|$.
+        misconception: MC-c1-every-metric-norm
+    reasons:
+      - text: 'אילו $\|x\|=d(x,0)$ הייתה נורמה, אז לכל $x\neq0$: $1=\|2x\|=2\|x\|=2$, סתירה'
+        correct: true
+        feedback: >-
+          בדיוק. מטריקה מושרית מקיימת $d(\lambda x,\lambda y)=|\lambda|d(x,y)$, ומטריקה שערכיה רק 0 ו-1 לא יכולה.
+      - text: 'המטריקה הבדידה אינה מטריקה כלל'
+        feedback: >-
+          היא מטריקה, על כל קבוצה (שיעור 1.1). השאלה היא רק אם היא באה מנורמה.
+        misconception: MC-c1-discrete-not-metric
+      - text: 'כל מטריקה על מרחב וקטורי באה מנורמה, כאן $\|x\|=d(x,0)$'
+        feedback: >-
+          $d(x,0)$ מוגדר לכל מטריקה, אבל הוא נורמה רק אם הוא הומוגני. כאן הוא לא.
+        misconception: MC-c1-every-metric-norm
+
+  - id: Q-1.2-parallelogram
+    type: twotier
+    objectives: [OBJ-1.2-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      האם $\|\cdot\|_1$ על $\mathbb{R}^2$ באה ממכפלה פנימית, כלומר $\|x\|_1=\sqrt{\langle x,x\rangle}$ למכפלה
+      פנימית כלשהי?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. היא אינה מקיימת את חוק המקבילית.'
+      - text: כן, מהמכפלה הסקלרית הרגילה
+        feedback: >-
+          המכפלה הסקלרית הרגילה נותנת את $\|\cdot\|_2$, לא את $\|\cdot\|_1$. ולמעשה אף מכפלה פנימית לא נותנת את
+          $\|\cdot\|_1$.
+        misconception: MC-c1-every-norm-inner
+    reasons:
+      - text: 'עם $x=(1,0)$, $y=(0,1)$: $\|x+y\|_1^2+\|x-y\|_1^2=8$ ואילו $2\|x\|_1^2+2\|y\|_1^2=4$'
+        correct: true
+        feedback: >-
+          בדיוק. כל נורמה שבאה ממכפלה פנימית מקיימת את חוק המקבילית, ולכן זוג אחד שמפר אותו מכריע.
+      - text: 'כל נורמה מקיימת את חוק המקבילית, ולכן כל נורמה באה ממכפלה פנימית'
+        feedback: >-
+          חוק המקבילית נובע מפיתוח $\langle x\pm y,x\pm y\rangle$, ולכן הוא מתקיים רק לנורמות שבאות ממכפלה
+          פנימית. ל-$\|\cdot\|_1$ הוא נכשל ($8\neq4$).
+        misconception: MC-c1-every-norm-inner
+      - text: '$\|\cdot\|_1$ אינה מקיימת את אי-שוויון המשולש'
+        feedback: >-
+          היא מקיימת אותו, מאי-שוויון המשולש בכל קואורדינטה. היא נורמה; היא פשוט לא באה ממכפלה פנימית.
+        misconception: MC-c1-axiom-misdiagnosed
+
+  - id: Q-1.2-par-inf
+    type: numeric
+    objectives: [OBJ-1.2-3]
+    level: mid
+    prompt: >-
+      עם $x=(1,0)$ ו-$y=(0,1)$ ב-$\mathbb{R}^2$, חשבו את $\|x+y\|_\infty^2+\|x-y\|_\infty^2$. (אילו
+      $\|\cdot\|_\infty$ הייתה באה ממכפלה פנימית, התוצאה הייתה $2\|x\|_\infty^2+2\|y\|_\infty^2=4$.)
+    answer: 2
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון: $\|(1,1)\|_\infty=\|(1,-1)\|_\infty=1$, והסכום $1+1=2\neq4$. חוק המקבילית נכשל, ולכן גם
+      $\|\cdot\|_\infty$ אינה באה ממכפלה פנימית.
+    wrongFeedback: >-
+      $x+y=(1,1)$ ו-$x-y=(1,-1)$. הנורמה של כל אחד היא הקואורדינטה הגדולה בערכה המוחלט.
+    commonWrong:
+      - value: 4
+        feedback: >-
+          4 הוא מה שחוק המקבילית **היה** נותן. חשבו את אגף שמאל עצמו: $1^2+1^2=2$.
+        misconception: MC-c1-every-norm-inner
+      - value: 8
+        feedback: >-
+          8 מתקבל בנורמת 1 ($2^2+2^2$). כאן הנורמה היא $\|\cdot\|_\infty$: $\|(1,1)\|_\infty=1$.
+        misconception: MC-c1-one-distance
+
+  - id: Q-1.2-l1norm
+    type: numeric
+    objectives: [OBJ-1.2-4]
+    level: mid
+    prompt: >-
+      חשבו את $\|f\|_1=\int_0^1|f(x)|\,dx$ עבור $f(x)=3x^2-1$ ב-$C[0,1]$. (תשובה עשרונית בשלוש ספרות אחרי
+      הנקודה מתקבלת.)
+    answer: 0.769800359
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון: $\frac{4}{3\sqrt3}\approx0.770$. $f$ מחליפה סימן ב-$a=\frac{1}{\sqrt3}$, ולכן
+      $\int_0^a(1-3x^2)\,dx+\int_a^1(3x^2-1)\,dx=\frac{2a}{3}+\frac{2a}{3}=\frac{4a}{3}$.
+    wrongFeedback: >-
+      מצאו היכן $f$ מחליפה סימן, ופצלו את האינטגרל של $|f|$ לשני קטעים.
+    commonWrong:
+      - value: 0
+        feedback: >-
+          $\int_0^1(3x^2-1)\,dx=1-1=0$: זה האינטגרל של $f$ בלי ערך מוחלט, שבו השטחים מעל ומתחת לציר מבטלים זה
+          את זה. אבל $f\neq0$, ולכן הנורמה חייבת להיות חיובית.
+        misconception: MC-c1-norm-no-abs
+      - value: 2
+        feedback: >-
+          2 הוא $\|f\|_\infty$. נורמת האינטגרל היא השטח מתחת ל-$|f|$, מספר אחר.
+        misconception: MC-c1-one-distance
+
+  - id: Q-1.2-is-norm
+    type: multi
+    objectives: [OBJ-1.2-1, OBJ-1.2-4]
+    qualitative: true
+    level: mid
+    prompt: >-
+      אילו מהבאות הן נורמות על $C[0,1]$? סמנו את כולן.
+    choices:
+      - text: '$\max_{[0,1]}|f|$'
+        correct: true
+        feedback: 'נכון: נורמת הסופרמום.'
+      - text: '$\int_0^1|f|$'
+        correct: true
+        feedback: >-
+          נכון: נורמת האינטגרל. אקסיומת האפס משתמשת ברציפות: אם $f(x_0)\neq0$, אז $|f|>\frac{|f(x_0)|}{2}$ על קטע
+          סביב $x_0$, והאינטגרל חיובי.
+      - text: '$|f(0)|$'
+        feedback: >-
+          $f(x)=x$ שונה מאפס ו-$|f(0)|=0$. הערך בנקודה אחת לא רואה את שאר הפונקציה.
+        misconception: MC-c1-zero-axiom
+      - text: '$\left|\int_0^1 f\right|$'
+        feedback: >-
+          $f(x)=2x-1$ שונה מאפס, ו-$\int_0^1(2x-1)\,dx=0$. הערך המוחלט צריך להיות **בתוך** האינטגרל.
+        misconception: MC-c1-norm-no-abs
+      - text: '$\max_{[0,1]}|f|+|f(0)|$'
+        correct: true
+        feedback: >-
+          נכון. סכום של נורמה ושל פונקציה הומוגנית שמקיימת משולש הוא שוב נורמה: אפס נובע מהמחובר הראשון.
+
+  - id: Q-1.2-polar
+    type: numeric
+    objectives: [OBJ-1.2-3]
+    level: exam
+    prompt: >-
+      במרחב מכפלה פנימית ידוע ש-$\|x\|=3$, $\|y\|=4$ ו-$\|x+y\|=6$. חשבו את $\|x-y\|$. (תשובה עשרונית בשלוש
+      ספרות אחרי הנקודה מתקבלת.)
+    answer: 3.74165739
+    tolerance: 0.0005
+    correctFeedback: >-
+      נכון: $\sqrt{14}\approx3.742$. מחוק המקבילית $\|x-y\|^2=2\cdot9+2\cdot16-36=14$. (מכאן גם
+      $\langle x,y\rangle=\frac{\|x+y\|^2-\|x-y\|^2}{4}=\frac{36-14}{4}=5.5$.)
+    wrongFeedback: >-
+      הנורמה באה ממכפלה פנימית, ולכן חוק המקבילית מתקיים: $\|x+y\|^2+\|x-y\|^2=2\|x\|^2+2\|y\|^2$.
+    commonWrong:
+      - value: 14
+        feedback: >-
+          14 הוא $\|x-y\|^2$. חוק המקבילית מדבר על ריבועי הנורמות: נשאר להוציא שורש.
+        misconception: MC-c1-norm-squared
+      - value: 1
+        feedback: >-
+          $\left|\|x\|-\|y\|\right|=1$ הוא רק **חסם מלרע** ל-$\|x-y\|$ (אי-שוויון המשולש ההפוך), לא הערך עצמו.
+          כשהנורמה באה ממכפלה פנימית, חוק המקבילית קובע את $\|x-y\|$ במדויק.
+        misconception: MC-c1-triangle-wrong-form
+
+  - id: Q-1.2-xn
+    type: twotier
+    objectives: [OBJ-1.2-4]
+    qualitative: true
+    level: exam
+    prompt: >-
+      נכון או לא: יש קבוע $C>0$ כך ש-$\|f\|_\infty\le C\|f\|_1$ לכל $f\in C[0,1]$.
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: >-
+          נכון. הכיוון ההפוך כן נכון, $\|f\|_1\le\|f\|_\infty$, אבל הכיוון הזה נכשל.
+      - text: נכון
+        feedback: >-
+          עם $f_n(x)=x^n$: $\|f_n\|_\infty=1$ ו-$\|f_n\|_1=\frac{1}{n+1}$, כך שהדרישה היא $1\le\frac{C}{n+1}$ לכל
+          $n$, וזה בלתי אפשרי.
+        misconception: MC-c1-norms-comparable
+    reasons:
+      - text: '$\|x^n\|_\infty=1$ ו-$\|x^n\|_1=\frac1{n+1}$, ולכן היחס $n+1$ אינו חסום'
+        correct: true
+        feedback: >-
+          בדיוק. פונקציה יכולה להיות גבוהה רק על קטע קצר, ואז השטח שלה קטן. נורמת האינטגרל "לא רואה" שיא צר.
+      - text: '$\|f\|_1=\int_0^1|f|\le\max|f|=\|f\|_\infty$, ומזה נובע גם הכיוון ההפוך'
+        feedback: >-
+          זה מוכיח רק $\|f\|_1\le\|f\|_\infty$. אי-שוויון בכיוון אחד אינו נותן את הכיוון ההפוך, וכאן הוא באמת נכשל.
+        misconception: MC-c1-norm-order
+      - text: 'כל שתי נורמות על אותו מרחב חוסמות זו את זו'
+        feedback: >-
+          זה נכון במימד סופי (שיעור 3.5), לא במרחב כמו $C[0,1]$: הסדרה $x^n$ מראה שאין קבוע.
+        misconception: MC-c1-norms-comparable
+
+  - id: Q-1.2-bounded-metric
+    type: twotier
+    objectives: [OBJ-1.2-1]
+    qualitative: true
+    level: exam
+    prompt: >-
+      האם $d(x,y)=\frac{|x-y|}{1+|x-y|}$ על $\mathbb{R}$ היא המטריקה המושרית של נורמה כלשהי על $\mathbb{R}$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. היא מטריקה, אבל חסומה, ומטריקה של נורמה אינה חסומה.'
+      - text: כן
+        feedback: >-
+          אילו $d(x,y)=\|x-y\|$, אז $d(t,0)=|t|\,\|1\|\to\infty$ כש-$t\to\infty$. אבל $d(t,0)<1$ לכל $t$.
+        misconception: MC-c1-every-metric-norm
+    reasons:
+      - text: 'מטריקה מושרית מקיימת $d(tx,0)=|t|\,d(x,0)$, ולכן אינה חסומה; כאן $d<1$ תמיד'
+        correct: true
+        feedback: >-
+          בדיוק. כל מטריקה חסומה על מרחב וקטורי שאינו $\{0\}$ אינה באה מנורמה. זה נכון גם למטריקה הבדידה.
+      - text: 'היא אינה אינווריאנטית להזזות'
+        feedback: >-
+          היא כן: $d(x+a,y+a)=d(x,y)$, כי היא תלויה רק ב-$x-y$. אינווריאנטיות להזזות היא תנאי הכרחי שמתקיים כאן;
+          מה שחסר הוא הומוגניות.
+        misconception: MC-c1-axiom-misdiagnosed
+      - text: 'היא אינה מקיימת את אי-שוויון המשולש'
+        feedback: >-
+          היא כן מקיימת אותו, כי $\frac{t}{1+t}$ עולה ותת-חיבורית (שיעור 1.1). השאלה היא לא אם זו מטריקה, אלא אם
+          היא באה מנורמה.
+        misconception: MC-c1-axiom-misdiagnosed

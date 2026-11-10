@@ -1,0 +1,342 @@
+# Lesson 5.1 — functions of several variables: limits and continuity.
+# Objectives (src/course.ts):
+#   OBJ-5.1-1  describe a function between Euclidean spaces by components, graph and level curves
+#   OBJ-5.1-2  prove that a limit does not exist with two paths; limits along every line are not enough
+#   OBJ-5.1-3  prove that a limit exists by a bound, e.g. in polar coordinates
+chapter: 5
+questions:
+  - id: Q-5.1-level
+    type: mc
+    objectives: [OBJ-5.1-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      תהי $f(x,y)=x^2+y^2$. מהי קבוצת הגובה $\{(x,y)\in\mathbb{R}^2:\ f(x,y)=c\}$ עבור $c>0$, ומה קורה כש-$c<0$?
+    choices:
+      - text: 'מעגל ברדיוס $\sqrt c$ סביב הראשית; כש-$c<0$ הקבוצה ריקה'
+        correct: true
+        feedback: >-
+          נכון. $x^2+y^2=c$ הוא מעגל ברדיוס $\sqrt c$. הפונקציה אינה שלילית, ולכן אין נקודה שבה היא מקבלת ערך שלילי.
+          כש-$c=0$ קבוצת הגובה היא נקודה אחת, הראשית.
+      - text: 'מעגל ברדיוס $c$ סביב הראשית; כש-$c<0$ מעגל ברדיוס $|c|$'
+        feedback: >-
+          הרדיוס הוא $\sqrt c$, לא $c$: הנקודה $(\sqrt c,0)$ נותנת $f=c$. וכש-$c<0$ אין אף נקודה, כי $x^2+y^2\ge0$
+          תמיד: קבוצת גובה יכולה להיות ריקה.
+        misconception: MC-c5-level-set-shape
+      - text: 'פרבולואיד במרחב התלת-ממדי'
+        feedback: >-
+          הפרבולואיד $z=x^2+y^2$ הוא **הגרף** של $f$, תת-קבוצה של $\mathbb{R}^3$. קבוצת גובה היא תת-קבוצה של התחום
+          $\mathbb{R}^2$: החיתוך של הגרף עם המישור $z=c$, מוטל למטה למישור.
+        misconception: MC-c5-graph-vs-level
+      - text: 'המישור $z=c$'
+        feedback: >-
+          המישור $z=c$ הוא מה שחותכים בו את הגרף. קבוצת הגובה היא קבוצת הנקודות $(x,y)$ שבהן $f=c$, והיא יושבת
+          במישור $\mathbb{R}^2$ של התחום.
+        misconception: MC-c5-graph-vs-level
+
+  - id: Q-5.1-xy-levels
+    type: multi
+    objectives: [OBJ-5.1-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      תהי $f(x,y)=xy$. אילו מהטענות נכונות? סמנו את כולן.
+    choices:
+      - text: 'קבוצת הגובה $f=0$ היא איחוד שני הצירים'
+        correct: true
+        feedback: 'נכון: $xy=0$ בדיוק כש-$x=0$ או $y=0$. קבוצת גובה לא חייבת להיות "קו" אחד חלק.'
+      - text: 'קבוצת הגובה $f=1$ היא היפרבולה בעלת שני ענפים, ברביע הראשון ובשלישי'
+        correct: true
+        feedback: 'נכון: $y=\frac1x$, ו-$xy=1>0$ פירושו ש-$x$ ו-$y$ באותו סימן.'
+      - text: 'שתי קבוצות גובה שונות יכולות להיחתך'
+        feedback: >-
+          לא ייתכן: בנקודת חיתוך $f$ הייתה מקבלת שני ערכים שונים. קבוצות הגובה של כל פונקציה זרות זו לזו, והאיחוד
+          שלהן הוא כל התחום.
+        misconception: MC-c5-level-set-shape
+      - text: 'הגרף של $f$ הוא תת-קבוצה של $\mathbb{R}^2$'
+        feedback: >-
+          הגרף הוא $\{(x,y,xy)\}\subset\mathbb{R}^3$. ב-$\mathbb{R}^2$ יושבות קבוצות הגובה, והן "המפה הטופוגרפית" של
+          הגרף.
+        misconception: MC-c5-graph-vs-level
+
+  - id: Q-5.1-line-value
+    type: numeric
+    objectives: [OBJ-5.1-2]
+    level: basic
+    prompt: >-
+      תהי $f(x,y)=\frac{xy}{x^2+y^2}$ ל-$(x,y)\ne(0,0)$. מהו הערך של $f$ בנקודות הישר $y=2x$ (פרט לראשית)?
+    answer: 0.4
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $f(x,2x)=\frac{2x^2}{x^2+4x^2}=\frac25$. לאורך הישר $y=mx$ הערך קבוע, $\frac{m}{1+m^2}$, ולכן הגבול
+      לאורך הישר הוא $\frac{m}{1+m^2}$, וישרים שונים נותנים גבולות שונים.
+    wrongFeedback: >-
+      הציבו $y=2x$ וצמצמו את $x^2$: המונה $2x^2$, המכנה $5x^2$.
+    commonWrong:
+      - value: 0
+        feedback: >-
+          0 הוא הגבול לאורך הצירים ($f(x,0)=0$), לא לאורך $y=2x$. הציבו $y=2x$ ממש: $f(x,2x)=\frac{2x^2}{5x^2}$.
+        misconception: MC-c5-paths-prove-limit
+
+  - id: Q-5.1-x3-bound
+    type: mc
+    objectives: [OBJ-5.1-3]
+    level: basic
+    prompt: >-
+      איזה חסם מוכיח ש-$\lim_{(x,y)\to(0,0)}\frac{x^3}{x^2+y^2}=0$?
+    choices:
+      - text: '$\left|\frac{x^3}{x^2+y^2}\right|\le|x|$, כי $x^2\le x^2+y^2$'
+        correct: true
+        feedback: >-
+          נכון. $\frac{x^2}{x^2+y^2}\le1$, ולכן $|f|\le|x|\le\|(x,y)\|_2$. חסם שתלוי רק במרחק מהראשית ושואף ל-0
+          מוכיח את הגבול: בהינתן $\varepsilon$ בוחרים $\delta=\varepsilon$.
+      - text: '$\left|\frac{x^3}{x^2+y^2}\right|\le\frac{|x|^3}{y^2}$'
+        feedback: >-
+          זה נכון כש-$y\ne0$, אבל החסם אינו קטן ליד הראשית: לאורך $y=x^2$ הוא $\frac{|x|^3}{x^4}\to\infty$. חסם
+          מועיל צריך לשאוף ל-0 בכל דרך ההגעה.
+        misconception: MC-c5-bound-not-vanishing
+      - text: 'לאורך $y=0$ ולאורך $x=0$ הגבול 0'
+        feedback: >-
+          שתי מסילות לא מוכיחות קיום, רק מצביעות על המועמד. ראו את $\frac{xy}{x^2+y^2}$, שהיא 0 על שני הצירים ואין לה
+          גבול.
+        misconception: MC-c5-paths-prove-limit
+      - text: '$\left|\frac{x^3}{x^2+y^2}\right|\le1$ בכדור $B(0,1)$, כלומר $f$ חסומה ליד הראשית'
+        feedback: >-
+          חסימות אינה שאיפה ל-0: $\frac{xy}{x^2+y^2}$ חסומה על ידי $\frac12$ ואין לה גבול בראשית. צריך חסם
+          שהוא עצמו שואף ל-0 כשהמרחק מהראשית שואף ל-0.
+        misconception: MC-c5-bound-not-vanishing
+
+  - id: Q-5.1-components
+    type: twotier
+    objectives: [OBJ-5.1-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      תהי $F:\mathbb{R}^2\to\mathbb{R}^3$, $F(x,y)=(F_1,F_2,F_3)$. נכון או לא נכון: $F$ רציפה בנקודה $a$ אם ורק
+      אם כל אחד מהרכיבים $F_1,F_2,F_3$ רציף ב-$a$?
+    choices:
+      - text: נכון
+        correct: true
+        feedback: 'נכון. לכן מספיק ללמוד גבולות ורציפות של פונקציות ממשיות, ולהפעיל על כל רכיב בנפרד.'
+      - text: לא נכון
+        feedback: >-
+          זה נכון: המרחק בטווח שולט בכל רכיב ונשלט על ידי סכומם. הטעות הנפוצה היא בכיוון אחר: רציפות בכל **משתנה**
+          בנפרד אינה מספיקה, אבל רציפות של כל **רכיב** כן.
+        misconception: MC-c5-separate-continuity
+    reasons:
+      - text: 'לכל $i$: $|F_i(x)-F_i(a)|\le\|F(x)-F(a)\|_2\le\sum_{j}|F_j(x)-F_j(a)|$'
+        correct: true
+        feedback: >-
+          בדיוק. אי-השוויון השמאלי נותן "רציפה ⇐ כל רכיב רציף", והימני את הכיוון ההפוך. זה אותו טיעון כמו בשיעור 1.5:
+          התכנסות ב-$\mathbb{R}^m$ שקולה להתכנסות בכל קואורדינטה.
+      - text: 'כי $F$ רציפה בכל משתנה בנפרד'
+        feedback: >-
+          "רציפה בכל משתנה בנפרד" (מקבעים את $y$ ומזיזים את $x$, ולהפך) היא תכונה של המשתנים, לא של הרכיבים, והיא
+          חלשה מרציפות: $\frac{xy}{x^2+y^2}$ (עם 0 בראשית) רציפה בכל משתנה בנפרד ואינה רציפה בראשית.
+        misconception: MC-c5-separate-continuity
+      - text: 'זה נכון רק בנורמת המקסימום על $\mathbb{R}^3$; בנורמה אחרת רציפות של $F$ היא תכונה אחרת'
+        feedback: >-
+          כל הנורמות על $\mathbb{R}^3$ שקולות (שיעור 3.5), ולכן הן נותנות אותן סדרות מתכנסות ואותן פונקציות רציפות.
+          הבחירה בנורמה משנה קבועים, לא את השאלה אם $F$ רציפה.
+        misconception: MC-c5-norm-dependent
+
+  - id: Q-5.1-two-paths
+    type: twotier
+    objectives: [OBJ-5.1-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      האם $\lim_{(x,y)\to(0,0)}\frac{xy}{x^2+y^2}$ קיים?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. גבול, אם קיים, חייב להיות שווה לגבול לאורך כל מסילה שמגיעה לראשית.'
+      - text: 'כן, והוא 0'
+        feedback: >-
+          לאורך הצירים הערך 0, אבל לאורך $y=x$ הערך $\frac12$ בכל נקודה. גבול אחד צריך להתאים לכל דרך ההגעה.
+        misconception: MC-c5-iterated-limit
+    reasons:
+      - text: 'לאורך $y=0$ הערכים $0$, ולאורך $y=x$ הם $\frac12$: שני גבולות שונים לאורך שתי מסילות'
+        correct: true
+        feedback: >-
+          זו בדיוק ההוכחה: אם $L$ היה הגבול, אז $f(t,0)\to L$ וגם $f(t,t)\to L$, ולכן $L=0$ וגם $L=\frac12$.
+      - text: 'הגבולות הנשנים $\lim_{x\to0}\lim_{y\to0}f$ ו-$\lim_{y\to0}\lim_{x\to0}f$ שווים שניהם ל-0, ולכן הגבול 0'
+        feedback: >-
+          שני הגבולות הנשנים אכן 0, ובכל זאת הגבול אינו קיים: גבול נשנה מתקרב לראשית לאורך מסלול מיוחד (קודם על ציר,
+          אחר כך לאורכו), ואינו בודק את שאר הכיוונים.
+        misconception: MC-c5-iterated-limit
+      - text: 'המכנה מתאפס בראשית'
+        feedback: >-
+          גם ב-$\frac{x^2y^2}{x^2+y^2}$ המכנה מתאפס, והגבול שם קיים ושווה 0. מכנה שמתאפס הוא סיבה לבדוק, לא הוכחה.
+        misconception: MC-c5-zero-denominator
+
+  - id: Q-5.1-iterated
+    type: mc
+    objectives: [OBJ-5.1-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      סטודנט בדק את $g(x,y)$ ליד הראשית ומצא: הגבול לאורך כל ישר דרך הראשית הוא 3, ושני הגבולות הנשנים שווים ל-3.
+      מה אפשר להסיק בוודאות?
+    choices:
+      - text: 'אם $\lim_{(x,y)\to(0,0)} g$ קיים, הוא 3; אבל ייתכן שאינו קיים'
+        correct: true
+        feedback: >-
+          נכון. בדיקה של מסילות יכולה רק **לשלול** גבול, או למצוא את המועמד היחיד. כדי להוכיח קיום צריך חסם שתלוי
+          רק במרחק מהראשית.
+      - text: 'הגבול קיים ושווה ל-3'
+        feedback: >-
+          ישרים הם רק חלק מהמסילות. ל-$\frac{x^2y}{x^4+y^2}$ (ועוד 3) הגבול לאורך כל ישר הוא 3, ולאורך הפרבולה
+          $y=x^2$ הוא $3\tfrac12$.
+        misconception: MC-c5-paths-prove-limit
+      - text: 'הגבול אינו קיים, כי לא נבדקו כל המסילות'
+        feedback: >-
+          אי-אפשר להסיק גם את זה: אולי הוא קיים. "לא נבדק" אינו "אינו קיים"; כדי לשלול גבול צריך שתי מסילות עם
+          גבולות שונים.
+        misconception: MC-c5-paths-prove-limit
+      - text: '$g$ רציפה בראשית'
+        feedback: >-
+          גם אם הגבול קיים, רציפות דורשת גם $g(0,0)=3$, ו-$g$ אולי אינה מוגדרת שם בכלל.
+        misconception: MC-c5-limit-vs-value
+
+  - id: Q-5.1-parabola
+    type: twotier
+    objectives: [OBJ-5.1-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      תהי $f(x,y)=\frac{x^2y}{x^4+y^2}$ ל-$(x,y)\ne(0,0)$. ידוע שהגבול של $f$ לאורך **כל** ישר דרך הראשית הוא 0.
+      האם $\lim_{(x,y)\to(0,0)}f(x,y)$ קיים?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. צריך מסילה שאינה ישר, ומתאימה לחזקות במכנה.'
+      - text: 'כן, והוא 0'
+        feedback: >-
+          כל הישרים נותנים 0, אבל לאורך הפרבולה $y=x^2$ הערך $\frac{x^4}{2x^4}=\frac12$ בכל נקודה.
+        misconception: MC-c5-paths-prove-limit
+    reasons:
+      - text: 'לאורך $y=x^2$ מתקבל $f(x,x^2)=\frac12$, שונה מ-0'
+        correct: true
+        feedback: >-
+          בדיוק. במכנה $x^4$ ו-$y^2$ מאוזנים כש-$y\approx x^2$, ושם $f$ לא קטנה. כך מוצאים את המסילה: משווים את
+          סדרי הגודל של שני המחוברים במכנה.
+      - text: 'לאורך $y=mx$ מתקבל $f=\frac{mx}{x^2+m^2}$, שאינו מוגדר כש-$m=0$'
+        feedback: >-
+          כש-$m=0$ פשוט $f(x,0)=0$; החישוב לאורך ישרים תקין, ונותן 0 בכל ישר. הבעיה היא שישרים אינם כל המסילות.
+        misconception: MC-c5-paths-prove-limit
+      - text: 'כי $f$ אינה מוגדרת בראשית'
+        feedback: >-
+          גבול לא דורש ש-$f$ תהיה מוגדרת בנקודה עצמה: ל-$\frac{x^3}{x^2+y^2}$, שגם היא אינה מוגדרת בראשית, יש גבול
+          0.
+        misconception: MC-c5-zero-denominator
+
+  - id: Q-5.1-polar-max
+    type: numeric
+    objectives: [OBJ-5.1-3]
+    level: mid
+    prompt: >-
+      כדי להוכיח ש-$\frac{x^2y^2}{x^2+y^2}\to0$ עוברים לקואורדינטות קוטביות: $x=r\cos\theta$, $y=r\sin\theta$,
+      ואז $f=r^2\cos^2\theta\sin^2\theta$. מהו $\max_\theta\cos^2\theta\sin^2\theta$, כך ש-$|f|\le C r^2$ עם
+      הקבוע הטוב ביותר $C$?
+    answer: 0.25
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $\cos^2\theta\sin^2\theta=\frac14\sin^2 2\theta\le\frac14$, עם שוויון ב-$\theta=\frac\pi4$. לכן
+      $|f|\le\frac{r^2}{4}$ לכל $\theta$, והגבול 0. החסם תלוי רק ב-$r$: זה מה שהופך אותו להוכחה.
+    wrongFeedback: >-
+      כתבו $\cos\theta\sin\theta=\frac12\sin2\theta$ והעלו בריבוע. (החסם $C=1$ נכון ומספיק להוכחת הגבול, אבל
+      אינו הטוב ביותר: שני הגורמים אינם 1 באותה זווית.)
+
+  - id: Q-5.1-rank-bound
+    type: rank
+    objectives: [OBJ-5.1-3]
+    level: mid
+    prompt: >-
+      סדרו את שלבי ההוכחה ש-$\lim_{(x,y)\to(0,0)}\frac{x^3+y^3}{x^2+y^2}=0$. סמנו $\rho=\|(x,y)\|_2$.
+    help: סדרו את שלבי ההוכחה מהראשון לאחרון.
+    items:
+      - id: a
+        label: 'יהי $\varepsilon>0$; צריך $\delta>0$ כך ש-$0<\rho<\delta$ גורר $|f(x,y)|<\varepsilon$.'
+      - id: b
+        label: '$|x^3+y^3|\le|x|\,x^2+|y|\,y^2$, לפי אי-שוויון המשולש.'
+      - id: c
+        label: 'כי $|x|\le\rho$ ו-$|y|\le\rho$, מתקבל $|x^3+y^3|\le\rho\,(x^2+y^2)$.'
+      - id: d
+        label: 'מחלקים ב-$x^2+y^2=\rho^2>0$: $|f(x,y)|\le\rho$, חסם שתלוי רק במרחק.'
+      - id: e
+        label: 'בוחרים $\delta=\varepsilon$: אם $0<\rho<\delta$ אז $|f(x,y)|\le\rho<\varepsilon$.'
+    order: [a, b, c, d, e]
+    correctFeedback: >-
+      נכון. המבנה של כל הוכחת קיום: מנסחים את המטרה, חוסמים את $|f-L|$ בפונקציה של המרחק בלבד, ובוחרים
+      $\delta$ לפי החסם.
+    wrongFeedback: >-
+      התחילו מהמטרה (מה צריך להוכיח), עברו לחסם על המונה, רק אז חלקו במכנה, ובחרו את $\delta$ אחרון: הבחירה תלויה
+      בחסם.
+
+  - id: Q-5.1-polar-trap
+    type: twotier
+    objectives: [OBJ-5.1-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      סטודנטית כתבה: "עבור $f=\frac{x^2y}{x^4+y^2}$ בקוטביות,
+      $$f=\frac{r\cos^2\theta\sin\theta}{r^2\cos^4\theta+\sin^2\theta},$$
+      ולכל $\theta$ קבוע הביטוי שואף ל-0 כש-$r\to0$. לכן הגבול בראשית 0." האם ההוכחה נכונה?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. וגם המסקנה שגויה: לאורך הפרבולה $y=x^2$ הערך של $f$ הוא $\frac12$ בכל נקודה.'
+      - text: כן
+        feedback: >-
+          "לכל $\theta$ קבוע" פירושו לאורך כל קרן מהראשית, כלומר לאורך ישרים בלבד. בפרבולה $y=x^2$ הזווית משתנה עם
+          $r$, ושם $f=\frac12$.
+        misconception: MC-c5-polar-fixed-theta
+    reasons:
+      - text: 'צריך חסם $|f|\le g(r)$ עם $g(r)\to0$ שאינו תלוי ב-$\theta$; כאן ליד $\sin\theta=0$ המכנה קטן כמו $r^2$, וכל חסם כזה נכשל'
+        correct: true
+        feedback: >-
+          בדיוק. ככל ש-$r$ קטן, הזווית שבה $f$ גדולה מתקרבת ל-0, כך שאין $r$ אחד שמתאים לכל הזוויות. אחידות
+          ב-$\theta$ היא כל העניין בשיטה הקוטבית.
+      - text: 'ההוכחה נכונה: כל נקודה במישור נמצאת על קרן כלשהי מהראשית, ועל כל קרן הגבול 0'
+        feedback: >-
+          כל נקודה אכן על קרן, אבל סדרת נקודות שמתקרבת לראשית יכולה לעבור מקרן לקרן. על הפרבולה $y=x^2$ כל נקודה על
+          קרן אחרת, ושם $f=\frac12$. קוטביות הן שיטה מצוינת רק עם חסם אחיד:
+          $\frac{x^2y^2}{x^2+y^2}=r^2\cos^2\theta\sin^2\theta\le\frac{r^2}{4}$.
+        misconception: MC-c5-polar-fixed-theta
+      - text: 'המכנה מתאפס כש-$\theta=0$'
+        feedback: >-
+          כש-$\theta=0$ המכנה $r^2\ne0$. העניין אינו התאפסות בזווית אחת אלא שהחסם אינו אחיד: לכל $r$ יש זווית קטנה
+          שבה $f=\frac12$.
+        misconception: MC-c5-polar-fixed-theta
+
+  - id: Q-5.1-alpha
+    type: mc
+    objectives: [OBJ-5.1-2, OBJ-5.1-3]
+    level: exam
+    prompt: >-
+      עבור $\alpha>0$ תהי $f_\alpha(x,y)=\frac{|x|^\alpha\, y}{x^2+y^2}$ ל-$(x,y)\ne(0,0)$. לאילו $\alpha$ קיים
+      $\lim_{(x,y)\to(0,0)}f_\alpha=0$?
+    choices:
+      - text: 'בדיוק ל-$\alpha>1$'
+        correct: true
+        feedback: >-
+          נכון. ל-$\alpha>1$: $|f_\alpha|\le\frac{\rho^\alpha\cdot\rho}{\rho^2}=\rho^{\alpha-1}\to0$, עם
+          $\rho=\|(x,y)\|_2$. ל-$\alpha\le1$, לאורך $y=x$ עם $x>0$: $f_\alpha=\frac{x^{\alpha+1}}{2x^2}=\frac{x^{\alpha-1}}{2}$,
+          שאינו שואף ל-0 (הוא $\frac12$ כש-$\alpha=1$, ושואף לאינסוף כש-$\alpha<1$).
+      - text: 'בדיוק ל-$\alpha\ge1$'
+        feedback: >-
+          ב-$\alpha=1$ לאורך $y=x$, $x>0$: $f_1=\frac{x^2}{2x^2}=\frac12$. החסם $\rho^{\alpha-1}$ שווה 1 שם, ואינו
+          שואף ל-0. בדקו את המקרה הגבולי בנפרד.
+        misconception: MC-c5-bound-not-vanishing
+      - text: 'לכל $\alpha>0$, כי לאורך הצירים $f_\alpha=0$'
+        feedback: >-
+          הצירים הם שתי מסילות בלבד. לאורך $y=x$ הערך $\frac{x^{\alpha-1}}{2}$, ולכן ל-$\alpha\le1$ אין גבול 0.
+        misconception: MC-c5-paths-prove-limit
+      - text: 'לאף $\alpha$, כי המכנה מתאפס בראשית'
+        feedback: >-
+          מכנה שמתאפס אינו סוף הסיפור: המונה $|x|^\alpha|y|$ הוא מסדר $\rho^{\alpha+1}$ והמכנה מסדר $\rho^2$, ולכן
+          כש-$\alpha+1>2$ המונה קטן מהר יותר והגבול 0.
+        misconception: MC-c5-zero-denominator
+    hints:
+      - 'חסמו את $|x|$ ואת $|y|$ על ידי $\rho$, ובדקו את הישר $y=x$ במקרה שהחסם אינו שואף ל-0.'

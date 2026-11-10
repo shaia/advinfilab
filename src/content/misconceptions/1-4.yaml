@@ -1,0 +1,65 @@
+# Misconceptions first detected in lesson 1.4 (interior, closure, boundary and density).
+- id: MC-c1-boundary-in-set
+  title: חושבים שהשפה כולה בתוך הקבוצה, או כולה מחוצה לה
+  belief: >-
+    השפה של $A$ היא הנקודות של $A$ שאינן פנימיות, או לחלופין הנקודות שמחוץ ל-$A$ וקרובות אליה.
+  truth: >-
+    $\partial A=\overline A\setminus A^\circ$: נקודות שכל כדור סביבן פוגש גם את $A$ וגם את המשלים. הן יכולות
+    להיות בתוך $A$ או מחוצה לה: $\partial[0,1)=\{0,1\}$, עם $0\in A$ ו-$1\notin A$.
+  remedy: { lesson: '1.4', anchor: boundary, label: 'ההגדרה של שפה' }
+
+- id: MC-c1-boundary-thin
+  title: חושבים שהשפה היא תמיד "קצה דק" של הקבוצה
+  belief: >-
+    השפה היא כמה נקודות קצה, ואינה יכולה להיות כל המרחב או להכיל נקודה מבודדת.
+  truth: >-
+    $\partial\mathbb{Q}=\mathbb{R}$, כי כל קטע מכיל רציונליים ואי-רציונליים. נקודה מבודדת של קבוצה ב-$\mathbb{R}$
+    היא נקודת שפה: $2\in\partial([0,1)\cup\{2\})$. וקטע במישור הוא כולו שפה.
+  remedy: { lesson: '1.4', anchor: thin-boundary, label: 'שפות שאינן דקות' }
+
+- id: MC-c1-accumulation-in-set
+  title: מבלבלים בין נקודת הצטברות לבין נקודה של הקבוצה
+  belief: >-
+    כל נקודה של $A$ היא נקודת הצטברות שלה, ונקודת הצטברות חייבת להיות שייכת ל-$A$; לכן הסגור הוא קבוצת
+    נקודות ההצטברות.
+  truth: >-
+    $x$ נקודת הצטברות אם כל כדור סביבו מכיל נקודה של $A$ **שונה מ-$x$**. ל-$\{\frac1n\}$ נקודת ההצטברות
+    היחידה היא $0\notin A$, וכל $\frac1n$ מבודדת. הסגור הוא $A\cup A'$, לא $A'$ לבד.
+  remedy: { lesson: '1.4', anchor: accumulation, label: 'נקודות הצטברות ונקודות מבודדות' }
+
+- id: MC-c1-closure-of-ball
+  title: חושבים שהסגור של כדור פתוח הוא תמיד הכדור הסגור
+  belief: >-
+    בכל מרחב מטרי $\overline{B(x,r)}=B[x,r]$.
+  truth: >-
+    תמיד $\overline{B(x,r)}\subseteq B[x,r]$, אבל השוויון יכול להיכשל: במטריקה הבדידה
+    $\overline{B(x,1)}=\{x\}$ ו-$B[x,1]=X$. במרחב נורמי השוויון כן מתקיים.
+  remedy: { lesson: '1.4', anchor: ex-1-4-3, label: 'הסגור של כדור במטריקה הבדידה' }
+
+- id: MC-c1-interior-closure-swap
+  title: מבלבלים בין התנאי של פנים לתנאי של סגור
+  belief: >-
+    $x\in\overline A$ אם יש כדור סביב $x$ שמוכל ב-$A$.
+  truth: >-
+    פנים: **קיים** כדור סביב $x$ שמוכל ב-$A$. סגור: **כל** כדור סביב $x$ פוגש את $A$. פנים מקטין את $A$,
+    סגור מגדיל אותה: $A^\circ\subseteq A\subseteq\overline A$.
+  remedy: { lesson: '1.4', anchor: closure, label: 'פנים וסגור' }
+
+- id: MC-c1-dense-large
+  title: חושבים שקבוצה צפופה חייבת להיות "גדולה"
+  belief: >-
+    קבוצה צפופה חייבת להכיל קטע (פנים לא ריק) או להיות לא בת מנייה; וכל קבוצה אינסופית שמתפזרת על כל הישר
+    צפופה.
+  truth: >-
+    צפיפות פירושה $\overline A=X$: כל כדור פוגש את $A$. $\mathbb{Q}$ בת מנייה, פניה ריקים, והיא צפופה;
+    $\mathbb{Z}$ אינסופית ולא חסומה, ואינה צפופה.
+  remedy: { lesson: '1.4', anchor: dense, label: 'קבוצות צפופות' }
+
+- id: MC-c1-interior-union
+  title: חושבים שפנים וסגור מתחלפים עם כל פעולה על קבוצות
+  belief: >-
+    $(A\cup B)^\circ=A^\circ\cup B^\circ$ ו-$\overline{A\cap B}=\overline A\cap\overline B$.
+  truth: >-
+    מתקיים רק $A^\circ\cup B^\circ\subseteq(A\cup B)^\circ$ ו-$\overline{A\cap B}\subseteq\overline A\cap\overline B$.
+    עם $A=\mathbb{Q}$ ו-$B=\mathbb{R}\setminus\mathbb{Q}$: אגף שמאל של הראשון ריק ואגף ימין $\mathbb{R}$.
+  remedy: { lesson: '1.4', anchor: set-operations, label: 'פנים של איחוד' }

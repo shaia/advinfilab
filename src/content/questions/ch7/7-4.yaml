@@ -1,0 +1,345 @@
+# Lesson 7.4 — level sets and the tangent space.
+# Objectives (src/course.ts):
+#   OBJ-7.4-1  define a regular value and deduce from the implicit function theorem that its level set is locally a graph
+#   OBJ-7.4-2  compute the tangent space as the kernel of the differential and the normal direction from the gradient
+#   OBJ-7.4-3  recognise singular points where the level set is not a smooth surface, like the vertex of a cone
+# Wording: the course glossary (5.1) calls a level set "קבוצת גובה"; course.ts says "קבוצת רמה" for the same object.
+chapter: 7
+questions:
+  - id: Q-7.4-regular-def
+    type: mc
+    objectives: [OBJ-7.4-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $F:\mathbb{R}^3\to\mathbb{R}$ גזירה ברציפות ו-$c\in\mathbb{R}$. מתי $c$ הוא **ערך רגולרי** של $F$?
+    choices:
+      - text: 'כש-$\nabla F(a)\neq0$ לכל $a$ עם $F(a)=c$'
+        correct: true
+        feedback: >-
+          נכון. התנאי נבדק רק על קבוצת הגובה $F^{-1}(c)$: כל נקודה שלה צריכה להיות רגולרית.
+      - text: 'כש-$\nabla F(a)\neq0$ לכל $a\in\mathbb{R}^3$'
+        feedback: >-
+          זה חזק מדי: נקודות קריטיות מחוץ ל-$F^{-1}(c)$ לא מפריעות. ל-$x^2+y^2+z^2$ הראשית קריטית, ובכל זאת 1 ערך
+          רגולרי, וקבוצת הגובה שלו, הספרה, חלקה בכל נקודה.
+        misconception: MC-c7-regular-value-scope
+      - text: 'כשיש $a$ עם $F(a)=c$ ו-$\nabla F(a)\neq0$'
+        feedback: >-
+          נקודה רגולרית אחת לא מספיקה. ל-$x^2+y^2-z^2$ הערך 0 אינו רגולרי: ברוב נקודות החרוט הגרדיאנט שונה מאפס,
+          אבל בקודקוד הוא מתאפס.
+        misconception: MC-c7-regular-value-scope
+      - text: 'כש-$DF(a)$ הפיכה לכל $a$ עם $F(a)=c$'
+        feedback: >-
+          $J_F(a)$ היא שורה $1\times3$, ושורה אינה מטריצה הפיכה. הדרישה הנכונה היא ש-$DF(a)$ תהיה **על** $\mathbb{R}$,
+          כלומר $\nabla F(a)\neq0$.
+        misconception: MC-c7-regular-means-invertible
+
+  - id: Q-7.4-which-regular
+    type: multi
+    objectives: [OBJ-7.4-1]
+    level: basic
+    prompt: >-
+      $F(x,y,z)=x^2+y^2-z^2$. אילו מהערכים הבאים הם ערכים רגולריים של $F$? סמנו את כולם.
+    choices:
+      - text: '$c=1$'
+        correct: true
+        feedback: >-
+          נכון. $\nabla F=(2x,2y,-2z)$ מתאפס רק בראשית, ו-$F(0)=0\neq1$. קבוצת הגובה היא היפרבולואיד חד-יריעתי.
+      - text: '$c=-1$'
+        correct: true
+        feedback: >-
+          נכון, מאותה סיבה. קבוצת הגובה היא היפרבולואיד דו-יריעתי: שני חלקים, וכל אחד מהם חלק.
+      - text: '$c=0$'
+        feedback: >-
+          הראשית נמצאת על $F^{-1}(0)$ (החרוט), ושם $\nabla F=0$. מספיקה נקודה קריטית אחת על קבוצת הגובה כדי שהערך
+          לא יהיה רגולרי.
+        misconception: MC-c7-regular-value-scope
+      - text: '$c=4$'
+        correct: true
+        feedback: >-
+          נכון: הנקודה הקריטית היחידה, הראשית, אינה על $F^{-1}(4)$.
+
+  - id: Q-7.4-tangent-space
+    type: mc
+    objectives: [OBJ-7.4-2]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $S$ היא הספרה $x^2+y^2+z^2=9$ ו-$a=(1,2,2)\in S$. מהו המרחב המשיק $T_aS=\ker DF(a)$, עם
+      $F(x,y,z)=x^2+y^2+z^2$?
+    choices:
+      - text: '$\{v\in\mathbb{R}^3:\ v_1+2v_2+2v_3=0\}$'
+        correct: true
+        feedback: >-
+          נכון. $DF(a)v=\nabla F(a)\cdot v=2(v_1+2v_2+2v_3)$, והגרעין הוא המישור דרך הראשית שניצב ל-$(1,2,2)$.
+      - text: '$\{v\in\mathbb{R}^3:\ v_1+2v_2+2v_3=9\}$'
+        feedback: >-
+          זה המישור המשיק שעובר **בנקודה** $a$, כלומר $a+T_aS$. המרחב המשיק הוא תת-מרחב וקטורי, ולכן עובר בראשית.
+        misconception: MC-c7-tangent-space-affine
+      - text: '$\operatorname{span}\{(1,2,2)\}$'
+        feedback: >-
+          זה הכיוון הנורמלי: $\nabla F(a)$ ניצב לספרה. המרחב המשיק הוא המשלים הניצב שלו.
+        misconception: MC-c7-tangent-normal-swap
+      - text: '$\operatorname{span}\{(0,1,-1)\}$'
+        feedback: >-
+          $(0,1,-1)$ אכן משיק ($0+2-2=0$), אבל הוא רק כיוון אחד. לספרה ב-$\mathbb{R}^3$ המרחב המשיק דו-ממדי: $3-1=2$.
+        misconception: MC-c7-tangent-dim
+
+  - id: Q-7.4-dimension
+    type: numeric
+    objectives: [OBJ-7.4-1, OBJ-7.4-2]
+    level: basic
+    prompt: >-
+      $F:\mathbb{R}^5\to\mathbb{R}^2$ גזירה ברציפות, $c$ ערך רגולרי, ו-$a\in F^{-1}(c)$. מהו המימד של המרחב המשיק
+      $T_aF^{-1}(c)$?
+    answer: 3
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $DF(a):\mathbb{R}^5\to\mathbb{R}^2$ על, כלומר מדרגה 2, ולפי משפט הדרגה הגרעין ממימד $5-2=3$. ליד $a$
+      קבוצת הגובה היא גרף של פונקציה של 3 משתנים.
+    wrongFeedback: >-
+      המרחב המשיק הוא $\ker DF(a)$. השתמשו במשפט הדרגה: $\dim\ker+\operatorname{rank}=5$.
+    commonWrong:
+      - value: 2
+        feedback: >-
+          2 הוא מספר המשוואות, כלומר הדרגה של $DF(a)$. כל משוואה בלתי תלויה **מורידה** מימד אחד מ-5.
+        misconception: MC-c7-tangent-dim
+      - value: 7
+        feedback: >-
+          $5+2$: משוואות לא מוסיפות מימדים, הן מורידות.
+        misconception: MC-c7-tangent-dim
+
+  - id: Q-7.4-tangent-plane
+    type: numeric
+    objectives: [OBJ-7.4-2]
+    level: mid
+    prompt: >-
+      המשטח $x^2+2y^2+3z^2=6$ עובר ב-$(1,1,1)$. המישור המשיק למשטח שעובר בנקודה הזו חותך את ציר ה-$x$ בנקודה
+      $(x_0,0,0)$. מהו $x_0$?
+    answer: 6
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $\nabla F(1,1,1)=(2,4,6)$, והמישור הוא $2(x-1)+4(y-1)+6(z-1)=0$, כלומר $x+2y+3z=6$. ב-$y=z=0$:
+      $x_0=6$.
+    wrongFeedback: >-
+      המישור המשיק שעובר בנקודה הוא $\nabla F(a)\cdot(p-a)=0$. חשבו את $\nabla F(1,1,1)$, כתבו את המשוואה, והציבו
+      $y=z=0$.
+    commonWrong:
+      - value: 0
+        feedback: >-
+          0 מתקבל מהמישור $\nabla F(a)\cdot p=0$, כלומר מהמרחב המשיק $T_aS$, שעובר בראשית. המישור המשיק לנקודה הוא
+          ההזזה שלו ב-$a$.
+        misconception: MC-c7-tangent-space-affine
+      - value: 3
+        feedback: >-
+          3 מתקבל מ-$2x+4y+6z=6$: האגף הימני צריך להיות $\nabla F(a)\cdot a=2+4+6=12$, לא $F(a)=6$.
+        misconception: MC-c7-tangent-space-affine
+
+  - id: Q-7.4-which-variable
+    type: mc
+    objectives: [OBJ-7.4-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $S=\{x^2+y^2-z^2=1\}$ (היפרבולואיד חד-יריעתי) ו-$a=(1,0,0)\in S$. איזו טענה נכונה ליד $a$?
+    choices:
+      - text: '$S$ הוא גרף מהצורה $x=g(y,z)$, ואינו גרף מהצורה $z=g(x,y)$ או $y=g(x,z)$'
+        correct: true
+        feedback: >-
+          נכון. $\nabla F(a)=(2,0,0)$: רק $F_x\neq0$, ו-$g(y,z)=\sqrt{1-y^2+z^2}$. לגבי $z$: ל-$(x,y)$ קרובים ל-$(1,0)$
+          יש שני ערכים $z=\pm\sqrt{x^2+y^2-1}$ או אף אחד; ובאותו אופן ל-$y$.
+      - text: '$S$ הוא גרף מהצורה $z=g(x,y)$, כמו כל משטח גובה רגולרי'
+        feedback: >-
+          $F_z(a)=0$, וכאן גם ישירות: הנקודות $(x,y)=(1+t,0)$ נותנות $z=\pm\sqrt{2t+t^2}$, שני ערכים. אין משתנה
+          "קבוע" שתמיד אפשר לבטא.
+        misconception: MC-c7-graph-always-z
+      - text: '$S$ אינו גרף ליד $a$, כי שתי נגזרות חלקיות מתאפסות שם'
+        feedback: >-
+          מספיקה נגזרת חלקית אחת שונה מאפס: $F_x(a)=2$. הנקודה רגולרית.
+        misconception: MC-c7-zero-gradient-singular
+      - text: '$S$ הוא גרף בכל שלוש הצורות, כי 1 ערך רגולרי'
+        feedback: >-
+          ערך רגולרי מבטיח שיש **משתנה אחד לפחות** שאפשר לבטא בכל נקודה, ובאיזו נקודה איזה משתנה תלוי בגרדיאנט שם.
+        misconception: MC-c7-graph-always-z
+
+  - id: Q-7.4-cone
+    type: twotier
+    objectives: [OBJ-7.4-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      החרוט $K=\{x^2+y^2-z^2=0\}$. האם יש סביבה של הראשית שבה $K$ הוא גרף של פונקציה גזירה ברציפות של שניים
+      מהמשתנים ($z=g(x,y)$, או $x=g(y,z)$, או $y=g(x,z)$)?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. קודקוד החרוט הוא נקודה סינגולרית שבה $K$ באמת אינו משטח חלק.
+      - text: 'כן, $z=\sqrt{x^2+y^2}$'
+        feedback: >-
+          זו רק היריעה העליונה; גם $(x,y,-\sqrt{x^2+y^2})$ ב-$K$. ובכל מקרה $\sqrt{x^2+y^2}$ אינה גזירה בראשית.
+        misconception: MC-c7-continuous-graph-smooth
+    reasons:
+      - text: 'בכל סביבה של 0 יש זוגות נקודות של $K$ עם אותם שני רכיבים: $(t,0,\pm t)$, $(\pm t,0,t)$ ו-$(0,\pm t,t)$'
+        correct: true
+        feedback: >-
+          בדיוק: לכל בחירה של שני משתנים יש שתי נקודות של $K$, קרובות לראשית כרצוננו, עם אותם ערכים בהם. לכן $K$
+          אינו גרף לפי אף זוג.
+      - text: '$\nabla F(0,0,0)=0$'
+        feedback: >-
+          זה רק אומר שהמשפט לא חל. גם ל-$F=z^2$ הגרדיאנט מתאפס על כל $\{F=0\}$, שהוא המישור $z=0$, משטח חלק לגמרי.
+          את הסינגולריות צריך להוכיח ישירות.
+        misconception: MC-c7-zero-gradient-singular
+      - text: 'החרוט אינו קבוצה סגורה'
+        feedback: >-
+          החרוט סגור: הוא קבוצת האפסים של פונקציה רציפה. הבעיה היא שני הענפים שנפגשים בקודקוד.
+
+  - id: Q-7.4-zero-gradient
+    type: multi
+    objectives: [OBJ-7.4-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      בכל אחת מהפונקציות הבאות $F(0,0)=0$ ו-$\nabla F(0,0)=0$. באילו מהן הקבוצה $\{F=0\}$ היא בכל זאת, בסביבה של
+      הראשית, גרף של פונקציה גזירה ברציפות $y=g(x)$ או $x=h(y)$? סמנו את כולן.
+    choices:
+      - text: '$F(x,y)=y^2$'
+        correct: true
+        feedback: >-
+          נכון: $\{y^2=0\}$ הוא ציר ה-$x$, הגרף של $g\equiv0$. הגרדיאנט $(0,2y)$ מתאפס בכל נקודה שלו, והקבוצה
+          חלקה לגמרי.
+      - text: '$F(x,y)=x^3-y^3$'
+        correct: true
+        feedback: >-
+          נכון: $x^3-y^3=(x-y)(x^2+xy+y^2)$, והגורם השני חיובי מחוץ לראשית. לכן $\{F=0\}$ הוא הישר $y=x$.
+      - text: '$F(x,y)=x^2-y^2$'
+        feedback: >-
+          $\{F=0\}$ הוא זוג הישרים $y=\pm x$, שנחתכים בראשית: לכל $x\neq0$ יש שני ערכי $y$, ולכל $y\neq0$ שני ערכי
+          $x$.
+        misconception: MC-c7-continuous-graph-smooth
+      - text: '$F(x,y)=(x^2+y^2)^2-(x^2-y^2)$'
+        feedback: >-
+          זו הלמניסקטה: שני ענפים נחתכים בראשית, משיקים לישרים $y=\pm x$. $F$ זוגית ב-$x$ וב-$y$, ולכן לנקודה
+          $(x,y)\neq0$ על העקום יש גם את $(x,-y)$ ואת $(-x,y)$: אין גרף.
+        misconception: MC-c7-continuous-graph-smooth
+      - text: '$F(x,y)=y^2-x^3$'
+        feedback: >-
+          זה החוד: $y=\pm x^{3/2}$ (שני ערכים), ו-$x=|y|^{2/3}$ רציפה אבל אינה גזירה ב-0.
+        misconception: MC-c7-continuous-graph-smooth
+
+  - id: Q-7.4-lemniscate-count
+    type: numeric
+    objectives: [OBJ-7.4-3]
+    level: mid
+    prompt: >-
+      $F(x,y)=(x^2+y^2)^2-(x^2-y^2)$, והלמניסקטה היא $L=\{F=0\}$. כמה נקודות סינגולריות יש ל-$L$, כלומר נקודות של
+      $L$ שבהן $\nabla F=0$?
+    answer: 1
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון, רק הראשית. $F_x=2x\big(2(x^2+y^2)-1\big)$ ו-$F_y=2y\big(2(x^2+y^2)+1\big)$. מ-$F_y=0$ יוצא $y=0$, ואז
+      $x=0$ או $x^2=\frac12$. אבל $F(\pm\frac{1}{\sqrt2},0)=\frac14-\frac12=-\frac14\neq0$, ולכן רק $(0,0)$ על $L$.
+    wrongFeedback: >-
+      מצאו את כל הנקודות הקריטיות של $F$, ואז בדקו אילו מהן מקיימות $F=0$.
+    commonWrong:
+      - value: 3
+        feedback: >-
+          ל-$F$ יש שלוש נקודות קריטיות, אבל $(\pm\frac{1}{\sqrt2},0)$ אינן על $L$: שם $F=-\frac14$. נקודה סינגולרית
+          של קבוצת גובה היא נקודה קריטית **עליה**.
+        misconception: MC-c7-critical-not-on-level
+      - value: 0
+        feedback: >-
+          הראשית על $L$ ($F(0,0)=0$) וגם $\nabla F(0,0)=0$. זו נקודת ההצטלבות של שני הענפים.
+
+  - id: Q-7.4-cusp
+    type: twotier
+    objectives: [OBJ-7.4-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      העקום $C=\{y^2=x^3\}$. האם יש סביבה של הראשית שבה $C$ הוא גרף של פונקציה **גזירה ברציפות**, $y=g(x)$ או
+      $x=h(y)$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. בראשית יש ל-$C$ חוד: הוא גרף רציף, אבל לא גרף גזיר.
+      - text: 'כן, $x=y^{2/3}$'
+        feedback: >-
+          $x=|y|^{2/3}$ היא אכן פונקציה, ו-$C$ הוא הגרף שלה, אבל היא אינה גזירה ב-0: $\frac{|y|^{2/3}}{y}$ אינה
+          חסומה. גרף של פונקציה רציפה אינו בהכרח עקום חלק.
+        misconception: MC-c7-continuous-graph-smooth
+    reasons:
+      - text: 'ל-$x>0$ יש שני ערכים $y=\pm x^{3/2}$, ולכן אין $g$; ו-$x=|y|^{2/3}$ אינה גזירה ב-0, ולכן אין $h$ גזירה'
+        correct: true
+        feedback: >-
+          בדיוק. שתי האפשרויות נכשלות מסיבות שונות: האחת אינה פונקציה, השנייה פונקציה לא גזירה.
+      - text: '$\nabla F(0,0)=0$ עבור $F=y^2-x^3$, ולכן $C$ אינו חלק'
+        feedback: >-
+          הנימוק לא מספיק: גם $x^3-y^3$ מתאפסת עם הגרדיאנט שלה בראשית, וקבוצת האפסים שלה היא ישר. צריך הוכחה
+          ישירה.
+        misconception: MC-c7-zero-gradient-singular
+      - text: 'יש ל-$C$ שני ענפים שנחתכים בראשית, כמו בחרוט'
+        feedback: >-
+          זה מתאר את $x^2=y^2$ או את הלמניסקטה, לא את $C$: ל-$C$ אין נקודות עם $x<0$, ושני החצאים $y=\pm x^{3/2}$
+          נפגשים בחוד, משיקים שניהם לציר ה-$x$.
+
+  - id: Q-7.4-circle-in-space
+    type: mc
+    objectives: [OBJ-7.4-1, OBJ-7.4-2]
+    level: exam
+    prompt: >-
+      $F(x,y,z)=(x^2+y^2+z^2,\ x+y+z)$ ו-$S=F^{-1}(6,0)$, המעגל שבו המישור $x+y+z=0$ חותך את הספרה ברדיוס
+      $\sqrt6$. הנקודה $a=(1,1,-2)$ על $S$. איזו טענה נכונה?
+    choices:
+      - text: '$(6,0)$ ערך רגולרי, ו-$T_aS=\operatorname{span}\{(1,-1,0)\}$'
+        correct: true
+        feedback: >-
+          נכון. $J_F=\begin{pmatrix}2x&2y&2z\\1&1&1\end{pmatrix}$ מדרגה 2 אלא אם $(x,y,z)\parallel(1,1,1)$, ונקודה כזו
+          עם $x+y+z=0$ היא רק הראשית, שאינה על הספרה. $T_aS=\ker J_F(a)$ ניצב גם ל-$(2,2,-4)$ וגם ל-$(1,1,1)$, ולכן
+          נפרש על ידי המכפלה הווקטורית $(6,-6,0)\parallel(1,-1,0)$.
+      - text: '$(6,0)$ ערך רגולרי, ו-$T_aS=\operatorname{span}\{(1,1,-2)\}$'
+        feedback: >-
+          $(1,1,-2)$ הוא וקטור המקום של $a$, והוא ניצב לספרה (נורמלי), לא משיק.
+        misconception: MC-c7-tangent-normal-swap
+      - text: '$(6,0)$ ערך רגולרי, ו-$T_aS$ הוא המישור $\{v:\ v_1+v_2+v_3=0\}$'
+        feedback: >-
+          זה המרחב המשיק למישור בלבד. $S$ היא חיתוך של שני משטחים, ממימד $3-2=1$: צריך להיות ניצב לשני הגרדיאנטים.
+        misconception: MC-c7-tangent-dim
+      - text: '$(6,0)$ אינו ערך רגולרי, כי $J_F$ אינה ריבועית'
+        feedback: >-
+          רגולריות דורשת ש-$DF(a)$ תהיה **על** $\mathbb{R}^2$ (דרגה 2), לא הפיכה. מטריצה $2\times3$ מדרגה 2 בהחלט
+          מקיימת את זה.
+        misconception: MC-c7-regular-means-invertible
+
+  - id: Q-7.4-global-graph
+    type: twotier
+    objectives: [OBJ-7.4-1]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $F:\mathbb{R}^2\to\mathbb{R}$ גזירה ברציפות, $c$ ערך רגולרי ו-$F^{-1}(c)\neq\emptyset$. האם בהכרח $F^{-1}(c)$
+      היא הגרף של פונקציה גזירה ברציפות אחת, $y=g(x)$ או $x=h(y)$, על קטע?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. הרגולריות נותנת גרף **ליד כל נקודה**, ולא גרף אחד לכל קבוצת הגובה.
+      - text: כן
+        feedback: >-
+          המעגל $x^2+y^2=1$ הוא קבוצת הגובה של הערך הרגולרי 1 של $x^2+y^2$, והוא אינו גרף של פונקציה אחת: לכל
+          $|x|<1$ יש שני ערכי $y$.
+        misconception: MC-c7-local-is-global
+    reasons:
+      - text: 'המעגל $x^2+y^2=1$: על המעגל $\nabla F=2(x,y)\neq0$, אבל ל-$|x|<1$ יש שני ערכי $y$, ול-$|y|<1$ שני ערכי $x$'
+        correct: true
+        feedback: >-
+          בדיוק. ליד כל נקודה של המעגל המשפט נותן גרף (פעם לפי $x$, פעם לפי $y$), אבל אין גרף אחד לכולו.
+      - text: 'קבוצת גובה של ערך רגולרי יכולה להכיל נקודה סינגולרית'
+        feedback: >-
+          לא: ערך רגולרי פירושו שכל נקודה של קבוצת הגובה רגולרית. ההסבר הנכון הוא שהמשפט מקומי.
+        misconception: MC-c7-regular-value-scope
+      - text: 'משפט הפונקציה הסתומה נותן גרף ליד כל נקודה, והגרפים המקומיים מתחברים לגרף אחד'
+        feedback: >-
+          הגרפים המקומיים לא מתחברים: במעגל חלקם לפי $x$ וחלקם לפי $y$, והחצי העליון והתחתון שניהם מעל אותו קטע.
+        misconception: MC-c7-local-is-global

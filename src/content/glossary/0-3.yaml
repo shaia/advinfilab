@@ -1,0 +1,16 @@
+# Terms first defined in lesson 0.3.
+- id: pointwise-convergence
+  term: התכנסות נקודתית
+  en: pointwise convergence
+  definition: >-
+    $f_n\to f$ נקודתית על $I$ אם לכל $x\in I$ הסדרה המספרית $f_n(x)$ שואפת ל-$f(x)$: לכל $x$ ולכל $\varepsilon>0$ יש
+    $N$, שרשאי להיות תלוי ב-$x$, כך ש-$|f_n(x)-f(x)|<\varepsilon$ לכל $n>N$.
+  lesson: '0.3'
+- id: uniform-convergence
+  term: התכנסות במידה שווה
+  en: uniform convergence
+  definition: >-
+    $f_n\to f$ במידה שווה על $I$ אם לכל $\varepsilon>0$ יש $N$ אחד כך ש-$|f_n(x)-f(x)|<\varepsilon$ לכל $n>N$ ולכל
+    $x\in I$ בבת אחת; שקול: $\sup_{x\in I}|f_n(x)-f(x)|\to0$. היא גוררת התכנסות נקודתית, וההפך אינו נכון.
+  reject: [התכנסות במידה אחידה, מתכנסת במידה אחידה]
+  lesson: '0.3'

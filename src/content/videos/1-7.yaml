@@ -1,0 +1,25 @@
+- id: v-1-7-same-topology
+  youtubeId: DnTkZgAD4lM
+  title: Metrics giving the same topology
+  channel: Neil P Strickland
+  lang: en
+  captions: []
+  start: 0
+  minutes: 10
+  why: >-
+    לפי הכותרת: מתי שתי מטריקות על אותה קבוצה נותנות את אותן קבוצות פתוחות. לסרטון אין תיאור, ולכן זו רק הכותרת.
+    בזמן הצפייה בדקו אם התנאי שמוצג הוא שני קבועים, כמו בשקילות ליפשיץ, או תנאי חלש יותר על כדורים קטנים, כמו
+    בדוגמה של $\min(d,1)$ בשיעור.
+  verified: 2026-11-10
+- id: v-1-7-p-metrics
+  youtubeId: k6HJQGvUnvc
+  title: Equivalence of p-metrics
+  channel: Denis Potapov
+  lang: en
+  captions: []
+  start: 0
+  minutes: 8
+  why: >-
+    לפי התיאור: הוכחה שכל המטריקות $d_p$ שקולות במרחב ממימד סופי, כחלק מקורס בחשבון רב-משתני באוניברסיטת ניו
+    סאות' ויילס. השוו את הקבועים שמתקבלים לקבועים הטובים ביותר בין $d_1$, $d_2$ ו-$d_\infty$ שבשיעור.
+  verified: 2026-11-10

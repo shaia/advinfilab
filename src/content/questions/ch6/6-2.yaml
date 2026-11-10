@@ -1,0 +1,356 @@
+# Lesson 6.2 — critical points and the necessary condition for an extremum.
+# Objectives (src/course.ts):
+#   OBJ-6.2-1  prove that the gradient of a differentiable function vanishes at an interior local extremum
+#   OBJ-6.2-2  find the critical points of a given function
+#   OBJ-6.2-3  define a saddle point and show that a critical point need not be an extremum
+chapter: 6
+questions:
+  - id: Q-6.2-localmin-def
+    type: mc
+    objectives: [OBJ-6.2-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      תהי $f:U\to\mathbb{R}$, $U\subseteq\mathbb{R}^n$. מה פירוש "$a$ נקודת מינימום מקומי של $f$"?
+    choices:
+      - text: 'קיים $r>0$ כך ש-$f(x)\ge f(a)$ לכל $x\in U$ עם $\|x-a\|<r$'
+        correct: true
+        feedback: >-
+          נכון. יש כדור אחד סביב $a$ שבו אף ערך אינו קטן מ-$f(a)$. ההגדרה אינה דורשת גזירות, ואינה דורשת ש-$a$
+          תהיה פנימית.
+      - text: '$f$ דיפרנציאבילית ב-$a$ ו-$\nabla f(a)=0$'
+        feedback: >-
+          זה ההגדרה של נקודה קריטית, ואינה גוררת מינימום: ל-$x^2-y^2$ הראשית קריטית ואינה מינימום. מינימום מוגדר
+          דרך ערכי $f$, לא דרך הנגזרות.
+        misconception: MC-c6-critical-is-extremum
+      - text: 'לכל ישר דרך $a$ קיים קטע סביב $a$ על הישר שבו $f\ge f(a)$'
+        feedback: >-
+          כאן הרדיוס רשאי להיות תלוי בישר, וזה חלש יותר. ל-$(y-x^2)(y-3x^2)$ התנאי מתקיים בראשית, אבל על
+          הפרבולה $y=2x^2$ הערכים שליליים, קרוב לראשית ככל שנרצה.
+        misconception: MC-c6-lines-suffice
+
+  - id: Q-6.2-nondiff
+    type: twotier
+    objectives: [OBJ-6.2-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      נכון או לא נכון: בכל נקודת מינימום מקומי פנימית של פונקציה $f:\mathbb{R}^2\to\mathbb{R}$ מתקיים
+      $\nabla f=0$.
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: 'נכון. המשפט מניח ש-$f$ דיפרנציאבילית בנקודה; בלי זה הגרדיאנט אולי לא קיים בכלל.'
+      - text: נכון
+        feedback: >-
+          ל-$f(x,y)=\|(x,y)\|_2$ יש מינימום בראשית, אבל $f(t,0)=|t|$, ולכן $\partial_xf(0,0)$ אינה קיימת.
+        misconception: MC-c6-nondiff-extremum
+    reasons:
+      - text: >-
+          ל-$f=\|(x,y)\|_2$ יש מינימום בראשית, ושם הנגזרות החלקיות אינן קיימות, כי $f(t,0)=|t|$
+        correct: true
+        feedback: >-
+          בדיוק. לכן מחפשים קיצון גם בנקודות שבהן $f$ אינה דיפרנציאבילית, לא רק בפתרונות של $\nabla f=0$.
+      - text: >-
+          בנקודת מינימום הגרף תמיד "שטוח", ולכן הנגזרות מתאפסות
+        feedback: >-
+          הגרף של $\|(x,y)\|_2$ הוא חרוט, עם חוד בראשית. "שטוח" מתאר פונקציה דיפרנציאבילית בלבד.
+        misconception: MC-c6-nondiff-extremum
+      - text: >-
+          התנאי היחיד של המשפט הוא שהנקודה פנימית, וזה מתקיים כאן
+        feedback: >-
+          למשפט שני תנאים: נקודה פנימית **ו**-$f$ דיפרנציאבילית בה. ההוכחה גוזרת את $t\mapsto f(a+te_i)$ ב-0.
+        misconception: MC-c6-nondiff-extremum
+
+  - id: Q-6.2-saddle-def
+    type: mc
+    objectives: [OBJ-6.2-3]
+    qualitative: true
+    level: basic
+    prompt: >-
+      מהי נקודת אוכף של פונקציה דיפרנציאבילית $f$?
+    choices:
+      - text: >-
+          נקודה קריטית שאינה נקודת קיצון מקומי: בכל כדור סביבה יש נקודות שבהן $f$ גדולה מ-$f(a)$ ונקודות שבהן היא
+          קטנה מ-$f(a)$
+        correct: true
+        feedback: >-
+          נכון. שני הניסוחים שקולים: "לא מינימום מקומי" פירושו שבכל כדור יש נקודה עם ערך קטן יותר, ו"לא מקסימום
+          מקומי" פירושו שבכל כדור יש נקודה עם ערך גדול יותר.
+      - text: כל נקודה קריטית שאינה נקודת מינימום מקומי
+        feedback: >-
+          חסר "וגם אינה מקסימום מקומי". ל-$f=-x^2-y^2$ הראשית קריטית ואינה מינימום, אבל היא מקסימום, לא אוכף: אין
+          לידה ערכים גדולים מ-$f(0,0)$.
+        misconception: MC-c6-saddle-is-indefinite
+      - text: נקודה שבה $f$ מקבלת מינימום לאורך ציר $x$ ומקסימום לאורך ציר $y$
+        feedback: >-
+          זו צורה אחת של אוכף ($x^2-y^2$), לא ההגדרה. ל-$f=xy$ הראשית היא אוכף, ועל שני הצירים $f$ קבועה ושווה ל-0;
+          הסימנים מתחלפים על האלכסונים.
+        misconception: MC-c6-saddle-is-indefinite
+
+  - id: Q-6.2-xsq
+    type: twotier
+    objectives: [OBJ-6.2-3]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $f(x,y)=x^2-y^2$, ו-$\nabla f(0,0)=(0,0)$. האם $(0,0)$ נקודת קיצון מקומי?
+    choices:
+      - text: לא, זו נקודת אוכף
+        correct: true
+        feedback: 'נכון. זו הדוגמה הבסיסית לנקודה קריטית שאינה קיצון.'
+      - text: כן, נקודת מינימום מקומי
+        feedback: >-
+          $f(0,t)=-t^2<0=f(0,0)$ לכל $t\ne0$, ולכן בכל כדור סביב הראשית יש ערכים קטנים מ-$f(0,0)$.
+        misconception: MC-c6-critical-is-extremum
+    reasons:
+      - text: >-
+          $f(t,0)=t^2>0$ ו-$f(0,t)=-t^2<0$ לכל $t\ne0$: בכל כדור סביב הראשית יש ערכים גדולים מ-$f(0,0)=0$ וערכים
+          קטנים ממנו
+        correct: true
+        feedback: >-
+          בדיוק. כדי להראות שנקודה קריטית אינה קיצון מספיקים שני מסלולים, אחד עם ערכים גבוהים ואחד עם ערכים נמוכים.
+      - text: >-
+          גרדיאנט אפס פירושו שזו נקודת קיצון
+        feedback: >-
+          $\nabla f=0$ הכרחי לקיצון פנימי, לא מספיק. הדוגמה הזו עצמה מראה את זה.
+        misconception: MC-c6-critical-is-extremum
+      - text: >-
+          לאורך ציר $x$ יש בראשית מינימום, ולכן זו נקודת מינימום
+        feedback: >-
+          מינימום לאורך כיוון אחד אינו מינימום: לאורך ציר $y$ יש מקסימום. ואפילו מינימום לאורך **כל** ישר לא היה
+          מספיק.
+        misconception: MC-c6-lines-suffice
+
+  - id: Q-6.2-count1
+    type: numeric
+    objectives: [OBJ-6.2-2]
+    level: basic
+    prompt: >-
+      כמה נקודות קריטיות יש ל-$f(x,y)=x^3-3x+y^2$ במישור?
+    answer: 2
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $\nabla f=(3x^2-3,\ 2y)$, ולכן $x^2=1$ ו-$y=0$: הנקודות $(1,0)$ ו-$(-1,0)$.
+    wrongFeedback: >-
+      כתבו את שתי המשוואות $\partial_xf=0$ ו-$\partial_yf=0$ ופתרו אותן יחד.
+    commonWrong:
+      - value: 1
+        feedback: >-
+          ל-$x^2=1$ יש שני פתרונות, $x=1$ ו-$x=-1$. שכחתם את השורש השלילי.
+        misconception: MC-c6-solve-separately
+
+  - id: Q-6.2-cubic
+    type: multi
+    objectives: [OBJ-6.2-2]
+    level: mid
+    prompt: >-
+      אילו מהנקודות הבאות הן נקודות קריטיות של $f(x,y)=x^3+y^3-3xy$? סמנו את כולן.
+    choices:
+      - text: '$(0,0)$'
+        correct: true
+        feedback: 'נכון. $\nabla f=(3x^2-3y,\ 3y^2-3x)$ מתאפס בראשית.'
+      - text: '$(1,1)$'
+        correct: true
+        feedback: >-
+          נכון. מ-$y=x^2$ ו-$x=y^2$ מקבלים $x=x^4$, כלומר $x(x^3-1)=0$, ולכן $x=0$ או $x=1$: בדיוק שתי הנקודות.
+      - text: '$(-1,-1)$'
+        feedback: >-
+          $\nabla f(-1,-1)=(3+3,\ 3+3)=(6,6)\ne0$. הנקודה מקיימת $x=y$, אבל לא $y=x^2$: יש לבדוק את שתי המשוואות יחד.
+        misconception: MC-c6-solve-separately
+      - text: '$(1,-1)$'
+        feedback: >-
+          $\nabla f(1,-1)=(3+3,\ 3-3)=(6,0)$. המשוואה השנייה ($y^2=x$) מתקיימת, הראשונה ($x^2=y$) לא.
+        misconception: MC-c6-solve-separately
+
+  - id: Q-6.2-quartic
+    type: numeric
+    objectives: [OBJ-6.2-2]
+    level: mid
+    prompt: >-
+      כמה נקודות קריטיות יש ל-$f(x,y)=x^4+y^4-4xy$ במישור?
+    answer: 3
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $\nabla f=(4x^3-4y,\ 4y^3-4x)$, ולכן $y=x^3$ ו-$x=y^3=x^9$. כלומר $x(x^8-1)=0$, ו-$x\in\{0,1,-1\}$, עם
+      $y=x^3$: הנקודות $(0,0)$, $(1,1)$, $(-1,-1)$.
+    wrongFeedback: >-
+      הציבו $y=x^3$ במשוואה השנייה, וקבלו משוואה ב-$x$ בלבד. לכל פתרון $x$ יש $y$ אחד.
+    commonWrong:
+      - value: 5
+        feedback: >-
+          $(1,-1)$ ו-$(-1,1)$ אינן קריטיות: $\nabla f(1,-1)=(4+4,\ -4-4)\ne0$. ה-$y$ נקבע מ-$x$ על ידי $y=x^3$, ואין לבחור
+          את הסימנים בנפרד.
+        misconception: MC-c6-solve-separately
+      - value: 9
+        feedback: >-
+          זה כל הצירופים של $x\in\{0,\pm1\}$ ו-$y\in\{0,\pm1\}$. נקודה קריטית מקיימת את שתי המשוואות יחד, ורק שלושה
+          צירופים עושים זאת.
+        misconception: MC-c6-solve-separately
+
+  - id: Q-6.2-none
+    type: twotier
+    objectives: [OBJ-6.2-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      נכון או לא נכון: לכל פונקציה $f:\mathbb{R}^2\to\mathbb{R}$ מסוג $C^1$ שחסומה מלרע יש נקודה קריטית.
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: 'נכון. ל-$f(x,y)=e^x+y^2$ אין אף נקודה קריטית, אף שהיא חיובית בכל מקום.'
+      - text: נכון
+        feedback: >-
+          $f(x,y)=e^x+y^2>0$, אבל $\partial_xf=e^x$ לעולם אינה מתאפסת, ולכן למערכת $\nabla f=0$ אין פתרון.
+        misconception: MC-c6-bounded-below-attains
+    reasons:
+      - text: >-
+          ל-$e^x+y^2$ מתקיים $\partial_xf=e^x>0$ בכל מקום; האינפימום 0 "מתקבל באינסוף" (כש-$x\to-\infty$) ולא בשום נקודה
+        correct: true
+        feedback: >-
+          בדיוק. אם היה מינימום, הוא היה נקודה פנימית של המישור, ושם $\nabla f=0$. כאן אין מינימום, ולכן גם אין
+          חובה לנקודה קריטית.
+      - text: >-
+          פונקציה חסומה מלרע מקבלת מינימום, ובמינימום פנימי הגרדיאנט מתאפס
+        feedback: >-
+          החלק השני נכון, הראשון לא: $e^x+y^2$ חסומה מלרע על ידי 0 ולא מקבלת אותו. בלי קומפקטיות המינימום יכול
+          לברוח לאינסוף (שיעור 6.5).
+        misconception: MC-c6-bounded-below-attains
+      - text: >-
+          פונקציה שאינה יכולה לרדת לנצח חייבת "להשתטח" באיזו נקודה, ושם הגרדיאנט אפס
+        feedback: >-
+          היא יכולה להשתטח רק באינסוף: $\partial_xf=e^x\to0$ כש-$x\to-\infty$, ובכל זאת אינה מתאפסת באף נקודה.
+        misconception: MC-c6-bounded-below-attains
+
+  - id: Q-6.2-boundary
+    type: twotier
+    objectives: [OBJ-6.2-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $f(x,y)=x$ על הריבוע $[0,1]^2$ מקבלת מינימום בכל נקודה $(0,y)$, ושם $\nabla f=(1,0)\ne0$. האם זה סותר את
+      המשפט "בנקודת קיצון הגרדיאנט מתאפס"?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. המשפט עוסק בנקודות קיצון **פנימיות**, ונקודות הצלע $x=0$ אינן פנימיות בריבוע.'
+      - text: כן
+        feedback: >-
+          אין סתירה: המשפט מניח שהנקודה פנימית. בצלע $x=0$ אפשר לזוז רק ימינה, ושם $f$ עולה.
+        misconception: MC-c6-boundary-gradient-zero
+    reasons:
+      - text: >-
+          הנקודות $(0,y)$ אינן פנימיות: $t\mapsto f(a+te_1)$ מוגדרת שם רק עבור $t\ge0$, ומשפט פרמה במשתנה אחד דורש
+          נקודה פנימית של הקטע
+        correct: true
+        feedback: >-
+          בדיוק. במשתנה אחד זה אותו דבר: $x$ על $[0,1]$ מינימלית ב-0 עם נגזרת 1. לכן בקיצון מוחלט על קבוצה סגורה
+          בודקים גם את השפה (שיעור 6.5).
+      - text: >-
+          המשפט עוסק רק בקיצון ממש, וכאן המינימום אינו ממש
+        feedback: >-
+          המשפט חל על כל קיצון מקומי פנימי, ממש או לא. גם על $[0,1]$ במשתנה אחד, $x$ מינימלית ממש ב-0 עם נגזרת 1:
+          הבעיה היא השפה, לא ה"ממש".
+        misconception: MC-c6-boundary-gradient-zero
+      - text: >-
+          $f$ אינה דיפרנציאבילית על השפה של הריבוע
+        feedback: >-
+          $f=x$ לינארית ודיפרנציאבילית בכל המישור. מה שחסר הוא שהנקודה תהיה פנימית.
+        misconception: MC-c6-nondiff-extremum
+
+  - id: Q-6.2-proof
+    type: rank
+    objectives: [OBJ-6.2-1]
+    level: mid
+    prompt: >-
+      סדרו את שלבי ההוכחה: אם $a$ נקודת מקסימום מקומי **פנימית** של $f$, ו-$f$ דיפרנציאבילית ב-$a$, אז
+      $\nabla f(a)=0$.
+    help: גררו את השלבים לסדר הנכון, מהשלב הראשון של ההוכחה לאחרון.
+    items:
+      - id: ball
+        label: >-
+          כי $a$ פנימית ומקסימום מקומי, יש $r>0$ כך שהכדור $B(a,r)$ בתחום ו-$f(x)\le f(a)$ לכל $x$ בו.
+      - id: g
+        label: >-
+          נקבע $i$ ונגדיר $g(t)=f(a+te_i)$ לכל $t\in(-r,r)$.
+      - id: max
+        label: >-
+          ל-$g$ יש מקסימום מקומי ב-$t=0$, נקודה פנימית של הקטע $(-r,r)$.
+      - id: deriv
+        label: >-
+          $g$ גזירה ב-0, ו-$g'(0)=\partial_if(a)$.
+      - id: fermat
+        label: >-
+          לפי משפט פרמה במשתנה אחד $g'(0)=0$, כלומר $\partial_if(a)=0$.
+      - id: all
+        label: >-
+          כי $i$ היה כלשהו, כל הנגזרות החלקיות מתאפסות: $\nabla f(a)=0$.
+    order: [ball, g, max, deriv, fermat, all]
+    correctFeedback: >-
+      נכון. הרעיון: לצמצם לכל ציר בנפרד ולהפעיל את משפט פרמה. הנקודה הפנימית נחוצה כדי ש-$g$ תהיה מוגדרת משני
+      צדי 0, והדיפרנציאביליות כדי ש-$g'(0)$ תהיה קיימת.
+    wrongFeedback: >-
+      קודם מוצאים כדור שבו $a$ מקסימום, אחר כך מצמצמים לישר בכיוון $e_i$, ורק אז מפעילים את פרמה ומסיקים על כל
+      הרכיבים.
+
+  - id: Q-6.2-lines
+    type: twotier
+    objectives: [OBJ-6.2-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      תהי $f(x,y)=(y-x^2)(y-3x^2)$. הראשית נקודה קריטית, והצמצום של $f$ לכל ישר דרך הראשית מקבל בה מינימום מקומי
+      ממש. האם $(0,0)$ נקודת מינימום מקומי של $f$?
+    choices:
+      - text: לא, היא נקודת אוכף
+        correct: true
+        feedback: >-
+          נכון. $f(0,0)=0$, על ציר $y$ $f=y^2>0$, ועל הפרבולה $y=2x^2$ $f=-x^4<0$: בכל כדור יש ערכים גבוהים ונמוכים.
+      - text: כן
+        feedback: >-
+          על הפרבולה $y=2x^2$, שבין שתי הפרבולות $y=x^2$ ו-$y=3x^2$, מתקיים $f=(x^2)(-x^2)=-x^4<0$. היא נכנסת לכל
+          כדור סביב הראשית.
+        misconception: MC-c6-lines-suffice
+    reasons:
+      - text: >-
+          על הפרבולה $y=2x^2$ מתקיים $f=-x^4<0$, והיא עוברת בכל כדור סביב הראשית; על הישר $y=mx$ עם $m\ne0$ החיוביות
+          מובטחת רק עבור $0<|x|<\frac{|m|}{3}$, תחום שמצטמק כש-$m\to0$
+        correct: true
+        feedback: >-
+          בדיוק. על $y=mx$, $f=x^2(m-x)(m-3x)$, חיובית רק כל עוד $x$ לא מגיע לאזור שבין הפרבולות; ככל שהישר שטוח יותר
+          הוא נכנס לאזור הזה קרוב יותר לראשית.
+      - text: >-
+          כל כדור סביב הראשית הוא איחוד של קטעים על ישרים דרכה, ולכן מינימום על כל ישר הוא מינימום בכדור
+        feedback: >-
+          הכדור הוא אכן איחוד כזה, אבל ההגדרה דורשת **רדיוס אחד** לכל הכיוונים. כאן הרדיוס שעובד על $y=mx$ שואף
+          לאפס כש-$m\to0$. זה אותו לקח כמו "גבול לאורך כל ישר אינו מספיק" (שיעור 5.1).
+        misconception: MC-c6-lines-suffice
+      - text: >-
+          נקודה קריטית שבה כל הצמצומים לישרים הם מינימום חייבת להיות קיצון
+        feedback: >-
+          לא: הצמצומים לישרים לא "רואים" את המסלולים העקומים. כאן הנקודה קריטית ואינה קיצון.
+        misconception: MC-c6-critical-is-extremum
+
+  - id: Q-6.2-triangle
+    type: numeric
+    objectives: [OBJ-6.2-2]
+    level: exam
+    prompt: >-
+      כמה נקודות קריטיות יש ל-$f(x,y)=xy(1-x-y)$ במישור כולו?
+    answer: 4
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $\partial_xf=y(1-2x-y)$ ו-$\partial_yf=x(1-x-2y)$. אם $y=0$: $x(1-x)=0$, נותן $(0,0)$ ו-$(1,0)$. אם
+      $y\ne0$ ו-$x=0$: $y(1-y)=0$, נותן $(0,1)$. אם $x,y\ne0$: $2x+y=1$ ו-$x+2y=1$, נותן $(\frac13,\frac13)$.
+    wrongFeedback: >-
+      כל משוואה היא מכפלה: $y\cdot(1-2x-y)=0$. עברו על כל המקרים ($y=0$ או הגורם השני, ובאותו אופן $x$) בלי לחלק.
+    commonWrong:
+      - value: 1
+        feedback: >-
+          זו רק $(\frac13,\frac13)$, שמתקבלת אחרי חלוקה ב-$x$ וב-$y$. החלוקה מאבדת את המקרים $x=0$ ו-$y=0$, שנותנים
+          עוד שלוש נקודות.
+        misconception: MC-c6-solve-separately
+      - value: 3
+        feedback: >-
+          חסרה נקודה. בדקו במיוחד את המקרה $y=0$: אז $\partial_yf=x(1-x)=0$, ויש שני פתרונות, $x=0$ ו-$x=1$.
+        misconception: MC-c6-solve-separately

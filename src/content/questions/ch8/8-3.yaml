@@ -1,0 +1,319 @@
+# Lesson 8.3 — vector fields and the line integral.
+# Objectives (src/course.ts):
+#   OBJ-8.3-1  define a vector field and its line integral along a piecewise smooth curve; compute line integrals
+#   OBJ-8.3-2  the line integral does not depend on an orientation-preserving parametrisation and changes sign under reversal
+#   OBJ-8.3-3  bound a line integral by the length of the curve times the sup of ‖F‖ on it
+# Notation: ∫_γ F·ds = ∫_a^b F(γ(t))·γ′(t) dt, also written ∫_γ P dx + Q dy. Circles run once counter-clockwise unless stated.
+chapter: 8
+questions:
+  - id: Q-8.3-def
+    type: mc
+    objectives: [OBJ-8.3-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $F$ שדה וקטורי רציף בקבוצה $U\subseteq\mathbb{R}^n$, ו-$\gamma:[a,b]\to U$ מסילה חלקה. מהו
+      $\int_\gamma F\cdot ds$?
+    choices:
+      - text: '$\int_a^bF(\gamma(t))\cdot\gamma^{\prime}(t)\,dt$'
+        correct: true
+        feedback: >-
+          נכון. בכל רגע מכפילים סקלרית את השדה בנקודה $\gamma(t)$ בווקטור המהירות: רכיב השדה בכיוון התנועה, כפול
+          הקצב שבו מתקדמים.
+      - text: '$\int_a^bF(\gamma(t))\cdot\gamma(t)\,dt$'
+        feedback: >-
+          כאן מכפילים בווקטור המקום במקום בווקטור המהירות. למסילה $(t,t)$ ול-$F=(1,0)$ זה נותן $\frac12$ במקום 1,
+          והתוצאה משתנה כשמזיזים את הראשית.
+        misconception: MC-c8-line-integral-no-derivative
+      - text: '$\int_a^b\|F(\gamma(t))\|\,\|\gamma^{\prime}(t)\|\,dt$'
+        feedback: >-
+          זה תמיד אי-שלילי, ולכן לא יכול להחליף סימן בהיפוך הכיוון. הביטוי הזה הוא חסם מלעיל לערך המוחלט של האינטגרל
+          הקווי (קושי-שוורץ), לא האינטגרל עצמו.
+        misconception: MC-c8-line-integral-norms
+      - text: '$\int_a^bF(\gamma(t))\,dt$'
+        feedback: >-
+          זה וקטור, לא מספר, והוא תלוי במהירות שבה עוברים על המסילה. חסר הגורם $\gamma'(t)$.
+        misconception: MC-c8-line-integral-no-derivative
+
+  - id: Q-8.3-parabola
+    type: numeric
+    objectives: [OBJ-8.3-1]
+    level: basic
+    prompt: >-
+      חשבו את $\int_\gamma x^2\,dx+xy\,dy$, כאשר $\gamma(t)=(t,t^2)$, $t\in[0,1]$. (שבר מותר.)
+    answer: 0.7333333
+    tolerance: 0.0005
+    correctFeedback: >-
+      נכון, $\frac{11}{15}$. $F(\gamma(t))=(t^2,t^3)$ ו-$\gamma'(t)=(1,2t)$, ולכן האינטגרנד $t^2+2t^4$ והאינטגרל
+      $\frac13+\frac25=\frac{11}{15}$.
+    wrongFeedback: >-
+      הציבו $x=t$, $y=t^2$ בשדה, הכפילו סקלרית ב-$\gamma'(t)=(1,2t)$, ושלבו מ-0 עד 1.
+    commonWrong:
+      - value: 0.6666667
+        feedback: >-
+          $\frac23$ הוא האינטגרל לאורך **הישר** $(t,t)$ בין אותן נקודות. השדה הזה אינו משמר, ולכן הדרך משנה.
+        misconception: MC-c8-path-independent-always
+      - value: 0.4166667
+        feedback: >-
+          $\frac{5}{12}=\int_0^1(t^3+t^5)\,dt$ מתקבל מהכפלה ב-$\gamma(t)$ במקום ב-$\gamma'(t)$.
+        misconception: MC-c8-line-integral-no-derivative
+
+  - id: Q-8.3-circle
+    type: numeric
+    objectives: [OBJ-8.3-1]
+    level: basic
+    prompt: >-
+      חשבו את $\int_\gamma -y\,dx+x\,dy$ על מעגל היחידה $\gamma(t)=(\cos t,\sin t)$, $t\in[0,2\pi]$ (מקורב לשלוש
+      ספרות אחרי הנקודה).
+    answer: 6.283185
+    tolerance: 0.0002
+    correctFeedback: >-
+      נכון, $2\pi$. האינטגרנד $(-\sin t)(-\sin t)+\cos t\cos t=1$. השדה $(-y,x)$ משיק למעגל ומצביע בכיוון התנועה, ולכן
+      כל צעד תורם תרומה חיובית.
+    wrongFeedback: >-
+      $dx=-\sin t\,dt$ ו-$dy=\cos t\,dt$. הציבו ופשטו.
+    commonWrong:
+      - value: 0
+        feedback: >-
+          מסילה סגורה אינה גוררת אינטגרל 0. זה נכון רק לשדות משמרים, ו-$(-y,x)$ אינו כזה.
+        misconception: MC-c8-closed-always-zero
+      - value: -6.283185
+        feedback: >-
+          הסימן הפוך: $\gamma(t)=(\cos t,\sin t)$ נעה נגד כיוון השעון, וכך גם השדה $(-y,x)$, ולכן התוצאה חיובית.
+        misconception: MC-c8-orientation-ignored
+
+  - id: Q-8.3-square
+    type: numeric
+    objectives: [OBJ-8.3-1]
+    level: mid
+    prompt: >-
+      חשבו את $\int_\gamma y\,dx$, כאשר $\gamma$ היא שפת הריבוע $[0,1]^2$ שעוברים עליה פעם אחת נגד כיוון השעון,
+      מ-$(0,0)$ דרך $(1,0)$, $(1,1)$ ו-$(0,1)$ בחזרה ל-$(0,0)$.
+    answer: -1
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. זו מסילה חלקה למקוטעין, והאינטגרל הוא סכום ארבע הצלעות. בצלע התחתונה $y=0$; בצלעות האנכיות $dx=0$;
+      בצלע העליונה $y=1$ ו-$x$ יורד מ-1 ל-0: $\int_0^1 1\cdot(-1)\,dt=-1$.
+    wrongFeedback: >-
+      פרקו לארבע צלעות, ותנו לכל צלע פרמטריזציה **בכיוון התנועה**. בצלע העליונה $x$ יורד.
+    commonWrong:
+      - value: 1
+        feedback: >-
+          בצלע העליונה עוברים מ-$(1,1)$ ל-$(0,1)$, כלומר $x$ יורד ו-$dx<0$. פרמטריזציה משמאל לימין הופכת את הסימן.
+        misconception: MC-c8-orientation-ignored
+      - value: 0
+        feedback: >-
+          המסילה סגורה, אבל השדה $(y,0)$ אינו משמר ($\partial_y y=1\ne0=\partial_x0$), ולכן אין סיבה לאפס.
+        misconception: MC-c8-closed-always-zero
+
+  - id: Q-8.3-props
+    type: multi
+    objectives: [OBJ-8.3-1, OBJ-8.3-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      אילו מהטענות נכונות לכל שדה רציף $F$ ולכל מסילה חלקה למקוטעין $\gamma$? סמנו את כולן.
+    choices:
+      - text: '$\int_\gamma(F+2G)\cdot ds=\int_\gamma F\cdot ds+2\int_\gamma G\cdot ds$ לכל שדה רציף $G$'
+        correct: true
+        feedback: 'נכון: לינאריות של המכפלה הסקלרית ושל האינטגרל.'
+      - text: 'אם $\gamma$ היא שרשור של $\gamma_1$ ואחריה $\gamma_2$, אז $\int_\gamma=\int_{\gamma_1}+\int_{\gamma_2}$'
+        correct: true
+        feedback: 'נכון: האינטגרל על $[a,c]$ הוא סכום האינטגרלים על $[a,b]$ ועל $[b,c]$.'
+      - text: 'אם $F(\gamma(t))\cdot\gamma^{\prime}(t)=0$ לכל $t$, האינטגרל 0'
+        correct: true
+        feedback: >-
+          נכון, למשל השדה הרדיאלי $(x,y)$ על כל מעגל סביב הראשית: השדה ניצב לתנועה ואינו עושה עבודה.
+      - text: 'האינטגרל תלוי רק בתמונה $\gamma([a,b])$'
+        feedback: >-
+          מעגל היחידה פעם אחת נותן ל-$(-y,x)$ את $2\pi$, ופעמיים (על $[0,4\pi]$) $4\pi$, עם אותה תמונה. גם הכיוון
+          משנה את הסימן.
+        misconception: MC-c8-integral-depends-on-image
+      - text: 'האינטגרל תלוי רק בנקודות $\gamma(a)$ ו-$\gamma(b)$'
+        feedback: >-
+          רק לשדה משמר. ל-$(x^2,xy)$ מ-$(0,0)$ ל-$(1,1)$ הישר נותן $\frac23$ והפרבולה $\frac{11}{15}$.
+        misconception: MC-c8-path-independent-always
+
+  - id: Q-8.3-reparam
+    type: twotier
+    objectives: [OBJ-8.3-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $\gamma(t)=(\cos t,\sin t)$, $t\in[0,2\pi]$, ו-$\delta(u)=(\cos2u,\sin2u)$, $u\in[0,\pi]$. האם
+      $\int_\gamma F\cdot ds=\int_\delta F\cdot ds$ לכל שדה רציף $F$ על המעגל?
+    choices:
+      - text: כן
+        correct: true
+        feedback: 'נכון. $\delta=\gamma\circ\varphi$ עם $\varphi(u)=2u$.'
+      - text: לא, האינטגרל על $\delta$ כפול
+        feedback: >-
+          $\delta'$ אכן כפול, אבל הקטע $[0,\pi]$ קצר פי 2. ההחלפה $t=2u$ מבטלת את שני האפקטים.
+        misconception: MC-c8-speed-changes-integral
+    reasons:
+      - text: '$\varphi(u)=2u$ היא העתקה גזירה ברציפות ועולה ממש מ-$[0,\pi]$ על $[0,2\pi]$, ופרמטריזציה ששומרת על הכיוון לא משנה את האינטגרל'
+        correct: true
+        feedback: >-
+          בדיוק: $\int_0^\pi F(\gamma(2u))\cdot\gamma'(2u)\cdot2\,du$, וההצבה $t=2u$ מחזירה את $\int_0^{2\pi}F(\gamma(t))\cdot\gamma'(t)\,dt$.
+      - text: 'לשתי המסילות אותה תמונה, המעגל, ולכן אותו אינטגרל'
+        feedback: >-
+          המסקנה כאן נכונה, אבל הנימוק לא: $(\cos t,\sin t)$ על $[0,4\pi]$ היא בעלת אותה תמונה ונותנת אינטגרל כפול.
+          מה שקובע הוא קיום פרמטריזציה מחדש ששומרת על הכיוון.
+        misconception: MC-c8-integral-depends-on-image
+      - text: 'האינטגרל של $\delta$ כפול, כי $\|\delta^{\prime}\|=2\|\gamma^{\prime}\|$'
+        feedback: 'המהירות כפולה, אבל הזמן חצי. האינטגרל לא תלוי במהירות.'
+        misconception: MC-c8-speed-changes-integral
+
+  - id: Q-8.3-reverse
+    type: mc
+    objectives: [OBJ-8.3-2]
+    level: mid
+    prompt: >-
+      $\gamma:[a,b]\to U$ מסילה חלקה ו-$\gamma^-(t)=\gamma(a+b-t)$, $t\in[a,b]$, אותה מסילה בכיוון ההפוך. מה הקשר
+      בין $\int_{\gamma^-}F\cdot ds$ ל-$\int_\gamma F\cdot ds$?
+    choices:
+      - text: '$\int_{\gamma^-}F\cdot ds=-\int_\gamma F\cdot ds$, לכל שדה רציף $F$'
+        correct: true
+        feedback: >-
+          נכון. $(\gamma^-)'(t)=-\gamma'(a+b-t)$, וההצבה $u=a+b-t$ הופכת את גבולות האינטגרציה. שני הסימנים יחד
+          נותנים מינוס אחד.
+      - text: 'הם שווים, כי למסילות אותה תמונה'
+        feedback: >-
+          לשדה $(-y,x)$ על מעגל היחידה: נגד כיוון השעון $2\pi$, עם כיוון השעון $(-2\pi)$.
+        misconception: MC-c8-orientation-ignored
+      - text: 'הם שווים בערכם המוחלט רק כשהשדה משמר'
+        feedback: >-
+          היפוך הסימן נכון לכל שדה רציף: הוא נובע מהחלפת משתנה בלבד, לא מתכונה של השדה.
+        misconception: MC-c8-path-independent-always
+      - text: 'אין קשר כללי, כי $\gamma^-$ אינה פרמטריזציה מחדש של $\gamma$'
+        feedback: >-
+          היא כן: $\gamma^-=\gamma\circ\varphi$ עם $\varphi(t)=a+b-t$, אלא ש-$\varphi$ **יורדת**. זה ההבדל היחיד,
+          והוא מחליף את הסימן.
+        misconception: MC-c8-speed-changes-integral
+
+  - id: Q-8.3-reparam-proof
+    type: rank
+    objectives: [OBJ-8.3-2]
+    level: mid
+    prompt: >-
+      סדרו את שלבי ההוכחה שהאינטגרל הקווי אינו משתנה בפרמטריזציה ששומרת על הכיוון.
+    help: סדרו את שלבי ההוכחה מהראשון לאחרון.
+    items:
+      - id: a
+        label: 'נתון $\tilde\gamma=\gamma\circ\varphi$, כאשר $\varphi:[c,d]\to[a,b]$ גזירה ברציפות, $\varphi^{\prime}>0$, $\varphi(c)=a$ ו-$\varphi(d)=b$.'
+      - id: b
+        label: 'לפי כלל השרשרת (לכל רכיב): $\tilde\gamma^{\prime}(u)=\gamma^{\prime}(\varphi(u))\,\varphi^{\prime}(u)$.'
+      - id: c
+        label: 'לכן $\int_{\tilde\gamma}F\cdot ds=\int_c^dF(\gamma(\varphi(u)))\cdot\gamma^{\prime}(\varphi(u))\,\varphi^{\prime}(u)\,du$.'
+      - id: d
+        label: 'מחליפים משתנה $t=\varphi(u)$, $dt=\varphi^{\prime}(u)\,du$; הגבולות $c$ ו-$d$ עוברים ל-$a$ ול-$b$.'
+      - id: e
+        label: 'מתקבל $\int_a^bF(\gamma(t))\cdot\gamma^{\prime}(t)\,dt=\int_\gamma F\cdot ds$.'
+    order: [a, b, c, d, e]
+    correctFeedback: >-
+      נכון. אם $\varphi$ **יורדת**, $\varphi(c)=b$ ו-$\varphi(d)=a$, ובשלב ההצבה הגבולות מתהפכים: זו בדיוק ההוכחה
+      שהיפוך כיוון מחליף סימן.
+    wrongFeedback: >-
+      התחילו מהנתונים, גזרו את $\tilde\gamma$ בכלל השרשרת, כתבו את האינטגרל, ורק אז החליפו משתנה.
+
+  - id: Q-8.3-reparam-num
+    type: numeric
+    objectives: [OBJ-8.3-2]
+    level: mid
+    prompt: >-
+      $F(x,y)=(y,x^2)$ ו-$\gamma(t)=(t,t^3)$, $t\in[0,1]$, ולכן $\int_\gamma F\cdot ds=\frac{17}{20}$. תהי
+      $\delta(u)=\gamma(1-u^2)$, $u\in[0,1]$. חשבו את $\int_\delta F\cdot ds$.
+    answer: -0.85
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $\varphi(u)=1-u^2$ יורדת מ-$\varphi(0)=1$ ל-$\varphi(1)=0$, ולכן $\delta$ עוברת על אותה מסילה מ-$(1,1)$
+      ל-$(0,0)$: האינטגרל $-\frac{17}{20}$, בלי לחשב אינטגרל חדש.
+    wrongFeedback: >-
+      בדקו אם $\varphi(u)=1-u^2$ עולה או יורדת, ומאיזו נקודה $\delta$ מתחילה.
+    commonWrong:
+      - value: 0.85
+        feedback: >-
+          $\delta(0)=\gamma(1)=(1,1)$ ו-$\delta(1)=\gamma(0)=(0,0)$: $\delta$ עוברת על המסילה בכיוון ההפוך, ולכן
+          הסימן מתהפך.
+        misconception: MC-c8-orientation-ignored
+
+  - id: Q-8.3-bound
+    type: numeric
+    objectives: [OBJ-8.3-3]
+    level: mid
+    prompt: >-
+      $\gamma$ היא חצי המעגל העליון ברדיוס 2 סביב הראשית, מ-$(2,0)$ ל-$(-2,0)$, ו-$F(x,y)=(x^2,y^2)$. מהו החסם
+      $L(\gamma)\cdot\max_{t}\|F(\gamma(t))\|$ על $\left|\int_\gamma F\cdot ds\right|$? (מקורב לשתי ספרות אחרי
+      הנקודה.)
+    answer: 25.132741
+    tolerance: 0.0003
+    correctFeedback: >-
+      נכון, $8\pi\approx25.13$. $L(\gamma)=2\pi$, ועל המעגל $\|F\|^2=x^4+y^4$ עם $x^2+y^2=4$; הערך הגדול ביותר
+      מתקבל בקצוות ובראש הקשת, $\|F\|=4$. (הערך האמיתי של האינטגרל הוא $(-\frac{16}{3})$, וערכו המוחלט אכן קטן
+      מהחסם.)
+    wrongFeedback: >-
+      החסם הוא אורך המסילה כפול הגודל המרבי של השדה **על המסילה**. חשבו כל אחד בנפרד.
+    commonWrong:
+      - value: 16
+        feedback: >-
+          $16=4\cdot4$ משתמש במרחק בין הקצוות, 4, במקום באורך חצי המעגל, $2\pi$.
+        misconception: MC-c8-bound-chord
+
+  - id: Q-8.3-small-circle
+    type: mc
+    objectives: [OBJ-8.3-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $F$ שדה רציף ב-$\mathbb{R}^2$, ו-$C_r$ המעגל ברדיוס $r$ סביב נקודה $p$. מה אפשר לומר על
+      $\int_{C_r}F\cdot ds$ כש-$r\to0^+$?
+    choices:
+      - text: 'הוא שואף ל-0'
+        correct: true
+        feedback: >-
+          נכון. $F$ רציף, ולכן חסום על הכדור הסגור $B[p,1]$, נאמר $\|F\|\le M$ שם. ל-$r\le1$:
+          $\left|\int_{C_r}F\cdot ds\right|\le2\pi r\cdot M\to0$. זה נכון לכל שדה רציף, משמר או לא.
+      - text: 'הוא 0 לכל $r$, כי $C_r$ סגורה'
+        feedback: >-
+          ל-$F=(-y,x)$ ו-$p=0$ האינטגרל $2\pi r^2\ne0$. הוא קטן כשהמעגל קטן, אבל לא מתאפס.
+        misconception: MC-c8-closed-always-zero
+      - text: 'הוא שווה ל-$2\pi r\cdot\max_{C_r}\|F\|$'
+        feedback: >-
+          זה רק חסם: לשדה הרדיאלי $(x,y)$ ו-$p=0$ האינטגרל 0, והחסם $2\pi r^2$.
+        misconception: MC-c8-bound-is-value
+      - text: 'אי-אפשר לדעת בלי לדעת את $F$'
+        feedback: >-
+          החסם $L\cdot\max\|F\|$ דורש רק רציפות: האורך $2\pi r$ שואף ל-0 והשדה חסום ליד $p$.
+        misconception: MC-c8-bound-chord
+
+  - id: Q-8.3-equality
+    type: twotier
+    objectives: [OBJ-8.3-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $\gamma:[a,b]\to\mathbb{R}^n$ מסילה חלקה ו-$F$ שדה רציף עם $\|F\|\le1$ על המסילה, ונתון
+      $\int_\gamma F\cdot ds=L(\gamma)$. האם נובע ש-$F(\gamma(t))=\frac{\gamma'(t)}{\|\gamma'(t)\|}$ לכל $t$?
+    choices:
+      - text: כן
+        correct: true
+        feedback: 'נכון. השוויון בחסם מאלץ את השדה להיות וקטור המשיק היחידה.'
+      - text: לא
+        feedback: >-
+          שוויון באינטגרל של פונקציה רציפה אי-שלילית גורר שוויון נקודתי. ראו את הנימוק.
+        misconception: MC-c8-bound-is-value
+    reasons:
+      - text: 'הפונקציה $g(t)=\|\gamma^{\prime}(t)\|-F(\gamma(t))\cdot\gamma^{\prime}(t)$ רציפה ואי-שלילית (קושי-שוורץ) ו-$\int_a^bg=0$, ולכן $g\equiv0$; שוויון בקושי-שוורץ עם $\|F\|\le1$ נותן $F=\frac{\gamma^{\prime}}{\|\gamma^{\prime}\|}$'
+        correct: true
+        feedback: >-
+          בדיוק. $F\cdot\gamma'\le\|F\|\,\|\gamma'\|\le\|\gamma'\|$, ושוויון בשני אי-השוויונות יחד אומר ש-$F$ באורך 1
+          ובכיוון של $\gamma'$ (כאן משתמשים ב-$\gamma'\ne0$).
+      - text: 'החסם $L(\gamma)\max\|F\|$ הוא תמיד הערך של האינטגרל כש-$\|F\|=1$ בכל נקודה, ולכן הנתון לא מוסיף מידע'
+        feedback: >-
+          שדה רדיאלי באורך 1 על מעגל נותן אינטגרל 0, לא $L$. השוויון הוא מקרה מיוחד מאוד.
+        misconception: MC-c8-bound-is-value
+      - text: 'האינטגרל תלוי רק בקצוות, ולכן כל שדה עם אותו אינטגרל שווה ל-$F$'
+        feedback: >-
+          האינטגרל של שדה כללי תלוי במסילה כולה, ושדות שונים יכולים לתת אותו אינטגרל. כאן השוויון בא מהחסם, לא
+          מהקצוות.
+        misconception: MC-c8-path-independent-always

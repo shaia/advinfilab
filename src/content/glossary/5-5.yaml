@@ -1,0 +1,17 @@
+# Terms first defined in lesson 5.5.
+- id: chain-rule
+  term: כלל השרשרת
+  en: chain rule
+  symbol: 'D(g\circ f)(a)=Dg(f(a))\circ Df(a)'
+  definition: >-
+    אם $f$ דיפרנציאבילית ב-$a$ ו-$g$ דיפרנציאבילית ב-$f(a)$, אז $g\circ f$ דיפרנציאבילית ב-$a$,
+    ו-$D(g\circ f)(a)=Dg(f(a))\circ Df(a)$; במטריצות $J_{g\circ f}(a)=J_g(f(a))\,J_f(a)$. מקרה פרטי: לאורך מסילה,
+    $\frac{d}{dt}f(\gamma(t))=\nabla f(\gamma(t))\cdot\gamma'(t)$.
+  lesson: '5.5'
+- id: homogeneous-function
+  term: פונקציה הומוגנית
+  en: homogeneous function
+  definition: >-
+    $f:\mathbb{R}^n\setminus\{0\}\to\mathbb{R}$ הומוגנית מדרגה $k$ אם $f(tx)=t^kf(x)$ לכל $x\ne0$ ולכל $t>0$. אם היא גם
+    דיפרנציאבילית, היא מקיימת את משפט אוילר: $x\cdot\nabla f(x)=kf(x)$.
+  lesson: '5.5'

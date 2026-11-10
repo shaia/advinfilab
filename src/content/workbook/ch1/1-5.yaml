@@ -1,0 +1,508 @@
+# Workbook of lesson 1.5 — sequences in a metric space.
+# Objectives (src/course.ts):
+#   OBJ-1.5-1  define convergence in a metric space and prove the limit is unique
+#   OBJ-1.5-2  a closed set contains the limits of its convergent sequences; the closure is the set of those limits
+#   OBJ-1.5-3  convergence in R^n is coordinatewise; convergence in the sup metric is uniform convergence
+# Numbers recomputed with src/math/multivar.ts (supDist) and src/math/funcseq.ts.
+lesson: '1.5'
+practice:
+  - id: W-1.5-01
+    level: basic
+    objectives: [OBJ-1.5-3]
+    prompt: >-
+      ב-$\mathbb{R}^2$ עם $d_\infty$, תהי $x_n=\left(\frac{(-1)^n}{n},\ 3-\frac{1}{n^2}\right)$.
+
+      (א) מצאו את הגבול $x$.
+
+      (ב) מצאו את ה-$N$ הקטן ביותר כך ש-$d_\infty(x_n,x)<0.01$ לכל $n>N$.
+    answer: >-
+      (א) $x=(0,3)$. (ב) $N=100$.
+    solution:
+      - kind: idea
+        text: >-
+          לפי המשפט על קואורדינטות, הגבול נמצא קואורדינטה אחר קואורדינטה. $d_\infty$ היא המקסימום של שני ההפרשים,
+          והיא קטנה מ-$0.01$ כששניהם קטנים מ-$0.01$.
+      - kind: computation
+        text: >-
+          (א) $\frac{(-1)^n}{n}\to0$ ו-$3-\frac1{n^2}\to3$. לכן $x=(0,3)$.
+      - kind: computation
+        text: >-
+          (ב) $d_\infty(x_n,x)=\max\left(\frac1n,\ \frac1{n^2}\right)=\frac1n$, כי $\frac1{n^2}\le\frac1n$. התנאי
+          $\frac1n<0.01$ שקול ל-$n>100$.
+      - kind: check
+        text: >-
+          $n=100$ נותן בדיוק $0.01$, שאינו קטן ממש. לכן $N=99$ לא מתאים ו-$N=100$ מתאים. הקואורדינטה השנייה מסתדרת
+          כבר מ-$n=11$; הראשונה היא שקובעת.
+      - kind: result
+        text: >-
+          $x=(0,3)$ ו-$N=100$.
+
+  - id: W-1.5-02
+    level: basic
+    qualitative: true
+    objectives: [OBJ-1.5-1]
+    prompt: >-
+      $(X,d)$ מרחב מטרי ו-$(x_n)$ סדרה ב-$X$. נכון או לא נכון? נמקו.
+
+      (א) אם $x_n\to x$, אז $d(x_n,x_{n+1})\to0$.
+
+      (ב) אם $x_n\to x$, אז $d(x_n,y)\to d(x,y)$ לכל $y\in X$.
+    answer: >-
+      (א) נכון: $d(x_n,x_{n+1})\le d(x_n,x)+d(x,x_{n+1})$. (ב) נכון: $|d(x_n,y)-d(x,y)|\le d(x_n,x)$.
+    solution:
+      - kind: idea
+        text: >-
+          בשני הסעיפים אי-שוויון המשולש חוסם את מה שרוצים בסכום של מרחקים לגבול, והמרחקים האלה שואפים ל-0.
+      - kind: step
+        text: >-
+          (א) לפי אי-שוויון המשולש והסימטריה, $0\le d(x_n,x_{n+1})\le d(x_n,x)+d(x,x_{n+1})$. שני המחוברים שואפים
+          ל-0 (השני הוא אותה סדרה, מוזזת במקום אחד), ולפי כלל הסנדוויץ' $d(x_n,x_{n+1})\to0$.
+      - kind: step
+        text: >-
+          (ב) מאי-שוויון המשולש $d(x_n,y)\le d(x_n,x)+d(x,y)$, כלומר $d(x_n,y)-d(x,y)\le d(x_n,x)$. באותו אופן
+          $d(x,y)\le d(x,x_n)+d(x_n,y)$, כלומר $d(x,y)-d(x_n,y)\le d(x_n,x)$. שני האי-שוויונות יחד:
+          $|d(x_n,y)-d(x,y)|\le d(x_n,x)\to0$.
+      - kind: check
+        text: >-
+          הכיוון ההפוך של (א) אינו נכון: בשיעור ראינו ש-$\sqrt n$ מקיימת $\sqrt{n+1}-\sqrt n\to0$ ואינה מתכנסת. צעדים
+          קטנים אינם מבטיחים גבול.
+      - kind: result
+        text: >-
+          (א) נכון. (ב) נכון. ההפך של (א) אינו נכון.
+
+  - id: W-1.5-03
+    level: basic
+    qualitative: true
+    objectives: [OBJ-1.5-1]
+    prompt: >-
+      ב-$\mathbb{R}$ עם **המטריקה הבדידה**, אילו מהסדרות מתכנסות, ולאן?
+
+      (א) $a_n=(-1)^n$
+
+      (ב) $b_n=\max(5-n,\ 0)$
+
+      (ג) $c_n=\frac{1}{n}$ אם $n$ זוגי, ו-$c_n=0$ אם $n$ אי-זוגי
+    answer: >-
+      (א) לא. (ב) כן, ל-0. (ג) לא.
+    solution:
+      - kind: theorem
+        text: >-
+          במטריקה הבדידה $x_n\to x$ אם ורק אם $x_n=x$ לכל $n$ מ-$N$ מסוים והלאה.
+      - kind: step
+        text: >-
+          (א) הסדרה מחליפה ערך בכל צעד, ולכן אינה קבועה מאף מקום. אין גבול.
+      - kind: step
+        text: >-
+          (ב) $b_n=0$ לכל $n\ge5$. לכן $b_n\to0$, עם $N=4$.
+      - kind: step
+        text: >-
+          (ג) האיברים האי-זוגיים שווים ל-0, אבל הזוגיים שונים מ-0 ושונים זה מזה. הסדרה אינה קבועה מאף מקום, ואין גבול,
+          אף שב-$\mathbb{R}$ עם המטריקה הרגילה היא שואפת ל-0.
+      - kind: result
+        text: >-
+          רק (ב) מתכנסת, ל-0.
+
+  - id: W-1.5-04
+    level: mid
+    objectives: [OBJ-1.5-2]
+    prompt: >-
+      הוכיחו בעזרת סדרות:
+
+      (א) הקטע $[a,b]$ סגור ב-$\mathbb{R}$, והקטע $[a,b)$ (עם $a<b$) אינו סגור.
+
+      (ב) $\mathbb{Z}$ סגורה ב-$\mathbb{R}$.
+    answer: >-
+      (א) גבול של סדרה ב-$[a,b]$ מקיים $a\le x\le b$; הסדרה $b-\frac{b-a}{2n}$ ב-$[a,b)$ שואפת ל-$b\notin[a,b)$.
+      (ב) סדרה מתכנסת של שלמים קבועה מ-$N$ מסוים, ולכן הגבול שלה שלם.
+    solution:
+      - kind: theorem
+        text: >-
+          $A$ סגורה אם ורק אם הגבול של כל סדרה מ-$A$ שמתכנסת ב-$X$ נמצא ב-$A$.
+      - kind: step
+        text: >-
+          (א) תהי $x_n\in[a,b]$ עם $x_n\to x$. לכל $n$: $a\le x_n\le b$. אי-שוויון חלש נשמר בגבול (אינפי 1), ולכן
+          $a\le x\le b$, כלומר $x\in[a,b]$. לפי המשפט $[a,b]$ סגור.
+      - kind: step
+        text: >-
+          $x_n=b-\frac{b-a}{2n}$ מקיימת $a\le x_n<b$, כלומר $x_n\in[a,b)$, ו-$x_n\to b$. אבל $b\notin[a,b)$. סדרה אחת
+          מ-$[a,b)$ שהגבול שלה מחוצה לה מספיקה: $[a,b)$ אינו סגור.
+      - kind: check
+        text: >-
+          למה אי-שוויון חזק לא נשמר: $x_n<b$ לכל $n$, ובכל זאת הגבול שווה ל-$b$. בדיוק זה מה שמפיל את $[a,b)$.
+      - kind: step
+        text: >-
+          (ב) תהי $k_n\in\mathbb{Z}$ עם $k_n\to x$. עם $\varepsilon=\frac12$ יש $N$ כך ש-$|k_n-x|<\frac12$ לכל $n>N$.
+          אז לכל $n,m>N$: $|k_n-k_m|\le|k_n-x|+|x-k_m|<1$. שני שלמים שהמרחק ביניהם קטן מ-1 שווים, ולכן $k_n=k_{N+1}$
+          לכל $n>N$: הסדרה קבועה מ-$N$ והלאה.
+      - kind: step
+        text: >-
+          סדרה שקבועה מ-$N$ והלאה שואפת לערך הקבוע, ולפי יחידות הגבול $x=k_{N+1}\in\mathbb{Z}$. לכן $\mathbb{Z}$ מכילה את
+          הגבולות של כל הסדרות המתכנסות שלה, והיא סגורה.
+      - kind: result
+        text: >-
+          (א) $[a,b]$ סגור; $[a,b)$ אינו סגור. (ב) $\mathbb{Z}$ סגורה.
+
+  - id: W-1.5-05
+    level: mid
+    qualitative: true
+    objectives: [OBJ-1.5-2]
+    prompt: >-
+      ב-$\mathbb{R}^2$ עם $d_2$, תהי $A=\{(x,0): 0<x<1\}$. מצאו את $\overline A$ בעזרת סדרות, והוכיחו.
+    answer: >-
+      $\overline A=\{(x,0): 0\le x\le1\}$.
+    solution:
+      - kind: idea
+        text: >-
+          $\overline A$ היא קבוצת הגבולות של סדרות מ-$A$. כל גבול כזה הוא גבול לפי קואורדינטות, ולכן מקבלים אותו
+          מגבולות של מספרים.
+      - kind: step
+        text: >-
+          ($\supseteq$) נקודה $(x,0)$ עם $0<x<1$ היא גבול של הסדרה הקבועה. $(0,0)=\lim\left(\frac1{n+1},0\right)$ ו-
+          $(1,0)=\lim\left(1-\frac1{n+1},0\right)$, ושתי הסדרות ב-$A$.
+      - kind: step
+        text: >-
+          ($\subseteq$) תהי $(x_n,0)\in A$ עם $(x_n,0)\to(x,y)$. לפי המשפט על קואורדינטות $x_n\to x$ ו-$0\to y$, ולכן
+          $y=0$. וכיוון ש-$0<x_n<1$, הגבול מקיים $0\le x\le1$.
+      - kind: check
+        text: >-
+          הנקודה $(\tfrac12,\ 0.1)$ אינה בסגור: כל איבר של $A$ במרחק לפחות $0.1$ ממנה, ולכן אף סדרה מ-$A$ לא
+          מתקרבת אליה.
+      - kind: result
+        text: >-
+          $\overline A=[0,1]\times\{0\}$.
+
+  - id: W-1.5-06
+    level: mid
+    objectives: [OBJ-1.5-3]
+    prompt: >-
+      $f_n(x)=\frac{x}{1+nx}$ על $[0,1]$.
+
+      (א) מצאו את הגבול הנקודתי.
+
+      (ב) חשבו את $d_\infty(f_n,f)$, והכריעו אם $f_n\to f$ במטריקת הסופרמום.
+
+      (ג) חשבו את $d_\infty(f_9,f)$.
+    answer: >-
+      (א) $f=0$. (ב) $\frac{1}{1+n}\to0$: כן. (ג) $0.1$.
+    solution:
+      - kind: computation
+        text: >-
+          (א) $f_n(0)=0$, ול-$x>0$: $\frac{x}{1+nx}\le\frac{x}{nx}=\frac1n\to0$. לכן $f=0$.
+      - kind: computation
+        text: >-
+          (ב) $\frac{x}{1+nx}=\frac1n\left(1-\frac{1}{1+nx}\right)$ עולה ב-$x$, ולכן המקסימום ב-$x=1$:
+          $d_\infty(f_n,0)=\frac{1}{1+n}\to0$. הסדרה מתכנסת ל-0 במטריקת הסופרמום, כלומר במידה שווה.
+      - kind: computation
+        text: >-
+          (ג) $d_\infty(f_9,0)=\frac1{10}=0.1$.
+      - kind: check
+        text: >-
+          ההערכה מ-(א), $\frac{x}{1+nx}\le\frac1n$, נכונה לכל $x$ יחד, ולכן כבר היא נותנת $d_\infty\le\frac1n\to0$. כשיש חסם
+          שלא תלוי ב-$x$ **ושואף ל-0**, ההתכנסות במידה שווה. (חסם שלא שואף ל-0 לא מספיק: $|x^n|\le1$ על $[0,1]$, ו-$x^n$
+          אינה מתכנסת במידה שווה.)
+      - kind: result
+        text: >-
+          $f_n\to0$ במטריקת הסופרמום; $d_\infty(f_9,0)=0.1$.
+
+  - id: W-1.5-07
+    level: mid
+    objectives: [OBJ-1.5-1, OBJ-1.5-3]
+    prompt: >-
+      (א) הוכיחו: ב-$\mathbb{R}^k$, אם $x_n\to x$ במטריקה $d_2$, אז $x_n\to x$ גם ב-$d_1$ וגם ב-$d_\infty$, בלי לעבור
+      דרך הקואורדינטות: מצאו קבוע $C$ עם $\|v\|_1\le C\|v\|_2$ לכל $v$, והראו שאי אפשר להקטין אותו.
+
+      (ב) תנו סדרה ב-$\mathbb{R}$ שמתכנסת במטריקה הרגילה ולא במטריקה הבדידה. מה זה מראה?
+    answer: >-
+      (א) $\|v\|_\infty\le\|v\|_2$ ו-$\|v\|_1\le\sqrt k\,\|v\|_2$, עם שוויון ב-$v=(1,\dots,1)$. (ב) $\frac1n$: התכנסות
+      תלויה במטריקה.
+    solution:
+      - kind: idea
+        text: >-
+          אם מטריקה אחת קטנה מקבוע כפול השנייה, כל סדרה ששואפת ב"גדולה" שואפת גם ב"קטנה".
+      - kind: step
+        text: >-
+          (א) $d_\infty(x_n,x)=\|x_n-x\|_\infty\le\|x_n-x\|_2=d_2(x_n,x)\to0$. לפי קושי-שוורץ
+          $\|v\|_1=\sum|v_i|\cdot1\le\|v\|_2\sqrt k$ (המכפלה הפנימית של $(|v_1|,\dots,|v_k|)$ עם $(1,\dots,1)$, שהנורמה שלו
+          $\sqrt k$), ולכן $d_1(x_n,x)\le\sqrt k\,d_2(x_n,x)\to0$.
+      - kind: computation
+        text: >-
+          אי אפשר להקטין את $C=\sqrt k$: ב-$v=(1,\dots,1)$ מתקיים $\|v\|_1=k$ ו-$\|v\|_2=\sqrt k$, כלומר
+          $\|v\|_1=\sqrt k\,\|v\|_2$. כל $C<\sqrt k$ נכשל בווקטור הזה.
+      - kind: step
+        text: >-
+          (ב) $\frac1n\to0$ ב-$|x-y|$, אבל במטריקה הבדידה $d(\frac1n,0)=1$ לכל $n$, ואין גבול (הסדרה אינה קבועה מאף
+          מקום). המטריקה הבדידה אינה חסומה על ידי קבוע כפול $|x-y|$: נקודות קרובות מאוד נמצאות בה במרחק 1.
+      - kind: result
+        text: >-
+          (א) נכון, דרך האי-שוויונות בין הנורמות; $C=\sqrt k$ הוא הקבוע הקטן ביותר. (ב) $\frac1n$; מטריקות שונות על אותה
+          קבוצה יכולות לתת סדרות מתכנסות שונות.
+
+  - id: W-1.5-08
+    level: exam
+    objectives: [OBJ-1.5-2, OBJ-1.5-3]
+    prompt: >-
+      ב-$B([0,1])$, הפונקציות החסומות על $[0,1]$ עם מטריקת הסופרמום, תהי
+      $F=\{f\in B([0,1]):\ |f(x)|\le1\ \ \forall x\in[0,1]\}$.
+
+      (א) הוכיחו ש-$F$ סגורה.
+
+      (ב) נכון או לא נכון: $G=\{f\in B([0,1]):\ |f(x)|<1\ \ \forall x\}$ סגורה.
+    answer: >-
+      (א) גבול במטריקת הסופרמום הוא גבול נקודתי, ו-$\le$ נשמר. (ב) לא נכון: $1-\frac1n\to1\notin G$.
+    solution:
+      - kind: goal
+        text: >-
+          (א) לכל סדרה $f_n\in F$ עם $d_\infty(f_n,f)\to0$ להראות $f\in F$.
+      - kind: idea
+        text: >-
+          $|f_n(x)-f(x)|\le d_\infty(f_n,f)$, ולכן התכנסות במטריקת הסופרמום נותנת התכנסות בכל נקודה. אז החסם $|f_n(x)|\le1$
+          עובר לגבול נקודה אחרי נקודה.
+      - kind: step
+        text: >-
+          (א) תהי $f_n\in F$, $f_n\to f$ ב-$d_\infty$. לכל $x$: $f_n(x)\to f(x)$ ו-$|f_n(x)|\le1$, ולכן
+          $|f(x)|=\lim|f_n(x)|\le1$. לכן $f\in F$, ולפי האפיון הסדרתי $F$ סגורה.
+      - kind: step
+        text: >-
+          (ב) **לא נכון.** הפונקציות הקבועות $g_n=1-\frac1n$ נמצאות ב-$G$, ו-$d_\infty(g_n,1)=\frac1n\to0$. הגבול, הפונקציה
+          הקבועה 1, אינו ב-$G$.
+      - kind: check
+        text: >-
+          נסמן ב-$\theta$ את פונקציית האפס ($\theta(x)=0$ לכל $x$), כדי לא לבלבל את מרכז הכדור עם הקטע $[0,1]$. אז $F$
+          היא הכדור הסגור ברדיוס 1 סביב $\theta$, כלומר $F=B[\theta,1]$. לעומת זאת $G$ אינה הכדור הפתוח $B(\theta,1)$:
+          הפונקציה $h(x)=x$ ל-$x<1$ ו-$h(1)=0$ נמצאת ב-$G$, אבל $\sup|h|=1$, ולכן $h\notin B(\theta,1)$. בדוגמה 3 של
+          שיעור 1.3 הוכחנו שכל כדור סגור הוא קבוצה סגורה; כאן הגענו לזה בדרך אחרת.
+      - kind: result
+        text: >-
+          (א) $F$ סגורה. (ב) $G$ אינה סגורה.
+
+  - id: W-1.5-09
+    level: exam
+    qualitative: true
+    objectives: [OBJ-1.5-3]
+    prompt: >-
+      $f_n(x)=\sqrt n\,x\,(1-x^2)^n$ על $[0,1]$.
+
+      (א) הוכיחו ש-$f_n(x)\to0$ לכל $x\in[0,1]$.
+
+      (ב) חשבו את $\|f_n\|_\infty$, והכריעו אם $f_n\to0$ במטריקת הסופרמום.
+    answer: >-
+      (א) לכל $0<x\le1$, $(1-x^2)^n$ דועך מעריכית. (ב) $\|f_n\|_\infty=\sqrt{\frac{n}{2n+1}}\left(\frac{2n}{2n+1}\right)^n\to\frac{1}{\sqrt{2e}}\approx0.4289$:
+      לא מתכנסת.
+    solution:
+      - kind: computation
+        text: >-
+          (א) $f_n(0)=0$ ו-$f_n(1)=0$. ל-$0<x<1$ נסמן $q=1-x^2\in(0,1)$. אז $\sqrt n\,q^n\to0$ (חזקה של $n$ כפול
+          סדרה הנדסית עם מנה קטנה מ-1, מאינפי 1), ולכן $f_n(x)\to0$.
+      - kind: computation
+        text: >-
+          (ב) $f_n'(x)=\sqrt n\,(1-x^2)^{n-1}\big(1-(2n+1)x^2\big)$, שמתאפסת בפנים רק ב-$x_n=\frac{1}{\sqrt{2n+1}}$, והיא
+          המקסימום ($f_n\ge0$ ומתאפסת בקצוות). לכן
+          $$\|f_n\|_\infty=f_n(x_n)=\sqrt{\frac{n}{2n+1}}\left(\frac{2n}{2n+1}\right)^{n}.$$
+      - kind: computation
+        text: >-
+          $\sqrt{\frac{n}{2n+1}}\to\frac1{\sqrt2}$. ובגורם השני נכתוב $m=2n+1$:
+          $$\left(1-\tfrac{1}{m}\right)^n=\Big[\left(1-\tfrac1m\right)^m\Big]^{n/m}.$$
+          הבסיס שואף ל-$e^{-1}$ (גבול מוכר מאינפי 1), והמעריך $\frac{n}{2n+1}$ שואף ל-$\frac12$. לכן הגורם שואף ל-$e^{-1/2}$,
+          ו-$\|f_n\|_\infty\to\frac{1}{\sqrt2}\,e^{-1/2}=\frac{1}{\sqrt{2e}}\approx0.4289\ne0$.
+      - kind: step
+        text: >-
+          הגבול האפשרי היחיד במטריקת הסופרמום הוא הגבול הנקודתי 0, והמרחק אליו לא שואף ל-0. לכן אין גבול.
+      - kind: check
+        text: >-
+          מספרית (דגימה של 20 001 נקודות): $\|f_1\|_\infty\approx0.3849$, $\|f_5\|_\infty\approx0.4186$,
+          $\|f_{50}\|_\infty\approx0.4278$, מתקרבים ל-$0.4289$. הגבעה נודדת לכיוון 0 ונשארת בגובה קבוע, כמו בגבעה
+          שבאיור.
+      - kind: result
+        text: >-
+          מתכנסת נקודתית ל-0, אבל לא במטריקת הסופרמום: $\|f_n\|_\infty\to\frac1{\sqrt{2e}}$.
+
+  - id: W-1.5-10
+    level: exam
+    qualitative: true
+    objectives: [OBJ-1.5-1, OBJ-1.5-2]
+    prompt: >-
+      $(X,d)$ מרחב מטרי.
+
+      (א) הוכיחו: אם $x_n\to x$ ו-$y_n\to y$, אז $d(x_n,y_n)\to d(x,y)$.
+
+      (ב) הסיקו בעזרת סדרות שהכדור הסגור $B[a,r]$ הוא קבוצה סגורה.
+
+      (ג) האם אותו טיעון מראה שהכדור הפתוח $B(a,r)$ סגור? היכן הוא נשבר?
+    answer: >-
+      (א) $|d(x_n,y_n)-d(x,y)|\le d(x_n,x)+d(y_n,y)$. (ב) $d(a,x_n)\le r$ עובר לגבול. (ג) לא: $<$ לא עובר לגבול.
+    solution:
+      - kind: idea
+        text: >-
+          (א) אי-שוויון המשולש פעמיים: כל אחת מהנקודות זזה מעט, ולכן המרחק ביניהן משתנה מעט.
+      - kind: step
+        text: >-
+          (א) לפי אי-שוויון המשולש פעמיים, $d(x_n,y_n)\le d(x_n,x)+d(x,y)+d(y,y_n)$. מעבירים אגף:
+          $d(x_n,y_n)-d(x,y)\le d(x_n,x)+d(y_n,y)$.
+      - kind: step
+        text: >-
+          באותו אופן, $d(x,y)\le d(x,x_n)+d(x_n,y_n)+d(y_n,y)$, ועם הסימטריה $d(x,x_n)=d(x_n,x)$:
+          $d(x,y)-d(x_n,y_n)\le d(x_n,x)+d(y_n,y)$.
+      - kind: step
+        text: >-
+          המספר $d(x_n,y_n)-d(x,y)$ והנגדי שלו קטנים או שווים לאותו מספר, ולכן גם הערך המוחלט שלו:
+          $$|d(x_n,y_n)-d(x,y)|\le d(x_n,x)+d(y_n,y)\to0.$$
+      - kind: step
+        text: >-
+          (ב) תהי $x_n\in B[a,r]$ עם $x_n\to x$. לפי (א) עם הסדרה הקבועה $a$: $d(a,x_n)\to d(a,x)$. כל איבר $\le r$,
+          ולכן $d(a,x)\le r$, כלומר $x\in B[a,r]$. לפי האפיון הסדרתי $B[a,r]$ סגור.
+      - kind: step
+        text: >-
+          (ג) לא. מ-$d(a,x_n)<r$ נובע רק $d(a,x)\le r$. ב-$\mathbb{R}$: $1-\frac1n\in B(0,1)$ ושואפת ל-$1\notin B(0,1)$,
+          ולכן $B(0,1)$ אינו סגור.
+      - kind: check
+        text: >-
+          במטריקה הבדידה $B(a,1)=\{a\}$ דווקא סגור: שם סדרה שמתכנסת קבועה מ-$N$ והלאה, והגבול הוא אחד האיברים. (ג) אומר
+          שהטיעון לא עובד, לא שהכדור הפתוח אף פעם לא סגור.
+      - kind: result
+        text: >-
+          (א) $d(x_n,y_n)\to d(x,y)$. (ב) $B[a,r]$ סגור. (ג) לא: אי-שוויון חזק לא נשמר בגבול.
+challenge:
+  - id: W-1.5-c1
+    stars: 1
+    objectives: [OBJ-1.5-2, OBJ-1.5-3]
+    prompt: >-
+      ב-$C[0,1]$ תהי $W=\{f\in C[0,1]:\ f(0)=0\}$. מצאו את הסגור $\overline W$ ונמקו בעזרת סדרות:
+
+      (א) בנורמת הסופרמום $\|f\|_\infty=\max_{[0,1]}|f|$;
+
+      (ב) בנורמת האינטגרל $\|f\|_1=\int_0^1|f|$.
+
+      (ג) הסדרה $f_n(t)=t^{1/n}$ נמצאת ב-$W$. האם היא מתכנסת ב-$(C[0,1],\|\cdot\|_1)$? ב-$(C[0,1],\|\cdot\|_\infty)$?
+      אם כן, לאן?
+    answer: >-
+      (א) $\overline W=W$: התכנסות במידה שווה שומרת על $f(0)=0$. (ב) $\overline W=C[0,1]$: לכל $f$, הפונקציות
+      $f_n(t)=f(t)\min(1,nt)\in W$ מקיימות $\|f-f_n\|_1\le\frac{\|f\|_\infty}{2n}\to0$. (ג) $f_n\to1$
+      בנורמת האינטגרל, כי $\|1-f_n\|_1=\frac1{n+1}$; בנורמת הסופרמום היא אינה מתכנסת.
+    solution:
+      - kind: given
+        text: >-
+          $W=\{f\in C[0,1]:\ f(0)=0\}$, ושתי נורמות על $C[0,1]$.
+      - kind: theorem
+        text: >-
+          (שיעור 1.5) הסגור $\overline W$ הוא קבוצת כל הגבולות של סדרות מ-$W$, ו-$W$ סגורה אם ורק אם היא מכילה את
+          הגבולות של כל הסדרות המתכנסות שלה.
+      - kind: idea
+        text: >-
+          התכנסות בנורמת הסופרמום היא התכנסות במידה שווה, ובפרט שולטת בערך בנקודה $0$, ולכן $f(0)=0$ שורד את הגבול.
+          התכנסות בנורמת האינטגרל רואה רק שטח, ולכן ליד $0$ אפשר "לכופף" כל $f$ עד $0$ כמעט בלי מחיר.
+      - kind: step
+        text: >-
+          (א) תהי $f_n\in W$ עם $f_n\to f$ ב-$\|\cdot\|_\infty$. אז
+          $|f(0)|=|f(0)-f_n(0)|\le\|f-f_n\|_\infty\to0$, ולכן $f(0)=0$ ו-$f\in W$. $W$ מכילה את הגבולות של סדרותיה:
+          היא סגורה, ו-$\overline W=W$.
+      - kind: check
+        text: >-
+          בתרגיל W-1.3-08 בחוברת של שיעור 1.3 הראינו אותו דבר דרך המשלים: סביב $g$ עם $g(0)\ne0$ יש כדור זר ל-$W$.
+          הטיעון בסדרות קצר יותר.
+      - kind: step
+        text: >-
+          (ב) תהי $f\in C[0,1]$ כלשהי, ו-$\varphi_n(t)=\min(1,nt)$: עולה לינארית מ-$0$ ל-$1$ על $[0,\tfrac1n]$ וקבועה $1$
+          אחר כך. $f_n=f\cdot\varphi_n$ רציפה ו-$f_n(0)=f(0)\cdot0=0$, ולכן $f_n\in W$.
+      - kind: computation
+        text: >-
+          $f-f_n=f\,(1-\varphi_n)$, וזה $0$ על $[\tfrac1n,1]$. על $[0,\tfrac1n]$, $|f(t)|\le\|f\|_\infty$ (המקסימום קיים
+          לפי משפט ויירשטראס מאינפי 1). לכן
+          $\|f-f_n\|_1=\int_0^{1/n}|f(t)|\,(1-nt)\,dt\le\|f\|_\infty\int_0^{1/n}(1-nt)\,dt=\frac{\|f\|_\infty}{2n}\to0$.
+      - kind: step
+        text: >-
+          כל $f\in C[0,1]$ היא גבול ב-$\|\cdot\|_1$ של סדרה מ-$W$, ולכן $\overline W=C[0,1]$: $W$ צפופה, במובן של שיעור
+          1.4 (הסגור שלה הוא כל המרחב).
+      - kind: check
+        text: >-
+          עם $f(t)=1+t$ ($\|f\|_\infty=2$): $\|f-f_1\|_1=\int_0^1(1+t)(1-t)\,dt=\frac23\le1$, ו-$\|f-f_5\|_1\approx0.107\le0.2$,
+          כמו שהחסם $\frac{\|f\|_\infty}{2n}$ אומר.
+      - kind: computation
+        text: >-
+          (ג) $\int_0^1t^{1/n}\,dt=\frac{1}{1+1/n}=\frac{n}{n+1}$, ולכן $\|1-f_n\|_1=\int_0^1(1-t^{1/n})\,dt=\frac1{n+1}\to0$:
+          $f_n\to1$ בנורמת האינטגרל, ו-$1\notin W$. מספרית $\frac12$, $\frac13$, $\frac1{11}$ ל-$n=1,2,10$.
+      - kind: step
+        text: >-
+          ב-$\|\cdot\|_\infty$ אין גבול. אילו $f_n\to g$ ב-$\|\cdot\|_\infty$, אז לפי (א) $g\in W$, כלומר $g(0)=0$. אבל
+          התכנסות במידה שווה גוררת התכנסות נקודתית, ול-$t>0$, $t^{1/n}\to1$; לכן $g(t)=1$ ל-$t>0$, ומרציפות $g(0)=1$.
+          סתירה. (ואכן $\|1-f_n\|_\infty=1$ לכל $n$, בנקודה $t=0$.)
+      - kind: result
+        text: >-
+          $W$ סגורה ב-$(C[0,1],\|\cdot\|_\infty)$ וצפופה ב-$(C[0,1],\|\cdot\|_1)$: אותה קבוצה מתנהגת הפוך בשתי נורמות
+          על אותו מרחב. $t^{1/n}\to1$ ב-$\|\cdot\|_1$ ואינה מתכנסת ב-$\|\cdot\|_\infty$.
+    source:
+      name: 'University of Edinburgh, Linear Analysis, Workshop 2 (with solutions)'
+      year: 2015
+      problem: 'Problem 3'
+      url: 'https://webhomes.maths.ed.ac.uk/~aram/linan-web/W2-sol.pdf'
+      verified: '2026-11-09'
+      adapted: true
+
+  - id: W-1.5-c2
+    stars: 2
+    objectives: [OBJ-1.5-2]
+    prompt: >-
+      תהי $S=\big\{\sqrt[3]{n}-\sqrt[3]{m}:\ n,m\in\{0,1,2,\dots\}\big\}\subseteq\mathbb{R}$. האם יש סדרה של איברים
+      של $S$ שמתכנסת ל-$\sqrt2$, כלומר האם $\sqrt2\in\overline S$?
+
+      (א) ל-$N\in\mathbb{N}$ נסמן $g_N=\sqrt[3]{N+1}-\sqrt[3]{N}$. הוכיחו ש-$0<g_N<\frac{1}{3N^{2/3}}$.
+
+      (ב) הוכיחו ש-$kx\in S$ לכל $x\in S$ ולכל $k\in\mathbb{N}$.
+
+      (ג) בנו סדרה $x_j\in S$ עם $x_j\to\sqrt2$.
+
+      (ד) הראו ש-$\overline S=\mathbb{R}$.
+    answer: >-
+      כן. $g_N\in S$ חיובי ושואף ל-$0$; כל כפולה טבעית של איבר של $S$ נמצאת ב-$S$, כי $k(\sqrt[3]n-\sqrt[3]m)=\sqrt[3]{k^3n}-\sqrt[3]{k^3m}$;
+      לכן $kg_N$ עם $k=\lfloor\sqrt2/g_N\rfloor$ נמצא ב-$S$ במרחק פחות מ-$g_N$ מ-$\sqrt2$. באותו אופן כל מספר ממשי הוא
+      גבול של סדרה מ-$S$.
+    solution:
+      - kind: given
+        text: >-
+          $S=\{\sqrt[3]n-\sqrt[3]m:\ n,m\ge0\}$, $n,m$ שלמים.
+      - kind: goal
+        text: >-
+          סדרה $x_j\in S$ עם $x_j\to\sqrt2$. לפי שיעור 1.5, זה בדיוק $\sqrt2\in\overline S$.
+      - kind: idea
+        text: >-
+          שתי עובדות הופכות את $S$ ל"צפופה": יש בה מספרים חיוביים קטנים כרצוננו, ויש בה כל כפולה טבעית של כל איבר
+          שלה. הכפולות של איבר זעיר הן סולם עם שלבים זעירים, שמגיע לכל מספר חיובי.
+      - kind: step
+        text: >-
+          (א) נסמן $a=\sqrt[3]{N+1}$ ו-$b=\sqrt[3]N$, כך ש-$a>b>0$. מנוסחת ההפרש של חזקות שלישיות,
+          $1=a^3-b^3=(a-b)(a^2+ab+b^2)$, ולכן $g_N=a-b=\frac{1}{a^2+ab+b^2}>0$.
+      - kind: step
+        text: >-
+          $a>b$ נותן $a^2+ab+b^2>b^2+b^2+b^2=3N^{2/3}$, ולכן $g_N<\frac{1}{3N^{2/3}}$. בפרט $g_N\to0$, וכל $g_N$ ב-$S$
+          (עם $n=N+1$, $m=N$).
+      - kind: step
+        text: >-
+          (ב) ל-$k\in\mathbb{N}$: $k=\sqrt[3]{k^3}$, ולכן $k(\sqrt[3]n-\sqrt[3]m)=\sqrt[3]{k^3n}-\sqrt[3]{k^3m}$, ו-$k^3n$, $k^3m$
+          שלמים אי-שליליים. לכן $kx\in S$.
+      - kind: step
+        text: >-
+          (ג) יהי $j\in\mathbb{N}$. לפי (א) יש $N$ עם $g_N<\frac1j$. נסמן $k=\lfloor\sqrt2/g_N\rfloor$; מכיוון
+          ש-$g_N<\frac13<\sqrt2$, $k\ge1$, כלומר $k\in\mathbb{N}$. נגדיר $x_j=kg_N$; לפי (ב) $x_j\in S$.
+      - kind: step
+        text: >-
+          מהגדרת הערך השלם, $kg_N\le\sqrt2<(k+1)g_N$, כלומר $0\le\sqrt2-x_j<g_N<\frac1j$. לכן $x_j\to\sqrt2$.
+      - kind: check
+        text: >-
+          $N=1000$: $g=\sqrt[3]{1001}-10\approx0.0033322$, מתחת לחסם $\frac1{300}\approx0.0033333$. $k=424$,
+          ו-$x=424g\approx1.4128625=\sqrt[3]{76301249024}-\sqrt[3]{76225024000}$ (כי $424^3=76225024$),
+          ו-$\sqrt2-x\approx0.00135<g$.
+      - kind: step
+        text: >-
+          (ד) אותו טיעון עם כל $t>0$ במקום $\sqrt2$ נותן סדרה מ-$S$ ששואפת ל-$t$, עם $k=\lfloor t/g_N\rfloor$. כש-$t$
+          קטן ייתכן $k=0$; אז $x_j=0$, וגם $0\in S$ ($n=m=0$), וההערכה $0\le t-x_j<g_N$ עדיין נכונה. בנוסף, $S$ מכילה
+          את הנגדי של כל איבר שלה (מחליפים את $n$ ו-$m$), ולכן ל-$t<0$ לוקחים את הנגדיים של סדרה ששואפת ל-$-t$. כל מספר
+          ממשי הוא גבול של סדרה מ-$S$, ולכן $\overline S=\mathbb{R}$.
+      - kind: result
+        text: >-
+          כן: יש סדרה ב-$S$ ששואפת ל-$\sqrt2$, ובעצם $\overline S=\mathbb{R}$.
+    source:
+      name: "51st William Lowell Putnam Mathematical Competition (1990), problem and solution from J. Scholes' archive (Kalva)"
+      year: 1990
+      problem: 'A2'
+      url: 'https://prase.cz/kalva/putnam/psoln/psol902.html'
+      verified: '2026-11-09'
+      adapted: true

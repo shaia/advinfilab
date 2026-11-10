@@ -1,0 +1,342 @@
+# Lesson 9.3 — oscillation and Lebesgue's theorem on integrability.
+# Objectives (src/course.ts):
+#   OBJ-9.3-1  define the oscillation of a function at a point and relate it to continuity
+#   OBJ-9.3-2  state and prove Lebesgue's theorem: a bounded f on a box is integrable iff its set of discontinuities
+#               has measure zero
+#   OBJ-9.3-3  apply Lebesgue's theorem to decide integrability (jumps along a curve, the Dirichlet function, …)
+# o(f,a) = lim_{δ→0} ( sup_{B(a,δ)∩Q} f − inf_{B(a,δ)∩Q} f ); t is Riemann's (Thomae's) function on [0,1]:
+# t(p/q) = 1/q in lowest terms, t = 0 at irrationals.
+chapter: 9
+questions:
+  - id: Q-9.3-osc-def
+    type: mc
+    objectives: [OBJ-9.3-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $f$ חסומה על תיבה $Q$ ו-$a\in Q$. מהי התנודה $o(f,a)$?
+    choices:
+      - text: '$\lim_{\delta\to0^+}\Bigl(\sup_{B(a,\delta)\cap Q}f-\inf_{B(a,\delta)\cap Q}f\Bigr)$'
+        correct: true
+        feedback: >-
+          נכון. ההפרש יורד כש-$\delta$ קטן (סופרמום ואינפימום על קבוצה קטנה יותר), והוא אי-שלילי, ולכן הגבול קיים.
+          הכדור כולל את $a$ עצמה.
+      - text: 'אותו גבול, אבל עם הכדור המנוקב $B(a,\delta)\setminus\{a\}$'
+        feedback: >-
+          בלי $a$ התנודה "לא רואה" את הערך $f(a)$. לפונקציה ששווה ל-0 בכל מקום פרט ל-$f(a)=1$ היא הייתה יוצאת 0,
+          אף שהפונקציה אינה רציפה ב-$a$; עם הכדור המלא $o(f,a)=1$.
+        misconception: MC-c9-oscillation-ignores-value
+      - text: 'ההפרש בין הגבול מימין לגבול משמאל של $f$ בנקודה $a$'
+        feedback: >-
+          במשתנה אחד זה גודל הקפיצה, אבל הוא מתעלם מ-$f(a)$ ואינו קיים כשאין גבולות חד-צדדיים (כמו ל-$\sin\frac1x$).
+          בכמה משתנים אין בכלל "ימין ושמאל". התנודה מוגדרת בעזרת סופרמום ואינפימום על כדורים.
+        misconception: MC-c9-oscillation-ignores-value
+
+  - id: Q-9.3-osc-jump
+    type: numeric
+    objectives: [OBJ-9.3-1]
+    level: basic
+    prompt: >-
+      על $Q=[-1,1]^2$ תהי $f(x,y)=3$ כש-$x>0$, $f(x,y)=-1$ כש-$x<0$, ו-$f(0,y)=5$. חשבו את $o\bigl(f,(0,\tfrac12)\bigr)$.
+    answer: 6
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. כל כדור סביב $(0,\tfrac12)$ מכיל נקודות עם $x>0$, עם $x<0$ ועם $x=0$, ולכן הסופרמום עליו 5 והאינפימום
+      $(-1)$. ההפרש $6$ לכל $\delta$, וזו התנודה.
+    wrongFeedback: >-
+      מצאו את הסופרמום ואת האינפימום של $f$ על כדור קטן סביב הנקודה, וזכרו שהכדור כולל גם את הנקודות על הקו $x=0$.
+    commonWrong:
+      - value: 4
+        feedback: >-
+          $4=3-(-1)$ הוא גודל הקפיצה בין שני הצדדים. אבל הכדור כולל את הנקודות שבהן $x=0$, ושם $f=5$: הסופרמום הוא
+          5, לא 3.
+        misconception: MC-c9-oscillation-ignores-value
+
+  - id: Q-9.3-osc-cont
+    type: twotier
+    objectives: [OBJ-9.3-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      נכון או לא נכון: אם $f$ חסומה על $Q$ ו-$a\in Q$, אז $o(f,a)=0$ אם ורק אם $f$ רציפה ב-$a$.
+    choices:
+      - text: נכון
+        correct: true
+        feedback: 'נכון. זו הסיבה שהתנודה היא הכלי של משפט לבג: היא מודדת "כמה" $f$ אינה רציפה.'
+      - text: לא נכון
+        feedback: >-
+          זה נכון. מי שחושב על אי-רציפות סליקה (גבול קיים ושונה מ-$f(a)$) שוכח ש-$f(a)$ נכנס לסופרמום או לאינפימום:
+          שם התנודה היא בדיוק המרחק בין הגבול ל-$f(a)$.
+        misconception: MC-c9-oscillation-ignores-value
+    reasons:
+      - text: '$o(f,a)<\varepsilon$ אומר שיש $\delta$ עם $|f(x)-f(y)|<\varepsilon$ לכל $x,y\in B(a,\delta)\cap Q$; עם $y=a$ זו רציפות, ובכיוון ההפוך $|f(x)-f(a)|<\frac\varepsilon2$ נותן הפרש סופרמום-אינפימום לכל היותר $\varepsilon$'
+        correct: true
+        feedback: >-
+          בדיוק. שני הכיוונים הם תרגום של "לכל $\varepsilon$ יש $\delta$" משפת המרחקים מ-$f(a)$ לשפת ההפרשים בין זוגות
+          נקודות בכדור.
+      - text: 'בנקודת אי-רציפות סליקה הגבול קיים, ולכן התנודה שם 0 אף שהפונקציה אינה רציפה'
+        feedback: >-
+          הכדור $B(a,\delta)$ כולל את $a$. אם $\lim_{x\to a}f(x)=L\ne f(a)$, אז התנודה היא $|L-f(a)|>0$.
+        misconception: MC-c9-oscillation-ignores-value
+      - text: 'התנודה מתאפסת בדיוק כשהגבולות החד-צדדיים בכל כיוון שווים'
+        feedback: >-
+          שוויון גבולות לאורך כיוונים אינו מבטיח רציפות (ראו פרק 5), ובכל מקרה הוא מתעלם מ-$f(a)$. התנודה מוגדרת על
+          כדורים שלמים.
+        misconception: MC-c9-oscillation-ignores-value
+
+  - id: Q-9.3-statement
+    type: mc
+    objectives: [OBJ-9.3-2]
+    qualitative: true
+    level: basic
+    prompt: >-
+      איזה מהניסוחים הבאים הוא משפט לבג על אינטגרביליות?
+    choices:
+      - text: '$f$ **חסומה** על תיבה $Q$ אינטגרבילית לפי רימן אם ורק אם קבוצת נקודות האי-רציפות שלה ב-$Q$ ממידה אפס'
+        correct: true
+        feedback: >-
+          נכון. שתי ההנחות חשובות: $f$ חסומה (אחרת אין סכומי דרבו), והקבוצה ממידה אפס (לא בהכרח סופית, ולא בהכרח
+          בעלת תכולה אפס).
+      - text: '$f$ חסומה על $Q$ אינטגרבילית אם ורק אם יש לה רק מספר סופי של נקודות אי-רציפות'
+        feedback: >-
+          הכיוון "סופי גורר אינטגרבילית" נכון, אבל ההפך לא: הפונקציה המציינת של $[0,\frac12]\times[0,1]$ בריבוע אינה
+          רציפה על קטע שלם, והיא אינטגרבילית.
+        misconception: MC-c9-integrable-finite-discontinuities
+      - text: '$f$ חסומה על $Q$ אינטגרבילית אם ורק אם קבוצת נקודות האי-רציפות שלה בעלת **תכולה** אפס'
+        feedback: >-
+          חזק מדי: $g(x,y)=t(x)$ (פונקציית רימן במשתנה הראשון) אינה רציפה על $(\mathbb{Q}\cap[0,1])\times[0,1]$, קבוצה
+          צפופה שאינה בעלת תכולה אפס, ובכל זאת אינטגרבילית.
+        misconception: MC-c9-measure-zero-is-content-zero
+      - text: 'כל $f:Q\to\mathbb{R}$ (לא בהכרח חסומה) אינטגרבילית אם ורק אם קבוצת נקודות האי-רציפות שלה ממידה אפס'
+        feedback: >-
+          בלי חסימות המשפט נכשל: $\frac{1}{x^2+y^2}$ (עם 0 בראשית) על $[0,1]^2$ אינה רציפה רק בראשית, ואינה
+          אינטגרבילית לפי רימן.
+        misconception: MC-c9-lebesgue-unbounded
+
+  - id: Q-9.3-osc-thomae
+    type: numeric
+    objectives: [OBJ-9.3-1]
+    level: mid
+    prompt: >-
+      על $Q=[0,1]^2$ תהי $g(x,y)=t(x)$, כש-$t$ פונקציית רימן: $t(\frac pq)=\frac1q$ לשבר מצומצם, ו-$t(x)=0$ ל-$x$
+      אי-רציונלי. חשבו את $o\bigl(g,(\tfrac38,\tfrac12)\bigr)$.
+    answer: 0.125
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון, $o=\frac18$. בכל כדור יש נקודות עם $x$ אי-רציונלי, ולכן האינפימום 0. הסופרמום הוא לפחות
+      $g(\tfrac38,\tfrac12)=\frac18$, ובכדור קטן מספיק כל רציונלי אחר $\frac pq$ ליד $\frac38$ הוא בעל מכנה $q>8$, כי
+      יש רק מספר סופי של שברים עם מכנה עד 8; לכן הסופרמום בדיוק $\frac18$.
+    wrongFeedback: >-
+      הסופרמום על כדור קטן כולל את הערך בנקודה עצמה, $t(\frac38)$. בדקו מה קורה לערכי $t$ בשברים אחרים קרובים
+      ל-$\frac38$.
+    commonWrong:
+      - value: 0
+        feedback: >-
+          ליד $(\frac38,\frac12)$ הערכים של $g$ שואפים ל-0, ולכן הגבול שם 0. אבל $g(\frac38,\frac12)=\frac18\ne0$,
+          והתנודה כוללת את הערך בנקודה: $g$ אינה רציפה שם.
+        misconception: MC-c9-oscillation-ignores-value
+
+  - id: Q-9.3-B-eps
+    type: mc
+    objectives: [OBJ-9.3-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      בהוכחת משפט לבג (הכיוון "מידה אפס גורר אינטגרבילית") משתמשים בקבוצה
+      $B_\varepsilon=\{x\in Q: o(f,x)\ge\varepsilon\}$ ובכך שהיא **בעלת תכולה אפס**, אף שקבוצת נקודות האי-רציפות $B$ רק
+      ממידה אפס. למה $B_\varepsilon$ בעלת תכולה אפס?
+    choices:
+      - text: '$B_\varepsilon\subseteq B$, ולכן ממידה אפס; היא סגורה (לכל $x\notin B_\varepsilon$ יש כדור שעליו ההפרש סופרמום-אינפימום קטן מ-$\varepsilon$, ולכן כל נקודותיו מחוץ ל-$B_\varepsilon$) וחסומה, כלומר קומפקטית; וקבוצה קומפקטית ממידה אפס בעלת תכולה אפס'
+        correct: true
+        feedback: >-
+          נכון. וזה בדיוק מה שצריך: תכולה אפס נותנת מספר **סופי** של תיבות, ואת אלה אפשר להכניס לחלוקה אחת של $Q$.
+          את כל $B$ אי אפשר לכסות כך: $B=\bigcup_k B_{1/k}$, ואיחוד בן מנייה אינו שומר על תכולה אפס.
+      - text: '$B_\varepsilon$ סופית'
+        feedback: >-
+          לא בהכרח: לפונקציה המציינת של $[0,\frac12]\times[0,1]$ ול-$\varepsilon=1$ הקבוצה $B_\varepsilon$ היא הקטע
+          $\{\frac12\}\times[0,1]$.
+        misconception: MC-c9-integrable-finite-discontinuities
+      - text: 'כל תת-קבוצה ממידה אפס של תיבה בעלת תכולה אפס'
+        feedback: >-
+          $\mathbb{Q}^2\cap[0,1]^2$ ממידה אפס ואינה בעלת תכולה אפס. מה שמציל את $B_\varepsilon$ הוא הסגירות שלה.
+        misconception: MC-c9-measure-zero-is-content-zero
+
+  - id: Q-9.3-apply
+    type: multi
+    objectives: [OBJ-9.3-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      אילו מהפונקציות הבאות אינטגרביליות לפי רימן על $Q=[0,1]^2$? סמנו את כולן.
+    choices:
+      - text: '$f(x,y)=1$ כש-$y\le x^2$, ו-$f(x,y)=0$ אחרת'
+        correct: true
+        feedback: >-
+          נכון. $f$ חסומה ואינה רציפה רק על הקשת $\{(x,x^2): 0\le x\le1\}$, הגרף של פונקציה רציפה על קטע: תכולה אפס
+          (שיעור 9.2).
+      - text: '$f(x,y)=\sin\frac{1}{x^2+y^2}$ כש-$(x,y)\ne(0,0)$, ו-$f(0,0)=0$'
+        correct: true
+        feedback: >-
+          נכון. $|f|\le1$, ו-$f$ רציפה בכל נקודה פרט לראשית. נקודה אחת ממידה אפס. התנודה בראשית היא 2, וזה לא מפריע.
+      - text: '$h(x,y)=1$ כש-$x$ רציונלי, ו-$h(x,y)=0$ כש-$x$ אי-רציונלי'
+        feedback: >-
+          $h\ne0$ רק על $(\mathbb{Q}\cap[0,1])\times[0,1]$, קבוצה ממידה אפס, אבל זה לא מה שקובע. $h$ אינה רציפה **באף
+          נקודה** (כל כדור מכיל נקודות עם $x$ רציונלי ועם $x$ אי-רציונלי), ו-$Q$ אינה ממידה אפס.
+        misconception: MC-c9-change-countable-points
+      - text: '$k(x,y)=\frac{1}{x^2+y^2}$ כש-$(x,y)\ne(0,0)$, ו-$k(0,0)=0$'
+        feedback: >-
+          $k$ אינה רציפה רק בראשית, אבל היא אינה חסומה, ומשפט לבג (וכל ההגדרה של אינטגרל רימן) עוסק בפונקציות חסומות.
+        misconception: MC-c9-lebesgue-unbounded
+
+  - id: Q-9.3-countable-change
+    type: twotier
+    objectives: [OBJ-9.3-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $f$ אינטגרבילית על $Q$, ו-$g$ שווה ל-$f$ בכל נקודה פרט לקבוצה **בת מנייה** של נקודות, וחסומה. האם $g$ בהכרח
+      אינטגרבילית?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. שינוי במספר סופי של נקודות אינו משנה דבר; שינוי במספר בן מנייה של נקודות יכול להרוס הכול.'
+      - text: כן
+        feedback: >-
+          קבוצה בת מנייה אמנם ממידה אפס, אבל משפט לבג מדבר על נקודות האי-רציפות של $g$, ושינוי על קבוצה צפופה יוצר
+          אי-רציפות בכל מקום.
+        misconception: MC-c9-change-countable-points
+    reasons:
+      - text: '$f\equiv0$ ו-$g=\chi_{\mathbb{Q}^2\cap Q}$ שונות רק על קבוצה בת מנייה, אבל $g$ אינה רציפה באף נקודה של $Q$'
+        correct: true
+        feedback: >-
+          בדיוק. $g$ היא פונקציית דיריכלה, ו-$U(g,P)=1$, $L(g,P)=0$ לכל חלוקה.
+      - text: 'הקבוצה שעליה $g\ne f$ ממידה אפס, ולפי משפט לבג שינוי על קבוצה ממידה אפס אינו משנה אינטגרביליות'
+        feedback: >-
+          משפט לבג אינו אומר זאת. הוא דורש שקבוצת נקודות **האי-רציפות** של $g$ תהיה ממידה אפס, והיא יכולה להיות כל
+          התיבה גם כש-$g\ne f$ רק על קבוצה בת מנייה.
+        misconception: MC-c9-change-countable-points
+      - text: 'שינוי בנקודה אחת אינו משנה את האינטגרל, ובאינדוקציה גם שינוי במספר בן מנייה של נקודות'
+        feedback: >-
+          אינדוקציה מוכיחה את הטענה לכל מספר **סופי** של נקודות, ולא אומרת דבר על אינסוף נקודות.
+        misconception: MC-c9-change-countable-points
+
+  - id: Q-9.3-thomae
+    type: twotier
+    objectives: [OBJ-9.3-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $g(x,y)=t(x)$ על $Q=[0,1]^2$ ($t$ פונקציית רימן). נקודות האי-רציפות של $g$ צפופות ב-$Q$. האם $g$
+      אינטגרבילית?
+    choices:
+      - text: כן
+        correct: true
+        feedback: 'נכון, ו-$\int_Q g=0$: בכל תת-תיבה יש נקודות עם $x$ אי-רציונלי, ולכן $L(g,P)=0$ לכל $P$.'
+      - text: לא
+        feedback: >-
+          צפיפות של נקודות האי-רציפות אינה מכריעה; מה שמכריע הוא שהן ממידה אפס.
+        misconception: MC-c9-dense-discontinuities-not-integrable
+    reasons:
+      - text: 'נקודות האי-רציפות הן בדיוק $(\mathbb{Q}\cap[0,1])\times[0,1]$, איחוד בן מנייה של קטעים, ולכן ממידה אפס; ו-$g$ חסומה'
+        correct: true
+        feedback: >-
+          בדיוק: $t$ רציפה באי-רציונליים ואינה רציפה ברציונליים, ולכן $g$ אינה רציפה בדיוק על הקטעים האנכיים
+          $\{\frac pq\}\times[0,1]$.
+      - text: '$g$ אינה רציפה רק במספר בן מנייה של נקודות, ולכן אינטגרבילית'
+        feedback: >-
+          המסקנה נכונה, הנימוק לא: כל נקודה $(\frac pq,y)$, לכל $y$, היא נקודת אי-רציפות, וזו קבוצה שאינה בת מנייה.
+        misconception: MC-c9-discontinuities-only-special-points
+      - text: 'נקודות האי-רציפות צפופות, ולכן בכל תת-תיבה $M_S-m_S$ גדול'
+        feedback: >-
+          ליד רוב נקודות האי-רציפות התנודה קטנה ($\frac1q$ עם $q$ גדול). לכל $\varepsilon$ רק מספר סופי של קטעים
+          אנכיים נושאים תנודה לפחות $\varepsilon$.
+        misconception: MC-c9-dense-discontinuities-not-integrable
+
+  - id: Q-9.3-proof-rank
+    type: rank
+    objectives: [OBJ-9.3-2]
+    level: exam
+    help: 'סדרו את שלבי ההוכחה לפי הסדר הנכון.'
+    prompt: >-
+      תהי $f$ חסומה על $Q$, $|f|\le M$, וקבוצת נקודות האי-רציפות שלה $B$ ממידה אפס. ההוכחה ש-$f$ אינטגרבילית
+      התפרקה לשלבים. סדרו אותם.
+    items:
+      - id: beps
+        label: 'יהי $\varepsilon>0$, ו-$B_\varepsilon=\{x: o(f,x)\ge\varepsilon\}$. $B_\varepsilon\subseteq B$ סגורה וחסומה וממידה אפס, ולכן בעלת תכולה אפס.'
+      - id: cover
+        label: 'מכסים את $B_\varepsilon$ במספר סופי של תיבות פתוחות שסכום נפחיהן קטן מ-$\varepsilon$, ובוחרים חלוקה $P$ שכל תת-תיבה שלה מוכלת בסגור של אחת מהן או זרה ל-$B_\varepsilon$.'
+      - id: good
+        label: 'כל תת-תיבה $S$ מהסוג השני קומפקטית, ובכל נקודה שלה $o(f,x)<\varepsilon$; לכן אפשר לעדן אותה כך שעל כל חלק $M-m<\varepsilon$.'
+      - id: sum
+        label: 'בחלוקה המעודנת $U-L\le 2M\cdot\varepsilon+\varepsilon\cdot v(Q)$: התיבות ליד $B_\varepsilon$ תורמות לכל היותר $2M$ כפול נפח קטן מ-$\varepsilon$, והשאר לכל היותר $\varepsilon$ כפול נפחן. כיוון ש-$\varepsilon$ שרירותי, $f$ אינטגרבילית.'
+    order: [beps, cover, good, sum]
+    correctFeedback: >-
+      נכון. הרעיון: מפרידים בין המקום שבו $f$ "קופצת הרבה" ($B_\varepsilon$, שנפחו קטן) לבין שאר התיבה (שם $f$ "כמעט
+      רציפה"), ומשלמים על כל חלק בנפרד. בחלק הראשון ההפרש $M-m$ חסום רק ב-$2M$, אבל הנפח קטן; בחלק השני הנפח
+      חסום, אבל ההפרש קטן.
+    wrongFeedback: >-
+      קודם צריך קבוצה קטנה **בתכולה** ($B_\varepsilon$), כי רק כיסוי סופי נכנס לחלוקה. אחר כך החלוקה, אחר כך הטיפול
+      בתיבות הרחוקות מ-$B_\varepsilon$, ובסוף החשבון.
+
+  - id: Q-9.3-abs
+    type: twotier
+    objectives: [OBJ-9.3-3, OBJ-9.3-2]
+    qualitative: true
+    level: exam
+    prompt: >-
+      נכון או לא נכון: אם $f$ חסומה על $Q$ ו-$|f|$ אינטגרבילית על $Q$, אז $f$ אינטגרבילית על $Q$.
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: 'נכון. הכיוון ההפוך הוא שנכון: $f$ אינטגרבילית גוררת $|f|$ אינטגרבילית.'
+      - text: נכון
+        feedback: >-
+          $|f|$ "שוכחת" את הסימן, ואת הסימן אפשר להחליף בכל נקודה בלי לגעת ב-$|f|$.
+        misconception: MC-c9-abs-integrable-implies
+    reasons:
+      - text: '$f=1$ בנקודות של $\mathbb{Q}^2$ ו-$f=-1$ בשאר: $|f|\equiv1$ אינטגרבילית, ו-$f$ אינה רציפה באף נקודה'
+        correct: true
+        feedback: >-
+          בדיוק. ובכיוון הנכון: אם $f$ רציפה ב-$a$ אז גם $|f|$, ולכן נקודות האי-רציפות של $|f|$ מוכלות בשל $f$, ומשפט
+          לבג נותן ש-$|f|$ אינטגרבילית.
+      - text: 'כל נקודת אי-רציפות של $f$ היא נקודת אי-רציפות של $|f|$, ולכן לפי משפט לבג $f$ אינטגרבילית'
+        feedback: >-
+          ההכלה הפוכה: נקודת רציפות של $f$ היא נקודת רציפות של $|f|$, לא להפך. בדוגמה $\pm1$, $|f|$ רציפה בכל מקום ו-$f$
+          באף מקום.
+        misconception: MC-c9-abs-integrable-implies
+      - text: 'על כל תת-תיבה $M_S(f)-m_S(f)\le M_S(|f|)-m_S(|f|)$, ולכן $U(f,P)-L(f,P)\le U(|f|,P)-L(|f|,P)$'
+        feedback: >-
+          אי-השוויון הפוך: $M_S(|f|)-m_S(|f|)\le M_S(f)-m_S(f)$. בדוגמה $\pm1$ על כל תת-תיבה $M_S(f)-m_S(f)=2$
+          ו-$M_S(|f|)-m_S(|f|)=0$.
+        misconception: MC-c9-abs-integrable-implies
+
+  - id: Q-9.3-diag-rational
+    type: twotier
+    objectives: [OBJ-9.3-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      על $Q=[0,1]^2$ תהי $f(q,q)=1$ לכל $q\in\mathbb{Q}\cap[0,1]$, ו-$f=0$ בכל נקודה אחרת. האם $f$ אינטגרבילית?
+    choices:
+      - text: כן, ו-$\int_Q f=0$
+        correct: true
+        feedback: 'נכון. והנימוק הנכון עובר דרך האלכסון כולו, לא רק דרך הנקודות הרציונליות שעליו.'
+      - text: לא
+        feedback: >-
+          נקודות האי-רציפות אמנם מכסות קבוצה לא בת מנייה, אבל משפט לבג דורש רק מידה אפס.
+        misconception: MC-c9-integrable-finite-discontinuities
+    reasons:
+      - text: 'נקודות האי-רציפות הן בדיוק האלכסון $\{(t,t): 0\le t\le1\}$, הגרף של פונקציה רציפה, ולכן בעל תכולה אפס; $f$ חסומה ו-$L(f,P)=0$ לכל $P$'
+        correct: true
+        feedback: >-
+          בדיוק. בנקודה $(t,t)$ עם $t$ אי-רציונלי $f=0$, אבל בכל כדור סביבה יש נקודה רציונלית על האלכסון עם $f=1$:
+          גם שם $f$ אינה רציפה. מחוץ לאלכסון $f\equiv0$ בסביבה.
+      - text: '$f$ אינה רציפה רק בנקודות הרציונליות של האלכסון, קבוצה בת מנייה'
+        feedback: >-
+          המסקנה נכונה, אבל הנקודות האי-רציונליות של האלכסון הן גם נקודות אי-רציפות: הן גבולות של נקודות שבהן $f=1$.
+        misconception: MC-c9-discontinuities-only-special-points
+      - text: '$f\ne0$ רק על קבוצה בת מנייה, ולכן היא אינטגרבילית עם אינטגרל 0'
+        feedback: >-
+          זה לא נימוק: פונקציית דיריכלה שונה מ-0 רק על קבוצה בת מנייה ואינה אינטגרבילית. מה שמציל את $f$ הוא שנקודות
+          האי-רציפות שלה כולן על קו אחד.
+        misconception: MC-c9-change-countable-points

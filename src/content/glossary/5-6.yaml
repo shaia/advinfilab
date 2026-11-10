@@ -1,0 +1,10 @@
+# Terms first defined in lesson 5.6.
+- id: mean-value-inequality
+  term: אי-שוויון הערך הממוצע
+  en: mean value inequality
+  symbol: '\|f(b)-f(a)\|\le\sup_{c\in[a,b]}\|Df(c)\|_{\mathrm{op}}\|b-a\|'
+  definition: >-
+    אם $f:U\to\mathbb{R}^m$ דיפרנציאבילית והקטע $[a,b]$ מוכל ב-$U$, אז
+    $\|f(b)-f(a)\|\le\sup_{c\in[a,b]}\|Df(c)\|_{\mathrm{op}}\,\|b-a\|$. זה מה שנשאר ממשפט הערך הממוצע לפונקציות
+    וקטוריות, שלהן אין שוויון. על קבוצה קמורה הוא הופך חסם על $Df$ לקבוע ליפשיץ.
+  lesson: '5.6'

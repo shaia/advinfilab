@@ -1,0 +1,27 @@
+# Terms first defined in lesson 7.1 (the inverse function theorem).
+- id: local-inverse
+  term: הופכית מקומית
+  en: local inverse
+  definition: >-
+    ל-$f:U\to\mathbb{R}^n$ ונקודה $a\in U$: אם יש סביבות פתוחות $V\ni a$ ו-$W\ni f(a)$ כך ש-$f$ מעבירה את $V$
+    באופן חד-חד-ערכי ועל $W$, ההעתקה $g:W\to V$ שמקיימת $g(f(x))=x$ לכל $x\in V$ היא הופכית מקומית של $f$ ליד $a$.
+    לפונקציה יכולות להיות הופכיות מקומיות שונות ליד נקודות שונות, גם כשאין לה הופכית על כל התחום.
+  lesson: '7.1'
+- id: local-diffeomorphism
+  term: דיפאומורפיזם מקומי
+  en: local diffeomorphism
+  definition: >-
+    $f:U\to\mathbb{R}^n$, עם $U\subseteq\mathbb{R}^n$ פתוחה, היא דיפאומורפיזם מקומי אם לכל $a\in U$ יש סביבה
+    פתוחה $V\ni a$ כך ש-$f(V)$ פתוחה, $f$ חד-חד-ערכית על $V$, ו-$f$ וההופכית שלה על $f(V)$ גזירות ברציפות. לפי
+    משפט הפונקציה ההפוכה, $f\in C^1$ עם $\det J_f(x)\neq0$ בכל $x\in U$ היא דיפאומורפיזם מקומי.
+  reject: [דיפיאומורפיזם מקומי, דיפאומורפיסם מקומי]
+  lesson: '7.1'
+- id: inverse-function-theorem
+  term: משפט הפונקציה ההפוכה
+  en: inverse function theorem
+  definition: >-
+    תהי $f:U\to\mathbb{R}^n$ גזירה ברציפות על קבוצה פתוחה $U\subseteq\mathbb{R}^n$, ו-$a\in U$ נקודה שבה $Df(a)$
+    הפיכה. אז יש סביבות פתוחות $V\ni a$ ו-$W\ni f(a)$ כך ש-$f:V\to W$ חד-חד-ערכית ועל, ההופכית $f^{-1}:W\to V$
+    גזירה ברציפות, ו-$D(f^{-1})(f(x))=Df(x)^{-1}$ לכל $x\in V$.
+  reject: [משפט הפונקציה ההופכית]
+  lesson: '7.1'

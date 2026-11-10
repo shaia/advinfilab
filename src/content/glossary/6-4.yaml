@@ -1,0 +1,8 @@
+# Terms first defined in lesson 6.4 (classifying critical points by the Hessian).
+- id: second-derivative-test
+  term: מבחן הנגזרת השנייה
+  en: second-derivative test
+  definition: >-
+    תהי $f\in C^2$ בסביבה של נקודה קריטית $a$. אם $H_f(a)$ חיובית מוגדרת, $a$ מינימום מקומי ממש; אם שלילית מוגדרת,
+    מקסימום מקומי ממש; אם לא מוגדרת, נקודת אוכף. כשההסיאן חצי מוגדר ולא מוגדר, המבחן אינו מכריע.
+  lesson: '6.4'

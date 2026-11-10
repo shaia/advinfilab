@@ -1,0 +1,336 @@
+# Lesson 7.6 — several constraints and applications.
+# Objectives (src/course.ts):
+#   OBJ-7.6-1  state and apply the Lagrange multiplier theorem for several constraints with the rank condition
+#   OBJ-7.6-2  prove with Lagrange multipliers that the max of a quadratic form on the unit sphere is the largest eigenvalue
+#   OBJ-7.6-3  prove classical inequalities, like AM–GM, as constrained extremum problems
+chapter: 7
+questions:
+  - id: Q-7.6-statement
+    type: mc
+    objectives: [OBJ-7.6-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $f,g_1,\dots,g_k:U\to\mathbb{R}$ גזירות ברציפות, $S=\{g_1=\dots=g_k=0\}$, ו-$a\in S$ קיצון מקומי של $f$ על $S$.
+      מה אומר משפט כופלי לגרנז' לכמה אילוצים?
+    choices:
+      - text: >-
+          אם $\nabla g_1(a),\dots,\nabla g_k(a)$ בלתי תלויים לינארית, יש $\lambda_1,\dots,\lambda_k$ עם
+          $\nabla f(a)=\lambda_1\nabla g_1(a)+\dots+\lambda_k\nabla g_k(a)$
+        correct: true
+        feedback: >-
+          נכון. תנאי הדרגה מבטיח ש-$S$ ליד $a$ היא גרף חלק ממימד $n-k$ עם מרחב משיק $\bigcap_i\ker Dg_i(a)$, ו-$\nabla f(a)$
+          ניצב לו, כלומר בפרישה של הגרדיאנטים.
+      - text: >-
+          אם $\nabla g_i(a)\neq0$ לכל $i$, יש $\lambda_1,\dots,\lambda_k$ עם $\nabla f(a)=\sum_i\lambda_i\nabla g_i(a)$
+        feedback: >-
+          גרדיאנטים שונים מאפס יכולים להיות תלויים. ב-$g_1=z$, $g_2=z-x^2$ בראשית שניהם $(0,0,1)$, ו-$f=x+y^2$ מקבלת
+          שם מינימום על $S$ (ציר ה-$y$) עם $\nabla f=(1,0,0)$, שאינו בפרישה.
+        misconception: MC-c7-rank-each-nonzero
+      - text: >-
+          אם הגרדיאנטים בלתי תלויים, $\nabla f(a)$ מקביל לכל אחד מ-$\nabla g_i(a)$
+        feedback: >-
+          $\nabla f(a)$ הוא **צירוף** של הגרדיאנטים, לא מקביל לכל אחד. במקסימום של $z$ על המעגל
+          $\{x^2+y^2+z^2=6,\ x+y+z=0\}$, בנקודה $(-1,-1,2)$: $(0,0,1)=\frac16(-2,-2,4)+\frac13(1,1,1)$.
+        misconception: MC-c7-parallel-each
+      - text: >-
+          אם הגרדיאנטים בלתי תלויים, $\nabla f(a)$ ניצב לכל אחד מ-$\nabla g_i(a)$
+        feedback: >-
+          $\nabla f(a)$ ניצב ל**מרחב המשיק**, שהוא בעצמו המשלים הניצב של הגרדיאנטים. לכן $\nabla f(a)$ בפרישה שלהם,
+          לא ניצב להם.
+        misconception: MC-c7-gradients-perpendicular
+
+  - id: Q-7.6-rank-check
+    type: twotier
+    objectives: [OBJ-7.6-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $g_1=x^2+y^2+z^2-6$, $g_2=x+y+z$, ו-$S=\{g_1=g_2=0\}$ (מעגל). האם תנאי הדרגה מתקיים בכל נקודה של $S$?
+    choices:
+      - text: כן
+        correct: true
+        feedback: >-
+          נכון. לכן משפט לגרנז' לשני אילוצים חל בכל נקודה של המעגל.
+      - text: 'לא: ב-$(1,1,-2)$ אי אפשר לבטא את $(x,y)$ כפונקציות של $z$'
+        feedback: >-
+          זה נכון (שיעור 7.3), אבל תנאי הדרגה לא דורש לבטא משתנים **מסוימים**. ב-$(1,1,-2)$ הגרדיאנטים $(2,2,-4)$
+          ו-$(1,1,1)$ בלתי תלויים, ואפשר לבטא את $(y,z)$ כפונקציות של $x$.
+        misconception: MC-c7-implicit-wrong-partial
+    reasons:
+      - text: '$\nabla g_1=2(x,y,z)$ ו-$\nabla g_2=(1,1,1)$ תלויים רק כש-$x=y=z$; עם $x+y+z=0$ זו הראשית, שאינה על הספרה'
+        correct: true
+        feedback: >-
+          בדיוק. שני וקטורים שונים מאפס תלויים רק אם הם מקבילים, וזה קורה רק על הישר $x=y=z$.
+      - text: 'שני הגרדיאנטים שונים מאפס בכל נקודה של $S$'
+        feedback: >-
+          זה נכון אבל לא מספיק: תנאי הדרגה דורש אי-תלות לינארית, ושני וקטורים שונים מאפס יכולים להיות מקבילים.
+        misconception: MC-c7-rank-each-nonzero
+      - text: 'כל חיתוך של ספרה עם מישור מקיים את תנאי הדרגה'
+        feedback: >-
+          לא: המישור $z=\sqrt6$ משיק לספרה $x^2+y^2+z^2=6$ בנקודה $(0,0,\sqrt6)$, ושם שני הגרדיאנטים מקבילים. החיתוך
+          הוא נקודה אחת, לא עקום.
+
+  - id: Q-7.6-form-2x2
+    type: numeric
+    objectives: [OBJ-7.6-2]
+    level: basic
+    prompt: >-
+      מצאו את המקסימום של $q(x,y)=2x^2+2xy+2y^2$ על מעגל היחידה $x^2+y^2=1$.
+    answer: 3
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $q=v^TAv$ עם $A=\begin{pmatrix}2&1\\1&2\end{pmatrix}$, שהערכים העצמיים שלה 3 ו-1. המקסימום, 3, מתקבל
+      ב-$\pm\frac{1}{\sqrt2}(1,1)$, והמינימום, 1, ב-$\pm\frac{1}{\sqrt2}(1,-1)$.
+    wrongFeedback: >-
+      כתבו $q=v^TAv$ עם $A$ סימטרית (שימו לב: האיבר $2xy$ מתחלק לשני איברים מחוץ לאלכסון, 1 ו-1), ומצאו את הערכים
+      העצמיים.
+    commonWrong:
+      - value: 2
+        feedback: >-
+          2 הוא האיבר האלכסוני, הערך של $q$ על וקטורי הבסיס. ב-$\frac{1}{\sqrt2}(1,1)$ מקבלים $1+1+1=3$.
+        misconception: MC-c7-diagonal-is-max
+      - value: 4
+        feedback: >-
+          4 מתקבל מהמטריצה $\begin{pmatrix}2&2\\2&2\end{pmatrix}$, כאילו המקדם של $xy$ נכנס פעמיים. במטריצה הסימטרית
+          כל איבר מחוץ לאלכסון הוא חצי מהמקדם של $xy$.
+        misconception: MC-c7-eigen-nonsymmetric
+
+  - id: Q-7.6-amgm-value
+    type: numeric
+    objectives: [OBJ-7.6-3]
+    level: basic
+    prompt: >-
+      מצאו את המקסימום של $xyz$ תחת $x+y+z=12$ ו-$x,y,z\ge0$.
+    answer: 64
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. בנקודה פנימית לגרנז' נותן $yz=xz=xy=\lambda$, ולכן $x=y=z=4$ ו-$xyz=64$. על השפה (רכיב 0) המכפלה 0.
+      זה אי-שוויון הממוצעים: $xyz\le\left(\frac{x+y+z}{3}\right)^3$.
+    wrongFeedback: >-
+      הסימטריה מרמזת על $x=y=z$; הוכיחו אותה מ-$\nabla(xyz)=\lambda(1,1,1)$, ובדקו גם נקודות שבהן אחד הרכיבים 0.
+    commonWrong:
+      - value: 1728
+        feedback: >-
+          $1728=12^3$: כאילו כל רכיב שווה 12. אבל הסכום הוא 12, ולכן כל רכיב 4.
+      - value: 0
+        feedback: >-
+          0 הוא המינימום, על השפה. המקסימום בפנים, ב-$(4,4,4)$.
+        misconception: MC-c7-boundary-ignored
+
+  - id: Q-7.6-z-max
+    type: numeric
+    objectives: [OBJ-7.6-1]
+    level: mid
+    prompt: >-
+      מצאו את המקסימום של $f(x,y,z)=z$ על המעגל $\{x^2+y^2+z^2=6,\ x+y+z=0\}$.
+    answer: 2
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $(0,0,1)=\lambda(2x,2y,2z)+\mu(1,1,1)$: משני הרכיבים הראשונים $\lambda(x-y)=0$; אם $\lambda=0$ אז $\mu=0$
+      ו-$1=0$, סתירה. לכן $x=y$, $z=-2x$, ו-$6x^2=6$: הנקודות $(-1,-1,2)$ ו-$(1,1,-2)$. המעגל קומפקטי ותנאי הדרגה
+      מתקיים בכל נקודה, ולכן המקסימום 2 והמינימום $-2$.
+    wrongFeedback: >-
+      כתבו $\nabla f=\lambda\nabla g_1+\mu\nabla g_2$ עם **שני** האילוצים, והשוו את שני הרכיבים הראשונים.
+    commonWrong:
+      - value: 2.4494897
+        feedback: >-
+          $\sqrt6$ הוא המקסימום של $z$ על הספרה בלבד, בנקודה $(0,0,\sqrt6)$, שאינה על המישור $x+y+z=0$.
+        misconception: MC-c7-drop-a-constraint
+      - value: 1
+        feedback: >-
+          1 הוא הגודל של הרכיב $x$ (או $y$) בנקודה האופטימלית, לא הערך של $z$ שם. ב-$(-1,-1,2)$ מתקיים $z=2$.
+
+  - id: Q-7.6-nonsymmetric
+    type: twotier
+    objectives: [OBJ-7.6-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $A=\begin{pmatrix}0&2\\0&0\end{pmatrix}$. האם המקסימום של $x^TAx$ על מעגל היחידה שווה לערך העצמי הגדול
+      ביותר של $A$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. כל הערכים העצמיים של $A$ הם 0, אבל $x^TAx=2x_1x_2$, וב-$\frac{1}{\sqrt2}(1,1)$ הוא 1.
+      - text: כן
+        feedback: >-
+          הוכחת לגרנז' משתמשת ב-$\nabla(x^TAx)=2Ax$, וזה נכון רק ל-$A$ סימטרית. כאן המקסימום 1 והערכים העצמיים 0.
+        misconception: MC-c7-eigen-nonsymmetric
+    reasons:
+      - text: '$x^TAx=x^TBx$ עם $B=\frac{A+A^T}{2}=\begin{pmatrix}0&1\\1&0\end{pmatrix}$, והמקסימום הוא הערך העצמי הגדול של $B$, שהוא 1'
+        correct: true
+        feedback: >-
+          בדיוק. רק החלק הסימטרי משפיע על התבנית; הגרדיאנט הוא $(A+A^T)x=2Bx$.
+      - text: 'הערכים העצמיים של $A$ מרוכבים, ולכן אין להם סדר'
+        feedback: >-
+          הערכים העצמיים של $A$ ממשיים (שניהם 0, $A$ משולשית). הבעיה היא שהתבנית אינה רואה את $A$ אלא את החלק
+          הסימטרי שלה.
+      - text: 'המעגל אינו קומפקטי, ולכן אין מקסימום'
+        feedback: >-
+          מעגל היחידה סגור וחסום, ולכן קומפקטי, והמקסימום מתקבל.
+        misconception: MC-c7-noncompact-extremum
+
+  - id: Q-7.6-eigen-facts
+    type: multi
+    objectives: [OBJ-7.6-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $A$ מטריצה סימטרית $n\times n$ ו-$q(x)=x^TAx$ על ספרת היחידה $S$. אילו טענות נכונות? סמנו את כולן.
+    choices:
+      - text: 'המינימום של $q$ על $S$ הוא הערך העצמי הקטן ביותר של $A$'
+        correct: true
+        feedback: >-
+          נכון: אותה הוכחה, או המקסימום של $-q$, שהמטריצה שלה $-A$.
+      - text: 'כל וקטור עצמי של $A$ באורך 1 הוא נקודת לגרנז'' של $q$ על $S$'
+        correct: true
+        feedback: >-
+          נכון: אם $Au=\mu u$ אז $\nabla q(u)=2Au=\mu\cdot2u=\mu\nabla g(u)$, עם $g=\|x\|^2-1$. והכופל הוא בדיוק הערך העצמי.
+      - text: 'כל נקודת לגרנז'' של $q$ על $S$ היא מקסימום מקומי או מינימום מקומי'
+        feedback: >-
+          לא נכון. ל-$A=\operatorname{diag}(1,2,3)$ הנקודה $e_2$ היא נקודת לגרנז', אבל לאורך $\cos t\,e_2+\sin t\,e_1$
+          הערך $2\cos^2t+\sin^2t<2$, ולאורך $\cos t\,e_2+\sin t\,e_3$ הוא $2\cos^2t+3\sin^2t>2$: אוכף על הספרה.
+        misconception: MC-c7-lagrange-sufficient
+      - text: 'בנורמה האוקלידית, $\|A\|_{\mathrm{op}}$ הוא הגדול מבין הערכים המוחלטים של הערכים העצמיים'
+        correct: true
+        feedback: >-
+          נכון: $\|Ax\|^2=x^TA^2x$, ולפי אותה תוצאה המקסימום שלו על $S$ הוא הערך העצמי הגדול של $A^2$, כלומר
+          $\max_i\mu_i^2$.
+
+  - id: Q-7.6-amgm-boundary
+    type: mc
+    objectives: [OBJ-7.6-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      מוכיחים את אי-שוויון הממוצעים: ממקסמים $P(x)=x_1x_2\cdots x_n$ על $\Delta=\{x_i\ge0,\ \sum x_i=s\}$ ($s>0$). $\Delta$
+      קומפקטית, ולכן המקסימום מתקבל. למה מותר להפעיל לגרנז' בנקודת המקסימום?
+    choices:
+      - text: 'כי $P(\frac sn,\dots,\frac sn)>0$, ובכל נקודה עם $x_i=0$ ל-$i$ כלשהו $P=0$; לכן המקסימום בקבוצה הפתוחה $\{x_i>0\}$, ושם $\nabla g=(1,\dots,1)\neq0$'
+        correct: true
+        feedback: >-
+          נכון. אחר כך $\frac{P}{x_i}=\lambda$ לכל $i$ נותן $x_1=\dots=x_n=\frac sn$, והמקסימום $(\frac sn)^n$. זה בדיוק
+          $\sqrt[n]{x_1\cdots x_n}\le\frac{x_1+\dots+x_n}{n}$.
+      - text: 'כי $\nabla g=(1,\dots,1)\neq0$ בכל מקום, ולכן אין צורך לבדוק נקודות אחרות'
+        feedback: >-
+          $\nabla g\neq0$ פותר את תנאי הרגולריות, אבל לא את השפה: לגרנז' מדבר על קיצון מקומי בקבוצה פתוחה, ו-$\Delta$
+          כוללת נקודות עם $x_i=0$, שבהן הקיצון יכול להיות בלי שהמשוואות מתקיימות (כמו המינימום כאן, 0).
+        misconception: MC-c7-boundary-ignored
+      - text: 'כי $\Delta$ קבוצה פתוחה'
+        feedback: >-
+          $\Delta$ סגורה (וחסומה), ובזכות זה היא קומפקטית. היא אינה פתוחה, וזה בדיוק הקושי.
+      - text: 'כי כל נקודת לגרנז'' היא מקסימום'
+        feedback: >-
+          לגרנז' נותן תנאי הכרחי בלבד. כאן הנקודה היחידה היא המקסימום בגלל הקיום (קומפקטיות) והשפה (שם $P=0$).
+        misconception: MC-c7-lagrange-sufficient
+
+  - id: Q-7.6-form-3x3
+    type: numeric
+    objectives: [OBJ-7.6-2]
+    level: mid
+    prompt: >-
+      מצאו את המקסימום של $q(x)=x^TAx$ על ספרת היחידה ב-$\mathbb{R}^3$, כאשר
+      $A=\begin{pmatrix}3&1&1\\1&3&1\\1&1&3\end{pmatrix}$.
+    answer: 5
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $A=2I+J$ כאשר $J$ מטריצת האחדות, שהערכים העצמיים שלה 3, 0, 0. לכן ל-$A$ הערכים 5, 2, 2, והמקסימום 5
+      מתקבל ב-$\pm\frac{1}{\sqrt3}(1,1,1)$: $q=\frac13\cdot15=5$.
+    wrongFeedback: >-
+      נסו את הווקטור $(1,1,1)$: מה $A$ עושה לו? והווקטורים הניצבים לו?
+    commonWrong:
+      - value: 3
+        feedback: >-
+          3 הוא האיבר האלכסוני, הערך על $e_1$. ב-$\frac1{\sqrt3}(1,1,1)$ הערך 5.
+        misconception: MC-c7-diagonal-is-max
+      - value: 2
+        feedback: >-
+          2 הוא הערך העצמי הקטן, כלומר המינימום, שמתקבל על כל המעגל הניצב ל-$(1,1,1)$.
+
+  - id: Q-7.6-eigen-proof
+    type: rank
+    objectives: [OBJ-7.6-2]
+    level: exam
+    prompt: >-
+      הוכיחו: אם $A$ סימטרית, אז $\max_{\|x\|=1}x^TAx$ הוא הערך העצמי הגדול ביותר של $A$.
+    help: סדרו את שלבי ההוכחה, מהראשון לאחרון.
+    items:
+      - id: exist
+        label: 'ספרת היחידה $S=\{g=0\}$, $g(x)=\|x\|^2-1$, קומפקטית ו-$q(x)=x^TAx$ רציפה; לכן יש $v\in S$ שבה $q$ מקבלת מקסימום.'
+      - id: lagrange
+        label: 'על $S$ מתקיים $\nabla g(v)=2v\neq0$, ולכן לפי לגרנז'' $\nabla q(v)=\lambda\nabla g(v)$; ובגלל הסימטריה $\nabla q(v)=2Av$.'
+      - id: eigen
+        label: 'לכן $2Av=2\lambda v$: $v$ וקטור עצמי עם ערך עצמי $\lambda$.'
+      - id: value
+        label: '$q(v)=v^TAv=\lambda v^Tv=\lambda$: המקסימום הוא ערך עצמי.'
+      - id: largest
+        label: 'לכל ערך עצמי $\mu$ עם וקטור עצמי $u$, $\|u\|=1$: $\mu=q(u)\le q(v)=\lambda$. לכן $\lambda$ הגדול ביותר.'
+    order: [exist, lagrange, eigen, value, largest]
+    correctFeedback: >-
+      נכון. רעיון ההוכחה: קומפקטיות נותנת קיום, לגרנז' הופך את נקודת המקסימום לווקטור עצמי, וההשוואה עם שאר הווקטורים
+      העצמיים מראה שזה הגדול. כדרך אגב קיבלנו הוכחה לכך שלמטריצה סימטרית יש ערך עצמי ממשי.
+    wrongFeedback: >-
+      קודם קיום המקסימום (בלעדיו אין על מה להפעיל את לגרנז'), אחר כך משוואת לגרנז', המסקנה שהנקודה וקטור עצמי, הערך
+      בה, ולבסוף ההשוואה לשאר הערכים העצמיים.
+
+  - id: Q-7.6-cauchy-schwarz
+    type: mc
+    objectives: [OBJ-7.6-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $a\in\mathbb{R}^n$, $a\neq0$. לגרנז' על $f(x)=a\cdot x$ על ספרת היחידה נותן $a=2\lambda x$, כלומר
+      $x=\pm\frac{a}{\|a\|}$, עם ערכים $\pm\|a\|$. איך משלימים מזה את ההוכחה של אי-שוויון קושי-שוורץ
+      $|a\cdot x|\le\|a\|\,\|x\|$ לכל $x\in\mathbb{R}^n$?
+    choices:
+      - text: 'הספרה קומפקטית, ולכן $\max f=\|a\|$ ו-$\min f=-\|a\|$; ל-$x\neq0$ מפעילים על $\frac{x}{\|x\|}$ ומכפילים ב-$\|x\|$, ו-$x=0$ טריוויאלי'
+        correct: true
+        feedback: >-
+          נכון. שני הצעדים החסרים הם קיום (קומפקטיות, ו-$\nabla g=2x\neq0$ על הספרה) והומוגניות: שני האגפים כופלים ב-$t$
+          כשמחליפים את $x$ ב-$tx$, $t>0$.
+      - text: 'הנקודה $\frac{a}{\|a\|}$ היא נקודת לגרנז'', ולכן היא המקסימום; זה כבר אי-השוויון'
+        feedback: >-
+          נקודת לגרנז' אינה בהכרח מקסימום. צריך לדעת שהמקסימום **קיים** (קומפקטיות), ורק אז הוא בין שתי הנקודות, והגדולה
+          מביניהן היא $\|a\|$.
+        misconception: MC-c7-lagrange-sufficient
+      - text: 'מפעילים לגרנז'' ישירות על $f$ בכל $\mathbb{R}^n$, בלי אילוץ'
+        feedback: >-
+          $f$ לינארית ואינה חסומה על $\mathbb{R}^n$ (ל-$a\neq0$), ואין לה קיצון בלי אילוץ. האילוץ $\|x\|=1$ והקומפקטיות
+          של הספרה הם מה שמאפשר את ההוכחה.
+        misconception: MC-c7-noncompact-extremum
+      - text: 'מספיק לבדוק את אי-השוויון על וקטורי הבסיס $e_i$'
+        feedback: >-
+          על $e_i$ מקבלים $|a_i|\le\|a\|$, שזה הרבה פחות. אי-השוויון צריך כל כיוון, וההגעה לכל כיוון היא תפקיד
+          ההומוגניות.
+
+  - id: Q-7.6-rank-fail
+    type: twotier
+    objectives: [OBJ-7.6-1]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $g_1=z$, $g_2=z-x^2$, ו-$S=\{g_1=g_2=0\}$, שהוא ציר ה-$y$. $f=x+y^2$ מקבלת על $S$ מינימום בראשית (שם $f=y^2$).
+      האם יש $\lambda_1,\lambda_2$ עם $\nabla f(0)=\lambda_1\nabla g_1(0)+\lambda_2\nabla g_2(0)$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. הקיצון קיים, והכופלים לא. זה אפשרי רק כשתנאי הדרגה נכשל.
+      - text: כן
+        feedback: >-
+          $\nabla f(0)=(1,0,0)$, ושני הגרדיאנטים של האילוצים שווים ל-$(0,0,1)$. כל צירוף שלהם הוא מהצורה $(0,0,t)$.
+        misconception: MC-c7-rank-each-nonzero
+    reasons:
+      - text: '$\nabla g_1(0)=\nabla g_2(0)=(0,0,1)$ תלויים (דרגה 1), הפרישה שלהם היא ציר ה-$z$, ו-$(1,0,0)$ אינו בה'
+        correct: true
+        feedback: >-
+          בדיוק. האילוצים "מבזבזים" משוואה: יחד הם מגדירים קו, אבל הגרדיאנטים שלהם לא רואים את הכיוון $x$ שהם חוסמים.
+      - text: 'שני הגרדיאנטים שונים מאפס, ולכן המשפט חל ויש כופלים'
+        feedback: >-
+          תנאי הדרגה הוא אי-תלות, לא "כל גרדיאנט שונה מאפס". כאן שני הגרדיאנטים שווים.
+        misconception: MC-c7-rank-each-nonzero
+      - text: 'הראשית אינה באמת נקודת מינימום של $f$ על $S$'
+        feedback: >-
+          היא כן: על ציר ה-$y$ מתקיים $x=0$, ו-$f=y^2\ge0=f(0)$.

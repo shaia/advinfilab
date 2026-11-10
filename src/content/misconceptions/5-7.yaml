@@ -1,0 +1,50 @@
+# Misconceptions first detected in lesson 5.7 (higher-order derivatives and Schwarz's theorem).
+- id: MC-c5-schwarz-unused
+  title: לא משתמשים בסימטריה שמשפט שוורץ נותן
+  belief: >-
+    גם לפונקציה מחלקה $C^2$ צריך לחשב ולספור בנפרד את $\frac{\partial^2f}{\partial x\partial y}$ ואת
+    $\frac{\partial^2f}{\partial y\partial x}$; וכל זוג פונקציות $(P,Q)$ יכול להיות הנגזרות החלקיות של פונקציה.
+  truth: >-
+    לפונקציה מחלקה $C^2$ הנגזרות המעורבות שוות, ולכן ב-$\mathbb{R}^n$ יש לכל היותר $\frac{n(n+1)}{2}$ נגזרות שונות מסדר
+    שני. ולהפך: אם $P=\frac{\partial f}{\partial x}$ ו-$Q=\frac{\partial f}{\partial y}$ עם $P,Q\in C^1$, אז בהכרח
+    $\frac{\partial P}{\partial y}=\frac{\partial Q}{\partial x}$.
+  remedy: { lesson: '5.7', label: 'משפט שוורץ: מה הסימטריה נותנת' }
+
+- id: MC-c5-mixed-order-convention
+  title: מתבלבלים בסדר הגזירה או בנגזרת המבוקשת
+  belief: >-
+    $\frac{\partial^2f}{\partial y\,\partial x}$ ו-$\frac{\partial^2f}{\partial x^2}$ הן אותו דבר, או שהסדר בסימון
+    אינו חשוב גם כשהנגזרות המעורבות שונות.
+  truth: >-
+    בקורס הזה $\frac{\partial^2f}{\partial y\,\partial x}=\frac{\partial}{\partial y}\left(\frac{\partial f}{\partial x}\right)$:
+    קודם לפי $x$, אחר כך לפי $y$ (המשתנה הקרוב ל-$f$ ראשון). הנגזרת המעורבת גוזרת פעם לפי כל משתנה. כשאין רציפות
+    הסדר משנה: בדוגמה של שוורץ אחת היא $-1$ והשנייה $1$.
+  remedy: { lesson: '5.7', label: 'נגזרות חלקיות מסדר שני: סימון וסדר' }
+
+- id: MC-c5-ck-confusion
+  title: מבלבלים בין המחלקות C1 ו-C2 לבין קיום של נגזרות
+  belief: >-
+    פונקציה שיש לה נגזרות חלקיות מסדר שני היא $C^2$; או ש-$C^2$ פירושו נגזרות ראשונות רציפות; או שהנגזרות המעורבות
+    אינן נחשבות נגזרות מסדר שני.
+  truth: >-
+    $f\in C^k(U)$ אם **כל** הנגזרות החלקיות מסדר עד $k$, כולל המעורבות, קיימות ו**רציפות** ב-$U$. $C^{k+1}\subseteq C^k$.
+    $x|x|$ היא $C^1$ ולא $C^2$, ו-$|x|^3$ היא $C^2$ ולא $C^3$.
+  remedy: { lesson: '5.7', label: 'המחלקות C^k' }
+
+- id: MC-c5-mixed-always-equal
+  title: חושבים שהנגזרות המעורבות תמיד שוות
+  belief: >-
+    $\frac{\partial^2f}{\partial y\partial x}=\frac{\partial^2f}{\partial x\partial y}$ בכל נקודה שבה שתיהן קיימות.
+  truth: >-
+    ל-$f=xy\frac{x^2-y^2}{x^2+y^2}$ (ו-0 בראשית): $\frac{\partial f}{\partial x}(0,y)=-y$ ו-$\frac{\partial f}{\partial y}(x,0)=x$,
+    ולכן בראשית הנגזרות המעורבות $-1$ ו-$1$. השוויון הוא משפט, עם הנחת רציפות של הנגזרות המעורבות.
+  remedy: { lesson: '5.7', label: 'דוגמה שבה הנגזרות המעורבות שונות' }
+
+- id: MC-c5-c1-enough-schwarz
+  title: חושבים שגזירות ברציפות או דיפרנציאביליות מספיקות למשפט שוורץ
+  belief: >-
+    אם $f$ היא $C^1$ (או דיפרנציאבילית), הנגזרות המעורבות שוות בכל מקום שבו הן קיימות.
+  truth: >-
+    $f=xy\frac{x^2-y^2}{x^2+y^2}$ היא $C^1$ ($|\partial_xf|,|\partial_yf|\le\sqrt{x^2+y^2}$), ובכל זאת הנגזרות המעורבות
+    בראשית $-1$ ו-$1$. משפט שוורץ דורש רציפות של הנגזרות **המעורבות** בנקודה, למשל $f\in C^2$.
+  remedy: { lesson: '5.7', label: 'משפט שוורץ: ההנחה שנכשלת בדוגמה הנגדית' }

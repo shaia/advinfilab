@@ -1,0 +1,360 @@
+# Lesson 8.5 — locally conservative fields and homotopy.
+# Objectives (src/course.ts):
+#   OBJ-8.5-1  define a locally conservative field; a C¹ field satisfying the crossed-partials condition is locally conservative
+#   OBJ-8.5-2  define homotopy of closed curves; for a locally conservative field, homotopic closed curves give equal integrals
+#   OBJ-8.5-3  define a simply connected domain; a locally conservative field on a simply connected domain is conservative
+# ω = (−y, x)/(x²+y²) is the angle field. Homotopy = homotopy of closed curves inside the domain.
+chapter: 8
+questions:
+  - id: Q-8.5-def
+    type: mc
+    objectives: [OBJ-8.5-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $F$ שדה רציף בקבוצה פתוחה $U\subseteq\mathbb{R}^n$. מתי $F$ **משמר מקומית** ב-$U$?
+    choices:
+      - text: 'כשלכל $x\in U$ יש $r>0$ עם $B(x,r)\subseteq U$, כך של-$F$ יש פונקציית פוטנציאל ב-$B(x,r)$'
+        correct: true
+        feedback: >-
+          נכון. הרדיוס תלוי בנקודה, וכל כדור מקבל פוטנציאל משלו; אין דרישה שהפוטנציאלים יתאימו זה לזה.
+      - text: 'כשיש ל-$F$ פונקציית פוטנציאל ב-$U$'
+        feedback: >-
+          זו ההגדרה של שדה משמר. שדה הזווית משמר מקומית ב-$\mathbb{R}^2\setminus\{0\}$ ואינו משמר שם.
+        misconception: MC-c8-local-means-global
+      - text: 'כש-$F$ גזיר ברציפות ומקיים את תנאי הנגזרות המוצלבות'
+        feedback: >-
+          זה מבחן **מספיק** (המשפט של השיעור), לא ההגדרה. ההגדרה חלה גם על שדות שאינם גזירים: $(|x|,0)$ רציף, אינו
+          גזיר, ויש לו פוטנציאל $\frac{x|x|}{2}$.
+        misconception: MC-c8-locally-conservative-definition
+      - text: 'כשיש $r>0$ אחד כך שבכל כדור ברדיוס $r$ שמוכל ב-$U$ יש ל-$F$ פוטנציאל'
+        feedback: >-
+          ההגדרה מרשה לרדיוס להיות תלוי בנקודה. ליד שפת $U$ אין כדורים גדולים בכלל, ובכל זאת כל נקודה שם צריכה לקבל
+          כדור משלה.
+        misconception: MC-c8-locally-conservative-definition
+
+  - id: Q-8.5-angle-local
+    type: twotier
+    objectives: [OBJ-8.5-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      האם שדה הזווית $\omega$ משמר מקומית ב-$\mathbb{R}^2\setminus\{0\}$?
+    choices:
+      - text: כן
+        correct: true
+        feedback: 'נכון, אף שאינו משמר שם (שיעור 8.4).'
+      - text: לא
+        feedback: >-
+          "אינו משמר" אינו "אינו משמר מקומית". כל נקודה שונה מהראשית יש לה כדור שאינו מכיל את הראשית, ושם יש פוטנציאל.
+        misconception: MC-c8-local-means-global
+    reasons:
+      - text: 'הוא גזיר ברציפות ב-$\mathbb{R}^2\setminus\{0\}$ ומקיים את תנאי הנגזרות המוצלבות, וזה מספיק לשדה משמר מקומית'
+        correct: true
+        feedback: >-
+          בדיוק. ובמפורש: בכדור סביב $x\ne0$ שאינו מכיל את הראשית אפשר לבחור ענף רציף של הזווית הקוטבית, והוא
+          פוטנציאל.
+      - text: '$\arctan\frac{y}{x}$ היא פוטנציאל בסביבה של כל נקודה'
+        feedback: >-
+          לא בסביבה של $(0,1)$: שם $x$ מתאפס. שם משתמשים בענף אחר, למשל $\frac\pi2-\arctan\frac xy$.
+        misconception: MC-c8-arctan-potential
+      - text: 'בכל קבוצה פתוחה, כל שדה רציף משמר מקומית'
+        feedback: >-
+          לא: $(-y,x)$ אינו משמר באף כדור, כי האינטגרל שלו על כל מעגל קטן ברדיוס $\rho$ הוא $2\pi\rho^2\ne0$.
+        misconception: MC-c8-locally-conservative-definition
+
+  - id: Q-8.5-homotopy-def
+    type: mc
+    objectives: [OBJ-8.5-2]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $\gamma_0,\gamma_1:[a,b]\to U$ מסילות סגורות. מה פירוש "$\gamma_0$ ו-$\gamma_1$ הומוטופיות ב-$U$"?
+    choices:
+      - text: 'יש $H:[0,1]\times[a,b]\to U$ רציפה עם $H(0,\cdot)=\gamma_0$, $H(1,\cdot)=\gamma_1$ ו-$H(s,a)=H(s,b)$ לכל $s$'
+        correct: true
+        feedback: >-
+          נכון. $s$ הוא "זמן העיוות": לכל $s$, $H(s,\cdot)$ היא מסילה סגורה ב-$U$, והן משתנות ברציפות מ-$\gamma_0$
+          ל-$\gamma_1$.
+      - text: 'יש $H:[0,1]\times[a,b]\to\mathbb{R}^n$ רציפה עם $H(0,\cdot)=\gamma_0$, $H(1,\cdot)=\gamma_1$ ו-$H(s,a)=H(s,b)$'
+        feedback: >-
+          אם מרשים למסילות הביניים לצאת מ-$U$, ב-$\mathbb{R}^n$ כל שתי מסילות סגורות "הומוטופיות" (בקו ישר), והמושג לא
+          מבחין בחורים של $U$.
+        misconception: MC-c8-homotopy-leaves-domain
+      - text: 'יש $H:[0,1]\times[a,b]\to U$ רציפה עם $H(0,\cdot)=\gamma_0$ ו-$H(1,\cdot)=\gamma_1$'
+        feedback: >-
+          בלי $H(s,a)=H(s,b)$ מסילות הביניים יכולות להיפתח, ואז כל מסילה סגורה מתכווצת לנקודה בתוך עצמה: פותחים את
+          הלולאה ומושכים את הקצוות לאורכה.
+        misconception: MC-c8-homotopy-not-closed
+      - text: 'ל-$\gamma_0$ ול-$\gamma_1$ אותה תמונה'
+        feedback: >-
+          המעגל פעם אחת ופעמיים בעלי אותה תמונה ואינם הומוטופיים ב-$\mathbb{R}^2\setminus\{0\}$ (שיעור 8.6). והמעגלים
+          ברדיוס 1 ו-2 שונים בתמונה והומוטופיים.
+        misconception: MC-c8-homotopy-by-image
+
+  - id: Q-8.5-simply
+    type: multi
+    objectives: [OBJ-8.5-3]
+    qualitative: true
+    level: basic
+    prompt: >-
+      אילו מהקבוצות הפתוחות הבאות **פשוטות קשר**? סמנו את כולן.
+    choices:
+      - text: 'עיגול פתוח $B(p,r)\subseteq\mathbb{R}^2$'
+        correct: true
+        feedback: >-
+          נכון. הקבוצה קמורה: $H(s,t)=(1-s)\gamma(t)+sp$ מכווצת כל מסילה סגורה ל-$p$ בלי לצאת מהעיגול.
+      - text: 'המישור בלי חצי הציר $\{(x,0):x\le0\}$'
+        correct: true
+        feedback: >-
+          נכון. היא כוכבית ביחס ל-$(1,0)$: הקטע מ-$(1,0)$ לכל נקודה בה נשאר בה (נקודה עם $y\ne0$ מתחברת דרך נקודות
+          עם $y\ne0$), ולכן אותו כיווץ בקו ישר עובד.
+      - text: '$\mathbb{R}^2\setminus\{0\}$'
+        feedback: >-
+          היא קשירה מסילתית, אבל לא פשוטת קשר: שדה הזווית משמר מקומית בה ואינו משמר, ובתחום פשוט קשר זה בלתי אפשרי.
+        misconception: MC-c8-connected-is-simply-connected
+      - text: 'הטבעת $\{x\in\mathbb{R}^2:1<\|x\|_2<2\}$'
+        feedback: >-
+          המעגל ברדיוס $\frac32$ מקיף את החור; לשדה הזווית האינטגרל עליו $2\pi\ne0$, ולכן הוא אינו הומוטופי לנקודה
+          בטבעת.
+        misconception: MC-c8-connected-is-simply-connected
+      - text: '$\mathbb{R}^3$ בלי ציר $z$'
+        feedback: >-
+          השדה $\frac{(-y,x,0)}{x^2+y^2}$ גזיר ברציפות שם, מקיים את שלושת התנאים המוצלבים, והאינטגרל שלו על מעגל סביב
+          ציר $z$ הוא $2\pi$. לכן הקבוצה אינה פשוטת קשר, אף שהוצאנו "רק קו".
+        misconception: MC-c8-connected-is-simply-connected
+
+  - id: Q-8.5-poincare
+    type: rank
+    objectives: [OBJ-8.5-1]
+    level: mid
+    prompt: >-
+      $F=(P,Q)$ גזיר ברציפות בכדור $B=B((x_0,y_0),r)$ ומקיים בו $\frac{\partial P}{\partial y}=\frac{\partial Q}{\partial x}$.
+      סדרו את שלבי ההוכחה של-$F$ יש פוטנציאל ב-$B$.
+    help: סדרו את שלבי ההוכחה מהראשון לאחרון.
+    items:
+      - id: a
+        label: 'מגדירים $\varphi(x,y)=\int_{x_0}^{x}P(s,y_0)\,ds+\int_{y_0}^{y}Q(x,t)\,dt$: האינטגרל לאורך הדרך האופקית מ-$(x_0,y_0)$ ל-$(x,y_0)$ ואז האנכית ל-$(x,y)$, ששתיהן בתוך $B$.'
+      - id: b
+        label: 'האיבר הראשון אינו תלוי ב-$y$, ולפי המשפט היסודי: $\frac{\partial\varphi}{\partial y}(x,y)=Q(x,y)$.'
+      - id: c
+        label: 'גוזרים לפי $x$, את האיבר השני מתחת לסימן האינטגרל (כי $\partial_xQ$ רציפה): $\frac{\partial\varphi}{\partial x}=P(x,y_0)+\int_{y_0}^{y}\frac{\partial Q}{\partial x}(x,t)\,dt$.'
+      - id: d
+        label: 'מציבים את התנאי $\partial_xQ=\partial_yP$: האינטגרל הוא $P(x,y)-P(x,y_0)$, ולכן $\frac{\partial\varphi}{\partial x}=P(x,y)$.'
+      - id: e
+        label: 'הנגזרות החלקיות של $\varphi$ הן $P$ ו-$Q$, רציפות, ולכן $\varphi$ גזירה ברציפות ו-$\nabla\varphi=F$ ב-$B$.'
+    order: [a, b, c, d, e]
+    correctFeedback: >-
+      נכון. כל נקודה של $U$ היא מרכז של כדור כזה בתוך $U$, ולכן שדה גזיר ברציפות שמקיים את התנאי ב-$U$ משמר מקומית.
+      הכדור חשוב: בו הדרך האופקית-אנכית לא יוצאת מהתחום. אותה הוכחה עובדת בכל מלבן, אבל לא ב-$\mathbb{R}^2\setminus\{0\}$
+      כולו.
+    wrongFeedback: >-
+      קודם המועמד לפוטנציאל, אחר כך הנגזרת הפשוטה (לפי $y$), ורק אז הנגזרת לפי $x$, שבה משתמשים בתנאי.
+
+  - id: Q-8.5-radii
+    type: twotier
+    objectives: [OBJ-8.5-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      האם המעגלים $\gamma_1(t)=(\cos t,\sin t)$ ו-$\gamma_2(t)=(2\cos t,2\sin t)$, $t\in[0,2\pi]$, הומוטופיים
+      ב-$\mathbb{R}^2\setminus\{0\}$?
+    choices:
+      - text: כן
+        correct: true
+        feedback: 'נכון. "מנפחים" את המעגל הקטן לגדול.'
+      - text: לא
+        feedback: >-
+          גודל לא משנה הומוטופיה. ראו את ההומוטופיה המפורשת בנימוק.
+        misconception: MC-c8-homotopy-by-image
+    reasons:
+      - text: '$H(s,t)=(1+s)(\cos t,\sin t)$ רציפה, $\|H(s,t)\|=1+s\ge1$ ולכן אינה עוברת בראשית, ו-$H(s,0)=H(s,2\pi)$'
+        correct: true
+        feedback: >-
+          בדיוק: שלושת התנאים של ההגדרה. לכן לכל שדה משמר מקומית ב-$\mathbb{R}^2\setminus\{0\}$ שני האינטגרלים שווים;
+          למשל לשדה הזווית שניהם $2\pi$.
+      - text: 'כל שתי מסילות סגורות בקבוצה קשירה מסילתית הומוטופיות'
+        feedback: >-
+          לא: המעגל ומסילה קבועה ב-$\mathbb{R}^2\setminus\{0\}$ אינם הומוטופיים, אף שהקבוצה קשירה מסילתית. כאן
+          ההומוטופיה קיימת מסיבה קונקרטית.
+        misconception: MC-c8-connected-is-simply-connected
+      - text: 'לשני המעגלים אותו מרכז, ולכן אותה תמונה עד כדי הגדלה'
+        feedback: >-
+          "אותה צורה" אינה הגדרה. צריך העתקה $H$ רציפה ב-$\mathbb{R}^2\setminus\{0\}$; כאן היא קיימת, אבל מעגל
+          ברדיוס 1 סביב $(3,0)$ דומה בצורה ובכל זאת אינו הומוטופי ל-$\gamma_1$.
+        misconception: MC-c8-homotopy-by-image
+
+  - id: Q-8.5-contract
+    type: twotier
+    objectives: [OBJ-8.5-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      סטודנט טוען: "$H(s,t)=(1-s)(\cos t,\sin t)$ מכווצת את מעגל היחידה לנקודה, ולכן מעגל היחידה הומוטופי למסילה
+      קבועה ב-$\mathbb{R}^2\setminus\{0\}$." האם הטענה נכונה?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. ההומוטופיה יוצאת מהתחום, ולמעשה אין שם הומוטופיה כזו בכלל.'
+      - text: כן
+        feedback: >-
+          ב-$s=1$ כל הנקודות $H(1,t)$ הן הראשית, שאינה בתחום. הומוטופיה ב-$U$ חייבת להישאר ב-$U$ בכל $s$.
+        misconception: MC-c8-homotopy-leaves-domain
+    reasons:
+      - text: '$H(1,t)=(0,0)\notin U$; ושום הומוטופיה אחרת לא תעזור, כי לשדה הזווית, שמשמר מקומית ב-$U$, האינטגרל על המעגל $2\pi$ ועל מסילה קבועה 0'
+        correct: true
+        feedback: >-
+          בדיוק. המשפט על אינטגרלים של מסילות הומוטופיות הוא כלי להוכיח **אי**-הומוטופיה: אינטגרלים שונים של שדה משמר
+          מקומית.
+      - text: 'הבעיה רק בנקודה אחת, $s=1$, וזה לא משנה'
+        feedback: >-
+          ההגדרה דורשת $H(s,t)\in U$ לכל $(s,t)$, בלי חריגים. דווקא הנקודה הזו היא החור שהמעגל מקיף.
+        misconception: MC-c8-homotopy-leaves-domain
+      - text: 'מסילה סגורה הומוטופית לנקודה רק אם היא אינה פשוטה'
+        feedback: >-
+          פשטות לא קשורה: מעגל קטן סביב $(3,0)$ פשוט והומוטופי לנקודה ב-$\mathbb{R}^2\setminus\{0\}$.
+        misconception: MC-c8-homotopy-by-image
+
+  - id: Q-8.5-square
+    type: numeric
+    objectives: [OBJ-8.5-2]
+    level: mid
+    prompt: >-
+      $\gamma$ היא שפת הריבוע שקודקודיו $(\pm2,\pm2)$, פעם אחת נגד כיוון השעון. בלי לחשב ארבעה אינטגרלים, מצאו את
+      $\int_\gamma\omega\cdot ds$ לשדה הזווית (מקורב לשלוש ספרות אחרי הנקודה).
+    answer: 6.283185
+    tolerance: 0.0002
+    correctFeedback: >-
+      נכון, $2\pi$. השפה הומוטופית ב-$\mathbb{R}^2\setminus\{0\}$ למעגל היחידה: מחברים בקו ישר כל נקודה של המעגל
+      לנקודה של הריבוע **באותה זווית**, והקו הזה לא עובר בראשית. $\omega$ משמר מקומית שם, ולכן האינטגרל שווה לזה של
+      המעגל.
+    wrongFeedback: >-
+      שדה הזווית משמר מקומית ב-$\mathbb{R}^2\setminus\{0\}$. מצאו מסילה פשוטה יותר שהומוטופית לשפת הריבוע שם.
+    commonWrong:
+      - value: 0
+        feedback: >-
+          האינטגרל על מסילה סגורה מתאפס רק אם היא הומוטופית לנקודה בתחום שבו השדה משמר מקומית, והריבוע מקיף את הראשית.
+        misconception: MC-c8-crossed-partials-sufficient
+      - value: 16
+        feedback: >-
+          16 הוא היקף הריבוע. שדה הזווית מודד את הזווית שמסתובבים סביב הראשית, לא את הדרך.
+        misconception: MC-c8-angle-scales
+
+  - id: Q-8.5-theorem
+    type: twotier
+    objectives: [OBJ-8.5-3, OBJ-8.5-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      נכון או לא נכון: אם $U\subseteq\mathbb{R}^2$ תחום פשוט קשר ו-$F=(P,Q)$ גזיר ברציפות ב-$U$ עם
+      $\frac{\partial P}{\partial y}=\frac{\partial Q}{\partial x}$, אז $F$ משמר ב-$U$.
+    choices:
+      - text: נכון
+        correct: true
+        feedback: 'נכון: בתחום פשוט קשר התנאי ההכרחי גם מספיק.'
+      - text: לא נכון
+        feedback: >-
+          הדוגמה הנגדית של שדה הזווית חיה ב-$\mathbb{R}^2\setminus\{0\}$, שאינה פשוטת קשר. בתחום פשוט קשר הטענה
+          נכונה.
+        misconception: MC-c8-local-means-global
+    reasons:
+      - text: 'התנאי נותן ש-$F$ משמר מקומית; כל מסילה סגורה הומוטופית למסילה קבועה, ולכן האינטגרל עליה 0; ואפס על כל מסילה סגורה בתחום קשיר נותן פוטנציאל'
+        correct: true
+        feedback: >-
+          בדיוק: שלושת המשפטים של 8.5 ו-8.4 בשרשרת אחת. (את המשפט על הומוטופיה מפעילים בין מסילה חלקה למקוטעין
+          לבין המסילה הקבועה, שהאינטגרל עליה 0.)
+      - text: 'תנאי הנגזרות המוצלבות מספיק בכל תחום, ופשטות הקשר לא נחוצה'
+        feedback: >-
+          שדה הזווית מקיים את התנאי ב-$\mathbb{R}^2\setminus\{0\}$ ואינו משמר שם. בלי פשטות קשר המסקנה נכשלת.
+        misconception: MC-c8-crossed-partials-sufficient
+      - text: 'בתחום פשוט קשר כל שדה רציף משמר'
+        feedback: >-
+          $(-y,x)$ רציף ב-$\mathbb{R}^2$, שפשוט קשר, והאינטגרל שלו על מעגל היחידה $2\pi$. צריך שהשדה יהיה משמר
+          מקומית, ובשביל זה משתמשים בתנאי.
+        misconception: MC-c8-locally-conservative-definition
+
+  - id: Q-8.5-invariance
+    type: rank
+    objectives: [OBJ-8.5-2]
+    level: exam
+    prompt: >-
+      $F$ משמר מקומית ב-$U$, ו-$H:[0,1]\times[a,b]\to U$ הומוטופיה בין המסילות הסגורות החלקות למקוטעין $\gamma_0$
+      ו-$\gamma_1$. סדרו את שלבי ההוכחה ש-$\int_{\gamma_0}F\cdot ds=\int_{\gamma_1}F\cdot ds$.
+    help: סדרו את שלבי ההוכחה מהראשון לאחרון.
+    items:
+      - id: a
+        label: 'התמונה $K=H([0,1]\times[a,b])$ קומפקטית ומוכלת ב-$U$, כי $H$ רציפה על קבוצה קומפקטית.'
+      - id: b
+        label: 'לפי למת המספר של לבג לכיסוי של $K$ בכדורים שבהם ל-$F$ יש פוטנציאל: יש $\varepsilon>0$ כך שלכל $z\in K$ הכדור $B(z,\varepsilon)$ מוכל בכדור כזה.'
+      - id: c
+        label: '$H$ רציפה במידה שווה, ולכן יש חלוקות $0=s_0<\dots<s_m=1$ ו-$a=t_0<\dots<t_k=b$ כך ש-$H$ מעתיקה כל מלבן קטן $[s_{i-1},s_i]\times[t_{j-1},t_j]$ לתוך כדור ברדיוס $\varepsilon$.'
+      - id: d
+        label: 'לכל $i$ נסמן ב-$\pi_i$ את הקו השבור הסגור דרך $H(s_i,t_0),\dots,H(s_i,t_k)$. בכל קטע $[t_{j-1},t_j]$, $\gamma_0$ והמיתר שלה באותו כדור עם פוטנציאל ועם אותם קצוות, ולכן $\int_{\gamma_0}=\int_{\pi_0}$; וכך $\int_{\gamma_1}=\int_{\pi_m}$.'
+      - id: e
+        label: '$\int_{\pi_{i-1}}-\int_{\pi_i}$ הוא סכום אינטגרלים על מרובעים קטנים סגורים, כל אחד בכדור עם פוטנציאל ולכן אפס; הצלעות הרוחביות מתקזזות, והראשונה והאחרונה זהות כי $H(s,a)=H(s,b)$.'
+      - id: f
+        label: 'לכן $\int_{\gamma_0}=\int_{\pi_0}=\int_{\pi_1}=\dots=\int_{\pi_m}=\int_{\gamma_1}$.'
+    order: [a, b, c, d, e, f]
+    correctFeedback: >-
+      נכון. הרעיון: לעוות "בצעדים קטנים", כך שכל צעד מתרחש בתוך כדור שבו יש פוטנציאל ולכן אינו משנה את האינטגרל.
+      הקומפקטיות (שלבים א-ג) היא שמבטיחה שמספר סופי של צעדים מספיק. הקווים השבורים נחוצים כי מסילות הביניים
+      $H(s,\cdot)$ רק רציפות.
+    wrongFeedback: >-
+      קודם קומפקטיות (התמונה, למת לבג, רציפות במידה שווה) כדי לקבל רשת עדינה; אחר כך הקווים השבורים, ההשוואה
+      בין שכנים, והשרשרת בסוף.
+
+  - id: Q-8.5-slit
+    type: numeric
+    objectives: [OBJ-8.5-3]
+    level: exam
+    prompt: >-
+      תהי $U=\mathbb{R}^2\setminus\{(x,0):x\le0\}$, ו-$\gamma$ מסילה חלקה כלשהי **ב-$U$** מ-$(1,0)$ ל-$(-1,1)$. חשבו
+      את $\int_\gamma\omega\cdot ds$ לשדה הזווית (מקורב לשלוש ספרות אחרי הנקודה).
+    answer: 2.356194
+    tolerance: 0.0002
+    correctFeedback: >-
+      נכון, $\frac{3\pi}{4}$. $U$ פשוט קשר ו-$\omega$ משמר מקומית בו, ולכן משמר, והפוטנציאל הוא הזווית הקוטבית
+      $\theta\in(-\pi,\pi)$: $\theta(-1,1)-\theta(1,0)=\frac{3\pi}{4}-0$. כל מסילה ב-$U$ נותנת אותה תשובה.
+    wrongFeedback: >-
+      האינטגרל אינו תלוי במסילה ב-$U$. מצאו פוטנציאל ב-$U$ שערכו רציף לאורך כל מסילה שאינה חוצה את חצי הציר השלילי.
+    commonWrong:
+      - value: -0.785398
+        feedback: >-
+          $-\frac\pi4=\arctan\frac{1}{-1}$. אבל $\arctan\frac yx$ אינה פוטנציאל ב-$U$: הנקודה $(-1,1)$ נמצאת ברביע השני,
+          בזווית $\frac{3\pi}4$.
+        misconception: MC-c8-arctan-potential
+      - value: -3.926991
+        feedback: >-
+          $-\frac{5\pi}{4}$ הוא האינטגרל לאורך מסילה שעוברת **מתחת** לראשית וחוצה את חצי הציר השלילי, כלומר יוצאת מ-$U$.
+          ב-$\mathbb{R}^2\setminus\{0\}$ שתי הדרכים שונות ב-$2\pi$, וב-$U$ רק אחת מהן מותרת.
+        misconception: MC-c8-homotopy-leaves-domain
+
+  - id: Q-8.5-not-sc
+    type: twotier
+    objectives: [OBJ-8.5-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      האם $\mathbb{R}^3\setminus\{(0,0,z):z\in\mathbb{R}\}$, המרחב בלי ציר $z$, פשוט קשר?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. מעגל סביב הציר אינו מתכווץ לנקודה בלי לחצות את הציר.'
+      - text: כן
+        feedback: >-
+          הוצאת קו מהמרחב משאירה אותו קשיר מסילתית, אבל לא פשוט קשר. ראו את הנימוק.
+        misconception: MC-c8-connected-is-simply-connected
+    reasons:
+      - text: '$G=\frac{(-y,x,0)}{x^2+y^2}$ גזיר ברציפות שם ומקיים את שלושת תנאי הנגזרות המוצלבות, ולכן משמר מקומית; האינטגרל שלו על המעגל $(\cos t,\sin t,0)$ הוא $2\pi$; אילו הקבוצה הייתה פשוטת קשר, $G$ היה משמר'
+        correct: true
+        feedback: >-
+          בדיוק. $\partial_yG_1=\partial_xG_2$ כמו בשדה הזווית, ושאר התנאים טריוויאליים: $G_3=0$ ו-$G_1,G_2$ אינם תלויים
+          ב-$z$. זו הוכחה בדרך השלילה בעזרת המשפט של השיעור.
+      - text: 'הקבוצה קשירה מסילתית, ולכן פשוטת קשר'
+        feedback: >-
+          קשירה מסילתית חלשה יותר: $\mathbb{R}^2\setminus\{0\}$ קשירה מסילתית ואינה פשוטת קשר, והמקרה כאן דומה.
+        misconception: MC-c8-connected-is-simply-connected
+      - text: 'אפשר לכווץ כל מעגל לנקודה בקו ישר אל הראשית, ולכן כן'
+        feedback: >-
+          הכיווץ $(1-s)\gamma(t)$ של המעגל $(\cos t,\sin t,0)$ מגיע לראשית, שעל ציר $z$, ולכן יוצא מהקבוצה.
+        misconception: MC-c8-homotopy-leaves-domain

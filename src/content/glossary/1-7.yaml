@@ -1,0 +1,17 @@
+# Terms first defined in lesson 1.7 (Lipschitz equivalence of metrics).
+- id: lipschitz-equivalent-metrics
+  term: מטריקות שקולות ליפשיץ
+  en: Lipschitz-equivalent metrics
+  definition: >-
+    שתי מטריקות $d,d'$ על אותה קבוצה הן שקולות ליפשיץ אם יש קבועים $c,C>0$ עם $c\,d(x,y)\le d'(x,y)\le C\,d(x,y)$
+    לכל $x,y$. אז יש להן אותן קבוצות פתוחות ואותן סדרות מתכנסות. למשל $d_\infty\le d_2\le d_1\le n\,d_\infty$ על
+    $\mathbb{R}^n$.
+  lesson: '1.7'
+- id: bounded-set
+  term: קבוצה חסומה (במרחב מטרי)
+  en: bounded set
+  definition: >-
+    $A\subseteq X$ חסומה במרחב המטרי $(X,d)$ אם יש מספר $M$ כך ש-$d(a,b)\le M$ לכל $a,b\in A$. החסימות תלויה
+    במטריקה: $\mathbb{R}$ אינה חסומה ב-$|x-y|$, וחסומה ב-$|\arctan x-\arctan y|$. מטריקות שקולות ליפשיץ נותנות
+    אותן קבוצות חסומות.
+  lesson: '1.7'

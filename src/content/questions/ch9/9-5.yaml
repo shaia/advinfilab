@@ -1,0 +1,296 @@
+# Lesson 9.5 — Fubini's theorem.
+# Objectives (src/course.ts):
+#   OBJ-9.5-1  state Fubini's theorem for an integrable function on a product of boxes, and explain the role of the
+#               upper and lower integrals
+#   OBJ-9.5-2  compute double and triple integrals as iterated integrals, including over regions between graphs and by
+#               changing the order of integration
+#   OBJ-9.5-3  give an example where both iterated integrals exist and differ, and point to the failing hypothesis
+# Fubini (Spivak's form): f integrable on A×B; 𝓛(x) = lower ∫_B f(x,·), 𝓤(x) = upper ∫_B f(x,·); then 𝓛, 𝓤 are
+# integrable on A and ∫_{A×B} f = ∫_A 𝓛 = ∫_A 𝓤.
+chapter: 9
+questions:
+  - id: Q-9.5-statement
+    type: mc
+    objectives: [OBJ-9.5-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $A\subseteq\mathbb{R}^n$ ו-$B\subseteq\mathbb{R}^m$ תיבות, ו-$f:A\times B\to\mathbb{R}$. לכל $x\in A$ נסמן
+      $\mathcal{L}(x)=\underline{\int_B} f(x,y)\,dy$ ו-$\mathcal{U}(x)=\overline{\int_B} f(x,y)\,dy$. איזה מהניסוחים
+      הבאים הוא משפט פוביני?
+    choices:
+      - text: 'אם $f$ אינטגרבילית על $A\times B$, אז $\mathcal{L}$ ו-$\mathcal{U}$ אינטגרביליות על $A$ ו-$\int_{A\times B}f=\int_A\mathcal{L}=\int_A\mathcal{U}$'
+        correct: true
+        feedback: >-
+          נכון. ההנחה היא על $f$ כפונקציה של שני המשתנים יחד. האינטגרל העליון והתחתון של הפונקציה הפנימית תמיד קיימים
+          (היא חסומה), ולכן הניסוח לא צריך שהאינטגרל הפנימי עצמו יהיה קיים.
+      - text: 'אם $f$ אינטגרבילית על $A\times B$, אז לכל $x\in A$ הפונקציה $y\mapsto f(x,y)$ אינטגרבילית על $B$, ו-$\int_{A\times B}f=\int_A\left(\int_B f(x,y)\,dy\right)dx$'
+        feedback: >-
+          המסקנה "לכל $x$" שגויה: ל-$f=1$ על $\{\tfrac12\}\times(\mathbb{Q}\cap[0,1])$ ו-0 בשאר הריבוע, $f$ אינטגרבילית
+          (עם אינטגרל 0), אבל $y\mapsto f(\tfrac12,y)$ היא פונקציית דיריכלה.
+        misconception: MC-c9-fubini-inner-must-exist
+      - text: 'אם שני האינטגרלים הנשנים של $f$ קיימים ושווים, אז $f$ אינטגרבילית ו-$\int_{A\times B}f$ שווה להם'
+        feedback: >-
+          זה ההפך של המשפט, והוא שגוי: יש פונקציה לא אינטגרבילית ששני האינטגרלים הנשנים שלה 0 (קבוצה צפופה של נקודות
+          דיאדיות שכל ישר פוגש במספר סופי של נקודות).
+        misconception: MC-c9-iterated-equal-implies-integrable
+      - text: 'לכל $f$ חסומה על $A\times B$ שני האינטגרלים הנשנים שווים כשהם קיימים'
+        feedback: >-
+          בלי אינטגרביליות של $f$ אין משפט. ההנחה היא שמאפשרת להחליף את סדר האינטגרציה.
+        misconception: MC-c9-fubini-always-swap
+
+  - id: Q-9.5-box
+    type: numeric
+    objectives: [OBJ-9.5-2]
+    level: basic
+    prompt: >-
+      חשבו את $\iint_{[0,1]\times[0,2]}x\,y^2\,dA$.
+    answer: 1.3333333
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון, $\frac43$. $f$ רציפה ולכן אינטגרבילית, ולפי פוביני
+      $\int_0^1\left(\int_0^2 xy^2\,dy\right)dx=\int_0^1\frac{8x}{3}\,dx=\frac43$. (במכפלה $g(x)h(y)$ האינטגרל מתפרק:
+      $\int_0^1x\,dx\cdot\int_0^2y^2\,dy=\frac12\cdot\frac83$.)
+    wrongFeedback: >-
+      כתבו את האינטגרל כאינטגרל נשנה, עם $x$ מ-0 עד 1 ו-$y$ מ-0 עד **2**.
+    commonWrong:
+      - value: 0.1666667
+        feedback: >-
+          $\frac16$ הוא האינטגרל על $[0,1]^2$: לקחתם את $y$ מ-0 עד 1. הגבולות של כל משתנה נקראים מהתחום.
+        misconception: MC-c9-iterated-bounds
+
+  - id: Q-9.5-triangle
+    type: numeric
+    objectives: [OBJ-9.5-2]
+    level: basic
+    prompt: >-
+      $T=\{(x,y): 0\le y\le x\le1\}$. חשבו את $\iint_T xy\,dA$.
+    answer: 0.125
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון, $\frac18$. $T=\{0\le x\le1,\ 0\le y\le x\}$, ולכן
+      $\int_0^1 x\left(\int_0^x y\,dy\right)dx=\int_0^1\frac{x^3}{2}\,dx=\frac18$. (פוביני חל על $xy\chi_T$ על
+      $[0,1]^2$: היא אינטגרבילית, כי היא אינה רציפה רק על האלכסון.)
+    wrongFeedback: >-
+      תארו את $T$: לכל $x\in[0,1]$, איזה $y$ שייכים ל-$T$? הגבולות של $y$ תלויים ב-$x$.
+    commonWrong:
+      - value: 0.25
+        feedback: >-
+          $\frac14$ הוא האינטגרל על כל הריבוע $[0,1]^2$. על $T$ הגבול העליון של $y$ הוא $x$, לא 1.
+        misconception: MC-c9-iterated-bounds
+
+  - id: Q-9.5-swap-bounds
+    type: mc
+    objectives: [OBJ-9.5-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $f$ רציפה על $[0,1]^2$. לאיזה ביטוי שווה $\int_0^1\left(\int_y^1 f(x,y)\,dx\right)dy$?
+    choices:
+      - text: '$\int_0^1\left(\int_0^x f(x,y)\,dy\right)dx$'
+        correct: true
+        feedback: >-
+          נכון. התחום הוא $\{0\le y\le1,\ y\le x\le1\}=\{0\le y\le x\le1\}$, ובסדר השני הוא $\{0\le x\le1,\ 0\le y\le x\}$.
+      - text: '$\int_0^1\left(\int_x^1 f(x,y)\,dy\right)dx$'
+        feedback: >-
+          כאן העתיקו את הגבולות והחליפו רק את שמות המשתנים. זה התחום $\{y\ge x\}$, המשולש השני. תמיד מציירים את
+          התחום וקוראים ממנו את הגבולות החדשים.
+        misconception: MC-c9-iterated-bounds
+      - text: '$\int_y^1\left(\int_0^1 f(x,y)\,dy\right)dx$'
+        feedback: >-
+          לאינטגרל החיצוני אין גבול שתלוי במשתנה: אחרי האינטגרציה בשני המשתנים התוצאה היא מספר, ו-$y$ כבר "נבלע"
+          באינטגרל הפנימי.
+        misconception: MC-c9-iterated-bounds
+      - text: '$\int_0^1\left(\int_0^1 f(x,y)\,dy\right)dx$'
+        feedback: >-
+          זה האינטגרל על כל הריבוע. האינטגרל הנתון הוא רק על המשולש שבו $y\le x$.
+        misconception: MC-c9-iterated-bounds
+
+  - id: Q-9.5-ex2
+    type: numeric
+    objectives: [OBJ-9.5-2]
+    level: mid
+    prompt: >-
+      חשבו את $\int_0^1\left(\int_y^1 e^{x^2}\,dx\right)dy$ (לפונקציה $e^{x^2}$ אין פונקציה קדומה אלמנטרית, ולכן החליפו
+      את סדר האינטגרציה). תנו את התשובה בדיוק של שלוש ספרות אחרי הנקודה.
+    answer: 0.8591409
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון, $\frac{e-1}{2}\approx0.859$. התחום הוא $\{0\le y\le x\le1\}$, ולכן
+      $\int_0^1\left(\int_0^x dy\right)e^{x^2}\,dx=\int_0^1 xe^{x^2}\,dx=\left[\tfrac12e^{x^2}\right]_0^1=\frac{e-1}{2}$.
+      ה-$x$ שהאינטגרל הפנימי יצר הוא בדיוק מה שהופך את $e^{x^2}$ לנגזרת.
+    wrongFeedback: >-
+      ציירו את התחום $\{0\le y\le1,\ y\le x\le1\}$ ותארו אותו מחדש עם $x$ בחוץ: לכל $x\in[0,1]$, $y$ רץ מ-0 עד $x$.
+    commonWrong:
+      - value: 0.6035108
+        feedback: >-
+          זה $\int_0^1(1-x)e^{x^2}\,dx$: אחרי ההחלפה לקחתם את $y$ מ-$x$ עד 1, כלומר את המשולש השני. התחום המקורי הוא
+          $y\le x$.
+        misconception: MC-c9-iterated-bounds
+
+  - id: Q-9.5-cone
+    type: numeric
+    objectives: [OBJ-9.5-2]
+    level: mid
+    prompt: >-
+      $K=\{(x,y,z): x^2+y^2\le z^2,\ 0\le z\le2\}$ (חרוט). חשבו את $v(K)$ בחתכים: לכל $z$ קבוע החתך הוא עיגול. הנפח
+      הוא $c\pi$; הקלידו את $c$.
+    answer: 2.6666667
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון, $c=\frac83$. החתך בגובה $z$ הוא עיגול ברדיוס $z$ ובשטח $\pi z^2$, ולפי פוביני
+      $v(K)=\int_0^2\pi z^2\,dz=\frac{8\pi}{3}$: שליש מנפח הגליל באותו בסיס ובאותו גובה.
+    wrongFeedback: >-
+      כתבו את החתך כ-$x^2+y^2\le\rho^2$ וזהו את הרדיוס $\rho$ כפונקציה של $z$. אחר כך, לפי פוביני על $\chi_K$,
+      $v(K)=\int_0^2 A(z)\,dz$, כש-$A(z)$ הוא שטח החתך בגובה $z$.
+    commonWrong:
+      - value: 2
+        feedback: >-
+          $2$ מתקבל משטח חתך $\pi z$, כאילו הרדיוס $\sqrt z$. אבל $x^2+y^2\le z^2$ פירושו רדיוס $z$, ושטח $\pi z^2$.
+        misconception: MC-c9-slice-radius
+
+  - id: Q-9.5-counter
+    type: numeric
+    objectives: [OBJ-9.5-3]
+    level: mid
+    prompt: >-
+      $f(x,y)=\frac{x^2-y^2}{(x^2+y^2)^2}$ על $(0,1]^2$. היעזרו בכך ש-$\frac{\partial}{\partial y}\frac{y}{x^2+y^2}=f(x,y)$
+      וחשבו את $\int_0^1\left(\int_0^1 f(x,y)\,dy\right)dx$. התשובה היא $c\pi$; הקלידו את $c$.
+    answer: 0.25
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון, $\frac\pi4$. לכל $x>0$ קבוע, $\int_0^1 f(x,y)\,dy=\left[\frac{y}{x^2+y^2}\right]_0^1=\frac{1}{1+x^2}$, ואז
+      $\int_0^1\frac{dx}{1+x^2}=\frac\pi4$. בסדר השני: $f(x,y)=-f(y,x)$, ולכן אותו חישוב נותן $-\frac\pi4$.
+    wrongFeedback: >-
+      קודם האינטגרל הפנימי לפי $y$, עם $x>0$ קבוע, בעזרת הפונקציה הקדומה הנתונה. אחר כך אינטגרל רגיל לפי $x$.
+    commonWrong:
+      - value: -0.25
+        feedback: >-
+          $-\frac\pi4$ הוא האינטגרל **בסדר ההפוך** (קודם לפי $x$). כאן שני הסדרים נותנים תוצאות שונות, ולכן אסור
+          להחליף ביניהם בלי לבדוק את ההנחות של פוביני.
+        misconception: MC-c9-fubini-always-swap
+      - value: 0
+        feedback: >-
+          $f(x,y)=-f(y,x)$, ואם היה מותר להחליף את סדר האינטגרציה היה יוצא שהאינטגרל שווה למינוס עצמו, כלומר 0. אבל
+          החלפת הסדר כאן אסורה, והחישוב הישיר נותן $\frac\pi4$.
+        misconception: MC-c9-fubini-always-swap
+
+  - id: Q-9.5-counter-why
+    type: twotier
+    objectives: [OBJ-9.5-3, OBJ-9.5-1]
+    qualitative: true
+    level: exam
+    prompt: >-
+      ל-$f(x,y)=\frac{x^2-y^2}{(x^2+y^2)^2}$ על $(0,1]^2$ שני האינטגרלים הנשנים קיימים: אחד $\frac\pi4$ והשני
+      $-\frac\pi4$. האם זה סותר את משפט פוביני?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. ההנחה של המשפט אינה מתקיימת, ולכן אין לו מה לומר כאן.'
+      - text: כן
+        feedback: >-
+          משפט אינו נסתר מדוגמה שאינה מקיימת את ההנחות שלו. כאן $f$ אינה אינטגרבילית על הריבוע.
+        misconception: MC-c9-fubini-always-swap
+    reasons:
+      - text: '$f$ אינה חסומה ליד הראשית (למשל $f(x,x^2)\to\infty$ כש-$x\to0^+$, ובכלל $f(x,y)\ge\frac{1}{4x^2}$ כש-$y\le\frac{x}{\sqrt3}$), ולכן אינה אינטגרבילית לפי רימן על $[0,1]^2$, איך שלא נגדיר אותה על הצירים'
+        correct: true
+        feedback: >-
+          בדיוק. משפט פוביני מניח ש-$f$ אינטגרבילית על התיבה, ובפרט חסומה. האינטגרלים הנשנים כאן קיימים רק כאינטגרלים
+          מוכללים, ו"המסה" ליד הראשית תלויה בסדר שבו "חותכים" אותה.
+      - text: '$f$ אינה מוגדרת רק בנקודה אחת, הראשית, וקבוצה ממידה אפס אינה משנה; לכן פוביני חל ואחד החישובים שגוי'
+        feedback: >-
+          הבעיה אינה נקודה חסרה אלא חוסר חסימות. משפט לבג ומשפט פוביני עוסקים בפונקציות חסומות, ו-$f$ אינה חסומה
+          בשום סביבה של הראשית. שני החישובים נכונים.
+        misconception: MC-c9-lebesgue-unbounded
+      - text: 'אחד האינטגרלים הפנימיים אינו קיים, וזה מה שמונע את השימוש במשפט'
+        feedback: >-
+          כל האינטגרלים הפנימיים קיימים: לכל $x>0$ מתקבל $\frac1{1+x^2}$. ובמשפט פוביני כלל לא צריך שהאינטגרל הפנימי
+          יהיה קיים. מה שנכשל הוא ההנחה על $f$ עצמה.
+        misconception: MC-c9-fubini-inner-must-exist
+
+  - id: Q-9.5-inner-missing
+    type: twotier
+    objectives: [OBJ-9.5-1]
+    qualitative: true
+    level: exam
+    prompt: >-
+      על $[0,1]^2$ תהי $f(\tfrac12,y)=1$ כש-$y$ רציונלי, ו-$f=0$ בכל נקודה אחרת. $f$ אינטגרבילית ו-$\int f=0$, אבל
+      $y\mapsto f(\tfrac12,y)$ אינה אינטגרבילית על $[0,1]$. האם עדיין אפשר לחשב את $\int f$ בעזרת משפט פוביני?
+    choices:
+      - text: כן
+        correct: true
+        feedback: 'נכון. בדיוק בשביל מקרים כאלה המשפט מנוסח עם האינטגרל העליון והתחתון.'
+      - text: לא
+        feedback: >-
+          המשפט אינו דורש שכל אינטגרל פנימי יהיה קיים; הוא עובד עם $\mathcal{L}$ ו-$\mathcal{U}$, שתמיד קיימות.
+        misconception: MC-c9-fubini-inner-must-exist
+    reasons:
+      - text: '$\mathcal{L}(x)=0$ לכל $x$; $\mathcal{U}(x)=0$ ל-$x\ne\frac12$ ו-$\mathcal{U}(\frac12)=1$. שתיהן אינטגרביליות על $[0,1]$ עם אינטגרל 0, כמו שהמשפט מבטיח'
+        correct: true
+        feedback: >-
+          בדיוק. $\mathcal{U}$ שונה מ-$\mathcal{L}$ רק בנקודה אחת, וזה לא משנה את האינטגרל על $A$. באופן כללי
+          $\mathcal{L}=\mathcal{U}$ פרט לקבוצה ממידה אפס.
+      - text: 'האינטגרל הפנימי נכשל רק ב-$x$ אחד, ולכן המשפט אינו חל וצריך לחשב בסכומי דרבו'
+        feedback: >-
+          המשפט חל: הוא מנוסח עם $\mathcal{L}(x)$ ו-$\mathcal{U}(x)$, שמוגדרות לכל $x$ גם כשהאינטגרל הפנימי אינו קיים.
+        misconception: MC-c9-fubini-inner-must-exist
+      - text: 'בעצם $f$ אינה אינטגרבילית, כי על הקטע $x=\frac12$ היא פונקציית דיריכלה'
+        feedback: >-
+          $f$ אינה רציפה רק על הקטע $\{\frac12\}\times[0,1]$, שהוא בעל תכולה אפס, ולכן לפי משפט לבג $f$ אינטגרבילית.
+          קטע שלם של אי-רציפות במישור אינו מפריע.
+        misconception: MC-c9-integrable-finite-discontinuities
+
+  - id: Q-9.5-iterated-equal
+    type: twotier
+    objectives: [OBJ-9.5-3, OBJ-9.5-1]
+    qualitative: true
+    level: exam
+    prompt: >-
+      נכון או לא נכון: אם $f$ חסומה על $[0,1]^2$, ושני האינטגרלים הנשנים שלה קיימים ושווים, אז $f$ אינטגרבילית.
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: 'נכון. משפט פוביני אינו "אם ורק אם".'
+      - text: נכון
+        feedback: >-
+          זה ההפך של משפט פוביני, והוא אינו נכון: ראו את הנימוק הנכון.
+        misconception: MC-c9-iterated-equal-implies-integrable
+    reasons:
+      - text: 'תהי $S$ קבוצת הנקודות $(\frac{k}{2^m},\frac{l}{2^m})$ עם $k,l$ אי-זוגיים ו-$m\in\mathbb{N}$. כל ישר אנכי או אופקי פוגש את $S$ במספר סופי של נקודות, ולכן שני האינטגרלים הנשנים של $\chi_S$ הם 0; אבל $S$ ומשלימה צפופות, ולכן $U(\chi_S,P)=1$ ו-$L(\chi_S,P)=0$'
+        correct: true
+        feedback: >-
+          בדיוק. על הישר $x=\frac{k}{2^m}$ (שבר מצומצם) יש רק הנקודות $(\frac{k}{2^m},\frac{l}{2^m})$ עם אותו $m$, כלומר
+          מספר סופי, ופונקציה ששונה מ-0 במספר סופי של נקודות אינטגרבילית עם אינטגרל 0.
+      - text: 'משפט פוביני הוא "אם ורק אם": אינטגרביליות שקולה לשוויון האינטגרלים הנשנים'
+        feedback: >-
+          המשפט נותן רק כיוון אחד: מאינטגרביליות לשוויון. הכיוון ההפוך נכשל בדוגמה של הנקודות הדיאדיות.
+        misconception: MC-c9-iterated-equal-implies-integrable
+      - text: 'אם האינטגרלים הנשנים 0, אז $f=0$ פרט לקבוצה בת מנייה, ולכן $f$ אינטגרבילית'
+        feedback: >-
+          גם אם $f\ne0$ רק על קבוצה בת מנייה (כמו $S$), היא יכולה להיות לא רציפה בכל מקום. מה שקובע הוא קבוצת נקודות
+          האי-רציפות, וכאן היא כל הריבוע.
+        misconception: MC-c9-change-countable-points
+
+  - id: Q-9.5-rank
+    type: rank
+    objectives: [OBJ-9.5-1]
+    level: exam
+    help: 'סדרו את שלבי ההוכחה לפי הסדר הנכון.'
+    prompt: >-
+      ההוכחה של משפט פוביני ($f$ אינטגרבילית על $A\times B$ גוררת ש-$\mathcal{L}$ אינטגרבילית ו-$\int_A\mathcal{L}=\int_{A\times B}f$)
+      התפרקה לשלבים. סדרו אותם.
+    items:
+      - id: product
+        label: 'תהי $P=P_A\times P_B$ חלוקה של $A\times B$; כל תת-תיבה שלה היא $S_A\times S_B$.'
+      - id: pointwise
+        label: 'לכל $x\in S_A$: $m_{S_A\times S_B}(f)\le m_{S_B}(f(x,\cdot))$, ולכן $\sum_{S_B}m_{S_A\times S_B}(f)\,v(S_B)\le L(f(x,\cdot),P_B)\le\mathcal{L}(x)$.'
+      - id: lower
+        label: 'לוקחים אינפימום על $x\in S_A$, כופלים ב-$v(S_A)$ ומסכמים: $L(f,P)\le L(\mathcal{L},P_A)$. באותו אופן $U(\mathcal{L},P_A)\le U(\mathcal{U},P_A)\le U(f,P)$.'
+      - id: squeeze
+        label: 'מכאן $L(f,P)\le L(\mathcal{L},P_A)\le U(\mathcal{L},P_A)\le U(f,P)$. כי $f$ אינטגרבילית, יש $P$ עם $U(f,P)-L(f,P)<\varepsilon$, ולכן $\mathcal{L}$ אינטגרבילית ו-$\int_A\mathcal{L}=\int_{A\times B}f$.'
+    order: [product, pointwise, lower, squeeze]
+    correctFeedback: >-
+      נכון. הרעיון: הסכומים של $\mathcal{L}$ על $A$ "כלואים" בין הסכומים של $f$ על $A\times B$, ולכן אם הסכומים של $f$
+      נסגרים זה על זה, גם של $\mathcal{L}$. שימו לב שבשום שלב לא נדרש שהאינטגרל הפנימי יהיה קיים.
+    wrongFeedback: >-
+      מתחילים בחלוקה מכפלה, עוברים להשוואה נקודתית בכל $x$, מסכמים אותה לאי-שוויון בין סכומים, ובסוף כולאים.

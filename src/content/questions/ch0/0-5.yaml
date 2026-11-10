@@ -1,0 +1,378 @@
+# Lesson 0.5 — the linear algebra we will need.
+# Objectives (src/course.ts):
+#   OBJ-0.5-1  use an inner product and the Cauchy–Schwarz inequality, and prove it
+#   OBJ-0.5-2  pass between a linear map and its matrix; invertibility and a nonzero determinant
+#   OBJ-0.5-3  state the spectral theorem for symmetric matrices; the sign of a quadratic form from the eigenvalues
+chapter: 0
+questions:
+  - id: Q-0.5-ip
+    type: multi
+    objectives: [OBJ-0.5-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      אילו מהביטויים הבאים מגדירים מכפלה פנימית על $\mathbb{R}^2$ (סימטרית, לינארית ברכיב הראשון, וחיובית:
+      $\langle x,x\rangle>0$ לכל $x\ne0$)? כאן $x=(x_1,x_2)$ ו-$y=(y_1,y_2)$. סמנו את כולם.
+    choices:
+      - text: '$x_1y_1+2x_2y_2$'
+        correct: true
+        feedback: >-
+          נכון. סימטרי ולינארי, ו-$\langle x,x\rangle=x_1^2+2x_2^2>0$ לכל $x\ne0$. זו מכפלה פנימית "משוקללת".
+      - text: '$x_1y_1+x_1y_2+x_2y_1+2x_2y_2$'
+        correct: true
+        feedback: >-
+          נכון. הביטוי סימטרי ובילינארי, ו-$\langle x,x\rangle=x_1^2+2x_1x_2+2x_2^2=(x_1+x_2)^2+x_2^2$, שמתאפס רק
+          כש-$x_2=0$ וגם $x_1=0$.
+      - text: '$x_1y_1-x_2y_2$'
+        feedback: >-
+          סימטרי ובילינארי, אבל לא חיובי: $\langle(0,1),(0,1)\rangle=-1$.
+        misconception: MC-c0-ip-partial-check
+      - text: '$x_1y_2+x_2y_1$'
+        feedback: >-
+          סימטרי ובילינארי, אבל $\langle(1,0),(1,0)\rangle=0$ ו-$\langle(1,-1),(1,-1)\rangle=-2$: החיוביות נכשלת.
+        misconception: MC-c0-ip-partial-check
+      - text: '$|x_1y_1|+|x_2y_2|$'
+        feedback: >-
+          חיובי וסימטרי, אבל לא לינארי: $\langle-x,y\rangle=\langle x,y\rangle$ במקום $\langle-x,y\rangle=-\langle x,y\rangle$ (למשל
+          עם $x=y=(1,0)$ מקבלים 1 בשני המקרים).
+        misconception: MC-c0-ip-partial-check
+
+  - id: Q-0.5-cs-num
+    type: numeric
+    objectives: [OBJ-0.5-1]
+    level: basic
+    prompt: >-
+      $x=(1,2,2)\in\mathbb{R}^3$ עם המכפלה הפנימית הסטנדרטית. מהו הערך הגדול ביותר של $\langle x,y\rangle$ כאשר
+      $y$ עובר על כל הווקטורים עם $\|y\|_2=1$?
+    answer: 3
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. לפי קושי-שוורץ $\langle x,y\rangle\le\|x\|_2\|y\|_2=\sqrt{1+4+4}=3$, ושוויון מתקבל ב-$y=\frac{x}{3}$,
+      כי אז $y$ כפולה חיובית של $x$.
+    wrongFeedback: >-
+      הפעילו את קושי-שוורץ, ובדקו מתי יש בו שוויון.
+    commonWrong:
+      - value: 5
+        feedback: >-
+          5 הוא $\|x\|_1=1+2+2$, סכום הקואורדינטות. הנורמה שמשרה המכפלה הפנימית היא $\sqrt{\langle x,x\rangle}=3$.
+        misconception: MC-c0-norm-is-sum
+      - value: 9
+        feedback: >-
+          9 הוא $\langle x,x\rangle=\|x\|_2^2$. החסם הוא $\|x\|_2\|y\|_2$, עם שורש.
+        misconception: MC-c0-forget-square-root
+
+  - id: Q-0.5-matrix
+    type: mc
+    objectives: [OBJ-0.5-2]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $T:\mathbb{R}^2\to\mathbb{R}^2$ היא הסיבוב ב-$90^\circ$ נגד כיוון השעון. מהי המטריצה של $T$ בבסיס הסטנדרטי?
+    choices:
+      - text: '$\begin{pmatrix}0&-1\\1&0\end{pmatrix}$'
+        correct: true
+        feedback: >-
+          נכון. $T(e_1)=(0,1)$ ו-$T(e_2)=(-1,0)$, והם **העמודות** של המטריצה: העמודה ה-$j$ היא התמונה של $e_j$.
+      - text: '$\begin{pmatrix}0&1\\-1&0\end{pmatrix}$'
+        feedback: >-
+          כאן התמונות נכתבו בשורות. המטריצה הזו שולחת את $e_1$ ל-$(0,-1)$: זה הסיבוב **עם** כיוון השעון.
+        misconception: MC-c0-matrix-rows-images
+      - text: '$\begin{pmatrix}0&1\\1&0\end{pmatrix}$'
+        feedback: >-
+          זה השיקוף סביב הישר $y=x$: היא שולחת את $e_2$ ל-$(1,0)$, והסיבוב שולח אותו ל-$(-1,0)$. בנו את המטריצה
+          מהתמונות של $e_1$ ושל $e_2$, כעמודות.
+        misconception: MC-c0-matrix-rows-images
+
+  - id: Q-0.5-det
+    type: numeric
+    objectives: [OBJ-0.5-2]
+    level: basic
+    prompt: >-
+      $T(x,y)=(2x+y,\ x-3y)$. מהי הדטרמיננטה של המטריצה של $T$ בבסיס הסטנדרטי?
+    answer: -7
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. המטריצה $\begin{pmatrix}2&1\\1&-3\end{pmatrix}$, והדטרמיננטה $2\cdot(-3)-1\cdot1=-7\ne0$. לכן $T$
+      הפיכה.
+    wrongFeedback: >-
+      כתבו את המטריצה: השורה הראשונה מהרכיב הראשון של $T$, והשנייה מהשני. אחר כך $ad-bc$.
+    commonWrong:
+      - value: -5
+        feedback: >-
+          $-5=2\cdot(-3)+1\cdot1$: חיברו את מכפלת האלכסון המשני במקום לחסר אותה. הדטרמיננטה היא $ad-bc$.
+        misconception: MC-c0-det-sum-diagonals
+      - value: 7
+        feedback: >-
+          $7=bc-ad$: הסדר הפוך. הדטרמיננטה היא מכפלת האלכסון הראשי **פחות** מכפלת המשני.
+        misconception: MC-c0-det-sum-diagonals
+
+  - id: Q-0.5-form-matrix
+    type: mc
+    objectives: [OBJ-0.5-3]
+    level: basic
+    prompt: >-
+      מהי המטריצה **הסימטרית** $A$ שמקיימת $Q(x,y)=(x,y)\,A\,(x,y)^T$ עבור התבנית הריבועית $Q(x,y)=x^2+4xy+y^2$?
+    choices:
+      - text: '$\begin{pmatrix}1&2\\2&1\end{pmatrix}$'
+        correct: true
+        feedback: >-
+          נכון. $(x,y)A(x,y)^T=a_{11}x^2+(a_{12}+a_{21})xy+a_{22}y^2$, ובמטריצה סימטרית $a_{12}=a_{21}$, ולכן כל אחד מהם
+          חצי מהמקדם 4.
+      - text: '$\begin{pmatrix}1&4\\4&1\end{pmatrix}$'
+        feedback: >-
+          המטריצה הזו נותנת $x^2+8xy+y^2$: המחובר המעורב מופיע פעמיים, ב-$a_{12}$ וב-$a_{21}$.
+        misconception: MC-c0-form-matrix-full-coefficient
+      - text: '$\begin{pmatrix}1&4\\0&1\end{pmatrix}$'
+        feedback: >-
+          היא נותנת את אותה תבנית, אבל אינה סימטרית, והמשפט הספקטרלי חל רק על המטריצה הסימטרית. תמיד מחלקים את
+          המקדם של $xy$ שווה בשווה.
+        misconception: MC-c0-form-matrix-full-coefficient
+
+  - id: Q-0.5-cs-eq
+    type: twotier
+    objectives: [OBJ-0.5-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      במרחב מכפלה פנימית, $|\langle x,y\rangle|=\|x\|\,\|y\|$ עבור שני וקטורים $x,y$ שונים מאפס. האם בהכרח $x=y$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. למשל $y=-2x$: אז $|\langle x,y\rangle|=2\|x\|^2=\|x\|\,\|y\|$.'
+      - text: כן
+        feedback: >-
+          שוויון מתקבל לכל כפולה של $x$, לא רק ל-$x$ עצמו: $y=-2x$ נותן $|\langle x,y\rangle|=2\|x\|^2=\|x\|\|y\|$.
+        misconception: MC-c0-cs-equality-equal
+    reasons:
+      - text: 'שוויון בקושי-שוורץ מתקבל בדיוק כש-$x$ ו-$y$ תלויים לינארית'
+        correct: true
+        feedback: >-
+          בדיוק. בהוכחה בעזרת $\|x+ty\|^2\ge0$, שוויון פירושו דיסקרימיננטה 0, כלומר יש $t_0$ עם $x+t_0y=0$.
+      - text: 'שוויון מתקבל רק כשהזווית בין הווקטורים 0, כלומר $x=y$'
+        feedback: >-
+          זווית 0 פירושה $y=cx$ עם $c>0$, לא $y=x$; וגם זווית $180^\circ$ ($c<0$) נותנת שוויון בערך המוחלט.
+        misconception: MC-c0-cs-equality-equal
+      - text: 'שוויון מתקבל רק כשאחד הווקטורים אפס'
+        feedback: >-
+          אפס הוא מקרה פרטי של תלות לינארית. גם $y=-2x\ne0$ נותן שוויון.
+        misconception: MC-c0-cs-equality-equal
+
+  - id: Q-0.5-cs-int
+    type: numeric
+    objectives: [OBJ-0.5-1]
+    level: mid
+    prompt: >-
+      על $C[0,1]$ עם המכפלה הפנימית $\langle f,g\rangle=\int_0^1fg$. ידוע ש-$\int_0^1f(x)^2\,dx=4$. מהו הערך הגדול
+      ביותר האפשרי של $\int_0^1f(x)\,dx$?
+    answer: 2
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. קושי-שוורץ עם $g\equiv1$: $\int_0^1f=\langle f,1\rangle\le\|f\|\,\|1\|=\sqrt4\cdot\sqrt1=2$, ושוויון מתקבל
+      כש-$f$ כפולה חיובית של 1, כלומר $f\equiv2$. אותו אי-שוויון, בלי מילה על וקטורים, הוא אי-שוויון על אינטגרלים.
+    wrongFeedback: >-
+      כתבו את $\int_0^1f$ כמכפלה פנימית של $f$ עם פונקציה קבועה, והפעילו קושי-שוורץ.
+    commonWrong:
+      - value: 4
+        feedback: >-
+          4 הוא $\|f\|^2$. קושי-שוורץ חוסם את **הריבוע**: $\left(\int_0^1f\right)^2\le\int_0^1f^2\cdot\int_0^11=4$, ולכן
+          $\int_0^1f\le2$.
+        misconception: MC-c0-forget-square-root
+
+  - id: Q-0.5-invertible
+    type: multi
+    objectives: [OBJ-0.5-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $A$ מטריצה ממשית $n\times n$. אילו מהתנאים הבאים **שקולים** להפיכות של $A$? סמנו את כולם.
+    choices:
+      - text: '$\det A\ne0$'
+        correct: true
+        feedback: 'נכון: זה המשפט המרכזי על דטרמיננטות.'
+      - text: 'הפתרון היחיד של $Ax=0$ הוא $x=0$'
+        correct: true
+        feedback: >-
+          נכון: הגרעין טריוויאלי, כלומר $A$ חד-חד-ערכית, ובמימד סופי זה שקול להפיכות.
+      - text: '0 אינו ערך עצמי של $A$'
+        correct: true
+        feedback: 'נכון: $0$ ערך עצמי בדיוק כשיש $x\ne0$ עם $Ax=0$.'
+      - text: 'כל איברי $A$ שונים מאפס'
+        feedback: >-
+          $\begin{pmatrix}1&1\\1&1\end{pmatrix}$ בלי אפסים ואינה הפיכה (דטרמיננטה 0); $\begin{pmatrix}0&1\\1&0\end{pmatrix}$
+          עם אפסים הפיכה.
+        misconception: MC-c0-invertible-by-look
+      - text: '$A$ סימטרית'
+        feedback: >-
+          סימטריה והפיכות בלתי תלויות: $\begin{pmatrix}1&1\\1&1\end{pmatrix}$ סימטרית ואינה הפיכה.
+        misconception: MC-c0-invertible-by-look
+
+  - id: Q-0.5-indef
+    type: mc
+    objectives: [OBJ-0.5-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      מה הסימן של התבנית הריבועית $Q(x,y)=x^2+4xy+y^2$?
+    choices:
+      - text: 'לא מוגדרת: הערכים העצמיים של המטריצה שלה 3 ומינוס 1'
+        correct: true
+        feedback: >-
+          נכון. המטריצה $\begin{pmatrix}1&2\\2&1\end{pmatrix}$, ערכים עצמיים 3 (בכיוון $(1,1)$) ומינוס 1 (בכיוון
+          $(1,-1)$). ואכן $Q(1,1)=6>0$ ו-$Q(1,-1)=-2<0$.
+      - text: 'חיובית מוגדרת, כי המקדמים של $x^2$ ושל $y^2$ חיוביים'
+        feedback: >-
+          המחובר המעורב $4xy$ גדול מספיק כדי להפוך את הסימן: $Q(1,-1)=1-4+1=-2$. הסימן נקבע לפי הערכים העצמיים,
+          לא לפי האלכסון.
+        misconception: MC-c0-diagonal-positive-definite
+      - text: 'שלילית מוגדרת, כי הדטרמיננטה $1-4=-3$ שלילית'
+        feedback: >-
+          הדטרמיננטה היא מכפלת הערכים העצמיים. שלילית פירושה שהם **בסימנים שונים**: לא מוגדרת. שלילית מוגדרת
+          מסדר 2 הייתה נותנת דטרמיננטה חיובית.
+        misconception: MC-c0-det-positive-definite
+
+  - id: Q-0.5-min-circle
+    type: numeric
+    objectives: [OBJ-0.5-3]
+    level: mid
+    prompt: >-
+      $Q(x,y)=2x^2+2xy+2y^2$. מהו הערך הקטן ביותר של $Q$ על מעגל היחידה $x^2+y^2=1$?
+    answer: 1
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. המטריצה $\begin{pmatrix}2&1\\1&2\end{pmatrix}$, ערכים עצמיים 1 ו-3. בבסיס אורתונורמלי של וקטורים עצמיים
+      $Q=u^2+3v^2$ עם $u^2+v^2=1$, והמינימום 1 מתקבל בכיוון $\frac{1}{\sqrt2}(1,-1)$.
+    wrongFeedback: >-
+      מצאו את הערכים העצמיים של המטריצה הסימטרית של $Q$ ואת התבנית בבסיס של וקטורים עצמיים.
+    commonWrong:
+      - value: 2
+        feedback: >-
+          $2=Q(1,0)$, הערך בכיוון ציר. המחובר $2xy$ מוריד את $Q$ בכיוון $(1,-1)$: איברי האלכסון אינם הערכים העצמיים.
+        misconception: MC-c0-diagonal-positive-definite
+    explanation: >-
+      המשפט הספקטרלי נותן באופן כללי: על ספירת היחידה, $x^TAx$ נע בין הערך העצמי הקטן לגדול של $A$. בפרק 6 זה
+      הכלי שמסווג נקודות קריטיות בעזרת ההסיאן.
+
+  - id: Q-0.5-spectral
+    type: twotier
+    objectives: [OBJ-0.5-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      טענה: לכל מטריצה ממשית $2\times2$ שכל ערכיה העצמיים ממשיים יש בסיס אורתונורמלי של וקטורים עצמיים. האם
+      הטענה נכונה?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. $\begin{pmatrix}1&1\\0&2\end{pmatrix}$ היא דוגמה נגדית.'
+      - text: כן
+        feedback: >-
+          המשפט הספקטרלי דורש מטריצה **סימטרית**. ל-$\begin{pmatrix}1&1\\0&2\end{pmatrix}$ ערכים עצמיים ממשיים 1 ו-2,
+          והווקטורים העצמיים שלה אינם ניצבים.
+        misconception: MC-c0-real-eigen-orthodiag
+    reasons:
+      - text: 'ל-$\begin{pmatrix}1&1\\0&2\end{pmatrix}$ הווקטורים העצמיים הם כפולות של $(1,0)$ ושל $(1,1)$, ומכפלתם הפנימית 1'
+        correct: true
+        feedback: >-
+          בדיוק. כל מרחב עצמי חד-ממדי, ולכן אין ברירה אחרת של וקטורים עצמיים, והם לא ניצבים. המשפט הספקטרלי:
+          למטריצה ממשית **סימטרית** יש בסיס אורתונורמלי של וקטורים עצמיים, וכל ערכיה העצמיים ממשיים.
+      - text: 'ערכים עצמיים ממשיים הם בדיוק ההנחה של המשפט הספקטרלי'
+        feedback: >-
+          ההנחה היא סימטריה; ערכים עצמיים ממשיים הם חלק מ**המסקנה**. בלי סימטריה המסקנה נכשלת גם כשהערכים ממשיים.
+        misconception: MC-c0-real-eigen-orthodiag
+      - text: 'גרם-שמידט הופך כל בסיס של וקטורים עצמיים לבסיס אורתונורמלי של וקטורים עצמיים'
+        feedback: >-
+          גרם-שמידט מחסר מ-$(1,1)$ את ההיטל שלו על $(1,0)$ ומקבל $(0,1)$, שאינו וקטור עצמי. הוא שומר על ניצבות, לא על
+          היותם וקטורים עצמיים לערכים שונים.
+        misconception: MC-c0-real-eigen-orthodiag
+
+  - id: Q-0.5-cs-proof
+    type: rank
+    objectives: [OBJ-0.5-1]
+    level: exam
+    help: 'סדרו את שלבי ההוכחה לפי הסדר הנכון.'
+    prompt: >-
+      ההוכחה של אי-שוויון קושי-שוורץ, $|\langle x,y\rangle|\le\|x\|\,\|y\|$, במרחב מכפלה פנימית ממשי, יחד עם מקרה
+      השוויון, התפרקה לשלבים. סדרו אותם.
+    items:
+      - id: zero
+        label: 'אם $y=0$ שני האגפים 0. נניח $y\ne0$.'
+      - id: poly
+        label: 'לכל $t\in\mathbb{R}$: $0\le\|x+ty\|^2=\|x\|^2+2t\langle x,y\rangle+t^2\|y\|^2$.'
+      - id: disc
+        label: 'פולינום ריבועי ב-$t$ עם מקדם מוביל חיובי שאינו שלילי אף פעם, ולכן הדיסקרימיננטה שלו לא חיובית: $4\langle x,y\rangle^2-4\|x\|^2\|y\|^2\le0$.'
+      - id: root
+        label: 'לכן $\langle x,y\rangle^2\le\|x\|^2\|y\|^2$, ומוציאים שורש: $|\langle x,y\rangle|\le\|x\|\,\|y\|$.'
+      - id: eq
+        label: 'שוויון פירושו דיסקרימיננטה 0, כלומר יש $t_0$ עם $\|x+t_0y\|=0$, ולכן $x=-t_0y$: הווקטורים תלויים לינארית.'
+    order: [zero, poly, disc, root, eq]
+    correctFeedback: >-
+      נכון. הרעיון: האורך בריבוע של $x+ty$ אינו שלילי לכל $t$, ופולינום ריבועי כזה לא יכול שיהיו לו שני שורשים.
+      מקרה השוויון יוצא מאותה הוכחה בחינם.
+    wrongFeedback: >-
+      ההוכחה בונה פולינום ב-$t$ ואז משתמשת בדיסקרימיננטה שלו. המקרה $y=0$ מטופל לפני הכול, כי בלעדיו המקדם המוביל
+      $\|y\|^2$ אינו חיובי.
+
+  - id: Q-0.5-det-pos
+    type: twotier
+    objectives: [OBJ-0.5-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $A$ מטריצה ממשית סימטרית $2\times2$ עם $\det A>0$. האם התבנית $x^TAx$ בהכרח חיובית מוגדרת?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. $A=-I$: הדטרמיננטה 1, והתבנית $Q(x)=-x_1^2-x_2^2$ שלילית מוגדרת.
+      - text: כן
+        feedback: >-
+          דטרמיננטה חיובית אומרת רק ששני הערכים העצמיים באותו סימן. ב-$A=-I$ שניהם מינוס 1.
+        misconception: MC-c0-det-positive-definite
+    reasons:
+      - text: '$\det A=\lambda_1\lambda_2>0$ רק אומר שהערכים העצמיים באותו סימן; שניהם יכולים להיות שליליים, כמו ב-$A=-I$'
+        correct: true
+        feedback: >-
+          בדיוק. כדי להכריע צריך עוד מידע, למשל $\operatorname{tr}A=\lambda_1+\lambda_2>0$, או $a_{11}>0$.
+      - text: 'דטרמיננטה חיובית פירושה שכל הערכים העצמיים חיוביים'
+        feedback: >-
+          הדטרמיננטה היא **מכפלת** הערכים העצמיים. מכפלה של שני שליליים חיובית: $(-1)\cdot(-1)=1$.
+        misconception: MC-c0-det-positive-definite
+      - text: 'דטרמיננטה חיובית גוררת הפיכות, ומטריצה סימטרית הפיכה חיובית מוגדרת'
+        feedback: >-
+          החלק הראשון נכון, השני לא: $\begin{pmatrix}1&0\\0&-1\end{pmatrix}$ סימטרית והפיכה, והתבנית $x_1^2-x_2^2$ לא
+          מוגדרת.
+        misconception: MC-c0-invertible-by-look
+
+  - id: Q-0.5-coercive
+    type: twotier
+    objectives: [OBJ-0.5-3, OBJ-0.5-1]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $A$ מטריצה סימטרית $n\times n$ חיובית מוגדרת. האם קיים $c>0$ כך ש-$x^TAx\ge c\|x\|_2^2$ **לכל**
+      $x\in\mathbb{R}^n$?
+    choices:
+      - text: כן
+        correct: true
+        feedback: >-
+          נכון, ו-$c=\lambda_{\min}$, הערך העצמי הקטן ביותר, הוא הקבוע הטוב ביותר. בפרק 6 החסם הזה הוא מה שהופך
+          הסיאן מוגדר חיובית למינימום מקומי.
+      - text: לא
+        feedback: >-
+          במימד סופי יש תמיד קבוע כזה: כל הערכים העצמיים חיוביים, והקטן שבהם הוא $c$.
+        misconception: MC-c0-inf-of-positive-positive
+    reasons:
+      - text: 'בבסיס אורתונורמלי של וקטורים עצמיים: $x^TAx=\sum\lambda_iy_i^2\ge\lambda_{\min}\sum y_i^2=\lambda_{\min}\|x\|_2^2$'
+        correct: true
+        feedback: >-
+          בדיוק. המשפט הספקטרלי נותן את הבסיס, ומעבר בין בסיסים אורתונורמליים שומר על $\|x\|_2$. ו-$\lambda_{\min}>0$
+          כי $A$ חיובית מוגדרת.
+      - text: 'לכל $x\ne0$ המנה $\frac{x^TAx}{\|x\|^2}$ חיובית, ולכן גם האינפימום שלה חיובי'
+        feedback: >-
+          אינפימום של מספרים חיוביים יכול להיות 0, כמו $\inf\frac1n$. כדי שהטיעון הזה יעבוד צריך שהאינפימום יתקבל,
+          וזה דורש קומפקטיות (פרק 3). המשפט הספקטרלי נותן את החסם ישר.
+        misconception: MC-c0-inf-of-positive-positive
+      - text: 'לכל $x\ne0$ בוחרים $c=\frac{x^TAx}{\|x\|^2}$, שחיובי'
+        feedback: >-
+          הטענה דורשת $c$ אחד **לכל** $x$; כאן $c$ תלוי ב-$x$. זה סדר הכמתים: קודם $c$, אחר כך $x$.
+        misconception: MC-c0-quantifier-order-definition

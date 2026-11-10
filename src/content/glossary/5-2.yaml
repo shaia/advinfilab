@@ -1,0 +1,18 @@
+# Terms first defined in lesson 5.2.
+- id: partial-derivative
+  term: נגזרת חלקית
+  en: partial derivative
+  symbol: '\frac{\partial f}{\partial x_i}(a)=\partial_i f(a)'
+  definition: >-
+    $\frac{\partial f}{\partial x_i}(a)=\lim_{t\to0}\frac{f(a+te_i)-f(a)}{t}$, כש-$e_i$ וקטור היחידה ה-$i$: הנגזרת
+    של $f$ לפי המשתנה $x_i$ כשכל שאר המשתנים קבועים.
+  reject: [נגזרת חילקית]
+  lesson: '5.2'
+- id: directional-derivative
+  term: נגזרת כיוונית
+  en: directional derivative
+  symbol: 'D_v f(a)'
+  definition: >-
+    לווקטור יחידה $v$: $D_vf(a)=\lim_{t\to0}\frac{f(a+tv)-f(a)}{t}$, גבול דו-צדדי. זו הנגזרת של הפונקציה של משתנה
+    אחד $t\mapsto f(a+tv)$ ב-$t=0$, קצב השינוי של $f$ כשזזים מ-$a$ בכיוון $v$. הנגזרות החלקיות הן המקרה $v=e_i$.
+  lesson: '5.2'

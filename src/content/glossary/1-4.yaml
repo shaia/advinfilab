@@ -1,0 +1,59 @@
+# Terms first defined in lesson 1.4 (interior, closure, boundary, density).
+- id: interior
+  term: פנים
+  en: interior
+  symbol: 'A^\circ'
+  definition: >-
+    $A^\circ$ היא קבוצת הנקודות $x$ שיש כדור $B(x,r)\subseteq A$; זו הקבוצה הפתוחה הגדולה ביותר שמוכלת ב-$A$.
+  lesson: '1.4'
+- id: closure
+  term: סגור
+  en: closure
+  symbol: '\overline{A}'
+  definition: >-
+    $\overline A$ היא קבוצת הנקודות $x$ שכל כדור סביבן פוגש את $A$; זו הקבוצה הסגורה הקטנה ביותר שמכילה את $A$,
+    והיא שווה ל-$A\cup A'$. בשיעור 1.5 נראה שהיא גם קבוצת הגבולות של סדרות מ-$A$.
+  lesson: '1.4'
+- id: boundary
+  term: שפה
+  en: boundary
+  symbol: '\partial A'
+  definition: >-
+    $\partial A=\overline A\setminus A^\circ$: הנקודות שכל כדור סביבן פוגש גם את $A$ וגם את המשלים. למשל
+    $\partial[0,1)=\{0,1\}$ ו-$\partial\mathbb{Q}=\mathbb{R}$.
+  lesson: '1.4'
+- id: accumulation-point
+  term: נקודת הצטברות
+  en: accumulation point (limit point)
+  symbol: "A'"
+  definition: >-
+    $x$ היא נקודת הצטברות של $A$ אם כל כדור סביב $x$ מכיל נקודה של $A$ ששונה מ-$x$. קבוצת נקודות ההצטברות
+    מסומנת $A'$, והן לא חייבות להיות ב-$A$: $0$ היא נקודת ההצטברות היחידה של $\{\frac1n\}$.
+  lesson: '1.4'
+- id: isolated-point
+  term: נקודה מבודדת
+  en: isolated point
+  definition: >-
+    $x\in A$ היא נקודה מבודדת של $A$ אם יש כדור $B(x,r)$ שהנקודה היחידה של $A$ בו היא $x$. כל נקודה של $A$ היא
+    נקודת הצטברות או נקודה מבודדת, לא שתיהן.
+  lesson: '1.4'
+- id: dense-set
+  term: קבוצה צפופה
+  en: dense set
+  definition: >-
+    $A\subseteq X$ צפופה אם $\overline A=X$, כלומר כל כדור ב-$X$ פוגש את $A$. $\mathbb{Q}$ צפופה ב-$\mathbb{R}$
+    ו-$\mathbb{Q}^n$ צפופה ב-$\mathbb{R}^n$; במטריקה הבדידה רק $X$ עצמה צפופה.
+  lesson: '1.4'
+- id: interior-point
+  term: נקודה פנימית
+  en: interior point
+  definition: >-
+    $x$ היא נקודה פנימית של $A$ אם יש $r>0$ עם $B(x,r)\subseteq A$. קבוצת הנקודות הפנימיות היא הפנים $A^\circ$.
+  lesson: '1.4'
+- id: exterior-point
+  term: נקודה חיצונית
+  en: exterior point
+  definition: >-
+    $x$ היא נקודה חיצונית של $A$ אם יש $r>0$ עם $B(x,r)\subseteq X\setminus A$, כלומר $x$ נקודה פנימית של
+    המשלים. כל נקודה של $X$ היא בדיוק אחת מאלה: פנימית, חיצונית או נקודת שפה של $A$.
+  lesson: '1.4'

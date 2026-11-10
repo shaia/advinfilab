@@ -1,0 +1,25 @@
+# Terms first defined in lesson 6.1 (Taylor's theorem in several variables).
+- id: hessian-matrix
+  term: מטריצה הסיאנית
+  en: Hessian matrix
+  symbol: 'H_f(a)'
+  definition: >-
+    המטריצה $n\times n$ של הנגזרות החלקיות מסדר שני, $\left(H_f(a)\right)_{ij}=\partial_i\partial_j f(a)$. נקראת גם
+    ההסיאן. כש-$f\in C^2$ היא סימטרית לפי משפט שוורץ, והאיבר מסדר שני של טיילור הוא $\frac12h^{T}H_f(a)h$.
+  lesson: '6.1'
+- id: taylor-polynomial-several-variables
+  term: פולינום טיילור בכמה משתנים
+  en: Taylor polynomial (several variables)
+  symbol: 'P_2(h)=f(a)+\nabla f(a)\cdot h+\tfrac12h^{T}H_f(a)h'
+  definition: >-
+    הפולינום ממעלה $k$ לכל היותר במשתנה $h$ שמקרב את $f(a+h)$; מסדר שני הוא
+    $f(a)+\nabla f(a)\cdot h+\frac12h^{T}H_f(a)h$. הוא הפולינום היחיד ממעלה $\le k$ שהשגיאה שלו $o(\|h\|^k)$.
+  lesson: '6.1'
+- id: lagrange-remainder
+  term: שארית לגרנז'
+  en: Lagrange remainder
+  definition: >-
+    הצורה של השגיאה במשפט טיילור: אם $f\in C^{k+1}$ והקטע $[a,a+h]$ בתחום, קיימת נקודה $c$ על הקטע שבה השגיאה
+    שווה לאיבר מסדר $k+1$ מחושב ב-$c$; מסדר ראשון, $f(a+h)=f(a)+\nabla f(a)\cdot h+\frac12h^{T}H_f(c)h$. מוכיחים
+    בעזרת $g(t)=f(a+th)$ ומשפט טיילור במשתנה אחד.
+  lesson: '6.1'

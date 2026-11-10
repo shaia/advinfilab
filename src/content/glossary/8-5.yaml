@@ -1,0 +1,26 @@
+# Terms first defined in lesson 8.5.
+- id: locally-conservative-field
+  term: שדה משמר מקומית
+  en: locally conservative field
+  definition: >-
+    שדה רציף $F$ בקבוצה פתוחה $U$ כך שלכל $x\in U$ יש $r>0$ (שתלוי ב-$x$) עם $B(x,r)\subseteq U$, ול-$F$ יש
+    פוטנציאל ב-$B(x,r)$. שדה גזיר ברציפות שמקיים את תנאי הנגזרות המוצלבות משמר מקומית. שדה משמר הוא משמר מקומית,
+    אבל לא להפך: שדה הזווית ב-$\mathbb{R}^2\setminus\{0\}$.
+  lesson: '8.5'
+- id: homotopy
+  term: הומוטופיה
+  en: homotopy (of closed curves)
+  definition: >-
+    שתי מסילות סגורות $\gamma_0,\gamma_1:[a,b]\to U$ הומוטופיות ב-$U$ אם יש העתקה רציפה $H:[0,1]\times[a,b]\to U$
+    עם $H(0,t)=\gamma_0(t)$, $H(1,t)=\gamma_1(t)$ ו-$H(s,a)=H(s,b)$ לכל $s$: כל מסילת ביניים $H(s,\cdot)$ סגורה
+    ונמצאת ב-$U$. לשדה משמר מקומית ב-$U$, האינטגרלים על שתי מסילות סגורות הומוטופיות (חלקות למקוטעין) שווים.
+  lesson: '8.5'
+- id: simply-connected-domain
+  term: תחום פשוט קשר
+  en: simply connected domain
+  definition: >-
+    קבוצה פתוחה $U$ שכל שתי נקודות בה מחוברות במסילה בתוכה, וכל מסילה סגורה ב-$U$ הומוטופית ב-$U$ למסילה קבועה.
+    קבוצות קמורות וקבוצות כוכביות (למשל המישור בלי חצי ישר) פשוטות קשר; $\mathbb{R}^2\setminus\{0\}$ וטבעת אינן. בתחום
+    פשוט קשר כל שדה משמר מקומית הוא משמר.
+  reject: [תחום פשוט-קישור]
+  lesson: '8.5'

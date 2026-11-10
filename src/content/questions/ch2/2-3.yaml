@@ -1,0 +1,379 @@
+# Lesson 2.3 — Banach's fixed point theorem.
+# Objectives (src/course.ts):
+#   OBJ-2.3-1  define a contraction and state Banach's fixed point theorem
+#   OBJ-2.3-2  prove it with the iteration sequence; estimate the error after a given number of iterations
+#   OBJ-2.3-3  show by examples that every hypothesis is needed: completeness, q < 1 (not just shrinking), f(X) ⊆ X
+chapter: 2
+questions:
+  - id: Q-2.3-def
+    type: mc
+    objectives: [OBJ-2.3-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $f:X\to X$, ו-$(X,d)$ מרחב מטרי. מתי $f$ נקראת **העתקה מכווצת**?
+    choices:
+      - text: 'קיים $q\in[0,1)$ כך שלכל $x,y\in X$: $d(f(x),f(y))\le q\,d(x,y)$'
+        correct: true
+        feedback: >-
+          נכון. מקדם כיווץ $q$ **אחד** לכל הזוגות, וקטן ממש מ-1. בזכות זה מרחקי הצעדים קטנים לפחות כמו טור הנדסי.
+      - text: 'לכל $x\ne y$ ב-$X$: $d(f(x),f(y))<d(x,y)$'
+        feedback: >-
+          זו "הקטנת מרחקים", וזה חלש יותר. $f(x)=x+\frac1x$ על $[1,\infty)$ מקיימת אותה, אבל היחס
+          $\frac{|f(x)-f(y)|}{|x-y|}=1-\frac1{xy}$ מתקרב ל-1 כש-$x,y$ גדלים, ואין לה נקודת שבת.
+        misconception: MC-c2-shrinking-is-contraction
+      - text: 'לכל $x,y\in X$ קיים $q<1$ כך ש-$d(f(x),f(y))\le q\,d(x,y)$'
+        feedback: >-
+          כאן $q$ רשאי להשתנות עם הזוג, וזה שקול להקטנת מרחקים. סדר הכמתים קובע: בהגדרה $q$ נבחר **לפני** $x,y$.
+        misconception: MC-c2-shrinking-is-contraction
+      - text: 'קיים $q\in[0,1]$ כך שלכל $x,y\in X$: $d(f(x),f(y))\le q\,d(x,y)$'
+        feedback: >-
+          זה מתיר $q=1$, וכל העתקה עם $d(f(x),f(y))\le d(x,y)$ עוברת. ההזזה $x\mapsto x+1$ על $\mathbb{R}$ מקיימת זאת
+          ואין לה נקודת שבת.
+        misconception: MC-c2-q-one-enough
+
+  - id: Q-2.3-statement
+    type: multi
+    objectives: [OBJ-2.3-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $(X,d)$ מרחב מטרי **שלם** ולא ריק, ו-$f:X\to X$ העתקה מכווצת עם מקדם $q$. אילו מהבאים הם חלק ממסקנת משפט
+      נקודת השבת של בנך? סמנו את כולם.
+    choices:
+      - text: 'ל-$f$ יש נקודת שבת $x^*$'
+        correct: true
+        feedback: 'נכון: הקיום.'
+      - text: 'נקודת השבת יחידה'
+        correct: true
+        feedback: 'נכון: היחידות, מ-$d(x^*,y^*)\le q\,d(x^*,y^*)$.'
+      - text: 'לכל $x_0\in X$ הסדרה $x_{n+1}=f(x_n)$ מתכנסת ל-$x^*$'
+        correct: true
+        feedback: >-
+          נכון. המשפט קונסטרוקטיבי: הוא גם אומר איך מוצאים את נקודת השבת, מכל נקודת התחלה.
+      - text: '$d(x_n,x^*)\le\frac{q^n}{1-q}\,d(x_1,x_0)$ לכל $n$'
+        correct: true
+        feedback: >-
+          נכון: חסם השגיאה המוקדם (אפריורי), שמחושב לפני שמריצים את האיטרציות.
+      - text: 'האיטרציות מתכנסות רק אם $x_0$ קרובה מספיק ל-$x^*$'
+        feedback: >-
+          לא. זה נכון לשיטות אחרות (כמו ניוטון), לא להעתקה מכווצת על מרחב שלם: ההתכנסות היא מ**כל** $x_0$.
+        misconception: MC-c2-start-point-matters
+      - text: 'אם $X$ אינו שלם, למכווצת אין נקודת שבת'
+        feedback: >-
+          המשפט לא אומר דבר על מרחב לא שלם. $\frac x2$ על $(-1,1)$, מרחב לא שלם, היא מכווצת ויש לה נקודת שבת $0$.
+        misconception: MC-c2-incomplete-no-fixed-point
+
+  - id: Q-2.3-start
+    type: twotier
+    objectives: [OBJ-2.3-2]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $g(x)=\frac{\cos x}{2}$ מכווצת על $\mathbb{R}$ עם $q=\frac12$ (כי $|g'(x)|=\frac{|\sin x|}{2}\le\frac12$).
+      מ-$x_0=0$ האיטרציות מתכנסות ל-$x^*\approx0.4502$. האם מ-$x_0=100$ הן עשויות להתכנס לנקודה אחרת?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. מ-$x_0=100$ האיטרציות מתכנסות לאותה $x^*$. נקודת ההתחלה משנה רק כמה צעדים צריך.
+      - text: כן
+        feedback: >-
+          מכל $x_0$ האיטרציות מתכנסות לנקודת שבת, ולמכווצת על מרחב שלם יש רק אחת.
+        misconception: MC-c2-start-point-matters
+    reasons:
+      - text: 'הגבול של האיטרציות הוא תמיד נקודת שבת (כי $g$ רציפה), ונקודת השבת יחידה'
+        correct: true
+        feedback: >-
+          בדיוק: $g(\lim x_n)=\lim g(x_n)=\lim x_{n+1}$. שני הגבולות האפשריים הם נקודות שבת, וכי יש רק אחת, הם שווים.
+      - text: 'נקודת התחלה רחוקה מובילה לנקודת שבת אחרת, כמו בשיטת ניוטון'
+        feedback: >-
+          בשיטת ניוטון יכולים להיות כמה שורשים וכמה אגני משיכה. למכווצת על מרחב שלם אין שתי נקודות שבת: לו
+          $x^*\ne y^*$, היה $d(x^*,y^*)\le\frac12 d(x^*,y^*)$.
+        misconception: MC-c2-start-point-matters
+      - text: 'מ-$x_0=100$ האיטרציות עלולות להתבדר, כי הן מתחילות רחוק'
+        feedback: >-
+          כבר הצעד הראשון נותן $|x_1|=\frac{|\cos100|}{2}\le\frac12$. מרחק ההתחלה נכנס לחסם רק דרך $d(x_1,x_0)$, ולא
+          מונע התכנסות.
+        misconception: MC-c2-start-point-matters
+
+  - id: Q-2.3-q
+    type: numeric
+    objectives: [OBJ-2.3-1]
+    level: basic
+    prompt: >-
+      $g(x)=\frac x2+\frac1x$ על $X=[1,2]$ (היא שולחת את $[1,2]$ לתוך $[\sqrt2,\frac32]$). לפי משפט הערך הממוצע
+      $|g(x)-g(y)|\le\left(\sup_{[1,2]}|g'|\right)|x-y|$. מהו $\sup_{[1,2]}|g'|$, מקדם הכיווץ שמקבלים כך?
+    answer: 0.5
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $g'(x)=\frac12-\frac1{x^2}$ עולה על $[1,2]$, מ-$g'(1)=-\frac12$ עד $g'(2)=\frac14$, ולכן
+      $\sup|g'|=\frac12$, בקצה $x=1$. זה מקדם כיווץ טוב: $q=\frac12<1$.
+    wrongFeedback: >-
+      חשבו את $g'(x)=\frac12-\frac1{x^2}$, ומצאו את המקסימום של $|g'|$ על **כל** הקטע, כולל שני הקצוות.
+    commonWrong:
+      - value: 0.25
+        feedback: >-
+          $\frac14$ הוא $|g'(2)|$, בקצה אחד בלבד. בקצה השני $|g'(1)|=\frac12$, ומקדם הכיווץ צריך לעבוד לכל הזוגות.
+        misconception: MC-c2-q-at-one-point
+      - value: 0
+        feedback: >-
+          $g'(\sqrt2)=0$ בנקודת השבת, אבל ליד $x=1$ השיפוע חצי. מקדם הכיווץ הוא סופרמום על הקטע, לא ערך בנקודה.
+        misconception: MC-c2-q-at-one-point
+
+  - id: Q-2.3-bound-n4
+    type: numeric
+    objectives: [OBJ-2.3-2]
+    level: basic
+    prompt: >-
+      $g(x)=\frac x3+1$ על $\mathbb{R}$, $x_0=0$, $x_{n+1}=g(x_n)$. מה נותן חסם השגיאה המוקדם של בנך,
+      $\frac{q^n}{1-q}\,d(x_1,x_0)$, עבור $n=4$? (אפשר לענות בשבר.)
+    answer: 0.0185185185
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון, $\frac1{54}$. $q=\frac13$, $x_1=1$, ולכן $\frac{(1/3)^4}{2/3}\cdot1=\frac{1}{81}\cdot\frac32=\frac1{54}$.
+      כאן החסם מדויק: $x_4=\frac{40}{27}$, ו-$|x_4-\frac32|=\frac1{54}$ בדיוק.
+    wrongFeedback: >-
+      זהו את $q$ (המקדם של $x$) ואת $d(x_1,x_0)=|g(0)-0|$, והציבו ב-$\frac{q^n}{1-q}\,d(x_1,x_0)$.
+    commonWrong:
+      - value: 0.0123456790
+        feedback: >-
+          $\frac1{81}=q^4\,d(x_1,x_0)$: חסר הגורם $\frac1{1-q}$, שבא מסכום כל הצעדים מ-$x_4$ עד הגבול, לא רק הצעד
+          הבא.
+        misconception: MC-c2-bound-formula
+      - value: 0.0061728395
+        feedback: >-
+          $\frac1{162}=\frac{q^5}{1-q}\,d(x_1,x_0)$: חזקה אחת יותר מדי. הצעד מ-$x_4$ ל-$x_5$ חסום על ידי
+          $q^4 d(x_1,x_0)$, ומשם מתחיל הטור.
+        misconception: MC-c2-bound-formula
+      - value: 1.5
+        feedback: >-
+          $\frac32=\frac{d(x_1,x_0)}{1-q}$ הוא החסם עם $n=0$, על $d(x_0,x^*)$. חסרה החזקה $q^4$.
+        misconception: MC-c2-bound-formula
+
+  - id: Q-2.3-proof
+    type: rank
+    objectives: [OBJ-2.3-2]
+    level: mid
+    prompt: >-
+      סדרו את שלבי ההוכחה של משפט נקודת השבת של בנך: $(X,d)$ שלם ולא ריק, $f:X\to X$ מכווצת עם מקדם $q<1$.
+    help: גררו את השלבים לסדר הנכון. היחידות היא השלב האחרון.
+    items:
+      - id: iterate
+        label: 'נבחר $x_0\in X$ ונגדיר $x_{n+1}=f(x_n)$. באינדוקציה $d(x_{n+1},x_n)\le q^n d(x_1,x_0)$.'
+      - id: geometric
+        label: 'ל-$m>n$, מאי-שוויון המשולש: $d(x_m,x_n)\le\sum_{k=n}^{m-1}q^k d(x_1,x_0)<\frac{q^n}{1-q}\,d(x_1,x_0)$.'
+      - id: cauchy
+        label: 'כי $q^n\to0$, הסדרה היא סדרת קושי; $X$ שלם, ולכן $x_n\to x^*$ לאיזה $x^*\in X$.'
+      - id: fixed
+        label: '$f$ ליפשיצית ולכן רציפה, ולכן $f(x^*)=\lim f(x_n)=\lim x_{n+1}=x^*$.'
+      - id: unique
+        label: 'אם גם $f(y^*)=y^*$, אז $d(x^*,y^*)=d(f(x^*),f(y^*))\le q\,d(x^*,y^*)$, ומ-$q<1$ נובע $d(x^*,y^*)=0$.'
+    order: [iterate, geometric, cauchy, fixed, unique]
+    correctFeedback: >-
+      נכון. הרעיון: הצעדים קטנים כמו טור הנדסי, ולכן מצטברים למרחק סופי (קושי); השלמות נותנת גבול, הרציפות
+      הופכת אותו לנקודת שבת, ו-$q<1$ נותן יחידות. ההשאפה $m\to\infty$ בשלב השני היא גם חסם השגיאה.
+    wrongFeedback: >-
+      הסדר הוא: צעד בודד, סכום של צעדים, קושי ושלמות, רציפות, יחידות. כל הנחה של המשפט נכנסת בשלב אחר: $f(X)\subseteq X$
+      כבר בהגדרת האיטרציות, $q<1$ בטור ההנדסי, השלמות בשלב השלישי.
+
+  - id: Q-2.3-count
+    type: numeric
+    objectives: [OBJ-2.3-2]
+    level: mid
+    prompt: >-
+      $g(x)=\frac{\cos x}{2}$ על $\mathbb{R}$, עם $q=\frac12$ ו-$x_0=0$. מהו ה-$n$ **הקטן ביותר** שעבורו החסם
+      המוקדם $\frac{q^n}{1-q}\,d(x_1,x_0)$ קטן מ-$10^{-6}$?
+    answer: 20
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $x_1=\frac{\cos0}{2}=\frac12$, ולכן החסם הוא $\frac{2^{-n}}{1/2}\cdot\frac12=2^{-n}$. $2^{-19}\approx1.9\cdot10^{-6}$
+      ו-$2^{-20}\approx9.5\cdot10^{-7}$, ולכן $n=20$.
+    wrongFeedback: >-
+      חשבו קודם את $x_1$ ואת $d(x_1,x_0)$, פשטו את החסם לביטוי $2^{-n}$, ומצאו את ה-$n$ הראשון שבו הוא קטן
+      מ-$10^{-6}$.
+    commonWrong:
+      - value: 19
+        feedback: >-
+          19 מתקבל מ-$q^n d(x_1,x_0)=2^{-n-1}$, בלי הגורם $\frac1{1-q}=2$. הגורם הזה הוא סכום כל הצעדים שנותרו, ובלעדיו
+          החסם אינו מוכח.
+        misconception: MC-c2-bound-formula
+      - value: 9
+        feedback: >-
+          אם הרצתם את האיטרציות: באמת $|x_9-x^*|\approx2.6\cdot10^{-7}$, כבר מתחת ל-$10^{-6}$. אבל השאלה על מה
+          שהחסם **מבטיח** מראש, בלי לדעת את $x^*$. החסם פסימי, וזה בסדר: הוא חסם, לא מדידה.
+        misconception: MC-c2-estimate-is-exact
+
+  - id: Q-2.3-aposteriori
+    type: numeric
+    objectives: [OBJ-2.3-2]
+    level: mid
+    prompt: >-
+      העתקה מכווצת עם $q=\frac13$ על מרחב שלם. אחרי ארבעה צעדים מדדנו $d(x_5,x_4)=0.006$. נתייחס ל-$x_4$ כנקודת
+      התחלה חדשה ונפעיל את החסם המוקדם עם $n=1$. איזה חסם מתקבל על $d(x_5,x^*)$?
+    answer: 0.003
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. מנקודת ההתחלה $x_4$ הצעד הראשון הוא $d(x_5,x_4)$, והחסם הוא $\frac{q}{1-q}\,d(x_5,x_4)=\frac{1/3}{2/3}\cdot0.006=0.003$.
+      זה החסם המאוחר (אפוסטריורי): הוא משתמש בצעד שכבר נמדד, ולכן בדרך כלל חד יותר מהחסם המוקדם.
+    wrongFeedback: >-
+      בחסם $\frac{q^n}{1-q}\,d(x_1,x_0)$ החליפו את $x_0,x_1$ ב-$x_4,x_5$ ואת $n$ ב-1.
+    commonWrong:
+      - value: 0.009
+        feedback: >-
+          $0.009=\frac{1}{1-q}\,d(x_5,x_4)$ הוא החסם עם $n=0$, כלומר על $d(x_4,x^*)$. בשביל $x_5$ צריך עוד גורם $q$.
+        misconception: MC-c2-bound-formula
+      - value: 0.002
+        feedback: >-
+          $0.002=q\,d(x_5,x_4)$ חוסם רק את הצעד **הבא**, $d(x_6,x_5)$. המרחק לגבול הוא סכום כל הצעדים הבאים, ולכן
+          צריך את $\frac{1}{1-q}$.
+        misconception: MC-c2-bound-formula
+
+  - id: Q-2.3-shrink
+    type: twotier
+    objectives: [OBJ-2.3-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $f(x)=x+\frac1x$ על $X=[1,\infty)$. לכל $x\ne y$ ב-$X$ מתקיים $|f(x)-f(y)|<|x-y|$. האם ל-$f$ יש נקודת שבת?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. הדוגמה מראה שהקטנת מרחקים אינה מספיקה: צריך מקדם אחיד $q<1$.
+      - text: 'כן, יחידה, לפי משפט בנך'
+        feedback: >-
+          $X$ שלם (סגור ב-$\mathbb{R}$) ו-$f(X)\subseteq X$, אבל $f$ אינה מכווצת: אין $q<1$ אחד שמתאים לכל הזוגות.
+        misconception: MC-c2-shrinking-is-contraction
+    reasons:
+      - text: '$f(x)=x$ פירושו $\frac1x=0$, ואין פתרון; ו-$|f(x)-f(y)|=\left(1-\frac1{xy}\right)|x-y|$, והיחס שואף ל-1 כש-$x,y\to\infty$'
+        correct: true
+        feedback: >-
+          בדיוק. למשל $x=100$, $y=101$: היחס $1-\frac1{10100}\approx0.9999$. לכל $q<1$ יש זוג שהיחס שלו גדול מ-$q$.
+          ההנחה שנכשלת היא $q<1$, והאיטרציות $x_{n+1}=x_n+\frac1{x_n}$ שואפות לאינסוף.
+      - text: '$[1,\infty)$ אינו חסום ולכן אינו שלם, וזו ההנחה שנכשלת'
+        feedback: >-
+          $[1,\infty)$ סגור ב-$\mathbb{R}$, ולכן שלם; שלמות לא דורשת חסימות. ההנחה שנכשלת היא אחרת.
+        misconception: MC-c2-complete-closed-bounded
+      - text: '$f$ אינה שולחת את $[1,\infty)$ לתוך עצמו'
+        feedback: >-
+          היא כן: $x+\frac1x\ge2\ge1$ לכל $x>0$. כשהמסקנה נכשלת, בודקים כל הנחה בנפרד.
+        misconception: MC-c2-wrong-hypothesis-blamed
+
+  - id: Q-2.3-self-map
+    type: twotier
+    objectives: [OBJ-2.3-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $g(x)=\frac x2+1$ מקיימת $|g(x)-g(y)|=\frac12|x-y|$ לכל $x,y\in[0,1]$, ו-$[0,1]$ שלם. האם ל-$g$ יש נקודת שבת
+      ב-$[0,1]$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. $g$ אינה העתקה **של $[0,1]$ לתוך עצמו**, ולכן משפט בנך לא חל עליה שם.
+      - text: 'כן, לפי משפט בנך'
+        feedback: >-
+          משפט בנך דורש $g:X\to X$. כאן $g(0)=1$ ו-$g(1)=\frac32\notin[0,1]$, והאיטרציות יוצאות מהקטע.
+        misconception: MC-c2-ignore-self-map
+    reasons:
+      - text: '$g([0,1])=[1,\frac32]\not\subseteq[0,1]$, והפתרון היחיד של $g(x)=x$ הוא $x=2\notin[0,1]$'
+        correct: true
+        feedback: >-
+          בדיוק. על כל $\mathbb{R}$ (שם $g:\mathbb{R}\to\mathbb{R}$) משפט בנך חל, ונקודת השבת היא 2, מחוץ לקטע. לכן
+          ההנחה $f(X)\subseteq X$ אינה טכנית: בלעדיה נקודת השבת יכולה להיות בחוץ.
+      - text: '$[0,1]$ אינו שלם'
+        feedback: >-
+          $[0,1]$ סגור ב-$\mathbb{R}$ ולכן שלם. ההנחה שנכשלת היא ההכלה $g([0,1])\subseteq[0,1]$.
+        misconception: MC-c2-wrong-hypothesis-blamed
+      - text: 'המקדם $\frac12$ אינו קטן מספיק'
+        feedback: >-
+          כל $q<1$ מספיק במשפט בנך. $\frac12$ טוב לגמרי; הבעיה היא שהאיטרציות יוצאות מהקטע.
+        misconception: MC-c2-wrong-hypothesis-blamed
+
+  - id: Q-2.3-which-fails
+    type: mc
+    objectives: [OBJ-2.3-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $g(x)=\frac x2$ על $X=(0,1]$. היא שולחת את $X$ לתוך $(0,\frac12]\subseteq X$, מקיימת $|g(x)-g(y)|=\frac12|x-y|$,
+      ואין לה נקודת שבת ב-$X$. איזו הנחה של משפט בנך נכשלת?
+    choices:
+      - text: השלמות של $X$
+        correct: true
+        feedback: >-
+          נכון. $x_n=2^{-n}$ (האיטרציות מ-$x_0=1$) היא סדרת קושי ב-$X$, וגבולה $0\notin X$. נקודת השבת "נפלה לחור".
+      - text: ההכלה $g(X)\subseteq X$
+        feedback: >-
+          ההכלה מתקיימת: $g((0,1])=(0,\frac12]$. בודקים כל הנחה בנפרד לפני שמאשימים אחת מהן.
+        misconception: MC-c2-wrong-hypothesis-blamed
+      - text: מקדם כיווץ קטן מ-1
+        feedback: >-
+          המקדם הוא בדיוק $\frac12$, לכל הזוגות. זו העתקה מכווצת לכל דבר.
+        misconception: MC-c2-wrong-hypothesis-blamed
+      - text: 'אף הנחה לא נכשלת: $0$ היא נקודת השבת'
+        feedback: >-
+          $g(0)=0$, אבל $0\notin X$. בתוך $X$ אין נקודת שבת, ולכן חייבת להיכשל הנחה.
+        misconception: MC-c2-wrong-hypothesis-blamed
+    explanation: >-
+      שימו לב: אי-שלמות לא **מונעת** נקודת שבת. $\frac x2$ על $(-1,1)$, שגם הוא לא שלם, מכווצת עם נקודת שבת $0$.
+      בלי שלמות המשפט פשוט לא מבטיח דבר.
+
+  - id: Q-2.3-q-one
+    type: multi
+    objectives: [OBJ-2.3-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $f:\mathbb{R}\to\mathbb{R}$ מקיימת $|f(x)-f(y)|\le|x-y|$ לכל $x,y$ (כלומר "מקדם" $q=1$). אילו מהטענות נכונות?
+      סמנו את כולן.
+    choices:
+      - text: ייתכן של-$f$ אין נקודת שבת
+        correct: true
+        feedback: 'נכון: $f(x)=x+1$.'
+      - text: ייתכן של-$f$ יש בדיוק נקודת שבת אחת
+        correct: true
+        feedback: 'נכון: $f(x)=-x$, ונקודת השבת היחידה היא 0.'
+      - text: ייתכן של-$f$ יש אינסוף נקודות שבת
+        correct: true
+        feedback: 'נכון: הזהות, שכל נקודה היא נקודת שבת שלה.'
+      - text: ל-$f$ יש תמיד נקודת שבת יחידה, כמו במשפט בנך
+        feedback: >-
+          שלוש הדוגמאות מראות שעם $q=1$ אין שום מסקנה. בהוכחה, $q<1$ נדרש כדי שהטור $\sum q^n$ יתכנס וכדי
+          ש-$d\le q\,d$ יגרור $d=0$.
+        misconception: MC-c2-q-one-enough
+    explanation: >-
+      ובכל זאת יש משהו שלא ייתכן: בדיוק **שתי** נקודות שבת. אם $f(a)=a$ ו-$f(b)=b$ עם $a<b$, אז לכל $x\in[a,b]$:
+      $|f(x)-a|\le x-a$ נותן $f(x)\le x$, ו-$|f(x)-b|\le b-x$ נותן $f(x)\ge x$. לכן כל נקודה ב-$[a,b]$ היא נקודת שבת.
+
+  - id: Q-2.3-iterate
+    type: twotier
+    objectives: [OBJ-2.3-1]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $X$ מרחב מטרי שלם ולא ריק, ו-$f:X\to X$ העתקה כך ש-$f\circ f$ מכווצת ($f$ עצמה לא בהכרח). האם ל-$f$ יש נקודת
+      שבת יחידה?
+    choices:
+      - text: כן
+        correct: true
+        feedback: >-
+          נכון. למשל $\cos$ על $\mathbb{R}$ אינה מכווצת, אבל $\cos\circ\cos$ כן (הנגזרת שלה
+          $\sin(\cos x)\sin x$ חסומה בערכה המוחלט על ידי $\sin1\approx0.84$), ולכן ל-$\cos$ נקודת שבת יחידה.
+      - text: 'לא בהכרח: משפט בנך דורש ש-$f$ עצמה תהיה מכווצת'
+        feedback: >-
+          משפט בנך הוא תנאי מספיק, לא הכרחי. מפעילים אותו על $f\circ f$ ומעבירים את המסקנה ל-$f$ בטיעון קצר.
+        misconception: MC-c2-unique-fp-means-contraction
+    reasons:
+      - text: 'ל-$f\circ f$ נקודת שבת יחידה $x^*$; גם $f(x^*)$ נקודת שבת של $f\circ f$, ולכן $f(x^*)=x^*$; וכל נקודת שבת של $f$ היא נקודת שבת של $f\circ f$, ולכן יחידה'
+        correct: true
+        feedback: >-
+          בדיוק. החישוב: $(f\circ f)(f(x^*))=f\big((f\circ f)(x^*)\big)=f(x^*)$. היחידות של נקודת השבת של
+          $f\circ f$ עושה את כל השאר.
+      - text: 'אם $f\circ f$ מכווצת עם מקדם $q$, אז $f$ מכווצת עם מקדם $\sqrt q$'
+        feedback: >-
+          לא נכון: $\cos\circ\cos$ מכווצת, ו-$\cos$ לא, כי $\frac{|\cos x-\cos y|}{|x-y|}$ מתקרב ל-1 כש-$x,y$ קרובים
+          ל-$\frac\pi2$.
+        misconception: MC-c2-unique-fp-means-contraction

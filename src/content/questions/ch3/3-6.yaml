@@ -1,0 +1,321 @@
+# Lesson 3.6 — connectedness and path-connectedness (enrichment).
+# Objectives (src/course.ts):
+#   OBJ-3.6-1  define connected and path-connected spaces; the connected subsets of the line are the intervals
+#   OBJ-3.6-2  the continuous image of a connected set is connected; the intermediate value theorem as a corollary
+#   OBJ-3.6-3  an open connected subset of Euclidean space is path-connected; a connected set that is not path-connected
+chapter: 3
+questions:
+  - id: Q-3.6-def
+    type: mc
+    objectives: [OBJ-3.6-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      מתי מרחב מטרי $X$ נקרא קשיר?
+    choices:
+      - text: 'כשאי אפשר לכתוב $X=U\cup V$ עם $U,V$ פתוחות, זרות ולא ריקות'
+        correct: true
+        feedback: >-
+          נכון. בניסוח שקול: הקבוצות היחידות ב-$X$ שהן גם פתוחות וגם סגורות הן $\emptyset$ ו-$X$.
+      - text: 'כשלכל שתי נקודות $p,q\in X$ יש פונקציה רציפה $\gamma:[0,1]\to X$ עם $\gamma(0)=p$ ו-$\gamma(1)=q$'
+        feedback: >-
+          זו קשירות מסילתית, והיא חזקה יותר: עקומת הסינוס של הטופולוגים קשירה ואינה קשירה מסילתית.
+        misconception: MC-c3-connected-path
+      - text: 'כש-$X$ צפוף בעצמו ואין בו נקודות מבודדות'
+        feedback: >-
+          ב-$\mathbb{Q}$ אין נקודות מבודדות, ובכל זאת $\mathbb{Q}=(\mathbb{Q}\cap(-\infty,\sqrt2))\cup(\mathbb{Q}\cap(\sqrt2,\infty))$:
+          שתי קבוצות פתוחות, זרות ולא ריקות.
+        misconception: MC-c3-connected-by-picture
+
+  - id: Q-3.6-which-R
+    type: multi
+    objectives: [OBJ-3.6-1]
+    level: basic
+    prompt: >-
+      אילו מתת-הקבוצות הבאות של $\mathbb{R}$ קשירות? סמנו את כולן.
+    choices:
+      - text: '$[0,1)$'
+        correct: true
+        feedback: 'נכון: קטע. בישר הקבוצות הקשירות הן בדיוק הקטעים, מכל סוג.'
+      - text: '$\{5\}$'
+        correct: true
+        feedback: 'נכון: נקודה היא קטע מנוון, ואין לה פירוק לשתי קבוצות לא ריקות בכלל.'
+      - text: '$(0,\infty)$'
+        correct: true
+        feedback: 'נכון: קרן היא קטע.'
+      - text: '$\mathbb{Q}$'
+        feedback: >-
+          $\mathbb{Q}\cap(-\infty,\sqrt2)$ ו-$\mathbb{Q}\cap(\sqrt2,\infty)$ פתוחות ב-$\mathbb{Q}$, זרות ולא ריקות.
+          צפיפות אינה קשירות.
+        misconception: MC-c3-connected-by-picture
+      - text: '$\mathbb{R}\setminus\{0\}$'
+        feedback: >-
+          $(-\infty,0)$ ו-$(0,\infty)$ הן פירוק. במישור, לעומת זאת, הוצאת נקודה לא מפרקת.
+        misconception: MC-c3-puncture
+
+  - id: Q-3.6-preimage
+    type: twotier
+    objectives: [OBJ-3.6-2]
+    qualitative: true
+    level: basic
+    prompt: >-
+      נכון או לא נכון: אם $f:\mathbb{R}\to\mathbb{R}$ רציפה ו-$C\subseteq\mathbb{R}$ קשירה, אז $f^{-1}(C)$ קשירה.
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: >-
+          נכון. קשירות עוברת לתמונה, כמו קומפקטיות; למקור עוברות פתיחות וסגירות.
+      - text: נכון
+        feedback: >-
+          עבור $f(x)=x^2$ ו-$C=[1,4]$, המקור הוא $[-2,-1]\cup[1,2]$, שאינו קשיר.
+        misconception: MC-c3-preimage-of-connected
+    reasons:
+      - text: '$f(x)=x^2$: $f^{-1}([1,4])=[-2,-1]\cup[1,2]$'
+        correct: true
+        feedback: 'בדיוק: קבוצה קשירה, ומקור שמתפרק לשני קטעים.'
+      - text: 'המקור של קבוצה פתוחה פתוח, ולכן המקור של קבוצה קשירה קשיר'
+        feedback: >-
+          ההשוואה לא עובדת: קשירות היא תכונה שעוברת לתמונה. $x^2$ "מקפלת" שני קטעים לאחד.
+        misconception: MC-c3-preimage-of-connected
+      - text: 'בישר כל קבוצה קשירה, ולכן גם המקור'
+        feedback: >-
+          בישר הקבוצות הקשירות הן הקטעים בלבד; $[-2,-1]\cup[1,2]$ אינה קטע.
+        misconception: MC-c3-connected-by-picture
+
+  - id: Q-3.6-discrete
+    type: mc
+    objectives: [OBJ-3.6-1]
+    level: mid
+    prompt: >-
+      $X$ מרחב עם המטריקה הבדידה ולפחות שתי נקודות. מה נכון?
+    choices:
+      - text: '$X$ אינו קשיר: לכל $p\in X$, $\{p\}$ ו-$X\setminus\{p\}$ פתוחות, זרות ולא ריקות'
+        correct: true
+        feedback: >-
+          נכון. במטריקה הבדידה $\{p\}=B(p,\frac12)$, ולכן כל קבוצה פתוחה (וגם סגורה).
+      - text: '$X$ קשיר, כי כל המרחקים בו שווים ל-1'
+        feedback: >-
+          "כולם באותו מרחק" אינו קשירות: דווקא משום שכל נקודה מבודדת, אפשר לנתק אותה משאר המרחב.
+        misconception: MC-c3-connected-by-picture
+      - text: '$X$ קשיר מסילתית: $\gamma(t)=p$ עבור $t<\frac12$ ו-$\gamma(t)=q$ עבור $t\ge\frac12$'
+        feedback: >-
+          $\gamma$ אינה רציפה: המקור של הקבוצה הפתוחה $\{q\}$ הוא $[\frac12,1]$, שאינה פתוחה ב-$[0,1]$. מסילה צריכה
+          להיות רציפה לפי המטריקה הבדידה, לא לפי "איך שזה נראה".
+        misconception: MC-c3-usual-metric-habit
+
+  - id: Q-3.6-Q
+    type: twotier
+    objectives: [OBJ-3.6-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      האם $\mathbb{Q}$, עם $d(x,y)=|x-y|$, הוא מרחב קשיר?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. למעשה הקבוצות הקשירות היחידות ב-$\mathbb{Q}$ הן נקודות בודדות.
+      - text: כן
+        feedback: >-
+          $\mathbb{Q}$ צפופה, אבל יש בה "חורים" אי-רציונליים, וכל חור כזה מפרק אותה.
+        misconception: MC-c3-connected-by-picture
+    reasons:
+      - text: '$U=\mathbb{Q}\cap(-\infty,\sqrt2)$ ו-$V=\mathbb{Q}\cap(\sqrt2,\infty)$ פתוחות ב-$\mathbb{Q}$, זרות, לא ריקות, ואיחודן $\mathbb{Q}$, כי $\sqrt2\notin\mathbb{Q}$'
+        correct: true
+        feedback: >-
+          בדיוק. פתיחות ב-$\mathbb{Q}$ היא חיתוך של קבוצה פתוחה ב-$\mathbb{R}$ עם $\mathbb{Q}$ (שיעור 1.3).
+      - text: '$\mathbb{Q}$ צפופה ב-$\mathbb{R}$, ולכן אין בה רווחים'
+        feedback: >-
+          צפיפות היא תכונה של $\mathbb{Q}$ בתוך $\mathbb{R}$, לא של $\mathbb{Q}$ כמרחב. הפירוק ב-$\sqrt2$ מראה שהיא לא קשירה.
+        misconception: MC-c3-connected-by-picture
+      - text: '$\mathbb{Q}$ בת מנייה, ולכן היא קבוצה של נקודות מבודדות'
+        feedback: >-
+          ב-$\mathbb{Q}$ אין אף נקודה מבודדת: כל כדור סביב רציונלי מכיל עוד רציונליים. אי-הקשירות באה מהפירוק, לא מבידוד.
+        misconception: MC-c3-connected-by-picture
+
+  - id: Q-3.6-path-implies
+    type: twotier
+    objectives: [OBJ-3.6-1, OBJ-3.6-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      נכון או לא נכון: כל מרחב קשיר מסילתית הוא קשיר.
+    choices:
+      - text: נכון
+        correct: true
+        feedback: 'נכון. הכיוון ההפוך הוא שנכשל.'
+      - text: לא נכון
+        feedback: >-
+          מסילה היא תמונה רציפה של הקטע הקשיר $[0,1]$, ולכן אינה יכולה לחצות פירוק.
+        misconception: MC-c3-connected-path
+    reasons:
+      - text: 'אילו $X=U\cup V$ היה פירוק, מסילה $\gamma$ מנקודה של $U$ לנקודה של $V$ הייתה נותנת פירוק $[0,1]=\gamma^{-1}(U)\cup\gamma^{-1}(V)$, בסתירה לקשירות הקטע'
+        correct: true
+        feedback: >-
+          בדיוק: מקורות של פתוחות תחת פונקציה רציפה פתוחים, זרים, לא ריקים, ומכסים את $[0,1]$.
+      - text: 'קשיר וקשיר מסילתית הם אותו מושג'
+        feedback: >-
+          לא: עקומת הסינוס של הטופולוגים קשירה ואינה קשירה מסילתית. רק הכיוון שבשאלה נכון.
+        misconception: MC-c3-connected-path
+      - text: 'כל מסילה היא קטע, וקטע קשיר'
+        feedback: >-
+          תמונה של מסילה יכולה להיות עקומה מסובכת במישור, לא קטע. מה שנכון הוא שהתחום שלה קטע, והתמונה הרציפה של קשיר קשירה.
+        misconception: MC-c3-connected-by-picture
+
+  - id: Q-3.6-ivt
+    type: mc
+    objectives: [OBJ-3.6-2]
+    level: mid
+    prompt: >-
+      $f:[a,b]\to\mathbb{R}$ רציפה ו-$f(a)<y<f(b)$. איך נובע מקשירות שיש $c$ עם $f(c)=y$?
+    choices:
+      - text: '$[a,b]$ קשיר, ולכן $f([a,b])$ קשירה ב-$\mathbb{R}$, כלומר קטע; הקטע מכיל את $f(a)$ ואת $f(b)$, ולכן גם את $y$'
+        correct: true
+        feedback: >-
+          נכון. זה משפט ערך הביניים כמסקנה משני משפטים: התמונה הרציפה של קשיר קשירה, והקשירות בישר הן הקטעים.
+      - text: '$[a,b]$ קומפקטי, ולכן $f([a,b])$ קומפקטית, כלומר קטע'
+        feedback: >-
+          קבוצה קומפקטית בישר אינה בהכרח קטע: $\{0,1\}$ קומפקטית. ערך הביניים בא מקשירות, לא מקומפקטיות.
+        misconception: MC-c3-ivt-disconnected-domain
+      - text: 'המקור $f^{-1}([f(a),f(b)])$ הוא קטע, ולכן מכיל נקודה שבה $f=y$'
+        feedback: >-
+          המקור של קטע אינו בהכרח קטע ($x^2$ והקטע $[1,4]$), וגם אם היה, זה לא היה מראה ש-$y$ מתקבל.
+        misconception: MC-c3-preimage-of-connected
+
+  - id: Q-3.6-ivt-domain
+    type: twotier
+    objectives: [OBJ-3.6-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $K=[0,1]\cup[2,3]$, ו-$f:K\to\mathbb{R}$ רציפה עם $f(0)=-1$ ו-$f(3)=1$. נכון או לא נכון: יש $c\in K$ עם $f(c)=0$.
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: >-
+          נכון: ערך הביניים דורש תחום קשיר, ו-$K$ אינה קשירה.
+      - text: נכון
+        feedback: >-
+          $f=-1$ על $[0,1]$ ו-$f=1$ על $[2,3]$ רציפה על $K$ (כל חלק פתוח ב-$K$) ואינה מקבלת 0.
+        misconception: MC-c3-ivt-disconnected-domain
+    reasons:
+      - text: '$f\equiv-1$ על $[0,1]$ ו-$f\equiv1$ על $[2,3]$ היא דוגמה נגדית, כי $K$ אינה קשירה'
+        correct: true
+        feedback: 'בדיוק. התמונה $\{-1,1\}$ אינה קשירה, וזה אפשרי רק כי התחום אינו קשיר.'
+      - text: '$K$ קומפקטית, ולכן משפט ערך הביניים חל עליה'
+        feedback: >-
+          קומפקטיות נותנת מקסימום ומינימום, לא ערכי ביניים. את ערכי הביניים נותנת קשירות.
+        misconception: MC-c3-ivt-disconnected-domain
+      - text: 'אפשר להמשיך את $f$ ברציפות ל-$[0,3]$, ושם לפי ערך הביניים יש אפס'
+        feedback: >-
+          ההמשך מקבל 0 בנקודה של $(1,2)$, מחוץ ל-$K$. השאלה היא על $c\in K$.
+        misconception: MC-c3-ivt-disconnected-domain
+
+  - id: Q-3.6-puncture
+    type: twotier
+    objectives: [OBJ-3.6-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      האם $\mathbb{R}^2\setminus\{(0,0)\}$ קשירה?
+    choices:
+      - text: כן
+        correct: true
+        feedback: >-
+          נכון, ואפילו קשירה מסילתית. בישר הוצאת נקודה כן מפרקת: $\mathbb{R}\setminus\{0\}$ אינה קשירה.
+      - text: לא
+        feedback: >-
+          בישר הוצאת נקודה מפרקת, אבל במישור אפשר לעקוף אותה: כל שתי נקודות מתחברות בשני קטעים דרך נקודה שלישית.
+        misconception: MC-c3-puncture
+    reasons:
+      - text: 'כל שתי נקודות $p,q\ne0$ מתחברות במסילה שמורכבת מלכל היותר שני קטעים דרך נקודה $r$ שאינה על הישרים דרך $0$ ו-$p$ ודרך $0$ ו-$q$; וקשירה מסילתית גורר קשירה'
+        correct: true
+        feedback: >-
+          בדיוק. הקטע מ-$p$ ל-$r$ פוגש את הראשית רק אם $r$ על הישר דרך $0$ ו-$p$, ולכן בחירת $r$ מחוץ לשני ישרים מספיקה.
+      - text: 'כמו בישר, הנקודה מפרקת את המרחב לשני חלקים'
+        feedback: >-
+          במישור אין "צד שמאל" ו"צד ימין" של נקודה. נסו לחבר את $(1,0)$ ל-$(-1,0)$ דרך $(0,1)$.
+        misconception: MC-c3-puncture
+      - text: 'זו קבוצה פתוחה, וכל קבוצה פתוחה במישור קשירה'
+        feedback: >-
+          המסקנה נכונה והנימוק לא: $\{x\ne0\}$ פתוחה במישור ואינה קשירה (שני חצאי מישור).
+        misconception: MC-c3-connected-by-picture
+
+  - id: Q-3.6-sine
+    type: mc
+    objectives: [OBJ-3.6-3]
+    level: exam
+    prompt: >-
+      עקומת הסינוס של הטופולוגים היא $T=\{(x,\sin\frac1x): 0<x\le1\}\cup(\{0\}\times[-1,1])$ במישור. מה נכון?
+    choices:
+      - text: '$T$ קשירה ואינה קשירה מסילתית'
+        correct: true
+        feedback: >-
+          נכון. הגרף $G$ קשיר (תמונה רציפה של $(0,1]$), ו-$G\subseteq T\subseteq\overline G$, ולכן $T$ קשירה. מסילה
+          מ-$(0,0)$ ל-$(1,\sin1)$ הייתה צריכה לעזוב את הקטע האנכי ברגע מסוים, וליד הרגע הזה הקואורדינטה השנייה מתנודדת
+          בין $-1$ ל-1, בסתירה לרציפות.
+      - text: '$T$ קשירה מסילתית, כי היא קשירה'
+        feedback: >-
+          קשירות לא גוררת קשירות מסילתית, ו-$T$ היא בדיוק הדוגמה הנגדית. המשפט שמתלכד דורש קבוצה **פתוחה**, ו-$T$ אינה פתוחה.
+        misconception: MC-c3-connected-path
+      - text: '$T$ אינה קשירה: הגרף והקטע האנכי הם שני חלקים נפרדים'
+        feedback: >-
+          הם לא מופרדים: כל נקודה של הקטע האנכי היא גבול של נקודות על הגרף, ולכן אין קבוצה פתוחה שמכילה את הקטע וזרה לגרף.
+        misconception: MC-c3-connected-by-picture
+      - text: '$T$ קשירה מסילתית: מתחילים ב-$(1,\sin1)$ והולכים לאורך הגרף עד $x=0$'
+        feedback: >-
+          ההליכה לאורך הגרף לא מגיעה לשום נקודה עם $x=0$: הגרף מתנודד בלי לשאוף לגבול כש-$x\to0$.
+        misconception: MC-c3-connected-path
+
+  - id: Q-3.6-open-rank
+    type: rank
+    objectives: [OBJ-3.6-3]
+    level: exam
+    help: 'סדרו את שלבי ההוכחה לפי הסדר הנכון. השלבים השני והשלישי בלתי תלויים זה בזה, וכל סדר ביניהם נכון.'
+    prompt: >-
+      ההוכחה ש"קבוצה פתוחה וקשירה $U\subseteq\mathbb{R}^n$ קשירה מסילתית" התפרקה לשלבים. סדרו אותם.
+    items:
+      - id: def
+        label: 'נקבע $p\in U$ ונגדיר $A=\{x\in U:$ יש מסילה ב-$U$ מ-$p$ ל-$x\}$. $p\in A$, ולכן $A\ne\emptyset$.'
+      - id: open
+        label: '$A$ פתוחה: אם $x\in A$ ו-$B(x,r)\subseteq U$, כל $y$ בכדור מתחבר ל-$x$ בקטע שבתוך הכדור, ולכן $y\in A$.'
+      - id: comp
+        label: '$U\setminus A$ פתוחה: אם $x\in U\setminus A$ ו-$B(x,r)\subseteq U$, אף נקודה בכדור אינה ב-$A$, אחרת מסילה אליה וקטע ממנה ל-$x$ היו מכניסים את $x$ ל-$A$.'
+      - id: done
+        label: '$U=A\cup(U\setminus A)$ עם שתי קבוצות פתוחות וזרות, ו-$A\ne\emptyset$; מקשירות $U$, $U\setminus A=\emptyset$, כלומר $A=U$.'
+    order: [def, [open, comp], done]
+    correctFeedback: >-
+      נכון. הפתיחות של $U$ נותנת כדורים, וכדורים קמורים נותנים קטעים. בלי פתיחות, כמו בעקומת הסינוס, הטיעון נופל.
+    wrongFeedback: >-
+      קודם מגדירים את $A$; אחר כך מראים ש-$A$ והמשלים שלה ב-$U$ פתוחים; רק אז הקשירות של $U$ מכריעה.
+
+  - id: Q-3.6-no-injection
+    type: twotier
+    objectives: [OBJ-3.6-2]
+    qualitative: true
+    level: exam
+    prompt: >-
+      נכון או לא נכון: אין פונקציה רציפה וחד-חד-ערכית $f:\mathbb{R}^2\to\mathbb{R}$.
+    choices:
+      - text: נכון
+        correct: true
+        feedback: >-
+          נכון. בפרט $\mathbb{R}^2$ ו-$\mathbb{R}$ אינם הומיאומורפיים.
+      - text: לא נכון
+        feedback: >-
+          קשירות מונעת זאת: הוצאת נקודה מהמישור משאירה קבוצה קשירה, והוצאת נקודה פנימית מקטע מפרקת אותו.
+        misconception: MC-c3-puncture
+    reasons:
+      - text: '$I=f(\mathbb{R}^2)$ קטע לא מנוון. נבחר $p$ עם $f(p)$ פנימית ב-$I$; אז $f(\mathbb{R}^2\setminus\{p\})=I\setminus\{f(p)\}$ (חד-חד-ערכיות) אינה קשירה, אבל היא תמונה רציפה של הקבוצה הקשירה $\mathbb{R}^2\setminus\{p\}$'
+        correct: true
+        feedback: >-
+          בדיוק. הקטע לא מנוון כי $f$ חד-חד-ערכית; ולכל נקודה פנימית $y$ של הקטע יש $p$ עם $f(p)=y$.
+      - text: 'גם $\mathbb{R}^2\setminus\{p\}$ וגם $\mathbb{R}\setminus\{f(p)\}$ אינן קשירות, ולכן אין סתירה; הטענה לא נכונה'
+        feedback: >-
+          $\mathbb{R}^2\setminus\{p\}$ קשירה: אפשר לעקוף את $p$. זה בדיוק ההבדל בין המישור לישר.
+        misconception: MC-c3-puncture
+      - text: 'התמונה של $\mathbb{R}^2$ היא קבוצה דו-ממדית, ולכן אינה יכולה להיות בתוך $\mathbb{R}$'
+        feedback: >-
+          "מימד" אינו טיעון: יש פונקציות חד-חד-ערכיות (לא רציפות) מ-$\mathbb{R}^2$ ל-$\mathbb{R}$, כי לשתי הקבוצות אותה
+          עוצמה. הרציפות נכנסת דרך הקשירות.
+        misconception: MC-c3-connected-by-picture

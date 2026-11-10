@@ -1,0 +1,380 @@
+# Lesson 5.3 — differentiability.
+# Objectives (src/course.ts):
+#   OBJ-5.3-1  define differentiability as a linear approximation with error small relative to the step; uniqueness of Df(a)
+#   OBJ-5.3-2  differentiable ⇒ continuous, has every directional derivative, and Df(a) is given by the Jacobian matrix
+#   OBJ-5.3-3  decide from the definition whether a function is differentiable at a point, incl. partials without differentiability
+chapter: 5
+questions:
+  - id: Q-5.3-def
+    type: mc
+    objectives: [OBJ-5.3-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      תהי $f:U\to\mathbb{R}^m$, $U\subseteq\mathbb{R}^n$ פתוחה ו-$a\in U$. מתי $f$ **דיפרנציאבילית** ב-$a$?
+    choices:
+      - text: 'כשקיימת העתקה לינארית $T:\mathbb{R}^n\to\mathbb{R}^m$ כך ש-$\lim_{h\to0}\frac{\|f(a+h)-f(a)-Th\|}{\|h\|}=0$'
+        correct: true
+        feedback: >-
+          נכון. $f(a+h)=f(a)+Th+r(h)$, והשארית $r(h)$ קטנה **ביחס ל-$\|h\|$**: $r(h)=o(\|h\|)$. ההעתקה $T$ נקראת
+          הדיפרנציאל, $Df(a)$.
+      - text: 'כשקיימת העתקה לינארית $T$ כך ש-$\lim_{h\to0}\left(f(a+h)-f(a)-Th\right)=0$'
+        feedback: >-
+          בלי החלוקה ב-$\|h\|$ זה רק רציפות: לכל $f$ רציפה ב-$a$ **כל** העתקה לינארית $T$ מקיימת את זה, כי $Th\to0$.
+          למשל $f(x)=\|x\|_2$ בראשית, שאינה דיפרנציאבילית שם.
+        misconception: MC-c5-remainder-not-divided
+      - text: 'כשכל הנגזרות החלקיות של כל הרכיבים קיימות ב-$a$'
+        feedback: >-
+          זה חלש מדי: ל-$\sqrt{|xy|}$ הנגזרות החלקיות בראשית 0, ובכל זאת אין קירוב לינארי טוב: לאורך $y=x$ השגיאה היא
+          $\frac{1}{\sqrt2}\|h\|_2$.
+        misconception: MC-c5-partials-imply-differentiable
+      - text: 'כשקיימת העתקה לינארית $T$ כך ש-$D_vf(a)=Tv$ לכל וקטור יחידה $v$'
+        feedback: >-
+          זה חלש מדי: הפונקציה ששווה 1 על הפרבולה $y=x^2$ ($x\ne0$) ו-0 בכל מקום אחר מקיימת את זה עם $T=0$ בראשית,
+          ואינה אפילו רציפה שם. דיפרנציאביליות דורשת שהשגיאה תהיה קטנה **באחידות** בכל הכיוונים.
+        misconception: MC-c5-gateaux-enough
+
+  - id: Q-5.3-affine
+    type: mc
+    objectives: [OBJ-5.3-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      תהי $A$ מטריצה $m\times n$, $b\in\mathbb{R}^m$ ו-$f(x)=Ax+b$. מהו $Df(a)$?
+    choices:
+      - text: 'ההעתקה $h\mapsto Ah$, באותה צורה בכל נקודה $a$'
+        correct: true
+        feedback: >-
+          נכון. $f(a+h)-f(a)=Ah$ בדיוק, כך שהשארית אפס. הדיפרנציאל של פונקציה אפינית הוא החלק הלינארי שלה, בלי $b$.
+      - text: 'ההעתקה $h\mapsto Ah+b$'
+        feedback: >-
+          זו אינה העתקה לינארית כש-$b\ne0$ (היא אינה שולחת 0 ל-0). הדיפרנציאל מקרב את **ההפרש** $f(a+h)-f(a)$, ובו
+          $b$ מצטמצם.
+        misconception: MC-c5-differential-is-value
+      - text: 'הווקטור $Aa+b$'
+        feedback: >-
+          זה הערך $f(a)$. הדיפרנציאל אינו ערך של הפונקציה אלא העתקה לינארית שפועלת על תזוזה $h$.
+        misconception: MC-c5-differential-is-value
+      - text: 'ההעתקה $h\mapsto Ah$, אבל רק ב-$a=0$; בנקודות אחרות $Df(a)$ תלוי ב-$a$'
+        feedback: >-
+          ההפרש $f(a+h)-f(a)=Ah$ אינו תלוי ב-$a$ כלל, ולכן גם הדיפרנציאל לא. רק ערך הפונקציה, $f(a)$, משתנה עם $a$.
+        misconception: MC-c5-differential-is-value
+
+  - id: Q-5.3-jacobian
+    type: numeric
+    objectives: [OBJ-5.3-2]
+    level: basic
+    prompt: >-
+      תהי $f(x,y)=(x^2y,\ x+y^3)$, דיפרנציאבילית בכל נקודה. חשבו את הרכיב **השני** של $Df(2,1)h$ עבור $h=(1,-1)$.
+    answer: -2
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $J_f=\begin{pmatrix}2xy & x^2\\ 1 & 3y^2\end{pmatrix}$, וב-$(2,1)$:
+      $J_f(2,1)=\begin{pmatrix}4&4\\1&3\end{pmatrix}$. השורה השנייה כפול $h$: $1\cdot1+3\cdot(-1)$, כלומר $-2$.
+    wrongFeedback: >-
+      שורה $i$ של מטריצת יעקובי היא הגרדיאנט של הרכיב $f_i$: $\left(\frac{\partial f_i}{\partial x},\frac{\partial f_i}{\partial y}\right)$.
+      בנו את המטריצה, הציבו $(2,1)$ וכפלו ב-$h$.
+    commonWrong:
+      - value: 1
+        feedback: >-
+          זה מתקבל מהמטריצה המשוחלפת: עמודה $j$ של $J_f$ היא הנגזרת לפי $x_j$ של **כל** הרכיבים, ושורה $i$ שייכת
+          לרכיב $f_i$. בשחלוף השורה השנייה היא $(4,3)$, ו-$4-3=1$.
+        misconception: MC-c5-jacobian-transpose
+      - value: 0
+        feedback: >-
+          0 הוא הרכיב **הראשון**, $4\cdot1+4\cdot(-1)$. הרכיב השני בא מהשורה השנייה, של $f_2=x+y^3$.
+        misconception: MC-c5-jacobian-transpose
+
+  - id: Q-5.3-norm
+    type: twotier
+    objectives: [OBJ-5.3-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $f:\mathbb{R}^n\to\mathbb{R}^m$ דיפרנציאבילית ב-$a$ כשמודדים בהגדרה עם $\|\cdot\|_2$ בשני הצדדים. האם היא
+      דיפרנציאבילית ב-$a$ גם כשמודדים עם $\|\cdot\|_1$ בתחום ו-$\|\cdot\|_\infty$ בטווח, ועם אותו $Df(a)$?
+    choices:
+      - text: 'כן, עם אותו דיפרנציאל'
+        correct: true
+        feedback: 'נכון. דיפרנציאביליות ב-$\mathbb{R}^n$ אינה תלויה בבחירת הנורמות.'
+      - text: 'לא בהכרח'
+        feedback: >-
+          בממד סופי כל הנורמות שקולות, ולכן "קטן ביחס ל-$\|h\|$" הוא אותו תנאי בכל נורמה. (במרחבי פונקציות זה כבר לא
+          נכון, כי שם נורמות אינן בהכרח שקולות.)
+        misconception: MC-c5-norm-dependent
+    reasons:
+      - text: '$\|r(h)\|_\infty\le\|r(h)\|_2$ ו-$\|h\|_2\le\|h\|_1$, ולכן $\frac{\|r(h)\|_\infty}{\|h\|_1}\le\frac{\|r(h)\|_2}{\|h\|_2}\to0$'
+        correct: true
+        feedback: >-
+          בדיוק. אותה שארית $r(h)=f(a+h)-f(a)-Df(a)h$, ושני אי-שוויונות אלמנטריים בין הנורמות. באופן כללי משתמשים
+          בשקילות כל הנורמות על $\mathbb{R}^n$ (שיעור 3.5).
+      - text: 'כי $\|h\|_1=\|h\|_2$ לכל $h$'
+        feedback: >-
+          לא נכון: $\|(1,1)\|_1=2$ ו-$\|(1,1)\|_2=\sqrt2$. מה שנכון הוא שהן שקולות, $\|h\|_2\le\|h\|_1\le\sqrt n\|h\|_2$,
+          וזה מספיק.
+        misconception: MC-c5-norm-dependent
+      - text: 'הנורמה משנה את מטריצת יעקובי, ולכן את הדיפרנציאל'
+        feedback: >-
+          מטריצת יעקובי בנויה מנגזרות חלקיות, שאינן מזכירות נורמה בכלל. הנורמה רק מודדת את גודל השארית.
+        misconception: MC-c5-norm-dependent
+
+  - id: Q-5.3-uniq
+    type: rank
+    objectives: [OBJ-5.3-1]
+    level: mid
+    prompt: >-
+      סדרו את שלבי ההוכחה שהדיפרנציאל יחיד: אם $T$ ו-$S$ לינאריות ושתיהן מקיימות את הגדרת הדיפרנציאביליות של $f$
+      ב-$a$, אז $T=S$.
+    help: סדרו את שלבי ההוכחה מהראשון לאחרון.
+    items:
+      - id: a
+        label: 'מחסרים את שני הקירובים: $(T-S)h=\left[f(a+h)-f(a)-Sh\right]-\left[f(a+h)-f(a)-Th\right]$.'
+      - id: b
+        label: 'לפי אי-שוויון המשולש וההגדרה: $\frac{\|(T-S)h\|}{\|h\|}\to0$ כש-$h\to0$.'
+      - id: c
+        label: 'מקבעים וקטור $v\ne0$ ומציבים $h=tv$ עם $t\to0^+$.'
+      - id: d
+        label: 'מלינאריות: $\frac{\|(T-S)(tv)\|}{\|tv\|}=\frac{\|(T-S)v\|}{\|v\|}$, ביטוי שאינו תלוי ב-$t$.'
+      - id: e
+        label: 'ביטוי קבוע ששואף ל-0 שווה 0, ולכן $Tv=Sv$ לכל $v$, כלומר $T=S$.'
+    order: [a, b, c, d, e]
+    correctFeedback: >-
+      נכון. הרעיון: ההפרש $T-S$ לינארי ו"קטן מ-$\|h\|$", ולינאריות הופכת "קטן ליד 0" ל"אפס בכל מקום", כי אפשר לכווץ
+      כל וקטור לאורך הישר שלו בלי לשנות את היחס.
+    wrongFeedback: >-
+      קודם מוכיחים שההפרש $T-S$ קטן ביחס ל-$\|h\|$; רק אחר כך מקבעים כיוון ומשתמשים בלינאריות כדי לראות שהיחס קבוע
+      לאורך הישר.
+
+  - id: Q-5.3-continuous
+    type: twotier
+    objectives: [OBJ-5.3-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      נכון או לא נכון: אם $f:\mathbb{R}^n\to\mathbb{R}^m$ דיפרנציאבילית ב-$a$, אז $f$ רציפה ב-$a$.
+    choices:
+      - text: נכון
+        correct: true
+        feedback: 'נכון. זה ההבדל המהותי בין דיפרנציאביליות לבין קיום נגזרות חלקיות או כיווניות.'
+      - text: לא נכון
+        feedback: >-
+          הדוגמאות הנגדיות של שיעור 5.2 היו פונקציות עם נגזרות חלקיות או כיווניות, לא דיפרנציאביליות. דיפרנציאביליות
+          חזקה מספיק כדי לגרור רציפות.
+        misconception: MC-c5-partials-imply-differentiable
+    reasons:
+      - text: '$\|f(a+h)-f(a)\|\le\|Df(a)\|_{\mathrm{op}}\|h\|+\|r(h)\|$, ושני המחוברים שואפים ל-0'
+        correct: true
+        feedback: >-
+          בדיוק. $Df(a)$ לינארית על $\mathbb{R}^n$ ולכן חסומה (שיעור 1.8, 3.5), ו-$\|r(h)\|=\frac{\|r(h)\|}{\|h\|}\|h\|$
+          שואף ל-0 כמכפלה של שני גורמים ששואפים ל-0.
+      - text: 'כי כל הנגזרות החלקיות קיימות ב-$a$'
+        feedback: >-
+          הן אכן קיימות, אבל זה לא הנימוק: $\frac{xy}{x^2+y^2}$ (ו-0 בראשית) יש לה נגזרות חלקיות ואינה רציפה.
+        misconception: MC-c5-partials-imply-continuity
+      - text: 'כי כל הנגזרות הכיווניות קיימות ב-$a$'
+        feedback: >-
+          גם זה נכון ואינו מספיק: ל-$\frac{x^2y}{x^4+y^2}$ יש נגזרת בכל כיוון והיא אינה רציפה. ההבדל הוא שבדיפרנציאביליות
+          השארית קטנה באחידות בכל הכיוונים.
+        misconception: MC-c5-directional-imply-continuity
+
+  - id: Q-5.3-dir
+    type: numeric
+    objectives: [OBJ-5.3-2]
+    level: mid
+    prompt: >-
+      $f:\mathbb{R}^2\to\mathbb{R}$ דיפרנציאבילית בנקודה $a$, עם $\frac{\partial f}{\partial x}(a)=2$ ו-$\frac{\partial f}{\partial y}(a)=-1$.
+      חשבו את $D_vf(a)$ עבור $v=\left(\tfrac35,\tfrac45\right)$.
+    answer: 0.4
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. לפונקציה דיפרנציאבילית $D_vf(a)=Df(a)v=2\cdot\tfrac35+(-1)\cdot\tfrac45=\tfrac25$. מציבים $h=tv$ בהגדרה:
+      $\frac{f(a+tv)-f(a)}{t}=Df(a)v+\frac{r(tv)}{t}\to Df(a)v$.
+    wrongFeedback: >-
+      הנגזרת הכיוונית של פונקציה דיפרנציאבילית היא $Df(a)v$: צירוף של הנגזרות החלקיות עם המשקלות $v_1,v_2$.
+    commonWrong:
+      - value: 2
+        feedback: >-
+          זה $2\cdot3+(-1)\cdot4$, עם $(3,4)$ במקום וקטור היחידה $\left(\tfrac35,\tfrac45\right)$: גדול פי 5.
+        misconception: MC-c5-nonunit-direction
+      - value: 1
+        feedback: >-
+          זה $2+(-1)$, כלומר הכיוון $(1,1)$ בלי נרמול ובלי קשר לכיוון הנתון.
+        misconception: MC-c5-nonunit-direction
+
+  - id: Q-5.3-candidate
+    type: mc
+    objectives: [OBJ-5.3-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      לפונקציה $f:\mathbb{R}^2\to\mathbb{R}$ שתי הנגזרות החלקיות קיימות ב-$a$. איזו טענה נכונה?
+    choices:
+      - text: 'אם $f$ דיפרנציאבילית ב-$a$, אז בהכרח $Df(a)h=\frac{\partial f}{\partial x}(a)h_1+\frac{\partial f}{\partial y}(a)h_2$; לכן יש מועמד יחיד, ובודקים רק אותו'
+        correct: true
+        feedback: >-
+          נכון. $Df(a)e_i=D_{e_i}f(a)=\frac{\partial f}{\partial x_i}(a)$. זה המתכון: בונים את המועמד מהנגזרות החלקיות,
+          ובודקים אם $\frac{f(a+h)-f(a)-Df(a)h}{\|h\|}\to0$.
+      - text: '$f$ דיפרנציאבילית ב-$a$, ו-$Df(a)$ נתון על ידי הנגזרות החלקיות'
+        feedback: >-
+          קיום נגזרות חלקיות אינו גורר דיפרנציאביליות: ל-$\frac{x^3}{x^2+y^2}$ (ו-0 בראשית) הנגזרות החלקיות בראשית
+          $1$ ו-$0$, אבל $D_vf(0)=v_1^3\ne v_1$ לרוב הכיוונים.
+        misconception: MC-c5-partials-imply-differentiable
+      - text: 'ייתכנו כמה העתקות לינאריות שמקיימות את ההגדרה, וצריך לבדוק את כולן'
+        feedback: >-
+          הדיפרנציאל יחיד (אם קיים): ההפרש של שני מועמדים הוא העתקה לינארית שקטנה מ-$\|h\|$, ולכן אפס.
+        misconception: MC-c5-differential-not-unique
+      - text: '$Df(a)$ הוא המספר $\frac{\partial f}{\partial x}(a)a_1+\frac{\partial f}{\partial y}(a)a_2$'
+        feedback: >-
+          הדיפרנציאל אינו מספר וגם אינו מופעל על הנקודה $a$: הוא העתקה לינארית שפועלת על **תזוזות** $h$.
+        misconception: MC-c5-differential-is-value
+
+  - id: Q-5.3-sqrt
+    type: twotier
+    objectives: [OBJ-5.3-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      האם $f(x,y)=\sqrt{|xy|}$ דיפרנציאבילית ב-$(0,0)$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. הנגזרות החלקיות קיימות, אבל אין קירוב לינארי עם שגיאה $o(\|h\|)$.'
+      - text: כן
+        feedback: >-
+          המועמד היחיד הוא $Df(0)=0$, ולאורך האלכסון השגיאה $f(t,t)=|t|$ אינה קטנה ביחס ל-$\|(t,t)\|_2=\sqrt2|t|$.
+        misconception: MC-c5-partials-imply-differentiable
+    reasons:
+      - text: 'הנגזרות החלקיות 0, ולכן המועמד הוא $Df(0)=0$; אבל $\frac{f(t,t)-0}{\|(t,t)\|_2}=\frac{1}{\sqrt2}$, שאינו שואף ל-0'
+        correct: true
+        feedback: >-
+          בדיוק: זה המתכון. $f(t,0)=f(0,t)=0$ נותן נגזרות חלקיות 0; היחס בין השגיאה ל-$\|h\|$ קבוע על האלכסון.
+      - text: 'הנגזרות החלקיות קיימות ושוות 0, ולכן $Df(0)=0$'
+        feedback: >-
+          זה מוכיח רק מה המועמד. אחר כך חייבים לבדוק את השארית, וכאן היא $\frac{1}{\sqrt2}\|h\|_2$ על האלכסון.
+        misconception: MC-c5-partials-imply-differentiable
+      - text: '$\frac{\partial f}{\partial x}=\frac{\sqrt{|y|}\operatorname{sgn}x}{2\sqrt{|x|}}$ אינה מוגדרת ב-$x=0$, ולכן הנגזרת החלקית בראשית אינה קיימת'
+        feedback: >-
+          הנוסחה נכונה רק כש-$x\ne0$ ו-$y\ne0$. בנקודה עצמה מחשבים מההגדרה: $\frac{f(t,0)-f(0,0)}{t}=0$, ולכן
+          $\frac{\partial f}{\partial x}(0,0)=0$ קיימת.
+        misconception: MC-c5-formula-at-point
+
+  - id: Q-5.3-cubic
+    type: numeric
+    objectives: [OBJ-5.3-3]
+    level: exam
+    prompt: >-
+      תהי $f(x,y)=\frac{x^3}{x^2+y^2}$ ל-$(x,y)\ne(0,0)$ ו-$f(0,0)=0$. חשבו מההגדרה את $D_vf(0,0)$ עבור
+      $v=\left(\tfrac35,\tfrac45\right)$.
+    answer: 0.216
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $\frac{f(tv)}{t}=\frac{t^3v_1^3}{t\cdot t^2(v_1^2+v_2^2)}=v_1^3=\frac{27}{125}$. אילו $f$ הייתה
+      דיפרנציאבילית, הנגזרת הייתה $Df(0)v=1\cdot v_1+0\cdot v_2=\frac35$ (כי הנגזרות החלקיות $1$ ו-$0$). כיוון
+      ש-$\frac{27}{125}\ne\frac35$, $f$ **אינה** דיפרנציאבילית בראשית, אף שהיא רציפה ויש לה נגזרת בכל כיוון.
+    wrongFeedback: >-
+      כתבו את המנה $\frac{f(tv)-f(0)}{t}$ והשתמשו ב-$v_1^2+v_2^2=1$.
+    commonWrong:
+      - value: 0.6
+        feedback: >-
+          $\frac35=\frac{\partial f}{\partial x}(0)v_1+\frac{\partial f}{\partial y}(0)v_2$: הנוסחה $D_vf=Df(a)v$
+          תקפה רק לפונקציה דיפרנציאבילית, וזה בדיוק מה שלא ידוע. חשבו מההגדרה.
+        misconception: MC-c5-partials-imply-differentiable
+      - value: 0
+        feedback: >-
+          0 הוא הגבול של $f(tv)$, לא של המנה $\frac{f(tv)}{t}$.
+        misconception: MC-c5-value-vs-derivative
+    explanation: >-
+      זו הדרך הקצרה להוכיח אי-דיפרנציאביליות: אם $v\mapsto D_vf(a)$ אינה לינארית, ובפרט אינה שווה
+      ל-$\sum_iv_i\frac{\partial f}{\partial x_i}(a)$, $f$ אינה דיפרנציאבילית ב-$a$.
+
+  - id: Q-5.3-decide
+    type: multi
+    objectives: [OBJ-5.3-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      אילו מהפונקציות הבאות (כולן מוגדרות 0 בראשית) דיפרנציאביליות ב-$(0,0)$? סמנו את כולן.
+    choices:
+      - text: '$\frac{x^2y^2}{x^2+y^2}$'
+        correct: true
+        feedback: >-
+          נכון. הנגזרות החלקיות 0, והשארית מקיימת $\frac{|f(h)|}{\|h\|_2}\le\frac{\|h\|_2^2/4}{\|h\|_2}=\frac{\|h\|_2}{4}\to0$.
+      - text: '$xy$'
+        correct: true
+        feedback: >-
+          נכון: $Df(0)=0$ ו-$|xy|\le\frac12\|h\|_2^2=o(\|h\|_2)$. (זה גם פולינום, ובשיעור 5.4 תראו שכל פולינום
+          דיפרנציאבילי.)
+      - text: '$\sqrt{|xy|}$'
+        feedback: >-
+          לא: המועמד 0, אבל $\frac{f(t,t)}{\|(t,t)\|_2}=\frac{1}{\sqrt2}$.
+        misconception: MC-c5-partials-imply-differentiable
+      - text: '$\frac{x^3}{x^2+y^2}$'
+        feedback: >-
+          לא: $D_vf(0)=v_1^3$, שאינו לינארי ב-$v$. הנגזרות החלקיות קיימות, הפונקציה רציפה, ובכל זאת אינה
+          דיפרנציאבילית.
+        misconception: MC-c5-partials-imply-differentiable
+      - text: '$\|(x,y)\|_2$'
+        feedback: >-
+          לא: היא רציפה, אבל אין לה אפילו נגזרות חלקיות בראשית, כי $\frac{|t|}{t}$ אינה מתכנסת.
+        misconception: MC-c5-continuity-gives-derivative
+
+  - id: Q-5.3-gateaux
+    type: twotier
+    objectives: [OBJ-5.3-2, OBJ-5.3-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      תהי $h(x,y)=1$ על הפרבולה $y=x^2$ (כש-$x\ne0$) ו-$h=0$ בכל נקודה אחרת. ידוע ש-$D_vh(0,0)=0$ לכל וקטור יחידה
+      $v$, כלומר $D_vh(0,0)=Tv$ עם ההעתקה הלינארית $T=0$. האם $h$ דיפרנציאבילית ב-$(0,0)$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. נגזרות כיווניות שתלויות לינארית בכיוון עדיין אינן דיפרנציאביליות.'
+      - text: כן
+        feedback: >-
+          אילו $h$ הייתה דיפרנציאבילית היא הייתה רציפה בראשית, אבל $h(x,x^2)=1$ לכל $x\ne0$ ו-$h(0,0)=0$.
+        misconception: MC-c5-gateaux-enough
+    reasons:
+      - text: 'דיפרנציאבילית גורר רציפה, ו-$h$ אינה רציפה ב-$(0,0)$: $h(x,x^2)=1$'
+        correct: true
+        feedback: >-
+          בדיוק. ההגדרה דורשת $\frac{|h(k)-0-Tk|}{\|k\|}\to0$ כש-$k\to0$ **מכל הכיוונים יחד**; כאן על הפרבולה
+          היחס $\frac{1}{\|k\|}$ מתפוצץ.
+      - text: 'כן: $D_vh(0)=Tv$ עם $T$ לינארית, וזו ההגדרה של דיפרנציאביליות'
+        feedback: >-
+          ההגדרה מבקשת שהשגיאה תהיה $o(\|k\|)$ כש-$k\to0$ בכל דרך, לא רק לאורך כל ישר בנפרד. נגזרות כיווניות בודקות
+          ישרים בלבד.
+        misconception: MC-c5-gateaux-enough
+      - text: 'לא, כי $h$ אינה רציפה ולכן אין לה נגזרות כיווניות'
+        feedback: >-
+          יש לה, וכולן 0: ישר דרך הראשית פוגש את הפרבולה לכל היותר בעוד נקודה אחת, ולכן $h=0$ על הישר ליד הראשית.
+          אי-רציפות אינה מונעת נגזרות כיווניות.
+        misconception: MC-c5-directional-imply-continuity
+
+  - id: Q-5.3-function-space
+    type: mc
+    objectives: [OBJ-5.3-1]
+    level: exam
+    prompt: >-
+      ההגדרה של דיפרנציאביליות משתמשת רק בנורמה ובלינאריות, ולכן עובדת גם בין מרחבים נורמיים. על
+      $V=\left(C[0,1],\|\cdot\|_\infty\right)$ תהי $\Phi(u)=\int_0^1u(x)^2\,dx$. מהו $D\Phi(u)$?
+    choices:
+      - text: 'ההעתקה $h\mapsto2\int_0^1u(x)h(x)\,dx$'
+        correct: true
+        feedback: >-
+          נכון. $\Phi(u+h)-\Phi(u)=2\int_0^1uh+\int_0^1h^2$. החלק הראשון לינארי ב-$h$ וחסום
+          ($\left|2\int uh\right|\le2\|u\|_\infty\|h\|_\infty$), והשארית מקיימת $0\le\int_0^1h^2\le\|h\|_\infty^2=o(\|h\|_\infty)$.
+      - text: 'ההעתקה $h\mapsto\int_0^1h(x)^2\,dx$'
+        feedback: >-
+          זה החלק הריבועי של ההפרש, כלומר השארית. הוא אינו לינארי ב-$h$ ($2h$ נותן פי 4), ולכן אינו יכול להיות דיפרנציאל.
+        misconception: MC-c5-differential-is-value
+      - text: 'הפונקציה $2u$'
+        feedback: >-
+          $2u$ הוא "הנגזרת" בניחוש מהנוסחה $(u^2)'=2u$, אבל $D\Phi(u)$ צריך להיות העתקה לינארית מ-$V$ ל-$\mathbb{R}$:
+          מה שהופך את $2u$ להעתקה כזו הוא האינטגרל $h\mapsto\int 2uh$.
+        misconception: MC-c5-differential-is-value
+      - text: 'אין דיפרנציאל, כי במרחב ממימד אינסופי אין מטריצת יעקובי'
+        feedback: >-
+          הדיפרנציאל הוא העתקה לינארית; מטריצה היא רק דרך לרשום אותה כשיש בסיס סופי. בממד אינסופי דורשים בנוסף
+          שההעתקה תהיה חסומה (שיעור 1.8), וכאן היא חסומה.
+        misconception: MC-c5-differential-is-value

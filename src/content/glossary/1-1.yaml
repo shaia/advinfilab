@@ -1,0 +1,58 @@
+# Terms first defined in lesson 1.1 (metric spaces).
+- id: metric
+  term: מטריקה
+  en: metric
+  symbol: 'd(x,y)'
+  definition: >-
+    פונקציה $d:X\times X\to[0,\infty)$ שמקיימת לכל $x,y,z\in X$: $d(x,y)=0$ אם ורק אם $x=y$; סימטריה
+    $d(x,y)=d(y,x)$; ואי-שוויון המשולש $d(x,z)\le d(x,y)+d(y,z)$.
+  lesson: '1.1'
+- id: metric-space
+  term: מרחב מטרי
+  en: metric space
+  symbol: '(X,d)'
+  definition: >-
+    קבוצה $X$ יחד עם מטריקה $d$ עליה. אותה קבוצה עם מטריקה אחרת היא מרחב מטרי אחר: מרחקים, התכנסות וקבוצות
+    פתוחות תלויים במטריקה.
+  lesson: '1.1'
+- id: discrete-metric
+  term: המטריקה הבדידה
+  en: discrete metric
+  definition: >-
+    על קבוצה כלשהי $X$: $d(x,y)=1$ אם $x\neq y$ ו-$d(x,x)=0$. בה כל כדור ברדיוס $r\le1$ הוא נקודה אחת, וכל
+    תת-קבוצה פתוחה וסגורה.
+  reject: [מטריקה דיסקרטית]
+  lesson: '1.1'
+- id: sum-and-max-metrics
+  term: מטריקת הסכום ומטריקת המקסימום
+  en: sum metric and max metric
+  symbol: 'd_1,\ d_\infty'
+  definition: >-
+    על $\mathbb{R}^n$: $d_1(x,y)=\sum_{i=1}^n|x_i-y_i|$ ו-$d_\infty(x,y)=\max_i|x_i-y_i|$. יחד עם המטריקה
+    האוקלידית $d_2(x,y)=\sqrt{\sum(x_i-y_i)^2}$ אלה שלוש המטריקות הבסיסיות על המרחב האוקלידי.
+  lesson: '1.1'
+- id: sup-metric
+  term: מטריקת הסופרמום
+  en: sup metric (uniform metric)
+  symbol: 'd_\infty(f,g)=\sup_{x\in X}|f(x)-g(x)|'
+  definition: >-
+    על $B(X)$, הפונקציות הממשיות החסומות על קבוצה $X$: $d(f,g)=\sup_{x\in X}|f(x)-g(x)|$. החסימות מבטיחה
+    שהמרחק סופי.
+  lesson: '1.1'
+- id: triangle-inequality
+  term: אי-שוויון המשולש
+  en: triangle inequality
+  symbol: 'd(x,z)\le d(x,y)+d(y,z)'
+  definition: >-
+    האקסיומה השלישית של מטריקה: לכל $x,y,z$ מתקיים $d(x,z)\le d(x,y)+d(y,z)$. עקיפה דרך נקודה שלישית אינה
+    קצרה מהדרך הישירה. בישר, עם $|x-y|$, יש שוויון בדיוק כש-$y$ בין $x$ ל-$z$.
+  lesson: '1.1'
+- id: subadditive
+  term: פונקציה תת-חיבורית
+  en: subadditive function
+  symbol: '\varphi(a+b)\le\varphi(a)+\varphi(b)'
+  definition: >-
+    $\varphi:[0,\infty)\to[0,\infty)$ עם $\varphi(a+b)\le\varphi(a)+\varphi(b)$ לכל $a,b\ge0$. אם $\varphi$ גם
+    עולה ומתאפסת רק ב-0, ו-$d$ מטריקה, אז $\varphi\circ d$ מטריקה. כך $\sqrt t$, $\frac{t}{1+t}$ ו-$\min(t,1)$;
+    אבל $t^2$ אינה תת-חיבורית.
+  lesson: '1.1'

@@ -1,0 +1,10 @@
+# Terms first defined in lesson 4.2 (equicontinuity). Uniform continuity of one function (רציפות במידה שווה) is
+# defined in lesson 1.6; the two terms differ by one word, so this entry names both.
+- id: equicontinuous-family
+  term: משפחה רציפה במידה אחידה
+  en: equicontinuous family
+  definition: >-
+    משפחה $\mathcal{F}$ של פונקציות על מרחב מטרי $(K,d)$ רציפה במידה אחידה אם לכל $\varepsilon>0$ קיים $\delta>0$ כך
+    שלכל $f\in\mathcal{F}$ ולכל $x,y\in K$ עם $d(x,y)<\delta$ מתקיים $|f(x)-f(y)|<\varepsilon$. ה-$\delta$ אחד לכל
+    הנקודות ולכל הפונקציות. אל תבלבלו עם רציפות במידה שווה של פונקציה אחת, שבה $\delta$ רשאי להיות תלוי בפונקציה.
+  lesson: '4.2'

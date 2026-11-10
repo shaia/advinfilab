@@ -1,0 +1,17 @@
+# Terms first defined in lesson 7.5 (Lagrange multipliers, one constraint).
+- id: constraint
+  term: אילוץ
+  en: constraint
+  definition: >-
+    משוואה $g(x)=0$ שמגבילה את הנקודות שעליהן מחפשים קיצון: מחפשים קיצון של $f$ על הקבוצה $S=\{x:\ g(x)=0\}$
+    ולא על כל התחום. קיצון כזה נקרא קיצון עם אילוץ, או קיצון מותנה.
+  lesson: '7.5'
+- id: lagrange-multiplier
+  term: "כופל לגרנז'"
+  en: Lagrange multiplier
+  symbol: '\lambda'
+  definition: >-
+    אם $a$ קיצון מקומי של $f$ על $S=\{g=0\}$, $f,g$ גזירות ברציפות ו-$\nabla g(a)\neq0$, אז יש מספר $\lambda$
+    עם $\nabla f(a)=\lambda\nabla g(a)$. המספר $\lambda$ הוא כופל לגרנז'. בכמה אילוצים יש כופל לכל אילוץ.
+  reject: ["כופל לגראנז'", "כופלי לגראנז'"]
+  lesson: '7.5'

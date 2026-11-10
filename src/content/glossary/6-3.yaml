@@ -1,0 +1,41 @@
+# Terms first defined in lesson 6.3 (quadratic forms and the Hessian matrix).
+- id: negative-definite-form
+  term: תבנית שלילית מוגדרת
+  en: negative definite (quadratic form)
+  definition: >-
+    תבנית ריבועית שמקיימת $q(h)<0$ לכל $h\ne0$; שקול: כל הערכים העצמיים שליליים, או: $(-q)$ חיובית מוגדרת.
+  lesson: '6.3'
+- id: positive-semidefinite-form
+  term: תבנית חיובית חצי מוגדרת
+  en: positive semi-definite (quadratic form)
+  definition: >-
+    תבנית ריבועית שמקיימת $q(h)\ge0$ לכל $h$; שקול: כל הערכים העצמיים אי-שליליים. מותר ש-$q$ תתאפס בכיוון שאינו
+    אפס, כמו $(x+y)^2$.
+  lesson: '6.3'
+- id: negative-semidefinite-form
+  term: תבנית שלילית חצי מוגדרת
+  en: negative semi-definite (quadratic form)
+  definition: >-
+    תבנית ריבועית שמקיימת $q(h)\le0$ לכל $h$; שקול: כל הערכים העצמיים אי-חיוביים.
+  lesson: '6.3'
+- id: indefinite-form
+  term: תבנית לא מוגדרת
+  en: indefinite (quadratic form)
+  definition: >-
+    תבנית ריבועית שמקבלת גם ערכים חיוביים וגם ערכים שליליים; שקול: יש לה ערך עצמי חיובי וערך עצמי שלילי. דוגמה:
+    $x^2-y^2$, או $2xy$.
+  lesson: '6.3'
+- id: leading-principal-minors
+  term: מינורים ראשיים מובילים
+  en: leading principal minors
+  symbol: '\Delta_1,\dots,\Delta_n'
+  definition: >-
+    $\Delta_k$ הוא הדטרמיננטה של תת-המטריצה $k\times k$ השמאלית העליונה של $A$: $\Delta_1=a_{11}$, ..., $\Delta_n=\det A$.
+  lesson: '6.3'
+- id: sylvester-criterion
+  term: קריטריון סילבסטר
+  en: Sylvester's criterion
+  definition: >-
+    מטריצה סימטרית חיובית מוגדרת אם ורק אם כל המינורים הראשיים המובילים שלה חיוביים; שלילית מוגדרת אם ורק אם
+    הסימנים שלהם מתחלפים ומתחילים בשלילי. הקריטריון אינו מכריע חצי מוגדרות.
+  lesson: '6.3'

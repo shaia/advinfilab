@@ -1,0 +1,19 @@
+# Terms first defined in lesson 8.3.
+- id: vector-field
+  term: שדה וקטורי
+  en: vector field
+  symbol: 'F:U\to\mathbb{R}^n'
+  definition: >-
+    פונקציה $F:U\to\mathbb{R}^n$ מקבוצה $U\subseteq\mathbb{R}^n$, שמצמידה לכל נקודה וקטור. במישור כותבים
+    $F=(P,Q)$. דוגמאות: $(x,y)$ (רדיאלי), $(-y,x)$ (סיבובי), שדה הזווית $\frac{(-y,x)}{x^2+y^2}$ ב-$\mathbb{R}^2\setminus\{0\}$.
+  lesson: '8.3'
+- id: line-integral
+  term: אינטגרל קווי
+  en: line integral
+  symbol: '\int_\gamma F\cdot ds'
+  definition: >-
+    לשדה רציף $F$ ולמסילה חלקה למקוטעין $\gamma:[a,b]\to U$:
+    $\int_\gamma F\cdot ds=\int_a^bF(\gamma(t))\cdot\gamma'(t)\,dt$, ובמישור גם $\int_\gamma P\,dx+Q\,dy$. הוא לא
+    משתנה בפרמטריזציה ששומרת על הכיוון, מחליף סימן בהיפוך הכיוון, ומקיים
+    $\left|\int_\gamma F\cdot ds\right|\le L(\gamma)\max_t\|F(\gamma(t))\|$.
+  lesson: '8.3'

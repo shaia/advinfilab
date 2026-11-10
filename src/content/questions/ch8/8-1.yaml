@@ -1,0 +1,356 @@
+# Lesson 8.1 — functions of bounded variation.
+# Objectives (src/course.ts):
+#   OBJ-8.1-1  define the variation and bounded variation; compute the variation of piecewise monotone functions
+#   OBJ-8.1-2  monotone and Lipschitz functions are BV; a continuous function may have unbounded variation
+#   OBJ-8.1-3  a BV function is the difference of two increasing functions (Jordan)
+# Notation: a partition P: a=x_0<x_1<…<x_n=b, V(f,P)=Σ|f(x_i)−f(x_{i−1})|, V_a^b(f)=sup_P V(f,P).
+chapter: 8
+questions:
+  - id: Q-8.1-def
+    type: mc
+    objectives: [OBJ-8.1-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      תהי $f:[a,b]\to\mathbb{R}$. לחלוקה $P$: $a=x_0<x_1<\dots<x_n=b$ נסמן
+      $V(f,P)=\sum_{i=1}^n|f(x_i)-f(x_{i-1})|$. מהי ההשתנות $V_a^b(f)$?
+    choices:
+      - text: '$\sup_P V(f,P)$, הסופרמום על כל החלוקות של $[a,b]$'
+        correct: true
+        feedback: >-
+          נכון. כל חלוקה רואה רק חלק מהעליות והירידות, ועידון רק מגדיל את הסכום (אי-שוויון המשולש). לכן לוקחים
+          סופרמום, שיכול להיות גם $\infty$.
+      - text: '$|f(b)-f(a)|$'
+        feedback: >-
+          זה $V(f,P)$ של החלוקה הטריוויאלית $\{a,b\}$ בלבד, ולכן רק חסם מלרע. ל-$\sin$ על $[0,2\pi]$ הוא $0$, אבל
+          הפונקציה עולה ויורדת בסך הכול 4 יחידות.
+        misconception: MC-c8-variation-endpoints
+      - text: '$\max_{[a,b]}f-\min_{[a,b]}f$'
+        feedback: >-
+          הטווח סופר כל גובה פעם אחת. ל-$\sin$ על $[0,2\pi]$ הוא $2$, אבל ההשתנות סופרת גם את הירידה מ-1 ל-$(-1)$
+          וגם את שתי העליות, ויוצאת 4.
+        misconception: MC-c8-variation-range
+      - text: '$\inf_P V(f,P)$, האינפימום על כל החלוקות'
+        feedback: >-
+          עידון מגדיל את $V(f,P)$, ולכן האינפימום מתקבל בחלוקה הגסה ביותר $\{a,b\}$ ושווה $|f(b)-f(a)|$. זה לא
+          המושג שמודד את כל התנודות.
+        misconception: MC-c8-variation-single-partition
+    explanation: >-
+      תמונה: $V(f,P)$ הוא "המרחק האנכי" שהגרף עובר כשקופצים מנקודת חלוקה לבאה. ככל שהחלוקה עדינה יותר רואים
+      יותר תנודות, ולכן ההגדרה היא סופרמום.
+
+  - id: Q-8.1-neg
+    type: mc
+    objectives: [OBJ-8.1-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      מה פירוש הטענה "$f:[a,b]\to\mathbb{R}$ **אינה** בעלת השתנות חסומה"?
+    choices:
+      - text: 'לכל $M>0$ יש חלוקה $P$ של $[a,b]$ עם $V(f,P)>M$'
+        correct: true
+        feedback: >-
+          נכון. השתנות חסומה היא "קיים $M$ כך שלכל $P$: $V(f,P)\le M$", והשלילה הופכת את שני הכמתים.
+      - text: 'יש חלוקה $P$ עם $V(f,P)=\infty$'
+        feedback: >-
+          לחלוקה סופית יש מספר סופי של מחוברים סופיים, ולכן $V(f,P)$ תמיד סופי. מה שלא חסום הוא **אוסף** הסכומים:
+          חלוקות שונות נותנות סכומים גדולים כרצוננו.
+        misconception: MC-c8-variation-single-partition
+      - text: '$f$ אינה חסומה ב-$[a,b]$'
+        feedback: >-
+          חסומות ואי-חסומות הן תכונות שונות. $x\sin\frac1x$ חסומה ב-$[0,1]$ (על ידי 1) ואינה בעלת השתנות חסומה.
+          (הכיוון השני נכון: השתנות חסומה גוררת חסימות.)
+        misconception: MC-c8-bv-means-bounded
+      - text: 'יש $M>0$ כך שלכל חלוקה $P$: $V(f,P)>M$'
+        feedback: >-
+          כאן הפכו רק את הכמת השני. זה מתקיים לכל פונקציה לא קבועה עם $M$ קטן מספיק, למשל $f(x)=x$ על $[0,1]$
+          עם $M=\frac12$, ו-$x$ בעלת השתנות 1.
+        misconception: MC-c0-negation-partial
+
+  - id: Q-8.1-sin
+    type: numeric
+    objectives: [OBJ-8.1-1]
+    level: basic
+    prompt: >-
+      חשבו את $V_0^{2\pi}(\sin)$.
+    answer: 4
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $\sin$ עולה מ-0 ל-1 ב-$[0,\frac\pi2]$, יורדת מ-1 ל-$(-1)$ ב-$[\frac\pi2,\frac{3\pi}2]$ ועולה ל-0
+      ב-$[\frac{3\pi}2,2\pi]$. על קטע של מונוטוניות ההשתנות היא הפרש הערכים, וההשתנות אדיטיבית לגבי חלוקת הקטע:
+      $1+2+1=4$.
+    wrongFeedback: >-
+      חלקו את הקטע לקטעים שבהם $\sin$ מונוטונית, וחברו את ההשתנויות: בכל קטע כזה ההשתנות היא הערך המוחלט של
+      ההפרש בין הערכים בשני קצותיו.
+    commonWrong:
+      - value: 0
+        feedback: >-
+          $0=|\sin2\pi-\sin0|$ הוא סכום החלוקה $\{0,2\pi\}$ בלבד. הוסיפו את הנקודות $\frac\pi2$ ו-$\frac{3\pi}2$
+          וקבלו כבר $1+2+1$.
+        misconception: MC-c8-variation-endpoints
+      - value: 2
+        feedback: >-
+          2 הוא $\max\sin-\min\sin$. ההשתנות סופרת את העלייה **וגם** את הירידה, כל אחת בנפרד.
+        misconception: MC-c8-variation-range
+
+  - id: Q-8.1-cubic
+    type: numeric
+    objectives: [OBJ-8.1-1]
+    level: basic
+    prompt: >-
+      חשבו את $V_{-2}^{2}(f)$ עבור $f(x)=x^3-3x$.
+    answer: 12
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $f'(x)=3x^2-3$ מתאפסת ב-$x=\pm1$, ולכן $f$ עולה ב-$[-2,-1]$, יורדת ב-$[-1,1]$ ועולה ב-$[1,2]$. הערכים:
+      $f(-2)=-2$, $f(-1)=2$, $f(1)=-2$, $f(2)=2$. ההשתנות: $4+4+4=12$.
+    wrongFeedback: >-
+      מצאו את קטעי המונוטוניות בעזרת $f'$, חשבו את $f$ בקצותיהם, וחברו את ההפרשים בערך מוחלט.
+    commonWrong:
+      - value: 4
+        feedback: >-
+          4 הוא גם $f(2)-f(-2)$ וגם $\max f-\min f$ על הקטע, אבל שניהם רואים רק חלק מהתנודה. הגרף עולה, יורד
+          ועולה שוב, 4 יחידות בכל פעם.
+        misconception: MC-c8-variation-range
+      - value: 8
+        feedback: >-
+          שכחתם אחד משלושת קטעי המונוטוניות: יש שתי נקודות קריטיות, ולכן שלושה קטעים.
+
+  - id: Q-8.1-sqrt
+    type: twotier
+    objectives: [OBJ-8.1-2]
+    qualitative: true
+    level: basic
+    prompt: >-
+      האם $f(x)=\sqrt{x}$ בעלת השתנות חסומה ב-$[0,1]$?
+    choices:
+      - text: כן
+        correct: true
+        feedback: 'נכון, ו-$V_0^1(\sqrt{x})=1$.'
+      - text: לא
+        feedback: >-
+          הנגזרת $\frac{1}{2\sqrt x}$ אכן לא חסומה ליד 0, אבל זה פוגע רק בתכונת ליפשיץ, לא בהשתנות.
+        misconception: MC-c8-bv-needs-lipschitz
+    reasons:
+      - text: 'היא עולה, ולכל חלוקה הסכום טלסקופי: $V(f,P)=\sqrt1-\sqrt0=1$'
+        correct: true
+        feedback: >-
+          בדיוק. לפונקציה מונוטונית כל ההפרשים באותו סימן, ולכן $V(f,P)=|f(b)-f(a)|$ לכל חלוקה.
+      - text: 'היא אינה ליפשיצית, כי $f^{\prime}(x)=\frac{1}{2\sqrt x}\to\infty$, ולכן ההשתנות אינסופית'
+        feedback: >-
+          ליפשיצית גוררת השתנות חסומה, אבל לא להפך. מונוטוניות היא סיבה אחרת, בלתי תלויה, להשתנות חסומה.
+        misconception: MC-c8-bv-needs-lipschitz
+      - text: 'היא רציפה בקטע סגור, וכל פונקציה כזו בעלת השתנות חסומה'
+        feedback: >-
+          המסקנה נכונה כאן, אבל הנימוק שגוי: $x\sin\frac1x$ רציפה ב-$[0,1]$ ובעלת השתנות לא חסומה.
+        misconception: MC-c8-continuous-implies-bv
+
+  - id: Q-8.1-jump
+    type: numeric
+    objectives: [OBJ-8.1-1]
+    level: mid
+    prompt: >-
+      תהי $f(x)=x$ ל-$x\in[0,1]$ ו-$f(x)=x-2$ ל-$x\in(1,2]$. חשבו את $V_0^2(f)$.
+    answer: 4
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $V_0^2=V_0^1+V_1^2$. ב-$[0,1]$ $f$ עולה מ-0 ל-1: תרומה 1. ב-$[1,2]$: מ-$f(1)=1$ הפונקציה קופצת לערכים
+      שקרובים ל-$(-1)$ ואז עולה ל-0. חלוקה עם הנקודות $1$ ו-$1+\delta$ נותנת $|f(1+\delta)-f(1)|=2-\delta$, ואחר
+      כך $1-\delta$ עד הקצה; לכן $V_1^2=3$, והסך $4$.
+    wrongFeedback: >-
+      הקפיצה ב-$x=1$ נספרת בהשתנות: היא תורמת את גודלה, $|f(1^+)-f(1)|=2$. השתמשו באדיטיביות
+      $V_0^2=V_0^1+V_1^2$.
+    commonWrong:
+      - value: 2
+        feedback: >-
+          ספרתם רק את שני קטעי העלייה (1 ועוד 1) ושכחתם את הקפיצה כלפי מטה בגודל 2. השתנות חסומה אינה דורשת רציפות,
+          אבל קפיצה נספרת.
+        misconception: MC-c8-bv-implies-continuous
+      - value: 0
+        feedback: >-
+          $|f(2)-f(0)|=0$ הוא רק סכום החלוקה הטריוויאלית.
+        misconception: MC-c8-variation-endpoints
+
+  - id: Q-8.1-continuous
+    type: twotier
+    objectives: [OBJ-8.1-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      נכון או לא נכון: כל פונקציה רציפה $f:[0,1]\to\mathbb{R}$ היא בעלת השתנות חסומה.
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: 'נכון. רציפות שולטת בגודל של כל קפיצה קטנה, לא במספר התנודות.'
+      - text: נכון
+        feedback: >-
+          פונקציה רציפה יכולה להתנודד אינסוף פעמים ליד נקודה, ואם גובה התנודות דועך לאט מדי, הסכום מתבדר. ראו את
+          הנימוק הנכון.
+        misconception: MC-c8-continuous-implies-bv
+    reasons:
+      - text: '$f(x)=x\sin\frac1x$ ($f(0)=0$) רציפה, ובנקודות $x_k=\frac{2}{(2k+1)\pi}$ מתקיים $f(x_k)=\pm x_k$ לסירוגין, כך ש-$\sum_k(x_k+x_{k+1})=\infty$'
+        correct: true
+        feedback: >-
+          בדיוק. בחלוקה עם הנקודות $x_N<\dots<x_1<x_0$ (ועוד $0$ ו-$1$) הסכום לפחות
+          $\sum_{k<N}(x_k+x_{k+1})\ge\sum_{k<N}\frac{1}{(k+1)\pi}$, טור הרמוני שגדל בלי חסם כש-$N\to\infty$.
+      - text: 'פונקציה רציפה בקטע סגור רציפה במידה שווה, ולכן ההפרשים $|f(x_i)-f(x_{i-1})|$ קטנים והסכום חסום'
+        feedback: >-
+          ההפרשים קטנים כשהחלוקה עדינה, אבל מספר המחוברים גדל. ב-$x\sin\frac1x$ הסכום מתבדר אף שהפונקציה רציפה
+          במידה שווה.
+        misconception: MC-c8-continuous-implies-bv
+      - text: 'פונקציה רציפה בקטע סגור חסומה, $|f|\le K$, ולכן $V_0^1(f)\le 2K$'
+        feedback: >-
+          $2K$ חוסם רק את הטווח. ההשתנות סופרת כל עלייה וירידה: כבר $\sin(2\pi n x)$ על $[0,1]$ חסומה ב-1
+          וההשתנות שלה $4n$.
+        misconception: MC-c8-variation-range
+
+  - id: Q-8.1-which
+    type: multi
+    objectives: [OBJ-8.1-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      בכל הסעיפים הפונקציה מוגדרת על $[0,1]$, וערכה ב-$0$ הוא $0$ כשהנוסחה אינה מוגדרת שם. אילו מהן בעלות
+      השתנות חסומה? סמנו את כולן.
+    choices:
+      - text: '$x^2\sin\frac1x$'
+        correct: true
+        feedback: >-
+          נכון. היא גזירה בכל נקודה ($f'(0)=\lim_{h\to0}h\sin\frac1h=0$), ול-$x>0$:
+          $|f'(x)|=|2x\sin\frac1x-\cos\frac1x|\le3$. לפי משפט הערך הממוצע היא ליפשיצית עם קבוע 3, ולכן
+          $V_0^1\le3$.
+      - text: '$\mathbf{1}_{[\frac12,1]}$, שהיא 0 ב-$[0,\frac12)$ ו-1 ב-$[\frac12,1]$'
+        correct: true
+        feedback: 'נכון. היא עולה (לא ממש), ולכן $V_0^1=1$, אף שאינה רציפה.'
+      - text: '$x\sin\frac1x$'
+        feedback: >-
+          רציפה אבל לא: בשיאים $x_k=\frac{2}{(2k+1)\pi}$ הערכים $\pm x_k$ לסירוגין, והסכום מתבדר כמו הטור ההרמוני.
+        misconception: MC-c8-continuous-implies-bv
+      - text: '$x^2\sin\frac{1}{x^2}$'
+        feedback: >-
+          היא גזירה בכל נקודה, אבל הנגזרת $2x\sin\frac1{x^2}-\frac2x\cos\frac1{x^2}$ לא חסומה. בנקודות שבהן
+          $\frac1{x^2}=\frac\pi2+k\pi$ הערכים הם $\pm\frac{1}{\frac\pi2+k\pi}$ לסירוגין, והסכום מתבדר.
+        misconception: MC-c8-differentiable-implies-bv
+      - text: 'פונקציית דיריכלה $\mathbf{1}_{\mathbb{Q}}$'
+        feedback: >-
+          היא חסומה, אבל חלוקה ל-$2n$ קטעים שקצותיהם מתחלפים בין רציונלי לאירציונלי נותנת $V(f,P)=2n$.
+        misconception: MC-c8-bv-means-bounded
+    explanation: >-
+      שני כלים מוכיחים השתנות חסומה: מונוטוניות ($V=|f(b)-f(a)|$) ונגזרת **חסומה** (ליפשיץ, $V\le M(b-a)$). כדי
+      להפריך, מחפשים חלוקה דרך נקודות השיא ובודקים אם סכום הגבהים מתבדר.
+
+  - id: Q-8.1-lip-proof
+    type: rank
+    objectives: [OBJ-8.1-2]
+    level: mid
+    prompt: >-
+      סדרו את שלבי ההוכחה: אם $|f(x)-f(y)|\le M|x-y|$ לכל $x,y\in[a,b]$, אז $V_a^b(f)\le M(b-a)$.
+    help: סדרו את שלבי ההוכחה מהראשון לאחרון.
+    items:
+      - id: a
+        label: 'תהי $P$: $a=x_0<x_1<\dots<x_n=b$ חלוקה כלשהי של $[a,b]$.'
+      - id: b
+        label: 'לפי תנאי ליפשיץ, לכל $i$: $|f(x_i)-f(x_{i-1})|\le M(x_i-x_{i-1})$.'
+      - id: c
+        label: 'סוכמים על $i$, והסכום מימין טלסקופי: $V(f,P)\le M\sum_{i=1}^n(x_i-x_{i-1})=M(b-a)$.'
+      - id: d
+        label: 'החסם $M(b-a)$ אינו תלוי ב-$P$, ולכן הוא חסם מלעיל של הקבוצה $\{V(f,P)\}$.'
+      - id: e
+        label: 'לכן הסופרמום $V_a^b(f)$ קטן או שווה $M(b-a)$, ובפרט $f$ בעלת השתנות חסומה.'
+    order: [a, b, c, d, e]
+    correctFeedback: >-
+      נכון. זו התבנית של כל חסם על סופרמום: חוסמים את $V(f,P)$ לחלוקה **כלשהי** בביטוי שאינו תלוי בה, ורק אז
+      עוברים לסופרמום.
+    wrongFeedback: >-
+      התחילו מחלוקה כלשהי, חסמו כל מחובר, סכמו, ורק בסוף עברו לסופרמום: אי-אפשר לדבר על הסופרמום לפני שיש חסם
+      לכל החלוקות.
+
+  - id: Q-8.1-jordan
+    type: twotier
+    objectives: [OBJ-8.1-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      תהי $f$ בעלת השתנות חסומה ב-$[a,b]$, ונגדיר $g(x)=V_a^x(f)$ (עם $g(a)=0$) ו-$h=g-f$. האם $h$ עולה (לא
+      בהכרח ממש)?
+    choices:
+      - text: כן
+        correct: true
+        feedback: 'נכון, ולכן $f=g-h$ הוא הפרש של שתי פונקציות עולות: פירוק ז׳ורדן.'
+      - text: לא בהכרח
+        feedback: >-
+          זה נכון תמיד. ראו את הנימוק: הוא משתמש רק באדיטיביות של ההשתנות ובחלוקה הטריוויאלית של הקטע $[x,y]$.
+        misconception: MC-c8-jordan-positive-part
+    reasons:
+      - text: 'ל-$x<y$: $h(y)-h(x)=V_x^y(f)-\left(f(y)-f(x)\right)\ge0$, כי $|f(y)-f(x)|\le V_x^y(f)$'
+        correct: true
+        feedback: >-
+          בדיוק. $g(y)-g(x)=V_x^y(f)$ מהאדיטיביות $V_a^y=V_a^x+V_x^y$, ו-$|f(y)-f(x)|$ הוא סכום החלוקה $\{x,y\}$ של
+          $[x,y]$, ולכן אינו גדול מ-$V_x^y(f)$.
+      - text: 'כי $h=\max(-f,0)$, והחלק השלילי של פונקציה הוא פונקציה עולה'
+        feedback: >-
+          $h$ אינו החלק השלילי, והחלק השלילי אינו עולה בדרך כלל: ל-$f=-\sin$ על $[0,2\pi]$, $\max(-f,0)=\max(\sin,0)$
+          עולה ויורדת.
+        misconception: MC-c8-jordan-positive-part
+      - text: 'כי $g$ עולה, והפרש של פונקציה עולה ופונקציה כלשהי הוא פונקציה עולה'
+        feedback: >-
+          זה לא נכון באופן כללי: $x-2x=-x$ יורדת. מה שעובד כאן הוא ש-$g$ עולה **מהר יותר** מ-$f$, בקצב $V_x^y(f)$.
+        misconception: MC-c8-jordan-positive-part
+
+  - id: Q-8.1-jordan-cos
+    type: numeric
+    objectives: [OBJ-8.1-3]
+    level: exam
+    prompt: >-
+      תהי $f=\cos$ על $[0,2\pi]$, $g(x)=V_0^x(f)$ ו-$h=g-f$ (פירוק ז׳ורדן $f=g-h$). חשבו את $h(2\pi)$.
+    answer: 3
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $\cos$ יורדת מ-1 ל-$(-1)$ ב-$[0,\pi]$ ועולה בחזרה ל-1 ב-$[\pi,2\pi]$, ולכן $g(2\pi)=2+2=4$ ו-$h(2\pi)=4-\cos2\pi=3$.
+      בדרך: ב-$[0,\pi]$ $g=1-\cos x$ ו-$h=1-2\cos x$ עולה מ-$(-1)$ ל-3, וב-$[\pi,2\pi]$ $g=3+\cos x$ ו-$h=3$
+      קבועה. שתיהן עולות, כפי שהמשפט מבטיח.
+    wrongFeedback: >-
+      חשבו קודם את $g(2\pi)=V_0^{2\pi}(\cos)$ לפי קטעי המונוטוניות, ואז $h(2\pi)=g(2\pi)-\cos(2\pi)$.
+    commonWrong:
+      - value: 4
+        feedback: '4 הוא $g(2\pi)$. שכחתם להחסיר את $f(2\pi)=1$.'
+      - value: -1
+        feedback: >-
+          זה מתקבל מ-$g(2\pi)=|\cos2\pi-\cos0|=0$. ההשתנות סופרת את הירידה ואת העלייה: $g(2\pi)=4$.
+        misconception: MC-c8-variation-endpoints
+      - value: 1
+        feedback: >-
+          זה מתקבל מ-$g(2\pi)=\max\cos-\min\cos=2$. הטווח נספר פעמיים כאן: פעם בירידה ופעם בעלייה.
+        misconception: MC-c8-variation-range
+
+  - id: Q-8.1-countable
+    type: twotier
+    objectives: [OBJ-8.1-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      נכון או לא נכון: לפונקציה בעלת השתנות חסומה ב-$[a,b]$ יש לכל היותר מנייה של נקודות אי-רציפות (קבוצה סופית
+      או בת מנייה).
+    choices:
+      - text: נכון
+        correct: true
+        feedback: 'נכון. זו אחת המסקנות החשובות של פירוק ז׳ורדן.'
+      - text: לא נכון
+        feedback: >-
+          השתנות חסומה מגבילה את הקפיצות: ראו את הנימוק. (היא לא מונעת אותן, אבל מונעת יותר ממנייה שלהן.)
+        misconception: MC-c8-bv-implies-continuous
+    reasons:
+      - text: '$f=g-h$ עם $g,h$ עולות; לפונקציה עולה יש לכל היותר מנייה של קפיצות, כי כל קפיצה מכילה רציונלי משלה; ואיחוד של שתי קבוצות בנות מנייה בן מנייה'
+        correct: true
+        feedback: >-
+          בדיוק. לפונקציה עולה כל אי-רציפות היא קפיצה $(g(x^-),g(x^+))$, והקטעים האלה זרים, ולכן בוחרים בכל אחד
+          רציונלי שונה. $f$ רציפה בכל נקודה שבה $g$ ו-$h$ רציפות.
+      - text: 'פונקציה בעלת השתנות חסומה רציפה, ולכן אין לה נקודות אי-רציפות בכלל'
+        feedback: >-
+          $\mathbf{1}_{[\frac12,1]}$ עולה, ולכן בעלת השתנות חסומה, ואינה רציפה ב-$\frac12$.
+        misconception: MC-c8-bv-implies-continuous
+      - text: 'כל קפיצה תורמת את גודלה להשתנות, וההשתנות סופית, ולכן יש רק מספר סופי של קפיצות'
+        feedback: >-
+          אינסוף קפיצות יכולות להיות בעלות סכום סופי: $\sum_{n\ge1}2^{-n}\mathbf{1}_{[\frac1n,1]}$ עולה, קופצת בכל
+          $\frac1n$ וההשתנות שלה 1. (הטיעון כן נותן: לכל $k$ יש רק מספר סופי של קפיצות גדולות מ-$\frac1k$.)
+        misconception: MC-c8-bv-finitely-many-jumps

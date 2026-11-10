@@ -1,0 +1,19 @@
+# Terms first defined in lesson 4.5 (the Weierstrass approximation theorem).
+- id: weierstrass-approximation-theorem
+  term: משפט הקירוב של ויירשטראס
+  en: Weierstrass approximation theorem
+  definition: >-
+    לכל $f\in C[a,b]$ ולכל $\varepsilon>0$ קיים פולינום $p$ כך ש-$\max_{[a,b]}|f-p|<\varepsilon$. כלומר הפולינומים
+    צפופים ב-$C[a,b]$ בנורמת הסופרמום.
+  reject: [ויירשטרס, וירשטראס]
+  lesson: '4.5'
+- id: bernstein-polynomial
+  term: פולינום ברנשטיין
+  en: Bernstein polynomial
+  symbol: 'B_nf(x)=\sum_{k=0}^{n} f\!\left(\tfrac kn\right)\binom nk x^k(1-x)^{n-k}'
+  definition: >-
+    לפונקציה $f$ על $[0,1]$ ול-$n\in\mathbb{N}$: ממוצע משוקלל של הערכים $f(\frac kn)$ עם המשקלות
+    $\binom nk x^k(1-x)^{n-k}$, שסכומם 1. לכל $f\in C[0,1]$, $B_nf\to f$ במידה שווה. למשל
+    $B_n(x^2)=x^2+\frac{x(1-x)}{n}$.
+  reject: [ברנשטין]
+  lesson: '4.5'

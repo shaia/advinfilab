@@ -1,0 +1,17 @@
+# Terms first defined in lesson 2.1.
+- id: cauchy-sequence-metric
+  term: סדרת קושי
+  en: Cauchy sequence (in a metric space)
+  symbol: 'd(x_m,x_n)\to0'
+  definition: >-
+    סדרה $(x_n)$ במרחב מטרי $(X,d)$ היא סדרת קושי אם לכל $\varepsilon>0$ קיים $N$ כך שלכל $m,n>N$ מתקיים
+    $d(x_m,x_n)<\varepsilon$. ההגדרה מדברת רק על המרחקים בין איברי הסדרה, בלי גבול.
+  reject: [סידרת קושי]
+  lesson: '2.1'
+- id: complete-space
+  term: מרחב שלם
+  en: complete metric space
+  definition: >-
+    מרחב מטרי שבו כל סדרת קושי מתכנסת לנקודה של המרחב. $\mathbb{R}^n$ שלם; $\mathbb{Q}$ ו-$(0,1)$ עם המרחק הרגיל
+    אינם שלמים.
+  lesson: '2.1'

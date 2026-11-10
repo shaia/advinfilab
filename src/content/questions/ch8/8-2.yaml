@@ -1,0 +1,329 @@
+# Lesson 8.2 — curves and arc length.
+# Objectives (src/course.ts):
+#   OBJ-8.2-1  define a curve, simple, closed, differentiable and smooth curves; recognise them in examples
+#   OBJ-8.2-2  length as the sup of inscribed polygons; rectifiable iff the components have bounded variation
+#   OBJ-8.2-3  the length of a C¹ curve is ∫‖γ′‖; compute lengths; pass to the arc-length parameter
+# Smooth = C¹ with γ′(t) ≠ 0 for every t. Length is Euclidean unless a question says otherwise.
+chapter: 8
+questions:
+  - id: Q-8.2-cusp
+    type: multi
+    objectives: [OBJ-8.2-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      נתונה המסילה $\gamma(t)=(t^2,t^3)$, $t\in[-1,1]$. אילו מהטענות נכונות? סמנו את כולן.
+    choices:
+      - text: '$\gamma$ מסילה פשוטה'
+        correct: true
+        feedback: >-
+          נכון. הרכיב השני $t^3$ חד-חד-ערכי, ולכן $\gamma(s)=\gamma(t)$ גורר $s=t$.
+      - text: '$\gamma$ גזירה ברציפות'
+        correct: true
+        feedback: 'נכון. $\gamma^{\prime}(t)=(2t,3t^2)$, שני רכיבים רציפים.'
+      - text: '$\gamma$ מסילה חלקה'
+        feedback: >-
+          לא: $\gamma'(0)=(0,0)$. מסילה חלקה דורשת $\gamma'(t)\ne0$ בכל נקודה, ובדיוק שם התמונה יוצרת חוד: היא
+          מגיעה לראשית מלמטה, $y=-x^{3/2}$, ויוצאת למעלה, $y=x^{3/2}$.
+        misconception: MC-c8-c1-means-smooth-image
+      - text: 'ל-$\gamma$ יש ב-$(0,0)$ כיוון משיק, הכיוון של $\gamma^{\prime}(0)$'
+        feedback: >-
+          $\gamma'(0)$ הוא וקטור האפס, ואין לו כיוון. נגזרת רציפה לבדה אינה מבטיחה כיוון משיק; בשביל זה דורשים
+          $\gamma'\ne0$.
+        misconception: MC-c8-c1-means-smooth-image
+
+  - id: Q-8.2-simple-closed
+    type: mc
+    objectives: [OBJ-8.2-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      איזו מהמסילות הבאות היא מסילה **סגורה פשוטה**?
+    choices:
+      - text: '$(\cos t,\sin t)$, $t\in[0,2\pi]$'
+        correct: true
+        feedback: >-
+          נכון. $\gamma(0)=\gamma(2\pi)$, ובקטע $[0,2\pi)$ כל נקודה של המעגל מתקבלת פעם אחת בלבד.
+      - text: '$(\cos t,\sin t)$, $t\in[0,4\pi]$'
+        feedback: >-
+          אותה תמונה, אבל המסילה עוברת על כל נקודה פעמיים: $\gamma(t)=\gamma(t+2\pi)$. מסילה היא פונקציה, ופשטות
+          היא תכונה של הפונקציה, לא של התמונה.
+        misconception: MC-c8-curve-is-image
+      - text: '$(\sin2t,\sin t)$, $t\in[0,2\pi]$'
+        feedback: >-
+          היא סגורה ($\gamma(0)=\gamma(2\pi)=(0,0)$), אבל עוברת בראשית גם ב-$t=\pi$: זו צורת "שמונה". סגורה אינה
+          גוררת פשוטה.
+        misconception: MC-c8-closed-simple-confusion
+      - text: '$(\cos t,\sin t)$, $t\in[0,\pi]$'
+        feedback: >-
+          היא פשוטה, אבל $\gamma(0)=(1,0)\ne(-1,0)=\gamma(\pi)$: חצי מעגל אינו מסילה סגורה.
+        misconception: MC-c8-closed-simple-confusion
+
+  - id: Q-8.2-helix
+    type: numeric
+    objectives: [OBJ-8.2-3]
+    level: basic
+    prompt: >-
+      חשבו את אורך הסליל $\gamma(t)=(\cos t,\sin t,t)$, $t\in[0,2\pi]$ (תשובה מקורבת לשלוש ספרות אחרי הנקודה,
+      או ביטוי מדויק).
+    answer: 8.885766
+    tolerance: 0.0005
+    correctFeedback: >-
+      נכון: $2\sqrt2\,\pi\approx8.886$. $\gamma'(t)=(-\sin t,\cos t,1)$, $\|\gamma'(t)\|=\sqrt{\sin^2t+\cos^2t+1}=\sqrt2$,
+      ו-$L=\int_0^{2\pi}\sqrt2\,dt$.
+    wrongFeedback: >-
+      גזרו את שלושת הרכיבים, חשבו את הנורמה האוקלידית של $\gamma'(t)$, ושלבו על $[0,2\pi]$.
+    commonWrong:
+      - value: 6.283185
+        feedback: >-
+          $2\pi$ הוא אורך ההיטל של הסליל על המישור $xy$, מעגל היחידה. הסליל גם מטפס: הרכיב השלישי תורם לנגזרת.
+        misconception: MC-c8-length-chord
+      - value: 12.566371
+        feedback: >-
+          $4\pi$ מתקבל מחיבור האורך המעגלי $2\pi$ והעלייה $2\pi$. אורכים לא מתחברים כך: מחברים ריבועים בתוך השורש,
+          $\sqrt{1+1}$, לא $1+1$.
+        misconception: MC-c8-length-add-components
+
+  - id: Q-8.2-corner
+    type: twotier
+    objectives: [OBJ-8.2-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      נכון או לא נכון: אם $\gamma:[a,b]\to\mathbb{R}^2$ גזירה ברציפות, אז לתמונה שלה אין "פינות".
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: 'נכון. ראו את הדוגמה בנימוק.'
+      - text: נכון
+        feedback: >-
+          גזירות ברציפות של הפרמטריזציה אינה גזירות של הצורה: המסילה יכולה "לעצור" בפינה, להסתובב ולהמשיך.
+        misconception: MC-c8-c1-means-smooth-image
+    reasons:
+      - text: '$\gamma(t)=(t^3,|t|^3)$ על $[-1,1]$ גזירה ברציפות, והתמונה היא הגרף של $|x|$; הפינה מתאפשרת כי $\gamma^{\prime}(0)=0$'
+        correct: true
+        feedback: >-
+          בדיוק. $\frac{d}{dt}|t|^3=3t|t|$ רציפה, כך ש-$\gamma'(t)=(3t^2,3t|t|)$ רציפה ומתאפסת ב-0. לכן מגדירים
+          מסילה חלקה עם התנאי $\gamma'\ne0$: הוא שמונע עצירה.
+      - text: 'נגזרת רציפה פירושה שכיוון התנועה משתנה ברציפות, ולכן גם הכיוון המשיק לתמונה משתנה ברציפות'
+        feedback: >-
+          הכיוון הוא $\frac{\gamma'}{\|\gamma'\|}$, והוא מוגדר רק כש-$\gamma'\ne0$. ב-$(t^3,|t|^3)$ הכיוון קופץ
+          מ-$\frac{1}{\sqrt2}(1,-1)$ ל-$\frac{1}{\sqrt2}(1,1)$ כשעוברים דרך $t=0$.
+        misconception: MC-c8-c1-means-smooth-image
+      - text: 'הרכיבים $t^3$ ו-$|t|^3$ אינם גזירים ב-0, ולכן המסילה בכלל אינה גזירה'
+        feedback: >-
+          שניהם גזירים ב-0 עם נגזרת 0: $\frac{|h|^3}{h}\to0$. דווקא בגלל שהמסילה גזירה ברציפות הדוגמה מלמדת משהו.
+        misconception: MC-c8-c1-means-smooth-image
+
+  - id: Q-8.2-cycloid
+    type: numeric
+    objectives: [OBJ-8.2-3]
+    level: mid
+    prompt: >-
+      חשבו את אורך קשת אחת של הציקלואידה $\gamma(t)=(t-\sin t,\ 1-\cos t)$, $t\in[0,2\pi]$.
+    answer: 8
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $\|\gamma'(t)\|^2=(1-\cos t)^2+\sin^2t=2-2\cos t=4\sin^2\frac t2$, ולכן $\|\gamma'(t)\|=2\sin\frac t2$
+      (חיובי ב-$[0,2\pi]$), ו-$L=\int_0^{2\pi}2\sin\frac t2\,dt=\left[-4\cos\frac t2\right]_0^{2\pi}=8$.
+    wrongFeedback: >-
+      פשטו את $(1-\cos t)^2+\sin^2t$ בעזרת $1-\cos t=2\sin^2\frac t2$, הוציאו שורש (שימו לב לסימן), ושלבו.
+    commonWrong:
+      - value: 6.283185
+        feedback: >-
+          $2\pi$ הוא המרחק האופקי בין שני קצות הקשת, אורך המיתר. המסילה עולה לגובה 2 ויורדת בחזרה, ולכן ארוכה יותר.
+        misconception: MC-c8-length-chord
+
+  - id: Q-8.2-graph
+    type: numeric
+    objectives: [OBJ-8.2-3]
+    level: mid
+    prompt: >-
+      חשבו את אורך הגרף של $f(x)=x^{3/2}$ בין $x=0$ ל-$x=4$, כלומר של המסילה $\gamma(x)=(x,x^{3/2})$,
+      $x\in[0,4]$ (מקורב לשלוש ספרות אחרי הנקודה).
+    answer: 9.073415
+    tolerance: 0.0002
+    correctFeedback: >-
+      נכון: $L=\int_0^4\sqrt{1+\frac94x}\,dx=\frac{8}{27}\left[\left(1+\frac94x\right)^{3/2}\right]_0^4=\frac{8}{27}\left(10\sqrt{10}-1\right)\approx9.073$.
+    wrongFeedback: >-
+      $\gamma'(x)=(1,\frac32x^{1/2})$, ולכן $\|\gamma'(x)\|=\sqrt{1+\frac94x}$. הציבו $u=1+\frac94x$.
+    commonWrong:
+      - value: 8.944272
+        feedback: >-
+          $\sqrt{80}\approx8.944$ הוא המרחק בין $(0,0)$ ל-$(4,8)$: אורך הקו השבור הגס ביותר. הוא חסם מלרע של האורך,
+          והגרף מתעקם, ולכן ארוך ממנו.
+        misconception: MC-c8-length-chord
+      - value: 12
+        feedback: >-
+          $12=4+8$ הוא $\int(|x'|+|y'|)$, ההשתנות של שני הרכיבים יחד. זה חסם מלעיל, לא האורך: $\sqrt{1+u^2}<1+u$.
+        misconception: MC-c8-length-add-components
+
+  - id: Q-8.2-sup
+    type: mc
+    objectives: [OBJ-8.2-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      את אורך המסילה מגדירים כ-$L(\gamma)=\sup_P\sum_{i}\|\gamma(t_i)-\gamma(t_{i-1})\|_2$. מדוע **סופרמום**?
+    choices:
+      - text: 'הוספת נקודה לחלוקה מחליפה מיתר אחד בשניים, וזה לא מקצר את הקו השבור (אי-שוויון המשולש); לכן קווים עדינים יותר ארוכים יותר, והאורך הוא החסם העליון שלהם'
+        correct: true
+        feedback: >-
+          נכון. $\|\gamma(t_i)-\gamma(t_{i-1})\|\le\|\gamma(t_i)-\gamma(u)\|+\|\gamma(u)-\gamma(t_{i-1})\|$ לכל
+          $u$ בין שתי הנקודות. האורך הוא ה"גבול מלמעלה" של הקווים השבורים, כמו שההשתנות היא של סכומי ההשתנות.
+      - text: 'כדי שהאורך יהיה תמיד סופי'
+        feedback: >-
+          להפך: סופרמום יכול להיות $\infty$, וזה בדיוק המקרה של מסילה שאינה ברת-מדידה, כמו $(t,t\sin\frac1t)$.
+        misconception: MC-c8-continuous-implies-rectifiable
+      - text: 'אפשר באותה מידה לקחת אינפימום; זה אותו מספר'
+        feedback: >-
+          האינפימום מתקבל בחלוקה הגסה $\{a,b\}$ והוא המרחק $\|\gamma(b)-\gamma(a)\|$, המיתר. למסילה סגורה הוא 0.
+        misconception: MC-c8-variation-single-partition
+      - text: 'כי האורך הוא המרחק המרבי בין שתי נקודות על המסילה'
+        feedback: >-
+          זה הקוטר של התמונה, לא האורך. לחצי מעגל היחידה הקוטר 2 והאורך $\pi$.
+        misconception: MC-c8-length-chord
+
+  - id: Q-8.2-nonrect
+    type: twotier
+    objectives: [OBJ-8.2-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      האם המסילה $\gamma(t)=(t,\ t\sin\frac1t)$, $t\in[0,1]$ (עם $\gamma(0)=(0,0)$) ברת-מדידה?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. היא רציפה, אבל אורכה אינסופי.'
+      - text: כן
+        feedback: >-
+          המסילה רציפה ותמונתה חסומה, ובכל זאת כל קו שבור דרך נקודות השיא ארוך כרצוננו.
+        misconception: MC-c8-continuous-implies-rectifiable
+    reasons:
+      - text: 'מסילה ברת-מדידה אם ורק אם רכיביה בעלי השתנות חסומה, והרכיב $t\sin\frac1t$ אינו כזה'
+        correct: true
+        feedback: >-
+          בדיוק. בפרט $L(\gamma)\ge V_0^1(t\sin\frac1t)=\infty$, כי כל מיתר ארוך לפחות כמו השינוי ברכיב השני.
+      - text: 'התמונה קומפקטית, ולכן חסומה, ולכן אורך המסילה סופי'
+        feedback: >-
+          חסימות התמונה אינה מגבילה את האורך: התמונה כאן נמצאת בריבוע $[0,1]\times[-1,1]$ ובכל זאת המסילה מתנודדת
+          אינסוף פעמים.
+        misconception: MC-c8-continuous-implies-rectifiable
+      - text: 'הרכיב הראשון $t$ עולה, ולכן בעל השתנות חסומה, וזה מספיק'
+        feedback: >-
+          צריך שכל הרכיבים יהיו בעלי השתנות חסומה: $L(\gamma)\ge V(x_j)$ לכל רכיב $j$.
+        misconception: MC-c8-continuous-implies-rectifiable
+
+  - id: Q-8.2-norm1
+    type: numeric
+    objectives: [OBJ-8.2-2]
+    level: mid
+    prompt: >-
+      נגדיר אורך כמו בשיעור, אבל נמדוד את הקווים השבורים בנורמה $\|\cdot\|_1$:
+      $L_1(\gamma)=\sup_P\sum_i\|\gamma(t_i)-\gamma(t_{i-1})\|_1$. חשבו את $L_1$ של מעגל היחידה
+      $(\cos t,\sin t)$, $t\in[0,2\pi]$.
+    answer: 8
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $\sum_i\|\Delta\gamma\|_1=V(\cos,P)+V(\sin,P)$, ומעבר לחלוקה משותפת מגדיל את שני הסכומים יחד, ולכן
+      $L_1=V_0^{2\pi}(\cos)+V_0^{2\pi}(\sin)=4+4=8$. האורך תלוי בנורמה; **הסופיות** שלו לא, כי
+      $\|v\|_2\le\|v\|_1\le\sqrt2\|v\|_2$.
+    wrongFeedback: >-
+      כתבו $\|\Delta\gamma\|_1=|\Delta x|+|\Delta y|$, ופצלו את הסכום להשתנות של כל רכיב.
+    commonWrong:
+      - value: 6.283185
+        feedback: >-
+          $2\pi$ הוא האורך בנורמה האוקלידית. בנורמה $\|\cdot\|_1$ כל מיתר ארוך יותר (פרט למיתרים מקבילים לצירים).
+        misconception: MC-c8-length-norm-independent
+      - value: 5.656854
+        feedback: >-
+          $4\sqrt2$ הוא האורך בנורמה $\|\cdot\|_\infty$, $\int_0^{2\pi}\max(|\sin t|,|\cos t|)\,dt$. כאן הנורמה היא
+          $\|\cdot\|_1$.
+        misconception: MC-c8-length-norm-independent
+
+  - id: Q-8.2-rect-proof
+    type: rank
+    objectives: [OBJ-8.2-2]
+    level: exam
+    prompt: >-
+      סדרו את שלבי ההוכחה: מסילה $\gamma=(x_1,\dots,x_n):[a,b]\to\mathbb{R}^n$ ברת-מדידה אם ורק אם כל רכיב $x_j$
+      בעל השתנות חסומה.
+    help: סדרו את שלבי ההוכחה מהראשון לאחרון.
+    items:
+      - id: a
+        label: 'תהי $P$: $a=t_0<\dots<t_m=b$ חלוקה, ונסמן $\ell(\gamma,P)=\sum_i\|\gamma(t_i)-\gamma(t_{i-1})\|_2$, אורך הקו השבור.'
+      - id: b
+        label: 'לכל וקטור $v$ ולכל $j$: $|v_j|\le\|v\|_2\le\sum_{k=1}^n|v_k|$. מציבים $v=\gamma(t_i)-\gamma(t_{i-1})$.'
+      - id: c
+        label: 'סוכמים על $i$: $V(x_j,P)\le\ell(\gamma,P)\le\sum_{k=1}^nV(x_k,P)$ לכל $j$.'
+      - id: d
+        label: 'עוברים לסופרמום על $P$: $V_a^b(x_j)\le L(\gamma)\le\sum_{k=1}^nV_a^b(x_k)$.'
+      - id: e
+        label: 'אי-השוויון השמאלי: אם $L(\gamma)<\infty$, כל רכיב בעל השתנות חסומה; הימני: אם כולם כאלה, $L(\gamma)<\infty$.'
+    order: [a, b, c, d, e]
+    correctFeedback: >-
+      נכון. ההוכחה היא אי-שוויון בין נורמות ($\|\cdot\|_\infty\le\|\cdot\|_2\le\|\cdot\|_1$) שעובר מחלוקה אחת
+      לסופרמום. היא נותנת יותר מהמשפט: חסם מפורש לאורך דרך ההשתנויות.
+    wrongFeedback: >-
+      התחילו מחלוקה כלשהי ומאי-השוויון על וקטור אחד, סכמו, ורק אז עברו לסופרמום. המסקנה, בשני הכיוונים, באה
+      בסוף.
+
+  - id: Q-8.2-arclength
+    type: mc
+    objectives: [OBJ-8.2-3]
+    level: exam
+    prompt: >-
+      מהי הפרמטריזציה לפי אורך הקשת של הסליל $\gamma(t)=(\cos t,\sin t,t)$, $t\in[0,2\pi]$?
+    choices:
+      - text: '$\tilde\gamma(s)=\left(\cos\frac{s}{\sqrt2},\ \sin\frac{s}{\sqrt2},\ \frac{s}{\sqrt2}\right)$, $s\in[0,2\sqrt2\,\pi]$'
+        correct: true
+        feedback: >-
+          נכון. $s(t)=\int_0^t\sqrt2\,du=\sqrt2\,t$, ולכן $t=\frac{s}{\sqrt2}$, ו-$s$ רץ עד $L=2\sqrt2\,\pi$.
+          בדיקה: $\|\tilde\gamma'(s)\|^2=\frac12+\frac12=1$.
+      - text: '$\tilde\gamma(s)=(\cos s,\sin s,s)$, $s\in[0,2\pi]$'
+        feedback: >-
+          זו אותה מסילה עם שם אחר לפרמטר. המהירות שלה עדיין $\sqrt2$, לא 1.
+        misconception: MC-c8-arclength-rename
+      - text: '$\tilde\gamma(s)=\left(\cos(\sqrt2 s),\ \sin(\sqrt2 s),\ \sqrt2 s\right)$, $s\in[0,\sqrt2\,\pi]$'
+        feedback: >-
+          כאן הפכו את היחס: המהירות היא $\sqrt2\cdot\sqrt2=2$. מ-$s=\sqrt2\,t$ נובע $t=\frac{s}{\sqrt2}$.
+        misconception: MC-c8-arclength-rename
+      - text: '$\tilde\gamma(s)=\frac{1}{\sqrt2}(\cos s,\sin s,s)$, $s\in[0,2\pi]$'
+        feedback: >-
+          זו אמנם מסילה במהירות 1, אבל של סליל **אחר**, מוקטן פי $\sqrt2$. מעבר לפרמטר אחר לא משנה את התמונה, רק את
+          הקצב שבו עוברים עליה.
+        misconception: MC-c8-arclength-rename
+
+  - id: Q-8.2-arclength-c1
+    type: twotier
+    objectives: [OBJ-8.2-3, OBJ-8.2-1]
+    qualitative: true
+    level: exam
+    prompt: >-
+      נכון או לא נכון: לכל מסילה גזירה ברציפות $\gamma$ עם $L(\gamma)>0$, הפרמטריזציה לפי אורך הקשת
+      $\tilde\gamma(s)$ גזירה ברציפות ומקיימת $\|\tilde\gamma'(s)\|=1$.
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: 'נכון. צריך מסילה **חלקה**, $\gamma^{\prime}\ne0$.'
+      - text: נכון
+        feedback: >-
+          המשפט מניח $\gamma'\ne0$. בלי זה $s(t)$ עדיין עולה, אבל ההופכית שלה אינה גזירה בנקודות שבהן $s'=0$,
+          והמסילה החדשה יכולה להישבר שם.
+        misconception: MC-c8-c1-means-smooth-image
+    reasons:
+      - text: '$\gamma(t)=(t^3,|t|^3)$ על $[-1,1]$ גזירה ברציפות, אבל לפי אורך הקשת היא עוברת במהירות 1 על הגרף של $|x|$, ואינה גזירה בפינה $s=\sqrt2$'
+        correct: true
+        feedback: >-
+          בדיוק. $\|\gamma'(t)\|=3\sqrt2\,t^2$, $L=2\sqrt2$, ו-$\tilde\gamma$ הולכת על הישר $y=-x$ עד הראשית ואז על
+          $y=x$: הנגזרת קופצת מ-$\frac{1}{\sqrt2}(1,-1)$ ל-$\frac{1}{\sqrt2}(1,1)$.
+      - text: 'כי $s(t)=\int_a^t\|\gamma^{\prime}\|$ גזירה ברציפות ועולה, ולכן גם ההופכית שלה גזירה ברציפות'
+        feedback: >-
+          ההופכית של פונקציה גזירה עולה ממש גזירה רק כשהנגזרת אינה מתאפסת: $t^3$ עולה ממש וההופכית $s^{1/3}$ אינה
+          גזירה ב-0. כאן $s'(t)=\|\gamma'(t)\|$, ולכן התנאי הוא $\gamma'\ne0$.
+        misconception: MC-c8-c1-means-smooth-image
+      - text: 'פרמטריזציה לפי אורך קשת קיימת רק למסילות פשוטות'
+        feedback: >-
+          פשטות לא נדרשת: למעגל שעוברים עליו פעמיים יש פרמטריזציה לפי אורך קשת, $(\cos s,\sin s)$ על $[0,4\pi]$.
+          מה שנדרש לגזירות היא $\gamma'\ne0$.
+        misconception: MC-c8-closed-simple-confusion

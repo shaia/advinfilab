@@ -1,0 +1,327 @@
+# Lesson 6.4 — classifying critical points by the Hessian.
+# Objectives (src/course.ts):
+#   OBJ-6.4-1  state and prove the second-derivative test: positive definite Hessian gives a strict local minimum, indefinite a saddle
+#   OBJ-6.4-2  classify the critical points of given functions by the Hessian
+#   OBJ-6.4-3  handle a semi-definite Hessian and show by examples that it is inconclusive
+chapter: 6
+questions:
+  - id: Q-6.4-statement
+    type: mc
+    objectives: [OBJ-6.4-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      תהי $f$ מסוג $C^2$ בסביבה של $a$. איזו מהטענות היא מבחן הנגזרת השנייה?
+    choices:
+      - text: >-
+          אם $\nabla f(a)=0$ ו-$H_f(a)$ חיובית מוגדרת, אז $a$ נקודת מינימום מקומי ממש
+        correct: true
+        feedback: >-
+          נכון. שני התנאים נחוצים: הגרדיאנט האפס מעלים את האיבר הלינארי בטיילור, וההסיאן החיובי מוגדר שולט על
+          האיבר הריבועי.
+      - text: >-
+          אם $a$ נקודת מינימום מקומי, אז $H_f(a)$ חיובית מוגדרת
+        feedback: >-
+          זה ההפך של המבחן, והוא לא נכון: ל-$x^4+y^4$ יש מינימום ממש בראשית, ו-$H_f(0)=0$. ההכרחי הוא רק "חיובית
+          חצי מוגדרת".
+        misconception: MC-c6-min-implies-pd
+      - text: >-
+          אם $H_f(a)$ חיובית מוגדרת, אז $a$ נקודת מינימום מקומי
+        feedback: >-
+          חסר $\nabla f(a)=0$. ל-$f=x+x^2+y^2$ ההסיאן חיובי מוגדר בראשית, אבל $f(-t,0)=-t+t^2<0=f(0,0)$ לכל $0<t<1$.
+        misconception: MC-c6-hessian-without-critical
+      - text: >-
+          אם $\nabla f(a)=0$ ו-$H_f(a)$ חיובית מוגדרת, אז $a$ נקודת מינימום מוחלט
+        feedback: >-
+          המבחן מקומי בלבד. ל-$x^3-3x+y^2$ ב-$(1,0)$: הסיאן חיובי מוגדר ו-$f(1,0)=-2$, אבל $f(-3,0)=-18$.
+        misconception: MC-c6-local-is-global
+
+  - id: Q-6.4-class1
+    type: mc
+    objectives: [OBJ-6.4-2]
+    level: basic
+    prompt: >-
+      $f(x,y)=x^3-3x+y^2$, והנקודה $(-1,0)$ קריטית. מה הסוג שלה?
+    choices:
+      - text: נקודת אוכף
+        correct: true
+        feedback: >-
+          נכון. $H_f(-1,0)=\begin{pmatrix}-6&0\\0&2\end{pmatrix}$, עם ערכים עצמיים $(-6)$ ו-2: לא מוגדרת. ואכן על ציר
+          $x$ יש מקסימום ובכיוון $y$ מינימום.
+      - text: נקודת מקסימום מקומי, כי $\partial_x^2f(-1,0)=-6<0$
+        feedback: >-
+          $\Delta_1<0$ לבדו לא מספיק לשלילית מוגדרת; צריך גם $\det H>0$. כאן $\det H=-12<0$: אוכף. בכיוון $y$
+          $f(-1,t)=2+t^2>2$.
+        misconception: MC-c6-sylvester-partial
+      - text: נקודת מינימום מקומי, כי $\partial_y^2f(-1,0)=2>0$
+        feedback: >-
+          איבר אלכסון אחד הוא ערך התבנית בכיוון אחד. בכיוון $x$: $f(-1+t,0)$ יורדת משני הצדדים, כי
+          $\partial_x^2f=-6$.
+        misconception: MC-c6-diagonal-decides
+
+  - id: Q-6.4-cubic
+    type: multi
+    objectives: [OBJ-6.4-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      ל-$f(x,y)=x^3+y^3-3xy$ יש שתי נקודות קריטיות, $(0,0)$ ו-$(1,1)$. אילו מהטענות נכונות? סמנו את כולן.
+    choices:
+      - text: '$(0,0)$ נקודת אוכף, כי $\det H_f(0,0)=-9<0$'
+        correct: true
+        feedback: >-
+          נכון. $H_f=\begin{pmatrix}6x&-3\\-3&6y\end{pmatrix}$, ובראשית $\begin{pmatrix}0&-3\\-3&0\end{pmatrix}$ עם
+          ערכים עצמיים $\pm3$.
+      - text: '$(1,1)$ נקודת מינימום מקומי ממש, כי $\det H_f(1,1)=27>0$ ו-$\partial_x^2f(1,1)=6>0$'
+        correct: true
+        feedback: 'נכון. $H_f(1,1)=\begin{pmatrix}6&-3\\-3&6\end{pmatrix}$, ערכים עצמיים 3 ו-9.'
+      - text: '$(1,1)$ נקודת מינימום מוחלט של $f$ במישור'
+        feedback: >-
+          $f(1,1)=-1$, אבל $f(-2,0)=-8$, ובכלל $f(x,0)=x^3\to-\infty$. המבחן מקומי בלבד.
+        misconception: MC-c6-local-is-global
+      - text: 'בראשית המבחן אינו מכריע, כי $\partial_x^2f=\partial_y^2f=0$ שם'
+        feedback: >-
+          אלכסון אפס לא הופך את המבחן ללא מכריע: $\det H=-9<0$ אומר שהערכים העצמיים בסימנים מנוגדים, והתבנית לא
+          מוגדרת. ואכן $f(t,t)=2t^3-3t^2<0$ ו-$f(t,-t)=3t^2>0$ ליד 0.
+        misconception: MC-c6-sylvester-partial
+
+  - id: Q-6.4-quartic
+    type: numeric
+    objectives: [OBJ-6.4-2]
+    level: mid
+    prompt: >-
+      $f(x,y)=x^4+y^4-4xy$. מהי $\det H_f(1,1)$?
+    answer: 128
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $H_f=\begin{pmatrix}12x^2&-4\\-4&12y^2\end{pmatrix}$, ולכן $\det H_f(1,1)=144-16=128>0$, ועם
+      $\partial_x^2f=12>0$: מינימום מקומי ממש (וכך גם ב-$(-1,-1)$). בראשית $\det=-16<0$: אוכף.
+    wrongFeedback: >-
+      חשבו את ארבע הנגזרות השניות, הציבו $(1,1)$, וחשבו $ad-bc$.
+    commonWrong:
+      - value: 144
+        feedback: >-
+          זו מכפלת איברי האלכסון בלבד, $12\cdot12$. הנגזרת המעורבת $\partial_x\partial_yf=-4$ נכנסת לדטרמיננטה: $144-(-4)^2$.
+        misconception: MC-c6-hessian-diagonal-only
+
+  - id: Q-6.4-proof
+    type: rank
+    objectives: [OBJ-6.4-1]
+    level: mid
+    prompt: >-
+      סדרו את שלבי ההוכחה: אם $f\in C^2$ בסביבה של $a$, $\nabla f(a)=0$ ו-$H_f(a)$ חיובית מוגדרת, אז $a$ נקודת
+      מינימום מקומי ממש.
+    help: גררו את השלבים לסדר הנכון, מהשלב הראשון של ההוכחה לאחרון.
+    items:
+      - id: sylv
+        label: >-
+          לפי קריטריון סילבסטר כל המינורים המובילים של $H_f(a)$ חיוביים.
+      - id: cont
+        label: >-
+          המינורים הם פולינומים בנגזרות השניות, שהן רציפות; לכן יש $r>0$ כך שהמינורים של $H_f(x)$ חיוביים, כלומר
+          $H_f(x)$ חיובית מוגדרת, לכל $x\in B(a,r)$.
+      - id: taylor
+        label: >-
+          לכל $0<\|h\|<r$, לפי טיילור עם שארית לגרנז', יש $c$ על הקטע $[a,a+h]$ (ולכן $c\in B(a,r)$) עם
+          $f(a+h)=f(a)+\nabla f(a)\cdot h+\frac12h^{T}H_f(c)h$.
+      - id: sign
+        label: >-
+          כי $\nabla f(a)=0$ ו-$H_f(c)$ חיובית מוגדרת: $f(a+h)-f(a)=\frac12h^{T}H_f(c)h>0$.
+      - id: end
+        label: >-
+          לכן $f(x)>f(a)$ לכל $x\in B(a,r)$ שונה מ-$a$: מינימום מקומי ממש.
+    order: [sylv, cont, taylor, sign, end]
+    correctFeedback: >-
+      נכון. הרעיון: ההסיאן חיובי מוגדר לא רק ב-$a$ אלא בכדור שלם סביבה (רציפות), ולכן גם בנקודה הלא ידועה $c$ של שארית
+      לגרנז'. הכדור $B(a,r)$ קמור, ולכן הקטע $[a,a+h]$ בתוכו.
+    wrongFeedback: >-
+      הבעיה בהוכחה היא ששארית לגרנז' נותנת את ההסיאן ב-$c$, לא ב-$a$. לכן קודם מעבירים את החיוביות מ-$a$ לכדור
+      סביבה, ורק אחר כך מפעילים את טיילור.
+
+  - id: Q-6.4-semi-multi
+    type: multi
+    objectives: [OBJ-6.4-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      לכל הפונקציות הבאות הראשית נקודה קריטית וההסיאן בה חצי מוגדר. לאילו מהן יש **מינימום מקומי** בראשית? סמנו
+      את כולן.
+    choices:
+      - text: '$x^2+y^4$'
+        correct: true
+        feedback: 'נכון. $f\ge0=f(0,0)$, ושוויון רק בראשית: מינימום ממש. $H_f(0)=\begin{pmatrix}2&0\\0&0\end{pmatrix}$.'
+      - text: '$x^4+y^4$'
+        correct: true
+        feedback: 'נכון. מינימום ממש, אף ש-$H_f(0)=0$: מינימום לא מחייב הסיאן חיובי מוגדר.'
+      - text: '$x^2-y^4$'
+        feedback: >-
+          אותו הסיאן כמו $x^2+y^4$, אבל $f(0,t)=-t^4<0<f(t,0)$: אוכף. ההסיאן לא "רואה" את $y^4$.
+        misconception: MC-c6-semi-decides
+      - text: '$x^2+y^3$'
+        feedback: >-
+          אותו הסיאן, אבל $f(0,t)=t^3<0$ עבור $t<0$: אוכף. בכיוון $y$ האיבר מסדר שני מתאפס, ושם מכריע $y^3$.
+        misconception: MC-c6-semi-decides
+    explanation: >-
+      בשלוש הראשונות $H_f(0)=\begin{pmatrix}2&0\\0&0\end{pmatrix}$, ובכל זאת התשובות שונות. כשההסיאן חצי מוגדר ולא
+      מוגדר, יש כיוון שבו האיבר מסדר שני מתאפס, וההכרעה עוברת לאיברים מסדר גבוה יותר בכיוון הזה.
+
+  - id: Q-6.4-semi-claim
+    type: twotier
+    objectives: [OBJ-6.4-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      נכון או לא נכון: אם $\nabla f(a)=0$ ו-$H_f(a)$ חיובית חצי מוגדרת, אז $a$ נקודת מינימום מקומי.
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: 'נכון. ל-$x^2+y^3$ בראשית שני התנאים מתקיימים, ואין מינימום.'
+      - text: נכון
+        feedback: >-
+          ל-$f=x^2+y^3$: $\nabla f(0)=0$, $H_f(0)=\begin{pmatrix}2&0\\0&0\end{pmatrix}$ חצי מוגדרת, ו-$f(0,t)=t^3<0$
+          עבור $t<0$.
+        misconception: MC-c6-semi-decides
+    reasons:
+      - text: >-
+          ל-$x^2+y^3$ בראשית ההסיאן חצי מוגדר, ו-$f(0,t)=t^3<0$ עבור $t<0$
+        correct: true
+        feedback: >-
+          בדיוק. בכיוון $(0,1)$ האיבר הריבועי אפס, ומה שקובע הוא האיבר מסדר שלישי, שמחליף סימן.
+      - text: >-
+          $h^{T}H_f(a)h\ge0$, ולכן לפי טיילור $f(a+h)-f(a)\ge0$
+        feedback: >-
+          בטיילור מופיע $H_f(c)$, לא $H_f(a)$, ובנקודות $c$ ליד $a$ ההסיאן יכול להיות לא מוגדר. ב-$x^2+y^3$:
+          $H_f(0,t)=\begin{pmatrix}2&0\\0&6t\end{pmatrix}$, שלילי בכיוון $y$ כש-$t<0$.
+        misconception: MC-c6-semi-decides
+      - text: >-
+          המבחן לא מכריע, ולכן $a$ בוודאי אינה נקודת קיצון
+        feedback: >-
+          המסקנה הסופית כאן במקרה נכונה, אבל הנימוק לא: ל-$x^2+y^4$ אותו הסיאן, והראשית כן מינימום. "לא מכריע"
+          פירושו שצריך לבדוק אחרת.
+        misconception: MC-c6-inconclusive-means-none
+
+  - id: Q-6.4-continuity
+    type: twotier
+    objectives: [OBJ-6.4-1]
+    qualitative: true
+    level: exam
+    prompt: >-
+      בהוכחת מבחן הנגזרת השנייה עוברים מ"$H_f(a)$ חיובית מוגדרת" ל"$H_f(x)$ חיובית מוגדרת לכל $x$ בכדור קטן סביב
+      $a$". האם המעבר הזה מוצדק תחת ההנחה $f\in C^2$?
+    choices:
+      - text: כן
+        correct: true
+        feedback: 'נכון, והוא הלב של ההוכחה: הוא מאפשר להשתמש בהסיאן בנקודה הלא ידועה $c$ של שארית לגרנז''.'
+      - text: לא
+        feedback: >-
+          המעבר מוצדק: המינורים המובילים של $H_f(x)$ הם פולינומים בנגזרות השניות, הרציפות לפי ההנחה, ולכן הם נשארים
+          חיוביים בסביבה של $a$.
+        misconception: MC-c6-definiteness-unstable
+    reasons:
+      - text: >-
+          המינורים המובילים של $H_f(x)$ הם פונקציות רציפות של $x$ (פולינומים בנגזרות השניות), חיוביים ב-$a$, ולכן
+          חיוביים בכדור סביב $a$; לפי סילבסטר $H_f(x)$ חיובית מוגדרת שם
+        correct: true
+        feedback: >-
+          בדיוק. בדרך אחרת: $h^{T}H_f(a)h\ge m\|h\|^2$ (שיעור 6.3), ו-$\|H_f(x)-H_f(a)\|_{\mathrm{op}}<\frac m2$ ליד $a$
+          נותן $h^{T}H_f(x)h\ge\frac m2\|h\|^2$.
+      - text: >-
+          אין צורך ברציפות: בשארית לגרנז' מופיע $H_f(a)$
+        feedback: >-
+          בשארית מופיע $H_f(c)$, ב-$c$ לא ידועה על הקטע. בדיוק בגלל זה צריך חיוביות בכל הכדור.
+        misconception: MC-c6-remainder-at-a
+      - text: >-
+          כי חיוביות מוגדרת נקבעת לפי האלכסון, והאלכסון רציף
+        feedback: >-
+          אלכסון חיובי אינו מספיק לחיוביות מוגדרת (ראו $\begin{pmatrix}1&2\\2&1\end{pmatrix}$). הנימוק הנכון עובר דרך
+          כל המינורים המובילים, או דרך החסם $m\|h\|^2$.
+        misconception: MC-c6-diagonal-decides
+
+  - id: Q-6.4-necessary
+    type: twotier
+    objectives: [OBJ-6.4-1, OBJ-6.4-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      נכון או לא נכון: אם $f\in C^2$ ו-$a$ נקודת מינימום מקומי פנימית, אז $H_f(a)$ חיובית חצי מוגדרת.
+    choices:
+      - text: נכון
+        correct: true
+        feedback: 'נכון. זה התנאי ההכרחי מסדר שני, והוא חלש מהתנאי המספיק ("חיובית מוגדרת").'
+      - text: לא נכון
+        feedback: >-
+          הטענה נכונה. אם היה כיוון $v$ עם $v^{T}H_f(a)v<0$, הפונקציה $g(t)=f(a+tv)$ הייתה מקבלת מקסימום ממש ב-0, וזה
+          סותר את המינימום.
+        misconception: MC-c6-definite-vs-semi
+    reasons:
+      - text: >-
+          אם $v^{T}H_f(a)v<0$, אז ל-$g(t)=f(a+tv)$ מתקיים $g'(0)=\nabla f(a)\cdot v=0$ ו-$g''(0)<0$, ולכן
+          $f(a+tv)<f(a)$ לכל $t\ne0$ קטן, בסתירה למינימום
+        correct: true
+        feedback: >-
+          בדיוק: צמצום לישר ומבחן הנגזרת השנייה במשתנה אחד. $\nabla f(a)=0$ כי $a$ מינימום פנימי (שיעור 6.2).
+      - text: >-
+          במינימום מקומי ההסיאן חיובי מוגדר, ובפרט חצי מוגדר
+        feedback: >-
+          המסקנה נכונה אבל הנימוק לא: ל-$x^4+y^4$ יש מינימום בראשית ו-$H_f(0)=0$, שאינו חיובי מוגדר.
+        misconception: MC-c6-min-implies-pd
+      - text: >-
+          הטענה נכשלת ב-$x^4+y^4$, שם ההסיאן בראשית אפס ואינו חצי מוגדר
+        feedback: >-
+          מטריצת האפס **כן** חיובית חצי מוגדרת: $h^{T}0h=0\ge0$ לכל $h$. הדוגמה מתאימה לטענה.
+        misconception: MC-c6-definite-vs-semi
+
+  - id: Q-6.4-3var
+    type: mc
+    objectives: [OBJ-6.4-2]
+    level: exam
+    prompt: >-
+      $f(x,y,z)=x^2+2y^2+\frac12z^2+2xy+2yz$. הראשית נקודה קריטית, ו-$H_f(0)=\begin{pmatrix}2&2&0\\2&4&2\\0&2&1\end{pmatrix}$.
+      מה הסוג של הראשית?
+    choices:
+      - text: נקודת אוכף
+        correct: true
+        feedback: >-
+          נכון. $\Delta_1=2$, $\Delta_2=4$, $\Delta_3=-4$. $\Delta_1>0$ אומר ש-$q(e_1)>0$, ו-$\det H<0$ (מכפלת הערכים
+          העצמיים) אומר שיש ערך עצמי שלילי: התבנית לא מוגדרת. ואכן $f(1,0,0)=1>0$, ואילו
+          $f(1,-1,2)=1+2+2-2-4=(-1)<0$.
+      - text: נקודת מינימום מקומי ממש, כי $\Delta_1>0$ ו-$\Delta_2>0$
+        feedback: >-
+          במימד 3 צריך את שלושת המינורים חיוביים. $\Delta_3=-4<0$, ו-$f(1,-1,2)=-1<0=f(0)$.
+        misconception: MC-c6-sylvester-partial
+      - text: נקודת מקסימום מקומי, כי $\det H<0$
+        feedback: >-
+          לשלילית מוגדרת צריך סימנים מתחלפים שמתחילים בשלילי. כאן $\Delta_1=2>0$, ובאמת $f(1,0,0)=1>0$: אין מקסימום.
+        misconception: MC-c6-negative-minors
+      - text: המבחן אינו מכריע, כי המינורים אינם כולם באותו סימן ואינם מתחלפים
+        feedback: >-
+          כשכל המינורים שונים מאפס והדפוס אינו "כולם חיוביים" ואינו "מתחלפים", התבנית **לא מוגדרת**, והמבחן כן מכריע:
+          אוכף.
+        misconception: MC-c6-negative-minors
+
+  - id: Q-6.4-3var-semi
+    type: mc
+    objectives: [OBJ-6.4-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $f(x,y,z)=x^2+y^2+z^2-xy-yz-xz$. בראשית $\nabla f=0$, ו-$H_f(0)=\begin{pmatrix}2&-1&-1\\-1&2&-1\\-1&-1&2\end{pmatrix}$
+      עם מינורים מובילים $2,3,0$. מה נכון לגבי הראשית?
+    choices:
+      - text: מינימום מקומי, אבל לא ממש
+        correct: true
+        feedback: >-
+          נכון. המבחן לא מכריע (ערכים עצמיים $0,3,3$), אבל ישירות:
+          $f=\frac12\left[(x-y)^2+(y-z)^2+(z-x)^2\right]\ge0=f(0)$, ו-$f=0$ על כל הישר $x=y=z$.
+      - text: מינימום מקומי ממש, כי $\Delta_1>0$ ו-$\Delta_2>0$
+        feedback: >-
+          $\Delta_3=0$, ולכן ההסיאן אינו חיובי מוגדר. ובאמת $f(t,t,t)=0$ לכל $t$: אין "ממש".
+        misconception: MC-c6-sylvester-partial
+      - text: הראשית אינה נקודת קיצון, כי המבחן אינו מכריע
+        feedback: >-
+          "לא מכריע" אינו "אין קיצון". הכתיבה כסכום ריבועים מראה ש-$f\ge0=f(0)$.
+        misconception: MC-c6-inconclusive-means-none
+      - text: אי אפשר לדעת, כי המבחן אינו מכריע
+        feedback: >-
+          המבחן הוא כלי אחד. כשהוא נכשל בודקים ישירות את ערכי $f$ ליד הנקודה, וכאן הם כולם $\ge0$.
+        misconception: MC-c6-inconclusive-means-none

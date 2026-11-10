@@ -1,0 +1,114 @@
+---
+/**
+ * Cover illustration: the definition of a limit drawn exactly. The sequence aₙ = 1 + (−1)ⁿ·1.2/n, its limit
+ * L = 1, the ε-band (L − ε, L + ε) with ε = 0.14, and the first index N from which every term stays inside
+ * the band. N comes from firstN() in src/math/analysis.ts (here N = 9, since 1.2/n < 0.14 ⇔ n > 8.57; ε is chosen so that no term sits on the band edge, where rounding would decide), and each
+ * point is classed in or out of the band from its own value, so the picture is a check on the numbers, not a
+ * decoration (tests/e2e/home.spec.ts reads it back). Points draw themselves in once, unless the reader asked
+ * for stillness.
+ */
+import { firstN } from '~/math/analysis';
+
+const W = 640;
+const H = 420;
+const a = (n: number) => 1 + ((-1) ** n * 1.2) / n;
+const L = 1;
+const eps = 0.14;
+const N = firstN(a, L, eps)!;
+const COUNT = 26;
+
+const x0 = 56; // n = 0, px
+const dx = (W - x0 - 24) / COUNT;
+const yMin = -0.3;
+const yMax = 1.7;
+const sx = (n: number) => x0 + n * dx;
+const sy = (y: number) => 24 + ((yMax - y) / (yMax - yMin)) * (H - 64); // y-up world
+
+const points = Array.from({ length: COUNT }, (_, i) => {
+  const n = i + 1;
+  const v = a(n);
+  return { n, x: sx(n), y: sy(v), inside: Math.abs(v - L) < eps };
+});
+---
+
+<svg
+  class="cover-art"
+  viewBox={`0 0 ${W} ${H}`}
+  role="img"
+  aria-label={`סדרה שמתכנסת לגבול L. סביב L יש רצועה ברוחב אפסילון מכל צד, ומהאיבר ה-${N} והלאה כל איברי הסדרה בתוך הרצועה`}
+  data-n={N}
+  data-eps={eps}
+>
+  <rect class="band" x={x0} y={sy(L + eps)} width={W - x0 - 12} height={sy(L - eps) - sy(L + eps)} data-top={L + eps} data-bottom={L - eps} />
+  <line class="axis" x1={x0} y1={sy(0)} x2={W - 12} y2={sy(0)} />
+  <line class="axis" x1={x0} y1={sy(yMin)} x2={x0} y2={sy(yMax)} />
+  <line class="limit" x1={x0} y1={sy(L)} x2={W - 12} y2={sy(L)} />
+  <line class="n-line" x1={sx(N) - dx / 2} y1={sy(yMax)} x2={sx(N) - dx / 2} y2={sy(yMin)} />
+  <g class="labels">
+    <text x={x0 - 10} y={sy(L) + 5}>L</text>
+    <text x={x0 - 10} y={sy(L + eps) + 5}>L+ε</text>
+    <text x={x0 - 10} y={sy(L - eps) + 5}>L−ε</text>
+    <text x={sx(N) - dx / 2} y={sy(yMin) + 26}>N</text>
+    <text x={x0 - 10} y={sy(0) + 5}>0</text>
+  </g>
+  <g class="terms">
+    {
+      points.map((p) => (
+        <circle class={p.inside ? 'in' : 'out'} cx={p.x} cy={p.y} r={p.inside ? 5 : 5.5} data-n={p.n} style={`--i:${p.n}`} />
+      ))
+    }
+  </g>
+</svg>
+
+<style>
+  .cover-art {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    direction: ltr;
+  }
+  .axis {
+    stroke: var(--ink-3);
+    stroke-width: 1;
+  }
+  .band {
+    fill: var(--eps-band);
+    stroke: var(--eps);
+    stroke-width: 1;
+    stroke-dasharray: 5 4;
+  }
+  .limit {
+    stroke: var(--limit);
+    stroke-width: 2;
+  }
+  .n-line {
+    stroke: var(--ink-2);
+    stroke-width: 1.2;
+    stroke-dasharray: 6 5;
+  }
+  .labels text {
+    font: 600 15px var(--font-ui);
+    fill: var(--ink-2);
+    text-anchor: end;
+  }
+  .labels text:nth-child(4) {
+    text-anchor: middle;
+  }
+  .terms circle {
+    animation: pop 0.5s cubic-bezier(0.3, 0.6, 0.2, 1) both;
+    animation-delay: calc(var(--i) * 70ms);
+  }
+  .terms .in {
+    fill: var(--point-in);
+  }
+  .terms .out {
+    fill: var(--paper);
+    stroke: var(--point-out);
+    stroke-width: 2.2;
+  }
+  @keyframes pop {
+    from {
+      opacity: 0;
+    }
+  }
+</style>

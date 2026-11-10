@@ -1,0 +1,527 @@
+# Workbook of lesson 1.6 — continuity between metric spaces.
+# Objectives (src/course.ts):
+#   OBJ-1.6-1  continuity at a point by ε-δ and by sequences, and their equivalence
+#   OBJ-1.6-2  continuous ⇔ preimages of open sets are open; use it to show sets open or closed
+#   OBJ-1.6-3  Lipschitz, uniformly continuous (רציפה במידה שווה), homeomorphism: definitions and examples
+# Numbers recomputed with src/math/multivar.ts (simpson, pNorm) and scratch scripts; every
+# value a solution states is exact (areas of triangles, closed-form maxima), the commands only confirmed them.
+lesson: '1.6'
+practice:
+  - id: W-1.6-01
+    level: basic
+    objectives: [OBJ-1.6-1, OBJ-1.6-3]
+    prompt: >-
+      $m:(\mathbb{R}^2,d_\infty)\to\mathbb{R}$, $m(x,y)=\max(x,y)$.
+
+      (א) הוכיחו ש-$|m(p)-m(q)|\le d_\infty(p,q)$ לכל $p,q\in\mathbb{R}^2$.
+
+      (ב) הסיקו ש-$m$ רציפה, ותנו $\delta$ כנוסחה ב-$\varepsilon$.
+    answer: >-
+      (א) $m$ ליפשיצית עם קבוע 1. (ב) $\delta=\varepsilon$ בכל נקודה.
+    solution:
+      - kind: idea
+        text: >-
+          אם כל קואורדינטה זזה לכל היותר $t$, גם המקסימום זז לכל היותר $t$.
+      - kind: step
+        text: >-
+          (א) נסמן $p=(x,y)$, $q=(x',y')$ ו-$t=d_\infty(p,q)=\max(|x-x'|,|y-y'|)$. אז $x\le x'+t\le m(q)+t$ ובאותו אופן
+          $y\le m(q)+t$, ולכן $m(p)=\max(x,y)\le m(q)+t$. מאותו נימוק עם $p$ ו-$q$ מוחלפים, $m(q)\le m(p)+t$. ביחד
+          $|m(p)-m(q)|\le t$.
+      - kind: step
+        text: >-
+          (ב) יהי $\varepsilon>0$ ונבחר $\delta=\varepsilon$. אם $d_\infty(p,q)<\delta$ אז $|m(p)-m(q)|\le d_\infty(p,q)<\varepsilon$.
+      - kind: check
+        text: >-
+          בדוגמה: $p=(3,1)$, $q=(2.5,\ 1.2)$. $d_\infty=0.5$, ו-$|m(p)-m(q)|=|3-2.5|=0.5$: השוויון מתקבל.
+      - kind: result
+        text: >-
+          $m$ ליפשיצית עם קבוע 1 ביחס ל-$d_\infty$, ולכן רציפה (ואפילו רציפה במידה שווה) עם $\delta=\varepsilon$.
+
+  - id: W-1.6-02
+    level: basic
+    qualitative: true
+    objectives: [OBJ-1.6-2]
+    prompt: >-
+      בעזרת המשפט על מקורות, קבעו אם כל קבוצה פתוחה או סגורה ב-$\mathbb{R}$, ונמקו.
+
+      (א) $\{x: x^3-x>0\}$
+
+      (ב) $\{x: \cos x\ge0\}$
+
+      (ג) $\{x: x^2=2\}$
+    answer: >-
+      (א) פתוחה. (ב) סגורה. (ג) סגורה.
+    solution:
+      - kind: theorem
+        text: >-
+          אם $h:\mathbb{R}\to\mathbb{R}$ רציפה, אז $h^{-1}(V)$ פתוחה לכל $V$ פתוחה ו-$h^{-1}(F)$ סגורה לכל $F$ סגורה.
+      - kind: step
+        text: >-
+          (א) $h(x)=x^3-x$ פולינום, ולכן רציפה. הקבוצה היא $h^{-1}\big((0,\infty)\big)$, ו-$(0,\infty)$ פתוחה: הקבוצה
+          פתוחה.
+      - kind: step
+        text: >-
+          (ב) נסמן $h(x)=\cos x$. $h$ רציפה, והקבוצה היא
+          $h^{-1}\big([0,\infty)\big)$, מקור של קבוצה סגורה: סגורה.
+      - kind: step
+        text: >-
+          (ג) $h(x)=x^2$ רציפה, והקבוצה היא $h^{-1}(\{2\})$; נקודה היא קבוצה סגורה, ולכן גם המקור סגור. (הקבוצה היא
+          $\{-\sqrt2,\sqrt2\}$.)
+      - kind: check
+        text: >-
+          המשפט נותן רק כיוון אחד של כל שאלה. למשל ב-(א) הוא לא אומר אם הקבוצה גם סגורה; כאן היא
+          $(-1,0)\cup(1,\infty)$, ואינה סגורה.
+      - kind: result
+        text: >-
+          (א) פתוחה; (ב) סגורה; (ג) סגורה.
+
+  - id: W-1.6-03
+    level: basic
+    qualitative: true
+    objectives: [OBJ-1.6-3]
+    prompt: >-
+      אילו מההעתקות הבאות הן הומיאומורפיזם (עם המרחק הרגיל בשני הצדדים)? נמקו.
+
+      (א) $f:\mathbb{R}\to\mathbb{R}$, $f(x)=2x+1$.
+
+      (ב) $f:\mathbb{R}\to\mathbb{R}$, $f(x)=x^3$.
+
+      (ג) $f:[0,\infty)\to[0,\infty)$, $f(x)=x^2$.
+
+      (ד) $f:\mathbb{R}\to[0,\infty)$, $f(x)=x^2$.
+    answer: >-
+      (א), (ב), (ג) כן; (ד) לא, כי $f(1)=f(-1)$.
+    solution:
+      - kind: definition
+        text: >-
+          הומיאומורפיזם: חד-חד-ערכית ועל, רציפה, ועם פונקציה הפכית רציפה.
+      - kind: step
+        text: >-
+          (א) ההפכית $g(y)=\frac{y-1}2$, ושתיהן רציפות (ואפילו ליפשיציות). (ב) $x^3$ עולה ממש ועל $\mathbb{R}$, וההפכית
+          $\sqrt[3]{y}$ רציפה (אינפי 1). (ג) על $[0,\infty)$ הפונקציה $x^2$ עולה ממש ועל, וההפכית $\sqrt y$ רציפה.
+      - kind: step
+        text: >-
+          (ד) $f(1)=f(-1)=1$, ולכן $f$ אינה חד-חד-ערכית ואין לה הפכית. הנוסחה זהה ל-(ג); מה שהשתנה הוא התחום.
+      - kind: check
+        text: >-
+          ב-(ב), $x^3$ אינה ליפשיצית על $\mathbb{R}$ וההפכית שלה אינה ליפשיצית ליד 0, ובכל זאת שתיהן רציפות. הומיאומורפיזם
+          מבקש רק רציפות.
+      - kind: result
+        text: >-
+          (א), (ב), (ג) הומיאומורפיזמים; (ד) לא.
+
+  - id: W-1.6-04
+    level: mid
+    qualitative: true
+    objectives: [OBJ-1.6-1]
+    prompt: >-
+      במישור עם $d_2$, נגדיר $f(x,y)=\frac{x^2y}{x^2+y^2}$ ו-$g(x,y)=\frac{x^2}{x^2+y^2}$ מחוץ לראשית, ו-$f(0,0)=g(0,0)=0$.
+
+      (א) הוכיחו ש-$f$ רציפה ב-$(0,0)$.
+
+      (ב) הוכיחו ש-$g$ אינה רציפה ב-$(0,0)$.
+    answer: >-
+      (א) $|f(x,y)|\le|y|\le d_2$, ולכן $\delta=\varepsilon$. (ב) $g(\tfrac1n,0)=1\not\to0$.
+    solution:
+      - kind: idea
+        text: >-
+          (א) המנה $\frac{x^2}{x^2+y^2}$ נמצאת בין 0 ל-1, ולכן $f$ קטנה בערך מוחלט מ-$|y|$. (ב) לאורך ציר ה-$x$ הערך
+          של $g$ קבוע 1, ולא 0.
+      - kind: step
+        text: >-
+          (א) ל-$(x,y)\ne(0,0)$: $0\le\frac{x^2}{x^2+y^2}\le1$, ולכן $|f(x,y)|\le|y|\le\sqrt{x^2+y^2}=d_2\big((x,y),0\big)$.
+          יהי $\varepsilon>0$ ונבחר $\delta=\varepsilon$. אם $d_2((x,y),0)<\delta$ אז $|f(x,y)-f(0,0)|<\varepsilon$ (וב-$(0,0)$
+          עצמה ההפרש 0).
+      - kind: step
+        text: >-
+          (ב) הסדרה $p_n=(\tfrac1n,0)$ שואפת ל-$(0,0)$, ו-$g(p_n)=\frac{1/n^2}{1/n^2}=1$ לכל $n$. לכן $g(p_n)\to1\ne0=g(0,0)$,
+          ולפי המשפט על סדרות $g$ אינה רציפה ב-$(0,0)$.
+      - kind: check
+        text: >-
+          ב-(ב) לאורך ציר ה-$y$, $g(0,\tfrac1n)=0\to0$. סדרה אחת שמתנהגת "טוב" לא מוכיחה רציפות; סדרה אחת שנכשלת מוכיחה
+          אי-רציפות.
+      - kind: result
+        text: >-
+          $f$ רציפה ב-$(0,0)$; $g$ אינה רציפה שם.
+
+  - id: W-1.6-05
+    level: mid
+    objectives: [OBJ-1.6-2, OBJ-1.6-1]
+    prompt: >-
+      (א) תהי $f:X\to Y$ רציפה בין מרחבים מטריים, ותהי $F\subseteq Y$ סגורה. הוכיחו **בעזרת סדרות**, בלי המשפט על
+      מקורות, ש-$f^{-1}(F)$ סגורה ב-$X$.
+
+      (ב) תהי $P$ קבוצת הפונקציות $f\in C[0,1]$ שמקיימות $f(x)\ge0$ לכל $x\in[0,1]$. הוכיחו ש-$P$ סגורה
+      ב-$(C[0,1],d_\infty)$. (רמז: לכל $x$ קבוע, $\operatorname{ev}_x(f)=f(x)$.)
+
+      (ג) האם $P$ פתוחה ב-$(C[0,1],d_\infty)$?
+    answer: >-
+      (א) אם $x_n\in f^{-1}(F)$ ו-$x_n\to x$, אז $f(x_n)\to f(x)$ ו-$f(x_n)\in F$, ולכן $f(x)\in F$. (ב)
+      $P=\bigcap_{x\in[0,1]}\operatorname{ev}_x^{-1}\big([0,\infty)\big)$, חיתוך של סגורות. (ג) לא.
+    solution:
+      - kind: theorem
+        text: >-
+          משיעור 1.5: קבוצה $A$ במרחב מטרי סגורה אם ורק אם הגבול של כל סדרה מתכנסת של נקודות מ-$A$ נמצא ב-$A$.
+      - kind: step
+        text: >-
+          (א) תהי $(x_n)$ סדרה ב-$f^{-1}(F)$ שמתכנסת ל-$x\in X$. כלומר $f(x_n)\in F$ לכל $n$. $f$ רציפה ב-$x$, ולפי המשפט
+          על סדרות $f(x_n)\to f(x)$. זו סדרה ב-$F$ שמתכנסת ל-$f(x)$, ו-$F$ סגורה, ולכן $f(x)\in F$, כלומר
+          $x\in f^{-1}(F)$. לפי המשפט משיעור 1.5, $f^{-1}(F)$ סגורה.
+      - kind: step
+        text: >-
+          (ב) לכל $x\in[0,1]$ ההעתקה $\operatorname{ev}_x$ רציפה ב-$d_\infty$:
+          $|\operatorname{ev}_x(f)-\operatorname{ev}_x(g)|=|f(x)-g(x)|\le d_\infty(f,g)$. לכן לפי (א) הקבוצה
+          $\{f: f(x)\ge0\}=\operatorname{ev}_x^{-1}\big([0,\infty)\big)$ סגורה, כי $[0,\infty)$ סגורה בישר.
+      - kind: step
+        text: >-
+          $f\in P$ אם ורק אם $f(x)\ge0$ לכל $x$, כלומר $P=\bigcap_{x\in[0,1]}\operatorname{ev}_x^{-1}\big([0,\infty)\big)$:
+          חיתוך של משפחה (אינסופית) של קבוצות סגורות. חיתוך כלשהו של סגורות סגור (שיעור 1.3), ולכן $P$ סגורה.
+      - kind: step
+        text: >-
+          (ג) **לא.** פונקציית האפס $\theta$ ב-$P$. לכל $r>0$ הפונקציה הקבועה $-\frac r2$ מקיימת
+          $d_\infty\big(-\frac r2,\theta\big)=\frac r2<r$, ואינה ב-$P$. לכן אין כדור סביב $\theta$ בתוך $P$.
+      - kind: check
+        text: >-
+          כאן היה צורך בחיתוך **אינסופי**, נקודה לכל $x\in[0,1]$, ורק לסגורות מותר לחתוך כמה שרוצים. השוו ל-$U$ של
+          הפונקציות החיוביות ממש מדוגמה 5 בשיעור 1.3: היא פתוחה, אבל החיתוך האינסופי של המקורות
+          $\operatorname{ev}_x^{-1}\big((0,\infty)\big)$ לא היה מוכיח זאת, וצריך היה את המינימום של $f$.
+      - kind: result
+        text: >-
+          (א) מקור של סגורה תחת פונקציה רציפה סגור, דרך סדרות. (ב) $P$ סגורה ב-$d_\infty$. (ג) $P$ אינה פתוחה.
+
+  - id: W-1.6-06
+    level: mid
+    objectives: [OBJ-1.6-3]
+    prompt: >-
+      $f(x)=\sin(x^2)$ על $\mathbb{R}$. זו פונקציה חסומה, ובכל זאת:
+
+      (א) הוכיחו שלכל $R>0$, $f$ ליפשיצית על $[-R,R]$ עם קבוע $2R$.
+
+      (ב) הוכיחו ש-$f$ אינה רציפה במידה שווה על $\mathbb{R}$.
+    answer: >-
+      (א) $|f'(x)|=|2x\cos(x^2)|\le2R$, ומשפט הערך הממוצע. (ב) $x_n=\sqrt{n\pi}$, $y_n=\sqrt{n\pi+\frac\pi2}$:
+      $y_n-x_n\to0$ ו-$|f(y_n)-f(x_n)|=1$.
+    solution:
+      - kind: step
+        text: >-
+          (א) $f$ גזירה ו-$f'(x)=2x\cos(x^2)$, ולכן $|f'(x)|\le2|x|\le2R$ על $[-R,R]$. לפי משפט הערך הממוצע, לכל
+          $x,y\in[-R,R]$ יש $c$ ביניהם עם $f(x)-f(y)=f'(c)(x-y)$, ו-$c\in[-R,R]$. לכן $|f(x)-f(y)|\le2R\,|x-y|$.
+      - kind: idea
+        text: >-
+          (ב) הגרף מתנדנד מהר יותר ויותר: המרחק בין אפס של $\sin(x^2)$ לבין הנקודה הסמוכה שבה הערך $\pm1$ שואף לאפס.
+          לכן יש זוגות נקודות קרובות כרצוננו שערכיהן רחוקים זה מזה 1.
+      - kind: step
+        text: >-
+          נגדיר $x_n=\sqrt{n\pi}$ ו-$y_n=\sqrt{n\pi+\frac\pi2}$. אז $f(x_n)=\sin(n\pi)=0$ ו-$f(y_n)=\sin\left(n\pi+\frac\pi2\right)=\pm1$,
+          כלומר $|f(y_n)-f(x_n)|=1$. ובהכפלה בצמוד:
+
+          $$y_n-x_n=\frac{y_n^2-x_n^2}{y_n+x_n}=\frac{\pi/2}{y_n+x_n}<\frac{\pi/2}{2\sqrt{n\pi}}=\frac14\sqrt{\frac\pi n}.$$
+      - kind: step
+        text: >-
+          ניקח $\varepsilon=1$. לכל $\delta>0$ נבחר $n$ עם $\frac14\sqrt{\frac\pi n}<\delta$ (אפשרי, כי הביטוי שואף ל-0).
+          אז $|y_n-x_n|<\delta$, אבל $|f(y_n)-f(x_n)|=1$, שאינו קטן מ-$\varepsilon$. לכן אף $\delta$ אינו מתאים לכל
+          הנקודות.
+      - kind: check
+        text: >-
+          עם $n=100$: $y_n-x_n\approx0.0443$, והחסם $\frac14\sqrt{\pi/100}\approx0.0443$ גדול ממנו במעט. ב-(א) הקבוע $2R$
+          גדל עם $R$, ובהתאם לכך אין קבוע אחד לכל הישר: על קטע חסום הפונקציה ליפשיצית, ועל הישר כולו היא אפילו לא
+          רציפה במידה שווה.
+      - kind: result
+        text: >-
+          $\sin(x^2)$ ליפשיצית על כל קטע חסום, אבל אינה רציפה במידה שווה על $\mathbb{R}$: חסימות של הפונקציה אינה מצילה.
+
+  - id: W-1.6-07
+    level: mid
+    qualitative: true
+    objectives: [OBJ-1.6-2]
+    prompt: >-
+      תהי $p:\mathbb{R}^2\to\mathbb{R}$, $p(x,y)=x$ (ההטלה), ובמישור $d_2$.
+
+      (א) הוכיחו ש-$p$ ליפשיצית עם קבוע 1, ובפרט רציפה.
+
+      (ב) תהי $H=\{(x,y): xy=1\}$. הוכיחו ש-$H$ סגורה במישור.
+
+      (ג) חשבו את $p(H)$. האם היא סגורה ב-$\mathbb{R}$? מה זה אומר על תמונות של קבוצות סגורות תחת פונקציות רציפות?
+    answer: >-
+      (א) $|x-x'|\le d_2$. (ב) $H=h^{-1}(\{1\})$ עם $h(x,y)=xy$ רציפה. (ג) $p(H)=\mathbb{R}\setminus\{0\}$, לא סגורה:
+      תמונה של סגורה תחת רציפה אינה בהכרח סגורה.
+    solution:
+      - kind: step
+        text: >-
+          (א) $|p(x,y)-p(x',y')|=|x-x'|\le\sqrt{(x-x')^2+(y-y')^2}$.
+      - kind: step
+        text: >-
+          (ב) $h(x,y)=xy$ רציפה: אם $(x_n,y_n)\to(x,y)$ אז $x_n\to x$ ו-$y_n\to y$ (שיעור 1.5), ולכן $x_ny_n\to xy$. הקבוצה
+          $\{1\}$ סגורה בישר, ו-$H=h^{-1}(\{1\})$ היא מקור של קבוצה סגורה, ולכן סגורה.
+      - kind: step
+        text: >-
+          (ג) $(x,y)\in H$ אם ורק אם $x\ne0$ ו-$y=\frac1x$, ולכן $p(H)=\{x: x\ne0\}=\mathbb{R}\setminus\{0\}$. היא אינה
+          סגורה: $0$ מחוצה לה, וכל קטע סביב $0$ פוגש אותה.
+      - kind: check
+        text: >-
+          המשפט בשיעור מדבר על **מקורות**: המקור של סגורה תחת רציפה סגור. למשל $p^{-1}([0,1])=[0,1]\times\mathbb{R}$
+          סגורה. על **תמונות** הוא לא אומר דבר, ו-$H$ מראה שתמונה של סגורה יכולה להיות לא סגורה (בשיעור ראינו את
+          אותו דבר לפתוחות: $x^2$ שולחת את $\mathbb{R}$ ל-$[0,\infty)$).
+      - kind: result
+        text: >-
+          $p$ רציפה ו-$H$ סגורה, אבל $p(H)=\mathbb{R}\setminus\{0\}$ אינה סגורה.
+
+  - id: W-1.6-08
+    level: exam
+    objectives: [OBJ-1.6-2, OBJ-1.6-3]
+    prompt: >-
+      על $C[0,1]$ נגדיר $\Phi(f)=\int_0^1 f$.
+
+      (א) הוכיחו ש-$\Phi$ ליפשיצית עם קבוע 1 ביחס ל-$d_\infty$, וגם ביחס ל-$d_1(f,g)=\int_0^1|f-g|$.
+
+      (ב) הסיקו ש-$\{f: \int_0^1 f>0\}$ פתוחה ו-$\{f: \int_0^1 f=0\}$ סגורה, בשתי המטריקות.
+
+      (ג) האם $\{f: \int_0^1 f=0\}$ פתוחה ב-$d_\infty$?
+
+      (ד) תהי $P$ קבוצת הפונקציות $f\in C[0,1]$ שמקיימות גם $\int_0^1 f>0$ וגם $f(\tfrac12)<0$. הוכיחו ש-$P$ פתוחה
+      ב-$d_\infty$ ואינה פתוחה ב-$d_1$.
+    answer: >-
+      (א) $|\Phi(f)-\Phi(g)|\le\int|f-g|\le\max|f-g|$. (ב) מקורות של $(0,\infty)$ ושל $\{0\}$. (ג) לא. (ד) ב-$d_\infty$
+      חיתוך של שני מקורות פתוחים; ב-$d_1$ אוהל צר שמוסיפים ל-$f_0=1-2T_3$ מוציא אותה מ-$P$ במרחק קטן כרצוננו.
+    solution:
+      - kind: computation
+        text: >-
+          (א) $|\Phi(f)-\Phi(g)|=\left|\int_0^1(f-g)\right|\le\int_0^1|f-g|=d_1(f,g)$. וכיוון ש-$|f-g|\le\max|f-g|$ בכל
+          נקודה, $d_1(f,g)\le d_\infty(f,g)$. לכן $|\Phi(f)-\Phi(g)|$ חסום גם ב-$d_1$ וגם ב-$d_\infty$.
+      - kind: step
+        text: >-
+          (ב) $\Phi$ ליפשיצית, ולכן רציפה בשתי המטריקות. $\{\int f>0\}=\Phi^{-1}\big((0,\infty)\big)$ פתוחה, ו-$\{\int f=0\}=\Phi^{-1}(\{0\})$
+          סגורה.
+      - kind: step
+        text: >-
+          (ג) **לא.** פונקציית האפס $\theta$ בקבוצה, ולכל $r>0$ הפונקציה הקבועה $\frac r2$ מקיימת $d_\infty(\frac r2,\theta)=\frac r2<r$
+          ו-$\int_0^1\frac r2=\frac r2\ne0$. לכן אין כדור סביב $\theta$ בתוך הקבוצה.
+      - kind: step
+        text: >-
+          (ד) **פתוחה ב-$d_\infty$.** לפי דוגמה 3 בשיעור, $\operatorname{ev}(f)=f(\tfrac12)$ רציפה ב-$d_\infty$, ולפי (א)
+          גם $\Phi$. לכן $P=\Phi^{-1}\big((0,\infty)\big)\cap\operatorname{ev}^{-1}\big((-\infty,0)\big)$ היא חיתוך של שתי
+          קבוצות פתוחות: פתוחה.
+      - kind: step
+        text: >-
+          **לא פתוחה ב-$d_1$.** לכל $m\ge2$ יהי $T_m(x)=\max\big(0,\ 1-m|x-\tfrac12|\big)$, אוהל בגובה 1 מעל $\tfrac12$
+          ברוחב $\frac2m$, ששטחו $\frac1m$. נגדיר $f_0=1-2T_3$. אז $f_0(\tfrac12)=1-2=-1<0$ ו-$\int_0^1f_0=1-\frac23=\frac13>0$,
+          כלומר $f_0\in P$.
+      - kind: step
+        text: >-
+          יהי $r>0$, ונבחר $n\ge2$ עם $\frac2n<r$. הפונקציה $h=f_0+2T_n$ רציפה, ו-$d_1(h,f_0)=\int_0^1 2T_n=\frac2n<r$. אבל
+          $h(\tfrac12)=-1+2=1>0$, ולכן $h\notin P$. אין כדור של $d_1$ סביב $f_0$ שמוכל ב-$P$, ו-$P$ אינה פתוחה ב-$d_1$.
+      - kind: check
+        text: >-
+          השוו לדוגמה 3 בשיעור: הערך בנקודה רציף ב-$d_\infty$ ולא ב-$d_1$, אבל האינטגרל רציף בשתיהן, כי $d_1$ מודדת
+          בדיוק את מה שהאינטגרל רואה. מ-(ד) רואים שהתנאי על הערך ב-$\tfrac12$ הוא מה שהורס את הפתיחות ב-$d_1$: בלעדיו,
+          לפי (ב), הקבוצה פתוחה גם ב-$d_1$.
+          עם $n=10$: $d_1(h,f_0)=\frac15$.
+      - kind: result
+        text: >-
+          $\Phi$ ליפשיצית עם קבוע 1 בשתי המטריקות; $\{\int f>0\}$ פתוחה ו-$\{\int f=0\}$ סגורה ולא פתוחה; $P$ פתוחה
+          ב-$d_\infty$ ולא ב-$d_1$.
+
+  - id: W-1.6-09
+    level: exam
+    qualitative: true
+    objectives: [OBJ-1.6-1, OBJ-1.6-2, OBJ-1.6-3]
+    prompt: >-
+      יהיו $f:X\to Y$ ו-$g:Y\to Z$ בין מרחבים מטריים.
+
+      (א) הוכיחו שאם $f$ ו-$g$ רציפות אז $g\circ f$ רציפה, פעם בעזרת מקורות ופעם בעזרת סדרות.
+
+      (ב) הוכיחו שאם $f$ ליפשיצית עם קבוע $L$ ו-$g$ ליפשיצית עם קבוע $M$, אז $g\circ f$ ליפשיצית עם קבוע $LM$.
+
+      (ג) נכון או לא: אם $g\circ f$ רציפה ו-$g$ רציפה, אז $f$ רציפה.
+    answer: >-
+      (א) $(g\circ f)^{-1}(W)=f^{-1}(g^{-1}(W))$; או $x_n\to a\Rightarrow f(x_n)\to f(a)\Rightarrow g(f(x_n))\to g(f(a))$.
+      (ב) $d_Z\le M\,d_Y\le ML\,d_X$. (ג) לא: $g$ קבועה.
+    solution:
+      - kind: step
+        text: >-
+          (א) במקורות: תהי $W$ פתוחה ב-$Z$. $(g\circ f)^{-1}(W)=\{x: g(f(x))\in W\}=f^{-1}\big(g^{-1}(W)\big)$. $g$ רציפה, ולכן
+          $g^{-1}(W)$ פתוחה ב-$Y$; $f$ רציפה, ולכן המקור שלה תחת $f$ פתוח ב-$X$.
+      - kind: step
+        text: >-
+          בסדרות: תהי $x_n\to a$ ב-$X$. $f$ רציפה ב-$a$, ולכן $f(x_n)\to f(a)$ ב-$Y$; $g$ רציפה ב-$f(a)$, ולכן
+          $g(f(x_n))\to g(f(a))$. לפי המשפט על סדרות, $g\circ f$ רציפה ב-$a$.
+      - kind: step
+        text: >-
+          (ב) $d_Z\big(g(f(x)),g(f(y))\big)\le M\,d_Y\big(f(x),f(y)\big)\le ML\,d_X(x,y)$.
+      - kind: step
+        text: >-
+          (ג) **לא נכון.** תהי $f:\mathbb{R}\to\mathbb{R}$ פונקציית המדרגה ($f(x)=0$ ל-$x<0$, $f(x)=1$ ל-$x\ge0$), שאינה
+          רציפה ב-0, ו-$g\equiv0$. אז $g\circ f\equiv0$ רציפה ו-$g$ רציפה, אבל $f$ לא.
+      - kind: check
+        text: >-
+          ב-(א), אותה תוצאה בשתי דרכים: הניסוח עם מקורות לא צריך נקודה, והניסוח עם סדרות עובד נקודה-נקודה. ב-(ג) $g$
+          "מוחקת" את הקפיצה של $f$, ולכן מההרכבה אי אפשר לשחזר את $f$.
+      - kind: result
+        text: >-
+          (א) הרכבה של רציפות רציפה. (ב) הרכבה של ליפשיציות ליפשיצית עם מכפלת הקבועים. (ג) לא נכון.
+
+  - id: W-1.6-10
+    level: exam
+    objectives: [OBJ-1.6-3, OBJ-1.6-1]
+    prompt: >-
+      תהי $f:X\to Y$ בין מרחבים מטריים.
+
+      (א) הוכיחו: $f$ רציפה במידה שווה אם ורק אם לכל שתי סדרות $(x_n),(y_n)$ ב-$X$ עם $d_X(x_n,y_n)\to0$ מתקיים
+      $d_Y\big(f(x_n),f(y_n)\big)\to0$.
+
+      (ב) הסיקו ש-$f(x)=e^x$ אינה רציפה במידה שווה על $\mathbb{R}$.
+    answer: >-
+      (א) כיוון אחד מההגדרה עם $N$ שמתאים ל-$\delta$; הכיוון השני בשלילה, עם $\delta=\frac1n$. (ב) $x_n=n$, $y_n=n+\frac1n$:
+      $e^{y_n}-e^{x_n}\ge\frac{e^n}n\to\infty$.
+    solution:
+      - kind: step
+        text: >-
+          (א) ($\Rightarrow$) יהי $\varepsilon>0$, ויהי $\delta>0$ מההגדרה של רציפות במידה שווה. כיוון ש-$d_X(x_n,y_n)\to0$,
+          יש $N$ כך שלכל $n>N$, $d_X(x_n,y_n)<\delta$, ולכן $d_Y(f(x_n),f(y_n))<\varepsilon$. זו בדיוק ההתכנסות לאפס.
+      - kind: step
+        text: >-
+          ($\Leftarrow$) בשלילה: נניח ש-$f$ אינה רציפה במידה שווה. אז יש $\varepsilon>0$ כך שלכל $\delta>0$ יש $x,y$ עם
+          $d_X(x,y)<\delta$ ו-$d_Y(f(x),f(y))\ge\varepsilon$. עם $\delta=\frac1n$ נבחר $x_n,y_n$ כאלה. אז $d_X(x_n,y_n)<\frac1n\to0$,
+          אבל $d_Y(f(x_n),f(y_n))\ge\varepsilon$ לכל $n$, ולכן אינו שואף ל-0. זו סתירה להנחה.
+      - kind: computation
+        text: >-
+          (ב) $x_n=n$, $y_n=n+\frac1n$: $|x_n-y_n|=\frac1n\to0$. ו-$e^{y_n}-e^{x_n}=e^n\big(e^{1/n}-1\big)\ge e^n\cdot\frac1n$,
+          כי $e^t-1\ge t$ לכל $t$ (הפונקציה $e^t-1-t$ מתאפסת ב-0, יורדת משמאל ועולה מימין). ו-$\frac{e^n}n\to\infty$.
+      - kind: check
+        text: >-
+          עם $n=5$: $e^{5.2}-e^5\approx32.9$, ו-$\frac{e^5}5\approx29.7$. הנקודות קרובות ($0.2$), והערכים רחוקים: הגרף
+          תלול כרצוננו ככל שמתקדמים ימינה.
+      - kind: result
+        text: >-
+          (א) רציפות במידה שווה שקולה לתנאי על זוגות סדרות. (ב) $e^x$ אינה רציפה במידה שווה על $\mathbb{R}$.
+
+challenge:
+  - id: W-1.6-c1
+    stars: 1
+    objectives: [OBJ-1.6-2, OBJ-1.6-3]
+    prompt: >-
+      יהי $(X,d)$ מרחב מטרי ו-$E\subseteq X$ קבוצה לא ריקה. **המרחק** מנקודה $p\in X$ לקבוצה $E$ הוא
+      $d_E(p)=\inf\{d(p,q):\ q\in E\}$.
+
+      (א) הוכיחו ש-$d_E(p)=0$ אם ורק אם $p\in\overline E$.
+
+      (ב) הוכיחו ש-$|d_E(p)-d_E(p')|\le d(p,p')$ לכל $p,p'\in X$, והסיקו ש-$d_E$ רציפה במידה שווה.
+
+      (ג) הסיקו שכל קבוצה סגורה $F\subseteq X$ היא קבוצת האפסים $\{p:\ g(p)=0\}$ של פונקציה רציפה $g:X\to\mathbb{R}$,
+      ושהקבוצה $\{p\in X:\ d_E(p)<r\}$ פתוחה לכל $r>0$.
+
+      (ד) חשבו את $d_E$ עבור $E=(0,1)\subseteq\mathbb{R}$, ובדקו את (א) בנקודות $0$ ו-$1$.
+    answer: >-
+      (א) אינפימום $0$ פירושו שבכל כדור סביב $p$ יש נקודה של $E$. (ב) לכל $q\in E$,
+      $d_E(p)\le d(p,p')+d(p',q)$; לוקחים אינפימום על $q$ ומחליפים את התפקידים: $d_E$ ליפשיצית עם קבוע 1. (ג)
+      $F=d_F^{-1}(\{0\})$ (ול-$F=\emptyset$ הפונקציה הקבועה 1); $\{d_E<r\}=d_E^{-1}\big((-\infty,r)\big)$. (ד)
+      $d_E(p)=\max(0,\,-p,\,p-1)$; $d_E(0)=d_E(1)=0$ ו-$0,1\in\overline E=[0,1]$.
+    solution:
+      - kind: given
+        text: >-
+          $(X,d)$ מרחב מטרי, $\emptyset\ne E\subseteq X$. $\{d(p,q):\ q\in E\}$ היא קבוצה לא ריקה של מספרים
+          אי-שליליים, ולכן יש לה אינפימום, $d_E(p)\ge0$.
+      - kind: idea
+        text: >-
+          אינפימום נשלט דרך האיברים שעליהם הוא נלקח: מוכיחים אי-שוויון לכל $q\in E$ בנפרד, ורק אחר כך עוברים
+          לאינפימום. ב-(א), "אינפימום 0" אומר "יש נקודות של $E$ קרובות כרצוננו", וזו בדיוק ההגדרה של הסגור בעזרת
+          כדורים.
+      - kind: step
+        text: >-
+          (א) לפי האפיון של האינפימום (אינפי 1), $d_E(p)=0$ אם ורק אם לכל $r>0$ יש $q\in E$ עם $d(p,q)<r$. זה אומר
+          שכל כדור $B(p,r)$ פוגש את $E$, כלומר $p\in\overline E$ (שיעור 1.4).
+      - kind: step
+        text: >-
+          (ב) יהיו $p,p'\in X$. לכל $q\in E$, מהגדרת האינפימום ומאי-שוויון המשולש,
+          $d_E(p)\le d(p,q)\le d(p,p')+d(p',q)$. כלומר $d_E(p)-d(p,p')\le d(p',q)$ לכל $q\in E$.
+      - kind: step
+        text: >-
+          לכן $d_E(p)-d(p,p')$ הוא חסם מלרע של $\{d(p',q):\ q\in E\}$. האינפימום הוא החסם מלרע **הגדול ביותר**, ולכן
+          $d_E(p)-d(p,p')\le d_E(p')$, כלומר $d_E(p)-d_E(p')\le d(p,p')$.
+      - kind: step
+        text: >-
+          אותו טיעון כשמחליפים את התפקידים של $p$ ו-$p'$ נותן $d_E(p')-d_E(p)\le d(p',p)=d(p,p')$. שני אי-השוויונים
+          יחד: $|d_E(p)-d_E(p')|\le d(p,p')$.
+      - kind: step
+        text: >-
+          לכן $d_E$ ליפשיצית עם קבוע 1. בהינתן $\varepsilon>0$, $\delta=\varepsilon$ מתאים בכל הנקודות בבת אחת: אם
+          $d(p,p')<\delta$ אז $|d_E(p)-d_E(p')|<\varepsilon$. כלומר $d_E$ רציפה במידה שווה, ובפרט רציפה.
+      - kind: step
+        text: >-
+          (ג) תהי $F$ סגורה. אם $F\ne\emptyset$, לפי (א) $\{p:\ d_F(p)=0\}=\overline F=F$, ו-$d_F$ רציפה לפי (ב). אם
+          $F=\emptyset$, הפונקציה הקבועה $1$ רציפה ואין לה אפסים.
+      - kind: step
+        text: >-
+          $\{p:\ d_E(p)<r\}=d_E^{-1}\big((-\infty,r)\big)$ הוא המקור של קבוצה פתוחה ב-$\mathbb{R}$ תחת פונקציה רציפה,
+          ולכן פתוח לפי המשפט על מקורות.
+      - kind: computation
+        text: >-
+          (ד) ל-$p<0$: $|p-q|=q-p>-p$ לכל $q\in(0,1)$, והערכים מתקרבים ל-$-p$ כש-$q\to0^+$, ולכן $d_E(p)=-p$. ל-$p>1$
+          באותו אופן $d_E(p)=p-1$. ל-$p\in[0,1]$: $p$ בסגור $[0,1]$, ו-$d_E(p)=0$. ביחד
+          $d_E(p)=\max(0,\,-p,\,p-1)$.
+      - kind: check
+        text: >-
+          $d_E(-2)=2$, $d_E(0.5)=0$, $d_E(1)=0$, $d_E(3)=2$. הנקודות $0$ ו-$1$ אינן ב-$E$, ובכל זאת $d_E=0$ בהן,
+          והאינפימום אינו מתקבל: בדיוק כי הן ב-$\overline E\setminus E$, כמו ש-(א) אומר. והגרף של $d_E$ הוא שני
+          קטעים בשיפוע $\pm1$ וקטע אפס: שיפוע לכל היותר 1, כמו ב-(ב).
+      - kind: result
+        text: >-
+          $d_E$ ליפשיצית עם קבוע 1 (ולכן רציפה במידה שווה), וקבוצת האפסים שלה היא בדיוק $\overline E$. כל קבוצה סגורה
+          היא קבוצת האפסים של פונקציה רציפה.
+    source:
+      name: 'University of Minnesota, Math 5615H, Fall 2020, Homework 8'
+      year: 2020
+      problem: 'Problem 4'
+      url: 'https://www-users.cse.umn.edu/~voronov/5615-20/pdfs/hw8.pdf'
+      verified: '2026-11-09'
+      adapted: true
+
+  - id: W-1.6-c2
+    stars: 1
+    objectives: [OBJ-1.6-2]
+    prompt: >-
+      תהי $f:X\to Y$ רציפה בין מרחבים מטריים.
+
+      (א) הוכיחו שלכל $A\subseteq X$ מתקיים $f\big(\overline A\big)\subseteq\overline{f(A)}$.
+
+      (ב) תנו דוגמה של $f:\mathbb{R}\to\mathbb{R}$ רציפה וקבוצה $A$ שעבורן ההכלה ב-(א) ממש.
+
+      (ג) הוכיחו את הכיוון ההפוך: אם $f:X\to Y$ (לא בהכרח רציפה) מקיימת $f\big(\overline A\big)\subseteq\overline{f(A)}$ לכל
+      $A\subseteq X$, אז $f$ רציפה.
+    answer: >-
+      (א) $f^{-1}\big(\overline{f(A)}\big)$ סגורה ומכילה את $A$, ולכן מכילה את $\overline A$. (ב) $f=\arctan$, $A=\mathbb{R}$.
+      (ג) לסגורה $F$, עם $A=f^{-1}(F)$: $f(\overline A)\subseteq\overline{f(A)}\subseteq F$, ולכן $\overline A=A$.
+    solution:
+      - kind: idea
+        text: >-
+          הסגור $\overline A$ הוא הקבוצה הסגורה הקטנה ביותר שמכילה את $A$ (שיעור 1.4), ומקור של סגורה תחת רציפה סגור. כדי
+          להראות ש-$\overline A$ מוכלת בקבוצה מסוימת, מספיק למצוא קבוצה סגורה שמכילה את $A$.
+      - kind: step
+        text: >-
+          (א) $F=\overline{f(A)}$ סגורה ב-$Y$, ולכן $f^{-1}(F)$ סגורה ב-$X$. לכל $a\in A$, $f(a)\in f(A)\subseteq F$, ולכן
+          $A\subseteq f^{-1}(F)$. מכאן $\overline A\subseteq f^{-1}(F)$, כלומר $f(\overline A)\subseteq F$.
+      - kind: step
+        text: >-
+          (ב) $f=\arctan$ ו-$A=\mathbb{R}$, שסגורה, ולכן $\overline A=\mathbb{R}$ ו-$f(\overline A)=(-\frac\pi2,\frac\pi2)$.
+          אבל $\overline{f(A)}=[-\frac\pi2,\frac\pi2]$: הנקודה $\frac\pi2$ בסגור (כל קטע סביבה מכיל $\arctan n$ ל-$n$
+          גדול), ואינה בתמונה. ההכלה ממש.
+      - kind: step
+        text: >-
+          (ג) לפי המשפט על מקורות של סגורות, מספיק להראות שלכל $F$ סגורה ב-$Y$ הקבוצה $A=f^{-1}(F)$ סגורה. לפי ההנחה
+          $f(\overline A)\subseteq\overline{f(A)}$, ו-$f(A)\subseteq F$ עם $F$ סגורה, ולכן $\overline{f(A)}\subseteq F$. כלומר
+          $f(\overline A)\subseteq F$, ו-$\overline A\subseteq f^{-1}(F)=A$. תמיד $A\subseteq\overline A$, ולכן $A=\overline A$
+          סגורה.
+      - kind: check
+        text: >-
+          ב-(ב), $\arctan$ היא הומיאומורפיזם מ-$\mathbb{R}$ על $(-\frac\pi2,\frac\pi2)$; הבעיה היא שהתמונה אינה סגורה בישר.
+          אותה תופעה כמו ב-W-1.6-07: תמונה של סגורה אינה בהכרח סגורה.
+      - kind: result
+        text: >-
+          $f$ רציפה אם ורק אם $f(\overline A)\subseteq\overline{f(A)}$ לכל $A$; ההכלה יכולה להיות ממש ($\arctan$ על $\mathbb{R}$).
+    source:
+      name: 'University of Utah, Math 3220-3, Take Home Midterm 1 (D. Miličić)'
+      year: 2021
+      problem: 'Problem 2'
+      url: 'https://www.math.utah.edu/~milicic/Math_3220/test1.pdf'
+      verified: '2026-11-10'
+      adapted: true

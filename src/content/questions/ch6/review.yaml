@@ -1,0 +1,410 @@
+# Chapter 8 review — Taylor's theorem and extrema (lessons 6.1–6.5), easy to hard.
+# Every lesson is touched; most questions combine two lessons or reach back to chapters 0, 3 and 7.
+# Each hint names the lesson to go back to.
+chapter: 6
+questions:
+  - id: Q-6-review-01
+    type: numeric
+    objectives: [OBJ-6.1-2]
+    level: basic
+    prompt: >-
+      בפולינום טיילור מסדר שני של $f(x,y)=e^{x+2y}$ בנקודה $(0,0)$, מהו המקדם של $xy$?
+    answer: 2
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $H_f(0)=\begin{pmatrix}1&2\\2&4\end{pmatrix}$, ו-$\frac12h^{T}Hh=\frac12x^2+2xy+2y^2$. או בהצבה: $u=x+2y$
+      ב-$e^u=1+u+\frac{u^2}{2}+\dots$, ו-$\frac12(x+2y)^2=\frac12x^2+2xy+2y^2$.
+    wrongFeedback: >-
+      חשבו את $\partial_x\partial_yf(0,0)$ וזכרו שהאיבר המעורב מופיע ב-$\frac12h^{T}Hh$ פעמיים.
+    commonWrong:
+      - value: 1
+        feedback: >-
+          זה $\frac12\partial_x\partial_yf(0,0)$. ב-$\frac12h^{T}Hh$ מופיעים $H_{12}xy+H_{21}yx$, והחצי מצטמצם: המקדם 2.
+        misconception: MC-c6-mixed-coefficient
+      - value: 4
+        feedback: >-
+          זה המקדם של $xy$ ב-$(x+2y)^2$, בלי החצי של $\frac{u^2}{2!}$.
+        misconception: MC-c6-taylor-factorial
+    hints:
+      - 'חזרו לשיעור 6.1: פולינום טיילור מסדר שני דרך הגרדיאנט וההסיאן.'
+
+  - id: Q-6-review-02
+    type: mc
+    objectives: [OBJ-6.2-2, OBJ-6.4-2]
+    level: basic
+    prompt: >-
+      מצאו את הנקודה הקריטית של $f(x,y)=x^2+xy+y^2-3x$ וסווגו אותה.
+    choices:
+      - text: '$(2,-1)$, נקודת מינימום מקומי ממש'
+        correct: true
+        feedback: >-
+          נכון. $\nabla f=(2x+y-3,\ x+2y)=0$ נותן $x=-2y$ ו-$y=-1$. $H_f=\begin{pmatrix}2&1\\1&2\end{pmatrix}$ עם
+          $\Delta_1=2$, $\Delta_2=3$: חיובית מוגדרת. (כי ההסיאן קבוע וחיובי מוגדר, זה אפילו מינימום מוחלט, $f=-3$.)
+      - text: '$(\frac32,0)$, נקודת מינימום מקומי'
+        feedback: >-
+          $\partial_xf(\frac32,0)=0$, אבל $\partial_yf(\frac32,0)=\frac32\ne0$. פתרתם רק את המשוואה הראשונה, עם $y=0$.
+        misconception: MC-c6-solve-separately
+      - text: '$(2,-1)$, והמבחן לא מכריע כי ההסיאן אינו אלכסוני'
+        feedback: >-
+          קריטריון סילבסטר עובד לכל מטריצה סימטרית: $\Delta_1=2>0$ ו-$\Delta_2=4-1=3>0$. האלכסון לבדו אינו קובע,
+          וגם אינו חייב להיות כל המטריצה.
+        misconception: MC-c6-diagonal-decides
+    hints:
+      - 'חזרו לשיעור 6.2 (פתרון המערכת $\nabla f=0$) ולשיעור 6.4 (מבחן הנגזרת השנייה).'
+
+  - id: Q-6-review-03
+    type: twotier
+    objectives: [OBJ-0.5-3, OBJ-6.3-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      נכון או לא נכון: התבנית $q(x,y)=2xy$ חיובית חצי מוגדרת.
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: 'נכון. $q(1,-1)=-2<0$ ו-$q(1,1)=2>0$: התבנית לא מוגדרת.'
+      - text: נכון
+        feedback: >-
+          $q(1,-1)=-2<0$. המטריצה $\begin{pmatrix}0&1\\1&0\end{pmatrix}$ אי-שלילית איבר-איבר, אבל הערכים העצמיים שלה
+          $\pm1$.
+        misconception: MC-c6-positive-entries
+    reasons:
+      - text: 'הערכים העצמיים של $\begin{pmatrix}0&1\\1&0\end{pmatrix}$ הם $1$ ו-$(-1)$, ו-$q(1,-1)=-2$'
+        correct: true
+        feedback: 'בדיוק. לפי המשפט הספקטרלי הסימן נקבע לפי הערכים העצמיים, ויש כאן אחד מכל סימן.'
+      - text: 'כל איברי המטריצה $\begin{pmatrix}0&1\\1&0\end{pmatrix}$ אי-שליליים'
+        feedback: 'סימני האיברים אינם קובעים את סימן התבנית: בכיוון $(1,-1)$ היא שלילית.'
+        misconception: MC-c6-positive-entries
+      - text: '$\det=-1<0$, ולכן התבנית שלילית מוגדרת'
+        feedback: >-
+          במימד 2 דטרמיננטה שלילית פירושה ערכים עצמיים בסימנים **שונים**: לא מוגדרת. ובאמת $q(1,1)=2>0$.
+        misconception: MC-c6-sylvester-partial
+    hints:
+      - 'חזרו לשיעור 0.5 (המשפט הספקטרלי) ולשיעור 6.3 (סיווג לפי ערכים עצמיים).'
+
+  - id: Q-6-review-04
+    type: twotier
+    objectives: [OBJ-5.7-3, OBJ-6.3-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      נכון או לא נכון: אם ל-$f:\mathbb{R}^2\to\mathbb{R}$ קיימות בנקודה $a$ כל הנגזרות החלקיות מסדר שני, אז $H_f(a)$
+      סימטרית, ולכן אפשר לסווג את התבנית שלה לפי ערכים עצמיים ממשיים.
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: 'נכון. בלי רציפות של הנגזרות המעורבות ההסיאן יכול לא להיות סימטרי.'
+      - text: נכון
+        feedback: >-
+          ל-$f=\frac{xy(x^2-y^2)}{x^2+y^2}$ (ו-$f(0,0)=0$) כל הנגזרות השניות קיימות בראשית, ושתי הנגזרות המעורבות שם הן
+          $1$ ו-$(-1)$.
+        misconception: MC-c6-hessian-always-symmetric
+    reasons:
+      - text: >-
+          ל-$f=\frac{xy(x^2-y^2)}{x^2+y^2}$: $\partial_xf(0,y)=-y$ ו-$\partial_yf(x,0)=x$, ולכן הנגזרות המעורבות בראשית
+          $(-1)$ ו-$1$; משפט שוורץ דורש שהן רציפות
+        correct: true
+        feedback: >-
+          בדיוק. לכן בפרק 6 מניחים $f\in C^2$: אז שוורץ נותן הסיאן סימטרי, והמשפט הספקטרלי חל עליו.
+      - text: >-
+          סדר הגזירה לעולם אינו משנה, ולכן הנגזרות המעורבות תמיד שוות
+        feedback: >-
+          זה מה שמשפט שוורץ אומר **תחת הנחת רציפות**. בלעדיה הדוגמה של שיעור 5.7 נותנת $1$ ו-$(-1)$.
+        misconception: MC-c6-hessian-always-symmetric
+      - text: >-
+          כל מטריצה ממשית ריבועית היא בעלת ערכים עצמיים ממשיים, אז הסימטריה ממילא לא נחוצה
+        feedback: >-
+          ל-$\begin{pmatrix}0&-1\\1&0\end{pmatrix}$ הערכים העצמיים $\pm i$. המשפט הספקטרלי מבטיח ערכים עצמיים ממשיים
+          ובסיס אורתונורמלי רק למטריצה סימטרית.
+        misconception: MC-c6-hessian-always-symmetric
+    hints:
+      - 'חזרו לשיעור 5.7 (משפט שוורץ והדוגמה הנגדית) ולשיעור 6.3.'
+
+  - id: Q-6-review-05
+    type: multi
+    objectives: [OBJ-3.4-1, OBJ-6.5-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      על אילו מהקבוצות הבאות כל פונקציה רציפה מקבלת מקסימום ומינימום? סמנו את כולן.
+    choices:
+      - text: 'האליפסה המלאה $\{(x,y):x^2+4y^2\le1\}$'
+        correct: true
+        feedback: 'נכון. סגורה (תמונה הפוכה של $[0,1]$ ברציפות) וחסומה, ולכן קומפקטית.'
+      - text: 'הגרף $\{(t,\sin t):t\in[0,2\pi]\}$'
+        correct: true
+        feedback: >-
+          נכון. זו התמונה של הקטע הקומפקטי $[0,2\pi]$ תחת ההעתקה הרציפה $t\mapsto(t,\sin t)$, ותמונה רציפה של
+          קומפקטית היא קומפקטית (שיעור 3.4).
+      - text: 'קשת ההיפרבולה $\{(x,y):xy=1,\ 1\le x\le2\}$'
+        correct: true
+        feedback: 'נכון. התמונה של $[1,2]$ תחת $x\mapsto(x,\frac1x)$, רציפה: קומפקטית.'
+      - text: 'העיגול המנוקב $\{(x,y):0<x^2+y^2\le1\}$'
+        feedback: >-
+          חסום אבל לא סגור (הראשית היא נקודת גבול שחסרה). $x^2+y^2$ לא מקבלת שם את האינפימום 0.
+        misconception: MC-c6-closed-enough
+      - text: '$\{(x,y):x^2-y^2\le1\}$'
+        feedback: >-
+          סגורה אבל לא חסומה (מכילה את כל ציר $y$). $f=y$ רציפה עליה ואינה חסומה.
+        misconception: MC-c6-closed-enough
+    hints:
+      - 'חזרו לשיעור 3.4 (תמונה רציפה של קומפקטית ומשפט ויירשטראס) ולשיעור 6.5.'
+
+  - id: Q-6-review-06
+    type: twotier
+    objectives: [OBJ-6.2-3, OBJ-6.4-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $f(x,y)=x^3y$. הראשית נקודה קריטית ו-$H_f(0,0)=0$. נכון או לא נכון: הראשית נקודת אוכף.
+    choices:
+      - text: נכון
+        correct: true
+        feedback: 'נכון. המבחן לא מכריע, אבל בדיקה ישירה מכריעה.'
+      - text: לא נכון, אי אפשר לקבוע כלום כשההסיאן אפס
+        feedback: >-
+          "לא מכריע" מתייחס למבחן בלבד. $f(t,t)=t^4>0$ ו-$f(t,-t)=-t^4<0$ מראים ישירות שזו נקודת אוכף.
+        misconception: MC-c6-inconclusive-means-none
+    reasons:
+      - text: '$f(t,t)=t^4>0$ ו-$f(t,-t)=-t^4<0$ לכל $t\ne0$, ו-$f(0,0)=0$'
+        correct: true
+        feedback: 'בדיוק: בכל כדור סביב הראשית יש ערכים גבוהים ונמוכים מ-$f(0,0)$, וזו ההגדרה של אוכף.'
+      - text: '$H_f(0,0)=0$, ומבחן שאינו מכריע פירושו שאין קיצון'
+        feedback: >-
+          ל-$x^4+y^4$ גם $H_f(0)=0$, והראשית מינימום. המסקנה כאן נכונה רק בזכות הבדיקה הישירה.
+        misconception: MC-c6-inconclusive-means-none
+      - text: '$H_f(0,0)=0$ חיובית חצי מוגדרת, ולכן הראשית מינימום'
+        feedback: >-
+          חצי מוגדרות אינה מכריעה. $f(t,-t)=-t^4<0$ שולל מינימום.
+        misconception: MC-c6-semi-decides
+    hints:
+      - 'חזרו לשיעור 6.2 (הגדרת נקודת אוכף) ולשיעור 6.4 (המקרה החצי מוגדר).'
+
+  - id: Q-6-review-07
+    type: numeric
+    objectives: [OBJ-5.5-2, OBJ-6.1-1]
+    level: mid
+    prompt: >-
+      $f(x,y)=x^2y+y^3$, $a=(1,1)$, $h=(1,2)$, ו-$g(t)=f(a+th)$. מהי $g''(0)$?
+    answer: 34
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $H_f=\begin{pmatrix}2y&2x\\2x&6y\end{pmatrix}$, ו-$H_f(1,1)=\begin{pmatrix}2&2\\2&6\end{pmatrix}$. לכן
+      $g''(0)=h^{T}H_f(a)h=2\cdot1+2\cdot2\cdot1\cdot2+6\cdot4=2+8+24=34$. בדיקה ישירה:
+      $g(t)=(1+t)^2(1+2t)+(1+2t)^3$, ו-$g''(0)=10+24$.
+    wrongFeedback: >-
+      לפי כלל השרשרת $g''(0)=h^{T}H_f(a)h=\sum_{i,j}\partial_i\partial_jf(a)h_ih_j$. חשבו את ההסיאן ב-$(1,1)$ והציבו.
+    commonWrong:
+      - value: 30
+        feedback: >-
+          ספרתם את האיבר המעורב פעם אחת ($2\cdot1\cdot2=4$). במטריצה הוא מופיע פעמיים, $H_{12}h_1h_2+H_{21}h_2h_1=8$.
+        misconception: MC-c6-mixed-coefficient
+      - value: 26
+        feedback: >-
+          זה $2\cdot1+6\cdot4$ בלי האיברים המעורבים. $\partial_x\partial_yf=2x=2$ ב-$(1,1)$, והוא תורם $8$.
+        misconception: MC-c6-hessian-diagonal-only
+      - value: 17
+        feedback: >-
+          זה $\frac12h^{T}Hh$, האיבר בנוסחת טיילור. הנגזרת עצמה היא $h^{T}Hh$, בלי החצי.
+        misconception: MC-c6-taylor-factorial
+    hints:
+      - 'חזרו לשיעור 5.5 (כלל השרשרת לאורך מסילה) ולשיעור 6.1 (הנגזרת השנייה של $g$).'
+
+  - id: Q-6-review-08
+    type: numeric
+    objectives: [OBJ-0.5-3, OBJ-6.3-3]
+    level: mid
+    prompt: >-
+      $q(x,y)=5x^2+4xy+2y^2$. מהו הקבוע הגדול ביותר $c$ כך ש-$q(h)\ge c\|h\|_2^2$ לכל $h$?
+    answer: 1
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. המטריצה $\begin{pmatrix}5&2\\2&2\end{pmatrix}$ עם עקבה 7 ודטרמיננטה 6, כלומר ערכים עצמיים 1 ו-6. בכיוון
+      $(1,-2)$: $q=5-8+8=5=1\cdot\|(1,-2)\|^2$.
+    wrongFeedback: >-
+      הקבוע הטוב ביותר הוא הערך העצמי הקטן ביותר. פתרו $\lambda^2-7\lambda+6=0$.
+    commonWrong:
+      - value: 2
+        feedback: >-
+          2 הוא האיבר הקטן באלכסון, $q(e_2)$. בכיוון $(1,-2)$ היחס $\frac{q(h)}{\|h\|^2}$ הוא 1 בלבד.
+        misconception: MC-c6-diagonal-decides
+    hints:
+      - 'חזרו לשיעור 6.3: החסם מלרע של תבנית חיובית מוגדרת, והקשר לערך העצמי הקטן.'
+
+  - id: Q-6-review-09
+    type: numeric
+    objectives: [OBJ-3.4-1, OBJ-6.5-2]
+    level: mid
+    prompt: >-
+      מהו המקסימום של $f(x,y)=xy$ על העיגול הסגור $x^2+y^2\le1$?
+    answer: 0.5
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. בפנים $\nabla f=(y,x)=0$ רק בראשית, עם $f=0$. על השפה $f(\cos t,\sin t)=\frac12\sin2t\le\frac12$, עם שוויון
+      ב-$\pm(\frac{1}{\sqrt2},\frac1{\sqrt2})$.
+    wrongFeedback: >-
+      העיגול קומפקטי. בדקו את הנקודה הקריטית בפנים, ופרמטרו את השפה כ-$(\cos t,\sin t)$.
+    commonWrong:
+      - value: 0
+        feedback: >-
+          0 הוא הערך בנקודה הקריטית היחידה בפנים, שהיא אוכף. המקסימום מתקבל על השפה.
+        misconception: MC-c6-forget-boundary
+    hints:
+      - 'חזרו לשיעור 6.5: מועמדים בפנים ועל השפה.'
+
+  - id: Q-6-review-10
+    type: twotier
+    objectives: [OBJ-5.1-2, OBJ-6.2-3, OBJ-6.4-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $f(x,y)=(y-x^2)(y-3x^2)$. הראשית נקודה קריטית, $H_f(0,0)=\begin{pmatrix}0&0\\0&2\end{pmatrix}$ חיובית חצי מוגדרת,
+      והצמצום של $f$ לכל ישר דרך הראשית מקבל בה מינימום מקומי ממש. נכון או לא נכון: הראשית נקודת מינימום מקומי.
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: 'נכון. שתי הראיות "לטובת" מינימום אינן מספיקות, ומסלול עקום מפריך אותו.'
+      - text: נכון
+        feedback: >-
+          על הפרבולה $y=2x^2$: $f=(x^2)(-x^2)=-x^4<0=f(0,0)$, והיא עוברת בכל כדור סביב הראשית.
+        misconception: MC-c6-lines-suffice
+    reasons:
+      - text: 'על הפרבולה $y=2x^2$ מתקיים $f=-x^4<0$, קרוב לראשית ככל שנרצה'
+        correct: true
+        feedback: >-
+          בדיוק. כמו בגבולות (שיעור 5.1): בדיקה על ישרים לא רואה מסלולים עקומים. הראשית נקודת אוכף.
+      - text: 'מינימום לאורך כל ישר פירושו מינימום, כי הכדור הוא איחוד הקטעים שעל הישרים'
+        feedback: >-
+          הרדיוס של המינימום על $y=mx$ שואף לאפס כש-$m\to0$; אין רדיוס אחד שמתאים לכל הכיוונים.
+        misconception: MC-c6-lines-suffice
+      - text: 'ההסיאן חיובי חצי מוגדר והנקודה קריטית, ולכן זו נקודת מינימום'
+        feedback: >-
+          הסיאן חצי מוגדר אינו מכריע: ל-$x^2+y^3$ ול-$x^2-y^4$ יש הסיאן חצי מוגדר בראשית, ואין שם מינימום.
+        misconception: MC-c6-semi-decides
+    hints:
+      - 'חזרו לשיעור 5.1 (מסלולים לעומת ישרים), לשיעור 6.2 (נקודת אוכף) ולשיעור 6.4 (הסיאן חצי מוגדר).'
+
+  - id: Q-6-review-11
+    type: twotier
+    objectives: [OBJ-6.4-2, OBJ-6.5-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $f(x,y)=x^2(1+y)^3+y^2$. הנקודה הקריטית היחידה של $f$ היא $(0,0)$, ו-$H_f(0,0)=\begin{pmatrix}2&0\\0&2\end{pmatrix}$.
+      נכון או לא נכון: $(0,0)$ נקודת מינימום מוחלט של $f$ במישור.
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: 'נכון. זו נקודת מינימום מקומי ממש, אבל $f$ אינה חסומה מלרע.'
+      - text: נכון
+        feedback: >-
+          $f(x,-2)=x^2\cdot(-1)^3+4=4-x^2$, למשל $f(3,-2)=-5<0=f(0,0)$, ו-$f(x,-2)\to-\infty$.
+        misconception: MC-c6-unique-local-global
+    reasons:
+      - text: '$f(x,-2)=4-x^2\to-\infty$, אף שהמינימום המקומי בראשית הוא הנקודה הקריטית היחידה'
+        correct: true
+        feedback: >-
+          בדיוק. במשתנה אחד בין שני "עמקים" חייבת להיות "גבעה" (נקודה קריטית נוספת); במישור אפשר לעקוף את הגבעה,
+          ולכן הטיעון לא עובר.
+      - text: 'כמו במשתנה אחד: אם יש נקודה קריטית יחידה והיא מינימום מקומי, היא מינימום מוחלט'
+        feedback: >-
+          זה נכון במשתנה אחד בלבד. כאן $(0,0)$ היא הנקודה הקריטית היחידה ($f_x=2x(1+y)^3=0$ נותן $x=0$ או $y=-1$,
+          ו-$y=-1$ נותן $f_y=-2\ne0$), ובכל זאת $f(3,-2)=-5$.
+        misconception: MC-c6-unique-local-global
+      - text: 'ההסיאן בנקודה הקריטית חיובי מוגדר, וזה מבטיח מינימום מוחלט'
+        feedback: >-
+          ההסיאן נותן מידע מקומי בלבד: $f(a)<f(x)$ רק בכדור קטן סביב $a$.
+        misconception: MC-c6-local-is-global
+    hints:
+      - 'חזרו לשיעור 6.4 (המבחן הוא מקומי) ולשיעור 6.5 (התנהגות באינסוף).'
+
+  - id: Q-6-review-12
+    type: rank
+    objectives: [OBJ-3.4-1, OBJ-6.5-3]
+    level: exam
+    prompt: >-
+      סדרו את שלבי ההוכחה: אם $f:\mathbb{R}^n\to\mathbb{R}$ רציפה ו-$f(x)\to\infty$ כש-$\|x\|\to\infty$ (קוארסיבית),
+      אז $f$ מקבלת מינימום מוחלט.
+    help: גררו את השלבים לסדר הנכון, מהשלב הראשון של ההוכחה לאחרון.
+    items:
+      - id: R
+        label: >-
+          כי $f(x)\to\infty$, יש $R>0$ כך ש-$f(x)>f(0)$ לכל $x$ עם $\|x\|>R$.
+      - id: compact
+        label: >-
+          הכדור הסגור $B[0,R]$ סגור וחסום ב-$\mathbb{R}^n$, ולכן קומפקטי.
+      - id: weier
+        label: >-
+          לפי ויירשטראס $f$ מקבלת על $B[0,R]$ מינימום בנקודה $x^*$; בפרט $f(x^*)\le f(0)$, כי $0\in B[0,R]$.
+      - id: compare
+        label: >-
+          אם $\|x\|\le R$ אז $f(x)\ge f(x^*)$; ואם $\|x\|>R$ אז $f(x)>f(0)\ge f(x^*)$.
+      - id: end
+        label: >-
+          לכן $f(x^*)\le f(x)$ לכל $x\in\mathbb{R}^n$: $x^*$ נקודת מינימום מוחלט (ואם $f$ דיפרנציאבילית, $\nabla f(x^*)=0$).
+    order: [R, compact, weier, compare, end]
+    correctFeedback: >-
+      נכון. הרעיון: ההתנהגות באינסוף מחזירה את הבעיה לכדור קומפקטי, ושם ויירשטראס עובד. הנקודה $0$ משמשת רק
+      כ"ערך ייחוס"; כל נקודה אחרת הייתה עובדת.
+    wrongFeedback: >-
+      קודם בוחרים כדור שמחוצה לו $f$ גדולה, אחר כך ויירשטראס על הכדור, ובסוף משווים את מה שבפנים ובחוץ.
+    hints:
+      - 'חזרו לשיעור 3.4 (משפט ויירשטראס) ולשיעור 6.5 (פונקציות קוארסיביות).'
+
+  - id: Q-6-review-13
+    type: numeric
+    objectives: [OBJ-6.1-3, OBJ-6.1-1]
+    level: exam
+    prompt: >-
+      $f(x,y)=\sin(x+y)$, ופולינום טיילור מסדר ראשון בראשית הוא $P_1=x+y$. כל הנגזרות החלקיות מסדר שני של $f$
+      חסומות בערכן המוחלט על ידי $M=1$. השתמשו בשארית לגרנז' כדי לחסום את $|f(0.1,\,0.2)-P_1(0.1,\,0.2)|$ על ידי
+      $\frac M2\left(|h_1|+|h_2|\right)^2$. מהו החסם?
+    answer: 0.045
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $\frac12(0.3)^2=0.045$. השגיאה האמיתית: $|\sin0.3-0.3|\approx0.0045$, בתוך החסם. החסם בא
+      מהאי-שוויון
+      $$\left|\frac12\sum_{i,j}\partial_i\partial_jf(c)h_ih_j\right|\le\frac M2\sum_{i,j}|h_i||h_j|=\frac M2\left(|h_1|+|h_2|\right)^2.$$
+    wrongFeedback: >-
+      $|h_1|+|h_2|=0.3$; העלו בריבוע וחלקו ב-2.
+    commonWrong:
+      - value: 0.09
+        feedback: >-
+          זה $(0.3)^2$ בלי החצי של שארית לגרנז', $\frac12h^{T}H_f(c)h$.
+        misconception: MC-c6-taylor-factorial
+      - value: 0.025
+        feedback: >-
+          זה $\frac12(0.1^2+0.2^2)$, כאילו רק $\partial_x^2f$ ו-$\partial_y^2f$ משתתפות. גם האיברים המעורבים
+          $2\,\partial_x\partial_yf\,h_1h_2$ נכנסים, ויחד הם נותנים $(|h_1|+|h_2|)^2$.
+        misconception: MC-c6-hessian-diagonal-only
+    hints:
+      - 'חזרו לשיעור 6.1: הערכת השגיאה בעזרת שארית לגרנז'' וחסם על הנגזרות בקטע.'
+
+  - id: Q-6-review-14
+    type: multi
+    objectives: [OBJ-6.2-1, OBJ-6.4-1, OBJ-6.4-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $f\in C^2(\mathbb{R}^2)$, ו-$a$ נקודת מקסימום מקומי של $f$. אילו מהטענות הבאות נכונות **בהכרח**? סמנו את כולן.
+    choices:
+      - text: '$\nabla f(a)=0$'
+        correct: true
+        feedback: 'נכון. $a$ פנימית (כל נקודה במישור פנימית), ו-$f$ דיפרנציאבילית: התנאי ההכרחי של שיעור 6.2.'
+      - text: '$H_f(a)$ שלילית חצי מוגדרת'
+        correct: true
+        feedback: >-
+          נכון. אם $v^{T}H_f(a)v>0$, הצמצום $f(a+tv)$ היה מקבל מינימום ממש ב-0, ובכל כדור היו ערכים גדולים מ-$f(a)$.
+      - text: '$\partial_x^2f(a)\le0$'
+        correct: true
+        feedback: 'נכון. זה איבר אלכסון של מטריצה שלילית חצי מוגדרת: $\partial_x^2f(a)=e_1^{T}H_f(a)e_1\le0$.'
+      - text: '$H_f(a)$ שלילית מוגדרת'
+        feedback: >-
+          ל-$f=-x^4-y^4$ יש מקסימום ממש בראשית, ו-$H_f(0)=0$. שלילית מוגדרת היא תנאי מספיק, לא הכרחי.
+        misconception: MC-c6-min-implies-pd
+      - text: '$\det H_f(a)>0$'
+        feedback: >-
+          שוב $f=-x^4-y^4$: $\det H_f(0)=0$. גם $f=-x^2-y^4$, עם $\det H_f(0)=0$, מקבלת מקסימום ממש בראשית.
+        misconception: MC-c6-min-implies-pd
+    hints:
+      - 'חזרו לשיעור 6.2 (התנאי ההכרחי מסדר ראשון) ולשיעור 6.4 (תנאי הכרחי לעומת מספיק).'

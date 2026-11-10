@@ -1,0 +1,354 @@
+# Lesson 9.1 — boxes, partitions and Darboux sums.
+# Objectives (src/course.ts):
+#   OBJ-9.1-1  define a box, a partition, a refinement, the upper and lower Darboux sums and the upper and lower
+#               integrals of a bounded function on a box
+#   OBJ-9.1-2  prove that refining lowers the upper sum and raises the lower one, and that the lower integral is at
+#               most the upper one
+#   OBJ-9.1-3  prove that f is Riemann integrable iff inf over P of U(f,P) − L(f,P) is 0, and apply the criterion
+# Notation: Q = [a₁,b₁]×…×[aₙ,bₙ], v(Q) its volume, S a subbox of the partition P, m_S(f) = inf_S f,
+# M_S(f) = sup_S f, L(f,P) = Σ m_S(f) v(S), U(f,P) = Σ M_S(f) v(S).
+chapter: 9
+questions:
+  - id: Q-9.1-subboxes
+    type: numeric
+    objectives: [OBJ-9.1-1]
+    level: basic
+    prompt: >-
+      התיבה היא $Q=[0,1]\times[0,2]\times[0,3]$, והחלוקה $P=(P_1,P_2,P_3)$ נתונה על ידי
+
+      $$P_1=\{0,\tfrac13,\tfrac23,1\},\quad P_2=\{0,\tfrac12,1,\tfrac32,2\},\quad P_3=\{0,1,3\}.$$
+
+      לכמה תת-תיבות החלוקה $P$ מחלקת את $Q$?
+    answer: 24
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $P_1$ מחלקת את $[0,1]$ ל-3 קטעים, $P_2$ את $[0,2]$ ל-4 ו-$P_3$ את $[0,3]$ ל-2. תת-תיבה היא מכפלה של קטע
+      אחד מכל צלע, ולכן יש $3\cdot4\cdot2=24$ תת-תיבות.
+    wrongFeedback: >-
+      כל תת-תיבה של $P$ היא מכפלה $I_1\times I_2\times I_3$, כש-$I_j$ אחד הקטעים שהחלוקה $P_j$ יוצרת. ספרו את
+      הקטעים בכל צלע (לא את הנקודות) והכפילו.
+    commonWrong:
+      - value: 60
+        feedback: >-
+          $60=4\cdot5\cdot3$ הוא מכפלת מספרי **הנקודות**. ארבע נקודות מחלקות קטע לשלושה קטעים, ותת-תיבה נבנית מקטעים.
+        misconception: MC-c9-subbox-count-points
+      - value: 9
+        feedback: >-
+          $9=3+4+2$ הוא סכום מספרי הקטעים. אבל כל קטע של הצלע הראשונה מתלכד עם **כל** קטע של השנייה ועם כל קטע של
+          השלישית: סופרים מכפלות, ולכן כופלים.
+        misconception: MC-c9-subbox-count-points
+
+  - id: Q-9.1-box-volume
+    type: numeric
+    objectives: [OBJ-9.1-1]
+    level: basic
+    prompt: >-
+      מהו הנפח $v(Q)$ של התיבה $Q=[-1,2]\times[0,4]\times[1,\tfrac32]$?
+    answer: 6
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $v(Q)=(2-(-1))\cdot(4-0)\cdot(\tfrac32-1)=3\cdot4\cdot\tfrac12=6$.
+    wrongFeedback: >-
+      הנפח של תיבה הוא מכפלת אורכי הצלעות: $v(Q)=\prod_i(b_i-a_i)$. שימו לב שהצלע הראשונה מתחילה ב-$(-1)$.
+    commonWrong:
+      - value: 7.5
+        feedback: >-
+          $7.5=3+4+\tfrac12$ הוא סכום אורכי הצלעות. הנפח הוא מכפלה: כך תיבה שאחת מצלעותיה מנוונת (באורך 0) מקבלת
+          נפח 0, כמו שצריך.
+        misconception: MC-c9-box-volume-sum
+
+  - id: Q-9.1-upper-sum
+    type: numeric
+    objectives: [OBJ-9.1-1]
+    level: basic
+    prompt: >-
+      תהי $f(x,y)=(x-1)^2+y$ על $Q=[0,2]\times[0,1]$, ותהי $P$ החלוקה ששוברת את $[0,2]$ בנקודה $1$ ואינה שוברת את
+      $[0,1]$, כלומר שתי תת-התיבות הן $[0,1]\times[0,1]$ ו-$[1,2]\times[0,1]$. חשבו את $U(f,P)$.
+    answer: 4
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. על $[0,1]\times[0,1]$ הסופרמום מתקבל ב-$(0,1)$ ושווה ל-$1+1=2$, ועל $[1,2]\times[0,1]$ הוא מתקבל
+      ב-$(2,1)$ ושווה ל-2. כל תת-תיבה בשטח 1, ולכן $U(f,P)=2\cdot1+2\cdot1=4$. (באותו אופן $L(f,P)=0+0=0$, כי
+      האינפימום על שתיהן מתקבל ב-$(1,0)$.)
+    wrongFeedback: >-
+      $U(f,P)=\sum_S M_S(f)\,v(S)$, כש-$M_S(f)=\sup_S f$ הוא הסופרמום על **כל** התת-תיבה. על כל אחת מהשתיים מצאו
+      איפה $(x-1)^2$ הכי גדול ואיפה $y$ הכי גדול.
+    commonWrong:
+      - value: 3
+        feedback: >-
+          $3$ הוא סכום רימן עם הפינה הימנית העליונה של כל תת-תיבה: $f(1,1)+f(2,1)=1+2$. אבל על $[0,1]\times[0,1]$
+          הפונקציה $(x-1)^2$ יורדת ב-$x$, והסופרמום מתקבל בפינה השמאלית, $f(0,1)=2$.
+        misconception: MC-c9-darboux-sample-point
+
+  - id: Q-9.1-defs
+    type: multi
+    objectives: [OBJ-9.1-1, OBJ-9.1-2]
+    qualitative: true
+    level: basic
+    prompt: >-
+      תהי $f$ חסומה על תיבה $Q$. אילו מהטענות הבאות נכונות? סמנו את כולן.
+    choices:
+      - text: 'לכל חלוקה $P$ של $Q$ מתקיים $L(f,P)\le U(f,P)$'
+        correct: true
+        feedback: >-
+          נכון: על כל תת-תיבה $m_S(f)\le M_S(f)$, ומכפילים בנפחים החיוביים ומסכמים.
+      - text: 'האינטגרל העליון הוא $\overline{\int_Q} f=\inf_P U(f,P)$, האינפימום על כל החלוקות'
+        correct: true
+        feedback: >-
+          נכון. הקבוצה $\{U(f,P)\}$ חסומה מלרע (על ידי $\inf_Q f\cdot v(Q)$), ולכן יש לה אינפימום. באותו אופן
+          $\underline{\int_Q} f=\sup_P L(f,P)$.
+      - text: 'האינטגרל העליון הוא $\sup_P U(f,P)$'
+        feedback: >-
+          הסופרמום של הסכומים העליונים מתקבל בחלוקה הגסה ביותר (תיבה אחת) ושווה ל-$\sup_Q f\cdot v(Q)$: עידון רק
+          מקטין סכום עליון. האינטגרל העליון הוא הקירוב הטוב ביותר מלמעלה, כלומר האינפימום.
+        misconception: MC-c9-refinement-increases-upper
+      - text: לכל פונקציה חסומה יש אינטגרל עליון ואינטגרל תחתון, ולכן כל פונקציה חסומה אינטגרבילית
+        feedback: >-
+          שני האינטגרלים קיימים תמיד, אבל אינטגרביליות פירושה שהם **שווים**. לפונקציית דיריכלה על $[0,1]^2$ (1 בנקודות
+          ששני השיעורים שלהן רציונליים, 0 בשאר) האינטגרל העליון 1 והתחתון 0.
+        misconception: MC-c9-upper-exists-means-integrable
+
+  - id: Q-9.1-refine-chain
+    type: mc
+    objectives: [OBJ-9.1-2]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $P'$ מעדנת את $P$ (כל נקודת חלוקה של $P$ היא גם נקודת חלוקה של $P'$), ו-$f$ חסומה על $Q$. איזו שרשרת
+      אי-שוויונות נכונה תמיד?
+    choices:
+      - text: '$L(f,P)\le L(f,P^{\prime})\le U(f,P^{\prime})\le U(f,P)$'
+        correct: true
+        feedback: >-
+          נכון. כל תת-תיבה $S$ של $P$ היא איחוד של תת-תיבות $S'$ של $P'$ שסכום נפחיהן $v(S)$, ועל כל אחת מהן
+          $m_S(f)\le m_{S'}(f)\le M_{S'}(f)\le M_S(f)$: על קבוצה קטנה יותר הסופרמום קטן יותר והאינפימום גדול יותר.
+      - text: '$L(f,P^{\prime})\le L(f,P)\le U(f,P)\le U(f,P^{\prime})$'
+        feedback: >-
+          זה ההפך. ל-$f(x,y)=x$ על $[0,1]^2$, עם $P$ התיבה כולה ו-$P'$ ששוברת את $[0,1]$ ב-$\frac12$: $U(f,P)=1$ אבל
+          $U(f,P')=\frac12\cdot\frac12+1\cdot\frac12=\frac34$. יותר תת-תיבות אין פירושו סכום גדול יותר.
+        misconception: MC-c9-refinement-increases-upper
+      - text: '$L(f,P^{\prime})\le L(f,P)\le U(f,P^{\prime})\le U(f,P)$'
+        feedback: >-
+          החצי העליון נכון, אבל הסכום התחתון **עולה** בעידון, לא יורד: באותה דוגמה $L(f,P)=0$ ו-$L(f,P')=\frac14$.
+        misconception: MC-c9-refinement-increases-upper
+
+  - id: Q-9.1-refine-any
+    type: twotier
+    objectives: [OBJ-9.1-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      נכון או לא נכון: אם $f$ חסומה על $Q$ ו-$P_1,P_2$ שתי חלוקות **כלשהן** של $Q$ (אף אחת אינה מעדנת את השנייה),
+      אז $L(f,P_1)\le U(f,P_2)$.
+    choices:
+      - text: נכון
+        correct: true
+        feedback: 'נכון: כל סכום תחתון קטן או שווה לכל סכום עליון, בלי קשר בין החלוקות.'
+      - text: לא נכון
+        feedback: >-
+          זה נכון לכל שתי חלוקות, והוכחה קצרה: עוברים דרך חלוקה שמעדנת את שתיהן.
+        misconception: MC-c9-compare-different-partitions
+    reasons:
+      - text: 'החלוקה $P=P_1\cup P_2$ (מאחדים את נקודות החלוקה בכל צלע) מעדנת את שתיהן, ולכן $L(f,P_1)\le L(f,P)\le U(f,P)\le U(f,P_2)$'
+        correct: true
+        feedback: >-
+          בדיוק. העידון המשותף הוא הכלי: הוא מחבר שתי חלוקות שאין ביניהן קשר בעזרת שני אי-שוויונות של עידון ואחד
+          בתוך אותה חלוקה.
+      - text: 'עידון מגדיל סכום עליון, ולכן $U(f,P_2)\ge U(f,P_1)\ge L(f,P_1)$'
+        feedback: >-
+          שתי טעויות: עידון **מקטין** סכום עליון, ו-$P_2$ אינה עידון של $P_1$, כך שאין סיבה להשוות ישירות בין
+          $U(f,P_2)$ ל-$U(f,P_1)$.
+        misconception: MC-c9-refinement-increases-upper
+      - text: 'כל סכום תחתון קטן מהאינטגרל, והאינטגרל קטן מכל סכום עליון'
+        feedback: >-
+          זה מניח ש-$f$ אינטגרבילית, ונתון רק ש-$f$ חסומה. לפונקציה חסומה כלשהי אין "האינטגרל"; יש אינטגרל עליון
+          ותחתון, והאי-שוויון ביניהם הוא בדיוק מה שהטענה הזו עוזרת להוכיח.
+        misconception: MC-c9-upper-exists-means-integrable
+
+  - id: Q-9.1-lower-le-upper
+    type: rank
+    objectives: [OBJ-9.1-2]
+    level: mid
+    help: 'סדרו את שלבי ההוכחה לפי הסדר הנכון. שלבים שאפשר להחליף ביניהם נחשבים שקולים.'
+    prompt: >-
+      ההוכחה ש"לכל $f$ חסומה על תיבה $Q$ מתקיים $\underline{\int_Q} f\le\overline{\int_Q} f$" התפרקה לשלבים. סדרו
+      אותם.
+    items:
+      - id: common
+        label: 'יהיו $P_1,P_2$ חלוקות של $Q$, ותהי $P$ החלוקה שבכל צלע שלה נקודות החלוקה הן האיחוד של נקודות $P_1$ ו-$P_2$. אז $P$ מעדנת את שתיהן.'
+      - id: refine
+        label: 'עידון מגדיל סכום תחתון ומקטין סכום עליון: $L(f,P_1)\le L(f,P)$ ו-$U(f,P)\le U(f,P_2)$.'
+      - id: same
+        label: 'באותה חלוקה $L(f,P)\le U(f,P)$, כי $m_S(f)\le M_S(f)$ על כל תת-תיבה.'
+      - id: chain
+        label: 'לכן $L(f,P_1)\le U(f,P_2)$ לכל שתי חלוקות.'
+      - id: supinf
+        label: 'מקבעים את $P_2$ ולוקחים סופרמום על $P_1$: $\underline{\int_Q} f\le U(f,P_2)$. אחר כך לוקחים אינפימום על $P_2$.'
+    order: [common, [refine, same], chain, supinf]
+    correctFeedback: >-
+      נכון. שימו לב לסדר הכמתים בסוף: קודם מקבעים את $P_2$, כדי ש-$U(f,P_2)$ יהיה חסם מלעיל של **כל** הסכומים
+      התחתונים, ורק אז מותר לעבור לסופרמום ואחריו לאינפימום.
+    wrongFeedback: >-
+      מתחילים בעידון המשותף (בלעדיו אין איך להשוות שתי חלוקות), משתמשים בו ובאי-השוויון בתוך חלוקה אחת, ורק בסוף
+      עוברים לסופרמום ולאינפימום.
+
+  - id: Q-9.1-xy-sums
+    type: numeric
+    objectives: [OBJ-9.1-3]
+    level: mid
+    prompt: >-
+      תהי $f(x,y)=xy$ על $Q=[0,1]^2$, ותהי $P_4$ החלוקה האחידה ל-$4\times4$ ריבועים שאורך הצלע שלהם $\frac14$.
+      חשבו את $U(f,P_4)-L(f,P_4)$.
+    answer: 0.25
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $f$ עולה בכל משתנה על $Q$, ולכן על הריבוע ה-$(i,j)$ הסופרמום $\frac{ij}{16}$ מתקבל בפינה הימנית העליונה
+      והאינפימום $\frac{(i-1)(j-1)}{16}$ בשמאלית התחתונה. כל ריבוע בשטח $\frac1{16}$, ולכן
+
+      $$U=\frac{(1+2+3+4)^2}{256}=\frac{25}{64},\qquad L=\frac{(0+1+2+3)^2}{256}=\frac{9}{64},\qquad U-L=\frac{16}{64}=\frac14.$$
+
+      באופן כללי לחלוקה ל-$n\times n$ ריבועים $U-L=\frac{(n+1)^2-(n-1)^2}{4n^2}=\frac1n$.
+    wrongFeedback: >-
+      $f$ עולה בכל משתנה על הריבוע, ולכן הסופרמום על כל ריבוע קטן מתקבל בפינה הימנית העליונה והאינפימום בשמאלית
+      התחתונה. הסכום $\sum_{i,j}ij$ מתפרק ל-$\left(\sum_i i\right)\left(\sum_j j\right)$.
+    commonWrong:
+      - value: 0
+        feedback: >-
+          $f$ רציפה ואינטגרבילית, אבל זה לא אומר שבחלוקה מסוימת $U=L$. על כל ריבוע קטן $f$ משתנה, ולכן
+          $M_S(f)>m_S(f)$. אינטגרביליות אומרת שאפשר להקטין את ההפרש כרצוננו, לא לאפס אותו.
+        misconception: MC-c9-integrable-needs-equal-sums
+
+  - id: Q-9.1-xy-n
+    type: numeric
+    objectives: [OBJ-9.1-3]
+    level: mid
+    prompt: >-
+      ממשיכים עם $f(x,y)=xy$ על $[0,1]^2$, וידוע (חשבו!) שבחלוקה האחידה $P_n$ ל-$n\times n$ ריבועים
+      $U(f,P_n)-L(f,P_n)=\frac1n$. מהו ה-$n$ **הקטן ביותר** שעבורו $U(f,P_n)-L(f,P_n)<\frac{1}{100}$?
+    answer: 101
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $\frac1n<\frac1{100}$ בדיוק כש-$n>100$. זו גם הדרך להפעיל את הקריטריון: לכל $\varepsilon>0$ בוחרים
+      $n>\frac1\varepsilon$, ולכן $\inf_P\bigl(U(f,P)-L(f,P)\bigr)=0$ ו-$f$ אינטגרבילית. ערכו, $\frac14$, הוא הגבול
+      המשותף של $U=\frac{(n+1)^2}{4n^2}$ ושל $L=\frac{(n-1)^2}{4n^2}$.
+    wrongFeedback: >-
+      פתרו את $\frac1n<\frac1{100}$ ושימו לב שאי-השוויון חזק: עם $n=100$ ההפרש שווה בדיוק ל-$\frac1{100}$.
+
+  - id: Q-9.1-dirichlet
+    type: twotier
+    objectives: [OBJ-9.1-3, OBJ-9.1-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      פונקציית דיריכלה על $Q=[0,1]^2$ היא $D(x,y)=1$ כש-$x$ ו-$y$ שניהם רציונליים, ו-$D(x,y)=0$ אחרת. האם $D$
+      אינטגרבילית לפי רימן על $Q$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון: האינטגרל העליון שלה 1 והתחתון 0.'
+      - text: כן
+        feedback: >-
+          ל-$D$ יש אינטגרל עליון ואינטגרל תחתון, כמו לכל פונקציה חסומה, אבל הם שונים, ולכן אין לה אינטגרל רימן.
+        misconception: MC-c9-upper-exists-means-integrable
+    reasons:
+      - text: 'בכל תת-תיבה בעלת נפח חיובי יש נקודות עם שני שיעורים רציונליים וגם נקודות אחרות, ולכן $M_S(D)=1$ ו-$m_S(D)=0$; לכל $P$ מתקיים $U(D,P)=1$ ו-$L(D,P)=0$'
+        correct: true
+        feedback: >-
+          בדיוק. ההפרש $U(D,P)-L(D,P)=1$ בכל חלוקה, ולכן האינפימום שלו 1 ולא 0: הקריטריון נכשל.
+      - text: 'ברוב הנקודות $D=0$, ולכן בחלוקה עדינה מספיק גם הסכום העליון קרוב ל-0'
+        feedback: >-
+          הסכום העליון לוקח סופרמום על כל תת-תיבה, ובכל תת-תיבה, קטנה ככל שתהיה, יש נקודה רציונלית שבה $D=1$. אי
+          אפשר להחליף את הסופרמום בערך בנקודה "טיפוסית".
+        misconception: MC-c9-darboux-sample-point
+      - text: 'יש ל-$D$ אינטגרל עליון ואינטגרל תחתון, ולכן היא אינטגרבילית'
+        feedback: >-
+          קיום שני האינטגרלים אינו אומר דבר: הוא נכון לכל פונקציה חסומה. צריך שיהיו שווים.
+        misconception: MC-c9-upper-exists-means-integrable
+
+  - id: Q-9.1-point
+    type: numeric
+    objectives: [OBJ-9.1-3]
+    level: exam
+    prompt: >-
+      על $Q=[0,1]^2$ תהי $f(\tfrac12,\tfrac12)=1$ ו-$f(x,y)=0$ בכל נקודה אחרת. תהי $P_{10}$ החלוקה האחידה ל-$10\times10$
+      ריבועים. חשבו את $U(f,P_{10})$.
+    answer: 0.04
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. הנקודה $(\tfrac12,\tfrac12)$ היא פינה משותפת של **ארבעה** ריבועים סגורים, ועל כל אחד מהם $M_S(f)=1$.
+      לכן $U(f,P_{10})=4\cdot\frac1{100}$, ו-$L(f,P_{10})=0$. באופן כללי $U(f,P)\le 4\,\max_S v(S)$, וזה קטן כרצוננו,
+      ולכן $f$ אינטגרבילית ו-$\int_Q f=0$.
+    wrongFeedback: >-
+      ספרו את התת-תיבות **הסגורות** שמכילות את הנקודה $(\tfrac12,\tfrac12)$. עם 10 קטעים בכל צלע, $\frac12$ היא נקודת
+      חלוקה.
+    commonWrong:
+      - value: 0.01
+        feedback: >-
+          $\frac{1}{100}$ סופר ריבוע אחד. אבל $\frac12=\frac{5}{10}$ היא נקודת חלוקה בשתי הצלעות, ולכן
+          $(\tfrac12,\tfrac12)$ היא פינה של ארבעה ריבועים סגורים, וכל אחד מהם תורם $\frac1{100}$. (עם $n$ אי-זוגי
+          הייתם מקבלים ריבוע אחד.)
+        misconception: MC-c9-point-in-one-box
+    explanation: >-
+      המסקנה החשובה: שינוי הערך של פונקציה אינטגרבילית בנקודה אחת אינו משנה לא את האינטגרביליות ולא את האינטגרל,
+      כי ההשפעה על הסכום העליון חסומה בנפח של מספר חסום של תת-תיבות.
+
+  - id: Q-9.1-criterion
+    type: mc
+    objectives: [OBJ-9.1-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      תהי $f$ חסומה על תיבה $Q$. איזה מהתנאים הבאים **שקול** לכך ש-$f$ אינטגרבילית לפי רימן על $Q$?
+    choices:
+      - text: 'לכל $\varepsilon>0$ קיימת חלוקה $P$ של $Q$ עם $U(f,P)-L(f,P)<\varepsilon$'
+        correct: true
+        feedback: >-
+          נכון. אם התנאי מתקיים, אז $0\le\overline{\int_Q} f-\underline{\int_Q} f\le U(f,P)-L(f,P)<\varepsilon$ לכל
+          $\varepsilon$, ולכן השניים שווים. בכיוון ההפוך בוחרים $P_1$ עם $U$ קרוב לאינפימום ו-$P_2$ עם $L$ קרוב
+          לסופרמום, ועוברים לעידון המשותף שלהן.
+      - text: 'קיימת חלוקה $P$ של $Q$ עם $U(f,P)=L(f,P)$'
+        feedback: >-
+          זה מספיק אבל רחוק מלהיות הכרחי: ל-$f(x,y)=xy$ על $[0,1]^2$ ההפרש חיובי בכל חלוקה (על כל תת-תיבה $f$ אינה
+          קבועה), ובכל זאת $f$ אינטגרבילית.
+        misconception: MC-c9-integrable-needs-equal-sums
+      - text: 'האינטגרל העליון והאינטגרל התחתון של $f$ קיימים'
+        feedback: >-
+          הם קיימים לכל פונקציה חסומה, גם לפונקציית דיריכלה. התנאי הוא שהם שווים.
+        misconception: MC-c9-upper-exists-means-integrable
+      - text: 'לכל $\varepsilon>0$ ולכל חלוקה $P$ מתקיים $U(f,P)-L(f,P)<\varepsilon$'
+        feedback: >-
+          כאן "לכל $P$" במקום "קיימת $P$". מכאן $U(f,P)=L(f,P)$ לכל חלוקה, גם לתיבה אחת, כלומר $\sup_Q f=\inf_Q f$:
+          רק פונקציה קבועה מקיימת את זה.
+        misconception: MC-c9-integrable-needs-equal-sums
+
+  - id: Q-9.1-unbounded
+    type: twotier
+    objectives: [OBJ-9.1-1]
+    qualitative: true
+    level: exam
+    prompt: >-
+      על $Q=[0,1]^2$ תהי $f(x,y)=\frac1x$ כש-$x>0$, ו-$f(0,y)=0$. האם $f$ אינטגרבילית לפי רימן על $Q$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון: $f$ אינה חסומה, ואינטגרל רימן מוגדר רק לפונקציות חסומות.'
+      - text: כן, והאינטגרל שלה אינסופי
+        feedback: >-
+          אין "אינטגרל רימן אינסופי". סכומי דרבו מוגדרים רק כשהסופרמום והאינפימום על כל תת-תיבה סופיים.
+        misconception: MC-c9-unbounded-darboux
+    reasons:
+      - text: 'בכל חלוקה יש תת-תיבה מהצורה $[0,a]\times[c,d]$, ועליה $\sup f=\infty$; לכן אין סכום עליון, וההגדרה אינה חלה'
+        correct: true
+        feedback: >-
+          בדיוק. ההגדרה של אינטגרל רימן מתחילה ב"תהי $f$ חסומה". מה שאפשר לעשות עם $\frac1x$ הוא אינטגרל מוכלל, וגם
+          הוא כאן מתבדר.
+      - text: '$f$ אינה רציפה על הקטע $\{0\}\times[0,1]$, ופונקציה שאינה רציפה על קטע שלם אינה אינטגרבילית'
+        feedback: >-
+          הנימוק שגוי, אף שהמסקנה נכונה. פונקציה **חסומה** יכולה להיות לא רציפה על קטע שלם ועדיין אינטגרבילית (כך
+          $\chi_{[0,\frac12]\times[0,1]}$, שאינה רציפה על הקטע $x=\frac12$). מה שהורס כאן הוא חוסר החסימות.
+        misconception: MC-c9-integrable-finite-discontinuities
+      - text: 'לכל $y$ האינטגרל $\int_0^1\frac{dx}{x}$ מתבדר, ולכן הסכומים העליונים גדלים לאינסוף כשמעדנים'
+        feedback: >-
+          הסכומים העליונים אינם "גדלים לאינסוף": הם אינם מוגדרים כבר בחלוקה הראשונה. וגם בפונקציה חסומה עידון רק
+          מקטין סכום עליון.
+        misconception: MC-c9-unbounded-darboux

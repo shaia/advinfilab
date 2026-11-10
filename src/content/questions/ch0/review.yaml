@@ -1,0 +1,419 @@
+# Chapter 0 review — the first-year tools (lessons 0.1–0.5), easy to hard.
+# Every lesson is touched; most questions combine two lessons. Each hint names the lesson to go back to.
+chapter: 0
+questions:
+  - id: Q-0-review-01
+    type: mc
+    objectives: [OBJ-0.1-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $f$ **רציפה במידה שווה** על $A\subseteq\mathbb{R}$ אם
+      $\forall\varepsilon>0\ \exists\delta>0\ \forall x,y\in A:\ |x-y|<\delta\Rightarrow|f(x)-f(y)|<\varepsilon$. מה
+      פירוש "$f$ **אינה** רציפה במידה שווה על $A$"?
+    choices:
+      - text: '$\exists\varepsilon>0\ \forall\delta>0\ \exists x,y\in A:\ |x-y|<\delta$ וגם $|f(x)-f(y)|\ge\varepsilon$'
+        correct: true
+        feedback: >-
+          נכון. הכמתים מתהפכים, והשלילה של הגרירה $P\Rightarrow Q$ היא "$P$ וגם לא $Q$": נקודות קרובות כרצוננו
+          שערכיהן רחוקים לפחות $\varepsilon$. כך מראים ש-$x^2$ אינה רציפה במידה שווה על $\mathbb{R}$.
+      - text: '$\exists\varepsilon>0\ \forall\delta>0\ \exists x,y\in A:\ |x-y|<\delta\Rightarrow|f(x)-f(y)|\ge\varepsilon$'
+        feedback: >-
+          השלילה של גרירה אינה גרירה עם מסקנה שלילית. גרירה עם הנחה שקרית נכונה תמיד, ולכן על $A=\mathbb{R}$
+          הניסוח הזה מתקיים לכל פונקציה, גם קבועה: בוחרים $x,y$ שהמרחק ביניהם לפחות $\delta$.
+        misconception: MC-c0-negation-partial
+      - text: '$\forall\varepsilon>0\ \exists\delta>0\ \exists x,y\in A:\ |x-y|<\delta$ וגם $|f(x)-f(y)|\ge\varepsilon$'
+        feedback: >-
+          כאן לא הפכו את שני הכמתים הראשונים. בשלילה "לכל $\varepsilon$ קיים $\delta$" הופך ל"קיים $\varepsilon$
+          לכל $\delta$".
+        misconception: MC-c0-negation-partial
+      - text: '$\exists\varepsilon>0\ \forall\delta>0\ \exists x,y\in A:\ |x-y|\ge\delta$ וגם $|f(x)-f(y)|\ge\varepsilon$'
+        feedback: >-
+          שללו גם את ההנחה $|x-y|<\delta$, והיא נשארת בשלילה כמות שהיא. על $A=\mathbb{R}$ הניסוח הזה מתקיים לכל
+          פונקציה לא קבועה, גם ל-$\sin x$, שרציפה במידה שווה.
+        misconception: MC-c0-negation-partial
+    hints:
+      - 'חזרו לשיעור 0.1: איך שוללים הגדרה עם כמתים, כולל גרירה שבסופה.'
+
+  - id: Q-0-review-02
+    type: twotier
+    objectives: [OBJ-0.2-3]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $a_n$ חסומה, ו-$\liminf a_n=\limsup a_n=2$. האם $a_n\to2$?
+    choices:
+      - text: כן
+        correct: true
+        feedback: 'נכון. זה בדיוק הקריטריון: סדרה חסומה מתכנסת אם ורק אם הגבול העליון והתחתון שווים.'
+      - text: לא
+        feedback: >-
+          הגבול העליון והתחתון שולטים בכל הזנב, לא רק בתת-סדרה: מ-$N$ מסוים והלאה כל האיברים בין $2-\varepsilon$
+          ל-$2+\varepsilon$.
+        misconception: MC-c0-limsup-is-sup
+    reasons:
+      - text: 'לכל $\varepsilon>0$, מ-$N$ מסוים והלאה $a_n<2+\varepsilon$ (מהגבול העליון) וגם $a_n>2-\varepsilon$ (מהתחתון)'
+        correct: true
+        feedback: >-
+          בדיוק. כל אחד מהם נותן $N$ משלו, ולוקחים את הגדול מהשניים: אז $|a_n-2|<\varepsilon$.
+      - text: 'הגבול העליון שווה ל-2, ולכן $a_n\le2$ לכל $n$'
+        feedback: >-
+          הגבול העליון לא חוסם את כל האיברים: $a_n=2+\frac1n$ מקיימת $\limsup a_n=2$, וכל איבריה גדולים מ-2.
+        misconception: MC-c0-limsup-is-sup
+      - text: 'הגבול העליון והתחתון הם גבולות של תת-סדרות בלבד, ולכן הם לא אומרים דבר על כל הסדרה'
+        feedback: >-
+          הגבול העליון הוא הגבול **הגדול ביותר** של תת-סדרות, ולכן כל הזנב מתחתיו (עד $\varepsilon$). זה מידע על כל
+          הסדרה, לא רק על תת-סדרה.
+        misconception: MC-c0-limsup-is-sup
+    hints:
+      - 'חזרו לשיעור 0.2: האפיון של הגבול העליון ושל הגבול התחתון.'
+
+  - id: Q-0-review-03
+    type: twotier
+    objectives: [OBJ-0.4-2, OBJ-0.4-3]
+    qualitative: true
+    level: basic
+    prompt: >-
+      האם קבוצת **כל** תת-הקבוצות של $\mathbb{N}$ בת מנייה?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. היא בהתאמה עם קבוצת הסדרות של אפסים ואחדים, שאינה בת מנייה.
+      - text: כן
+        feedback: >-
+          תת-הקבוצות **הסופיות** של $\mathbb{N}$ בנות מנייה; כל תת-הקבוצות לא. האלכסון: לכל רשימה $S_1,S_2,\dots$
+          הקבוצה $\{n:\ n\notin S_n\}$ שונה מכל $S_n$.
+        misconception: MC-c0-sequences-countable
+    reasons:
+      - text: 'ל-$S\subseteq\mathbb{N}$ מתאימים את הסדרה $s_n=1$ אם $n\in S$ ו-0 אחרת; זו התאמה חד-חד-ערכית ועל לסדרות של אפסים ואחדים'
+        correct: true
+        feedback: >-
+          בדיוק. אז אם תת-הקבוצות היו בנות מנייה, גם הסדרות היו, בסתירה לאלכסון.
+      - text: 'כל תת-קבוצה של $\mathbb{N}$ סופית או בת מנייה, ולכן גם אוסף כולן'
+        feedback: >-
+          שני דברים שונים: כל **איבר** של האוסף (תת-קבוצה) קטן, אבל **האוסף** גדול. גם כל סדרה של אפסים ואחדים היא
+          אובייקט "בן מנייה", ואוסף כולן אינו בן מנייה.
+        misconception: MC-c0-infinite-is-countable
+      - text: 'האוסף הוא איחוד, על $k$, של תת-הקבוצות של $\{1,\dots,k\}$, שכל אחד מהם סופי'
+        feedback: >-
+          האיחוד הזה מכיל רק את תת-הקבוצות **הסופיות**. הקבוצה $\mathbb{N}$ עצמה, או קבוצת הזוגיים, אינה באף אחד מהם.
+        misconception: MC-c0-sequences-countable
+    hints:
+      - 'חזרו לשיעור 0.4: הסדרות של אפסים ואחדים, ואיחוד בן מנייה של קבוצות סופיות.'
+
+  - id: Q-0-review-04
+    type: numeric
+    objectives: [OBJ-0.5-1]
+    level: basic
+    prompt: >-
+      מהו הערך הגדול ביותר של $3x+4y$ כאשר $x^2+y^2=1$?
+    answer: 5
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $3x+4y=\langle(3,4),(x,y)\rangle\le\|(3,4)\|_2\cdot1=5$ לפי קושי-שוורץ, ושוויון ב-$(x,y)=\left(\frac35,\frac45\right)$.
+    wrongFeedback: >-
+      כתבו את הביטוי כמכפלה פנימית של $(3,4)$ עם $(x,y)$, והפעילו קושי-שוורץ.
+    commonWrong:
+      - value: 7
+        feedback: >-
+          $7=3+4$ הוא $\|(3,4)\|_1$. החסם מקושי-שוורץ משתמש בנורמה שמשרה המכפלה הפנימית: $\sqrt{9+16}=5$. ובדקו:
+          $3x+4y=7$ דורש $x=y=1$, שאינו על המעגל.
+        misconception: MC-c0-norm-is-sum
+      - value: 25
+        feedback: >-
+          25 הוא $\|(3,4)\|_2^2$. קושי-שוורץ חוסם את המכפלה הפנימית ב-$\|(3,4)\|_2\cdot\|(x,y)\|_2$, עם שורש.
+        misconception: MC-c0-forget-square-root
+    hints:
+      - 'חזרו לשיעור 0.5: אי-שוויון קושי-שוורץ ומקרה השוויון.'
+
+  - id: Q-0-review-05
+    type: mc
+    objectives: [OBJ-0.1-1, OBJ-0.2-2]
+    qualitative: true
+    level: basic
+    prompt: >-
+      איזו סדרה מראה שבמשפט בולצאנו-ויירשטראס אי אפשר לוותר על ההנחה שהסדרה **חסומה**?
+    choices:
+      - text: '$a_n=n$'
+        correct: true
+        feedback: >-
+          נכון. היא לא חסומה, ואין לה תת-סדרה מתכנסת: כל תת-סדרה שואפת לאינסוף. היא מפרה את ההנחה, והמסקנה נכשלת.
+      - text: '$a_n=(-1)^n$'
+        feedback: >-
+          $(-1)^n$ חסומה, ולכן המשפט חל עליה, ויש לה תת-סדרה מתכנסת. דוגמה שמקיימת את ההנחה לא בודקת אותה.
+        misconception: MC-c0-satisfying-example-tests-hypothesis
+      - text: 'הסדרה ששווה ל-$n$ ב-$n$ זוגי ול-0 ב-$n$ אי-זוגי'
+        feedback: >-
+          היא אכן לא חסומה, אבל יש לה תת-סדרה מתכנסת (האפסים): המסקנה מתקיימת. כדי להראות שהנחה נחוצה, המסקנה
+          חייבת להיכשל.
+        misconception: MC-c0-bw-converse
+    hints:
+      - 'חזרו לשיעור 0.1: איך בודקים שהנחה נחוצה, ולשיעור 0.2: משפט בולצאנו-ויירשטראס.'
+
+  - id: Q-0-review-06
+    type: numeric
+    objectives: [OBJ-0.1-2, OBJ-0.3-2]
+    level: mid
+    prompt: >-
+      בהוכחה שגבול במידה שווה של פונקציות רציפות רציף, ידוע רק ש-$\sup_x|f_n(x)-f(x)|<\eta$, ושלכל $x$ עם
+      $|x-x_0|<\delta$ מתקיים $|f_n(x)-f_n(x_0)|<\eta$. אי-שוויון המשולש נותן חסם מהצורה $|f(x)-f(x_0)|<k\eta$. מהו
+      $k$ הקטן ביותר שהוא נותן?
+    answer: 3
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון:
+      $|f(x)-f(x_0)|\le|f(x)-f_n(x)|+|f_n(x)-f_n(x_0)|+|f_n(x_0)-f(x_0)|<3\eta$. לכן בוחרים $\eta=\frac{\varepsilon}{3}$:
+      הקבוע בא ממספר המחוברים.
+    wrongFeedback: >-
+      כתבו את $f(x)-f(x_0)$ כסכום שבו מופיעים $f_n(x)$ ו-$f_n(x_0)$, וספרו את המחוברים.
+    commonWrong:
+      - value: 2
+        feedback: >-
+          שכחתם מחובר: גם בנקודה $x_0$ עצמה צריך לעבור מ-$f$ ל-$f_n$. יש שלושה מחוברים, ולכן $3\eta$.
+        misconception: MC-c0-constants-ignore-coefficients
+    hints:
+      - 'חזרו לשיעור 0.1: מאיפה באים הקבועים, ולשיעור 0.3: ההוכחה של שלושת ה-אפסילון-שליש.'
+
+  - id: Q-0-review-07
+    type: numeric
+    objectives: [OBJ-0.2-1, OBJ-0.3-1]
+    level: mid
+    prompt: >-
+      $f_n(x)=x^n-x^{2n}$ על $[0,1]$. בכל נקודה $f_n(x)\to0$. חשבו את $\sup_{x\in[0,1]}|f_n(x)|$ (התשובה אינה תלויה
+      ב-$n$). אפשר לענות בשבר.
+    answer: 0.25
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. עם $t=x^n$, שעובר על כל $[0,1]$, מקבלים $t-t^2$, והמקסימום שלו $\frac14$ ב-$t=\frac12$. לכן הסופרמום
+      $\frac14$ לכל $n$, וההתכנסות **אינה** במידה שווה.
+    wrongFeedback: >-
+      הציבו $t=x^n$. איזה ערכים $t$ מקבל כש-$x$ עובר על $[0,1]$? מצאו את המקסימום של $t-t^2$.
+    commonWrong:
+      - value: 0
+        feedback: >-
+          0 הוא הגבול הנקודתי. הסופרמום מחושב ל-$n$ קבוע, לפני הגבול: לכל $n$ יש נקודה, $x=2^{-1/n}$, שבה $f_n=\frac14$.
+        misconception: MC-c0-sup-of-limit
+    hints:
+      - 'חזרו לשיעור 0.3: בדיקת התכנסות במידה שווה בעזרת הסופרמום של ההפרש, ולשיעור 0.2: סופרמום שמתקבל.'
+
+  - id: Q-0-review-08
+    type: twotier
+    objectives: [OBJ-0.2-3, OBJ-0.4-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $q_1,q_2,\dots$ היא מנייה של $\mathbb{Q}\cap[0,1]$. טענה: לכל סדרה, קבוצת הגבולות החלקיים שלה בת מנייה או
+      סופית, כי יש לסדרה רק מנייה של איברים. האם הטענה נכונה?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. ל-$q_n$ **כל** נקודה של $[0,1]$ היא גבול חלקי, ו-$[0,1]$ אינה בת מנייה.
+      - text: כן
+        feedback: >-
+          גבול חלקי לא חייב להיות איבר של הסדרה. ב-$q_n$ כל $x\in[0,1]$, גם אי-רציונלי, הוא גבול של תת-סדרה.
+        misconception: MC-c0-dense-vs-countable
+    reasons:
+      - text: 'בכל קטע סביב $x\in[0,1]$ יש אינסוף רציונליים של $[0,1]$, כלומר אינסוף איברי $q_n$, ולכן יש תת-סדרה ששואפת ל-$x$'
+        correct: true
+        feedback: >-
+          בדיוק. בוחרים $n_1<n_2<\dots$ עם $|q_{n_k}-x|<\frac1k$, וזה אפשרי כי בכל קטע כזה יש אינסוף איברים. ובפרט
+          $\limsup q_n=1$ ו-$\liminf q_n=0$.
+      - text: 'כל גבול חלקי הוא אחד מאיברי הסדרה'
+        feedback: >-
+          ב-$\frac1n$ הגבול החלקי היחיד הוא 0, שאינו איבר. גבול לא חייב להשתייך לקבוצה שממנה באים האיברים.
+        misconception: MC-c0-sup-is-max
+      - text: 'לקבוצה בת מנייה יש רק מנייה של נקודות שאפשר להתקרב אליהן'
+        feedback: >-
+          $\mathbb{Q}$ בת מנייה, ואפשר להתקרב ממנה לכל ממשי: היא צפופה. מנייה וצפיפות הן תכונות בלתי תלויות.
+        misconception: MC-c0-dense-vs-countable
+    hints:
+      - 'חזרו לשיעור 0.2: גבולות חלקיים, ולשיעור 0.4: הרציונליים בני מנייה.'
+
+  - id: Q-0-review-09
+    type: numeric
+    objectives: [OBJ-0.5-3, OBJ-0.1-2]
+    level: mid
+    prompt: >-
+      $Q(x,y)=3x^2+2xy+3y^2$. מהו ה-$c$ **הגדול ביותר** כך ש-$Q(x,y)\ge c\,(x^2+y^2)$ לכל $(x,y)\in\mathbb{R}^2$?
+    answer: 2
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. המטריצה $\begin{pmatrix}3&1\\1&3\end{pmatrix}$, ערכים עצמיים 2 ו-4, ולכן $Q\ge2(x^2+y^2)$, עם שוויון בכיוון
+      $(1,-1)$: $Q(1,-1)=3-2+3=4=2\cdot2$.
+    wrongFeedback: >-
+      כתבו את המטריצה הסימטרית של $Q$ (חצי מהמקדם של $xy$ בכל צד), ומצאו את הערך העצמי הקטן.
+    commonWrong:
+      - value: 3
+        feedback: >-
+          3 הוא המקדם של $x^2$, כלומר $Q(1,0)$. בכיוון $(1,-1)$ המחובר המעורב מוריד את $Q$: היחס שם 2.
+        misconception: MC-c0-diagonal-positive-definite
+      - value: 1
+        feedback: >-
+          1 הוא הערך העצמי הקטן של $\begin{pmatrix}3&2\\2&3\end{pmatrix}$, שבה המקדם 2 של $xy$ הוכנס במלואו לשני
+          הצדדים. המטריצה הזו מייצגת את $3x^2+4xy+3y^2$.
+        misconception: MC-c0-form-matrix-full-coefficient
+    hints:
+      - 'חזרו לשיעור 0.5: תבנית ריבועית, המטריצה הסימטרית שלה והערכים העצמיים.'
+
+  - id: Q-0-review-10
+    type: mc
+    objectives: [OBJ-0.3-3, OBJ-0.3-2]
+    level: mid
+    prompt: >-
+      מה נכון לגבי הטור $\sum_{n=1}^{\infty}\frac{x^n}{n^2}$ על הקטע $[-1,1]$?
+    choices:
+      - text: 'הוא מתכנס במידה שווה על $[-1,1]$ (מבחן ה-M עם $M_n=\frac1{n^2}$), ולכן סכומו רציף על כל $[-1,1]$, גם בקצוות'
+        correct: true
+        feedback: >-
+          נכון. $\left|\frac{x^n}{n^2}\right|\le\frac1{n^2}$ לכל $|x|\le1$. כל סכום חלקי הוא פולינום, רציף, והגבול במידה
+          שווה רציף בכל נקודה של התחום, כולל $\pm1$.
+      - text: 'הוא מתכנס רק ב-$(-1,1)$, כי זה רדיוס ההתכנסות'
+        feedback: >-
+          רדיוס ההתכנסות 1 אומר מה קורה **בפנים**; בקצוות בודקים בנפרד. ב-$x=\pm1$ הטור $\sum\frac{(\pm1)^n}{n^2}$
+          מתכנס בהחלט.
+        misconception: MC-c0-pointwise-limit-wrong
+      - text: 'הוא מתכנס במידה שווה, אבל הסכום אולי לא רציף ב-$\pm1$, כי אלה נקודות קצה'
+        feedback: >-
+          המשפט על גבול במידה שווה עובד בכל נקודה של התחום שבה הפונקציות רציפות, גם בקצה (רציפות חד-צדדית).
+        misconception: MC-c0-continuity-theorem-global
+      - text: 'מבחן ה-M עם $M_n=\frac1n$ נכשל, ולכן ההתכנסות אינה במידה שווה'
+        feedback: >-
+          $\frac1n$ הוא חסם גס מדי. כשמבחן ה-M נכשל עם חסם אחד, מחפשים חסם טוב יותר, וכאן $\frac1{n^2}$ עובד.
+        misconception: MC-c0-mtest-necessary
+    hints:
+      - 'חזרו לשיעור 0.3: מבחן ה-M של ויירשטראס ורציפות של גבול במידה שווה.'
+
+  - id: Q-0-review-11
+    type: rank
+    objectives: [OBJ-0.3-1, OBJ-0.2-2]
+    level: exam
+    help: 'סדרו את שלבי ההוכחה לפי הסדר הנכון.'
+    prompt: >-
+      קריטריון קושי להתכנסות במידה שווה: אם לכל $\varepsilon>0$ יש $N$ כך ש-$|f_n(x)-f_m(x)|<\varepsilon$ לכל
+      $m,n>N$ ולכל $x\in I$, אז $f_n$ מתכנסת במידה שווה על $I$. סדרו את שלבי ההוכחה.
+    items:
+      - id: point
+        label: 'קודם מגדירים את הגבול: לכל $x$ קבוע, $f_n(x)$ סדרת קושי במספרים, ולכן מתכנסת (שלמות הממשיים). נסמן את הגבול $f(x)$.'
+      - id: eps
+        label: 'עכשיו יהי $\varepsilon>0$, ו-$N$ כך ש-$|f_n(x)-f_m(x)|<\varepsilon$ לכל $m,n>N$ ולכל $x\in I$.'
+      - id: limit
+        label: 'נקבע $n>N$ ו-$x\in I$, ונשלח $m\to\infty$ באי-השוויון: $|f_n(x)-f(x)|\le\varepsilon$.'
+      - id: sup
+        label: 'ה-$N$ לא תלוי ב-$x$, ולכן $\sup_{x\in I}|f_n(x)-f(x)|\le\varepsilon$ לכל $n>N$: ההתכנסות במידה שווה.'
+    order: [point, eps, limit, sup]
+    correctFeedback: >-
+      נכון. השלמות של $\mathbb{R}$ נותנת את המועמד $f$ נקודה אחר נקודה; האחידות של $N$ ב-$x$ היא מה שהופך את
+      ההתכנסות לאחידה. שימו לב ש-$<$ הופך ל-$\le$ במעבר לגבול. בפרק 2 זו בדיוק ההוכחה ש-$B(X)$ שלם.
+    wrongFeedback: >-
+      אי אפשר לדבר על $|f_n(x)-f(x)|$ לפני ש-$f$ מוגדרת, ואי אפשר לשלוח $m\to\infty$ לפני שיש אי-שוויון שתקף לכל
+      $m>N$.
+    hints:
+      - 'חזרו לשיעור 0.2: קריטריון קושי בישר, ולשיעור 0.3: הגדרת ההתכנסות במידה שווה.'
+
+  - id: Q-0-review-12
+    type: twotier
+    objectives: [OBJ-0.3-2, OBJ-0.3-3, OBJ-0.4-1]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $q_1,q_2,\dots$ מנייה של $\mathbb{Q}$, ו-$H(t)=1$ ל-$t>0$, $H(t)=0$ ל-$t\le0$. נגדיר
+      $$f(x)=\sum_{n=1}^{\infty}2^{-n}H(x-q_n).$$
+      האם $f$ רציפה בכל נקודה **אי-רציונלית**?
+    choices:
+      - text: כן
+        correct: true
+        feedback: >-
+          נכון. ובכל רציונלי $q_k$ היא קופצת ב-$2^{-k}$: פונקציה עולה שרציפה בדיוק באי-רציונליים.
+      - text: לא
+        feedback: >-
+          כל מחובר קופץ רק בנקודה רציונלית אחת, והטור מתכנס במידה שווה; לכן בנקודה אי-רציונלית שום סכום חלקי לא
+          קופץ, וגם הגבול לא.
+        misconception: MC-c0-converse-equivalent
+    reasons:
+      - text: 'מבחן ה-M עם $M_n=2^{-n}$ נותן התכנסות במידה שווה; כל סכום חלקי רציף בכל אי-רציונלי $x_0$, ולכן גם $f$ רציפה ב-$x_0$'
+        correct: true
+        feedback: >-
+          בדיוק. הוכחת ה-$\frac{\varepsilon}{3}$ מקומית: היא צריכה רק שכל $f_n$ רציפה **בנקודה** $x_0$. כאן
+          $S_N$ קופצת רק ב-$q_1,\dots,q_N$.
+      - text: 'גבול במידה שווה של פונקציות לא רציפות אינו רציף'
+        feedback: >-
+          המשפט אומר רק "רציפות גוררת רציפות"; ההפוך שקרי. גם גבול של פונקציות עם קפיצות יכול להיות רציף, בכל
+          נקודה שבה אף אחת מהן לא קופצת.
+        misconception: MC-c0-converse-equivalent
+      - text: 'המשפט על גבול במידה שווה דורש שכל $f_n$ תהיה רציפה בכל מקום, ולכן הוא לא אומר כאן דבר'
+        feedback: >-
+          ההוכחה של המשפט עובדת נקודה אחר נקודה: אם כל $f_n$ רציפה ב-$x_0$ וההתכנסות במידה שווה, $f$ רציפה ב-$x_0$.
+        misconception: MC-c0-continuity-theorem-global
+    hints:
+      - 'חזרו לשיעור 0.3: מבחן ה-M וההוכחה שגבול במידה שווה שומר רציפות, ולשיעור 0.4: מנייה של הרציונליים.'
+
+  - id: Q-0-review-13
+    type: twotier
+    objectives: [OBJ-0.4-2, OBJ-0.1-1]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $s^{(1)},s^{(2)},\dots$ רשימה כלשהי של סדרות של אפסים ואחדים. האם בהכרח יש סדרה $t$ של אפסים ואחדים כך
+      ש-$\sup_n\left|t_n-s^{(k)}_n\right|=1$ **לכל** $k$?
+    choices:
+      - text: כן
+        correct: true
+        feedback: >-
+          נכון. ובפרט: לכל שתי סדרות **שונות** של אפסים ואחדים, $\sup_n|s_n-t_n|=1$. בפרק 4 העובדה הזו, יחד עם האלכסון,
+          תראה שמרחב הסדרות החסומות עם נורמת הסופרמום אינו ספרבילי.
+      - text: לא
+        feedback: >-
+          אילו הרשימה הייתה מכילה את כל הסדרות, לא הייתה $t$ כזו. אבל האלכסון מראה שאף רשימה אינה מכילה את כולן.
+        misconception: MC-c0-sequences-countable
+    reasons:
+      - text: '$t_n=1-s^{(n)}_n$ שונה מ-$s^{(k)}$ במקום ה-$k$, ולכן $\sup_n|t_n-s^{(k)}_n|\ge1$, וההפרש לא עולה על 1'
+        correct: true
+        feedback: >-
+          בדיוק. מקום אחד שבו הסדרות שונות מספיק כדי שהסופרמום יהיה 1. זה האלכסון של קנטור, במילים של מרחקים.
+      - text: 'כדי שהסופרמום יהיה 1, $t$ צריכה להיות שונה מ-$s^{(k)}$ בכל המקומות, וזה בלתי אפשרי לכל $k$ בבת אחת'
+        feedback: >-
+          הסופרמום הוא 1 כבר כשיש **מקום אחד** שבו הן שונות. לא צריך הבדל בכל המקומות.
+        misconception: MC-c0-diagonal-all-digits
+      - text: '$t=(0,0,0,\dots)$ מתאימה לכל רשימה'
+        feedback: >-
+          אם הרשימה מכילה את סדרת האפסים, המרחק ממנה 0. $t$ נבחרת **אחרי** הרשימה ותלויה בה: "לכל רשימה קיימת $t$",
+          לא "קיימת $t$ לכל רשימה".
+        misconception: MC-c0-quantifier-order-definition
+    hints:
+      - 'חזרו לשיעור 0.4: האלכסון של קנטור בסדרות של אפסים ואחדים, ולשיעור 0.1: סדר הכמתים.'
+
+  - id: Q-0-review-14
+    type: twotier
+    objectives: [OBJ-0.5-1, OBJ-0.3-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $f_n,f\in C[0,1]$ ו-$\int_0^1(f_n-f)^2\,dx\to0$. האם בהכרח $\int_0^1f_n\,dx\to\int_0^1f\,dx$?
+    choices:
+      - text: כן
+        correct: true
+        feedback: >-
+          נכון, אף שההתכנסות לא חייבת להיות במידה שווה, ואפילו לא נקודתית: $x^n$ מקיימת
+          $\int_0^1x^{2n}=\frac{1}{2n+1}\to0$, ו-$1^n=1$ לא שואף ל-0.
+      - text: לא
+        feedback: >-
+          קושי-שוורץ נותן את זה ישירות, בלי שום התכנסות נקודתית: $\left|\int_0^1(f_n-f)\right|\le\sqrt{\int_0^1(f_n-f)^2}$.
+        misconception: MC-c0-uniform-needed-for-swap
+    reasons:
+      - text: 'קושי-שוורץ עם $g\equiv1$: $\left|\int_0^1(f_n-f)\cdot1\right|\le\left(\int_0^1(f_n-f)^2\right)^{1/2}\left(\int_0^11\right)^{1/2}\to0$'
+        correct: true
+        feedback: >-
+          בדיוק. זה אותו אי-שוויון של מכפלה פנימית מאלגברה לינארית, על המרחב $C[0,1]$ עם $\langle f,g\rangle=\int_0^1fg$.
+      - text: 'התנאי גורר התכנסות במידה שווה, ובמידה שווה מותר להחליף גבול ואינטגרל'
+        feedback: >-
+          התנאי לא גורר התכנסות במידה שווה: ב-$x^n$ הסופרמום 1 לכל $n$. החלפה מותרת כאן מסיבה אחרת, קושי-שוורץ.
+        misconception: MC-c0-uniform-needed-for-swap
+      - text: 'תמיד $\int_0^1|f_n-f|\le\int_0^1(f_n-f)^2$'
+        feedback: >-
+          לערכים קטנים מ-1 הריבוע **קטן** יותר: עם $f_n-f\equiv\frac12$ מקבלים $\frac12>\frac14$. החסם הנכון כולל
+          שורש: $\int|g|\le\left(\int g^2\right)^{1/2}$ על $[0,1]$.
+        misconception: MC-c0-forget-square-root
+    hints:
+      - 'חזרו לשיעור 0.5: קושי-שוורץ במרחב של פונקציות, ולשיעור 0.3: מתי מותר להחליף גבול ואינטגרל.'

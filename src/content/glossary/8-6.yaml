@@ -1,0 +1,11 @@
+# Terms first defined in lesson 8.6.
+- id: winding-number
+  term: מספר הליפוף
+  en: winding number (index)
+  symbol: '\operatorname{Ind}(\gamma,p)'
+  definition: >-
+    למסילה סגורה חלקה למקוטעין $\gamma$ במישור ולנקודה $p\notin\gamma([a,b])$:
+    $\operatorname{Ind}(\gamma,p)=\frac{1}{2\pi}\int_\gamma\frac{-(y-p_2)\,dx+(x-p_1)\,dy}{(x-p_1)^2+(y-p_2)^2}$, כמה פעמים
+    המסילה מסתובבת סביב $p$ (נגד כיוון השעון חיובי). הוא מספר שלם, קבוע על כל רכיב של המשלים של המסילה, 0 על הרכיב
+    הלא חסום, ושווה לשתי מסילות הומוטופיות ב-$\mathbb{R}^2\setminus\{p\}$. מעגל שעוברים עליו פעמיים: 2 סביב מרכזו.
+  lesson: '8.6'

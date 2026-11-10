@@ -1,0 +1,334 @@
+# Lesson 8.6 — the winding number.
+# Objectives (src/course.ts):
+#   OBJ-8.6-1  define the winding number of a closed plane curve around a point by a line integral; compute it
+#   OBJ-8.6-2  the winding number is an integer, constant on each component of the complement of the curve
+#   OBJ-8.6-3  use it to prove two curves are not homotopic and to compute integrals of angle fields
+# Ind(γ,p) = (1/2π) ∫_γ (−(y−p₂)dx + (x−p₁)dy)/((x−p₁)²+(y−p₂)²) = (1/2π) ∫_γ ω_p·ds, where ω_p(x) = ω(x−p).
+# Curves are closed and piecewise smooth; circles run once counter-clockwise unless stated.
+chapter: 8
+questions:
+  - id: Q-8.6-def
+    type: mc
+    objectives: [OBJ-8.6-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $\gamma$ מסילה סגורה חלקה למקוטעין במישור ו-$p=(p_1,p_2)$ נקודה שאינה על המסילה. מהי ההגדרה של
+      $\operatorname{Ind}(\gamma,p)$?
+    choices:
+      - text: '$\frac{1}{2\pi}\int_\gamma\frac{-(y-p_2)\,dx+(x-p_1)\,dy}{(x-p_1)^2+(y-p_2)^2}$'
+        correct: true
+        feedback: >-
+          נכון. זה שדה הזווית שהוזז ל-$p$; האינטגרל שלו הוא הזווית הכוללת שהמסילה מסתובבת סביב $p$, והחלוקה ב-$2\pi$
+          סופרת סיבובים שלמים.
+      - text: '$\int_\gamma\frac{-(y-p_2)\,dx+(x-p_1)\,dy}{(x-p_1)^2+(y-p_2)^2}$'
+        feedback: >-
+          זה האינטגרל של שדה הזווית, $2\pi\operatorname{Ind}$. למעגל היחידה סביב מרכזו הוא $2\pi$, ומספר הליפוף 1.
+        misconception: MC-c8-winding-normalisation
+      - text: '$\frac{1}{2\pi}\int_\gamma\frac{(y-p_2)\,dx-(x-p_1)\,dy}{(x-p_1)^2+(y-p_2)^2}$'
+        feedback: >-
+          הסימנים הפוכים: זה נותן מינוס מספר הליפוף, ומעגל נגד כיוון השעון יקבל $(-1)$. המוסכמה: נגד כיוון השעון
+          חיובי.
+        misconception: MC-c8-orientation-ignored
+      - text: '$\frac{L(\gamma)}{2\pi\operatorname{dist}(p,\gamma)}$'
+        feedback: >-
+          זה **חסם** על $|\operatorname{Ind}(\gamma,p)|$, שנובע מהחסם על אינטגרל קווי. הוא אפילו אינו מספר שלם.
+        misconception: MC-c8-bound-is-value
+
+  - id: Q-8.6-twice
+    type: numeric
+    objectives: [OBJ-8.6-1]
+    level: basic
+    prompt: >-
+      $\gamma(t)=(\cos t,\sin t)$, $t\in[0,4\pi]$. חשבו את $\operatorname{Ind}(\gamma,(0,0))$.
+    answer: 2
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. האינטגרנד $\sin^2t+\cos^2t=1$, האינטגרל $4\pi$, ומספר הליפוף $\frac{4\pi}{2\pi}=2$: המסילה מקיפה את
+      הראשית פעמיים.
+    wrongFeedback: >-
+      הציבו בהגדרה עם $p=(0,0)$ ושלבו על $[0,4\pi]$, לא על $[0,2\pi]$.
+    commonWrong:
+      - value: 1
+        feedback: >-
+          לתמונה, מעגל היחידה, אין "מספר ליפוף"; למסילה יש. המסילה הזו עוברת על המעגל פעמיים.
+        misconception: MC-c8-curve-is-image
+      - value: 12.566371
+        feedback: >-
+          $4\pi$ הוא האינטגרל של שדה הזווית. מספר הליפוף הוא האינטגרל חלקי $2\pi$.
+        misconception: MC-c8-winding-normalisation
+
+  - id: Q-8.6-outside
+    type: numeric
+    objectives: [OBJ-8.6-1]
+    level: basic
+    prompt: >-
+      $\gamma$ מעגל היחידה סביב הראשית. חשבו את $\operatorname{Ind}(\gamma,(3,0))$.
+    answer: 0
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. המעגל נמצא בחצי המישור $x<2$, שאינו מכיל את $(3,0)$; שם $\omega_{(3,0)}$ משמר (ענף של הזווית סביב
+      $(3,0)$), ולכן האינטגרל על המסילה הסגורה 0.
+    wrongFeedback: >-
+      מצאו חצי מישור שמכיל את המעגל ולא את $(3,0)$. מה ידוע על $\omega_{(3,0)}$ שם?
+    commonWrong:
+      - value: 1
+        feedback: >-
+          המעגל אינו מקיף את $(3,0)$: הזווית מ-$(3,0)$ לנקודה על המעגל מתנדנדת ונחזרת לערכה בלי להשלים סיבוב.
+        misconception: MC-c8-winding-any-circle
+
+  - id: Q-8.6-cw
+    type: numeric
+    objectives: [OBJ-8.6-1]
+    level: mid
+    prompt: >-
+      $\gamma(t)=(\cos t,-\sin t)$, $t\in[0,2\pi]$. חשבו את $\operatorname{Ind}(\gamma,(\frac12,0))$.
+    answer: -1
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. המסילה היא מעגל היחידה **עם** כיוון השעון, $\gamma^-$ של המעגל הרגיל, ולכן מספר הליפוף מחליף סימן.
+      והנקודה $(\frac12,0)$ בתוך המעגל, באותו רכיב של המשלים כמו המרכז, ולכן הערך כמו במרכז.
+    wrongFeedback: >-
+      בדקו את כיוון התנועה ($t=\frac\pi2$ נותן $(0,-1)$), ואת הרכיב של המשלים שבו נמצאת $(\frac12,0)$.
+    commonWrong:
+      - value: 1
+        feedback: >-
+          המסילה נעה עם כיוון השעון: מ-$(1,0)$ ל-$(0,-1)$. היפוך כיוון הופך את סימן האינטגרל.
+        misconception: MC-c8-orientation-ignored
+      - value: 0
+        feedback: >-
+          $(\frac12,0)$ אינה המרכז, אבל היא באותו רכיב של המשלים, ושם מספר הליפוף קבוע.
+        misconception: MC-c8-winding-independent-of-p
+
+  - id: Q-8.6-eight
+    type: multi
+    objectives: [OBJ-8.6-1, OBJ-8.6-2]
+    level: mid
+    prompt: >-
+      ה"שמונה" $\gamma(t)=(\sin2t,\sin t)$, $t\in[0,2\pi]$, עוברת בראשית ב-$t=0$ וב-$t=\pi$. בחצי הראשון היא עוברת
+      דרך $(1,\frac{\sqrt2}{2})$, $(0,1)$, $(-1,\frac{\sqrt2}{2})$, ובשני דרך $(1,-\frac{\sqrt2}{2})$, $(0,-1)$,
+      $(-1,-\frac{\sqrt2}{2})$. אילו מהטענות נכונות? סמנו את כולן.
+    choices:
+      - text: '$\operatorname{Ind}(\gamma,(0,\frac12))=1$'
+        correct: true
+        feedback: >-
+          נכון. הלולאה העליונה עוברת מימין, דרך למעלה, לשמאל: נגד כיוון השעון סביב $(0,\frac12)$.
+      - text: '$\operatorname{Ind}(\gamma,(0,-\frac12))=-1$'
+        correct: true
+        feedback: >-
+          נכון. הלולאה התחתונה עוברת מימין, דרך למטה, לשמאל: עם כיוון השעון סביב $(0,-\frac12)$.
+      - text: '$\operatorname{Ind}(\gamma,(3,0))=0$'
+        correct: true
+        feedback: 'נכון. $(3,0)$ ברכיב הלא חסום של המשלים, ושם מספר הליפוף 0.'
+      - text: '$\operatorname{Ind}(\gamma,(0,-\frac12))=1$'
+        feedback: >-
+          שתי הלולאות נראות אותו דבר, אבל עוברים עליהן בכיוונים הפוכים. מספר הליפוף רגיש לכיוון.
+        misconception: MC-c8-orientation-ignored
+      - text: '$\operatorname{Ind}(\gamma,(0,0))=0$'
+        feedback: >-
+          הראשית נמצאת **על** המסילה, ושם $\omega_{(0,0)}$ אינו מוגדר על המסילה: מספר הליפוף לא מוגדר.
+        misconception: MC-c8-winding-on-curve
+    explanation: >-
+      למשלים של ה"שמונה" שלושה רכיבים: פנים הלולאה העליונה (1), פנים התחתונה (מינוס 1, בגלל הכיוון) והחוץ (0). בכל רכיב
+      מספיק לחשב בנקודה אחת.
+
+  - id: Q-8.6-integer-why
+    type: mc
+    objectives: [OBJ-8.6-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      למה $\operatorname{Ind}(\gamma,p)$ הוא מספר שלם לכל מסילה **סגורה** $\gamma$?
+    choices:
+      - text: 'האינטגרל של $\omega_p$ שווה לשינוי הכולל של זווית רציפה לאורך המסילה, והמסילה חוזרת לאותה נקודה, ולכן השינוי כפולה של $2\pi$'
+        correct: true
+        feedback: >-
+          נכון. כותבים $\gamma(t)-p=r(t)(\cos\theta(t),\sin\theta(t))$ עם $\theta$ רציפה; לאורך כל קטע קטן $\omega_p$
+          הוא גרדיאנט של ענף של הזווית, ולכן האינטגרל $\theta(b)-\theta(a)$. כי $\gamma(b)=\gamma(a)$, ההפרש כפולה של
+          $2\pi$.
+      - text: 'כי $\omega_p$ משמר, ולכן האינטגרל שלו 0'
+        feedback: >-
+          $\omega_p$ אינו משמר ב-$\mathbb{R}^2\setminus\{p\}$ (על מעגל סביב $p$ האינטגרל $2\pi$). אילו היה, מספר
+          הליפוף היה תמיד 0.
+        misconception: MC-c8-crossed-partials-sufficient
+      - text: 'זה נכון רק למסילות פשוטות; למסילות אחרות הוא יכול להיות שבר'
+        feedback: >-
+          לכל מסילה סגורה הוא שלם, פשוטה או לא: למעגל שעוברים עליו פעמיים הוא 2. שבר אפשרי רק למסילה **לא סגורה**,
+          כמו חצי מעגל ($\frac12$).
+        misconception: MC-c8-winding-not-integer
+      - text: 'כי אורך המסילה כפולה של $2\pi$'
+        feedback: >-
+          האורך לא קשור: לריבוע $[-1,1]^2$ ההיקף 8 ומספר הליפוף סביב הראשית 1. שדה הזווית מודד זווית, לא אורך.
+        misconception: MC-c8-angle-scales
+
+  - id: Q-8.6-components
+    type: twotier
+    objectives: [OBJ-8.6-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $\gamma$ מסילה סגורה ו-$p,q$ שתי נקודות שאינן על המסילה, שאפשר לחבר במסילה רציפה $\sigma:[0,1]\to\mathbb{R}^2$
+      שאינה פוגשת את $\gamma([a,b])$. האם $\operatorname{Ind}(\gamma,p)=\operatorname{Ind}(\gamma,q)$?
+    choices:
+      - text: כן
+        correct: true
+        feedback: 'נכון: מספר הליפוף קבוע על כל רכיב של המשלים של המסילה.'
+      - text: לא בהכרח
+        feedback: >-
+          כל עוד הנקודה זזה בלי לחצות את המסילה, מספר הליפוף לא יכול לקפוץ. ראו את הנימוק.
+        misconception: MC-c8-winding-independent-of-p
+    reasons:
+      - text: 'הפונקציה $s\mapsto\operatorname{Ind}(\gamma,\sigma(s))$ רציפה (האינטגרנד תלוי ברציפות בנקודה, במידה שווה ב-$t$) ומקבלת רק ערכים שלמים, ולכן לפי משפט ערך הביניים היא קבועה'
+        correct: true
+        feedback: >-
+          בדיוק. פונקציה רציפה על $[0,1]$ שמקבלת שני ערכים שלמים שונים הייתה מקבלת גם את כל מה שביניהם, כולל לא-שלמים.
+      - text: 'מספר הליפוף תלוי רק במסילה, לא בנקודה'
+        feedback: >-
+          למעגל היחידה $\operatorname{Ind}=1$ ב-$(0,0)$ ו-0 ב-$(3,0)$. מה שנכון הוא שהוא קבוע **לאורך מסילה שאינה חוצה
+          את $\gamma$**.
+        misconception: MC-c8-winding-independent-of-p
+      - text: 'כל פונקציה רציפה על קבוצה קשירה מסילתית קבועה'
+        feedback: >-
+          לא: $f(x,y)=x$ רציפה על המישור ואינה קבועה. הרציפות לבד אינה מספיקה; מה שמכריע הוא שהערכים **שלמים**.
+        misconception: MC-c8-winding-not-integer
+
+  - id: Q-8.6-not-homotopic
+    type: twotier
+    objectives: [OBJ-8.6-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      האם המסילות $\gamma_1(t)=(\cos t,\sin t)$ ו-$\gamma_2(t)=(\cos2t,\sin2t)$, $t\in[0,2\pi]$, הומוטופיות
+      ב-$\mathbb{R}^2\setminus\{0\}$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. לשתיהן אותה תמונה, ובכל זאת אין עיוות רציף ביניהן שאינו עובר בראשית.'
+      - text: כן
+        feedback: >-
+          אותה תמונה אינה הומוטופיה. מספר הליפוף, שאינו משתנה בהומוטופיה, מבדיל ביניהן.
+        misconception: MC-c8-homotopy-by-image
+    reasons:
+      - text: '$\operatorname{Ind}(\gamma_1,0)=1\ne2=\operatorname{Ind}(\gamma_2,0)$, ומספר הליפוף הוא אינטגרל של $\frac{1}{2\pi}\omega$, שדה משמר מקומית ב-$\mathbb{R}^2\setminus\{0\}$, ולכן שווה למסילות הומוטופיות'
+        correct: true
+        feedback: >-
+          בדיוק. זו הדרך הסטנדרטית להוכיח **אי**-הומוטופיה: מוצאים שדה משמר מקומית עם אינטגרלים שונים.
+      - text: 'לשתיהן אותה תמונה, ולכן הן הומוטופיות בהומוטופיה הקבועה'
+        feedback: >-
+          ההומוטופיה הקבועה $H(s,t)=\gamma_1(t)$ אינה מסתיימת ב-$\gamma_2$: $\gamma_1(t)\ne\gamma_2(t)$ לרוב ה-$t$. מסילה
+          היא פונקציה, לא קבוצה.
+        misconception: MC-c8-curve-is-image
+      - text: 'האורכים שונים, $2\pi$ ו-$4\pi$, והומוטופיה שומרת על אורך'
+        feedback: >-
+          הומוטופיה אינה שומרת אורך: המעגלים ברדיוס 1 ו-2 הומוטופיים ב-$\mathbb{R}^2\setminus\{0\}$. המסקנה נכונה, אבל
+          מסיבה אחרת.
+        misconception: MC-c8-homotopy-by-image
+
+  - id: Q-8.6-ellipse
+    type: numeric
+    objectives: [OBJ-8.6-3, OBJ-8.6-2]
+    level: mid
+    prompt: >-
+      $\gamma(t)=(3\cos t,-2\sin t)$, $t\in[0,2\pi]$. חשבו את
+      $\int_\gamma\frac{-(y-1)\,dx+x\,dy}{x^2+(y-1)^2}$ (מקורב לשלוש ספרות אחרי הנקודה).
+    answer: -6.283185
+    tolerance: 0.0002
+    correctFeedback: >-
+      נכון, $(-2\pi)$. זה $2\pi\operatorname{Ind}(\gamma,(0,1))$. האליפסה נעה עם כיוון השעון ($t=\frac\pi2$ נותן
+      $(0,-2)$), והנקודה $(0,1)$ בפנים ($\frac{0}{9}+\frac14<1$), באותו רכיב כמו הראשית, שם מספר הליפוף $(-1)$.
+    wrongFeedback: >-
+      זהו את האינטגרנד: שדה הזווית סביב $p=(0,1)$. מצאו את הכיוון של האליפסה ואת הרכיב של המשלים שבו $p$ נמצאת.
+    commonWrong:
+      - value: 6.283185
+        feedback: 'המינוס ב-$y=-2\sin t$ הופך את כיוון התנועה: עם כיוון השעון.'
+        misconception: MC-c8-orientation-ignored
+      - value: -1
+        feedback: >-
+          $(-1)$ הוא מספר הליפוף. השאלה מבקשת את האינטגרל, $2\pi$ כפול מספר הליפוף.
+        misconception: MC-c8-winding-normalisation
+
+  - id: Q-8.6-integer-proof
+    type: rank
+    objectives: [OBJ-8.6-2]
+    level: exam
+    prompt: >-
+      נזהה את $\mathbb{R}^2$ עם $\mathbb{C}$. תהי $\gamma:[a,b]\to\mathbb{R}^2$ מסילה סגורה חלקה, $p\notin\gamma([a,b])$,
+      ו-$z(t)=(x(t)-p_1)+i\,(y(t)-p_2)$, כך ש-$z(t)\ne0$. סדרו את שלבי ההוכחה ש-$\operatorname{Ind}(\gamma,p)\in\mathbb{Z}$.
+    help: סדרו את שלבי ההוכחה מהראשון לאחרון.
+    items:
+      - id: a
+        label: 'מגדירים $h(t)=\int_a^t\frac{z^{\prime}(u)}{z(u)}\,du$ (חלק ממשי וחלק מדומה בנפרד), כך ש-$h^{\prime}=\frac{z^{\prime}}{z}$ ו-$h(a)=0$.'
+      - id: b
+        label: 'גוזרים: $\left(z\,e^{-h}\right)^{\prime}=z^{\prime}e^{-h}-z\,\frac{z^{\prime}}{z}\,e^{-h}=0$, ולכן $z(t)e^{-h(t)}=z(a)$ לכל $t$.'
+      - id: c
+        label: 'ב-$t=b$: $e^{h(b)}=\frac{z(b)}{z(a)}=1$ כי המסילה סגורה, ולכן $h(b)=2\pi i k$ עם $k\in\mathbb{Z}$.'
+      - id: d
+        label: 'מפרקים את $\frac{z^{\prime}}{z}=\frac{\overline{z}\,z^{\prime}}{|z|^2}$: החלק הממשי $\frac{(x-p_1)x^{\prime}+(y-p_2)y^{\prime}}{|z|^2}=\left(\ln|z|\right)^{\prime}$, והמדומה $\frac{(x-p_1)y^{\prime}-(y-p_2)x^{\prime}}{|z|^2}$.'
+      - id: e
+        label: 'החלק הממשי של $h(b)$ הוא $\ln|z(b)|-\ln|z(a)|=0$, והמדומה הוא $2\pi\operatorname{Ind}(\gamma,p)$; לכן $\operatorname{Ind}(\gamma,p)=k\in\mathbb{Z}$.'
+    order: [a, b, c, d, e]
+    correctFeedback: >-
+      נכון. $e^{h(t)}$ "עוקבת" אחרי $\frac{z(t)}{z(a)}$, ו-$\operatorname{Im}h(t)$ היא בדיוק זווית רציפה של $z(t)$. הסגירות
+      נכנסת רק בשלב ג. (למסילה חלקה למקוטעין: $h$ רציפה, והנגזרת של $ze^{-h}$ מתאפסת בכל קטע.)
+    wrongFeedback: >-
+      הגדירו את $h$, הראו ש-$ze^{-h}$ קבועה, הסיקו מהסגירות ש-$h(b)\in2\pi i\mathbb{Z}$, ורק אז זהו את החלק המדומה
+      של $h(b)$ עם האינטגרל שמגדיר את מספר הליפוף.
+
+  - id: Q-8.6-unbounded
+    type: twotier
+    objectives: [OBJ-8.6-2]
+    qualitative: true
+    level: exam
+    prompt: >-
+      נכון או לא נכון: אם $p$ ברכיב הלא חסום של $\mathbb{R}^2\setminus\gamma([a,b])$, אז $\operatorname{Ind}(\gamma,p)=0$.
+    choices:
+      - text: נכון
+        correct: true
+        feedback: 'נכון, גם כש-$p$ קרובה מאוד למסילה.'
+      - text: לא נכון
+        feedback: >-
+          ברכיב הלא חסום יש נקודות רחוקות כרצוננו, ושם מספר הליפוף קטן מ-1 בערכו המוחלט. ראו את הנימוק.
+        misconception: MC-c8-winding-any-circle
+    reasons:
+      - text: 'ל-$q$ במרחק $d$ מהמסילה: $|\operatorname{Ind}(\gamma,q)|\le\frac{L(\gamma)}{2\pi d}$, שקטן מ-1 כש-$d$ גדול; שלם שקטן מ-1 בערכו המוחלט הוא 0, ומספר הליפוף קבוע על הרכיב'
+        correct: true
+        feedback: >-
+          בדיוק: החסם על אינטגרל קווי ($\|\omega_q\|\le\frac1d$ על המסילה), השלמות, והקביעות על רכיבים, בשלושה צעדים.
+      - text: 'לכל נקודה שאינה על המסילה מספר הליפוף אותו מספר, והוא 0 רחוק מהמסילה'
+        feedback: >-
+          המסקנה כאן נכונה אבל הנימוק לא: ברכיבים החסומים מספר הליפוף יכול להיות שונה מ-0 (1 בתוך מעגל).
+        misconception: MC-c8-winding-independent-of-p
+      - text: 'שדה הזווית משמר מקומית, ולכן האינטגרל שלו על כל מסילה סגורה 0'
+        feedback: >-
+          משמר מקומית אינו משמר: על מעגל היחידה סביב מרכזו האינטגרל $2\pi$.
+        misconception: MC-c8-local-means-global
+
+  - id: Q-8.6-combo
+    type: numeric
+    objectives: [OBJ-8.6-3]
+    level: exam
+    prompt: >-
+      $\gamma$ המעגל ברדיוס 2 סביב הראשית, פעם אחת נגד כיוון השעון, ו-$F=\omega_{(0,0)}-3\,\omega_{(1,0)}+\omega_{(5,0)}$,
+      כאשר $\omega_p(x)=\omega(x-p)$. חשבו את $\int_\gamma F\cdot ds$ (מקורב לשלוש ספרות אחרי הנקודה).
+    answer: -12.566371
+    tolerance: 0.0002
+    correctFeedback: >-
+      נכון, $(-4\pi)$. מלינאריות:
+      $2\pi\left(\operatorname{Ind}(\gamma,(0,0))-3\operatorname{Ind}(\gamma,(1,0))+\operatorname{Ind}(\gamma,(5,0))\right)=2\pi(1-3+0)$.
+      $(0,0)$ ו-$(1,0)$ בתוך המעגל, ו-$(5,0)$ מחוצה לו.
+    wrongFeedback: >-
+      פצלו לפי לינאריות לשלושה אינטגרלים של שדות זווית, וכל אחד הוא $2\pi$ כפול מספר ליפוף.
+    commonWrong:
+      - value: -6.283185
+        feedback: >-
+          $(-2\pi)=2\pi(1-3+1)$: ספרתם גם את $(5,0)$, שנמצאת מחוץ למעגל ברדיוס 2.
+        misconception: MC-c8-winding-any-circle
+      - value: 0
+        feedback: >-
+          כל אחד משלושת השדות מקיים את תנאי הנגזרות המוצלבות מחוץ לנקודה שלו, אבל זה לא מאפס אינטגרל על מסילה שמקיפה
+          אותה.
+        misconception: MC-c8-crossed-partials-sufficient
+      - value: -2
+        feedback: >-
+          $(-2)$ הוא צירוף מספרי הליפוף. כל מספר ליפוף צריך להיות מוכפל ב-$2\pi$.
+        misconception: MC-c8-winding-normalisation

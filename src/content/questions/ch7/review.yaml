@@ -1,0 +1,402 @@
+# Chapter 9 review — the inverse function, the implicit function and Lagrange multipliers (lessons 7.1–7.6), easy to hard.
+# Every lesson is touched; most questions combine two lessons or reach back to chapters 0, 1, 7 and 8.
+# Each hint names the lesson to go back to.
+chapter: 7
+questions:
+  - id: Q-7-review-01
+    type: numeric
+    objectives: [OBJ-7.1-2, OBJ-5.3-2]
+    level: basic
+    prompt: >-
+      $f(x,y)=(e^x+y,\ x-y)$, ו-$f(0,0)=(1,0)$. תהי $g=(g_1,g_2)$ ההופכית המקומית של $f$ ליד $(0,0)$, כפונקציה של
+      $(u,v)$. חשבו את $\frac{\partial g_2}{\partial v}(1,0)$.
+    answer: -0.5
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $J_f(0,0)=\begin{pmatrix}1&1\\1&-1\end{pmatrix}$, $\det=-2$, ולכן
+      $J_g(1,0)=\frac{1}{-2}\begin{pmatrix}-1&-1\\-1&1\end{pmatrix}=\begin{pmatrix}\frac12&\frac12\\\frac12&-\frac12\end{pmatrix}$.
+      שורה 2, עמודה 2: $-\frac12$.
+    wrongFeedback: >-
+      חשבו את מטריצת יעקובי של $f$ במקור $(0,0)$, הפכו את המטריצה כולה, וקראו את האיבר בשורה 2, עמודה 2.
+    commonWrong:
+      - value: -1
+        feedback: >-
+          $-1$ הוא האיבר $\frac{\partial f_2}{\partial y}$ של $J_f$ (וגם ההופכי שלו). הופכים את המטריצה, לא איבר
+          בודד.
+        misconception: MC-c7-inverse-jacobian-entrywise
+      - value: 0.5
+        feedback: >-
+          סימן: הדטרמיננטה שלילית, $1\cdot(-1)-1\cdot1=-2$, והאיבר המתאים במטריצה המצורפת הוא $1$. המנה היא $-\frac12$.
+    hints:
+      - 'חזרו לשיעור 7.1: הדיפרנציאל של ההופכית הוא ההופכית של מטריצת יעקובי, במקור.'
+
+  - id: Q-7-review-02
+    type: numeric
+    objectives: [OBJ-7.5-2]
+    level: basic
+    prompt: >-
+      מצאו את המינימום של $x^2+y^2$ על הישר $x+y=4$.
+    answer: 8
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $(2x,2y)=\lambda(1,1)$ נותן $x=y=2$, ו-$f=8$. המינימום קיים: מחוץ לכדור $B[0,3]$ מתקיים $f>9>8$, ובתוכו
+      הישר קומפקטי. אין מקסימום.
+    wrongFeedback: >-
+      כתבו $\nabla f=\lambda\nabla g$, מצאו את הנקודה, והציבו בה את $f$ (לא את $\lambda$ ולא את המרחק).
+    commonWrong:
+      - value: 4
+        feedback: >-
+          4 הוא הכופל $\lambda=2x$ בנקודה $(2,2)$, לא ערך הפונקציה.
+        misconception: MC-c7-lambda-is-value
+      - value: 2.8284271
+        feedback: >-
+          $2\sqrt2$ הוא המרחק מהראשית לישר. השאלה שואלת על $x^2+y^2$, ריבוע המרחק.
+    hints:
+      - "חזרו לשיעור 7.5: מציאת קיצון בשיטת לגרנז' והכרעה בעזרת ההתנהגות באינסוף."
+
+  - id: Q-7-review-03
+    type: mc
+    objectives: [OBJ-7.4-2, OBJ-5.4-3]
+    qualitative: true
+    level: basic
+    prompt: >-
+      הגרף של $z=xy$ הוא קבוצת הגובה $\{F=0\}$ של $F(x,y,z)=xy-z$. מהו המישור המשיק לגרף שעובר בנקודה $(2,3,6)$?
+    choices:
+      - text: '$3x+2y-z=6$'
+        correct: true
+        feedback: >-
+          נכון. $\nabla F(2,3,6)=(y,x,-1)=(3,2,-1)$, והמישור $3(x-2)+2(y-3)-(z-6)=0$. זו אותה תוצאה כמו בנוסחה
+          לגרף מפרק 5: $z=6+3(x-2)+2(y-3)$.
+      - text: '$3x+2y-z=0$'
+        feedback: >-
+          זה המרחב המשיק $\ker DF(a)$, שעובר בראשית. המישור שעובר בנקודה הוא ההזזה שלו ב-$(2,3,6)$.
+        misconception: MC-c7-tangent-space-affine
+      - text: 'הישר $(2,3,6)+t(3,2,-1)$'
+        feedback: >-
+          זה הישר הנורמלי: הגרדיאנט ניצב לגרף, ולא משיק לו.
+        misconception: MC-c7-tangent-normal-swap
+      - text: '$2x+3y-z=6$'
+        feedback: >-
+          הגרדיאנט של $xy$ הוא $(y,x)$, ובנקודה $(3,2)$, לא $(2,3)$: הנגזרת לפי $x$ היא $y=3$. בדקו: המישור הזה אינו
+          עובר אפילו ב-$(2,3,6)$, כי $4+9-6=7$.
+    hints:
+      - 'חזרו לשיעור 7.4: המישור המשיק לקבוצת גובה הוא $\nabla F(a)\cdot(p-a)=0$.'
+
+  - id: Q-7-review-04
+    type: mc
+    objectives: [OBJ-7.6-1, OBJ-7.4-2]
+    level: basic
+    prompt: >-
+      מחפשים קיצון של $f:\mathbb{R}^5\to\mathbb{R}$ על $S=\{g_1=g_2=0\}$, ותנאי הדרגה מתקיים בכל נקודה של $S$. איזו
+      טענה נכונה?
+    choices:
+      - text: 'למערכת לגרנז'' 7 נעלמים ($x_1,\dots,x_5,\lambda_1,\lambda_2$) ו-7 משוואות, ו-$S$ היא מקומית גרף ממימד 3'
+        correct: true
+        feedback: >-
+          נכון: 5 משוואות מהשוויון $\nabla f=\lambda_1\nabla g_1+\lambda_2\nabla g_2$ ועוד 2 אילוצים. המימד $5-2=3$ הוא
+          המימד של המרחב המשיק $\ker Dg(a)$.
+      - text: 'למערכת 7 נעלמים, ו-$S$ היא מקומית גרף ממימד 2'
+        feedback: >-
+          2 הוא מספר האילוצים. כל אילוץ מוריד מימד אחד, ולכן המימד $5-2=3$.
+        misconception: MC-c7-tangent-dim
+      - text: 'יש כופל לכל משתנה: 5 כופלים, ו-10 נעלמים'
+        feedback: >-
+          יש כופל לכל **אילוץ**, לא לכל משתנה: 2 כופלים.
+        misconception: MC-c7-parallel-each
+      - text: 'צריך ש-$\nabla f$ יהיה מקביל גם ל-$\nabla g_1$ וגם ל-$\nabla g_2$: 10 משוואות'
+        feedback: >-
+          $\nabla f$ הוא צירוף לינארי של שני הגרדיאנטים, לא מקביל לכל אחד מהם.
+        misconception: MC-c7-parallel-each
+    hints:
+      - 'חזרו לשיעור 7.6: לגרנז'' לכמה אילוצים, ולשיעור 7.4: המימד של המרחב המשיק.'
+
+  - id: Q-7-review-05
+    type: numeric
+    objectives: [OBJ-7.3-2, OBJ-5.5-2]
+    level: mid
+    prompt: >-
+      המשוואה $xe^y+y=1$ מתקיימת ב-$(1,0)$, וליד $x=1$ היא מגדירה פונקציה $y=g(x)$ עם $g(1)=0$. חשבו את $g''(1)$.
+    answer: 0.375
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון, $\frac38$. גזירה ראשונה: $e^y+xe^yy'+y'=0$, ובנקודה $1+2y'=0$, כלומר $y'=-\frac12$. גזירה שנייה של אותה
+      זהות: $e^yy'+e^yy'+xe^y(y')^2+xe^yy''+y''=0$. בנקודה: $-\frac12-\frac12+\frac14+2y''=0$, ולכן $y''=\frac38$.
+    wrongFeedback: >-
+      גזרו את הזהות $xe^{g(x)}+g(x)=1$ פעמיים לפי $x$, בכל פעם בכלל המכפלה ובכלל השרשרת (כל $e^{g}$ נגזר ל-$e^g g'$).
+      הציבו $x=1$, $g=0$, $g'=-\frac12$.
+    commonWrong:
+      - value: -0.5
+        feedback: >-
+          זו $g'(1)$, הנגזרת הראשונה. השאלה שואלת על השנייה.
+      - value: 0.25
+        feedback: >-
+          $\frac14$ מתקבל מגזירת $y'=-\frac{e^y}{xe^y+1}$ לפי $x$ כש-$y$ קבוע. אבל $y=g(x)$: גם המונה וגם $e^y$ שבמכנה
+          משתנים עם $x$.
+        misconception: MC-c7-implicit-y-constant
+    hints:
+      - 'חזרו לשיעור 7.3: נגזרת שנייה של פונקציה סתומה.'
+
+  - id: Q-7-review-06
+    type: twotier
+    objectives: [OBJ-7.3-1, OBJ-7.1-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $f:\mathbb{R}\to\mathbb{R}$ גזירה ברציפות ו-$f'(b)\neq0$. מגדירים $F(x,y)=f(y)-x$. האם משפט הפונקציה הסתומה,
+      מופעל על $F$ ליד $(f(b),b)$, נותן את משפט הפונקציה ההפוכה ל-$f$ ליד $b$?
+    choices:
+      - text: כן
+        correct: true
+        feedback: >-
+          נכון. הפונקציה הסתומה $y=g(x)$ מקיימת $f(g(x))=x$, כלומר היא ההופכית המקומית של $f$.
+      - text: 'לא, כי משפט הפונקציה הסתומה הוכח מתוך משפט הפונקציה ההפוכה'
+        feedback: >-
+          הסדר שבו הוכחנו את המשפטים לא קובע מה נובע ממה: שני המשפטים שקולים, וכל אחד גורר את השני. כאן מקבלים את
+          ההפוכה מהסתומה.
+    reasons:
+      - text: '$F_y(f(b),b)=f''(b)\neq0$; לכן יש $g$ גזירה ברציפות עם $F(x,g(x))=0$, כלומר $f(g(x))=x$, והיא הפתרון היחיד ליד $b$, ו-$g''=-\frac{F_x}{F_y}=\frac{1}{f''(g(x))}$'
+        correct: true
+        feedback: >-
+          בדיוק: התנאי של הסתומה הופך לתנאי של ההפוכה, והיחידות בסתומה היא החד-חד-ערכיות ליד $b$. גם הנוסחה
+          לנגזרת יוצאת אותה נוסחה.
+      - text: '$F_x=-1\neq0$, ולכן אפשר לבטא את $x$ כפונקציה של $y$'
+        feedback: >-
+          $x=f(y)$ היא פשוט הפונקציה המקורית; זה לא נותן הופכית. כדי לבטא את $y$ צריך $F_y\neq0$.
+        misconception: MC-c7-implicit-wrong-partial
+      - text: '$\nabla F\neq0$ תמיד, ולכן $f$ הפיכה על כל $\mathbb{R}$'
+        feedback: >-
+          המשפט מקומי, וגרדיאנט שונה מאפס לא נותן שום דבר גלובלי. $f(y)=y^2$ אינה הפיכה על $\mathbb{R}$, אף ש-$\nabla F=(-1,2y)\neq0$.
+        misconception: MC-c7-local-is-global
+    hints:
+      - 'חזרו לשיעור 7.3: הניסוח של משפט הפונקציה הסתומה, ולשיעור 7.1: מה אומר משפט הפונקציה ההפוכה.'
+
+  - id: Q-7-review-07
+    type: numeric
+    objectives: [OBJ-7.2-1, OBJ-5.6-2, OBJ-1.8-2]
+    level: mid
+    prompt: >-
+      בהוכחת משפט הפונקציה ההפוכה מוכיחים $\|f(x)-f(y)\|\ge c\|x-y\|$ על $B(a,r)$, עם
+      $c=\frac12\|Df(a)^{-1}\|_{\mathrm{op}}^{-1}$, ומכאן שההופכית ליפשיץ עם קבוע $\frac1c$. אם
+      $Df(a)=\begin{pmatrix}2&0\\0&\frac12\end{pmatrix}$ (בנורמה האוקלידית), מהו קבוע הליפשיץ $\frac1c$ שההוכחה נותנת?
+    answer: 4
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $Df(a)^{-1}=\operatorname{diag}(\frac12,2)$, ונורמת האופרטור שלה 2. לכן $c=\frac12\cdot\frac12=\frac14$,
+      ו-$\frac1c=2\|Df(a)^{-1}\|_{\mathrm{op}}=4$.
+    wrongFeedback: >-
+      חשבו את $\|Df(a)^{-1}\|_{\mathrm{op}}$ (למטריצה אלכסונית: הערך המוחלט הגדול על האלכסון), ואז את $c$ ואת $\frac1c$.
+    commonWrong:
+      - value: 2
+        feedback: >-
+          $2=\|Df(a)^{-1}\|_{\mathrm{op}}$, הקבוע של ההופכית **הלינארית**. ההוכחה מאבדת פקטור 2, כי חצי מהמתיחה של
+          $Df(a)$ "נאכל" על ידי השגיאה $h$.
+      - value: 1
+        feedback: >-
+          $1=\frac{1}{\|Df(a)\|_{\mathrm{op}}}\cdot2$: השתמשתם בנורמה של $Df(a)$ במקום של ההופכית. החסם התחתון
+          $\|Av\|\ge m\|v\|$ בא מ-$\|A^{-1}\|$.
+        misconception: MC-c7-opnorm-lower-bound
+    hints:
+      - 'חזרו לשיעור 7.2: החד-חד-ערכיות מאי-שוויון הערך הממוצע, ולשיעור 1.8: נורמת אופרטור.'
+
+  - id: Q-7-review-08
+    type: multi
+    objectives: [OBJ-7.1-1, OBJ-7.2-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      לאילו מהפונקציות הבאות משפט הפונקציה ההפוכה **מבטיח** הופכית מקומית גזירה ברציפות ליד הראשית? סמנו את כולן.
+    choices:
+      - text: '$\sin x$ על $\mathbb{R}$'
+        correct: true
+        feedback: >-
+          נכון: גזירה ברציפות ו-$\cos0=1\neq0$.
+      - text: '$x+x|x|$ על $\mathbb{R}$'
+        correct: true
+        feedback: >-
+          נכון: הנגזרת $1+2|x|$ קיימת בכל מקום ורציפה (גם ב-0), ו-$f'(0)=1$. ש-$f$ אינה גזירה פעמיים לא משנה.
+      - text: '$x^3$ על $\mathbb{R}$'
+        feedback: >-
+          $f'(0)=0$: המשפט לא חל. $x^3$ אמנם הפיכה, אבל ההופכית $\sqrt[3]{y}$ אינה גזירה ב-0.
+        misconception: MC-c7-ift-iff
+      - text: '$x+2x^2\sin\frac1x$ (עם 0 באפס) על $\mathbb{R}$'
+        feedback: >-
+          $f'(0)=1$, אבל $f'$ אינה רציפה ב-0, ו-$f$ אינה חד-חד-ערכית באף סביבה של 0 (שיעור 7.2).
+        misconception: MC-c7-differentiable-enough
+      - text: '$(x,y)\mapsto(x+y^2,\ y+x^2)$ על $\mathbb{R}^2$'
+        correct: true
+        feedback: >-
+          נכון: $J_f(0,0)=I$. (על כל המישור היא לא חד-חד-ערכית: $f(-1,-1)=f(0,0)$; אבל המשפט מדבר רק על סביבה.)
+    hints:
+      - 'חזרו לשיעור 7.1: ההנחות של המשפט, ולשיעור 7.2: למה צריך גזירות ברציפות.'
+
+  - id: Q-7-review-09
+    type: twotier
+    objectives: [OBJ-7.2-4, OBJ-7.1-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $g(x,y,z)=(x+e^y,\ y+e^z,\ z+e^x)$. האם $g(\mathbb{R}^3)$ קבוצה פתוחה?
+    choices:
+      - text: כן
+        correct: true
+        feedback: >-
+          נכון, ויותר מזה: $g(O)$ פתוחה לכל $O$ פתוחה.
+      - text: 'אי אפשר לדעת בלי לחשב את התמונה'
+        feedback: >-
+          לא צריך לחשב את התמונה: משפט ההעתקה הפתוחה מכריע מתוך הדיפרנציאל בלבד.
+        misconception: MC-c7-image-of-open-is-open
+    reasons:
+      - text: '$\det J_g=1+e^{x+y+z}>0$ בכל נקודה, ולפי משפט ההעתקה הפתוחה $g$ מעתיקה קבוצות פתוחות לפתוחות'
+        correct: true
+        feedback: >-
+          בדיוק: ליד כל נקודה $g$ הפיכה מקומית, ולכן כל נקודה של התמונה היא נקודה פנימית. לא צריך לדעת אם $g$
+          חד-חד-ערכית.
+      - text: '$g$ רציפה, ותמונה רציפה של קבוצה פתוחה פתוחה'
+        feedback: >-
+          רציפות שומרת על פתיחות של **מקורות**, לא של תמונות: $x\mapsto x^2$ מעתיקה את $(-1,1)$ על $[0,1)$.
+        misconception: MC-c7-image-of-open-is-open
+      - text: '$g$ חד-חד-ערכית על $\mathbb{R}^3$, ולכן התמונה פתוחה'
+        feedback: >-
+          חד-חד-ערכיות לא מספיקה ולא נחוצה. $(e^x\cos y,\ e^x\sin y)$ אינה חד-חד-ערכית והיא העתקה פתוחה; ו-$x\mapsto x^3$
+          חד-חד-ערכית ופתוחה למרות $f'(0)=0$, כך שפתיחות לא נובעת מחד-חד-ערכיות אלא נבדקת. כאן מה שמכריע הוא הדיפרנציאל
+          ההפיך בכל נקודה. (וגם לא הוכחנו ש-$g$ חד-חד-ערכית.)
+        misconception: MC-c7-local-is-global
+    hints:
+      - 'חזרו לשיעור 7.2: משפט ההעתקה הפתוחה כמסקנה ממשפט הפונקציה ההפוכה.'
+
+  - id: Q-7-review-10
+    type: numeric
+    objectives: [OBJ-7.4-1, OBJ-6.2-2]
+    level: mid
+    prompt: >-
+      $F(x,y)=(x^2+y^2)^2-(x^2-y^2)$. כמה ערכים $c\in\mathbb{R}$ **אינם** ערכים רגולריים של $F$?
+    answer: 2
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. הנקודות הקריטיות של $F$ הן $(0,0)$ ו-$(\pm\frac{1}{\sqrt2},0)$, עם הערכים $F(0,0)=0$ ו-$F(\pm\frac1{\sqrt2},0)=-\frac14$.
+      ערך אינו רגולרי בדיוק כשקבוצת הגובה שלו מכילה נקודה קריטית, ולכן רק 0 ו-$-\frac14$. ($F^{-1}(-\frac14)$ היא שתי
+      הנקודות האלה בלבד, ו-$F^{-1}(0)$ היא הלמניסקטה.)
+    wrongFeedback: >-
+      מצאו את הנקודות הקריטיות של $F$, ואז את **הערכים** של $F$ בהן. כל ערך אחר רגולרי.
+    commonWrong:
+      - value: 3
+        feedback: >-
+          יש שלוש נקודות קריטיות, אבל שתיים מהן נותנות את אותו ערך, $-\frac14$. השאלה סופרת ערכים, לא נקודות.
+      - value: 1
+        feedback: >-
+          גם $-\frac14$ אינו רגולרי: קבוצת הגובה שלו מורכבת בדיוק מהנקודות הקריטיות $(\pm\frac1{\sqrt2},0)$.
+        misconception: MC-c7-critical-not-on-level
+    hints:
+      - 'חזרו לשיעור 7.4: ערך רגולרי, ולשיעור 6.2: מציאת נקודות קריטיות.'
+
+  - id: Q-7-review-11
+    type: numeric
+    objectives: [OBJ-7.5-2, OBJ-6.5-2]
+    level: exam
+    prompt: >-
+      מצאו את המקסימום של $f(x,y)=x^2+2y^2-x$ בעיגול הסגור $x^2+y^2\le1$.
+    answer: 2.25
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון, $\frac94$. בפנים: $\nabla f=(2x-1,4y)=0$ ב-$(\frac12,0)$, עם $f=-\frac14$. על השפה, לגרנז':
+      $2x-1=2\lambda x$, $4y=2\lambda y$. אם $y=0$: $x=\pm1$, עם $f(1,0)=0$, $f(-1,0)=2$. אם $\lambda=2$: $x=-\frac12$,
+      $y^2=\frac34$, ו-$f=\frac14+\frac32+\frac12=\frac94$. העיגול קומפקטי, ולכן המקסימום $\frac94$ (והמינימום $-\frac14$).
+    wrongFeedback: >-
+      שני שלבים: נקודות קריטיות בפנים, ולגרנז' על המעגל. במשוואה $4y=2\lambda y$ אל תחלקו ב-$y$ בלי לטפל במקרה $y=0$,
+      וגם לא תשמיטו את המקרה $\lambda=2$.
+    commonWrong:
+      - value: 2
+        feedback: >-
+          2 הוא $f(-1,0)$, מהמקרה $y=0$ בלבד. המקרה $\lambda=2$ נותן את הנקודות $(-\frac12,\pm\frac{\sqrt3}{2})$ עם
+          ערך גדול יותר.
+      - value: -0.25
+        feedback: >-
+          $-\frac14$ הוא המינימום, בנקודה הקריטית הפנימית.
+    hints:
+      - "חזרו לשיעור 6.5: קיצון מוחלט בקבוצה קומפקטית, ולשיעור 7.5: לגרנז' על השפה."
+
+  - id: Q-7-review-12
+    type: twotier
+    objectives: [OBJ-7.5-2, OBJ-6.4-1]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $f(x,y)=x^2+y^2$, שההסיאן שלה $2I$ חיובי מוגדר, והאילוץ $g(x,y)=y+x^2-1=0$ (הפרבולה $y=1-x^2$). בנקודה $(0,1)$
+      מתקיים $\nabla f=(0,2)=2\nabla g$. האם $(0,1)$ מינימום מקומי של $f$ על הפרבולה?
+    choices:
+      - text: 'לא, היא מקסימום מקומי'
+        correct: true
+        feedback: >-
+          נכון. על הפרבולה $f(x,1-x^2)=1-x^2+x^4$, ול-$x$ קטן ושונה מאפס זה פחות מ-1, למשל $0.9901$ ב-$x=0.1$.
+      - text: 'כן, כי ההסיאן של $f$ חיובי מוגדר'
+        feedback: >-
+          ההסיאן של $f$ מסווג נקודות קריטיות **בלי אילוץ**. על עקום, גם העקמומיות של העקום נכנסת: הפרבולה מתעקלת
+          פנימה, לעבר הראשית, מהר יותר מהמעגל $x^2+y^2=1$, ולכן $f$ יורדת לאורכה.
+        misconception: MC-c7-hessian-unconstrained
+    reasons:
+      - text: 'מצמצמים לפרמטר: $\varphi(x)=f(x,1-x^2)=1-x^2+x^4$, ו-$\varphi''''(0)=-2<0$'
+        correct: true
+        feedback: >-
+          בדיוק. הדרך הבטוחה לסווג נקודת לגרנז' היא לצמצם את $f$ לפרמטריזציה של האילוץ (או לבדוק את ההסיאן של
+          $f-\lambda g$ על המרחב המשיק), לא את ההסיאן של $f$ לבד.
+      - text: 'נקודת לגרנז'' עם $\lambda>0$ היא תמיד מקסימום'
+        feedback: >-
+          הסימן של $\lambda$ לא קובע את הסוג: ב-$xy$ על $x^2+y^2=2$ המקסימום ב-$(1,1)$ עם $\lambda=\frac12$, והמינימום
+          ב-$(1,-1)$ עם $\lambda=-\frac12$; אבל ל-$x^2+y^2$ על הישר $x+y=4$ המינימום עם $\lambda=4>0$.
+        misconception: MC-c7-lagrange-sufficient
+      - text: 'ההסיאן של $f$ חיובי מוגדר, ולכן כל נקודה קריטית מוגבלת היא מינימום'
+        feedback: >-
+          זה בדיוק מה שהדוגמה מפריכה.
+        misconception: MC-c7-hessian-unconstrained
+    hints:
+      - 'חזרו לשיעור 7.5: הכרעה בין מקסימום למינימום, ולשיעור 6.4: למה מבחן ההסיאן עוסק בקיצון בלי אילוץ.'
+
+  - id: Q-7-review-13
+    type: numeric
+    objectives: [OBJ-7.6-2, OBJ-6.3-3, OBJ-0.5-3]
+    level: exam
+    prompt: >-
+      $q(x,y)=5x^2+4xy+2y^2$. מהו הקבוע $m$ הגדול ביותר כך ש-$q(v)\ge m\|v\|^2$ לכל $v\in\mathbb{R}^2$?
+    answer: 1
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $q=v^TAv$ עם $A=\begin{pmatrix}5&2\\2&2\end{pmatrix}$, עקבה 7 ודטרמיננטה 6, ולכן הערכים העצמיים 6 ו-1.
+      בהומוגניות, $q(v)=\|v\|^2q\left(\frac{v}{\|v\|}\right)\ge\|v\|^2\min_{S}q=\|v\|^2\cdot1$, עם שוויון בכיוון
+      הווקטור העצמי $(1,-2)$: $q(1,-2)=5-8+8=5=\|(1,-2)\|^2$.
+    wrongFeedback: >-
+      $m$ הוא המינימום של $q$ על מעגל היחידה, כלומר הערך העצמי הקטן של המטריצה הסימטרית של $q$.
+    commonWrong:
+      - value: 2
+        feedback: >-
+          2 הוא האיבר האלכסוני הקטן, $q(0,1)$. בכיוון $(1,-2)$ הערך קטן יותר.
+        misconception: MC-c7-diagonal-is-max
+      - value: 6
+        feedback: >-
+          6 הוא הערך העצמי הגדול, כלומר הקבוע הקטן ביותר עם $q(v)\le M\|v\|^2$.
+    hints:
+      - 'חזרו לשיעור 7.6: הקיצון של תבנית ריבועית על הספרה, ולשיעור 6.3: חסם תחתון לתבנית חיובית מוגדרת.'
+
+  - id: Q-7-review-14
+    type: numeric
+    objectives: [OBJ-7.6-3, OBJ-6.5-1]
+    level: exam
+    prompt: >-
+      מצאו את המקסימום של $x^2y$ תחת $x+y=3$, $x\ge0$, $y\ge0$.
+    answer: 4
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. הקטע $\{x+y=3,\ x,y\ge0\}$ קומפקטי, ובקצוות המכפלה 0. בפנים לגרנז': $(2xy,x^2)=\lambda(1,1)$, ולכן
+      $x(2y-x)=0$, כלומר $x=2y$: $y=1$, $x=2$, והמקסימום 4. זה אי-שוויון הממוצעים עם משקלות:
+      $x^2y=4\cdot\frac x2\cdot\frac x2\cdot y\le4\left(\frac{x+y}{3}\right)^3=4$.
+    wrongFeedback: >-
+      הסימטריה של $x+y$ אינה סימטריה של $x^2y$. כתבו את משוואות לגרנז', וזכרו לבדוק גם את הקצוות.
+    commonWrong:
+      - value: 3.375
+        feedback: >-
+          $3.375=1.5^2\cdot1.5$, מהניחוש $x=y$. הפונקציה $x^2y$ "מעדיפה" את $x$, ולגרנז' נותן $x=2y$.
+      - value: 0
+        feedback: >-
+          0 הוא הערך בקצוות, המינימום. המקסימום בנקודה פנימית.
+        misconception: MC-c7-boundary-ignored
+    hints:
+      - "חזרו לשיעור 7.6: אי-שוויון הממוצעים בשיטת לגרנז', ולשיעור 6.5: קיום מקסימום בקבוצה קומפקטית."

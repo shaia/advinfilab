@@ -1,0 +1,28 @@
+- id: v-1-8-bounded-operators
+  youtubeId: 78vN4sO7FVU
+  title: 'Lecture 2: Bounded Linear Operators'
+  channel: MIT OpenCourseWare
+  lang: en
+  captions: []
+  start: 1405
+  end: 3520
+  minutes: 35
+  why: >-
+    קטע מהרצאה 2 של MIT 18.102 (מבוא לאנליזה פונקציונלית, ד"ר קייסי רודריגז), לפי פרקיה: תכונות של העתקות
+    לינאריות (23:25), העתקות לינאריות חסומות (29:47), דוגמאות ונורמות של אופרטורים (44:13) ותכונות של נורמת
+    האופרטור (50:43). השוו את ההגדרות של העתקה חסומה ושל נורמת האופרטור שעל הלוח להגדרות שבשיעור, ושימו
+    לב אילו מהדוגמאות הן במרחבים ממימד אינסופי.
+  verified: 2026-11-09
+- id: v-1-8-matrix-1-inf-norms
+  youtubeId: 17IDYA-4WJo
+  title: 1.3.6 The matrix 1- and infinity norms
+  channel: Advanced LAFF
+  lang: en
+  captions: []
+  start: 0
+  minutes: 4
+  why: >-
+    סרטון קצר מהקורס Advanced Linear Algebra: Foundations to Frontiers (רוברט ואן דה חיין ומגי מאיירס),
+    שכותרתו נורמות 1 ואינסוף של מטריצה. השוו את מה שמוצג בו לנוסחאות שבשיעור: מקסימום של סכומי העמודות
+    בנורמה 1 ומקסימום של סכומי השורות בנורמה אינסוף.
+  verified: 2026-11-09

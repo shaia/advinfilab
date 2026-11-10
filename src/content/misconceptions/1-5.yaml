@@ -1,0 +1,37 @@
+# Misconceptions first detected in lesson 1.5 (sequences in a metric space).
+- id: MC-c1-consecutive-distance
+  title: חושבים שאם איברים עוקבים מתקרבים הסדרה מתכנסת
+  belief: >-
+    אם $d(x_n,x_{n+1})\to0$ אז $(x_n)$ מתכנסת.
+  truth: >-
+    ההגדרה מדברת על המרחק לגבול: $d(x_n,x)\to0$. ב-$\mathbb{R}$ הסדרה $\sqrt n$ מקיימת
+    $\sqrt{n+1}-\sqrt n=\frac{1}{\sqrt{n+1}+\sqrt n}\to0$ ואינה מתכנסת.
+  remedy: { lesson: '1.5', anchor: definition, label: 'ההגדרה של התכנסות' }
+
+- id: MC-c1-one-coordinate
+  title: בודקים התכנסות במרחב האוקלידי בקואורדינטה אחת
+  belief: >-
+    סדרה ב-$\mathbb{R}^n$ מתכנסת אם קואורדינטה אחת מתכנסת, או שהמרחק $d_\infty$ נקבע לפי הקואורדינטה הראשונה.
+  truth: >-
+    $x_k\to x$ ב-$\mathbb{R}^n$ אם ורק אם **כל** קואורדינטה מתכנסת, כי
+    $|x_{k,i}-x_i|\le\|x_k-x\|_\infty\le\|x_k-x\|_2\le\sqrt n\,\|x_k-x\|_\infty$. הסדרה $(\frac1k,(-1)^k)$ אינה מתכנסת.
+  remedy: { lesson: '1.5', anchor: coordinates, label: 'התכנסות לפי קואורדינטות' }
+
+- id: MC-c1-few-sequences
+  title: מכריעים לפי סדרה אחת או כמה סדרות
+  belief: >-
+    אם סדרה אחת (או כמה) מתאימה, הקבוצה סגורה, הסגור ידוע, או הפונקציה רציפה; למשל $\frac{xy}{x^2+y^2}$ רציפה
+    ב-$(0,0)$ כי היא אפס על הצירים.
+  truth: >-
+    האפיונים הם "**לכל** סדרה": $A$ סגורה אם הגבול של **כל** סדרה מתכנסת מ-$A$ נמצא ב-$A$, ו-$f$ רציפה ב-$a$
+    אם $f(x_n)\to f(a)$ לכל $x_n\to a$. סדרה אחת יכולה רק להפריך: לאורך $(\frac1n,\frac1n)$ מקבלים $\frac12$.
+  remedy: { lesson: '1.5', anchor: closed-seq, label: 'האפיון הסדרתי של קבוצה סגורה' }
+
+- id: MC-c1-pointwise-is-sup
+  title: חושבים שהתכנסות נקודתית היא התכנסות במטריקת הסופרמום
+  belief: >-
+    אם $f_n(x)\to f(x)$ לכל $x$, אז $f_n\to f$ במטריקת הסופרמום.
+  truth: >-
+    התכנסות במטריקת הסופרמום היא התכנסות **במידה שווה**: $\sup|f_n-f|\to0$. $x^n$ שואפת נקודתית על $[0,1]$
+    לפונקציה $f$ (0 ב-$[0,1)$, 1 ב-1), אבל $\sup|x^n-f|=1$ לכל $n$.
+  remedy: { lesson: '1.5', anchor: sup-convergence, label: 'התכנסות במטריקת הסופרמום' }

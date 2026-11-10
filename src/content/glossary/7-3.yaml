@@ -1,0 +1,18 @@
+# Terms first defined in lesson 7.3 (the implicit function theorem).
+- id: implicit-function
+  term: פונקציה סתומה
+  en: implicit function
+  definition: >-
+    פונקציה $g$ שמוגדרת על ידי משוואה $F(x,y)=0$ ולא על ידי נוסחה: $F(x,g(x))=0$ לכל $x$ בתחום של $g$. למשל
+    ליד $(0,1)$ המשוואה $x^2+y^2=1$ מגדירה את $y=g(x)=\sqrt{1-x^2}$.
+  reject: [פונקציה סמויה]
+  lesson: '7.3'
+- id: implicit-function-theorem
+  term: משפט הפונקציה הסתומה
+  en: implicit function theorem
+  definition: >-
+    תהי $F:U\to\mathbb{R}^m$ גזירה ברציפות על קבוצה פתוחה $U\subseteq\mathbb{R}^n\times\mathbb{R}^m$, ו-$(a,b)\in U$
+    נקודה עם $F(a,b)=0$ שבה הנגזרת לפי המשתנים $y$, המטריצה $D_yF(a,b)$ מגודל $m\times m$, הפיכה. אז יש סביבות
+    פתוחות $A\ni a$ ו-$B\ni b$ ופונקציה גזירה ברציפות $g:A\to B$ כך שלכל $(x,y)\in A\times B$:
+    $F(x,y)=0$ אם ורק אם $y=g(x)$. הנגזרת היא $Dg(x)=-D_yF(x,g(x))^{-1}D_xF(x,g(x))$.
+  lesson: '7.3'

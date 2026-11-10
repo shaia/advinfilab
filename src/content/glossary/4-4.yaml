@@ -1,0 +1,9 @@
+# Terms first defined in lesson 4.4 (separability).
+- id: separable-space
+  term: מרחב ספרבילי
+  en: separable space
+  definition: >-
+    מרחב מטרי שיש בו תת-קבוצה בת מנייה צפופה. דוגמאות: $\mathbb{R}^n$ (עם $\mathbb{Q}^n$), כל מרחב מטרי קומפקטי,
+    $C[a,b]$. דוגמה נגדית: $B([0,1])$ ו-$\ell^\infty$ עם נורמת הסופרמום.
+  reject: [מרחב פריד]
+  lesson: '4.4'

@@ -1,0 +1,9 @@
+# Terms first defined in lesson 3.5.
+- id: equivalent-norms
+  term: נורמות שקולות
+  en: equivalent norms
+  definition: >-
+    שתי נורמות $\|\cdot\|_a$ ו-$\|\cdot\|_b$ על אותו מרחב וקטורי הן שקולות אם יש קבועים $c,C>0$ כך
+    ש-$c\|x\|_a\le\|x\|_b\le C\|x\|_a$ לכל $x$. לנורמות שקולות אותן סדרות מתכנסות, אותן סדרות קושי ואותן קבוצות
+    פתוחות. במרחב ממימד סופי כל הנורמות שקולות.
+  lesson: '3.5'

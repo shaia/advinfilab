@@ -1,0 +1,424 @@
+# Chapter 11 review — the Riemann integral in several variables (lessons 9.1–9.6), easy to hard.
+# Every lesson is touched; most questions combine two lessons, and one reaches back to countable sets (0.4) and one
+# to the Jacobian of an inverse map (7.1). Each hint names the lesson to go back to.
+chapter: 9
+questions:
+  - id: Q-9-review-01
+    type: mc
+    objectives: [OBJ-9.1-1, OBJ-9.1-3]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $f$ חסומה על תיבה $Q$. מתי $f$ אינטגרבילית לפי רימן על $Q$?
+    choices:
+      - text: 'כש-$\underline{\int_Q} f=\overline{\int_Q} f$, כלומר $\sup_P L(f,P)=\inf_P U(f,P)$'
+        correct: true
+        feedback: >-
+          נכון. זו ההגדרה, והערך המשותף הוא $\int_Q f$. הקריטריון השקול: לכל $\varepsilon>0$ יש $P$ עם
+          $U(f,P)-L(f,P)<\varepsilon$.
+      - text: 'כשיש חלוקה $P$ עם $U(f,P)=L(f,P)$'
+        feedback: >-
+          זה קורה כמעט רק לפונקציות מדרגה. ל-$f(x,y)=xy$ על $[0,1]^2$ ההפרש חיובי בכל חלוקה, והיא אינטגרבילית.
+        misconception: MC-c9-integrable-needs-equal-sums
+      - text: 'כשהאינטגרל העליון והאינטגרל התחתון של $f$ קיימים'
+        feedback: >-
+          הם קיימים לכל פונקציה חסומה. לפונקציית דיריכלה על $[0,1]^2$ הם 1 ו-0.
+        misconception: MC-c9-upper-exists-means-integrable
+      - text: 'כש-$f$ רציפה על $Q$'
+        feedback: >-
+          רציפות מספיקה אבל אינה הכרחית: הפונקציה המציינת של $[0,\frac12]\times[0,1]$ אינה רציפה על קטע שלם
+          ואינטגרבילית. לפי משפט לבג, מה שצריך הוא שנקודות האי-רציפות יהיו ממידה אפס.
+        misconception: MC-c9-integrable-finite-discontinuities
+    hints:
+      - 'חזרו לשיעור 9.1: האינטגרל העליון והתחתון, וההגדרה של אינטגרביליות.'
+
+  - id: Q-9-review-02
+    type: numeric
+    objectives: [OBJ-9.1-1]
+    level: basic
+    prompt: >-
+      $f(x,y)=|x-y|$ על $[0,1]^2$, ו-$P$ החלוקה ל-4 ריבועים שנקודות החלוקה שלה $\{0,\frac12,1\}$ בכל צלע. חשבו את
+      $U(f,P)$.
+    answer: 0.75
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. על שני הריבועים שעל האלכסון הסופרמום $\frac12$ (בפינה $(0,\frac12)$ או $(\frac12,0)$ וכו'), ועל שני
+      הריבועים האחרים הסופרמום 1 (בפינה $(0,1)$ או $(1,0)$). לכן $U=\frac14\left(\frac12+\frac12+1+1\right)=\frac34$,
+      ו-$L=0$ (על כל ריבוע $f$ מתאפסת או נוגעת ב-0 בפינה $(\frac12,\frac12)$).
+    wrongFeedback: >-
+      $U(f,P)=\sum_S M_S(f)v(S)$ עם $M_S(f)=\sup_S|x-y|$. על כל ריבוע חפשו את הנקודה הרחוקה ביותר מהאלכסון $y=x$.
+    commonWrong:
+      - value: 0.25
+        feedback: >-
+          $\frac14$ מתקבל מערכי $f$ בפינה הימנית העליונה של כל ריבוע. אבל $|x-y|$ אינה עולה בשני המשתנים: על
+          $[0,\frac12]^2$ הפינה $(\frac12,\frac12)$ נותנת 0, והסופרמום $\frac12$ מתקבל בפינה אחרת.
+        misconception: MC-c9-darboux-sample-point
+    hints:
+      - 'חזרו לשיעור 9.1: סכום דרבו עליון לוקח סופרמום על כל התת-תיבה.'
+
+  - id: Q-9-review-03
+    type: twotier
+    objectives: [OBJ-9.2-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      הקטע $I=[0,1]\times\{0\}$ בעל תכולה אפס ב-$\mathbb{R}^2$, אבל הקטע $[0,1]$ אינו ממידה אפס ב-$\mathbb{R}$. האם
+      יש כאן סתירה?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. "מידה אפס" תלויה במרחב שבו הקבוצה יושבת.'
+      - text: כן
+        feedback: >-
+          זו אותה קבוצה "בצורה", אבל במרחבים שונים: הכיסויים במישור הם במלבנים, והמדד הוא שטח.
+        misconception: MC-c9-segment-positive-measure
+    reasons:
+      - text: 'ב-$\mathbb{R}^2$ מכסים את $I$ במלבן $[0,1]\times[-\frac\varepsilon2,\frac\varepsilon2]$ ששטחו $\varepsilon$; ב-$\mathbb{R}$ כל כיסוי של $[0,1]$ בקטעים פתוחים מכיל תת-כיסוי סופי, וסכום האורכים שלו לפחות 1'
+        correct: true
+        feedback: >-
+          בדיוק. במישור "העובי" של המלבן חופשי, ובישר אין מימד נוסף להקטין.
+      - text: 'הטענה על המישור שגויה: לקטע יש אורך חיובי, ולכן אין לו תכולה אפס בשום מקום'
+        feedback: >-
+          תכולה אפס במישור נמדדת בשטח, ושטח המלבן $[0,1]\times[-\frac\varepsilon2,\frac\varepsilon2]$ הוא $\varepsilon$.
+        misconception: MC-c9-segment-positive-measure
+      - text: 'הטענה על הישר שגויה: $[0,1]$ "דק", ולכן גם הוא ממידה אפס'
+        feedback: >-
+          בישר $[0,1]$ הוא תיבה בעלת נפח (אורך) 1, ותיבה בעלת נפח חיובי אינה ממידה אפס.
+        misconception: MC-c9-segment-positive-measure
+    hints:
+      - 'חזרו לשיעור 9.2: ההגדרה של מידה אפס ותכולה אפס, והקטע בישר ובמישור.'
+
+  - id: Q-9-review-04
+    type: twotier
+    objectives: [OBJ-0.4-1, OBJ-9.2-2]
+    qualitative: true
+    level: basic
+    prompt: >-
+      האם $\mathbb{Q}^2$ (הנקודות ששני השיעורים שלהן רציונליים) היא קבוצה ממידה אפס ב-$\mathbb{R}^2$?
+    choices:
+      - text: כן
+        correct: true
+        feedback: 'נכון, אף שהיא צפופה במישור ואינה חסומה.'
+      - text: לא
+        feedback: >-
+          צפיפות אינה סותרת מידה אפס. מה שקובע הוא שאפשר לכסות את הנקודות אחת-אחת בתקציב שסכומו קטן.
+        misconception: MC-c9-dense-not-measure-zero
+    reasons:
+      - text: 'מכפלה של שתי קבוצות בנות מנייה בת מנייה, ולכן $\mathbb{Q}^2=\{q_1,q_2,\dots\}$; את $q_k$ מכסים בריבוע ששטחו $\frac{\varepsilon}{2^k}$, וסכום השטחים $\varepsilon$'
+        correct: true
+        feedback: >-
+          בדיוק: כל קבוצה בת מנייה ממידה אפס, באותו טיעון של $\frac{\varepsilon}{2^k}$.
+      - text: '$\mathbb{Q}^2$ בעלת תכולה אפס, ולכן ממידה אפס'
+        feedback: >-
+          ל-$\mathbb{Q}^2$ אין תכולה אפס: היא אינה חסומה, ואפילו $\mathbb{Q}^2\cap[0,1]^2$ אינה בעלת תכולה אפס (כל כיסוי
+          סופי שלה מכסה את $[0,1]^2$).
+        misconception: MC-c9-content-zero-unbounded
+      - text: '$\mathbb{Q}^2$ צפופה, ולכן כל כיסוי שלה מכסה גם את המישור'
+        feedback: >-
+          זה נכון לכיסוי **סופי** בקבוצות סגורות, לא לכיסוי בן מנייה: איחוד בן מנייה של ריבועים אינו חייב להיות סגור.
+        misconception: MC-c9-dense-not-measure-zero
+    hints:
+      - 'חזרו לשיעור 0.4 (מכפלה של קבוצות בנות מנייה) ולשיעור 9.2 (איחוד בן מנייה של קבוצות ממידה אפס).'
+
+  - id: Q-9-review-05
+    type: twotier
+    objectives: [OBJ-9.2-1, OBJ-9.3-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $C\subseteq[0,1]$ קבוצת קנטור, ו-$f=\chi_{C\times[0,1]}$ על $[0,1]^2$. האם $f$ אינטגרבילית?
+    choices:
+      - text: כן, ו-$\int f=0$
+        correct: true
+        feedback: 'נכון. קבוצת נקודות האי-רציפות לא בת מנייה, ובכל זאת ממידה אפס.'
+      - text: לא
+        feedback: >-
+          $f$ אינה רציפה על קבוצה שאינה בת מנייה, אבל משפט לבג אינו סופר נקודות: הוא שואל על מידה.
+        misconception: MC-c9-integrable-finite-discontinuities
+    reasons:
+      - text: '$C\times[0,1]$ סגורה עם פנים ריק, ולכן היא השפה של עצמה; בשלב $k$ היא מכוסה ב-$2^k$ מלבנים שסכום שטחיהם $(\frac23)^k$, ולכן בעלת תכולה אפס. לפי לבג $f$ אינטגרבילית, ו-$L(f,P)=0$ לכל $P$'
+        correct: true
+        feedback: >-
+          בדיוק: נקודות האי-רציפות של $\chi_A$ הן $\partial A$, ו-$\partial(C\times[0,1])=C\times[0,1]$.
+      - text: 'נקודות האי-רציפות אינן בנות מנייה, ולכן $f$ אינה אינטגרבילית'
+        feedback: >-
+          אין משפט כזה. גם הפונקציה המציינת של משולש אינה רציפה על קבוצה לא בת מנייה (השפה), והיא אינטגרבילית.
+        misconception: MC-c9-integrable-finite-discontinuities
+      - text: '$C$ בת מנייה, ולכן $C\times[0,1]$ ממידה אפס'
+        feedback: >-
+          $C$ אינה בת מנייה. מה שהופך אותה לממידה אפס הוא הכיסוי בשלב $k$ של הבנייה.
+        misconception: MC-c9-measure-zero-countable
+    hints:
+      - 'חזרו לשיעור 9.2 (קבוצת קנטור) ולשיעור 9.3 (משפט לבג).'
+
+  - id: Q-9-review-06
+    type: mc
+    objectives: [OBJ-9.4-1, OBJ-9.3-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      למה לקבוצה חסומה $C$ יש נפח אם ורק אם $\partial C$ ממידה אפס?
+    choices:
+      - text: 'כי $v(C)$ מוגדר כ-$\int_Q\chi_C$, $\chi_C$ חסומה, וקבוצת נקודות האי-רציפות שלה היא בדיוק $\partial C$; משפט לבג עושה את השאר'
+        correct: true
+        feedback: >-
+          נכון. בנקודת פנים של $C$ או של המשלים $\chi_C$ קבועה בסביבה, ובנקודת שפה התנודה שלה 1.
+      - text: 'כי $\chi_C$ אינה רציפה בדיוק בנקודות של $C$'
+        feedback: >-
+          בנקודות הפנים של $C$ הפונקציה $\chi_C$ קבועה 1 בסביבה, כלומר רציפה. האי-רציפות היא על השפה.
+        misconception: MC-c9-indicator-disc-interior
+      - text: 'כי $U(\chi_C,P)-L(\chi_C,P)$ שווה ל-$v(C)$ לכל חלוקה'
+        feedback: >-
+          ההפרש הוא סכום הנפחים של תת-התיבות שנפגשות עם $\partial C$ (מכילות נקודות של $C$ ונקודות מחוצה לה), לא
+          $v(C)$. הוא קטן כשהשפה "דקה".
+        misconception: MC-c9-boundary-boxes-lower
+    hints:
+      - 'חזרו לשיעור 9.4 (הפונקציה המציינת ונפח) ולשיעור 9.3 (משפט לבג).'
+
+  - id: Q-9-review-07
+    type: numeric
+    objectives: [OBJ-9.4-2, OBJ-9.5-2]
+    level: mid
+    prompt: >-
+      חשבו את השטח של $D=\{(x,y): 0\le x\le1,\ x^2\le y\le\sqrt x\}$.
+    answer: 0.3333333
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון, $\frac13$. $v(D)=\iint\chi_D$, ולפי פוביני $\int_0^1\left(\int_{x^2}^{\sqrt x}dy\right)dx=\int_0^1(\sqrt x-x^2)\,dx=\frac23-\frac13=\frac13$.
+      (ל-$D$ יש שטח: השפה היא שני גרפים של פונקציות רציפות.)
+    wrongFeedback: >-
+      לכל $x$, $y$ רץ מהגרף התחתון לעליון. על $[0,1]$ מתקיים $x^2\le\sqrt x$, ולכן $x^2$ הוא התחתון.
+    commonWrong:
+      - value: 0.6666667
+        feedback: >-
+          $\frac23=\int_0^1\sqrt x\,dx$ הוא השטח מתחת לגרף העליון בלבד. הגבול התחתון של $y$ הוא $x^2$, לא 0.
+        misconception: MC-c9-iterated-bounds
+      - value: -0.3333333
+        feedback: >-
+          שטח אינו שלילי: לקחתם את $y$ מ-$\sqrt x$ עד $x^2$, הפוך. על $[0,1]$ הגרף $x^2$ הוא התחתון.
+        misconception: MC-c9-iterated-bounds
+    hints:
+      - 'חזרו לשיעור 9.5: תחום שבין שני גרפים כאינטגרל נשנה, ולשיעור 9.4: שטח כאינטגרל של הפונקציה המציינת.'
+
+  - id: Q-9-review-08
+    type: numeric
+    objectives: [OBJ-9.5-2]
+    level: mid
+    prompt: >-
+      חשבו את $\int_0^1\left(\int_x^1\sin(y^2)\,dy\right)dx$. תנו את התשובה בדיוק של שלוש ספרות אחרי הנקודה.
+    answer: 0.2298488
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון, $\frac{1-\cos1}{2}\approx0.230$. התחום $\{0\le x\le y\le1\}$ הוא גם $\{0\le y\le1,\ 0\le x\le y\}$, ולכן
+      האינטגרל שווה ל-$\int_0^1 y\sin(y^2)\,dy=\left[-\tfrac12\cos(y^2)\right]_0^1=\frac{1-\cos1}{2}$.
+    wrongFeedback: >-
+      ל-$\sin(y^2)$ אין פונקציה קדומה אלמנטרית, ולכן מחליפים סדר. ציירו את התחום: $x\le y$.
+    commonWrong:
+      - value: 0.0804195
+        feedback: >-
+          זה $\int_0^1(1-y)\sin(y^2)\,dy$: אחרי ההחלפה לקחתם את $x$ מ-$y$ עד 1, כלומר את המשולש השני. בתחום המקורי
+          $x\le y$, ולכן $x$ רץ מ-0 עד $y$.
+        misconception: MC-c9-iterated-bounds
+    hints:
+      - 'חזרו לשיעור 9.5: החלפת סדר האינטגרציה מתחילה בתיאור התחום.'
+
+  - id: Q-9-review-09
+    type: numeric
+    objectives: [OBJ-9.6-1, OBJ-9.6-3]
+    level: mid
+    prompt: >-
+      מהו השטח של האליפסה $\left\{\frac{x^2}{9}+\frac{y^2}{4}\le1\right\}$? השטח הוא $c\pi$; הקלידו את $c$.
+    answer: 6
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון, $c=6$. ההעתקה $(u,v)\mapsto(3u,2v)$ מעתיקה את עיגול היחידה על האליפסה ו-$|\det J|=6$, ולכן השטח
+      $6\cdot\pi$.
+    wrongFeedback: >-
+      הציבו $x=3u$, $y=2v$ וקבלו את עיגול היחידה. השטח של האליפסה הוא $|\det J|$ כפול השטח של העיגול.
+    commonWrong:
+      - value: 0.1666667
+        feedback: >-
+          חילקתם ב-6. ההעתקה מהמשתנים החדשים לישנים, $(u,v)\mapsto(3u,2v)$, **מותחת** את העיגול, ולכן מכפילים
+          ב-$|\det J|=6$.
+        misconception: MC-c9-inverse-jacobian
+    hints:
+      - 'חזרו לשיעור 9.6: העתקה לינארית מכפילה נפחים בערך המוחלט של הדטרמיננטה.'
+
+  - id: Q-9-review-10
+    type: numeric
+    objectives: [OBJ-9.6-1, OBJ-7.1-2]
+    level: mid
+    prompt: >-
+      $D=\{(x,y): 0\le x+y\le1,\ 0\le x-2y\le3\}$ (מקבילית). חשבו את השטח של $D$ בעזרת $u=x+y$, $v=x-2y$.
+    answer: 1
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $\det\frac{\partial(u,v)}{\partial(x,y)}=\det\begin{pmatrix}1&1\\1&-2\end{pmatrix}=-3$, ולפי משפט הפונקציה
+      ההפוכה $\left|\det\frac{\partial(x,y)}{\partial(u,v)}\right|=\frac13$. התחום במשתנים $u,v$ הוא $[0,1]\times[0,3]$,
+      ולכן השטח $\int_0^1\int_0^3\frac13\,dv\,du=1$. (בדיקה: הקודקודים $(0,0)$, $(\frac23,\frac13)$, $(\frac53,-\frac23)$,
+      $(1,-1)$.)
+    wrongFeedback: >-
+      במשפט מופיע היעקוביאן של ההעתקה $(u,v)\mapsto(x,y)$. אם קל יותר לחשב את של $(x,y)\mapsto(u,v)$, קחו את ההופכי.
+    commonWrong:
+      - value: 9
+        feedback: >-
+          הכפלתם ב-$\left|\det\frac{\partial(u,v)}{\partial(x,y)}\right|=3$. אבל צריך את היעקוביאן של ההעתקה ההפוכה, $\frac13$.
+        misconception: MC-c9-inverse-jacobian
+      - value: 3
+        feedback: >-
+          $3$ הוא השטח של המלבן $[0,1]\times[0,3]$ במשתנים $u,v$, בלי גורם יעקוביאן. ההחלפה אינה שומרת שטח.
+        misconception: MC-c9-forget-jacobian
+      - value: -1
+        feedback: >-
+          השטח אינו שלילי: בנוסחה מופיע $|\det J|$.
+        misconception: MC-c9-jacobian-no-abs
+    hints:
+      - 'חזרו לשיעור 9.6 (איזה יעקוביאן נכנס לנוסחה) ולשיעור 7.1 (הנגזרת של ההעתקה ההפוכה היא ההופכית).'
+
+  - id: Q-9-review-11
+    type: twotier
+    objectives: [OBJ-9.1-3, OBJ-9.3-2]
+    qualitative: true
+    level: exam
+    prompt: >-
+      נכון או לא נכון: אם $f\ge0$ אינטגרבילית על $Q$ ו-$\int_Q f=0$, אז $f(x)=0$ לכל $x\in Q$.
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: 'נכון. נכון רק בנקודות הרציפות של $f$.'
+      - text: נכון
+        feedback: >-
+          פונקציה ששונה מ-0 בנקודה אחת עדיין בעלת אינטגרל 0: נקודה אחת תורמת לסכום העליון לכל היותר את הנפח של כמה
+          תת-תיבות קטנות.
+        misconception: MC-c9-zero-integral-zero-function
+    reasons:
+      - text: 'הפונקציה ששווה 1 בנקודה אחת ו-0 בשאר אינטגרבילית עם אינטגרל 0. מה שנכון: $f(a)=0$ בכל נקודת רציפות $a$, ולפי משפט לבג $f=0$ פרט לקבוצה ממידה אפס'
+        correct: true
+        feedback: >-
+          בדיוק. אם $f$ רציפה ב-$a$ ו-$f(a)>0$, יש תת-תיבה $S\ni a$ שעליה $f>\frac{f(a)}2$, ואז
+          $\int_Q f\ge\frac{f(a)}{2}v(S)>0$.
+      - text: 'אם $f(a)>0$, אז על תיבה קטנה סביב $a$ מתקיים $f>\frac{f(a)}{2}$, והאינטגרל חיובי'
+        feedback: >-
+          הצעד "על תיבה קטנה סביב $a$" משתמש ברציפות ב-$a$, שאינה נתונה. בלי רציפות $f$ יכולה להיות חיובית רק ב-$a$.
+        misconception: MC-c9-zero-integral-zero-function
+      - text: '$\int_Q f=0$ פירושו שיש חלוקה עם $U(f,P)=0$, ולכן $f\le0$ בכל מקום'
+        feedback: >-
+          $\int_Q f=0$ פירושו $\inf_P U(f,P)=0$, כלומר הסכומים העליונים **קטנים כרצוננו**, לא שאחד מהם 0. בדוגמה של
+          הנקודה הבודדת $U(f,P)>0$ לכל חלוקה.
+        misconception: MC-c9-integrable-needs-equal-sums
+    hints:
+      - 'חזרו לשיעור 9.1 (פונקציה ששונה מאפס בנקודה אחת) ולשיעור 9.3 (נקודות רציפות ומשפט לבג).'
+
+  - id: Q-9-review-12
+    type: twotier
+    objectives: [OBJ-9.3-3, OBJ-9.5-1]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $g$ אינטגרבילית על $[a,b]$ ו-$h$ אינטגרבילית על $[c,d]$, ו-$f(x,y)=g(x)h(y)$. נכון או לא נכון: $f$ אינטגרבילית
+      על $[a,b]\times[c,d]$ ו-$\iint f=\int_a^b g\cdot\int_c^d h$.
+    choices:
+      - text: נכון
+        correct: true
+        feedback: 'נכון, גם כש-$g$ ו-$h$ אינן רציפות (למשל פונקציית רימן).'
+      - text: לא נכון
+        feedback: >-
+          גם כשנקודות האי-רציפות של $g$ צפופות (פונקציית רימן), נקודות האי-רציפות של $f$ הן איחוד של שני "פסים" ממידה
+          אפס.
+        misconception: MC-c9-dense-discontinuities-not-integrable
+    reasons:
+      - text: 'אם $g$ רציפה ב-$x$ ו-$h$ ב-$y$, אז $f$ רציפה ב-$(x,y)$; לכן נקודות האי-רציפות של $f$ מוכלות ב-$(D_g\times[c,d])\cup([a,b]\times D_h)$, ממידה אפס. לפי לבג $f$ אינטגרבילית, ולפי פוביני $\iint f=\int_a^b g(x)\left(\int_c^d h\right)dx$'
+        correct: true
+        feedback: >-
+          בדיוק. $D_g\times[c,d]$ ממידה אפס: מכסים את $D_g$ בקטעים שסכום אורכיהם $<\varepsilon$, ומכפילים כל אחד
+          ב-$[c,d]$. פוביני דורש את האינטגרביליות של $f$, ולכן הצעד של לבג בא קודם.
+      - text: 'אין צורך לבדוק ש-$f$ אינטגרבילית: פוביני מאפשר תמיד לחשב את האינטגרל כאינטגרל נשנה'
+        feedback: >-
+          פוביני מניח ש-$f$ אינטגרבילית. בלי זה יש דוגמאות ששני האינטגרלים הנשנים בהן קיימים ושונים.
+        misconception: MC-c9-fubini-always-swap
+      - text: 'זה נכון רק כש-$g$ ו-$h$ רציפות, אחרת ל-$f$ יש קווים שלמים של אי-רציפות'
+        feedback: >-
+          קווים שלמים של אי-רציפות (קטעים במישור) הם ממידה אפס, ולכן אינם מפריעים.
+        misconception: MC-c9-integrable-finite-discontinuities
+    hints:
+      - 'חזרו לשיעור 9.3 (משפט לבג) ולשיעור 9.5 (ההנחה של משפט פוביני).'
+
+  - id: Q-9-review-13
+    type: twotier
+    objectives: [OBJ-9.2-2, OBJ-9.4-1]
+    qualitative: true
+    level: exam
+    prompt: >-
+      ל-$C\subseteq\mathbb{R}^n$ חסומה יש נפח. נכון או לא נכון: גם לסגור $\overline C$ ולפנים $C^\circ$ יש נפח, ו-$v(\overline C)=v(C^\circ)=v(C)$.
+    choices:
+      - text: נכון
+        correct: true
+        feedback: 'נכון. השפה, שמפרידה ביניהם, בעלת נפח 0.'
+      - text: לא נכון
+        feedback: >-
+          $\partial C$ ממידה אפס, וגם קומפקטית, ולכן בעלת תכולה אפס ונפח 0. ההפרש בין הסגור לפנים הוא בדיוק השפה.
+        misconception: MC-c9-measure-zero-is-content-zero
+    reasons:
+      - text: '$\partial\overline C\subseteq\partial C$ ו-$\partial C^\circ\subseteq\partial C$, ולכן לשתיהן יש נפח; $\overline C\setminus C^\circ=\partial C$ סגורה, חסומה וממידה אפס, ולכן בעלת תכולה אפס ונפח 0; ומונוטוניות נותנת $v(C^\circ)\le v(C)\le v(\overline C)=v(C^\circ)$'
+        correct: true
+        feedback: >-
+          בדיוק. המשפט "קומפקטית וממידה אפס גורר תכולה אפס" הוא שמאפשר לזרוק את השפה.
+      - text: '$v(\overline C)=v(C)+v(\partial C)$, ו-$\partial C$ ממידה אפס אבל לא בהכרח בעלת נפח 0'
+        feedback: >-
+          $\partial C$ סגורה וחסומה, כלומר קומפקטית, ולכן מידה אפס שלה משתדרגת לתכולה אפס, ולכן לנפח 0.
+        misconception: MC-c9-measure-zero-is-content-zero
+      - text: 'ל-$\mathbb{Q}\cap[0,1]$ אין נפח ולסגור שלה יש, ולכן לא נכון'
+        feedback: >-
+          הדוגמה אינה מקיימת את ההנחה: ל-$\mathbb{Q}\cap[0,1]$ אין נפח מלכתחילה. נתון של-$C$ יש נפח.
+        misconception: MC-c9-measure-zero-has-volume
+    hints:
+      - 'חזרו לשיעור 9.2 (קבוצה קומפקטית ממידה אפס) ולשיעור 9.4 (נפח והשפה).'
+
+  - id: Q-9-review-14
+    type: numeric
+    objectives: [OBJ-9.1-3, OBJ-9.4-2]
+    level: exam
+    prompt: >-
+      $T=\{(x,y): 0\le y\le x\le1\}$ ו-$P_{20}$ החלוקה האחידה של $[0,1]^2$ ל-$20\times20$ ריבועים. חשבו את
+      $U(\chi_T,P_{20})-L(\chi_T,P_{20})$.
+    answer: 0.0975
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון, $\frac{39}{400}$. ההפרש הוא סכום השטחים של הריבועים שבהם $\chi_T$ מקבלת גם 1 וגם 0: 20 הריבועים שהאלכסון
+      חוצה, ועוד 19 הריבועים שמעליהם שנוגעים ב-$T$ רק בפינה $(\frac i{20},\frac i{20})$. באופן כללי
+      $\frac{2n-1}{n^2}\to0$, ולכן $v(T)=\frac12$.
+    wrongFeedback: >-
+      $M_S(\chi_T)-m_S(\chi_T)=1$ בדיוק לריבועים שנפגשים עם $T$ ואינם מוכלים בה. זכרו שהריבועים סגורים: ריבוע שנוגע
+      ב-$T$ בנקודה אחת נפגש איתה.
+    commonWrong:
+      - value: 0.05
+        feedback: >-
+          $\frac{20}{400}$ סופר רק את הריבועים שהאלכסון חוצה. גם הריבוע $[\frac{i-1}{20},\frac i{20}]\times[\frac i{20},\frac{i+1}{20}]$
+          מכיל נקודה של $T$, הפינה $(\frac i{20},\frac i{20})$, ולכן הסופרמום עליו 1.
+        misconception: MC-c9-point-in-one-box
+    hints:
+      - 'חזרו לשיעור 9.1 (הקריטריון $U-L$) ולשיעור 9.4 (סכומי דרבו של פונקציה מציינת).'
+
+  - id: Q-9-review-15
+    type: numeric
+    objectives: [OBJ-9.6-2, OBJ-9.5-2]
+    level: exam
+    prompt: >-
+      חשבו את הנפח של הגוף שבתוך הכדור $x^2+y^2+z^2\le4$ ובתוך הגליל $x^2+y^2\le1$. תנו את התשובה בדיוק של שלוש
+      ספרות אחרי הנקודה.
+    answer: 11.7447293
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון, $\frac{4\pi}{3}(8-3\sqrt3)\approx11.745$. בגליליות, מעל הנקודה ברדיוס $r\le1$ הגוף משתרע מ-$-\sqrt{4-r^2}$
+      עד $\sqrt{4-r^2}$, ולכן
+      $$v=\int_0^{2\pi}\int_0^1 2\sqrt{4-r^2}\,r\,dr\,d\theta=2\pi\left[-\tfrac23(4-r^2)^{3/2}\right]_0^1=\frac{4\pi}{3}\left(8-3\sqrt3\right).$$
+    wrongFeedback: >-
+      פוביני בגליליות: לכל $(r,\theta)$ עם $r\le1$, $z$ רץ בין $\pm\sqrt{4-r^2}$. אל תשכחו את הגורם $r$.
+    commonWrong:
+      - value: 24.0422687
+        feedback: >-
+          זה $2\pi\int_0^1 2\sqrt{4-r^2}\,dr$, בלי הגורם $r$. סימן אזהרה: הגוף מוכל בגליל ברדיוס 1 ובגובה 4, שנפחו
+          $4\pi\approx12.57$.
+        misconception: MC-c9-forget-jacobian
+    hints:
+      - 'חזרו לשיעור 9.6 (קואורדינטות גליליות) ולשיעור 9.5 (נפח בין שני גרפים).'

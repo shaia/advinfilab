@@ -1,0 +1,17 @@
+# Terms first defined in lesson 9.5 (Fubini's theorem).
+- id: iterated-integral
+  term: אינטגרל נשנה
+  en: iterated integral
+  symbol: '\int_A\left(\int_B f(x,y)\,dy\right)dx'
+  definition: >-
+    אינטגרל שמחשבים בשלבים: קודם לפי משתנה אחד כשהאחרים קבועים, ואחר כך את התוצאה לפי האחרים. לפונקציה שאינה
+    אינטגרבילית שני האינטגרלים הנשנים יכולים להיות שונים.
+  lesson: '9.5'
+- id: fubini-theorem
+  term: משפט פוביני
+  en: Fubini's theorem
+  definition: >-
+    אם $f$ אינטגרבילית על $A\times B$, ו-$\mathcal{L}(x)$, $\mathcal{U}(x)$ הם האינטגרל התחתון והעליון של
+    $y\mapsto f(x,y)$ על $B$, אז $\mathcal{L}$ ו-$\mathcal{U}$ אינטגרביליות על $A$ ו-$\int_{A\times B}f=\int_A\mathcal{L}=\int_A\mathcal{U}$.
+  reject: [משפט פוביניי]
+  lesson: '9.5'

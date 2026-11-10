@@ -1,0 +1,74 @@
+# Terms first defined in lesson 1.2 (normed spaces and inner products).
+- id: norm
+  term: נורמה
+  en: norm
+  symbol: '\|x\|'
+  definition: >-
+    פונקציה $\|\cdot\|:V\to[0,\infty)$ על מרחב וקטורי ממשי $V$ שמקיימת: $\|x\|=0$ אם ורק אם $x=0$;
+    $\|\lambda x\|=|\lambda|\,\|x\|$; ואי-שוויון המשולש $\|x+y\|\le\|x\|+\|y\|$.
+  lesson: '1.2'
+- id: normed-space
+  term: מרחב נורמי
+  en: normed space
+  symbol: '(V,\|\cdot\|)'
+  definition: >-
+    מרחב וקטורי ממשי $V$ יחד עם נורמה. הוא מרחב מטרי עם המטריקה המושרית $d(x,y)=\|x-y\|$.
+  lesson: '1.2'
+- id: induced-metric
+  term: המטריקה המושרית
+  en: induced metric
+  symbol: 'd(x,y)=\|x-y\|'
+  definition: >-
+    המטריקה $d(x,y)=\|x-y\|$ שנורמה משרה על מרחב וקטורי. היא אינווריאנטית להזזות והומוגנית, ולכן אינה חסומה
+    (אם המרחב אינו $\{0\}$); מטריקה חסומה, כמו המטריקה הבדידה, אינה באה מנורמה.
+  lesson: '1.2'
+- id: p-norms
+  term: נורמות p
+  en: p-norms
+  symbol: '\|x\|_1,\ \|x\|_2,\ \|x\|_\infty'
+  definition: >-
+    על $\mathbb{R}^n$: $\|x\|_1=\sum|x_i|$, $\|x\|_2=\sqrt{\sum x_i^2}$ (הנורמה האוקלידית) ו-$\|x\|_\infty=\max|x_i|$.
+    הן מקיימות $\|x\|_\infty\le\|x\|_2\le\|x\|_1\le n\|x\|_\infty$, וכדורי היחידה שלהן במישור הם מעוין, עיגול
+    וריבוע.
+  lesson: '1.2'
+- id: sup-norm
+  term: נורמת הסופרמום
+  en: sup norm (uniform norm)
+  symbol: '\|f\|_\infty'
+  definition: >-
+    על $C[a,b]$: $\|f\|_\infty=\max_{[a,b]}|f|$ (ועל $B(X)$: $\sup_X|f|$). המטריקה שהיא משרה היא מטריקת
+    הסופרמום, והתכנסות בה היא התכנסות במידה שווה.
+  lesson: '1.2'
+- id: integral-norm
+  term: נורמת האינטגרל
+  en: integral norm (L1 norm)
+  symbol: '\|f\|_1=\int_a^b|f|'
+  definition: >-
+    על $C[a,b]$: $\|f\|_1=\int_a^b|f(x)|\,dx$. היא מקיימת $\|f\|_1\le(b-a)\|f\|_\infty$, אבל לא להפך:
+    $\|x^n\|_1=\frac{1}{n+1}$ ו-$\|x^n\|_\infty=1$ על $[0,1]$.
+  lesson: '1.2'
+- id: parallelogram-law
+  term: חוק המקבילית
+  en: parallelogram law
+  symbol: '\|x+y\|^2+\|x-y\|^2=2\|x\|^2+2\|y\|^2'
+  definition: >-
+    הזהות $\|x+y\|^2+\|x-y\|^2=2\|x\|^2+2\|y\|^2$, שמתקיימת לכל נורמה שבאה ממכפלה פנימית
+    ($\|x\|=\sqrt{\langle x,x\rangle}$). נורמה שאינה מקיימת אותה, כמו $\|\cdot\|_1$ ו-$\|\cdot\|_\infty$, אינה
+    באה ממכפלה פנימית.
+  lesson: '1.2'
+- id: unit-ball
+  term: כדור היחידה
+  en: unit ball
+  symbol: '\{x: \|x\|\le1\}'
+  definition: >-
+    כדור היחידה הסגור של נורמה הוא $\{x\in V:\ \|x\|\le1\}$. במישור: מעוין ל-$\|\cdot\|_1$, עיגול ל-$\|\cdot\|_2$
+    וריבוע ל-$\|\cdot\|_\infty$. נורמה גדולה יותר נותנת כדור יחידה קטן יותר.
+  lesson: '1.2'
+- id: polarization-identity
+  term: זהות הקיטוב
+  en: polarization identity
+  symbol: '\langle x,y\rangle=\tfrac14\left(\|x+y\|^2-\|x-y\|^2\right)'
+  definition: >-
+    בנורמה שבאה ממכפלה פנימית, המכפלה הפנימית נקבעת מהנורמה: $\langle x,y\rangle=\frac14\left(\|x+y\|^2-\|x-y\|^2\right)$.
+    מקבלים אותה מפיתוח $\langle x\pm y,x\pm y\rangle$.
+  lesson: '1.2'

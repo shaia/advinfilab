@@ -1,0 +1,331 @@
+# Lesson 1.4 — interior, closure, boundary and density.
+# Objectives (src/course.ts):
+#   OBJ-1.4-1  define interior, closure and boundary and compute them for given sets
+#   OBJ-1.4-2  accumulation points and isolated points; the closure in their terms
+#   OBJ-1.4-3  dense sets; Q dense in R and Q^n dense in R^n
+chapter: 1
+questions:
+  - id: Q-1.4-boundary-def
+    type: mc
+    objectives: [OBJ-1.4-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      במרחב מטרי $X$, מהי **השפה** $\partial A$ של קבוצה $A\subseteq X$?
+    choices:
+      - text: 'הנקודות $x\in X$ שכל כדור סביבן פוגש גם את $A$ וגם את $X\setminus A$'
+        correct: true
+        feedback: >-
+          נכון. בשקילות $\partial A=\overline A\setminus A^\circ$. נקודת שפה יכולה להיות ב-$A$ או מחוץ לה.
+      - text: 'הנקודות של $A$ שאינן נקודות פנימיות של $A$'
+        feedback: >-
+          זה רק החלק של השפה שבתוך $A$. ל-$A=(0,1)$ אין נקודות כאלה כלל, אבל $\partial A=\{0,1\}$.
+        misconception: MC-c1-boundary-in-set
+      - text: 'הנקודות שמחוץ ל-$A$ ושכל כדור סביבן פוגש את $A$'
+        feedback: >-
+          זה רק החלק של השפה שמחוץ ל-$A$. ל-$A=[0,1]$ אין נקודות כאלה, אבל $\partial A=\{0,1\}$.
+        misconception: MC-c1-boundary-in-set
+      - text: 'נקודות הקצה של $A$'
+        feedback: >-
+          "נקודות קצה" מתאר קטעים בישר. לקבוצות אחרות השפה יכולה להיות גדולה מאוד: $\partial\mathbb{Q}=\mathbb{R}$.
+        misconception: MC-c1-boundary-thin
+
+  - id: Q-1.4-interval
+    type: mc
+    objectives: [OBJ-1.4-1]
+    level: basic
+    prompt: >-
+      עבור $A=[0,1)\subseteq\mathbb{R}$, מהם הפנים, הסגור והשפה?
+    choices:
+      - text: '$A^\circ=(0,1)$, $\overline A=[0,1]$, $\partial A=\{0,1\}$'
+        correct: true
+        feedback: >-
+          נכון. $0\in A$ אבל אינה פנימית, $1\notin A$ אבל בסגור; שתיהן נקודות שפה.
+      - text: '$A^\circ=(0,1)$, $\overline A=[0,1]$, $\partial A=\{1\}$'
+        feedback: >-
+          גם $0$ נקודת שפה: כל קטע סביבה מכיל את $0\in A$ ומספרים שליליים שאינם ב-$A$. שפה יכולה להיות בתוך $A$.
+        misconception: MC-c1-boundary-in-set
+      - text: '$A^\circ=[0,1)$, $\overline A=[0,1]$, $\partial A=\{1\}$'
+        feedback: >-
+          $0$ אינה פנימית: אין קטע $(-r,r)$ שמוכל ב-$A$. הפנים הוא רק הנקודות שיש סביבן כדור בתוך $A$.
+        misconception: MC-c1-interior-closure-swap
+      - text: '$A^\circ=(0,1)$, $\overline A=[0,1)$, $\partial A=\{0\}$'
+        feedback: >-
+          $1$ בסגור: כל קטע סביבה פוגש את $A$, למשל ב-$\max\big(1-\frac r2,\ 0\big)$. הסגור מוסיף נקודות, הוא לא רק
+          $A$ עצמה.
+        misconception: MC-c1-boundary-in-set
+
+  - id: Q-1.4-count
+    type: numeric
+    objectives: [OBJ-1.4-1, OBJ-1.4-2]
+    level: basic
+    prompt: >-
+      כמה נקודות יש בשפה של $A=[0,1)\cup\{2\}$ ב-$\mathbb{R}$?
+    answer: 3
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון: $\partial A=\{0,1,2\}$. הנקודה המבודדת $2$ היא נקודת שפה: היא ב-$A$, וכל קטע סביבה מכיל נקודות שאינן ב-$A$.
+    wrongFeedback: >-
+      בדקו כל נקודה חשודה: האם כל קטע סביבה פוגש גם את $A$ וגם את המשלים? אל תשכחו את הנקודה הבודדת.
+    commonWrong:
+      - value: 2
+        feedback: >-
+          $0$ ו-$1$ נכונות, אבל גם $2$ בשפה: היא ב-$A$, ו-$(2-r,2+r)$ מכיל נקודות מחוץ ל-$A$. השפה אינה רק "קצוות של קטעים".
+        misconception: MC-c1-boundary-thin
+      - value: 1
+        feedback: >-
+          ייתכן שספרתם רק את $1$, שמחוץ ל-$A$. גם $0$ ו-$2$, שבתוך $A$, הן נקודות שפה.
+        misconception: MC-c1-boundary-in-set
+
+  - id: Q-1.4-Q
+    type: mc
+    objectives: [OBJ-1.4-1, OBJ-1.4-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      מהם הפנים, הסגור והשפה של $\mathbb{Q}$ ב-$\mathbb{R}$?
+    choices:
+      - text: '$\mathbb{Q}^\circ=\emptyset$, $\overline{\mathbb{Q}}=\mathbb{R}$, $\partial\mathbb{Q}=\mathbb{R}$'
+        correct: true
+        feedback: >-
+          נכון. כל קטע מכיל רציונליים ואי-רציונליים: לכן אין כדור בתוך $\mathbb{Q}$, וכל נקודה היא נקודת שפה.
+      - text: '$\mathbb{Q}^\circ=\emptyset$, $\overline{\mathbb{Q}}=\mathbb{R}$, $\partial\mathbb{Q}=\emptyset$'
+        feedback: >-
+          $\partial\mathbb{Q}=\overline{\mathbb{Q}}\setminus\mathbb{Q}^\circ=\mathbb{R}\setminus\emptyset=\mathbb{R}$. השפה כאן היא כל הישר.
+        misconception: MC-c1-boundary-thin
+      - text: '$\mathbb{Q}^\circ=\mathbb{Q}$, $\overline{\mathbb{Q}}=\mathbb{R}$, $\partial\mathbb{Q}=\mathbb{R}\setminus\mathbb{Q}$'
+        feedback: >-
+          זה היה נכון אילו $\mathbb{Q}$ הייתה פתוחה. אבל כל קטע סביב רציונלי $q$ מכיל את $q+\frac{\sqrt2}{n}$ לכל $n$
+          גדול, שאינו רציונלי, ולכן לאף רציונלי אין קטע בתוך $\mathbb{Q}$. קבוצה צפופה אינה חייבת פנים.
+        misconception: MC-c1-dense-large
+      - text: '$\mathbb{Q}^\circ=\emptyset$, $\overline{\mathbb{Q}}=\mathbb{Q}$, $\partial\mathbb{Q}=\mathbb{Q}$'
+        feedback: >-
+          $\sqrt2$ בסגור: כל קטע סביבו מכיל רציונליים. $\mathbb{Q}$ אינה סגורה, והסגור שלה הוא כל $\mathbb{R}$.
+        misconception: MC-c1-boundary-thin
+
+  - id: Q-1.4-segment
+    type: multi
+    objectives: [OBJ-1.4-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $A=(0,1]\times\{0\}$, קטע על ציר ה-$x$ בתוך $\mathbb{R}^2$ עם המטריקה האוקלידית. אילו מהטענות נכונות?
+      סמנו את כולן.
+    choices:
+      - text: '$A^\circ=\emptyset$'
+        correct: true
+        feedback: >-
+          נכון: כל עיגול סביב נקודה של $A$ מכיל נקודות עם $y\neq0$, שאינן ב-$A$.
+      - text: '$\overline A=[0,1]\times\{0\}$'
+        correct: true
+        feedback: >-
+          נכון: כל עיגול $B((0,0),r)$ מכיל את $(t,0)$ עם $0<t<\min(r,1)$, שב-$A$; ונקודות מחוץ לקטע הסגור רחוקות ממנו
+          מרחק חיובי.
+      - text: '$\partial A=\overline A$'
+        correct: true
+        feedback: 'נכון: $\partial A=\overline A\setminus A^\circ=\overline A\setminus\emptyset$. הקטע כולו שפה.'
+      - text: '$A^\circ=(0,1)\times\{0\}$'
+        feedback: >-
+          זה הפנים של $(0,1]$ **בתוך $\mathbb{R}$**. במישור כל כדור הוא עיגול, ויוצא מהקטע. הפנים תלוי במרחב שבו
+          מסתכלים.
+        misconception: MC-c1-subspace-ignored
+      - text: '$\partial A=\{(0,0),(1,0)\}$'
+        feedback: >-
+          אלה נקודות הקצה, אבל במישור כל נקודה של הקטע היא נקודת שפה: כל עיגול סביבה פוגש את $A$ ואת המשלים.
+        misconception: MC-c1-boundary-thin
+
+  - id: Q-1.4-acc
+    type: multi
+    objectives: [OBJ-1.4-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $A=\{\frac1n:n\in\mathbb{N}\}\subseteq\mathbb{R}$. אילו מהטענות נכונות? סמנו את כולן.
+    choices:
+      - text: '$0$ היא נקודת הצטברות של $A$'
+        correct: true
+        feedback: 'נכון: כל קטע $(-r,r)$ מכיל $\frac1n\neq0$ עם $n>\frac1r$.'
+      - text: '$\frac12$ היא נקודת הצטברות של $A$'
+        feedback: >-
+          הקטע $(\frac13,1)$ סביב $\frac12$ לא מכיל אף נקודה של $A$ מלבד $\frac12$ עצמה. נקודה של $A$ אינה בהכרח
+          נקודת הצטברות.
+        misconception: MC-c1-accumulation-in-set
+      - text: 'כל נקודה של $A$ היא נקודה מבודדת'
+        correct: true
+        feedback: >-
+          נכון: סביב $\frac1n$ הקטע $(\frac1{n+1},\frac1{n-1})$ (או $(\frac12,2)$ ל-$n=1$) פוגש את $A$ רק ב-$\frac1n$.
+      - text: '$\overline A=A\cup\{0\}$'
+        correct: true
+        feedback: 'נכון: $\overline A=A\cup A''$, ו-$A''=\{0\}$.'
+      - text: '$0\notin A$, ולכן $0$ אינה בסגור של $A$'
+        feedback: >-
+          נקודת הצטברות לא חייבת להיות ב-$A$, והסגור כולל את כל נקודות ההצטברות. $0$ היא הנקודה שהסגור מוסיף.
+        misconception: MC-c1-accumulation-in-set
+
+  - id: Q-1.4-closure-char
+    type: mc
+    objectives: [OBJ-1.4-2]
+    level: mid
+    prompt: >-
+      איזה תנאי שקול ל-$x\in\overline A$?
+    choices:
+      - text: 'כל כדור $B(x,r)$ פוגש את $A$'
+        correct: true
+        feedback: >-
+          נכון. בשקילות: $x\in A$, או ש-$x$ נקודת הצטברות של $A$. כלומר $\overline A=A\cup A'$.
+      - text: '$x$ היא נקודת הצטברות של $A$'
+        feedback: >-
+          חסרות הנקודות המבודדות של $A$: ל-$A=[0,1)\cup\{2\}$, $2\in\overline A$ ואינה נקודת הצטברות. הסגור הוא
+          $A\cup A'$, לא $A'$ לבד.
+        misconception: MC-c1-accumulation-in-set
+      - text: 'יש כדור $B(x,r)$ שמוכל ב-$A$'
+        feedback: >-
+          זה התנאי של **פנים**. הסגור מבקש שכל כדור יפגוש את $A$, לא שכדור אחד יהיה בתוכה; $1\in\overline{[0,1)}$
+          ואין סביבו כדור בתוך $[0,1)$.
+        misconception: MC-c1-interior-closure-swap
+
+  - id: Q-1.4-Qn-dense
+    type: rank
+    objectives: [OBJ-1.4-3]
+    level: mid
+    prompt: >-
+      סדרו את שלבי ההוכחה ש-$\mathbb{Q}^n$ צפופה ב-$(\mathbb{R}^n,d_2)$.
+    help: סדרו את השלבים מהראשון לאחרון.
+    items:
+      - id: take
+        label: 'יהיו $x\in\mathbb{R}^n$ ו-$\varepsilon>0$. צריך למצוא $q\in\mathbb{Q}^n$ עם $d_2(x,q)<\varepsilon$.'
+      - id: coord
+        label: 'כי $\mathbb{Q}$ צפופה ב-$\mathbb{R}$, לכל $i$ יש $q_i\in\mathbb{Q}$ עם $|x_i-q_i|<\frac{\varepsilon}{\sqrt n}$.'
+      - id: vec
+        label: 'נגדיר $q=(q_1,\dots,q_n)$; אז $q\in\mathbb{Q}^n$.'
+      - id: est
+        label: '$d_2(x,q)=\sqrt{\sum_i|x_i-q_i|^2}<\sqrt{n\cdot\frac{\varepsilon^2}{n}}=\varepsilon$.'
+      - id: done
+        label: 'כל כדור $B(x,\varepsilon)$ פוגש את $\mathbb{Q}^n$, ולכן $\overline{\mathbb{Q}^n}=\mathbb{R}^n$.'
+    order: [take, coord, vec, est, done]
+    correctFeedback: >-
+      נכון. הרעיון: מקרבים כל קואורדינטה בנפרד, עם "תקציב" $\frac{\varepsilon}{\sqrt n}$ לכל אחת, כדי שהשגיאות
+      יחד לא יעברו את $\varepsilon$.
+    wrongFeedback: >-
+      התחילו מנקודה ורדיוס; קרבו כל קואורדינטה; בנו את הווקטור; העריכו את המרחק; הסיקו צפיפות.
+
+  - id: Q-1.4-dense-tf
+    type: twotier
+    objectives: [OBJ-1.4-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      נכון או לא: קבוצה צפופה ב-$\mathbb{R}$ חייבת להכיל קטע פתוח לא ריק.
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: 'נכון. צפיפות היא תנאי על הסגור, לא על הפנים.'
+      - text: נכון
+        feedback: >-
+          $\mathbb{Q}$ צפופה ב-$\mathbb{R}$ ואינה מכילה שום קטע: בכל קטע יש אי-רציונלי.
+        misconception: MC-c1-dense-large
+    reasons:
+      - text: '$\mathbb{Q}$ צפופה, ופניה ריקים'
+        correct: true
+        feedback: >-
+          בדיוק. גם $\mathbb{R}\setminus\mathbb{Q}$ צפופה ופניה ריקים: שתי קבוצות זרות, ושתיהן צפופות.
+      - text: 'קבוצה צפופה חייבת להיות לא בת מנייה, ולכן "גדולה"'
+        feedback: >-
+          $\mathbb{Q}$ בת מנייה וצפופה. צפיפות לא אומרת כלום על גודל: היא אומרת שאין קטע שזר לקבוצה.
+        misconception: MC-c1-dense-large
+      - text: 'אם $\overline A=\mathbb{R}$ אז גם $A^\circ=\mathbb{R}$'
+        feedback: >-
+          פנים וסגור הולכים בכיוונים הפוכים: $A^\circ\subseteq A\subseteq\overline A$. ל-$\mathbb{Q}$ הסגור
+          $\mathbb{R}$ והפנים $\emptyset$.
+        misconception: MC-c1-interior-closure-swap
+
+  - id: Q-1.4-discrete-closure
+    type: twotier
+    objectives: [OBJ-1.4-1, OBJ-1.4-2]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $X$ קבוצה עם לפחות שתי נקודות והמטריקה הבדידה, ו-$x\in X$. האם $\overline{B(x,1)}=B[x,1]$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. $\overline{B(x,1)}=\{x\}$, ואילו $B[x,1]=X$.
+      - text: כן, הסגור של כדור פתוח הוא תמיד הכדור הסגור
+        feedback: >-
+          ב-$\mathbb{R}^n$, ובכל מרחב נורמי, זה נכון. במרחב מטרי כללי מתקיים רק $\overline{B(x,r)}\subseteq B[x,r]$,
+          והמטריקה הבדידה היא הדוגמה הנגדית.
+        misconception: MC-c1-closure-of-ball
+    reasons:
+      - text: '$B(x,1)=\{y:d(x,y)<1\}=\{x\}$, וכל קבוצה סגורה במטריקה הבדידה; אבל $d(x,y)\le1$ לכל $y$, ולכן $B[x,1]=X$'
+        correct: true
+        feedback: >-
+          בדיוק. הכדור הפתוח "רואה" רק את המרכז, והכדור הסגור את כל המרחב, וביניהם אין "שפה" לסגור.
+      - text: '$B(x,1)=X$, ולכן גם הסגור הוא $X$'
+        feedback: >-
+          $d(x,y)=1$ ל-$y\neq x$, ו-$1<1$ שקרי: $B(x,1)=\{x\}$. רק $B(x,r)$ עם $r>1$ הוא $X$.
+        misconception: MC-c1-discrete-balls
+      - text: 'הסגור של $\{x\}$ הוא $X$, כי כל הנקודות במרחק 1 ממנה'
+        feedback: >-
+          $y\in\overline{\{x\}}$ אם **כל** כדור סביב $y$ פוגש את $\{x\}$. הכדור $B(y,\frac12)=\{y\}$ לא פוגש אותה.
+        misconception: MC-c1-closure-of-ball
+
+  - id: Q-1.4-dense-which
+    type: multi
+    objectives: [OBJ-1.4-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      אילו מהקבוצות הבאות **צפופות** במרחב הנתון? סמנו את כולן.
+    choices:
+      - text: '$\mathbb{R}\setminus\mathbb{Q}$ ב-$\mathbb{R}$ עם המטריקה הרגילה'
+        correct: true
+        feedback: 'נכון: בכל קטע $(a,b)$ יש אי-רציונלי, למשל $q+\frac{\sqrt2}{n}$ עם $q\in(a,b)$ רציונלי ו-$n$ גדול.'
+      - text: '$\{(x,y)\in\mathbb{R}^2: x\in\mathbb{Q}\}$ ב-$\mathbb{R}^2$ עם המטריקה האוקלידית'
+        correct: true
+        feedback: >-
+          נכון: לכל $(a,b)$ ולכל $\varepsilon$ יש רציונלי $q$ עם $|a-q|<\varepsilon$, והנקודה $(q,b)$ במרחק פחות
+          מ-$\varepsilon$.
+      - text: '$\mathbb{Q}$ ב-$\mathbb{R}$ עם המטריקה הבדידה'
+        feedback: >-
+          במטריקה הבדידה $\mathbb{Q}$ סגורה (כמו כל קבוצה), ולכן $\overline{\mathbb{Q}}=\mathbb{Q}\neq\mathbb{R}$. הכדור
+          $B(\sqrt2,\frac12)=\{\sqrt2\}$ לא פוגש אותה. צפיפות תלויה במטריקה.
+        misconception: MC-c1-one-distance
+      - text: '$\mathbb{Z}$ ב-$\mathbb{R}$ עם המטריקה הרגילה'
+        feedback: >-
+          $\mathbb{Z}$ אינסופית ולא חסומה, אבל הקטע $(\frac14,\frac34)$ זר לה. צפיפות פירושה שכל כדור פוגש את
+          הקבוצה.
+        misconception: MC-c1-dense-large
+
+  - id: Q-1.4-interior-union
+    type: twotier
+    objectives: [OBJ-1.4-1]
+    qualitative: true
+    level: exam
+    prompt: >-
+      נכון או לא: לכל שתי קבוצות $A,B$ במרחב מטרי, $(A\cup B)^\circ=A^\circ\cup B^\circ$.
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: 'נכון. מתקיימת רק ההכלה $A^\circ\cup B^\circ\subseteq(A\cup B)^\circ$.'
+      - text: נכון
+        feedback: >-
+          עם $A=\mathbb{Q}$ ו-$B=\mathbb{R}\setminus\mathbb{Q}$: $A^\circ\cup B^\circ=\emptyset$ ואילו
+          $(A\cup B)^\circ=\mathbb{R}$.
+        misconception: MC-c1-interior-union
+    reasons:
+      - text: 'עם $A=\mathbb{Q}$, $B=\mathbb{R}\setminus\mathbb{Q}$: אגף שמאל $\mathbb{R}$, אגף ימין $\emptyset$'
+        correct: true
+        feedback: >-
+          בדיוק. האיחוד יכול "להשלים" כדורים ששתי הקבוצות לבד לא מכילות. (ההכלה $\supseteq$ תמיד נכונה: כדור בתוך
+          $A$ נמצא גם בתוך $A\cup B$.)
+      - text: 'פנים מתנהג כמו סגור, ו-$\overline{A\cup B}=\overline A\cup\overline B$'
+        feedback: >-
+          לסגור זה אכן נכון באיחוד סופי, ולפנים זה נכון בחיתוך סופי: $(A\cap B)^\circ=A^\circ\cap B^\circ$. באיחוד,
+          הפנים יכול לגדול: $\mathbb{Q}$ ו-$\mathbb{R}\setminus\mathbb{Q}$.
+        misconception: MC-c1-interior-union
+      - text: 'ההכלה $(A\cup B)^\circ\subseteq A^\circ\cup B^\circ$ תמיד נכונה, ולכן יש שוויון'
+        feedback: >-
+          זו בדיוק ההכלה שנכשלת: $\mathbb{R}=(\mathbb{Q}\cup(\mathbb{R}\setminus\mathbb{Q}))^\circ\not\subseteq\emptyset$.
+          ההכלה הנכונה היא ההפוכה.
+        misconception: MC-c1-interior-union

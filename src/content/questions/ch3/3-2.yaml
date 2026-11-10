@@ -1,0 +1,444 @@
+# Lesson 3.2 — open covers and the Heine–Borel theorem.
+# Objectives (src/course.ts):
+#   OBJ-3.2-1  define an open cover and a finite subcover; show with an explicit cover that an open interval is not compact
+#   OBJ-3.2-2  state the equivalence of cover compactness and sequential compactness in a metric space; use the Lebesgue number
+#   OBJ-3.2-3  state and apply the Heine–Borel theorem in Euclidean space
+chapter: 3
+questions:
+  - id: Q-3.2-def
+    type: mc
+    objectives: [OBJ-3.2-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      מהי ההגדרה של "$K$ קומפקטית" בשפת הכיסויים?
+    choices:
+      - text: לכל כיסוי פתוח של $K$ יש תת-כיסוי סופי
+        correct: true
+        feedback: >-
+          נכון. "לכל כיסוי" הוא הלב: הכיסוי נבחר על ידי יריב, ו-$K$ צריכה להסתדר עם כל בחירה שלו.
+      - text: קיים כיסוי פתוח של $K$ שיש לו תת-כיסוי סופי
+        feedback: >-
+          זה מתקיים לכל קבוצה: הכיסוי $\{X\}$ מכיל קבוצה אחת בלבד. כך גם $(0,1)$ הייתה "קומפקטית", והיא לא.
+        misconception: MC-c3-one-cover-enough
+      - text: אפשר לכסות את $K$ במספר סופי של כדורים פתוחים
+        feedback: >-
+          זה אומר רק ש-$K$ חסומה, ואם כדור אחד מספיק, אפילו פחות. $(0,1)\subseteq B(\frac12,1)$, ו-$(0,1)$ אינה
+          קומפקטית.
+        misconception: MC-c3-one-cover-enough
+      - text: לכל כיסוי של $K$, בקבוצות כלשהן, יש תת-כיסוי סופי
+        feedback: >-
+          זה לא מתקיים אף פעם בקבוצה אינסופית: היחידונים $\{x\}$ מכסים את $[0,1]$ ואין להם תת-כיסוי סופי. ההגדרה
+          מדברת על כיסויים **פתוחים**.
+        misconception: MC-c3-closed-cover
+
+  - id: Q-3.2-cover-count
+    type: numeric
+    objectives: [OBJ-3.2-1]
+    level: basic
+    prompt: >-
+      הקטעים $U_n=(\frac1n,1)$, $n\ge2$, מכסים את $(0,1)$. מהו ה-$N$ הקטן ביותר כך ש-$U_2,\dots,U_N$ מכסים
+      את הקטע הסגור $[0.01,\ 0.99]$?
+    answer: 101
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. הקטעים עולים, ולכן $U_2\cup\dots\cup U_N=U_N=(\frac1N,1)$. הוא מכיל את $0.01$ רק אם $\frac1N<0.01$, כלומר
+      $N>100$. הקטע הסגור $[0.01,0.99]$ מסתדר עם מספר סופי של קבוצות, כמו שקבוצה קומפקטית צריכה.
+    wrongFeedback: >-
+      האיחוד $U_2\cup\dots\cup U_N$ הוא פשוט $U_N=(\frac1N,1)$. מתי $0.01$ נמצא בו?
+    commonWrong:
+      - value: 100
+        feedback: >-
+          $U_{100}=(0.01,1)$ הוא קטע פתוח ולא מכיל את $0.01$ עצמו. צריך $\frac1N<0.01$ ממש.
+        misconception: MC-c3-endpoint-in-open
+
+  - id: Q-3.2-open-interval
+    type: twotier
+    objectives: [OBJ-3.2-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      האם לכיסוי $\{(\frac1n,1): n\ge2\}$ של $(0,1)$ יש תת-כיסוי סופי?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון, ולכן $(0,1)$ אינה קומפקטית: מספיק כיסוי פתוח **אחד** בלי תת-כיסוי סופי.
+      - text: כן
+        feedback: >-
+          כל אוסף סופי של הקטעים מוכל ב-$(\frac1N,1)$ עבור ה-$N$ הגדול ביותר בו, והנקודה $\frac1{2N}$ נשארת בחוץ.
+        misconception: MC-c3-one-cover-enough
+    reasons:
+      - text: 'איחוד של $U_{n_1},\dots,U_{n_m}$ הוא $(\frac1N,1)$ עם $N=\max n_i$, והוא לא מכיל את $\frac1{2N}\in(0,1)$'
+        correct: true
+        feedback: >-
+          בדיוק. בכל בחירה סופית יש נקודה של $(0,1)$ שנשארת לא מכוסה.
+      - text: 'הכיסוי אינסופי, ולכן אין לו תת-כיסוי סופי'
+        feedback: >-
+          זה לא נימוק: הכיסוי $(-\frac1n,1+\frac1n)$ של $[0,1]$ אינסופי, וכל קבוצה אחת שלו כבר מכסה. צריך להראות
+          שאף בחירה סופית לא מכסה.
+        misconception: MC-c3-infinite-cover
+      - text: 'הנקודה 0 אינה מכוסה על ידי אף $U_n$'
+        feedback: >-
+          0 אינו שייך ל-$(0,1)$, ולכן אין צורך לכסות אותו. מה שנשאר לא מכוסה בכל בחירה סופית הוא נקודות של $(0,1)$
+          עצמה, קרובות ל-0.
+        misconception: MC-c3-limit-in-set
+
+  - id: Q-3.2-hb-statement
+    type: mc
+    objectives: [OBJ-3.2-3]
+    qualitative: true
+    level: basic
+    prompt: >-
+      מה אומר משפט היינה-בורל?
+    choices:
+      - text: 'ב-$\mathbb{R}^n$, קבוצה קומפקטית אם ורק אם היא סגורה וחסומה'
+        correct: true
+        feedback: >-
+          נכון. הכיוון "קומפקטית גורר סגורה וחסומה" נכון בכל מרחב מטרי; ההפוך הוא התוכן המיוחד של המרחב האוקלידי.
+      - text: 'בכל מרחב נורמי, קבוצה קומפקטית אם ורק אם היא סגורה וחסומה'
+        feedback: >-
+          במרחב ממימד אינסופי הכיוון ההפוך נכשל: כדור היחידה הסגור של $(C[0,1],\|\cdot\|_\infty)$ סגור וחסום ואינו
+          קומפקטי.
+        misconception: MC-c3-closed-bounded-compact
+      - text: 'ב-$\mathbb{R}^n$, קבוצה קומפקטית אם ורק אם היא חסומה'
+        feedback: >-
+          הכדור הפתוח $B(0,1)$ חסום ואינו קומפקטי: $(1-\frac1k)e_1\to e_1\notin B(0,1)$.
+        misconception: MC-c3-half-heine-borel
+      - text: 'ב-$\mathbb{R}^n$, כל קבוצה סגורה קומפקטית'
+        feedback: >-
+          $\mathbb{R}^n$ עצמו סגור ואינו קומפקטי: לסדרה $(k,0,\dots,0)$ אין תת-סדרה מתכנסת.
+        misconception: MC-c3-half-heine-borel
+
+  - id: Q-3.2-fip-def
+    type: mc
+    objectives: [OBJ-3.2-4]
+    qualitative: true
+    level: basic
+    prompt: >-
+      מתי למשפחה $\{F_\alpha\}_{\alpha\in I}$ של תת-קבוצות של $X$ יש **תכונת החיתוך הסופי**?
+    choices:
+      - text: 'כשלכל מספר סופי של אינדקסים $\alpha_1,\dots,\alpha_m$ מתקיים $F_{\alpha_1}\cap\dots\cap F_{\alpha_m}\ne\emptyset$'
+        correct: true
+        feedback: >-
+          נכון. כל תת-משפחה סופית נחתכת. המשפט אומר שבמרחב קומפקטי, למשפחה של קבוצות **סגורות** עם התכונה הזו יש
+          גם חיתוך כולל לא ריק.
+      - text: 'כשכל שתי קבוצות במשפחה נחתכות'
+        feedback: >-
+          זה חלש יותר: $\{a,b\}$, $\{b,c\}$ ו-$\{a,c\}$ נחתכות בזוגות, והחיתוך של שלושתן ריק. התכונה דורשת כל מספר
+          סופי של קבוצות, לא רק שתיים.
+        misconception: MC-c3-fip-pairwise
+      - text: 'כשהחיתוך של כל המשפחה, $\bigcap_{\alpha\in I}F_\alpha$, לא ריק'
+        feedback: >-
+          זו המסקנה של המשפט במרחב קומפקטי, לא ההגדרה. ב-$\mathbb{R}$ למשפחה $\{[n,\infty)\}$ יש תכונת החיתוך
+          הסופי והחיתוך הכולל ריק.
+        misconception: MC-c3-nested-closed
+      - text: 'כשכל הקבוצות במשפחה לא ריקות'
+        feedback: >-
+          זה מעט מדי: $[0,1]$ ו-$[2,3]$ לא ריקות וזרות. התכונה עוסקת בחיתוכים של כמה קבוצות יחד.
+        misconception: MC-c3-fip-pairwise
+
+  - id: Q-3.2-which-covers
+    type: multi
+    objectives: [OBJ-3.2-1]
+    level: mid
+    prompt: >-
+      לאילו מהכיסויים הפתוחים הבאים **אין** תת-כיסוי סופי? סמנו את כולם.
+    choices:
+      - text: '$\mathbb{R}\subseteq\bigcup_{n\in\mathbb{N}}(-n,n)$'
+        correct: true
+        feedback: >-
+          נכון. איחוד סופי של הקטעים הוא $(-N,N)$, והוא לא מכיל את $N$. זה מראה ש-$\mathbb{R}$ אינו קומפקטי.
+      - text: '$\mathbb{R}\subseteq\bigcup_{n\in\mathbb{Z}}(n-1,n+1)$'
+        correct: true
+        feedback: >-
+          נכון. איחוד סופי של קטעים חסומים הוא קבוצה חסומה, ולכן אינו יכול להכיל את כל $\mathbb{R}$.
+      - text: '$[0,1]\subseteq\bigcup_{n\in\mathbb{N}}(-\frac1n,1+\frac1n)$'
+        feedback: >-
+          יש תת-כיסוי סופי, ואפילו בקבוצה אחת: $(-1,2)$ כבר מכסה את $[0,1]$. העובדה שהכיסוי אינסופי לא אומרת דבר.
+        misconception: MC-c3-infinite-cover
+      - text: '$(0,1]\subseteq\bigcup_{n\in\mathbb{N}}(\frac1n,2)$'
+        correct: true
+        feedback: >-
+          נכון. כמו בדוגמה של $(0,1)$: איחוד סופי הוא $(\frac1N,2)$, והנקודה $\frac1{2N}\in(0,1]$ לא מכוסה.
+      - text: '$(0,1]\subseteq(-1,\frac12)\cup\bigcup_{n\in\mathbb{N}}(\frac1n,2)$'
+        feedback: >-
+          הוספת $(-1,\frac12)$ מכסה את הנקודות הקרובות ל-0, ו-$(-1,\frac12)\cup(\frac13,2)$ כבר מכסות את $(0,1]$.
+          הכיסוי אינסופי, ובכל זאת יש לו תת-כיסוי סופי.
+        misconception: MC-c3-infinite-cover
+
+  - id: Q-3.2-equiv-idea
+    type: mc
+    objectives: [OBJ-3.2-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      בהוכחה ש"קומפקטי בכיסויים גורר קומפקטי סדרתית" מניחים שלסדרה $(x_n)$ אין תת-סדרה מתכנסת, ומסיקים שלכל
+      $p\in X$ יש $r_p>0$ כך שהכדור $B(p,r_p)$ מכיל את $x_n$ רק עבור מספר סופי של אינדקסים $n$. איך מגיעים משם
+      לסתירה?
+    choices:
+      - text: 'הכדורים $B(p,r_p)$ הם כיסוי פתוח; בתת-כיסוי סופי כל כדור מכיל $x_n$ רק למספר סופי של $n$, ולכן יחד הם מכילים את $x_n$ רק למספר סופי של $n$; אבל הם מכסים את $X$, שמכיל את $x_n$ לכל $n$'
+        correct: true
+        feedback: >-
+          נכון. סופי כפול סופי הוא סופי, ואילו האינדקסים $n\in\mathbb{N}$ הם אינסוף. זו ההוכחה כולה.
+      - text: 'במרחב קומפקטי כל סדרה מתכנסת, ולכן $(x_n)$ מתכנסת'
+        feedback: >-
+          זו לא עובדה: $(-1)^n$ ב-$[-1,1]$ אינה מתכנסת. גם בכיסויים, הקומפקטיות מבטיחה רק תת-סדרה מתכנסת.
+        misconception: MC-c3-whole-sequence
+      - text: 'יש ל-$X$ כיסוי סופי, ולכן $X$ חסום, ולפי בולצאנו-ויירשטראס יש ל-$(x_n)$ תת-סדרה מתכנסת'
+        feedback: >-
+          בולצאנו-ויירשטראס נכון במרחב האוקלידי, לא במרחב מטרי כללי: $\mathbb{N}$ במטריקה הבדידה חסום ול-$1,2,3,\dots$
+          אין תת-סדרה מתכנסת.
+        misconception: MC-c3-bw-everywhere
+      - text: 'הכיסוי בכדורים $B(p,r_p)$ אינסופי, ולכן אין לו תת-כיסוי סופי, בסתירה לקומפקטיות'
+        feedback: >-
+          כיסוי אינסופי יכול בהחלט לכלול תת-כיסוי סופי; הקומפקטיות דווקא מבטיחה שיש כזה. הסתירה באה מספירת
+          האינדקסים בתת-הכיסוי הסופי.
+        misconception: MC-c3-infinite-cover
+
+  - id: Q-3.2-lebesgue-num
+    type: numeric
+    objectives: [OBJ-3.2-2]
+    level: mid
+    prompt: >-
+      המרחב הוא $X=[0,1]$ עם $d(x,y)=|x-y|$, והכיסוי הפתוח (ב-$X$) הוא $\{[0,\ 0.6),\ (0.4,\ 1]\}$. מספר לבג
+      הוא $\delta>0$ כך שלכל $x\in X$ הכדור $B(x,\delta)=\{y\in X: |x-y|<\delta\}$ מוכל באחת משתי הקבוצות. מהו
+      מספר לבג **הגדול ביותר**?
+    answer: 0.1
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. הנקודה הקשה היא $x=0.5$, באמצע החפיפה: $B(0.5,\delta)=(0.5-\delta,0.5+\delta)$ נכנס ל-$[0,0.6)$ רק אם
+      $\delta\le0.1$, ול-$(0.4,1]$ רק אם $\delta\le0.1$. עם $\delta=0.1$ כל $x\le0.5$ מסתדר בקבוצה הראשונה וכל
+      $x\ge0.5$ בשנייה.
+    wrongFeedback: >-
+      בדקו את הנקודה שבאמצע החפיפה $(0.4,0.6)$: כמה רחוק אפשר ללכת ממנה לשני הצדדים ועדיין להישאר בקבוצה אחת?
+    commonWrong:
+      - value: 0.2
+        feedback: >-
+          $0.2$ הוא אורך החפיפה, אבל מספר לבג הוא רדיוס: $B(0.5,0.2)=(0.3,0.7)$ לא נכנס לאף אחת משתי הקבוצות.
+        misconception: MC-c3-lebesgue-overlap
+
+  - id: Q-3.2-lebesgue-fails
+    type: twotier
+    objectives: [OBJ-3.2-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      האם לכיסוי $\{(\frac1n,1): n\ge2\}$ של המרחב $X=(0,1)$ יש מספר לבג?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. וזה לא סותר את הלמה של לבג: היא מדברת על מרחב קומפקטי, ו-$(0,1)$ אינו קומפקטי.
+      - text: כן
+        feedback: >-
+          לכל $\delta>0$ יש כדור ברדיוס $\delta$ שלא נכנס לאף קבוצה: כדור סביב נקודה $x<\delta$ מכיל את כל $(0,x]$.
+        misconception: MC-c3-lebesgue-noncompact
+    reasons:
+      - text: 'לכל $\delta>0$ נבחר $x\in(0,1)$ עם $x<\delta$. אז $B(x,\delta)\supseteq(0,x]$ מכיל נקודות קטנות כרצוננו, ולכן אינו מוכל באף $(\frac1n,1)$'
+        correct: true
+        feedback: >-
+          בדיוק. הכדורים ליד 0 צריכים קבוצות "עמוקות" יותר ויותר, ואין $\delta$ אחד שעובד לכולם.
+      - text: 'לכל כיסוי פתוח של כל מרחב מטרי יש מספר לבג'
+        feedback: >-
+          הלמה של לבג דורשת קומפקטיות, והכיסוי הזה הוא בדיוק הדוגמה שבה היא נכשלת.
+        misconception: MC-c3-lebesgue-noncompact
+      - text: 'הקבוצות פתוחות, ולכן כל נקודה נמצאת בכדור שמוכל באחת מהן'
+        feedback: >-
+          לכל נקודה יש רדיוס שעובד בשבילה, אבל הרדיוס תלוי בנקודה ושואף ל-0 ליד 0. מספר לבג הוא רדיוס **אחד**
+          לכל הנקודות.
+        misconception: MC-c3-lebesgue-noncompact
+
+  - id: Q-3.2-hb-apply
+    type: multi
+    objectives: [OBJ-3.2-3]
+    level: mid
+    prompt: >-
+      אילו מהקבוצות הבאות ב-$\mathbb{R}^2$ קומפקטיות? סמנו את כולן.
+    choices:
+      - text: '$\{(x,y): x^4+y^4\le1\}$'
+        correct: true
+        feedback: >-
+          נכון. סגורה, כי היא המקור של $(-\infty,1]$ תחת הפונקציה הרציפה $x^4+y^4$; וחסומה, כי $|x|,|y|\le1$ בה.
+      - text: '$\{(x,y): |x|+|y|\le1\}$'
+        correct: true
+        feedback: >-
+          נכון: סגורה מאותה סיבה וחסומה ($\|(x,y)\|_2\le|x|+|y|\le1$). זה כדור היחידה הסגור של $\|\cdot\|_1$.
+      - text: '$\{(x,y): x^2-y^2\le1\}$'
+        feedback: >-
+          סגורה אבל לא חסומה: $(t,t)$ נמצאת בה לכל $t$, כי $t^2-t^2=0\le1$.
+        misconception: MC-c3-half-heine-borel
+      - text: '$\{(x,y): e^x+e^y\le2\}$'
+        feedback: >-
+          סגורה אבל לא חסומה: $(-t,0)$ נמצאת בה לכל $t>0$, כי $e^{-t}+1\le2$.
+        misconception: MC-c3-half-heine-borel
+      - text: '$\{(x,\sin\frac1x): 0<x\le1\}$'
+        feedback: >-
+          חסומה אבל לא סגורה: לאורך $x_k=\frac1{k\pi}$ הנקודות $(x_k,0)$ מתכנסות ל-$(0,0)$, שאינה בקבוצה.
+        misconception: MC-c3-half-heine-borel
+
+  - id: Q-3.2-fip-closed
+    type: mc
+    objectives: [OBJ-3.2-4]
+    level: mid
+    prompt: >-
+      $[0,1]$ קומפקטי. למשפחה $\{(0,\frac1n): n\in\mathbb{N}\}$ יש תכונת החיתוך הסופי, ובכל זאת
+      $\bigcap_n(0,\frac1n)=\emptyset$. למה אין כאן סתירה למשפט?
+    choices:
+      - text: 'המשפט מדבר על משפחות של קבוצות **סגורות**, והקבוצות $(0,\frac1n)$ אינן סגורות ב-$[0,1]$'
+        correct: true
+        feedback: >-
+          נכון. הסגורים שלהן, $[0,\frac1n]$, כן נחתכים: בנקודה 0. הסגירות היא שמונעת מהחיתוך "לברוח" לנקודה שחסרה.
+      - text: 'יש סתירה לכאורה בלבד: החיתוך מכיל את 0'
+        feedback: >-
+          $0\notin(0,\frac1n)$ לאף $n$: הקטע פתוח בקצה הזה. לכן החיתוך באמת ריק.
+        misconception: MC-c3-endpoint-in-open
+      - text: 'אין לה תכונת החיתוך הסופי'
+        feedback: >-
+          יש: $(0,\frac1{n_1})\cap\dots\cap(0,\frac1{n_m})=(0,\frac1N)$ עם $N=\max n_i$, ואינו ריק.
+        misconception: MC-c3-fip-pairwise
+      - text: 'במרחב קומפקטי לכל סדרה יורדת של קבוצות לא ריקות יש חיתוך לא ריק, ולכן זו סתירה אמיתית'
+        feedback: >-
+          ההנחה שגויה: בלי סגירות המסקנה נכשלת, והמשפחה הזו היא בדיוק הדוגמה.
+        misconception: MC-c3-nested-closed
+
+  - id: Q-3.2-fip-R
+    type: twotier
+    objectives: [OBJ-3.2-4]
+    qualitative: true
+    level: mid
+    prompt: >-
+      ב-$\mathbb{R}$, למשפחה $\{[n,\infty): n\in\mathbb{N}\}$ יש תכונת החיתוך הסופי וחיתוך כולל ריק. נכון או לא נכון:
+      מכאן נובע ש-$\mathbb{R}$ אינו קומפקטי.
+    choices:
+      - text: נכון
+        correct: true
+        feedback: >-
+          נכון. זו משפחה של קבוצות סגורות שמפרה את האפיון של קומפקטיות בתכונת החיתוך הסופי.
+      - text: לא נכון
+        feedback: >-
+          הקבוצות $[n,\infty)$ סגורות, יש להן תכונת החיתוך הסופי והחיתוך ריק. במרחב קומפקטי זה בלתי אפשרי.
+        misconception: MC-c3-nested-closed
+    reasons:
+      - text: 'המשלימים $(-\infty,n)$ פתוחים ומכסים את $\mathbb{R}$ (כי החיתוך ריק), ותת-כיסוי סופי היה נותן חיתוך סופי ריק של ה-$[n,\infty)$, בסתירה לתכונת החיתוך הסופי'
+        correct: true
+        feedback: >-
+          בדיוק: זו ההוכחה של האפיון, במעבר למשלימים. הכיסוי $(-\infty,n)$ הוא כיסוי פתוח של $\mathbb{R}$ בלי תת-כיסוי סופי.
+      - text: 'למשפחה אין באמת תכונת החיתוך הסופי, כי החיתוך שלה ריק'
+        feedback: >-
+          כל חיתוך סופי הוא $[N,\infty)$ עם $N$ הגדול ביותר, ואינו ריק. רק החיתוך של **כל** המשפחה ריק.
+        misconception: MC-c3-nested-closed
+      - text: 'הקבוצות $[n,\infty)$ אינן סגורות, כי הן לא חסומות'
+        feedback: >-
+          סגירות וחסימות הן שתי תכונות נפרדות: $[n,\infty)$ מכילה את גבולות כל הסדרות המתכנסות שלה, ולכן סגורה.
+        misconception: MC-c3-half-heine-borel
+
+  - id: Q-3.2-subcover-rank
+    type: rank
+    objectives: [OBJ-3.2-2]
+    level: exam
+    help: 'סדרו את שלבי ההוכחה לפי הסדר הנכון.'
+    prompt: >-
+      ההוכחה ש"מרחב מטרי $X$ קומפקטי סדרתית קומפקטי בכיסויים" התפרקה לשלבים. סדרו אותם.
+    items:
+      - id: cover
+        label: 'יהי $\{U_\alpha\}$ כיסוי פתוח של $X$. לפי הלמה של לבג (שמוכחת מקומפקטיות סדרתית) יש לו מספר לבג $\delta>0$.'
+      - id: net
+        label: 'יש נקודות $x_1,\dots,x_m$ עם $X=\bigcup_{i=1}^m B(x_i,\delta)$: אחרת בוחרים ברקורסיה $x_{k+1}\notin\bigcup_{i\le k}B(x_i,\delta)$ ומקבלים סדרה שהמרחקים בין איבריה לפחות $\delta$, בלי תת-סדרה מתכנסת.'
+      - id: pick
+        label: 'לכל $i$ בוחרים $\alpha_i$ עם $B(x_i,\delta)\subseteq U_{\alpha_i}$, לפי ההגדרה של מספר לבג.'
+      - id: done
+        label: 'לכן $X=\bigcup_i B(x_i,\delta)\subseteq U_{\alpha_1}\cup\dots\cup U_{\alpha_m}$: תת-כיסוי סופי.'
+    order: [cover, net, pick, done]
+    correctFeedback: >-
+      נכון. שתי העובדות שהקומפקטיות הסדרתית נותנת הן מספר לבג ומספר סופי של כדורים ברדיוס $\delta$; ביחד הן
+      הופכות כל כיסוי לכיסוי סופי.
+    wrongFeedback: >-
+      צריך קודם את $\delta$, כי את הכדורים בוחרים ברדיוס $\delta$. רק אחרי שיש מספר סופי של כדורים אפשר להתאים
+      לכל אחד קבוצה מהכיסוי.
+
+  - id: Q-3.2-hb-infinite
+    type: twotier
+    objectives: [OBJ-3.2-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      במרחב $(C[0,1],\|\cdot\|_\infty)$: האם כל קבוצה סגורה וחסומה קומפקטית?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. משפט היינה-בורל הוא משפט על $\mathbb{R}^n$; במרחב הזה הוא נכשל כבר בכדור היחידה הסגור.
+      - text: כן
+        feedback: >-
+          היינה-בורל לא עובר למרחב ממימד אינסופי: $x^n$ בכדור היחידה הסגור, ואין לה תת-סדרה מתכנסת במידה שווה.
+        misconception: MC-c3-closed-bounded-compact
+    reasons:
+      - text: 'ההוכחה ב-$\mathbb{R}^n$ מפעילה את בולצאנו-ויירשטראס על $n$ קואורדינטות, מספר סופי של פעמים; לפונקציה יש אינסוף "קואורדינטות", ואכן ל-$x^n$ אין תת-סדרה מתכנסת'
+        correct: true
+        feedback: >-
+          בדיוק. הגבול הנקודתי של כל תת-סדרה של $x^n$ אינו רציף, ולכן אין גבול במידה שווה.
+      - text: 'המרחב $(C[0,1],\|\cdot\|_\infty)$ אינו שלם'
+        feedback: >-
+          הוא שלם (שיעור 2.2), ובכל זאת כדור היחידה בו אינו קומפקטי. שלמות וחסימות יחד לא מספיקות.
+        misconception: MC-c3-complete-bounded-compact
+      - text: 'הסדרה $x^n$ מתכנסת לפונקציה לא רציפה, ולכן היא עצמה לא נמצאת ב-$C[0,1]$'
+        feedback: >-
+          כל $x^n$ רציפה ונמצאת בכדור. הגבול הנקודתי לא רציף, ולכן אין לסדרה גבול **ב-$C[0,1]$**; ההתכנסות
+          הנקודתית אינה התכנסות במרחב הזה.
+        misconception: MC-c3-pointwise-is-enough
+
+  - id: Q-3.2-nested
+    type: twotier
+    objectives: [OBJ-3.2-4]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $X$ מרחב מטרי קומפקטי ו-$F_1\supseteq F_2\supseteq F_3\supseteq\cdots$ קבוצות סגורות ולא ריקות ב-$X$. נכון
+      או לא נכון: $\bigcap_{n}F_n\ne\emptyset$.
+    choices:
+      - text: נכון
+        correct: true
+        feedback: >-
+          נכון, וזה שימוש קלאסי בהגדרה בכיסויים: עוברים למשלימים, שהם פתוחים.
+      - text: לא נכון
+        feedback: >-
+          ב-$\mathbb{R}$ הקבוצות $[n,\infty)$ הן דוגמה נגדית, אבל $\mathbb{R}$ אינו קומפקטי. במרחב קומפקטי החיתוך לא ריק.
+        misconception: MC-c3-nested-closed
+    reasons:
+      - text: 'אילו החיתוך היה ריק, הקבוצות הפתוחות $X\setminus F_n$ היו מכסות את $X$; הן עולות, ולכן תת-כיסוי סופי הוא $X\setminus F_m$ אחת, כלומר $F_m=\emptyset$, סתירה'
+        correct: true
+        feedback: >-
+          בדיוק. המשלים של חיתוך הוא איחוד המשלימים, והסדר היורד של $F_n$ הופך את תת-הכיסוי הסופי לקבוצה אחת.
+      - text: 'חיתוך של קבוצות סגורות הוא סגור, ולכן הוא לא ריק'
+        feedback: >-
+          סגירות לא אומרת דבר על אי-ריקות: הקבוצה הריקה סגורה. ב-$\mathbb{R}$ החיתוך של $[n,\infty)$ ריק.
+        misconception: MC-c3-nested-closed
+      - text: 'כל סדרה יורדת של קבוצות סגורות לא ריקות, בכל מרחב, היא בעלת חיתוך לא ריק'
+        feedback: >-
+          $F_n=[n,\infty)$ ב-$\mathbb{R}$: סגורות, לא ריקות, יורדות, וחיתוכן ריק. הקומפקטיות היא שמצילה את המסקנה.
+        misconception: MC-c3-nested-closed
+
+  - id: Q-3.2-fip-rank
+    type: rank
+    objectives: [OBJ-3.2-4]
+    level: exam
+    help: 'סדרו את שלבי ההוכחה לפי הסדר הנכון.'
+    prompt: >-
+      ההוכחה ש"אם $X$ קומפקטי, אז לכל משפחה $\{F_\alpha\}$ של קבוצות סגורות עם תכונת החיתוך הסופי יש חיתוך לא ריק"
+      התפרקה לשלבים. סדרו אותם.
+    items:
+      - id: neg
+        label: 'נניח בשלילה ש-$\bigcap_\alpha F_\alpha=\emptyset$.'
+      - id: cover
+        label: 'אז $\bigcup_\alpha(X\setminus F_\alpha)=X\setminus\bigcap_\alpha F_\alpha=X$, והקבוצות $X\setminus F_\alpha$ פתוחות: זה כיסוי פתוח של $X$.'
+      - id: sub
+        label: 'מקומפקטיות יש תת-כיסוי סופי: $X=(X\setminus F_{\alpha_1})\cup\dots\cup(X\setminus F_{\alpha_m})$.'
+      - id: contra
+        label: 'במעבר למשלימים, $F_{\alpha_1}\cap\dots\cap F_{\alpha_m}=\emptyset$, בסתירה לתכונת החיתוך הסופי.'
+    order: [neg, cover, sub, contra]
+    correctFeedback: >-
+      נכון. חוקי דה-מורגן הופכים "כיסוי פתוח בלי תת-כיסוי סופי" ל"משפחה סגורה עם תכונת החיתוך הסופי וחיתוך ריק".
+      אותה הוכחה בכיוון ההפוך נותנת את ה"אם ורק אם".
+    wrongFeedback: >-
+      מתחילים מהנחת השלילה, עוברים למשלימים כדי לקבל כיסוי פתוח, מפעילים קומפקטיות, וחוזרים למשלימים לסתירה.

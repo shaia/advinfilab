@@ -1,0 +1,37 @@
+# Terms first defined in lesson 8.4.
+- id: potential-function
+  term: פונקציית פוטנציאל
+  en: potential function
+  symbol: '\nabla\varphi=F'
+  definition: >-
+    פונקציה גזירה ברציפות $\varphi:U\to\mathbb{R}$ עם $\nabla\varphi=F$ ב-$U$. אז לכל מסילה חלקה למקוטעין $\gamma$
+    מ-$p$ ל-$q$ ב-$U$: $\int_\gamma F\cdot ds=\varphi(q)-\varphi(p)$. בקבוצה פתוחה וקשירה מסילתית הפוטנציאל יחיד
+    עד כדי קבוע.
+  lesson: '8.4'
+- id: conservative-field
+  term: שדה משמר
+  en: conservative vector field
+  definition: >-
+    שדה רציף $F$ בקבוצה פתוחה $U$ שיש לו פונקציית פוטנציאל ב-$U$. בקבוצה פתוחה וקשירה מסילתית שקולים: $F$ משמר;
+    האינטגרל על כל מסילה סגורה חלקה למקוטעין ב-$U$ הוא 0; האינטגרל בין שתי נקודות אינו תלוי במסילה. התכונה תלויה
+    בתחום: שדה הזווית אינו משמר ב-$\mathbb{R}^2\setminus\{0\}$ ומשמר בחצי המישור $x>0$.
+  reject: [שדה שמרני]
+  lesson: '8.4'
+- id: crossed-partials-condition
+  term: תנאי הנגזרות המוצלבות
+  en: crossed-partials (closedness) condition
+  symbol: '\frac{\partial F_i}{\partial x_j}=\frac{\partial F_j}{\partial x_i}'
+  definition: >-
+    לשדה גזיר ברציפות $F=(F_1,\dots,F_n)$: $\partial_jF_i=\partial_iF_j$ לכל $i,j$; במישור
+    $\frac{\partial P}{\partial y}=\frac{\partial Q}{\partial x}$. זה תנאי הכרחי לשדה משמר גזיר ברציפות (משפט שוורץ
+    על הפוטנציאל), ומספיק בתחום פשוט קשר, אבל לא בכל תחום: שדה הזווית מקיים אותו ואינו משמר.
+  lesson: '8.4'
+- id: angle-field
+  term: שדה הזווית
+  en: angle field (the field of dθ)
+  symbol: '\omega=\left(\frac{-y}{x^2+y^2},\frac{x}{x^2+y^2}\right)'
+  definition: >-
+    השדה $\omega$ ב-$\mathbb{R}^2\setminus\{0\}$. הוא גזיר ברציפות ומקיים את תנאי הנגזרות המוצלבות, ובכל זאת
+    האינטגרל שלו על כל מעגל סביב הראשית, נגד כיוון השעון, הוא $2\pi$, ולכן אינו משמר שם. במישור בלי חצי הציר
+    $\{(x,0):x\le0\}$ הוא הגרדיאנט של הזווית הקוטבית $\theta\in(-\pi,\pi)$. סביב נקודה $p$: $\omega_p(x)=\omega(x-p)$.
+  lesson: '8.4'

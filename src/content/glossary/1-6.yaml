@@ -1,0 +1,41 @@
+# Terms first defined in lesson 1.6 (continuity between metric spaces).
+- id: continuity-metric
+  term: רציפות
+  en: continuity
+  definition: >-
+    $f:(X,d_X)\to(Y,d_Y)$ רציפה ב-$a$ אם לכל $\varepsilon>0$ קיים $\delta>0$ כך ש-$d_X(x,a)<\delta$ גורר
+    $d_Y(f(x),f(a))<\varepsilon$; שקול: $f(x_n)\to f(a)$ לכל $x_n\to a$. $f$ רציפה (בכל נקודה) אם ורק אם
+    $f^{-1}(V)$ פתוחה לכל $V$ פתוחה.
+  lesson: '1.6'
+- id: lipschitz-function
+  term: פונקציה ליפשיצית
+  en: Lipschitz function
+  definition: >-
+    $f$ ליפשיצית עם קבוע $L$ אם $d_Y(f(x),f(y))\le L\,d_X(x,y)$ לכל $x,y$. למשל $x\mapsto d(x,a)$ היא
+    1-ליפשיצית. ליפשיצית גוררת רציפה במידה שווה.
+  reject: [ליפשיטצית]
+  lesson: '1.6'
+- id: uniform-continuity
+  term: רציפות במידה שווה
+  en: uniform continuity
+  definition: >-
+    $f$ רציפה במידה שווה אם לכל $\varepsilon>0$ קיים $\delta>0$ כך שלכל $x,y$ עם $d_X(x,y)<\delta$ מתקיים
+    $d_Y(f(x),f(y))<\varepsilon$: אותו $\delta$ לכל הנקודות. לא לבלבל עם רציפות במידה אחידה, תכונה של משפחת
+    פונקציות (פרק 4).
+  lesson: '1.6'
+- id: homeomorphism
+  term: הומיאומורפיזם
+  en: homeomorphism
+  definition: >-
+    העתקה $f:X\to Y$ חד-חד-ערכית ועל, רציפה, שגם ההופכית שלה רציפה. היא מעבירה קבוצות פתוחות לפתוחות וסדרות
+    מתכנסות למתכנסות, אבל לא שומרת על מרחקים או על חסימות: $(0,1)$ הומיאומורפי ל-$\mathbb{R}$.
+  reject: [הומאומורפיזם]
+  lesson: '1.6'
+- id: preimage
+  term: מקור (של קבוצה)
+  en: preimage
+  symbol: 'f^{-1}(V)'
+  definition: >-
+    $f^{-1}(V)=\{x\in X: f(x)\in V\}$ עבור $f:X\to Y$ ו-$V\subseteq Y$. מוגדר לכל $f$, גם כשאין לה הפכית.
+    $f$ רציפה אם ורק אם המקור של כל קבוצה פתוחה פתוח; התמונה של פתוחה, לעומת זאת, אינה בהכרח פתוחה.
+  lesson: '1.6'

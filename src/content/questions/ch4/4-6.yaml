@@ -1,0 +1,385 @@
+# Lesson 4.6 — the Stone–Weierstrass theorem (enrichment).
+# Objectives (src/course.ts):
+#   OBJ-4.6-1  define a subalgebra that separates points and state the real Stone–Weierstrass theorem
+#   OBJ-4.6-2  deduce that trigonometric polynomials are dense in the continuous periodic functions
+#   OBJ-4.6-3  check the hypotheses for given algebras and find an algebra that is not dense because one fails
+# A trigonometric polynomial here is a finite sum c + Σ (a_k cos kx + b_k sin kx); chapter 5 takes them up again.
+chapter: 4
+questions:
+  - id: Q-4.6-statement
+    type: mc
+    objectives: [OBJ-4.6-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $K$ מרחב מטרי קומפקטי ו-$\mathcal{A}\subseteq C(K)$. מה דורש משפט סטון-ויירשטראס (הממשי) כדי ש-$\mathcal{A}$ תהיה
+      צפופה ב-$C(K)$?
+    choices:
+      - text: '$\mathcal{A}$ תת-אלגברה, מכילה את הקבועים ומפרידה נקודות'
+        correct: true
+        feedback: >-
+          נכון. שלוש ההנחות, על מרחב קומפקטי. עם $K=[a,b]$ ו-$\mathcal{A}$ הפולינומים מקבלים את משפט ויירשטראס: הפונקציה
+          $x$ לבדה מפרידה נקודות.
+      - text: '$\mathcal{A}$ תת-אלגברה שמפרידה נקודות'
+        feedback: >-
+          חסרים הקבועים. $\{p:\ p(0)=0\}$ היא תת-אלגברה של $C[0,1]$ שמפרידה נקודות (בזכות $x$), והקבוע 1 במרחק 1 מכל
+          איבריה.
+        misconception: MC-c4-sw-constants-forgotten
+      - text: '$\mathcal{A}$ תת-אלגברה שמכילה את הקבועים'
+        feedback: >-
+          חסרה הפרדת הנקודות. הפולינומים ב-$x^2$ ב-$C[-1,1]$ הם תת-אלגברה עם הקבועים, וכולם זוגיים: $x$ במרחק 1 מכולם.
+        misconception: MC-c4-sw-separation-forgotten
+      - text: '$\mathcal{A}$ תת-מרחב לינארי שמכיל את הקבועים ומפריד נקודות'
+        feedback: >-
+          תת-מרחב אינו מספיק: הפונקציות $a+bx$ ב-$C[0,1]$ מכילות את הקבועים ומפרידות נקודות, אבל הן תת-מרחב ממימד 2,
+          ולכן סגור ולא צפוף ($x^2$ במרחק $\frac18$ מכולן). הכפל הוא מה שמייצר את כל המעלות.
+        misconception: MC-c4-algebra-definition
+
+  - id: Q-4.6-separates
+    type: mc
+    objectives: [OBJ-4.6-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      מה פירוש "$\mathcal{A}\subseteq C(K)$ **מפרידה נקודות**"?
+    choices:
+      - text: 'לכל $x\ne y$ ב-$K$ יש $f\in\mathcal{A}$ עם $f(x)\ne f(y)$'
+        correct: true
+        feedback: >-
+          נכון. הפונקציה רשאית להיות תלויה בזוג. למשל במישור, $\{x,\ y\}$ (הקואורדינטות) מפרידות נקודות יחד, אף שאף
+          אחת מהן אינה חד-חד-ערכית.
+      - text: 'יש $f\in\mathcal{A}$ כך שלכל $x\ne y$: $f(x)\ne f(y)$'
+        feedback: >-
+          זה דורש פונקציה חד-חד-ערכית אחת: תנאי מספיק, לא ההגדרה. ההגדרה מרשה פונקציה שונה לכל זוג: על ריבוע היחידה $x$
+          מפרידה זוגות עם קואורדינטה ראשונה שונה, ו-$y$ את השאר.
+        misconception: MC-c4-separation-definition
+      - text: 'לכל $x\in K$ יש $f\in\mathcal{A}$ עם $f(x)\ne0$'
+        feedback: >-
+          זה התנאי "לא מתאפסת בשום נקודה", שמחליף בגרסאות מסוימות את דרישת הקבועים. הוא לא מדבר על זוגות נקודות.
+        misconception: MC-c4-separation-definition
+      - text: 'לכל $x\ne y$ ב-$K$ ולכל $f\in\mathcal{A}$: $f(x)\ne f(y)$'
+        feedback: >-
+          זה דורש שכל הפונקציות יהיו חד-חד-ערכיות, וגם הקבועים לא יעמדו בזה. מספיקה פונקציה **אחת** לכל זוג.
+        misconception: MC-c4-separation-definition
+
+  - id: Q-4.6-algebra
+    type: multi
+    objectives: [OBJ-4.6-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      אילו מהקבוצות הבאות הן תת-אלגברות של $C[0,1]$? סמנו את כולן.
+    choices:
+      - text: כל הפולינומים
+        correct: true
+        feedback: 'נכון: סכום, כפל בסקלר ומכפלה של פולינומים הם פולינומים.'
+      - text: '$\{f:\ f(\frac12)=0\}$'
+        correct: true
+        feedback: >-
+          נכון: אם $f(\frac12)=g(\frac12)=0$ אז גם $(f+g)$, $(cf)$ ו-$(fg)$ מתאפסות שם. היא אינה מכילה את הקבועים, אבל זו
+          לא דרישה של תת-אלגברה.
+      - text: הפונקציות הליפשיציות על $[0,1]$
+        correct: true
+        feedback: >-
+          נכון. למכפלה: $|fg(x)-fg(y)|\le\|f\|_\infty|g(x)-g(y)|+\|g\|_\infty|f(x)-f(y)|$, וכל פונקציה ליפשיצית על $[0,1]$
+          חסומה.
+      - text: הפולינומים ממעלה 3 לכל היותר
+        feedback: >-
+          סגורה לחיבור ולכפל בסקלר, אבל $x^2\cdot x^2=x^4$ יוצא ממנה. תת-מרחב אינו בהכרח תת-אלגברה.
+        misconception: MC-c4-algebra-definition
+      - text: '$\{f:\ f(x)\ge0\ \forall x\}$'
+        feedback: >-
+          סגורה לחיבור ולכפל של שתי פונקציות, אבל לא לכפל בסקלר שלילי: $(-1)\cdot1=-1$.
+        misconception: MC-c4-algebra-definition
+
+  - id: Q-4.6-product
+    type: numeric
+    objectives: [OBJ-4.6-2]
+    level: basic
+    prompt: >-
+      הפולינומים הטריגונומטריים סגורים לכפל. כתבו $\cos 2x\cdot\cos 3x$ כצירוף לינארי של $\cos kx$. מהו המקדם של $\cos 5x$?
+    answer: 0.5
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון: $\cos a\cos b=\frac12\big(\cos(a-b)+\cos(a+b)\big)$, ולכן $\cos2x\cos3x=\frac12\cos x+\frac12\cos5x$. כך כל
+      מכפלה של פולינומים טריגונומטריים היא שוב פולינום טריגונומטרי: הם תת-אלגברה.
+    wrongFeedback: >-
+      השתמשו בנוסחת המכפלה לסכום $\cos a\cos b=\frac12\big(\cos(a-b)+\cos(a+b)\big)$.
+    commonWrong:
+      - value: 1
+        feedback: >-
+          $\cos2x\cos3x\ne\cos5x$: ב-$x=\frac\pi4$ השמאלי $\cos\frac\pi2\cos\frac{3\pi}4=0$, והימני
+          $\cos\frac{5\pi}4\ne0$. המכפלה היא $\frac12\cos x+\frac12\cos5x$, שמתאפסת שם כמו שצריך.
+      - value: 6
+        feedback: >-
+          מכפלה של קוסינוסים אינה מכפילה את התדירויות: היא נותנת את הסכום $5$ וההפרש $1$, כל אחד עם מקדם $\frac12$.
+
+  - id: Q-4.6-vanish
+    type: numeric
+    objectives: [OBJ-4.6-3]
+    level: basic
+    prompt: >-
+      $\mathcal{A}\subseteq C[0,1]$ היא קבוצת הפולינומים $p$ עם $p(0)=0$. מהו המרחק $\inf_{p\in\mathcal{A}}\|1-p\|_\infty$
+      של הקבוע 1 מ-$\mathcal{A}$?
+    answer: 1
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. לכל $p\in\mathcal{A}$: $\|1-p\|_\infty\ge|1-p(0)|=1$, ו-$p=0$ נותן בדיוק 1. האלגברה מפרידה נקודות אבל אינה
+      מכילה את הקבועים, והסגור שלה הוא $\{f:\ f(0)=0\}$.
+    wrongFeedback: >-
+      הסתכלו בנקודה $x=0$: מה הערך של $1-p$ שם, לכל $p\in\mathcal{A}$?
+    commonWrong:
+      - value: 0
+        feedback: >-
+          0 היה נכון אילו $\mathcal{A}$ הייתה צפופה. היא מפרידה נקודות, אבל כל איבריה מתאפסים ב-0, ולכן גם כל גבול שלהם.
+        misconception: MC-c4-sw-constants-forgotten
+
+  - id: Q-4.6-even-sym
+    type: twotier
+    objectives: [OBJ-4.6-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      האם הפולינומים ב-$x^2$ (כלומר $q(x^2)$ עם $q$ פולינום) צפופים ב-$C[-1,1]$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. כולם זוגיים, וכל גבול שלהם זוגי.'
+      - text: כן
+        feedback: >-
+          זו תת-אלגברה עם הקבועים, אבל היא לא מפרידה בין $x$ ל-$(-x)$. ראו את החישוב בנימוק הנכון.
+        misconception: MC-c4-sw-separation-forgotten
+    reasons:
+      - text: 'לכל $g$ זוגית: $|1-g(1)|+|-1-g(-1)|=|1-g(1)|+|1+g(1)|\ge2$, ולכן $\|x-g\|_\infty\ge1$'
+        correct: true
+        feedback: >-
+          בדיוק. $x$ במרחק 1 לפחות מכל פונקציה זוגית, בפרט מכל פולינום ב-$x^2$. ההנחה שנכשלת היא הפרדת הנקודות $1$ ו-$(-1)$.
+      - text: 'כי $x$ אינו פולינום ב-$x^2$'
+        feedback: >-
+          זה נכון ולא מספיק: צפיפות פירושה קירוב, לא שייכות. על $[0,1]$, $x$ אינו פולינום ב-$x^2$ ובכל זאת מקורב בהם.
+        misconception: MC-c4-dense-means-contains
+      - text: 'האלגברה אינה מכילה את הקבועים'
+        feedback: >-
+          היא מכילה אותם: $q$ קבוע נותן $q(x^2)=c$. ההנחה שנכשלת היא הפרדת נקודות.
+        misconception: MC-c4-sw-constants-forgotten
+
+  - id: Q-4.6-even-half
+    type: twotier
+    objectives: [OBJ-4.6-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      האם הפולינומים ב-$x^2$ צפופים ב-$C[0,1]$?
+    choices:
+      - text: כן
+        correct: true
+        feedback: 'נכון. על $[0,1]$ שלוש ההנחות מתקיימות.'
+      - text: לא
+        feedback: >-
+          אמנם $x$ אינו פולינום ב-$x^2$, אבל צפיפות דורשת רק קירוב. בדקו את שלוש ההנחות של סטון-ויירשטראס על $[0,1]$.
+        misconception: MC-c4-dense-means-contains
+    reasons:
+      - text: 'תת-אלגברה עם הקבועים, ו-$x^2$ חד-חד-ערכית על $[0,1]$, ולכן מפרידה כל שתי נקודות'
+        correct: true
+        feedback: >-
+          בדיוק. ההבדל מ-$[-1,1]$: שם $x^2$ לא מבחינה בין $x$ ל-$(-x)$, וכאן אין זוגות כאלה.
+      - text: 'כל פונקציה רציפה על $[0,1]$ זוגית'
+        feedback: >-
+          "זוגית" אינה מוגדרת על $[0,1]$ (צריך $(-x)$ בתחום). הנימוק הוא הפרדת נקודות.
+        misconception: MC-c4-separation-definition
+      - text: 'הן תת-אלגברה שמכילה את הקבועים, וזה מספיק'
+        feedback: >-
+          זה לא מספיק: על $[-1,1]$ אותה אלגברה אינה צפופה. צריך גם הפרדת נקודות, וכאן היא מתקיימת.
+        misconception: MC-c4-sw-separation-forgotten
+
+  - id: Q-4.6-dist-even
+    type: numeric
+    objectives: [OBJ-4.6-3]
+    level: mid
+    prompt: >-
+      ב-$C[-1,1]$: מהו המרחק $\inf\|x-g\|_\infty$ של הפונקציה $x$ מקבוצת הפולינומים ב-$x^2$?
+    answer: 1
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. לכל $g$ זוגית $\max(|1-g(1)|,|1+g(1)|)\ge1$, ו-$g=0$ נותן $\|x\|_\infty=1$. המרחק לא קטן גם אם מוסיפים את כל
+      הגבולות: הסגור הוא הפונקציות הזוגיות.
+    wrongFeedback: >-
+      השוו את $x-g$ בנקודות $1$ ו-$(-1)$, כש-$g(1)=g(-1)$.
+    commonWrong:
+      - value: 0
+        feedback: >-
+          0 היה נכון אילו האלגברה הייתה צפופה. היא אינה מפרידה בין $1$ ל-$(-1)$.
+        misconception: MC-c4-sw-separation-forgotten
+      - value: 2
+        feedback: >-
+          2 הוא $|1-g(1)|+|1+g(1)|$, סכום שתי השגיאות. הנורמה היא הגדולה מביניהן, והיא לפחות חצי מהסכום.
+
+  - id: Q-4.6-trig
+    type: mc
+    objectives: [OBJ-4.6-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      פולינום טריגונומטרי הוא סכום סופי $c+\sum_{k=1}^{N}(a_k\cos kx+b_k\sin kx)$. איך מסיקים מסטון-ויירשטראס שהם צפופים
+      בפונקציות הרציפות ה-$2\pi$-מחזוריות (בנורמת הסופרמום)?
+    choices:
+      - text: 'רואים בהם פונקציות על המעגל $\{(\cos t,\sin t)\}$, שהוא קומפקטי; הם תת-אלגברה עם הקבועים, ו-$\cos t,\sin t$ יחד מפרידים כל שתי נקודות של המעגל'
+        correct: true
+        feedback: >-
+          נכון. מכפלה של פולינומים טריגונומטריים היא פולינום טריגונומטרי (למשל $\cos kx\cos mx=\frac12(\cos(k-m)x+\cos(k+m)x)$),
+          ופונקציה רציפה מחזורית היא בדיוק פונקציה רציפה על המעגל.
+      - text: 'מפעילים את המשפט ישירות על הקטע $[-\pi,\pi]$'
+        feedback: >-
+          על הקטע הם לא מפרידים בין $(-\pi)$ ל-$\pi$: כל פולינום טריגונומטרי מקבל בהן אותו ערך. הסגור שלהם שם הוא רק
+          $\{f:\ f(-\pi)=f(\pi)\}$.
+        misconception: MC-c4-periodic-interval
+      - text: 'מספיקים הקוסינוסים: $c+\sum a_k\cos kx$ הם תת-אלגברה עם הקבועים'
+        feedback: >-
+          הם תת-אלגברה עם הקבועים, אבל כולם זוגיים: הם לא מפרידים בין $t$ ל-$(-t)$. $\sin x$ במרחק 1 לפחות מכולם.
+        misconception: MC-c4-sw-separation-forgotten
+      - text: 'הם תת-מרחב לינארי שמכיל את $\sin x$ ו-$\cos x$, וזה מספיק'
+        feedback: >-
+          המשפט דורש סגירות לכפל, ותת-מרחב לבד אינו מספיק. כאן הסגירות לכפל נכונה, אבל צריך להוכיח אותה.
+        misconception: MC-c4-algebra-definition
+
+  - id: Q-4.6-trig-interval
+    type: twotier
+    objectives: [OBJ-4.6-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      האם הפולינומים הטריגונומטריים צפופים ב-$C[-\pi,\pi]$, כל הפונקציות הרציפות על הקטע?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. הם צפופים רק בפונקציות שמקיימות $f(-\pi)=f(\pi)$.'
+      - text: כן
+        feedback: >-
+          המשפט נותן צפיפות בפונקציות על המעגל. על הקטע יש פונקציות כמו $f(x)=x$ שאינן "נסגרות" למעגל.
+        misconception: MC-c4-periodic-interval
+    reasons:
+      - text: 'כל פולינום טריגונומטרי מקיים $p(-\pi)=p(\pi)=c$, ואז $\max(|\pi-c|,|-\pi-c|)\ge\pi$: $f(x)=x$ במרחק $\pi$ לפחות מכולם'
+        correct: true
+        feedback: >-
+          בדיוק. השוויון $p(-\pi)=p(\pi)$ נשמר בגבול במידה שווה, ולכן הסגור מוכל ב-$\{f:\ f(-\pi)=f(\pi)\}$.
+      - text: 'כי $f(x)=x$ אינה מחזורית, ולכן אינה פולינום טריגונומטרי'
+        feedback: >-
+          צפיפות אינה שייכות: גם $|x|$ אינה פולינום טריגונומטרי וכן מקורבת בהם. הסיבה היא הערכים בקצוות, שנשמרים בגבול.
+        misconception: MC-c4-dense-means-contains
+      - text: 'הפולינומים הטריגונומטריים אינם תת-אלגברה'
+        feedback: >-
+          הם תת-אלגברה: מכפלות של $\cos$ ו-$\sin$ הן סכומים שלהם (נוסחאות מכפלה לסכום). מה שנכשל על הקטע הוא הפרדת $\pm\pi$.
+        misconception: MC-c4-algebra-definition
+
+  - id: Q-4.6-which-dense
+    type: multi
+    objectives: [OBJ-4.6-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      אילו מתת-האלגברות הבאות של $C[0,1]$ **צפופות** בו? סמנו את כולן.
+    choices:
+      - text: 'הפולינומים ב-$e^x$, כלומר $q(e^x)$ עם $q$ פולינום'
+        correct: true
+        feedback: >-
+          נכון: מכילה קבועים, ו-$e^x$ חד-חד-ערכית ולכן מפרידה נקודות.
+      - text: 'הפולינומים $p$ עם $p''(0)=0$'
+        correct: true
+        feedback: >-
+          נכון. זו תת-אלגברה ($(pq)'(0)=p'(0)q(0)+p(0)q'(0)=0$), עם הקבועים, ומכילה את $x^2$ שמפרידה נקודות על $[0,1]$.
+          תנאי על הנגזרת לא נשמר בגבול במידה שווה, ולכן הוא לא מונע צפיפות.
+      - text: 'הפולינומים ב-$x^3$'
+        correct: true
+        feedback: 'נכון: $x^3$ חד-חד-ערכית על $[0,1]$ (ואפילו על $[-1,1]$), והקבועים בפנים.'
+      - text: 'הפולינומים $p$ עם $p(0)=p(1)$'
+        feedback: >-
+          לא מפרידה בין 0 ל-1, וכל גבול מקיים $f(0)=f(1)$. למשל $x$ במרחק $\frac12$ לפחות מכולם.
+        misconception: MC-c4-sw-separation-forgotten
+      - text: 'הפולינומים $p$ עם $p(1)=0$'
+        feedback: >-
+          לא מכילה את הקבועים, וכל גבול מתאפס ב-1: הקבוע 1 במרחק 1 מכולם.
+        misconception: MC-c4-sw-constants-forgotten
+    explanation: >-
+      לכל אלגברה בודקים שלושה דברים: סגורה לכפל, מכילה קבועים, מפרידה נקודות. תנאי **ערך** בנקודה (כמו $p(1)=0$ או
+      $p(0)=p(1)$) נשמר בגבול ולכן שובר צפיפות; תנאי **נגזרת** (כמו $p'(0)=0$) לא נשמר ולכן לא שובר.
+    hints:
+      - 'בדקו לכל אלגברה איזו משלוש ההנחות נכשלת, ואם כן, מצאו את התכונה שנשמרת בגבול.'
+
+  - id: Q-4.6-derivative
+    type: twotier
+    objectives: [OBJ-4.6-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      טענה: הפולינומים $p$ עם $p'(0)=0$ **אינם** צפופים ב-$C[0,1]$, כי $f(x)=x$ מקיימת $f'(0)=1$. נכון או לא נכון?
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: 'נכון. הם צפופים.'
+      - text: נכון
+        feedback: >-
+          הנגזרת בנקודה אינה נשמרת בגבול במידה שווה, ולכן אינה מכשול לצפיפות.
+        misconception: MC-c4-derivative-condition-closed
+    reasons:
+      - text: 'האלגברה מכילה את הקבועים ואת $x^2$, שמפרידה נקודות על $[0,1]$; תנאי על נגזרת לא עובר לגבול במידה שווה'
+        correct: true
+        feedback: >-
+          בדיוק. דוגמה לכך שהנגזרת לא נשמרת: $\sqrt{x^2+\frac1n}$ מקיימות $f_n'(0)=0$ ומתכנסות במידה שווה ל-$|x|$.
+      - text: 'אם $p_n\to f$ במידה שווה אז $p_n''(0)\to f''(0)$'
+        feedback: >-
+          התכנסות במידה שווה אינה שולטת בנגזרות: $\frac{\sin(n^2x)}{n}\to0$ במידה שווה, והנגזרת ב-0 היא $n$.
+        misconception: MC-c4-derivative-condition-closed
+      - text: 'האלגברה אינה מפרידה נקודות, כי כל איבריה שטוחים ב-0'
+        feedback: >-
+          הפרדת נקודות היא על **ערכים**: $x^2$ באלגברה, ו-$a^2\ne b^2$ לכל $a\ne b$ ב-$[0,1]$.
+        misconception: MC-c4-separation-definition
+
+  - id: Q-4.6-square
+    type: mc
+    objectives: [OBJ-4.6-3, OBJ-4.6-1]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $K=[0,1]^2$, ו-$\mathcal{A}$ היא קבוצת הפונקציות $f(x,y)=p(x)$ עם $p$ פולינום: הפולינומים במשתנה $x$ בלבד. $\mathcal{A}$ אינה
+      צפופה ב-$C(K)$. איזו הנחה של סטון-ויירשטראס נכשלת?
+    choices:
+      - text: הפרדת נקודות
+        correct: true
+        feedback: >-
+          נכון. $(x,0)$ ו-$(x,1)$ מקבלות אותו ערך בכל איבר של $\mathcal{A}$, וכך גם בכל גבול; למשל $g(x,y)=y$ במרחק
+          $\frac12$ לפחות מכולם. אם מוסיפים את $y$ (פולינומים ב-$x$ וב-$y$), האלגברה צפופה.
+      - text: הקבועים
+        feedback: '$p$ קבוע נותן קבוע: הקבועים ב-$\mathcal{A}$.'
+        misconception: MC-c4-sw-constants-forgotten
+      - text: סגירות לכפל
+        feedback: 'מכפלה של פולינומים ב-$x$ היא פולינום ב-$x$: זו תת-אלגברה.'
+        misconception: MC-c4-algebra-definition
+
+  - id: Q-4.6-lipschitz
+    type: twotier
+    objectives: [OBJ-4.6-1, OBJ-4.6-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $(K,d)$ מרחב מטרי קומפקטי. האם הפונקציות הליפשיציות על $K$ צפופות ב-$C(K)$?
+    choices:
+      - text: כן
+        correct: true
+        feedback: 'נכון. זו הפעלה של סטון-ויירשטראס על מרחב קומפקטי כללי, לא רק על קטע.'
+      - text: לא
+        feedback: >-
+          לא כל פונקציה רציפה ליפשיצית, אבל צפיפות אינה שייכות. בדקו את שלוש ההנחות.
+        misconception: MC-c4-dense-means-contains
+    reasons:
+      - text: 'תת-אלגברה (על קומפקטי הן חסומות, ומכפלה של חסומות ליפשיציות ליפשיצית), עם הקבועים, ו-$f(z)=d(z,x)$ מפרידה בין $x$ ל-$y$'
+        correct: true
+        feedback: >-
+          בדיוק. $d(\cdot,x)$ ליפשיצית עם קבוע 1 (אי-שוויון המשולש), $f(x)=0$ ו-$f(y)=d(x,y)>0$. הפונקציה המפרידה תלויה בזוג.
+      - text: 'כל פונקציה רציפה על קומפקטי ליפשיצית, ולכן הן כל $C(K)$'
+        feedback: >-
+          $\sqrt x$ רציפה על $[0,1]$ ואינה ליפשיצית. הליפשיציות הן תת-קבוצה צפופה, לא כל המרחב.
+        misconception: MC-c4-continuous-is-lipschitz
+      - text: 'יש פונקציה ליפשיצית חד-חד-ערכית על כל $K$, והיא מפרידה נקודות'
+        feedback: >-
+          לא צריך פונקציה אחת שמפרידה את כולן, ולא ברור שיש כזו. ההגדרה מבקשת פונקציה לכל זוג, ו-$d(\cdot,x)$ עושה זאת.
+        misconception: MC-c4-separation-definition

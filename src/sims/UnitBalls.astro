@@ -1,0 +1,7 @@
+---
+/** Lesson 1.2 figure: <Spread figure={UnitBalls} figureProps={{ mode: 'balls' | 'par', … }}>. */
+import UnitBalls, { type UnitBallsProps } from './UnitBalls';
+type Props = UnitBallsProps;
+---
+
+<UnitBalls client:visible {...Astro.props} />

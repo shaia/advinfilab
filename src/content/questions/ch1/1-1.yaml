@@ -1,0 +1,344 @@
+# Lesson 1.1 — metric spaces: definition and examples.
+# Objectives (src/course.ts):
+#   OBJ-1.1-1  state the three axioms of a metric and check them, the triangle inequality in particular
+#   OBJ-1.1-2  the basic examples: Euclidean, discrete, sum and max metrics on R^n, the sup metric on B(X)
+#   OBJ-1.1-3  find the axiom that fails for a function that is not a metric (squared difference)
+chapter: 1
+questions:
+  - id: Q-1.1-axioms
+    type: mc
+    objectives: [OBJ-1.1-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      פונקציה $d:X\times X\to[0,\infty)$ היא **מטריקה** על $X$ אם לכל $x,y,z\in X$ מתקיימות שלוש תכונות. איזו
+      רשימה היא הנכונה?
+    choices:
+      - text: '$d(x,y)=0 \iff x=y$;  $d(x,y)=d(y,x)$;  $d(x,z)\le d(x,y)+d(y,z)$'
+        correct: true
+        feedback: >-
+          נכון. אפס בדיוק לנקודה עצמה, סימטריה, ואי-שוויון המשולש: עקיפה דרך $y$ אינה קצרה מהדרך הישירה.
+      - text: '$d(x,x)=0$;  $d(x,y)=d(y,x)$;  $d(x,z)\le d(x,y)+d(y,z)$'
+        feedback: >-
+          חסר הכיוון "$d(x,y)=0$ רק אם $x=y$". בלעדיו $d(x,y)=|x_1-y_1|$ על $\mathbb{R}^2$ הייתה "מטריקה", אף
+          שהנקודות $(0,0)$ ו-$(0,1)$ שונות ובמרחק 0.
+        misconception: MC-c1-zero-axiom
+      - text: '$d(x,y)=0 \iff x=y$;  $d(x,y)=d(y,x)$;  $d(x,z)\le \max(d(x,y),d(y,z))$'
+        feedback: >-
+          זו דרישה חזקה בהרבה מאי-שוויון המשולש, והמרחק הרגיל על $\mathbb{R}$ אינו מקיים אותה:
+          $|0-2|=2>\max(|0-1|,|1-2|)=1$.
+        misconception: MC-c1-triangle-wrong-form
+      - text: '$d(x,y)=0 \iff x=y$;  $d(x,y)=d(y,x)$;  $d(x,z)\ge d(x,y)+d(y,z)$'
+        feedback: >-
+          האי-שוויון הפוך. עם $y=x$ הוא היה נותן $d(x,z)\ge d(x,z)+0$, ועם $y=z$ אותו דבר, אבל עם $x=z$
+          הוא נותן $0\ge2d(x,y)$, כלומר כל הנקודות שוות. הדרך הישירה היא הקצרה, לא הארוכה.
+        misconception: MC-c1-triangle-wrong-form
+
+  - id: Q-1.1-square
+    type: twotier
+    objectives: [OBJ-1.1-1, OBJ-1.1-3]
+    qualitative: true
+    level: basic
+    prompt: >-
+      האם $d(x,y)=(x-y)^2$ היא מטריקה על $\mathbb{R}$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. היא אפס רק כש-$x=y$ והיא סימטרית, אבל אי-שוויון המשולש נכשל.
+      - text: כן
+        feedback: >-
+          $|x-y|$ היא מטריקה, אבל ריבוע של מטריקה אינו בהכרח מטריקה: $d(0,2)=4$ ואילו $d(0,1)+d(1,2)=2$.
+        misconception: MC-c1-transform-metric
+    reasons:
+      - text: '$d(0,2)=4>2=d(0,1)+d(1,2)$: אי-שוויון המשולש נכשל'
+        correct: true
+        feedback: >-
+          בדיוק. דוגמה נגדית אחת מספיקה כדי להפריך "לכל $x,y,z$". שימו לב: הריבוע "מעניש" מרחקים גדולים, ולכן
+          שני צעדים קטנים זולים מצעד גדול אחד.
+      - text: 'הסימטריה נכשלת, כי $x-y\neq y-x$'
+        feedback: >-
+          אמנם $x-y\neq y-x$, אבל $(x-y)^2=(y-x)^2$, ולכן הסימטריה מתקיימת. התכונה שנכשלת היא אי-שוויון המשולש.
+        misconception: MC-c1-axiom-misdiagnosed
+      - text: 'אקסיומת האפס נכשלת, כי $(x-y)^2=0$ אפשרי'
+        feedback: >-
+          $(x-y)^2=0$ רק כש-$x=y$, וזה בדיוק מה שהאקסיומה דורשת. התכונה שנכשלת היא אי-שוויון המשולש.
+        misconception: MC-c1-axiom-misdiagnosed
+
+  - id: Q-1.1-proj
+    type: twotier
+    objectives: [OBJ-1.1-3]
+    qualitative: true
+    level: basic
+    prompt: >-
+      על $\mathbb{R}^2$ מגדירים $d(x,y)=|x_1-y_1|$, כלומר רק את ההפרש בקואורדינטה הראשונה. האם זו מטריקה?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. סימטריה ואי-שוויון המשולש עוברים מ-$\mathbb{R}$, אבל נקודות שונות יכולות להיות במרחק 0.
+      - text: כן
+        feedback: >-
+          $d((0,0),(0,1))=|0-0|=0$, אף ש-$(0,0)\neq(0,1)$. מטריקה מתאפסת רק על זוג של נקודה עם עצמה.
+        misconception: MC-c1-zero-axiom
+    reasons:
+      - text: '$d((0,0),(0,1))=0$ אף שהנקודות שונות'
+        correct: true
+        feedback: >-
+          בדיוק: הכיוון "$d(x,y)=0\Rightarrow x=y$" של אקסיומת האפס נכשל. (פונקציה כזו נקראת לפעמים פסאודו-מטריקה.)
+      - text: 'אי-שוויון המשולש נכשל'
+        feedback: >-
+          הוא מתקיים: $|x_1-z_1|\le|x_1-y_1|+|y_1-z_1|$ הוא אי-שוויון המשולש בישר. מה שנכשל הוא אקסיומת האפס.
+        misconception: MC-c1-axiom-misdiagnosed
+      - text: 'הסימטריה נכשלת, כי $y_2$ לא משתתף'
+        feedback: >-
+          $|x_1-y_1|=|y_1-x_1|$, כך שהסימטריה מתקיימת. העובדה ש-$y_2$ לא משתתפת פוגעת דווקא באקסיומת האפס.
+        misconception: MC-c1-axiom-misdiagnosed
+
+  - id: Q-1.1-discrete
+    type: mc
+    objectives: [OBJ-1.1-2, OBJ-1.1-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      על קבוצה כלשהי $X$ מגדירים את **המטריקה הבדידה**: $d(x,y)=1$ אם $x\neq y$ ו-$d(x,x)=0$. למה היא מקיימת
+      את אי-שוויון המשולש $d(x,z)\le d(x,y)+d(y,z)$?
+    choices:
+      - text: 'אם $x=z$ האגף השמאלי 0. אם $x\neq z$, אז $y$ שונה מאחת מהן, ולכן האגף הימני לפחות 1'
+        correct: true
+        feedback: >-
+          נכון. שני מקרים מכסים הכול, ואין שום הנחה על $X$: היא מטריקה על כל קבוצה, סופית או אינסופית.
+      - text: היא אינה מקיימת אותו, כי המרחק לא תלוי במיקום הנקודות
+        feedback: >-
+          מטריקה לא חייבת לשקף "מיקום". צריך רק לבדוק את שלוש האקסיומות, והמטריקה הבדידה עומדת בכולן.
+        misconception: MC-c1-discrete-not-metric
+      - text: היא מקיימת אותו רק כש-$X$ סופית
+        feedback: >-
+          ההוכחה לא משתמשת בגודל של $X$ בכלל: המטריקה הבדידה מוגדרת היטב גם על $\mathbb{R}$.
+        misconception: MC-c1-discrete-not-metric
+      - text: 'כי כל המרחקים שווים ל-1, ו-$1\le1+1$'
+        feedback: >-
+          לא כל המרחקים 1: $d(x,x)=0$. הטיעון צריך לטפל גם במקרים שבהם חלק מהנקודות שוות, וזה מה שהחלוקה
+          למקרים עושה.
+        misconception: MC-c1-zero-axiom
+
+  - id: Q-1.1-sum
+    type: numeric
+    objectives: [OBJ-1.1-2]
+    level: basic
+    prompt: >-
+      חשבו את $d_1(x,y)=|x_1-y_1|+|x_2-y_2|$ (מטריקת הסכום) בין $x=(1,2)$ ל-$y=(4,-2)$ ב-$\mathbb{R}^2$.
+    answer: 7
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $|1-4|+|2-(-2)|=3+4=7$. לשם השוואה, המרחק האוקלידי הוא $\sqrt{9+16}=5$ ומטריקת המקסימום נותנת
+      $\max(3,4)=4$: שלוש מטריקות, שלושה מרחקים בין אותן שתי נקודות.
+    wrongFeedback: >-
+      חשבו את ההפרש בכל קואורדינטה, קחו ערך מוחלט, וחברו.
+    commonWrong:
+      - value: 5
+        feedback: >-
+          5 הוא המרחק **האוקלידי**. מטריקת הסכום היא מטריקה אחרת על אותה קבוצה ונותנת מספר אחר.
+        misconception: MC-c1-one-distance
+      - value: 4
+        feedback: >-
+          4 הוא המרחק במטריקת **המקסימום**, $\max(3,4)$. במטריקת הסכום מחברים את שני ההפרשים.
+        misconception: MC-c1-one-distance
+
+  - id: Q-1.1-three
+    type: rank
+    objectives: [OBJ-1.1-2]
+    level: basic
+    prompt: >-
+      סדרו מהגדול לקטן את המרחקים בין $x=(1,2)$ ל-$y=(4,-2)$ בשלוש המטריקות על $\mathbb{R}^2$.
+    items:
+      - id: d1
+        label: 'מטריקת הסכום $d_1$'
+      - id: d2
+        label: 'המטריקה האוקלידית $d_2$'
+      - id: dinf
+        label: 'מטריקת המקסימום $d_\infty$'
+    order: [d1, d2, dinf]
+    correctFeedback: >-
+      נכון: $7>5>4$. זה לא מקרי: לכל שתי נקודות $d_\infty\le d_2\le d_1$, כי ריבוע הקואורדינטה הגדולה ביותר קטן
+      או שווה לסכום הריבועים, וסכום הריבועים קטן או שווה לריבוע סכום הערכים המוחלטים. (שוויון אפשרי: להפרש
+      $(3,0)$ שלושתן 3.)
+    wrongFeedback: >-
+      חשבו כל אחד: ההפרשים הם 3 ו-4; סכום, שורש סכום הריבועים, ומקסימום.
+
+  - id: Q-1.1-sup
+    type: numeric
+    objectives: [OBJ-1.1-2]
+    level: mid
+    prompt: >-
+      במרחב $B([0,\pi])$ של הפונקציות החסומות עם **מטריקת הסופרמום** $d(f,g)=\sup_{x}|f(x)-g(x)|$, חשבו את
+      $d(\sin,\cos)$. (תשובה עשרונית בשלוש ספרות אחרי הנקודה מתקבלת.)
+    answer: 1.41421356
+    tolerance: 0.0005
+    correctFeedback: >-
+      נכון: $\sqrt2$. $\sin x-\cos x=\sqrt2\sin(x-\frac\pi4)$, ועל $[0,\pi]$ הזווית $x-\frac\pi4$ עוברת את
+      $\frac\pi2$ ב-$x=\frac{3\pi}{4}$, נקודה פנימית.
+    wrongFeedback: >-
+      כתבו את ההפרש $\sin x-\cos x$ כפונקציה אחת וחפשו את המקסימום של הערך המוחלט שלה על כל הקטע.
+    commonWrong:
+      - value: 1
+        feedback: >-
+          1 הוא ההפרש בקצוות: $|\sin0-\cos0|=|\sin\pi-\cos\pi|=1$. הסופרמום מתקבל בנקודה פנימית,
+          $x=\frac{3\pi}4$, ושם ההפרש $\sqrt2$.
+        misconception: MC-c1-sup-metric-shortcut
+      - value: 0
+        feedback: >-
+          0 הוא $\sup\sin-\sup\cos=1-1$. המטריקה היא הסופרמום של **ההפרש**, לא ההפרש בין הסופרמומים.
+        misconception: MC-c1-sup-metric-shortcut
+
+  - id: Q-1.1-unbounded
+    type: twotier
+    objectives: [OBJ-1.1-2, OBJ-1.1-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      על הקבוצה של **כל** הפונקציות $f:\mathbb{R}\to\mathbb{R}$ (לא רק החסומות) מגדירים
+      $d(f,g)=\sup_{x\in\mathbb{R}}|f(x)-g(x)|$. האם זו מטריקה?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. ההוכחה של שלוש האקסיומות עוברת, אבל הפונקציה לא תמיד מוגדרת כמספר ממשי.
+      - text: כן, אותה הוכחה כמו ב-$B(X)$
+        feedback: >-
+          ההוכחה על $B(X)$ משתמשת בחסימות כדי שהסופרמום יהיה סופי. בלעדיה $d(x,0)=\sup|x|=\infty$, ומטריקה
+          מקבלת ערכים ממשיים.
+        misconception: MC-c1-metric-infinite-value
+    reasons:
+      - text: 'בין $f(x)=x$ ל-$g\equiv0$ הסופרמום אינסופי, ומטריקה מקבלת ערכים ב-$[0,\infty)$'
+        correct: true
+        feedback: >-
+          בדיוק. בשביל זה מגבילים את מטריקת הסופרמום ל-$B(X)$: הפרש של שתי פונקציות חסומות חסום.
+      - text: 'אי-שוויון המשולש נכשל לפונקציות לא חסומות'
+        feedback: >-
+          לכל $x$: $|f(x)-h(x)|\le|f(x)-g(x)|+|g(x)-h(x)|$, וזה עובר לסופרמום גם כשהערכים אינסופיים. הבעיה היא
+          שהערך עצמו אינו מספר ממשי.
+        misconception: MC-c1-axiom-misdiagnosed
+      - text: 'אקסיומת האפס נכשלת, כי $\sup|f-g|=0$ גם לפונקציות שונות'
+        feedback: >-
+          אם $\sup|f-g|=0$ אז $|f(x)-g(x)|=0$ בכל נקודה, ולכן $f=g$. אקסיומת האפס בסדר.
+        misconception: MC-c1-axiom-misdiagnosed
+
+  - id: Q-1.1-sup-triangle
+    type: rank
+    objectives: [OBJ-1.1-1, OBJ-1.1-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      סדרו את שלבי ההוכחה של אי-שוויון המשולש למטריקת הסופרמום על $B(X)$:
+      $d(f,h)\le d(f,g)+d(g,h)$.
+    help: סדרו את השלבים מהראשון לאחרון.
+    items:
+      - id: fix
+        label: 'יהיו $f,g,h\in B(X)$, ותהי $x\in X$ נקודה כלשהי.'
+      - id: real
+        label: 'לפי אי-שוויון המשולש בישר: $|f(x)-h(x)|\le|f(x)-g(x)|+|g(x)-h(x)|$.'
+      - id: bound
+        label: 'כל מחובר באגף ימין קטן או שווה לסופרמום שלו: $|f(x)-h(x)|\le d(f,g)+d(g,h)$.'
+      - id: upper
+        label: 'זה נכון לכל $x$, ולכן $d(f,g)+d(g,h)$ הוא חסם מלעיל של $\{|f(x)-h(x)|:x\in X\}$.'
+      - id: sup
+        label: 'הסופרמום הוא החסם המלעיל הקטן ביותר, ולכן $d(f,h)\le d(f,g)+d(g,h)$.'
+    order: [fix, real, bound, upper, sup]
+    correctFeedback: >-
+      נכון. הרעיון: עובדים בנקודה אחת, שם יש אי-שוויון בין מספרים, ורק בסוף עוברים לסופרמום דרך "חסם מלעיל
+      קטן ביותר".
+    wrongFeedback: >-
+      התחילו בנקודה אחת $x$: שם אפשר להשתמש באי-שוויון המשולש בישר. הסופרמום נכנס רק אחרי שיש אי-שוויון שנכון
+      לכל $x$.
+
+  - id: Q-1.1-which
+    type: multi
+    objectives: [OBJ-1.1-1, OBJ-1.1-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      אילו מהפונקציות הבאות הן מטריקות על $\mathbb{R}$? סמנו את כולן.
+    choices:
+      - text: '$\sqrt{|x-y|}$'
+        correct: true
+        feedback: >-
+          נכון. אפס וסימטריה ברורים. למשולש: $\sqrt{a+b}\le\sqrt a+\sqrt b$ לכל $a,b\ge0$ (העלו בריבוע), ולכן
+          $\sqrt{|x-z|}\le\sqrt{|x-y|+|y-z|}\le\sqrt{|x-y|}+\sqrt{|y-z|}$.
+      - text: '$\frac{|x-y|}{1+|x-y|}$'
+        correct: true
+        feedback: >-
+          נכון. $\varphi(t)=\frac{t}{1+t}$ עולה ומקיימת $\varphi(a+b)\le\varphi(a)+\varphi(b)$, ולכן אי-שוויון
+          המשולש עובר. זו מטריקה חסומה: כל המרחקים קטנים מ-1.
+      - text: '$|x^3-y^3|$'
+        correct: true
+        feedback: >-
+          נכון. זה המרחק הרגיל בין $x^3$ ל-$y^3$, ו-$x\mapsto x^3$ חד-חד-ערכית, ולכן גם אקסיומת האפס מתקיימת.
+      - text: '$|x^2-y^2|$'
+        feedback: >-
+          $d(1,-1)=|1-1|=0$ אף ש-$1\neq-1$. הפונקציה $x\mapsto x^2$ אינה חד-חד-ערכית, וזה שובר את אקסיומת האפס.
+        misconception: MC-c1-zero-axiom
+      - text: '$|x-y|+1$'
+        feedback: >-
+          $d(x,x)=1\neq0$. מרחק של נקודה מעצמה חייב להיות 0.
+        misconception: MC-c1-zero-axiom
+    explanation: >-
+      דרך כללית: אם $d$ מטריקה ו-$\varphi:[0,\infty)\to[0,\infty)$ לא-יורדת, $\varphi(t)=0$ אם ורק אם $t=0$, ו-$\varphi$
+      תת-חיבורית ($\varphi(a+b)\le\varphi(a)+\varphi(b)$), אז $\varphi\circ d$ מטריקה. כך עובדות $\sqrt t$ ו-$\frac{t}{1+t}$.
+      ואם $g$ חד-חד-ערכית, $|g(x)-g(y)|$ מטריקה.
+
+  - id: Q-1.1-sqrt-key
+    type: mc
+    objectives: [OBJ-1.1-1]
+    level: exam
+    prompt: >-
+      בהוכחה ש-$d(x,y)=\sqrt{|x-y|}$ מקיימת את אי-שוויון המשולש, מה הצעד המרכזי?
+    choices:
+      - text: '$\sqrt{a+b}\le\sqrt a+\sqrt b$ לכל $a,b\ge0$, יחד עם המונוטוניות של השורש'
+        correct: true
+        feedback: >-
+          נכון. מעלים בריבוע: $a+b\le a+2\sqrt{ab}+b$. אחר כך
+          $\sqrt{|x-z|}\le\sqrt{|x-y|+|y-z|}\le\sqrt{|x-y|}+\sqrt{|y-z|}$.
+      - text: 'בדיקה על $x=0$, $y=1$, $z=2$: $\sqrt2\le1+1$'
+        feedback: >-
+          בדיקה של שלשה אחת יכולה רק להפריך. האקסיומה היא "לכל $x,y,z$", וצריך טיעון כללי.
+        misconception: MC-c1-triangle-few-points
+      - text: '$\sqrt{a+b}\ge\sqrt a+\sqrt b$ לכל $a,b\ge0$'
+        feedback: >-
+          האי-שוויון הזה שקרי ($\sqrt2<1+1$), ובכל מקרה כיוון "גדול או שווה" לא היה נותן חסם מלעיל ל-$d(x,z)$.
+        misconception: MC-c1-triangle-wrong-form
+      - text: 'כל פונקציה עולה של מטריקה היא מטריקה'
+        feedback: >-
+          לא נכון: $t\mapsto t^2$ עולה, ו-$(x-y)^2$ אינה מטריקה. מה שעובד כאן הוא שהשורש **תת-חיבורי**.
+        misconception: MC-c1-transform-metric
+
+  - id: Q-1.1-truncate
+    type: twotier
+    objectives: [OBJ-1.1-1, OBJ-1.1-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $d$ מטריקה על $X$. האם $d'(x,y)=\min(d(x,y),1)$ היא בהכרח מטריקה על $X$?
+    choices:
+      - text: כן
+        correct: true
+        feedback: >-
+          נכון. אפס וסימטריה עוברים מ-$d$ ישירות; צריך לבדוק רק את המשולש, בשני מקרים.
+      - text: לא, החיתוך ב-1 שובר את אי-שוויון המשולש
+        feedback: >-
+          החיתוך רק מקטין מרחקים גדולים. בדקו את שני המקרים: אם אחד המחוברים באגף ימין הוא 1, האגף הימני לפחות 1
+          והשמאלי לכל היותר 1.
+        misconception: MC-c1-axiom-misdiagnosed
+    reasons:
+      - text: 'אם $d(x,y)\ge1$ או $d(y,z)\ge1$, אגף ימין לפחות $1\ge d''(x,z)$; אחרת אגף ימין הוא $d(x,y)+d(y,z)\ge d(x,z)\ge d''(x,z)$'
+        correct: true
+        feedback: >-
+          בדיוק. החלוקה למקרים היא כל ההוכחה. כך מקבלים מכל מטריקה מטריקה חסומה, עם אותן סדרות מתכנסות (שיעור 1.5).
+      - text: 'כל פונקציה עולה $\varphi$ עם $\varphi(0)=0$ הופכת מטריקה למטריקה'
+        feedback: >-
+          זה שקרי: $\varphi(t)=t^2$ עולה, ו-$d^2$ אינה בהכרח מטריקה. $\min(t,1)$ עובדת כי היא גם תת-חיבורית.
+        misconception: MC-c1-transform-metric
+      - text: 'המינימום של שתי מטריקות הוא מטריקה, והקבוע 1 הוא מטריקה'
+        feedback: >-
+          הקבוע 1 אינו מטריקה: $d(x,x)$ חייב להיות 0. וגם מינימום של שתי מטריקות אינו בהכרח מטריקה.
+        misconception: MC-c1-zero-axiom

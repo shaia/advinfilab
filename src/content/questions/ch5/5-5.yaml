@@ -1,0 +1,369 @@
+# Lesson 5.5 — the chain rule.
+# Objectives (src/course.ts):
+#   OBJ-5.5-1  state and prove the chain rule for differentials; write it as a product of Jacobian matrices
+#   OBJ-5.5-2  compute derivatives of compositions, incl. polar coordinates and the derivative along a path
+#   OBJ-5.5-3  use the chain rule to prove identities, such as Euler's theorem for homogeneous functions
+chapter: 5
+questions:
+  - id: Q-5.5-statement
+    type: mc
+    objectives: [OBJ-5.5-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $f:\mathbb{R}^n\to\mathbb{R}^m$ דיפרנציאבילית ב-$a$, ו-$g:\mathbb{R}^m\to\mathbb{R}^k$ דיפרנציאבילית ב-$f(a)$.
+      מה אומר כלל השרשרת?
+    choices:
+      - text: '$g\circ f$ דיפרנציאבילית ב-$a$, ו-$D(g\circ f)(a)=Dg(f(a))\circ Df(a)$'
+        correct: true
+        feedback: >-
+          נכון. קודם $Df(a)$ מעביר תזוזה $h$ ב-$\mathbb{R}^n$ לתזוזה ב-$\mathbb{R}^m$, ואז $Dg(f(a))$ מעביר אותה
+          ל-$\mathbb{R}^k$. במטריצות: $J_{g\circ f}(a)=J_g(f(a))\,J_f(a)$.
+      - text: '$D(g\circ f)(a)=Dg(a)\circ Df(a)$'
+        feedback: >-
+          את $g$ גוזרים בנקודה שאליה $f$ שולחת את $a$, כלומר ב-$f(a)$. בכלל, $a\in\mathbb{R}^n$ ו-$g$ מוגדרת
+          על $\mathbb{R}^m$, כך ש-$Dg(a)$ אולי אינו מוגדר.
+        misconception: MC-c5-chain-wrong-point
+      - text: '$D(g\circ f)(a)=Df(a)\circ Dg(f(a))$'
+        feedback: >-
+          הסדר הפוך: $Dg(f(a))$ פועל על וקטורים ב-$\mathbb{R}^m$ ומחזיר וקטורים ב-$\mathbb{R}^k$, ו-$Df(a)$ אינו יכול
+          לפעול עליהם (אלא אם $k=n$, ואז זו בדרך כלל העתקה אחרת).
+        misconception: MC-c5-chain-order
+      - text: 'אותה נוסחה, ומספיק ש-$g$ תהיה בעלת נגזרות חלקיות ב-$f(a)$'
+        feedback: >-
+          לא מספיק: ל-$g=\frac{x^2y}{x^2+y^2}$ (ו-0 בראשית) הנגזרות החלקיות בראשית 0, אבל לאורך $f(t)=(t,t)$
+          מתקבל $g(f(t))=\frac t2$, עם נגזרת $\frac12\ne0$.
+        misconception: MC-c5-chain-partials-enough
+
+  - id: Q-5.5-sizes
+    type: mc
+    objectives: [OBJ-5.5-1]
+    level: basic
+    prompt: >-
+      $f:\mathbb{R}^3\to\mathbb{R}^2$ ו-$g:\mathbb{R}^2\to\mathbb{R}^4$ דיפרנציאביליות. מה הגודל של $J_{g\circ f}(a)$,
+      ואיך היא מתקבלת?
+    choices:
+      - text: '$4\times3$, כמכפלה של $J_g(f(a))$ ($4\times2$) ב-$J_f(a)$ ($2\times3$)'
+        correct: true
+        feedback: >-
+          נכון. $g\circ f:\mathbb{R}^3\to\mathbb{R}^4$, ולכן 4 שורות (רכיבים) ו-3 עמודות (משתנים). הממדים הפנימיים,
+          2 ו-2, מתאימים רק בסדר הזה.
+      - text: '$3\times4$, כמכפלה של $J_f(a)$ ב-$J_g(f(a))$'
+        feedback: >-
+          המכפלה $J_f(a)J_g(f(a))$, $(2\times3)(4\times2)$, אינה מוגדרת בכלל. מספר השורות של מטריצת יעקובי הוא ממד
+          הטווח, ומספר העמודות ממד התחום.
+        misconception: MC-c5-chain-order
+      - text: '$2\times2$, כי הכול עובר דרך $\mathbb{R}^2$'
+        feedback: >-
+          $\mathbb{R}^2$ הוא השלב האמצעי, ולכן הוא הממד **הפנימי** שמתבטל במכפלה. המטריצה של ההרכבה נקבעת מהתחום
+          של $f$ ומהטווח של $g$.
+        misconception: MC-c5-chain-order
+      - text: '$4\times3$, כמכפלה של $J_g(a)$ ב-$J_f(a)$'
+        feedback: >-
+          הגודל נכון, אבל $J_g$ מחושבת ב-$f(a)\in\mathbb{R}^2$, לא ב-$a\in\mathbb{R}^3$; שם $g$ בכלל אינה מוגדרת.
+        misconception: MC-c5-chain-wrong-point
+
+  - id: Q-5.5-curve
+    type: numeric
+    objectives: [OBJ-5.5-2]
+    level: basic
+    prompt: >-
+      $f(x,y)=xy^2$ ו-$\gamma(t)=(e^t,\ 1+2t)$. חשבו את $\frac{d}{dt}f(\gamma(t))$ ב-$t=0$.
+    answer: 5
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $\gamma(0)=(1,1)$, $\nabla f=(y^2,2xy)$ ולכן $\nabla f(1,1)=(1,2)$; $\gamma'(0)=(1,2)$; והנגזרת
+      $\nabla f(\gamma(0))\cdot\gamma'(0)=1+4=5$. בדיקה ישירה: $e^t(1+2t)^2$ גזירה ב-0 נותנת $1+4=5$.
+    wrongFeedback: >-
+      הנגזרת לאורך מסילה היא $\nabla f(\gamma(t))\cdot\gamma'(t)$: הגרדיאנט **בנקודה** כפול **וקטור המהירות**.
+    commonWrong:
+      - value: 3
+        feedback: >-
+          זה $\nabla f(\gamma(0))\cdot\gamma(0)=(1,2)\cdot(1,1)$: כפלתם במיקום במקום במהירות $\gamma'(0)=(1,2)$.
+        misconception: MC-c5-curve-position
+      - value: 12
+        feedback: >-
+          זה $\nabla f(1,2)\cdot(1,2)$: הגרדיאנט חושב ב-$\gamma'(0)$ במקום בנקודה $\gamma(0)=(1,1)$.
+        misconception: MC-c5-chain-wrong-point
+
+  - id: Q-5.5-polar-r
+    type: mc
+    objectives: [OBJ-5.5-2]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $f:\mathbb{R}^2\to\mathbb{R}$ גזירה ברציפות ו-$g(r,\theta)=f(r\cos\theta,\ r\sin\theta)$. מהי
+      $\frac{\partial g}{\partial r}(r,\theta)$? (הנגזרות של $f$ מחושבות בנקודה $(r\cos\theta,r\sin\theta)$.)
+    choices:
+      - text: '$\cos\theta\,\frac{\partial f}{\partial x}+\sin\theta\,\frac{\partial f}{\partial y}$'
+        correct: true
+        feedback: >-
+          נכון. $\frac{\partial}{\partial r}(r\cos\theta,r\sin\theta)=(\cos\theta,\sin\theta)$, וכלל השרשרת נותן
+          $\nabla f\cdot(\cos\theta,\sin\theta)$: הנגזרת הכיוונית בכיוון הרדיאלי.
+      - text: '$\frac{\partial f}{\partial x}+\frac{\partial f}{\partial y}$'
+        feedback: >-
+          זה מתעלם מכך שכל אחד מ-$x,y$ תלוי ב-$r$ במשקל אחר: $\frac{\partial x}{\partial r}=\cos\theta$,
+          $\frac{\partial y}{\partial r}=\sin\theta$.
+        misconception: MC-c5-polar-rule
+      - text: '$r\cos\theta\,\frac{\partial f}{\partial x}+r\sin\theta\,\frac{\partial f}{\partial y}$'
+        feedback: >-
+          המקדמים הם הנגזרות של $x=r\cos\theta$, $y=r\sin\theta$ לפי $r$, כלומר $\cos\theta$ ו-$\sin\theta$, בלי $r$. הגורם
+          $r$ מופיע בנגזרת לפי $\theta$.
+        misconception: MC-c5-polar-rule
+      - text: '$\frac{\partial f}{\partial x}\cos\theta-\frac{\partial f}{\partial y}\sin\theta$'
+        feedback: >-
+          הסימן: $\frac{\partial y}{\partial r}=\sin\theta$, לא $-\sin\theta$. הסימן מינוס מופיע בנגזרת של $x$ לפי
+          $\theta$.
+        misconception: MC-c5-polar-rule
+
+  - id: Q-5.5-euler-check
+    type: twotier
+    objectives: [OBJ-5.5-3]
+    qualitative: true
+    level: basic
+    prompt: >-
+      נכון או לא נכון: $f(x,y)=\sqrt{x^2+y^2}$ מקיימת $x\frac{\partial f}{\partial x}+y\frac{\partial f}{\partial y}=f$
+      בכל נקודה $(x,y)\ne(0,0)$.
+    choices:
+      - text: 'נכון'
+        correct: true
+        feedback: >-
+          נכון. ישירות: $x\cdot\frac{x}{r}+y\cdot\frac{y}{r}=\frac{x^2+y^2}{r}=r$, עם $r=\sqrt{x^2+y^2}$.
+      - text: 'לא נכון'
+        feedback: >-
+          הזהות נכונה; חשבו: $f_x=\frac xr$, $f_y=\frac yr$, והסכום $\frac{x^2+y^2}{r}=r=f$.
+        misconception: MC-c5-euler-any-function
+    reasons:
+      - text: '$f$ הומוגנית מדרגה 1 ($f(tx,ty)=tf(x,y)$ ל-$t>0$) וגזירה ברציפות מחוץ לראשית, ומשפט אוילר נותן $x\cdot\nabla f=1\cdot f$'
+        correct: true
+        feedback: >-
+          בדיוק. הדרגה היא החזקה של $t$, וזה המקדם באגף ימין.
+      - text: 'כל פונקציה מקיימת $x\cdot\nabla f=f$'
+        feedback: >-
+          לא: ל-$f=x+1$ מתקבל $x\ne x+1$, ול-$f=x^2$ מתקבל $2x^2=2f$. הזהות היא תכונה של פונקציות הומוגניות, עם
+          הדרגה כמקדם.
+        misconception: MC-c5-euler-any-function
+      - text: 'משפט אוילר תקף רק לפולינומים, ולכן צריך לבדוק ישירות'
+        feedback: >-
+          משפט אוילר תקף לכל פונקציה הומוגנית ודיפרנציאבילית, גם לא פולינומית, כמו $\sqrt{x^2+y^2}$ או
+          $\frac{x^3}{x^2+y^2}$. ההוכחה היא כלל השרשרת על $t\mapsto f(tx)$.
+        misconception: MC-c5-euler-any-function
+
+  - id: Q-5.5-matrix
+    type: numeric
+    objectives: [OBJ-5.5-1]
+    level: mid
+    prompt: >-
+      $f(x,y)=(x+y,\ xy)$ ו-$g(u,v)=(u^2,\ uv)$. חשבו את האיבר בשורה 2 ובעמודה 1 של $J_{g\circ f}(1,2)$, כלומר
+      $\frac{\partial (g\circ f)_2}{\partial x}(1,2)$, בעזרת כלל השרשרת.
+    answer: 8
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $f(1,2)=(3,2)$, $J_g(3,2)=\begin{pmatrix}6&0\\2&3\end{pmatrix}$, $J_f(1,2)=\begin{pmatrix}1&1\\2&1\end{pmatrix}$,
+      ובמכפלה השורה השנייה היא $(2\cdot1+3\cdot2,\ 2\cdot1+3\cdot1)=(8,5)$. בדיקה ישירה:
+      $(g\circ f)_2=(x+y)xy=x^2y+xy^2$, והנגזרת לפי $x$ היא $2xy+y^2=8$.
+    wrongFeedback: >-
+      חשבו קודם את $f(1,2)$, ובנקודה הזו את $J_g$. אחר כך $J_g(f(a))\,J_f(a)$, בסדר הזה.
+    commonWrong:
+      - value: 14
+        feedback: >-
+          זה האיבר של $J_f(a)\,J_g(f(a))$, המכפלה בסדר ההפוך. הנגזרת הפנימית פועלת ראשונה, ולכן היא מימין.
+        misconception: MC-c5-chain-order
+      - value: 4
+        feedback: >-
+          זה מתקבל כש-$J_g$ מחושבת ב-$(1,2)$ במקום ב-$f(1,2)=(3,2)$.
+        misconception: MC-c5-chain-wrong-point
+
+  - id: Q-5.5-polar-theta
+    type: numeric
+    objectives: [OBJ-5.5-2]
+    level: mid
+    prompt: >-
+      $f(x,y)=x^2-y^2$ ו-$g(r,\theta)=f(r\cos\theta,\ r\sin\theta)$. חשבו את $\frac{\partial g}{\partial\theta}$
+      בנקודה $(r,\theta)=\left(2,\frac\pi4\right)$ בעזרת כלל השרשרת.
+    answer: -8
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $\frac{\partial g}{\partial\theta}=-r\sin\theta\,f_x+r\cos\theta\,f_y$. ב-$(2,\frac\pi4)$:
+      $(x,y)=(\sqrt2,\sqrt2)$, $f_x=2\sqrt2$, $f_y=-2\sqrt2$, ולכן $-2\cdot\frac{\sqrt2}{2}\cdot2\sqrt2+2\cdot\frac{\sqrt2}{2}\cdot(-2\sqrt2)$,
+      כלומר $-4-4=-8$. בדיקה: $g=r^2\cos2\theta$, ו-$\frac{\partial g}{\partial\theta}=-2r^2\sin2\theta$, שב-$(2,\frac\pi4)$
+      שווה $-8$.
+    wrongFeedback: >-
+      $\frac{\partial}{\partial\theta}(r\cos\theta,r\sin\theta)=(-r\sin\theta,\ r\cos\theta)$. כפלו בגרדיאנט של $f$
+      בנקודה $(\sqrt2,\sqrt2)$.
+    commonWrong:
+      - value: -4
+        feedback: >-
+          חסר הגורם $r=2$: $\frac{\partial x}{\partial\theta}=-r\sin\theta$, לא $-\sin\theta$.
+        misconception: MC-c5-polar-rule
+      - value: 0
+        feedback: >-
+          0 מתקבל עם $+r\sin\theta$ במקום $-r\sin\theta$: אז שני המחוברים מתקזזים. גזרו את $r\cos\theta$ לפי
+          $\theta$ שוב: הנגזרת הפנימית היא חלק מכלל השרשרת, כולל הסימן שלה.
+        misconception: MC-c5-chain-inner-derivative
+
+  - id: Q-5.5-polar-norm
+    type: twotier
+    objectives: [OBJ-5.5-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $f$ גזירה ברציפות ו-$g(r,\theta)=f(r\cos\theta,r\sin\theta)$. נכון או לא נכון: ל-$r>0$,
+      $$\left(\frac{\partial f}{\partial x}\right)^2+\left(\frac{\partial f}{\partial y}\right)^2=\left(\frac{\partial g}{\partial r}\right)^2+\frac{1}{r^2}\left(\frac{\partial g}{\partial\theta}\right)^2.$$
+    choices:
+      - text: 'נכון'
+        correct: true
+        feedback: 'נכון. זה $\|\nabla f\|_2^2$ בקואורדינטות קוטביות.'
+      - text: 'לא נכון'
+        feedback: >-
+          הזהות נכונה: $\left(g_r,\frac{g_\theta}{r}\right)$ מתקבל מ-$(f_x,f_y)$ בסיבוב, וסיבוב שומר על הנורמה.
+        misconception: MC-c5-polar-rule
+    reasons:
+      - text: '$g_r=\cos\theta f_x+\sin\theta f_y$ ו-$\frac{g_\theta}{r}=-\sin\theta f_x+\cos\theta f_y$: מטריצת סיבוב כפול $\nabla f$'
+        correct: true
+        feedback: >-
+          בדיוק. מעלים בריבוע ומחברים: האיברים המעורבים מתקזזים ו-$\cos^2\theta+\sin^2\theta=1$.
+      - text: '$g_r=f_x$ ו-$g_\theta=f_y$, ולכן שני האגפים שווים'
+        feedback: >-
+          $r$ ו-$\theta$ אינם $x$ ו-$y$ בשמות אחרים: כל אחד מהם משנה את שני המשתנים $x,y$, ולכן כל נגזרת קוטבית היא
+          צירוף של $f_x$ ו-$f_y$.
+        misconception: MC-c5-polar-rule
+      - text: 'הזהות נכונה גם בלי הגורם $\frac{1}{r^2}$'
+        feedback: >-
+          לא: $\frac{\partial g}{\partial\theta}$ כוללת את הגורם $r$ (תזוזה בזווית $d\theta$ היא באורך $r\,d\theta$),
+          ובלי החלוקה ב-$r^2$ האגף הימני גדול מדי כש-$r>1$. למשל $f=y$: $g_\theta=r\cos\theta$.
+        misconception: MC-c5-polar-rule
+
+  - id: Q-5.5-euler-value
+    type: numeric
+    objectives: [OBJ-5.5-3]
+    level: mid
+    prompt: >-
+      $f$ דיפרנציאבילית על $\mathbb{R}^2\setminus\{0\}$, הומוגנית מדרגה 3 ($f(tx)=t^3f(x)$ לכל $t>0$), ו-$f(1,2)=5$.
+      חשבו את $2\frac{\partial f}{\partial x}(2,4)+4\frac{\partial f}{\partial y}(2,4)$.
+    answer: 120
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. משפט אוילר ב-$(2,4)$: $(2,4)\cdot\nabla f(2,4)=3f(2,4)$, ו-$f(2,4)=2^3f(1,2)=40$. לכן $3\cdot40=120$.
+    wrongFeedback: >-
+      הביטוי הוא $x\cdot\nabla f(x)$ בנקודה $x=(2,4)$. משפט אוילר אומר שהוא $3f(2,4)$; את $f(2,4)$ מקבלים
+      מההומוגניות, כי $(2,4)=2\cdot(1,2)$.
+    commonWrong:
+      - value: 15
+        feedback: >-
+          $15=3f(1,2)$: השתמשתם בערך בנקודה הלא נכונה. צריך $f(2,4)=2^3\cdot5$.
+        misconception: MC-c5-euler-any-function
+      - value: 40
+        feedback: '$40=f(2,4)$. משפט אוילר מכפיל אותו בדרגה, 3.'
+        misconception: MC-c5-euler-any-function
+      - value: 30
+        feedback: >-
+          $30=3\cdot2\cdot5$: הכפלתם ב-$t=2$ במקום ב-$t^3=8$. הומוגניות מדרגה 3 פירושה $f(2x)=2^3f(x)$.
+        misconception: MC-c5-euler-any-function
+
+  - id: Q-5.5-proof
+    type: rank
+    objectives: [OBJ-5.5-1]
+    level: exam
+    prompt: >-
+      סדרו את שלבי ההוכחה של כלל השרשרת. סמנו $b=f(a)$, $A=Df(a)$, $B=Dg(b)$, ונגדיר $\frac{s(0)}{\|0\|}=0$.
+    help: סדרו את שלבי ההוכחה מהראשון לאחרון.
+    items:
+      - id: a
+        label: 'כותבים את שתי ההגדרות: $f(a+h)=b+Ah+r(h)$ עם $\frac{r(h)}{\|h\|}\to0$, ו-$g(b+k)=g(b)+Bk+s(k)$ עם $\frac{s(k)}{\|k\|}\to0$.'
+      - id: b
+        label: 'מציבים $k=f(a+h)-b=Ah+r(h)$: $g(f(a+h))-g(b)=BAh+Br(h)+s(k)$.'
+      - id: c
+        label: '$\frac{\|Br(h)\|}{\|h\|}\le\|B\|_{\mathrm{op}}\frac{\|r(h)\|}{\|h\|}\to0$.'
+      - id: d
+        label: 'ל-$h$ קטן, $\|k\|\le(\|A\|_{\mathrm{op}}+1)\|h\|$; לכן $k\to0$ ו-$\frac{\|s(k)\|}{\|h\|}\le\frac{\|s(k)\|}{\|k\|}(\|A\|_{\mathrm{op}}+1)\to0$.'
+      - id: e
+        label: 'השארית $Br(h)+s(k)$ היא $o(\|h\|)$, ו-$BA$ לינארית: $g\circ f$ דיפרנציאבילית ב-$a$ ו-$D(g\circ f)(a)=BA$.'
+    order: [a, b, [c, d], e]
+    correctFeedback: >-
+      נכון (שני החסמים על השאריות יכולים לבוא בכל סדר). הצעד העדין הוא החסם $\|k\|\le C\|h\|$: הוא שמאפשר להעביר את
+      "קטן ביחס ל-$\|k\|$" ל"קטן ביחס ל-$\|h\|$", וכאן נכנסת הדיפרנציאביליות של $f$ (לא רק הרציפות שלה).
+    wrongFeedback: >-
+      מתחילים מההגדרות, מציבים את התזוזה $k$ שהפונקציה $f$ יוצרת, ורק אז חוסמים את שתי השאריות. המסקנה באה אחרונה.
+
+  - id: Q-5.5-hyp
+    type: twotier
+    objectives: [OBJ-5.5-1]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $g(x,y)=\frac{x^2y}{x^2+y^2}$ ל-$(x,y)\ne(0,0)$, $g(0,0)=0$, ו-$f(t)=(t,t)$. מחשבים: $(g\circ f)(t)=\frac t2$,
+      ולכן $(g\circ f)'(0)=\frac12$; אבל $\nabla g(0,0)\cdot f'(0)=(0,0)\cdot(1,1)=0$. האם זו סתירה לכלל השרשרת?
+    choices:
+      - text: 'לא'
+        correct: true
+        feedback: >-
+          נכון. החישוב מראה דווקא משהו: אילו $g$ הייתה דיפרנציאבילית בראשית, שני המספרים היו שווים. לכן $g$
+          **אינה** דיפרנציאבילית שם, אף שהיא רציפה ויש לה נגזרת בכל כיוון.
+      - text: 'כן'
+        feedback: >-
+          כלל השרשרת דורש ש-$g$ תהיה דיפרנציאבילית ב-$f(0)$, ולא רק בעלת נגזרות חלקיות. ההנחה הזו נכשלת כאן.
+        misconception: MC-c5-chain-partials-enough
+    reasons:
+      - text: '$g$ אינה דיפרנציאבילית ב-$(0,0)$, ולכן המשפט אינו חל; זה גם מוכיח את אי-הדיפרנציאביליות'
+        correct: true
+        feedback: >-
+          בדיוק. זה שימוש נפוץ בכלל השרשרת: אם הנוסחה נכשלת לאורך מסילה חלקה אחת, הפונקציה החיצונית אינה
+          דיפרנציאבילית.
+      - text: '$f$ אינה דיפרנציאבילית ב-0'
+        feedback: >-
+          $f(t)=(t,t)$ לינארית, ולכן דיפרנציאבילית עם $Df(0)t=(t,t)$. ההנחה שנכשלת היא על $g$.
+        misconception: MC-c5-chain-partials-enough
+      - text: 'כלל השרשרת נכון רק כשהתחום של $f$ הוא $\mathbb{R}^2$ או יותר'
+        feedback: >-
+          כלל השרשרת נכון לכל הממדים, גם למסילה $f:\mathbb{R}\to\mathbb{R}^2$. הבעיה היא ש-$g$ אינה דיפרנציאבילית
+          בראשית.
+        misconception: MC-c5-chain-partials-enough
+
+  - id: Q-5.5-euler-proof
+    type: rank
+    objectives: [OBJ-5.5-3]
+    level: exam
+    prompt: >-
+      סדרו את שלבי ההוכחה של משפט אוילר: אם $f$ דיפרנציאבילית על $\mathbb{R}^n\setminus\{0\}$ והומוגנית מדרגה $k$,
+      אז $x\cdot\nabla f(x)=kf(x)$.
+    help: סדרו את שלבי ההוכחה מהראשון לאחרון.
+    items:
+      - id: a
+        label: 'מקבעים $x\ne0$ ומגדירים $\varphi(t)=f(tx)$ ל-$t>0$.'
+      - id: b
+        label: 'מההומוגניות: $\varphi(t)=t^kf(x)$, ולכן $\varphi''(t)=kt^{k-1}f(x)$.'
+      - id: c
+        label: 'מכלל השרשרת (ההרכבה של $t\mapsto tx$ עם $f$): $\varphi''(t)=Df(tx)\,x=\nabla f(tx)\cdot x$.'
+      - id: d
+        label: 'משווים את שני הביטויים ל-$\varphi''(t)$ ומציבים $t=1$: $\nabla f(x)\cdot x=kf(x)$.'
+    order: [a, [b, c], d]
+    correctFeedback: >-
+      נכון (את $\varphi'$ אפשר לחשב בשתי הדרכים בכל סדר). הרעיון: לגזור את אותה פונקציה של משתנה אחד פעמיים, פעם
+      דרך הנוסחה המפורשת ופעם דרך כלל השרשרת.
+    wrongFeedback: >-
+      מתחילים מפונקציה של משתנה אחד, $\varphi(t)=f(tx)$. מחשבים את $\varphi'$ בשתי דרכים, ורק בסוף מציבים $t=1$.
+
+  - id: Q-5.5-homogeneous
+    type: multi
+    objectives: [OBJ-5.5-3]
+    level: exam
+    prompt: >-
+      אילו מהפונקציות הבאות מקיימות $x\frac{\partial f}{\partial x}+y\frac{\partial f}{\partial y}=2f$ בכל נקודה של
+      $\mathbb{R}^2\setminus\{0\}$? סמנו את כולן.
+    choices:
+      - text: '$x^2-3xy$'
+        correct: true
+        feedback: 'נכון: הומוגנית מדרגה 2. ישירות: $x(2x-3y)+y(-3x)=2x^2-6xy=2f$.'
+      - text: '$\frac{x^4+y^4}{x^2+y^2}$'
+        correct: true
+        feedback: >-
+          נכון: $f(tx,ty)=\frac{t^4}{t^2}f(x,y)=t^2f(x,y)$, ו-$f$ גזירה ברציפות מחוץ לראשית, ולכן משפט אוילר חל עם $k=2$.
+      - text: '$x^2+y$'
+        feedback: >-
+          לא הומוגנית: מחוברים מדרגות שונות. $x\cdot2x+y\cdot1=2x^2+y\ne2x^2+2y$ כש-$y\ne0$.
+        misconception: MC-c5-euler-any-function
+      - text: '$x^2y$'
+        feedback: >-
+          הומוגנית, אבל מדרגה 3: $x\cdot2xy+y\cdot x^2=3x^2y=3f$. המקדם במשפט אוילר הוא הדרגה.
+        misconception: MC-c5-euler-any-function

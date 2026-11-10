@@ -1,0 +1,30 @@
+# Terms first defined in lesson 0.4.
+- id: countable-set
+  term: קבוצה בת מנייה
+  en: countable set (countably infinite)
+  definition: >-
+    קבוצה $A$ שיש התאמה חד-חד-ערכית ועל $f:\mathbb{N}\to A$, כלומר שאפשר לרשום את כל איבריה ברשימה אינסופית
+    $a_1,a_2,\dots$ שבה כל איבר מופיע פעם אחת. למשל $\mathbb{Z}$, $\mathbb{Q}$, $\mathbb{N}\times\mathbb{N}$.
+  reject: [בר מנייה, בת מניה]
+  lesson: '0.4'
+- id: at-most-countable
+  term: לכל היותר בת מנייה
+  en: at most countable
+  definition: >-
+    קבוצה סופית או בת מנייה. שקול: יש פונקציה חד-חד-ערכית ממנה ל-$\mathbb{N}$, או שהיא ריקה או תמונה של פונקציה על
+    מ-$\mathbb{N}$. כל תת-קבוצה של קבוצה בת מנייה היא לכל היותר בת מנייה.
+  lesson: '0.4'
+- id: uncountable-set
+  term: קבוצה שאינה בת מנייה
+  en: uncountable set
+  definition: >-
+    קבוצה אינסופית שאין לה רשימה $a_1,a_2,\dots$ של כל איבריה. למשל $\mathbb{R}$, הקטע $(0,1)$, וקבוצת כל הסדרות
+    של אפסים ואחדים.
+  lesson: '0.4'
+- id: cantor-diagonal-argument
+  term: האלכסון של קנטור
+  en: Cantor's diagonal argument
+  definition: >-
+    הדרך להראות שקבוצה אינה בת מנייה: לוקחים רשימה **כלשהי** $x_1,x_2,\dots$ של איבריה ובונים איבר ששונה מ-$x_n$
+    בקואורדינטה ה-$n$, לכל $n$. הוא חסר ברשימה, ולכן אין רשימה של כל הקבוצה.
+  lesson: '0.4'

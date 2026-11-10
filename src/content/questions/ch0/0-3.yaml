@@ -1,0 +1,390 @@
+# Lesson 0.3 — review: pointwise and uniform convergence.
+# Objectives (src/course.ts):
+#   OBJ-0.3-1  tell pointwise from uniform convergence and test each by the sup of the difference
+#   OBJ-0.3-2  a uniform limit of continuous functions is continuous; pointwise convergence fails to give this
+#   OBJ-0.3-3  apply the Weierstrass M-test; know when limit and integral or derivative may be swapped
+chapter: 0
+questions:
+  - id: Q-0.3-def
+    type: mc
+    objectives: [OBJ-0.3-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $f_n,f:I\to\mathbb{R}$. איזה ניסוח הוא ההגדרה של "$f_n\to f$ **במידה שווה** על $I$"?
+    choices:
+      - text: '$\forall\varepsilon>0\ \exists N\ \forall n>N\ \forall x\in I:\ |f_n(x)-f(x)|<\varepsilon$'
+        correct: true
+        feedback: >-
+          נכון. $N$ נבחר אחרי $\varepsilon$ בלבד, ולפני $x$: אותו $N$ מתאים לכל הנקודות. במילים אחרות,
+          $\sup_{x\in I}|f_n(x)-f(x)|\to0$.
+      - text: '$\forall\varepsilon>0\ \forall x\in I\ \exists N\ \forall n>N:\ |f_n(x)-f(x)|<\varepsilon$'
+        feedback: >-
+          זו התכנסות **נקודתית**: $N$ נבחר אחרי $x$ ורשאי להיות תלוי בו. ב-$f_n(x)=\frac xn$ על $\mathbb{R}$
+          צריך $N>\frac{|x|}{\varepsilon}$, ואין $N$ אחד לכל ה-$x$.
+        misconception: MC-c0-pointwise-is-uniform
+      - text: '$\forall x\in I:\ \lim_{n\to\infty}|f_n(x)-f(x)|=0$'
+        feedback: >-
+          גם זו התכנסות נקודתית, בכתיבה אחרת: לכל $x$ בנפרד הסדרה המספרית שואפת ל-0. התכנסות במידה שווה דורשת
+          שהסופרמום על כל $x$ ישאף ל-0.
+        misconception: MC-c0-sup-of-limit
+      - text: '$\exists N\ \forall\varepsilon>0\ \forall n>N\ \forall x\in I:\ |f_n(x)-f(x)|<\varepsilon$'
+        feedback: >-
+          כאן אותו $N$ מתאים לכל $\varepsilon$, ולכן $f_n=f$ בדיוק לכל $n>N$. זו טענה חזקה בהרבה: $\frac{x}{n}$
+          על $[0,1]$ מתכנסת במידה שווה ל-0 ואף פעם לא שווה לה.
+        misconception: MC-c0-quantifier-order-definition
+
+  - id: Q-0.3-xn
+    type: twotier
+    objectives: [OBJ-0.3-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $f_n(x)=x^n$ על $[0,1]$. האם $f_n$ מתכנסת במידה שווה על $[0,1]$ לגבול הנקודתי שלה?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. הגבול הנקודתי הוא $f=0$ ב-$[0,1)$ ו-$f(1)=1$, וההפרש $\sup_{x\in[0,1]}|x^n-f(x)|=1$ לכל $n$.
+      - text: כן
+        feedback: >-
+          בכל נקודה קבועה $x<1$ אכן $x^n\to0$, אבל ככל ש-$x$ קרוב ל-1, צריך $n$ גדול יותר. לכל $n$ יש $x<1$
+          עם $x^n>\frac12$ (למשל $x=2^{-1/n}$ נותן בדיוק $\frac12$, וכל $x$ גדול ממנו יותר).
+        misconception: MC-c0-pointwise-is-uniform
+    reasons:
+      - text: 'לכל $n$: $\sup_{x\in[0,1)}x^n=1$, ולכן הסופרמום של ההפרש לא שואף ל-0'
+        correct: true
+        feedback: >-
+          בדיוק. בודקים את הסופרמום לכל $n$ **קבוע**, ורק אחר כך שולחים $n\to\infty$. כאן הוא 1 לכל $n$.
+      - text: 'ב-$x=1$ הסדרה $x^n$ לא מתכנסת'
+        feedback: >-
+          ב-$x=1$ הסדרה קבועה, $1^n=1$, ומתכנסת ל-1. הבעיה אינה בנקודה אחת אלא בנקודות **ליד** 1.
+        misconception: MC-c0-pointwise-limit-wrong
+      - text: 'בכל $x$ קבוע $x^n\to f(x)$, ולכן ההתכנסות במידה שווה'
+        feedback: >-
+          זו התכנסות נקודתית. "בכל $x$" מאפשר $N$ שתלוי ב-$x$, ובמידה שווה דורשים $N$ אחד לכולם.
+        misconception: MC-c0-sup-of-limit
+
+  - id: Q-0.3-half
+    type: numeric
+    objectives: [OBJ-0.3-1]
+    level: basic
+    prompt: >-
+      על הקטע $[0,\frac12]$, $f_n(x)=x^n\to0$ במידה שווה. מהו ה-$N$ **הקטן ביותר** כך ש-$\sup_{x\in[0,1/2]}x^n<0.001$
+      לכל $n>N$?
+    answer: 9
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. על $[0,\frac12]$ הסופרמום הוא $\left(\frac12\right)^n=2^{-n}$, ו-$2^{-n}<0.001\iff2^n>1000\iff n\ge10$ (כי
+      $2^9=512$ ו-$2^{10}=1024$). לכן $N=9$, והוא אחד לכל ה-$x$ בקטע.
+    wrongFeedback: >-
+      מצאו קודם את $\sup_{x\in[0,1/2]}x^n$ (הפונקציה עולה), ואז פתרו את אי-השוויון עבור $n$.
+    commonWrong:
+      - value: 10
+        feedback: >-
+          10 הוא האינדקס הראשון שבו $2^{-n}<0.001$. ההגדרה אומרת "לכל $n>N$", ולכן $N=9$ כבר מבטיח $n\ge10$.
+        misconception: MC-c0-N-is-first-index
+    explanation: >-
+      ההבדל מ-$[0,1]$: כאן הנקודה הגרועה ביותר היא $x=\frac12$, רחוקה מ-1, ולכן הסופרמום $2^{-n}$ שואף ל-0.
+      הקטע שעליו בודקים הוא חלק מהשאלה.
+
+  - id: Q-0.3-cont-pointwise
+    type: twotier
+    objectives: [OBJ-0.3-2]
+    qualitative: true
+    level: basic
+    prompt: >-
+      טענה: אם כל $f_n$ רציפה על $[0,1]$ ו-$f_n\to f$ בכל נקודה של $[0,1]$, אז $f$ רציפה. האם הטענה נכונה?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. $f_n(x)=x^n$ היא דוגמה נגדית.'
+      - text: כן
+        feedback: >-
+          $x^n$ רציפות על $[0,1]$, והגבול הנקודתי שלהן הוא 0 ב-$[0,1)$ ו-1 ב-$x=1$: פונקציה עם קפיצה.
+        misconception: MC-c0-pointwise-preserves-continuity
+    reasons:
+      - text: 'ל-$x^n$ הגבול הנקודתי קופץ ב-1; רציפות נשמרת רק כשההתכנסות במידה שווה'
+        correct: true
+        feedback: >-
+          בדיוק. משפט הרציפות משתמש בכך ש-$f_n$ קרובה ל-$f$ **בכל הנקודות בבת אחת**, וזה מה שחסר בהתכנסות
+          נקודתית.
+      - text: 'בגבול של פונקציות רציפות אפשר להחליף סדר: $\lim_{x\to x_0}\lim_n f_n(x)=\lim_n\lim_{x\to x_0}f_n(x)$'
+        feedback: >-
+          זו בדיוק החלפת גבולות שנכשלת: ב-$x^n$ ובנקודה 1, הצד השמאלי $\lim_{x\to1^-}0=0$ והימני $\lim_n1=1$.
+        misconception: MC-c0-pointwise-preserves-continuity
+      - text: 'ב-$x^n$ הגבול לא קיים ב-$x=1$, ולכן היא לא דוגמה נגדית אמיתית'
+        feedback: >-
+          ב-$x=1$ הסדרה קבועה ושווה ל-1, והגבול קיים. הגבול הנקודתי מוגדר בכל הקטע, והוא לא רציף.
+        misconception: MC-c0-pointwise-limit-wrong
+
+  - id: Q-0.3-mtest
+    type: mc
+    objectives: [OBJ-0.3-3]
+    level: basic
+    prompt: >-
+      למה הטור $\sum_{n=1}^{\infty}\frac{\sin(nx)}{n^2}$ מתכנס במידה שווה על $\mathbb{R}$?
+    choices:
+      - text: 'מבחן ה-M עם $M_n=\frac{1}{n^2}$: $\left|\frac{\sin nx}{n^2}\right|\le\frac1{n^2}$ לכל $x$, ו-$\sum\frac1{n^2}<\infty$'
+        correct: true
+        feedback: >-
+          נכון. החסם $M_n$ אינו תלוי ב-$x$, והטור המספרי שלו מתכנס. מכאן גם שסכום הטור רציף, כי כל סכום חלקי
+          רציף והגבול במידה שווה.
+      - text: 'כי כל איבר חסום: $|\sin nx|\le1$'
+        feedback: >-
+          חסימות של כל איבר לא מספיקה: $\sum\sin(nx)$ איבריו חסומים ב-1, והוא לא מתכנס אפילו ב-$x=\frac\pi2$
+          (הסכומים החלקיים $1,1,0,0,1,1,\dots$). צריך חסמים שהטור **שלהם** מתכנס.
+        misconception: MC-c0-mtest-bounded-enough
+      - text: 'מבחן ה-M עם $M_n=\frac1n$'
+        feedback: >-
+          $\frac1n$ אכן חוסם, אבל $\sum\frac1n=\infty$, ולכן מבחן ה-M עם החסם הזה לא נותן כלום. בוחרים את החסם
+          ההדוק $\frac1{n^2}$.
+        misconception: MC-c0-mtest-bounded-enough
+      - text: 'כי הטור מתכנס בכל נקודה'
+        feedback: >-
+          התכנסות בכל נקודה היא התכנסות נקודתית, והיא לא גוררת התכנסות במידה שווה ($\sum x^n$ על $[0,1)$ מתכנס
+          בכל נקודה ולא במידה שווה).
+        misconception: MC-c0-pointwise-is-uniform
+
+  - id: Q-0.3-nxe
+    type: numeric
+    objectives: [OBJ-0.3-1]
+    level: mid
+    prompt: >-
+      $f_n(x)=nxe^{-nx}$ על $[0,\infty)$, והגבול הנקודתי הוא 0. חשבו את $\sup_{x\ge0}|f_5(x)-0|$, בדיוק של שלוש
+      ספרות אחרי הנקודה.
+    answer: 0.36787944117144233
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון, $\frac1e\approx0.368$. הנגזרת $ne^{-nx}(1-nx)$ מתאפסת ב-$x=\frac1n$, ושם
+      $f_n\left(\frac1n\right)=e^{-1}$, **לכל** $n$. לכן הסופרמום לא שואף ל-0, וההתכנסות על $[0,\infty)$ אינה
+      במידה שווה.
+    wrongFeedback: >-
+      גזרו את $f_5$, מצאו את נקודת המקסימום, והציבו בה.
+    commonWrong:
+      - value: 0
+        feedback: >-
+          0 הוא הגבול הנקודתי, $\lim_n f_n(x)$ לכל $x$. השאלה מבקשת את הסופרמום על $x$ עבור $n=5$ **קבוע**:
+          קודם סופרמום, אחר כך גבול.
+        misconception: MC-c0-sup-of-limit
+      - value: 0.03368973499542734
+        feedback: >-
+          $5e^{-5}=f_5(1)$ הוא הערך בנקודה אחת. הסופרמום מתקבל בנקודה שזזה עם $n$, $x=\frac15$, ושם הערך $\frac1e$.
+        misconception: MC-c0-sup-diff-at-fixed-x
+
+  - id: Q-0.3-x-over-n
+    type: twotier
+    objectives: [OBJ-0.3-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $f_n(x)=\frac xn$. האם $f_n\to0$ במידה שווה על $\mathbb{R}$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. על כל $\mathbb{R}$ הסופרמום של $\left|\frac xn\right|$ אינסופי לכל $n$. על קטע חסום $[-R,R]$ זה
+          משתנה: שם הסופרמום $\frac Rn\to0$.
+      - text: כן
+        feedback: >-
+          לכל $n$, עם $x=n$ מקבלים $f_n(n)=1$. לכן לא ייתכן $|f_n(x)|<\frac12$ לכל $x$, לאף $n$.
+        misconception: MC-c0-pointwise-is-uniform
+    reasons:
+      - text: 'לכל $n$: $\sup_{x\in\mathbb{R}}\left|\frac xn\right|=\infty$, למשל $f_n(n)=1$'
+        correct: true
+        feedback: >-
+          בדיוק. הסופרמום לא שואף ל-0; הוא אפילו לא סופי.
+      - text: 'לכל $x$ ו-$\varepsilon$, $\left|\frac xn\right|<\varepsilon$ כש-$n>\frac{|x|}{\varepsilon}$, ולכן כן'
+        feedback: >-
+          ה-$N=\frac{|x|}{\varepsilon}$ תלוי ב-$x$, ולכן זו הוכחה של התכנסות **נקודתית** בלבד. במידה שווה צריך $N$
+          אחד לכל $x$ בבת אחת, וכאן אין כזה.
+        misconception: MC-c0-pointwise-is-uniform
+      - text: 'כל $f_n$ רציפה והגבול 0 רציף, ולכן ההתכנסות במידה שווה'
+        feedback: >-
+          רציפות הגבול אינה מבטיחה התכנסות במידה שווה; המשפט הולך בכיוון ההפוך. כאן הכול רציף וההתכנסות בכל
+          זאת אינה במידה שווה.
+        misconception: MC-c0-converse-equivalent
+
+  - id: Q-0.3-cont-contra
+    type: mc
+    objectives: [OBJ-0.3-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $f_n(x)=\frac{1}{1+nx^2}$ על $[-1,1]$. הגבול הנקודתי הוא $f(0)=1$ ו-$f(x)=0$ ל-$x\ne0$. מה הדרך המהירה
+      להראות שההתכנסות **אינה** במידה שווה?
+    choices:
+      - text: 'כל $f_n$ רציפה ו-$f$ אינה רציפה ב-0; גבול במידה שווה של רציפות היה רציף'
+        correct: true
+        feedback: >-
+          נכון. זה השימוש במשפט בשלילה (קונטרפוזיציה): גבול לא רציף של פונקציות רציפות מוכיח שההתכנסות אינה
+          במידה שווה, בלי לחשב סופרמום.
+      - text: 'ב-$x=0$ הסדרה $f_n(0)$ אינה שואפת ל-0'
+        feedback: >-
+          $f_n(0)=1$ לכל $n$, ולכן היא שואפת ל-$f(0)=1$: ההתכנסות בנקודה זו תקינה. הבעיה בנקודות **הקרובות** ל-0.
+        misconception: MC-c0-pointwise-limit-wrong
+      - text: 'ב-$x=1$ ההפרש $f_n(1)=\frac{1}{1+n}$ אינו 0'
+        feedback: >-
+          בנקודה 1 ההפרש שואף ל-0. הסופרמום של ההפרש נקבע ליד 0: $f_n\left(\frac{1}{\sqrt n}\right)=\frac12$ לכל $n$.
+        misconception: MC-c0-sup-diff-at-fixed-x
+      - text: 'הנתון שגוי: גבול נקודתי של פונקציות רציפות רציף, ולכן $f$ צריכה להיות רציפה'
+        feedback: >-
+          הנתון נכון: $f_n(0)=1$ לכל $n$, ולכל $x\ne0$ המכנה $1+nx^2\to\infty$. גבול נקודתי של רציפות **אינו**
+          חייב להיות רציף, ובדיוק בגלל זה המשפט דורש התכנסות במידה שווה.
+        misconception: MC-c0-pointwise-preserves-continuity
+    explanation: >-
+      לשים לב: הכלי עובד רק בכיוון אחד. גבול **רציף** אינו מוכיח התכנסות במידה שווה ($nxe^{-nx}\to0$ על
+      $[0,\infty)$ הוא דוגמה).
+
+  - id: Q-0.3-mtest-converse
+    type: twotier
+    objectives: [OBJ-0.3-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      טענה: אם $\sum_n\sup_x|f_n(x)|=\infty$ (כלומר מבחן ה-M לא חל), אז $\sum f_n$ **אינו** מתכנס במידה שווה.
+      האם הטענה נכונה?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. הפונקציות הקבועות $f_n(x)=\frac{(-1)^n}{n}$ הן דוגמה נגדית.
+      - text: כן
+        feedback: >-
+          מבחן ה-M הוא תנאי מספיק בלבד. כשהוא לא חל, צריך לבדוק בדרך אחרת. הקבועות $\frac{(-1)^n}{n}$ נותנות
+          טור שמתכנס במידה שווה עם $\sum\sup|f_n|=\infty$.
+        misconception: MC-c0-mtest-necessary
+    reasons:
+      - text: 'עבור הקבועות $f_n=\frac{(-1)^n}{n}$ הטור מתכנס (לייבניץ) במידה שווה, כי אין תלות ב-$x$, ו-$\sum\frac1n=\infty$'
+        correct: true
+        feedback: >-
+          בדיוק. לפונקציות קבועות, התכנסות במידה שווה היא התכנסות של הטור המספרי, והטור של לייבניץ מתכנס בלי
+          התכנסות בהחלט.
+      - text: 'מבחן ה-M הוא "אם ורק אם"'
+        feedback: >-
+          המבחן אומר רק "אם $\sum M_n<\infty$ אז התכנסות במידה שווה". ההפוך נכשל כבר על טורים מספריים שמתכנסים
+          בתנאי.
+        misconception: MC-c0-mtest-necessary
+      - text: 'אם $\sum\sup|f_n|=\infty$ הטור לא מתכנס אפילו נקודתית'
+        feedback: >-
+          $\sum\frac{(-1)^n}{n}$ מתכנס, אף ש-$\sum\frac1n=\infty$. התבדרות של טור הערכים המוחלטים לא אומרת
+          שהטור עצמו מתבדר.
+        misconception: MC-c0-mtest-necessary
+
+  - id: Q-0.3-cont-proof
+    type: rank
+    objectives: [OBJ-0.3-2]
+    level: exam
+    help: 'סדרו את שלבי ההוכחה לפי הסדר הנכון.'
+    prompt: >-
+      $f_n\to f$ במידה שווה על קטע $I$, וכל $f_n$ רציפה ב-$x_0\in I$. ההוכחה ש-$f$ רציפה ב-$x_0$ התפרקה
+      לשלבים. סדרו אותם.
+    items:
+      - id: eps
+        label: 'יהי $\varepsilon>0$.'
+      - id: n
+        label: 'מההתכנסות במידה שווה יש $n$ כך ש-$|f_n(x)-f(x)|<\frac{\varepsilon}{3}$ לכל $x\in I$; נקבע $n$ כזה.'
+      - id: delta
+        label: '$f_n$ רציפה ב-$x_0$: יש $\delta>0$ כך ש-$|f_n(x)-f_n(x_0)|<\frac{\varepsilon}{3}$ לכל $x\in I$ עם $|x-x_0|<\delta$.'
+      - id: tri
+        label: 'לכל $x$ כזה: $|f(x)-f(x_0)|\le|f(x)-f_n(x)|+|f_n(x)-f_n(x_0)|+|f_n(x_0)-f(x_0)|$.'
+      - id: done
+        label: 'שלושת המחוברים קטנים מ-$\frac{\varepsilon}{3}$, ולכן $|f(x)-f(x_0)|<\varepsilon$: $f$ רציפה ב-$x_0$.'
+    order: [eps, n, delta, tri, done]
+    correctFeedback: >-
+      נכון. $\frac{\varepsilon}{3}$ בא משלושת המחוברים. במחובר הראשון והשלישי משתמשים באותו $n$ בשתי נקודות
+      שונות, $x$ ו-$x_0$: זה בדיוק מה שהתכנסות במידה שווה נותנת והתכנסות נקודתית לא.
+    wrongFeedback: >-
+      $n$ חייב להיקבע לפני $\delta$, כי $\delta$ בא מהרציפות של $f_n$ המסוימת הזו. אי-שוויון המשולש מופעל על
+      $x$ שכבר קרוב ל-$x_0$.
+
+  - id: Q-0.3-int
+    type: numeric
+    objectives: [OBJ-0.3-3]
+    level: exam
+    prompt: >-
+      $f_n(x)=nx(1-x^2)^n$ על $[0,1]$. בכל נקודה $f_n(x)\to0$. חשבו את $\lim_{n\to\infty}\int_0^1f_n(x)\,dx$. אפשר
+      לענות בשבר.
+    answer: 0.5
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. בהצבה $u=1-x^2$: $\int_0^1x(1-x^2)^n\,dx=\frac{1}{2(n+1)}$, ולכן $\int_0^1f_n=\frac{n}{2(n+1)}\to\frac12$.
+      אבל $\int_0^1\lim f_n=0$: כאן אסור להחליף גבול ואינטגרל, ולכן ההתכנסות אינה במידה שווה.
+    wrongFeedback: >-
+      חשבו את האינטגרל עבור $n$ כללי (הצבה $u=1-x^2$), ורק אחר כך שלחו $n\to\infty$.
+    commonWrong:
+      - value: 0
+        feedback: >-
+          0 הוא $\int_0^1\lim_nf_n$, כלומר החלפת הגבול והאינטגרל. כאן ההחלפה אסורה: האינטגרלים שואפים ל-$\frac12$.
+          הבליטה של $f_n$ צרה וגבוהה יותר ככל ש-$n$ גדל, והשטח שלה לא נעלם.
+        misconception: MC-c0-swap-always
+      - value: 0.25
+        feedback: >-
+          $\frac14$ הוא האינטגרל עבור $n=1$ בלבד. הגבול נקבע מהנוסחה לכל $n$, $\frac{n}{2(n+1)}$.
+        misconception: MC-c0-probe-proves
+    explanation: >-
+      על קטע חסום, התכנסות במידה שווה מתירה את ההחלפה: $\left|\int_a^b(f_n-f)\right|\le(b-a)\sup|f_n-f|\to0$. מכאן
+      שבדוגמה הזו ההתכנסות אינה במידה שווה, ואכן $\sup f_n\to\infty$.
+
+  - id: Q-0.3-tents
+    type: multi
+    objectives: [OBJ-0.3-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      בכל הסדרות הבאות על $[0,1]$, $f_n(x)\to0$ בכל נקודה. "אוהל בגובה $h$ על $[0,\frac2n]$" הוא הפונקציה
+      שעולה לינארית מ-0 ב-$x=0$ ל-$h$ ב-$x=\frac1n$, יורדת לינארית ל-0 ב-$x=\frac2n$, ושווה ל-0 משם. באילו מהן
+      $\int_0^1f_n\,dx$ **אינו** שואף ל-0? סמנו את כולן.
+    choices:
+      - text: 'אוהל בגובה $n$ על $[0,\frac2n]$'
+        correct: true
+        feedback: >-
+          נכון. השטח $\frac12\cdot\frac2n\cdot n=1$ לכל $n$, ו-$\int\lim f_n=0$. הגבול של האינטגרלים הוא 1.
+      - text: '$f_n(x)=n^2xe^{-nx}$'
+        correct: true
+        feedback: >-
+          נכון. $\int_0^1n^2xe^{-nx}\,dx=1-(n+1)e^{-n}\to1$, אף שבכל נקודה $f_n(x)\to0$.
+      - text: 'אוהל בגובה $\sqrt n$ על $[0,\frac2n]$'
+        feedback: >-
+          כאן השטח $\frac12\cdot\frac2n\cdot\sqrt n=\frac1{\sqrt n}\to0$, ולכן ההחלפה נכונה. מעניין: ההתכנסות
+          **אינה** במידה שווה (הסופרמום $\sqrt n$), ובכל זאת מותר להחליף. במידה שווה מספיקה, לא הכרחית.
+        misconception: MC-c0-uniform-needed-for-swap
+      - text: '$f_n(x)=nx^n(1-x)$'
+        feedback: >-
+          $\int_0^1nx^n(1-x)\,dx=\frac{n}{(n+1)(n+2)}\to0$, שווה לאינטגרל של הגבול. גם כאן ההתכנסות אינה במידה שווה
+          (המקסימום, ב-$x=\frac{n}{n+1}$, שואף ל-$\frac1e$), וההחלפה בכל זאת נכונה.
+        misconception: MC-c0-uniform-needed-for-swap
+    explanation: >-
+      שני הלקחים: (1) התכנסות נקודתית לא מתירה להחליף גבול ואינטגרל; (2) כשההתכנסות אינה במידה שווה, ההחלפה
+      עדיין **יכולה** להיות נכונה, ופשוט צריך לבדוק. מה שחשוב הוא אם "המסה" בורחת: באוהל בגובה $n$ השטח נשאר 1.
+
+  - id: Q-0.3-deriv
+    type: twotier
+    objectives: [OBJ-0.3-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $f_n(x)=\frac{\sin(nx)}{\sqrt n}$ על $\mathbb{R}$. ידוע ש-$f_n\to0$ במידה שווה. האם $f_n'(0)\to0$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. $f_n''(x)=\sqrt n\cos(nx)$, ולכן $f_n''(0)=\sqrt n\to\infty$.'
+      - text: כן
+        feedback: >-
+          הגבול $f=0$ אמנם גזיר עם $f'(0)=0$, אבל הנגזרות של $f_n$ מתנודדות מהר יותר ויותר: $f_n'(0)=\sqrt n$.
+        misconception: MC-c0-uniform-implies-derivatives
+    reasons:
+      - text: '$\sup|f_n|=\frac1{\sqrt n}\to0$, אבל $f_n''(0)=\sqrt n$; להחלפת גבול ונגזרת דרושה התכנסות במידה שווה של הנגזרות'
+        correct: true
+        feedback: >-
+          בדיוק. המשפט: אם $f_n'$ מתכנסות במידה שווה ו-$f_n(x_0)$ מתכנסת בנקודה אחת, אז $f_n$ מתכנסות לפונקציה
+          גזירה $f$ ו-$f'=\lim f_n'$. כאן $f_n'$ אינן מתכנסות.
+      - text: 'התכנסות במידה שווה מתירה להחליף גבול בכל פעולה: אינטגרל או נגזרת'
+        feedback: >-
+          היא מתירה להחליף גבול ואינטגרל (על קטע חסום), לא גבול ונגזרת. פונקציות קטנות במידה שווה יכולות להיות
+          תלולות מאוד, כמו $\frac{\sin nx}{\sqrt n}$.
+        misconception: MC-c0-uniform-implies-derivatives
+      - text: 'הגבול $f=0$ גזיר, ולכן הנגזרות מתכנסות לנגזרת שלו'
+        feedback: >-
+          גזירות הגבול לא אומרת דבר על הנגזרות של $f_n$. כאן $f'=0$ ו-$f_n'(0)=\sqrt n$.
+        misconception: MC-c0-uniform-implies-derivatives

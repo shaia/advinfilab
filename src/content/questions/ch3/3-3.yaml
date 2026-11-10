@@ -1,0 +1,319 @@
+# Lesson 3.3 — total boundedness.
+# Objectives (src/course.ts):
+#   OBJ-3.3-1  define a totally bounded set and tell it apart from a bounded set
+#   OBJ-3.3-2  prove that a metric space is compact iff it is complete and totally bounded
+#   OBJ-3.3-3  decide whether sets in spaces of functions are totally bounded
+# An ε-net is a finite subset F of K with K ⊆ ∪_{y∈F} B(y,ε) (open balls, points of F in K).
+chapter: 3
+questions:
+  - id: Q-3.3-def
+    type: mc
+    objectives: [OBJ-3.3-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      מהי ההגדרה של "$K$ חסומה כליל"?
+    choices:
+      - text: 'לכל $\varepsilon>0$ יש קבוצה סופית $F\subseteq K$ כך ש-$K\subseteq\bigcup_{y\in F}B(y,\varepsilon)$'
+        correct: true
+        feedback: >-
+          נכון: לכל $\varepsilon$ יש $\varepsilon$-רשת סופית. ככל ש-$\varepsilon$ קטן הרשת גדלה, אבל תמיד נשארת סופית.
+      - text: 'יש $\varepsilon>0$ וקבוצה סופית $F\subseteq K$ כך ש-$K\subseteq\bigcup_{y\in F}B(y,\varepsilon)$'
+        feedback: >-
+          עם $\varepsilon$ אחד זו בסך הכול חסימות: ב-$\mathbb{N}$ עם המטריקה הבדידה $F=\{1\}$ ו-$\varepsilon=2$
+          מתאימים, ובכל זאת אין $\frac12$-רשת סופית.
+        misconception: MC-c3-net-some-eps
+      - text: 'יש כדור $B(p,R)$ שמכיל את $K$'
+        feedback: >-
+          זו ההגדרה של חסומה. חסומה כליל חזקה ממנה: בכדור היחידה של $(C[0,1],\|\cdot\|_\infty)$ יש אינסוף פונקציות
+          אוהל במרחק 1 זו מזו, ולכן אין לו $\frac12$-רשת סופית.
+        misconception: MC-c3-bounded-totally-bounded
+      - text: 'לכל סדרה ב-$K$ יש תת-סדרה שמתכנסת לנקודה של $K$'
+        feedback: >-
+          זו קומפקטיות, והיא חזקה יותר: $(0,1)$ חסומה כליל ואינה קומפקטית.
+        misconception: MC-c3-totally-bounded-compact
+
+  - id: Q-3.3-net-count
+    type: numeric
+    objectives: [OBJ-3.3-1]
+    level: basic
+    prompt: >-
+      בקטע $[0,1]$ עם $d(x,y)=|x-y|$: מהו המספר **הקטן ביותר** של נקודות ב-$\varepsilon$-רשת עבור
+      $\varepsilon=0.1$? (נקודות הרשת ב-$[0,1]$, והכדורים פתוחים.)
+    answer: 6
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. שש נקודות מספיקות: $0.09,\ 0.27,\ 0.45,\ 0.63,\ 0.81,\ 0.99$ (המרחק בין שכנות $0.18<0.2$). חמש לא
+      מספיקות: הנקודות $0,\ 0.2,\ 0.4,\ 0.6,\ 0.8,\ 1$ רחוקות זו מזו לפחות $0.2$, וכדור ברדיוס $0.1$ מכיל לכל היותר
+      אחת מהן, כי שתי נקודות בו רחוקות זו מזו פחות מ-$0.2$.
+    wrongFeedback: >-
+      כל כדור $B(y,0.1)$ הוא קטע פתוח באורך $0.2$. כמה קטעים פתוחים כאלה צריך כדי לכסות קטע **סגור** באורך 1?
+    commonWrong:
+      - value: 5
+        feedback: >-
+          $5\cdot0.2=1$, אבל קטעים פתוחים לא מכילים את הקצוות שלהם: חמישה קטעים פתוחים באורך $0.2$ צמודים זה לזה
+          משאירים את נקודות המגע לא מכוסות. ששת המספרים $0,0.2,\dots,1$ מראים שצריך שש.
+        misconception: MC-c3-endpoint-in-open
+
+  - id: Q-3.3-discrete
+    type: twotier
+    objectives: [OBJ-3.3-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $\mathbb{N}$ עם המטריקה הבדידה הוא מרחב חסום. האם הוא חסום כליל?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. זו הדוגמה הפשוטה ביותר לקבוצה חסומה שאינה חסומה כליל.
+      - text: כן
+        feedback: >-
+          חסימות לא מספיקה. עבור $\varepsilon=\frac12$ כל כדור הוא נקודה אחת, ומספר סופי של נקודות לא מכסה את
+          $\mathbb{N}$.
+        misconception: MC-c3-bounded-totally-bounded
+    reasons:
+      - text: 'עבור $\varepsilon=\frac12$: $B(n,\frac12)=\{n\}$, ולכן כל $\frac12$-רשת היא $\mathbb{N}$ כולו, שאינו סופי'
+        correct: true
+        feedback: >-
+          בדיוק. מספיק $\varepsilon$ אחד שאין לו רשת סופית; זו השלילה של "לכל $\varepsilon$".
+      - text: 'הנקודה $1$ לבדה היא $2$-רשת, כי כל המרחקים לכל היותר 1'
+        feedback: >-
+          נכון ש-$\{1\}$ היא $2$-רשת, אבל זה מראה רק חסימות. ההגדרה דורשת רשת סופית **לכל** $\varepsilon$.
+        misconception: MC-c3-net-some-eps
+      - text: '$\mathbb{N}$ אינו חסום, ולכן אינו חסום כליל'
+        feedback: >-
+          במטריקה הבדידה $\mathbb{N}$ חסום: כל המרחקים 0 או 1. הסיבה היא שהכדורים הקטנים הם נקודות בודדות.
+        misconception: MC-c3-usual-metric-habit
+
+  - id: Q-3.3-tb-bounded
+    type: twotier
+    objectives: [OBJ-3.3-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      נכון או לא נכון: בכל מרחב מטרי, קבוצה חסומה כליל היא חסומה.
+    choices:
+      - text: נכון
+        correct: true
+        feedback: 'נכון. רשת סופית אחת, עבור $\varepsilon=1$, כבר נותנת חסם.'
+      - text: לא נכון
+        feedback: >-
+          הכיוון הזה תמיד נכון: מספר סופי של כדורים ברדיוס 1 מוכל בכדור אחד גדול. הכיוון ההפוך הוא שנכשל.
+        misconception: MC-c3-bounded-totally-bounded
+    reasons:
+      - text: 'ניקח $1$-רשת $x_1,\dots,x_m$. לכל $x\in K$ יש $i$ עם $d(x,x_i)<1$, ולכן $d(x,x_1)<1+\max_i d(x_i,x_1)$'
+        correct: true
+        feedback: >-
+          בדיוק: אי-שוויון המשולש, ומקסימום של מספר סופי של מרחקים.
+      - text: 'חסומה וחסומה כליל הן אותו מושג'
+        feedback: >-
+          לא: $\mathbb{N}$ עם המטריקה הבדידה חסום ואינו חסום כליל. רק הכיוון "חסומה כליל גורר חסומה" נכון.
+        misconception: MC-c3-bounded-totally-bounded
+      - text: 'קבוצה חסומה כליל קומפקטית, וקבוצה קומפקטית חסומה'
+        feedback: >-
+          הצעד הראשון שגוי: $(0,1)$ חסומה כליל ואינה קומפקטית. צריך גם שלמות.
+        misconception: MC-c3-totally-bounded-compact
+
+  - id: Q-3.3-rn
+    type: mc
+    objectives: [OBJ-3.3-1]
+    level: mid
+    prompt: >-
+      מה נכון לגבי קבוצה $K\subseteq\mathbb{R}^n$ עם המטריקה האוקלידית?
+    choices:
+      - text: '$K$ חסומה כליל אם ורק אם היא חסומה'
+        correct: true
+        feedback: >-
+          נכון. קבוצה חסומה מוכלת בקובייה $[-M,M]^n$; מחלקים אותה לקוביות קטנות בקוטר קטן מ-$\varepsilon$ ובוחרים
+          נקודה אחת של $K$ מכל קובייה קטנה שפוגשת את $K$. כך מתקבלת $\varepsilon$-רשת סופית.
+      - text: '$K$ חסומה כליל אם ורק אם היא קומפקטית'
+        feedback: >-
+          $(0,1)\subseteq\mathbb{R}$ חסומה כליל ואינה קומפקטית. במרחב האוקלידי חסומה כליל פירושו רק חסומה.
+        misconception: MC-c3-totally-bounded-compact
+      - text: '$K$ חסומה כליל אם ורק אם היא סגורה וחסומה'
+        feedback: >-
+          סגירות לא נדרשת: $(0,1)$ חסומה כליל ואינה סגורה. הסגירות (יחד עם השלמות של $\mathbb{R}^n$) היא מה שמוסיף
+          קומפקטיות.
+        misconception: MC-c3-holes-not-tb
+      - text: 'אף קבוצה אינסופית ב-$\mathbb{R}^n$ אינה חסומה כליל'
+        feedback: >-
+          $[0,1]$ אינסופית וחסומה כליל: הנקודות $0,\frac1k,\dots,1$ הן $\varepsilon$-רשת לכל $\varepsilon>\frac1{2k}$.
+        misconception: MC-c3-ambient-dimension
+
+  - id: Q-3.3-open-interval
+    type: twotier
+    objectives: [OBJ-3.3-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $(0,1)$ עם $d(x,y)=|x-y|$ חסום כליל. האם הוא קומפקטי?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. חסימות כליל היא רק חצי מהתנאי; החצי השני, שלמות, נכשל.
+      - text: כן
+        feedback: >-
+          הסדרה $\frac1n$ ב-$(0,1)$ אין לה תת-סדרה שמתכנסת לנקודה של $(0,1)$. חסימות כליל לבדה לא מספיקה.
+        misconception: MC-c3-totally-bounded-compact
+    reasons:
+      - text: 'הוא אינו שלם: $\frac1n$ היא סדרת קושי בלי גבול ב-$(0,1)$; ומרחב קומפקטי הוא שלם'
+        correct: true
+        feedback: >-
+          בדיוק. במשפט "קומפקטי אם ורק אם שלם וחסום כליל" כאן נכשלת השלמות.
+      - text: 'הוא אינו חסום כליל, כי חסרות בו נקודות הקצה'
+        feedback: >-
+          הוא חסום כליל: הנקודות $\frac1{2k},\frac3{2k},\dots,\frac{2k-1}{2k}$ הן $\varepsilon$-רשת לכל
+          $\varepsilon>\frac1{2k}$. נקודות הקצה החסרות פוגעות בשלמות.
+        misconception: MC-c3-holes-not-tb
+      - text: 'הוא קבוצה פתוחה, וקבוצה פתוחה אינה קומפקטית'
+        feedback: >-
+          כמרחב בפני עצמו $(0,1)$ גם פתוח וגם סגור, כמו כל מרחב. הנימוק צריך להיות על התכונות הפנימיות שלו.
+        misconception: MC-c3-closed-in-itself
+
+  - id: Q-3.3-which-fails
+    type: multi
+    objectives: [OBJ-3.3-2]
+    level: mid
+    prompt: >-
+      אילו מהמרחבים הבאים **שלמים אבל אינם חסומים כליל**? סמנו את כולם.
+    choices:
+      - text: '$\mathbb{R}$ עם $|x-y|$'
+        correct: true
+        feedback: >-
+          נכון. שלם (שיעור 2.1), ולא חסום בכלל, ולכן לא חסום כליל.
+      - text: '$\mathbb{N}$ עם המטריקה הבדידה'
+        correct: true
+        feedback: >-
+          נכון. סדרת קושי במטריקה הבדידה קבועה החל ממקום מסוים (קחו $\varepsilon=\frac12$), ולכן מתכנסת: המרחב שלם.
+          והוא חסום ולא חסום כליל.
+      - text: 'כדור היחידה הסגור של $(C[0,1],\|\cdot\|_\infty)$'
+        correct: true
+        feedback: >-
+          נכון. קבוצה סגורה במרחב שלם (שיעור 2.2), ולכן שלמה; ופונקציות האוהל במרחק 1 זו מזו מונעות $\frac12$-רשת
+          סופית.
+      - text: '$\mathbb{Q}\cap[0,1]$ עם $|x-y|$'
+        feedback: >-
+          להפך: היא חסומה כליל (הנקודות $\frac jk$ רציונליות) ואינה שלמה (סדרה רציונלית ששואפת ל-$\frac{\sqrt2}2$).
+        misconception: MC-c3-holes-not-tb
+      - text: '$(0,1)$ עם $|x-y|$'
+        feedback: >-
+          להפך: חסומה כליל ואינה שלמה ($\frac1n$ היא סדרת קושי בלי גבול בה).
+        misconception: MC-c3-holes-not-tb
+    explanation: >-
+      בכל אחת מהדוגמאות נכשל בדיוק חצי אחד של "שלם וחסום כליל", ולכן אף אחת מהן אינה קומפקטית. שתי התכונות בלתי
+      תלויות, וצריך את שתיהן.
+
+  - id: Q-3.3-xn
+    type: twotier
+    objectives: [OBJ-3.3-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      האם הקבוצה $S=\{x^n: n\in\mathbb{N}\}$ חסומה כליל ב-$(C[0,1],\|\cdot\|_\infty)$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. יש ב-$S$ אינסוף פונקציות שרחוקות זו מזו לפחות $\frac14$.
+      - text: כן
+        feedback: >-
+          כל האיברים בנורמה 1, אבל הם לא מתקבצים: $\|x^n-x^m\|_\infty\ge\frac14$ לכל $m\ge2n$.
+        misconception: MC-c3-bounded-totally-bounded
+    reasons:
+      - text: 'אם $m\ge2n$, בנקודה $x=2^{-1/n}$ מתקיים $x^n-x^m\ge\frac12-\frac14$. לכן הפונקציות $x^{2^k}$ רחוקות זו מזו לפחות $\frac14$, וכדור ברדיוס $\frac18$ מכיל לכל היותר אחת מהן: אין $\frac18$-רשת סופית'
+        correct: true
+        feedback: >-
+          בדיוק. אינסוף נקודות שהמרחקים ביניהן חסומים מלרע הן מה ששובר חסימות כליל.
+      - text: 'כל הפונקציות ב-$S$ בנורמה 1, ולכן $S$ חסומה כליל'
+        feedback: >-
+          זו חסימות בלבד. חסימות כליל דורשת כיסוי בכדורים קטנים כרצוננו, ובכדורים ברדיוס $\frac18$ זה בלתי אפשרי.
+        misconception: MC-c3-bounded-totally-bounded
+      - text: '$x^n\to0$ בכל נקודה של $[0,1)$, ולכן הפונקציות מתקרבות זו לזו'
+        feedback: >-
+          ההתקרבות היא נקודתית. במרחק הסופרמום $\|x^n-x^{2n}\|_\infty=\frac14$ לכל $n$.
+        misconception: MC-c3-pointwise-is-enough
+
+  - id: Q-3.3-linear-family
+    type: twotier
+    objectives: [OBJ-3.3-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      האם הקבוצה $A=\{a+bx:\ |a|\le1,\ |b|\le1\}$ חסומה כליל ב-$(C[0,1],\|\cdot\|_\infty)$?
+    choices:
+      - text: כן
+        correct: true
+        feedback: >-
+          נכון. אף ש-$C[0,1]$ ממימד אינסופי, $A$ "חיה" בשני פרמטרים, ושם מספיקה רשת סופית של פרמטרים.
+      - text: לא
+        feedback: >-
+          המימד של המרחב שמסביב לא קובע. $A$ תלויה בשני פרמטרים חסומים, וכל פונקציה בה קרובה לאחת מרשת סופית.
+        misconception: MC-c3-ambient-dimension
+    reasons:
+      - text: 'לכל $x\in[0,1]$: $|(a+bx)-(a''+b''x)|\le|a-a''|+|b-b''|$. רשת סופית של זוגות $(a,b)$ בצעד $\frac\varepsilon2$ נותנת $\varepsilon$-רשת של $A$'
+        correct: true
+        feedback: >-
+          בדיוק. כל $a$ במרחק לכל היותר $\frac\varepsilon4$ מערך ברשת, וכך גם $b$, ולכן המרחק בנורמת הסופרמום לכל
+          היותר $\frac\varepsilon2<\varepsilon$.
+      - text: '$A$ חסומה (כל איבר בנורמה לכל היותר 2), ולכן חסומה כליל'
+        feedback: >-
+          המסקנה נכונה, אבל לא מהסיבה הזו: גם כדור היחידה של $C[0,1]$ חסום, ואינו חסום כליל.
+        misconception: MC-c3-bounded-totally-bounded
+      - text: '$C[0,1]$ ממימד אינסופי, ולכן אף קבוצה אינסופית בו אינה חסומה כליל'
+        feedback: >-
+          זה לא נכון: $A$ עצמה היא דוגמה נגדית. מה שקובע הוא הקבוצה, לא המרחב.
+        misconception: MC-c3-ambient-dimension
+
+  - id: Q-3.3-proof-rank
+    type: rank
+    objectives: [OBJ-3.3-2]
+    level: exam
+    help: 'סדרו את שלבי ההוכחה לפי הסדר הנכון.'
+    prompt: >-
+      ההוכחה ש"מרחב מטרי שלם וחסום כליל הוא קומפקטי סדרתית" התפרקה לשלבים. סדרו אותם.
+    items:
+      - id: b1
+        label: 'תהי $(x_n)$ סדרה ב-$X$. מספר סופי של כדורים ברדיוס 1 מכסה את $X$, ולכן אחד מהם, $B_1$, מכיל את $x_n$ לאינסוף אינדקסים $n$.'
+      - id: bk
+        label: 'מספר סופי של כדורים ברדיוס $\frac12$ מכסה את $X$, ולכן אחד מהם, $B_2$, מכיל אינסוף מבין ה-$x_n$ שב-$B_1$; ממשיכים וכך מקבלים כדורים $B_k$ ברדיוס $\frac1k$, כך ש-$x_n\in B_1\cap\dots\cap B_k$ לאינסוף $n$.'
+      - id: pick
+        label: 'בוחרים $n_1<n_2<\cdots$ כך ש-$x_{n_k}\in B_1\cap\dots\cap B_k$.'
+      - id: cauchy
+        label: 'לכל $j,k\ge m$ שתי הנקודות $x_{n_j},x_{n_k}$ ב-$B_m$, ולכן $d(x_{n_j},x_{n_k})<\frac2m$: תת-הסדרה היא סדרת קושי.'
+      - id: done
+        label: 'המרחב שלם, ולכן $(x_{n_k})$ מתכנסת לנקודה של $X$.'
+    order: [b1, bk, pick, cauchy, done]
+    correctFeedback: >-
+      נכון. חסימות כליל מייצרת תת-סדרת קושי, והשלמות הופכת אותה לתת-סדרה מתכנסת. כל אחת מהתכונות עושה חצי מהעבודה.
+    wrongFeedback: >-
+      בונים קודם את הכדורים המקוננים (בהם משתמשים בחסימות כליל), אחר כך בוחרים מהם תת-סדרה, מראים שהיא קושי,
+      ורק בסוף משתמשים בשלמות.
+
+  - id: Q-3.3-cx2-net
+    type: numeric
+    objectives: [OBJ-3.3-3]
+    level: exam
+    prompt: >-
+      במרחב $(C[0,2],\|\cdot\|_\infty)$ נתבונן ב-$S=\{c\,x^2:\ c\in[0,1]\}$. מהו המספר **הקטן ביותר** של נקודות
+      ב-$\varepsilon$-רשת של $S$ עבור $\varepsilon=1$? (נקודות הרשת ב-$S$, כדורים פתוחים.)
+    answer: 3
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $\|cx^2-c'x^2\|_\infty=\max_{[0,2]}|c-c'|x^2=4|c-c'|$, ולכן $S$ נראה כמו הקטע $[0,4]$. שלוש נקודות
+      מספיקות ($c=0.225,\ 0.5,\ 0.775$, כלומר $0.9,\ 2,\ 3.1$ בקטע $[0,4]$), ושתיים לא: $c=0,\ \frac12,\ 1$ רחוקות זו
+      מזו לפחות 2, וכדור ברדיוס 1 מכיל לכל היותר אחת מהן.
+    wrongFeedback: >-
+      חשבו קודם את $\|cx^2-c'x^2\|_\infty$ על הקטע $[0,2]$. המרחב $S$ הוא אז עותק של קטע; כמה קטעים פתוחים
+      ברדיוס 1 מכסים אותו?
+    commonWrong:
+      - value: 2
+        feedback: >-
+          שני קטעים פתוחים באורך 2 לא מכסים קטע סגור באורך 4: נקודת המגע ביניהם נשארת בחוץ.
+        misconception: MC-c3-endpoint-in-open
+      - value: 1
+        feedback: >-
+          זה מה שיוצא אם מחשבים את הסופרמום על $[0,1]$, שם $\|cx^2-c'x^2\|=|c-c'|$. המרחב הוא $C[0,2]$, והמקסימום
+          של $x^2$ בו הוא 4.
+        misconception: MC-c3-usual-metric-habit

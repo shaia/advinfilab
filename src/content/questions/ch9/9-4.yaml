@@ -1,0 +1,273 @@
+# Lesson 9.4 — integration over sets and volume.
+# Objectives (src/course.ts):
+#   OBJ-9.4-1  define the integral over a bounded set via the indicator function, and a set with volume as one whose
+#               boundary has measure zero
+#   OBJ-9.4-2  compute volumes and areas as integrals of the indicator function, and prove properties of the
+#               integral: linearity, monotonicity and additivity
+#   OBJ-9.4-3  give an example of a bounded set without volume
+# For bounded C ⊆ Q (a box): ∫_C f = ∫_Q f·χ_C; C has volume iff ∂C has measure zero, v(C) = ∫_Q χ_C.
+chapter: 9
+questions:
+  - id: Q-9.4-def
+    type: mc
+    objectives: [OBJ-9.4-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $C\subseteq\mathbb{R}^n$ קבוצה חסומה ו-$f$ חסומה על $C$. איך מגדירים את $\int_C f$?
+    choices:
+      - text: 'בוחרים תיבה $Q\supseteq C$, מגדירים $\int_C f=\int_Q f\chi_C$ (כשהאינטגרל הזה קיים), כש-$f\chi_C$ שווה ל-$f$ על $C$ ול-0 מחוצה לה; הערך אינו תלוי בבחירת $Q$'
+        correct: true
+        feedback: >-
+          נכון. אם $Q'\supseteq Q$ תיבה גדולה יותר, $f\chi_C$ מתאפסת על $Q'\setminus Q$, ולכן האינטגרלים על $Q$ ועל
+          $Q'$ שווים (מחשבים בחלוקה של $Q'$ ש-$Q$ היא אחת מתת-התיבות שלה).
+      - text: 'האינטגרל של $f$ (ללא כפל ב-$\chi_C$) על התיבה הקטנה ביותר שמכילה את $C$'
+        feedback: >-
+          כך האינטגרל "רואה" את הערכים של $f$ גם מחוץ ל-$C$, וגם אינו מוגדר כש-$f$ מוגדרת רק על $C$. ל-$C$ משולש
+          והתיבה $[0,1]^2$ היה יוצא אינטגרל על כל הריבוע.
+        misconception: MC-c9-volume-depends-on-box
+      - text: '$\int_Q f\chi_C$, כשהערך תלוי ב-$Q$, ולכן מסכימים לבחור את התיבה הקטנה ביותר'
+        feedback: >-
+          אין תלות ב-$Q$: מחוץ ל-$C$ האינטגרנד 0, והגדלת התיבה מוסיפה רק תת-תיבות שתרומתן 0.
+        misconception: MC-c9-volume-depends-on-box
+
+  - id: Q-9.4-indicator-disc
+    type: mc
+    objectives: [OBJ-9.4-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $C\subseteq Q$ ו-$\chi_C$ הפונקציה המציינת שלה ($1$ על $C$, $0$ מחוצה לה). באילו נקודות $\chi_C$ **אינה**
+      רציפה?
+    choices:
+      - text: 'בדיוק בנקודות השפה $\partial C$'
+        correct: true
+        feedback: >-
+          נכון. בנקודת פנים של $C$, או של המשלים, $\chi_C$ קבועה בסביבה. בנקודת שפה כל כדור מכיל נקודות של $C$ ונקודות
+          מחוצה לה, ולכן התנודה 1. מכאן, לפי משפט לבג: ל-$C$ יש נפח אם ורק אם $\partial C$ ממידה אפס.
+      - text: 'בנקודות של $C$'
+        feedback: >-
+          בנקודת פנים של $C$ (למשל מרכז עיגול) $\chi_C\equiv1$ בסביבה, ולכן היא רציפה שם. ונקודת שפה שאינה ב-$C$ (על
+          השפה של עיגול פתוח) היא כן נקודת אי-רציפות.
+        misconception: MC-c9-indicator-disc-interior
+      - text: 'בנקודות הפנים של $C$'
+        feedback: >-
+          שם $\chi_C$ קבועה 1 בסביבה, כלומר רציפה. הבעיה היא במקום שבו $C$ "נגמרת".
+        misconception: MC-c9-indicator-disc-interior
+
+  - id: Q-9.4-L-shape
+    type: numeric
+    objectives: [OBJ-9.4-2]
+    level: basic
+    prompt: >-
+      $C=([0,2]\times[0,1])\cup([0,1]\times[0,3])$ (צורת האות L). מהו $v(C)=\int\chi_C$?
+    answer: 4
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $\chi_C=\chi_{C_1}+\chi_{C_2}-\chi_{C_1\cap C_2}$ עם $C_1\cap C_2=[0,1]\times[0,1]$, ולכן לפי לינאריות
+      $v(C)=2+3-1=4$.
+    wrongFeedback: >-
+      שני המלבנים חופפים. כתבו את $\chi_C$ בעזרת הפונקציות המציינות של שני המלבנים ושל החיתוך שלהם, והשתמשו בלינאריות
+      של האינטגרל.
+    commonWrong:
+      - value: 5
+        feedback: >-
+          $5=2+3$ סופר פעמיים את הריבוע $[0,1]\times[0,1]$ שמשותף לשני המלבנים: $\chi_{C_1}+\chi_{C_2}$ שווה 2 עליו.
+        misconception: MC-c9-volume-additive-overlap
+
+  - id: Q-9.4-tri-lower
+    type: numeric
+    objectives: [OBJ-9.4-2]
+    level: mid
+    prompt: >-
+      $T=\{(x,y): 0\le y\le x\le1\}$ (משולש סגור) ו-$P_{10}$ החלוקה האחידה של $[0,1]^2$ ל-$10\times10$ ריבועים.
+      חשבו את $L(\chi_T,P_{10})$.
+    answer: 0.45
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $m_S(\chi_T)=1$ רק לריבוע שמוכל ב-$T$. הריבוע בעמודה $i$ ובשורה $j$ מוכל ב-$T$ בדיוק כש-$j\le i-1$, וכאלה
+      יש $0+1+\dots+9=45$, ולכן $L=\frac{45}{100}$. לשם השוואה, $U(\chi_T,P_{10})=\frac{64}{100}$: הוא סופר גם את 10
+      הריבועים שהאלכסון חוצה וגם את 9 הריבועים שנוגעים ב-$T$ רק בפינה. ההפרש $\frac{2n-1}{n^2}\to0$, ולכן $v(T)=\frac12$.
+    wrongFeedback: >-
+      בסכום התחתון ריבוע תורם רק אם $\chi_T=1$ על **כולו**, כלומר אם הוא מוכל ב-$T$. ריבוע שהאלכסון חוצה מכיל נקודות
+      מחוץ ל-$T$.
+    commonWrong:
+      - value: 0.55
+        feedback: >-
+          $\frac{55}{100}$ סופר גם את 10 הריבועים שעל האלכסון. אבל בכל אחד מהם יש נקודות עם $y>x$, שבהן $\chi_T=0$, ולכן
+          $m_S(\chi_T)=0$.
+        misconception: MC-c9-boundary-boxes-lower
+      - value: 0.64
+        feedback: >-
+          $\frac{64}{100}$ הוא הסכום **העליון**: כל ריבוע שנפגש עם $T$. בסכום התחתון סופרים רק ריבועים שמוכלים ב-$T$.
+        misconception: MC-c9-boundary-boxes-lower
+
+  - id: Q-9.4-has-volume
+    type: multi
+    objectives: [OBJ-9.4-1, OBJ-9.4-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      לאילו מהקבוצות החסומות הבאות במישור יש נפח (שטח)? סמנו את כולן.
+    choices:
+      - text: 'העיגול הסגור $\{x^2+y^2\le1\}$'
+        correct: true
+        feedback: >-
+          נכון. השפה היא המעגל, איחוד של שני גרפים של פונקציות רציפות $\pm\sqrt{1-x^2}$ על $[-1,1]$, ולכן בעלת תכולה אפס.
+      - text: 'המשולש $\{0\le y\le x\le1\}$'
+        correct: true
+        feedback: 'נכון: השפה היא שלושה קטעים, כל אחד בעל תכולה אפס.'
+      - text: 'קבוצה סופית של נקודות'
+        correct: true
+        feedback: 'נכון: השפה היא הקבוצה עצמה, בעלת תכולה אפס, והנפח 0.'
+      - text: '$\mathbb{Q}^2\cap[0,1]^2$'
+        feedback: >-
+          כל נקודה של $[0,1]^2$ היא נקודת שפה, ו-$[0,1]^2$ אינה ממידה אפס. בכל חלוקה $U(\chi,P)=1$ ו-$L(\chi,P)=0$.
+        misconception: MC-c9-bounded-has-volume
+      - text: '$(\mathbb{Q}\cap[0,1])\times[0,1]$'
+        feedback: >-
+          הקבוצה ממידה אפס (איחוד בן מנייה של קטעים), אבל השפה שלה היא כל $[0,1]^2$. נפח נקבע לפי השפה, לא לפי הקבוצה.
+        misconception: MC-c9-measure-zero-has-volume
+
+  - id: Q-9.4-measure-zero-volume
+    type: twotier
+    objectives: [OBJ-9.4-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      נכון או לא נכון: לכל קבוצה חסומה ממידה אפס יש נפח, והוא 0.
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: 'נכון. נכון רק לקבוצות בעלות **תכולה** אפס.'
+      - text: נכון
+        feedback: >-
+          מידה אפס של הקבוצה אינה אומרת דבר על השפה שלה, ונפח נקבע לפי השפה.
+        misconception: MC-c9-measure-zero-has-volume
+    reasons:
+      - text: '$A=\mathbb{Q}\cap[0,1]\subseteq\mathbb{R}$ ממידה אפס, אבל $\partial A=[0,1]$ אינה ממידה אפס; ובאמת $U(\chi_A,P)=1$ ו-$L(\chi_A,P)=0$ לכל חלוקה'
+        correct: true
+        feedback: >-
+          בדיוק. $\chi_A$ היא פונקציית דיריכלה על הקטע.
+      - text: '$\chi_A$ אינה רציפה רק בנקודות של $A$, קבוצה ממידה אפס, ולכן לפי משפט לבג היא אינטגרבילית'
+        feedback: >-
+          $\chi_A$ אינה רציפה בכל נקודות **השפה** של $A$, ולא רק ב-$A$. ל-$\mathbb{Q}\cap[0,1]$ זה כל הקטע.
+        misconception: MC-c9-indicator-disc-interior
+      - text: '$\chi_A$ שונה מ-0 רק על קבוצה ממידה אפס, ולכן האינטגרל שלה 0'
+        feedback: >-
+          פונקציה ששונה מ-0 רק על קבוצה ממידה אפס אינה חייבת להיות אינטגרבילית: זו בדיוק פונקציית דיריכלה.
+        misconception: MC-c9-change-countable-points
+
+  - id: Q-9.4-union
+    type: twotier
+    objectives: [OBJ-9.4-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $C,D\subseteq\mathbb{R}^2$ בעלות נפח. נכון או לא נכון: $v(C\cup D)=v(C)+v(D)$.
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: 'נכון. השוויון נכון רק כש-$v(C\cap D)=0$.'
+      - text: נכון
+        feedback: >-
+          ל-$C=D=[0,1]^2$: $v(C\cup D)=1$, ואילו $v(C)+v(D)=2$.
+        misconception: MC-c9-volume-additive-overlap
+    reasons:
+      - text: '$\chi_{C\cup D}=\chi_C+\chi_D-\chi_{C\cap D}$, ולכן לפי לינאריות $v(C\cup D)=v(C)+v(D)-v(C\cap D)$ (ול-$C\cup D$ ול-$C\cap D$ יש נפח, כי השפה של כל אחת מהן מוכלת ב-$\partial C\cup\partial D$)'
+        correct: true
+        feedback: >-
+          בדיוק. הנוסחה הכללית מחסירה את החיתוך, וכשהחיתוך בעל נפח 0 (למשל שני מלבנים עם צלע משותפת) מתקבלת אדיטיביות.
+      - text: '$\chi_{C\cup D}=\chi_C+\chi_D$, והאינטגרל לינארי'
+        feedback: >-
+          על $C\cap D$ הסכום $\chi_C+\chi_D$ שווה 2, ו-$\chi_{C\cup D}$ שווה 1. הזהות נכונה רק לקבוצות זרות.
+        misconception: MC-c9-volume-additive-overlap
+      - text: 'הנפח מונוטוני, $C\cup D$ מכילה את $C$ ואת $D$, ולכן נפחה הוא הסכום'
+        feedback: >-
+          מונוטוניות נותנת רק $v(C\cup D)\ge\max(v(C),v(D))$, לא סכום.
+        misconception: MC-c9-volume-additive-overlap
+
+  - id: Q-9.4-volume-zero
+    type: twotier
+    objectives: [OBJ-9.4-1, OBJ-9.4-2]
+    qualitative: true
+    level: exam
+    prompt: >-
+      נכון או לא נכון: אם $C\subseteq\mathbb{R}^n$ בעלת **תכולה** אפס, אז יש לה נפח ו-$v(C)=0$.
+    choices:
+      - text: נכון
+        correct: true
+        feedback: 'נכון. כאן, בניגוד למידה אפס, הסגור "יורש" את התכונה.'
+      - text: לא נכון
+        feedback: >-
+          הדוגמה $\mathbb{Q}\cap[0,1]$ (בלי נפח) היא ממידה אפס, לא בעלת תכולה אפס. לתכולה אפס הטענה נכונה.
+        misconception: MC-c9-measure-zero-is-content-zero
+    reasons:
+      - text: 'אם $C\subseteq Q_1\cup\dots\cup Q_m$ (תיבות סגורות) בסכום נפחים $<\varepsilon$, האיחוד סגור ומכיל את $\overline C\supseteq\partial C$; לכן $\partial C$ בעלת תכולה אפס ול-$C$ יש נפח, ובחלוקה שכוללת את קצוות ה-$Q_i$ מתקיים $U(\chi_C,P)\le\sum v(Q_i)<\varepsilon$'
+        correct: true
+        feedback: >-
+          בדיוק. כל תת-תיבה של $P$ שנפגשת עם $C$ מוכלת באחת מה-$Q_i$, ולכן הסכום העליון חסום בסכום הנפחים שלהן. מכאן
+          $0\le v(C)<\varepsilon$ לכל $\varepsilon$.
+      - text: 'לכל קבוצה חסומה ממידה אפס יש נפח 0, ותכולה אפס גוררת מידה אפס'
+        feedback: >-
+          החלק הראשון שגוי: $\mathbb{Q}\cap[0,1]$ ממידה אפס ואין לה נפח. צריך את הכיסוי **הסופי**, שמכסה גם את הסגור.
+        misconception: MC-c9-measure-zero-has-volume
+      - text: 'קבוצה בעלת תכולה אפס היא סופית, ולקבוצה סופית יש נפח 0'
+        feedback: >-
+          הקטע $[0,1]\times\{0\}$ במישור בעל תכולה אפס ואינו סופי, וגם קבוצת קנטור.
+        misconception: MC-c9-measure-zero-countable
+
+  - id: Q-9.4-Q2
+    type: rank
+    objectives: [OBJ-9.4-3]
+    level: exam
+    help: 'סדרו את שלבי ההוכחה לפי הסדר הנכון.'
+    prompt: >-
+      ההוכחה של "לקבוצה $A=\mathbb{Q}^2\cap[0,1]^2$ אין נפח" התפרקה לשלבים. סדרו אותם.
+    items:
+      - id: dense
+        label: 'תהי $x\in[0,1]^2$ ו-$\delta>0$. כי הרציונליים והאי-רציונליים צפופים, $B(x,\delta)$ מכיל נקודות של $A$ ונקודות של $[0,1]^2\setminus A$.'
+      - id: boundary
+        label: 'לכן כל $x\in[0,1]^2$ היא נקודת שפה של $A$, ו-$\partial A=[0,1]^2$.'
+      - id: notzero
+        label: 'ל-$[0,1]^2$ שטח חיובי, ותיבה בעלת נפח חיובי אינה ממידה אפס; לכן $\partial A$ אינה ממידה אפס.'
+      - id: conclude
+        label: 'ל-$A$ חסומה יש נפח אם ורק אם $\chi_A$ אינטגרבילית, כלומר (משפט לבג, $\chi_A$ אינה רציפה בדיוק על $\partial A$) אם ורק אם $\partial A$ ממידה אפס. לכן אין ל-$A$ נפח.'
+    order: [dense, boundary, notzero, conclude]
+    correctFeedback: >-
+      נכון. אפשר גם בלי משפט לבג: לכל חלוקה $U(\chi_A,P)=1$ ו-$L(\chi_A,P)=0$. שימו לב ש-$A$ עצמה ממידה אפס (היא בת
+      מנייה): הבעיה היא השפה שלה.
+    wrongFeedback: >-
+      הדרך: צפיפות → כל נקודה היא נקודת שפה → השפה אינה ממידה אפס → הקריטריון לנפח נכשל.
+
+  - id: Q-9.4-open
+    type: twotier
+    objectives: [OBJ-9.4-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      נכון או לא נכון: לכל קבוצה **פתוחה** וחסומה $U\subseteq\mathbb{R}$ יש אורך (נפח במובן של שיעור 9.4).
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: 'נכון. זו דוגמה עדינה: קבוצה פתוחה בלי נפח.'
+      - text: נכון
+        feedback: >-
+          קבוצה פתוחה היא איחוד בן מנייה של קטעים פתוחים, ואיחוד **בן מנייה** של קבוצות בעלות נפח אינו חייב להיות
+          בעל נפח.
+        misconception: MC-c9-open-has-volume
+    reasons:
+      - text: 'יהיו $r_1,r_2,\dots$ הרציונליים ב-$[0,1]$, ו-$U=\bigcup_k(r_k-2^{-k-2},\,r_k+2^{-k-2})$: סכום האורכים לכל היותר $\frac12$. $U$ צפופה ב-$[0,1]$, ולכן $[0,1]\setminus U\subseteq\partial U$; אם $\partial U$ הייתה ממידה אפס, היינו מכסים את $[0,1]$ בקטעים שסכום אורכיהם קטן מ-1'
+        correct: true
+        feedback: >-
+          בדיוק. הסתירה: כיסוי של $[0,1]$ בקטעים פתוחים שסכום אורכיהם קטן מ-1 אינו אפשרי, כי יש לו תת-כיסוי סופי (היינה-בורל),
+          וסכום האורכים של כיסוי סופי של $[0,1]$ הוא לפחות 1.
+      - text: 'קבוצה פתוחה היא איחוד של קטעים פתוחים, ולכל קטע יש אורך'
+        feedback: >-
+          לכל קטע יש אורך, ולאיחוד **סופי** של קטעים יש אורך. הדוגמה משמאל היא איחוד אינסופי, והשפה שלה "שמנה".
+        misconception: MC-c9-open-has-volume
+      - text: 'השפה של קבוצה פתוחה היא תמיד קבוצה דקה, ממידה אפס'
+        feedback: >-
+          השפה של קבוצה פתוחה סגורה ובעלת פנים ריק, אבל זה לא מבטיח מידה אפס: בדוגמה היא מכילה את $[0,1]\setminus U$,
+          שאינה ממידה אפס.
+        misconception: MC-c9-open-has-volume

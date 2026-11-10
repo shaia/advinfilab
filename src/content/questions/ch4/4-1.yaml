@@ -1,0 +1,390 @@
+# Lesson 4.1 — the space C(K) and the sup norm.
+# Objectives (src/course.ts):
+#   OBJ-4.1-1  define C(K) with the sup norm and explain why the sup is attained
+#   OBJ-4.1-2  prove C(K) is complete and that convergence in it is uniform convergence
+#   OBJ-4.1-3  decide whether subsets of C(K) are open, closed or bounded
+chapter: 4
+questions:
+  - id: Q-4.1-max
+    type: mc
+    objectives: [OBJ-4.1-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      יהי $K$ מרחב מטרי קומפקטי ו-$f\in C(K)$. למה $\|f\|_\infty=\sup_{x\in K}|f(x)|$ הוא מספר סופי, ולמה מותר לכתוב
+      $\max$ במקום $\sup$?
+    choices:
+      - text: '$|f|$ רציפה על המרחב הקומפקטי $K$, ולכן חסומה ומקבלת מקסימום'
+        correct: true
+        feedback: >-
+          נכון. התמונה הרציפה של קומפקטי קומפקטית (שיעור 3.4), ולכן $|f|(K)$ קבוצה סגורה וחסומה בישר שמכילה את
+          הסופרמום שלה.
+      - text: כל פונקציה רציפה חסומה ומקבלת מקסימום
+        feedback: >-
+          לא בלי קומפקטיות. $f(x)=\frac1x$ רציפה על $(0,1]$ ואינה חסומה, ו-$f(x)=x$ על $[0,1)$ חסומה ואינה מקבלת את
+          הסופרמום 1.
+        misconception: MC-c4-noncompact-domain
+      - text: כי $K$ סגור, וכל פונקציה רציפה על קבוצה סגורה חסומה
+        feedback: >-
+          $\mathbb{R}$ סגור ב-$\mathbb{R}$, ו-$f(x)=x$ רציפה עליו ואינה חסומה. סגירות לבדה לא מספיקה; צריך קומפקטיות.
+        misconception: MC-c4-noncompact-domain
+      - text: כי $K$ חסום, ולכן גם $f$ חסומה
+        feedback: >-
+          $(0,1]$ חסום, ו-$\frac1x$ רציפה עליו ואינה חסומה. חסימות של התחום אינה עוברת לפונקציה.
+        misconception: MC-c4-noncompact-domain
+
+  - id: Q-4.1-finite-k
+    type: mc
+    objectives: [OBJ-4.1-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $K=\{1,2,\dots,n\}$ עם המטריקה הבדידה (קבוצה סופית, ולכן קומפקטית). מהו המרחב $C(K)$ עם נורמת הסופרמום?
+    choices:
+      - text: '$\mathbb{R}^n$ עם הנורמה $\|\cdot\|_\infty$'
+        correct: true
+        feedback: >-
+          נכון. במרחב בדיד כל פונקציה רציפה, ופונקציה על $K$ היא וקטור $(f(1),\dots,f(n))$. נורמת הסופרמום היא
+          $\max_k|f(k)|=\|f\|_\infty$ של הווקטור.
+      - text: '$\mathbb{R}^n$ עם הנורמה $\|\cdot\|_2$'
+        feedback: >-
+          הקבוצה נכונה והנורמה לא: בנורמת הסופרמום לוקחים את הגדול שבערכים המוחלטים, לא שורש סכום הריבועים.
+        misconception: MC-c4-sup-vs-integral-norm
+      - text: רק הפונקציות הקבועות, כי פונקציה על קבוצה סופית "קופצת" בין נקודות
+        feedback: >-
+          רציפות מוגדרת במטריקה, לא בגרף. במטריקה הבדידה הכדור $B(k,\frac12)=\{k\}$, ולכן כל פונקציה רציפה (קחו
+          $\delta=\frac12$).
+        misconception: MC-c4-continuity-needs-interval
+      - text: אינו מוגדר, כי $K$ אינו קטע
+        feedback: >-
+          $C(K)$ מוגדר לכל מרחב מטרי קומפקטי $K$. כאן הוא אחד משלושת מרחבי הבדיקה: המרחב האוקלידי.
+        misconception: MC-c4-continuity-needs-interval
+
+  - id: Q-4.1-dist
+    type: numeric
+    objectives: [OBJ-4.1-1]
+    level: basic
+    prompt: >-
+      ב-$C[0,1]$ עם נורמת הסופרמום: מהו המרחק בין $f(x)=x$ ל-$g(x)=x^2$?
+    answer: 0.25
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $|f-g|=x-x^2$ על $[0,1]$, הנגזרת $1-2x$ מתאפסת ב-$x=\frac12$, ושם הערך $\frac14$. בקצוות הערך 0.
+    wrongFeedback: >-
+      חשבו את $\max_{[0,1]}|x-x^2|$: מצאו את הנקודות הקריטיות ובדקו גם את הקצוות.
+    commonWrong:
+      - value: 0
+        feedback: >-
+          בקצוות $f$ ו-$g$ אכן שוות, אבל המקסימום של ההפרש מתקבל בפנים, ב-$x=\frac12$.
+        misconception: MC-c4-max-at-endpoints
+      - value: 0.16666666666666666
+        feedback: >-
+          $\frac16=\int_0^1(x-x^2)\,dx$ הוא המרחק בנורמת האינטגרל. נורמת הסופרמום לוקחת את הפער הגדול ביותר בנקודה.
+        misconception: MC-c4-sup-vs-integral-norm
+
+  - id: Q-4.1-conv
+    type: multi
+    objectives: [OBJ-4.1-2]
+    qualitative: true
+    level: basic
+    prompt: >-
+      אילו מהסדרות הבאות מתכנסות **במרחב** $C[0,1]$ (עם נורמת הסופרמום)? סמנו את כולן.
+    choices:
+      - text: '$f_n(x)=\frac{x}{n}$'
+        correct: true
+        feedback: 'נכון: $\|f_n-0\|_\infty=\frac1n\to0$.'
+      - text: '$f_n(x)=\frac{\sin(nx)}{n}$'
+        correct: true
+        feedback: 'נכון: $\|f_n\|_\infty\le\frac1n\to0$, אף שהפונקציות מתנודדות מהר.'
+      - text: '$f_n(x)=x^n$'
+        feedback: >-
+          הגבול הנקודתי הוא 0 ב-$[0,1)$ ו-1 ב-$x=1$, פונקציה לא רציפה. אילו $x^n\to g$ ב-$C[0,1]$, אז $g$ היה גם הגבול
+          הנקודתי ורציף, סתירה.
+        misconception: MC-c4-pointwise-is-ck-convergence
+      - text: '$f_n(x)=nx(1-x)^n$'
+        feedback: >-
+          בכל נקודה $f_n(x)\to0$, אבל $f_n(\frac{1}{n+1})=(\frac{n}{n+1})^{n+1}\to\frac1e$. לכן
+          $\|f_n\|_\infty\not\to0$, והגבול הנקודתי הוא המועמד היחיד.
+        misconception: MC-c4-pointwise-is-ck-convergence
+    explanation: >-
+      התכנסות ב-$C(K)$ היא התכנסות במידה שווה. אם יש גבול, הוא שווה לגבול הנקודתי; לכן מחשבים את הגבול הנקודתי
+      $f$ ובודקים אם $\sup|f_n-f|\to0$.
+
+  - id: Q-4.1-finite-dist
+    type: numeric
+    objectives: [OBJ-4.1-1]
+    level: basic
+    prompt: >-
+      $K=\{0,1,2,3\}$ עם המטריקה הרגילה של הישר. ב-$C(K)$ נתונות $f(k)=k^2$ ו-$g(k)=2k$. מהו $\|f-g\|_\infty$?
+    answer: 3
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $f-g$ מקבלת את הערכים $0,-1,0,3$ בנקודות $0,1,2,3$, והגדול שבערכים המוחלטים הוא 3. זה המרחק
+      $\|\cdot\|_\infty$ בין הווקטורים $(0,1,4,9)$ ו-$(0,2,4,6)$.
+    wrongFeedback: >-
+      $K$ סופי, ולכן $C(K)$ הוא $\mathbb{R}^4$ עם $\|\cdot\|_\infty$: חשבו את $|f(k)-g(k)|$ בכל אחת מארבע הנקודות
+      וקחו את הגדול.
+    commonWrong:
+      - value: 1
+        feedback: >-
+          1 הוא הגדול שבערכים של $g-f$ (ב-$k=1$), בלי ערך מוחלט. הנורמה מודדת את $|f-g|$, וב-$k=3$ ההפרש הוא 3.
+      - value: 4
+        feedback: >-
+          4 הוא סכום הערכים המוחלטים $0+1+0+3$, כלומר מרחק בנורמה 1. נורמת הסופרמום לוקחת רק את הגדול.
+        misconception: MC-c4-sup-vs-integral-norm
+
+  - id: Q-4.1-discrete-n
+    type: twotier
+    objectives: [OBJ-4.1-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $\mathbb{N}$ עם המטריקה הבדידה. האם $\|f\|_\infty=\sup_n|f(n)|$ היא נורמה על אוסף כל הפונקציות הרציפות
+      $f:\mathbb{N}\to\mathbb{R}$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. יש פונקציות רציפות שהסופרמום שלהן אינסופי, ולכן זו אינה נורמה על האוסף הזה.
+      - text: כן
+        feedback: >-
+          נורמה חייבת להיות מספר ממשי לכל איבר. כאן $\mathbb{N}$ אינו קומפקטי, ויש פונקציות רציפות לא חסומות.
+        misconception: MC-c4-noncompact-domain
+    reasons:
+      - text: '$f(n)=n$ רציפה (כל פונקציה על מרחב בדיד רציפה) ו-$\sup_n|f(n)|=\infty$; ההגדרה של $C(K)$ דורשת $K$ קומפקטי'
+        correct: true
+        feedback: >-
+          בדיוק. $\mathbb{N}$ בדיד ואינסופי אינו קומפקטי (הסדרה $1,2,3,\dots$ בלי תת-סדרה מתכנסת), ולכן אין
+          מקסימום מובטח.
+      - text: פונקציות על $\mathbb{N}$ אינן רציפות, ולכן האוסף ריק
+        feedback: >-
+          במטריקה הבדידה $B(n,\frac12)=\{n\}$, ולכן כל פונקציה רציפה. האוסף הוא כל הסדרות הממשיות.
+        misconception: MC-c4-continuity-needs-interval
+      - text: 'הסופרמום תמיד מתקבל, כי בכל קבוצה של טבעיים יש איבר גדול ביותר'
+        feedback: >-
+          בקבוצה אינסופית של טבעיים אין איבר גדול ביותר. $\{f(n)\}=\{1,2,3,\dots\}$ אינה חסומה.
+        misconception: MC-c4-noncompact-domain
+
+  - id: Q-4.1-tent
+    type: twotier
+    objectives: [OBJ-4.1-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $f_n,f\in C[0,1]$, ו-$f_n(x)\to f(x)$ לכל $x\in[0,1]$. האם בהכרח $f_n\to f$ במרחב $C[0,1]$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. גם כשהגבול הנקודתי רציף, ההתכנסות לא חייבת להיות במידה שווה.'
+      - text: כן
+        feedback: >-
+          רציפות הגבול לא מספיקה. בדקו את הדוגמה של האוהל הנודד בנימוק.
+        misconception: MC-c4-pointwise-is-ck-convergence
+    reasons:
+      - text: 'האוהל $f_n$ שגובהו 1 בנקודה $\frac1n$ ושמתאפס מחוץ ל-$[0,\frac2n]$ שואף ל-0 בכל נקודה, ו-$\|f_n\|_\infty=1$'
+        correct: true
+        feedback: >-
+          בדיוק. לכל $x>0$, מ-$n>\frac2x$ והלאה $f_n(x)=0$, ו-$f_n(0)=0$. ובכל זאת המרחק מ-0 הוא 1 לכל $n$.
+      - text: 'כי $C[0,1]$ אינו שלם'
+        feedback: >-
+          $C[0,1]$ שלם, וזה לא קשור: השאלה היא אם ההתכנסות במידה שווה, לא אם יש גבול.
+        misconception: MC-c4-ck-not-complete
+      - text: 'בהתכנסות נקודתית לגבול רציף ההתכנסות תמיד במידה שווה, כי $[0,1]$ קומפקטי'
+        feedback: >-
+          זה נכון רק בתוספת הנחות (למשל מונוטוניות, משפט דיני). האוהל הנודד הוא דוגמה נגדית על הקטע הקומפקטי $[0,1]$.
+        misconception: MC-c4-pointwise-is-ck-convergence
+
+  - id: Q-4.1-complete-rank
+    type: rank
+    objectives: [OBJ-4.1-2]
+    level: mid
+    prompt: >-
+      סדרו את שלבי ההוכחה ש-$C(K)$ שלם, כש-$(f_n)$ סדרת קושי בנורמת הסופרמום.
+    help: סדרו את שלבי ההוכחה מהראשון לאחרון.
+    items:
+      - id: pointwise
+        label: 'לכל $x\in K$: $|f_n(x)-f_m(x)|\le\|f_n-f_m\|_\infty$, ולכן $(f_n(x))$ סדרת קושי בישר'
+      - id: limit
+        label: 'הישר שלם, ולכן $f(x)=\lim f_n(x)$ קיים לכל $x$: זה המועמד לגבול'
+      - id: uniform
+        label: 'בחרו $N$ כך ש-$|f_n(x)-f_m(x)|<\varepsilon$ לכל $n,m>N$ ולכל $x$; השאיפה $m\to\infty$ נותנת $|f_n(x)-f(x)|\le\varepsilon$ לכל $x$'
+      - id: continuous
+        label: 'לכן $f_n\to f$ במידה שווה, וגבול במידה שווה של פונקציות רציפות רציף: $f\in C(K)$'
+      - id: done
+        label: 'ומהשלב הקודם $\|f_n-f\|_\infty\le\varepsilon$ לכל $n>N$: $f_n\to f$ במרחב $C(K)$'
+    order: [pointwise, limit, uniform, continuous, done]
+    correctFeedback: >-
+      נכון. שלושה שלבים: מועמד נקודתי, הערכה במידה שווה (השאיפה $m\to\infty$ באי-שוויון חלש), ורציפות של הגבול.
+    wrongFeedback: >-
+      קודם צריך מועמד לגבול, והוא בא מהשלמות של הישר בכל נקודה. רק אחריו אפשר להעריך את $|f_n(x)-f(x)|$, ורציפות
+      הגבול נובעת מההתכנסות במידה שווה, לא להפך.
+
+  - id: Q-4.1-closed
+    type: multi
+    objectives: [OBJ-4.1-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      אילו מתת-הקבוצות הבאות של $C[0,1]$ **סגורות**? סמנו את כולן.
+    choices:
+      - text: '$\{f:\ f(0)=0\}$'
+        correct: true
+        feedback: >-
+          נכון. אם $f_n\to f$ במידה שווה אז בפרט $f_n(0)\to f(0)$, ולכן $f(0)=0$. בניסוח אחר: ההצבה $f\mapsto f(0)$ רציפה
+          (ליפשיצית עם קבוע 1), והקבוצה היא המקור של $\{0\}$.
+      - text: '$\{f:\ f(x)\ge0\ \forall x\}$'
+        correct: true
+        feedback: >-
+          נכון. לכל $x$ ההצבה ב-$x$ רציפה, ו-$\{f:\ f(x)\ge0\}$ סגורה; חיתוך כלשהו של סגורות סגור.
+      - text: '$\{f:\ \|f\|_\infty\le1\}$'
+        correct: true
+        feedback: 'נכון: כדור סגור $B[0,1]$ הוא קבוצה סגורה בכל מרחב מטרי.'
+      - text: '$\{f:\ f(x)>0\ \forall x\}$'
+        feedback: >-
+          $f_n\equiv\frac1n$ בקבוצה ושואפות לפונקציית האפס, שאינה בה. אי-שוויון חזק לא נשמר בגבול.
+        misconception: MC-c4-limit-keeps-strict
+      - text: '$\{f:\ f(\frac12)\ne0\}$'
+        feedback: >-
+          זה המשלים של קבוצה סגורה, ולכן פתוחה. היא אינה סגורה: $\frac1n\to0$ שוב.
+        misconception: MC-c4-limit-keeps-strict
+
+  - id: Q-4.1-open
+    type: twotier
+    objectives: [OBJ-4.1-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      האם הקבוצה $U=\{f\in C[0,1]:\ f(x)>0\ \forall x\in[0,1]\}$ פתוחה ב-$C[0,1]$?
+    choices:
+      - text: כן
+        correct: true
+        feedback: 'נכון. סביב כל $f\in U$ יש כדור שכולו ב-$U$.'
+      - text: לא
+        feedback: >-
+          סביב כל $f\in U$ יש כדור שכולו ב-$U$, ברדיוס $\min f$. (בשאלה האחרונה של השיעור תראו שבמרחב פונקציות על
+          תחום לא קומפקטי התשובה באמת יכולה להיות "לא".)
+        misconception: MC-c4-noncompact-domain
+    reasons:
+      - text: '$m=\min_{[0,1]}f>0$ מתקבל כי $[0,1]$ קומפקטי; אם $\|g-f\|_\infty<m$ אז $g(x)>f(x)-m\ge0$ לכל $x$'
+        correct: true
+        feedback: >-
+          בדיוק. הכדור $B(f,m)$ כולו ב-$U$. כל הכובד על כך שהמינימום **מתקבל** ולכן חיובי; אינפימום של מספרים חיוביים
+          יכול להיות 0.
+      - text: 'לכל $x$ הקבוצה $\{f:\ f(x)>0\}$ פתוחה, ו-$U$ היא החיתוך שלהן'
+        feedback: >-
+          זה חיתוך של אינסוף קבוצות פתוחות, וחיתוך כזה אינו בהכרח פתוח (שיעור 1.3). הנימוק לא משתמש בקומפקטיות, ולכן
+          היה "מוכיח" גם את מה שנכשל על תחום לא קומפקטי.
+        misconception: MC-c4-pointwise-open-intersection
+      - text: '$U$ אינה סגורה, ולכן היא פתוחה'
+        feedback: >-
+          פתוחה וסגורה אינן הפכים: יש קבוצות שאינן זו ואינן זו. המסקנה נכונה כאן, אבל לא מהסיבה הזו.
+        misconception: MC-c4-not-closed-means-open
+
+  - id: Q-4.1-radius
+    type: numeric
+    objectives: [OBJ-4.1-3]
+    level: mid
+    prompt: >-
+      $U$ כמו בשאלה הקודמת: הפונקציות החיוביות ב-$C[0,1]$. עבור $f(x)=x^2-x+\frac12$, מהו הרדיוס $r$ **הגדול ביותר**
+      כך שהכדור הפתוח $B(f,r)$ כלול ב-$U$?
+    answer: 0.25
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $\min_{[0,1]}f=f(\frac12)=\frac14$. אם $\|g-f\|_\infty<\frac14$ אז $g>0$; ולכל $r>\frac14$ הפונקציה
+      $g=f-\frac14$ (שמתאפסת ב-$\frac12$) נמצאת ב-$B(f,r)$ ואינה ב-$U$.
+    wrongFeedback: >-
+      הרדיוס הוא המרחק מ-$f$ לפונקציה הקרובה ביותר שאינה חיובית: הזיזו את הגרף מטה עד שהוא נוגע בציר. מצאו את
+      המינימום של $f$ על הקטע.
+    commonWrong:
+      - value: 0.5
+        feedback: >-
+          $\frac12=f(0)=f(1)$, הערך בקצוות. המינימום מתקבל בפנים, ב-$x=\frac12$.
+        misconception: MC-c4-max-at-endpoints
+      - value: 0.3333333333333333
+        feedback: >-
+          $\frac13=\int_0^1 f$. הכדור הוא בנורמת הסופרמום, ולכן קובע הערך הקטן ביותר של $f$ בנקודה.
+        misconception: MC-c4-sup-vs-integral-norm
+
+  - id: Q-4.1-zero-at-0
+    type: mc
+    objectives: [OBJ-4.1-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      הקבוצה $F=\{f\in C[0,1]:\ f(0)=0\}$ היא:
+    choices:
+      - text: סגורה ואינה פתוחה
+        correct: true
+        feedback: >-
+          נכון. סגורה כי ההצבה ב-0 רציפה. אינה פתוחה: כל כדור $B(0,r)$ סביב פונקציית האפס מכיל את הקבוע $\frac r2$,
+          שאינו ב-$F$.
+      - text: פתוחה וסגורה
+        feedback: >-
+          סגורה כן, פתוחה לא: הקבוע $\frac r2$ נמצא במרחק $\frac r2<r$ מפונקציית האפס ואינו ב-$F$, ולכן אין סביב 0 כדור
+          שכולו ב-$F$. תנאי בנקודה אחת אינו "תנאי פתוח" על הפונקציה.
+        misconception: MC-c4-pointwise-open-intersection
+      - text: פתוחה ואינה סגורה
+        feedback: >-
+          תנאי של **שוויון** בנקודה נשמר בגבול, ולכן הקבוצה סגורה; ושינוי קטן של הקבוע מוציא ממנה, ולכן אינה פתוחה.
+        misconception: MC-c4-pointwise-open-intersection
+
+  - id: Q-4.1-ball
+    type: twotier
+    objectives: [OBJ-4.1-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      כדור היחידה הסגור $B[0,1]=\{f\in C[0,1]:\ \|f\|_\infty\le1\}$ סגור וחסום. האם הוא קומפקטי?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. במרחב ממימד אינסופי סגור וחסום אינו מספיק.'
+      - text: כן
+        feedback: >-
+          זה היינה-בורל, שהוא משפט על המרחב האוקלידי בלבד. ב-$C[0,1]$ יש בכדור סדרה בלי תת-סדרה מתכנסת.
+        misconception: MC-c4-closed-bounded-compact
+    reasons:
+      - text: 'אוהלים $g_k$ בגובה 1 עם תומכים זרים בקטעים $[\frac1{k+1},\frac1k]$: $\|g_k-g_j\|_\infty=1$ לכל $k\ne j$, ולכן אין תת-סדרה קושי'
+        correct: true
+        feedback: >-
+          בדיוק. בנקודת השיא של $g_k$ הפונקציה $g_j$ מתאפסת, ולכן המרחק 1. תת-סדרה מתכנסת הייתה סדרת קושי, והמרחקים
+          בה לא קטנים.
+      - text: 'סגור וחסום גורר קומפקטי בכל מרחב נורמי'
+        feedback: >-
+          הטענה הזו שגויה, ולכן אינה יכולה לנמק דבר. בשיעור 3.1 ראיתם קבוצה סגורה וחסומה לא קומפקטית במטריקה הבדידה,
+          והכדור כאן הוא דוגמה נוספת.
+        misconception: MC-c4-closed-bounded-compact
+      - text: 'כי $C[0,1]$ אינו שלם, ולכן שום קבוצה בו אינה קומפקטית'
+        feedback: >-
+          $C[0,1]$ שלם, ויש בו קבוצות קומפקטיות (כל קבוצה סופית, או $\{\frac{x}{n}\}\cup\{0\}$). הבעיה היא חסימות כליל.
+        misconception: MC-c4-ck-not-complete
+
+  - id: Q-4.1-unbounded-domain
+    type: twotier
+    objectives: [OBJ-4.1-3, OBJ-4.1-1]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $C_b(\mathbb{R})$ הוא מרחב הפונקציות הרציפות והחסומות על $\mathbb{R}$ עם $\|f\|_\infty=\sup_{\mathbb{R}}|f|$. האם
+      $V=\{f\in C_b(\mathbb{R}):\ f(x)>0\ \forall x\}$ פתוחה בו?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. כאן ההוכחה של $C[0,1]$ נכשלת, ובאמת יש פונקציה ב-$V$ שאין סביבה כדור בתוך $V$.'
+      - text: כן
+        feedback: >-
+          ההוכחה ב-$C[0,1]$ השתמשה במינימום חיובי שמתקבל. על $\mathbb{R}$ אין קומפקטיות, ואפשר שהאינפימום 0.
+        misconception: MC-c4-noncompact-domain
+    reasons:
+      - text: '$f(x)=\frac1{1+x^2}\in V$, ולכל $r>0$ הפונקציה $f-\frac r2$ ב-$B(f,r)$ ושלילית כש-$|x|$ גדול'
+        correct: true
+        feedback: >-
+          בדיוק. $\inf f=0$ ואינו מתקבל, ולכן כל הזזה מטה, קטנה ככל שתהיה, יוצאת מ-$V$.
+      - text: 'לכל $x$ הקבוצה $\{f:\ f(x)>0\}$ פתוחה, ולכן $V$ פתוחה'
+        feedback: >-
+          זה הנימוק השגוי שנראה סביר: חיתוך אינסופי של פתוחות. הדוגמה $\frac1{1+x^2}$ מראה שהוא באמת נכשל.
+        misconception: MC-c4-pointwise-open-intersection
+      - text: 'פונקציה רציפה וחסומה על $\mathbb{R}$ תמיד מקבלת מינימום'
+        feedback: >-
+          $\frac1{1+x^2}$ רציפה וחסומה, ה-$\inf$ שלה 0 ואינו מתקבל. בלי קומפקטיות אין מינימום מובטח.
+        misconception: MC-c4-noncompact-domain

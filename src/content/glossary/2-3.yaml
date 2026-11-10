@@ -1,0 +1,17 @@
+# Terms first defined in lesson 2.3.
+- id: contraction
+  term: העתקה מכווצת
+  en: contraction (contraction mapping)
+  symbol: 'd(f(x),f(y))\le q\,d(x,y)'
+  definition: >-
+    העתקה $f:X\to X$ של מרחב מטרי לתוך עצמו, שיש לה **מקדם כיווץ** $0\le q<1$ אחד כך ש-$d(f(x),f(y))\le q\,d(x,y)$
+    לכל $x,y\in X$. העתקה שרק מקטינה כל מרחק ($d(f(x),f(y))<d(x,y)$) אינה בהכרח מכווצת.
+  lesson: '2.3'
+- id: fixed-point
+  term: נקודת שבת
+  en: fixed point
+  symbol: 'f(x^*)=x^*'
+  definition: >-
+    נקודה $x^*$ שההעתקה $f$ משאירה במקומה: $f(x^*)=x^*$. משפט נקודת השבת של בנך: להעתקה מכווצת של מרחב שלם לא
+    ריק יש נקודת שבת יחידה, והאיטרציות $x_{n+1}=f(x_n)$ מכל נקודת התחלה מתכנסות אליה.
+  lesson: '2.3'

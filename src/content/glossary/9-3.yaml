@@ -1,0 +1,16 @@
+# Terms first defined in lesson 9.3 (oscillation and Lebesgue's theorem on integrability).
+- id: oscillation
+  term: תנודה
+  en: oscillation
+  symbol: 'o(f,a)'
+  definition: >-
+    לפונקציה חסומה $f$ על $Q$ ול-$a\in Q$:
+    $o(f,a)=\lim_{\delta\to0^+}\bigl(\sup_{B(a,\delta)\cap Q}f-\inf_{B(a,\delta)\cap Q}f\bigr)$. $f$ רציפה ב-$a$ אם
+    ורק אם $o(f,a)=0$.
+  lesson: '9.3'
+- id: lebesgue-criterion
+  term: משפט לבג על אינטגרביליות
+  en: Lebesgue's criterion for Riemann integrability
+  definition: >-
+    פונקציה **חסומה** על תיבה אינטגרבילית לפי רימן אם ורק אם קבוצת נקודות האי-רציפות שלה ממידה אפס.
+  lesson: '9.3'

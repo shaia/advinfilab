@@ -1,0 +1,365 @@
+# Chapter 1 exam questions — original, in the style of an 80315 final (not taken from a real exam).
+# Each is worth 25 points in lettered parts, with at least one open part graded against a model solution and a rubric.
+chapter: 1
+questions:
+  - id: Q-1-exam-1
+    type: exam
+    title: מטריקה חסומה על הישר
+    prompt: >-
+      על $\mathbb{R}$ מגדירים $d(x,y)=\dfrac{|x-y|}{1+|x-y|}$.
+    parts:
+      - label: א
+        points: 10
+        type: open
+        objectives: [OBJ-1.1-1]
+        prompt: >-
+          הוכיחו ש-$d$ מטריקה על $\mathbb{R}$.
+        solution:
+          - kind: given
+            text: '$d(x,y)=\varphi(|x-y|)$ עם $\varphi(t)=\frac{t}{1+t}$ על $[0,\infty)$.'
+          - kind: goal
+            text: 'אקסיומת האפס, סימטריה, ואי-שוויון המשולש $d(x,z)\le d(x,y)+d(y,z)$.'
+          - kind: idea
+            text: >-
+              אפס וסימטריה עוברים מ-$|x-y|$. למשולש מספיקות שתי תכונות של $\varphi$: היא עולה, והיא תת-חיבורית,
+              $\varphi(a+b)\le\varphi(a)+\varphi(b)$.
+          - kind: step
+            text: >-
+              $\varphi(t)=0\iff t=0$, ולכן $d(x,y)=0\iff|x-y|=0\iff x=y$. וגם $d(x,y)=d(y,x)$ כי $|x-y|=|y-x|$.
+          - kind: computation
+            text: '$\varphi(t)=1-\frac{1}{1+t}$, ולכן $\varphi$ עולה על $[0,\infty)$.'
+          - kind: computation
+            text: >-
+              לכל $a,b\ge0$: $\varphi(a+b)=\frac{a}{1+a+b}+\frac{b}{1+a+b}\le\frac{a}{1+a}+\frac{b}{1+b}=\varphi(a)+\varphi(b)$,
+              כי הקטנת מכנה חיובי מגדילה שבר אי-שלילי.
+          - kind: step
+            text: >-
+              מאי-שוויון המשולש בישר $|x-z|\le|x-y|+|y-z|$, ומכך ש-$\varphi$ עולה:
+              $d(x,z)=\varphi(|x-z|)\le\varphi(|x-y|+|y-z|)$.
+          - kind: step
+            text: 'מתת-החיבוריות: $\varphi(|x-y|+|y-z|)\le\varphi(|x-y|)+\varphi(|y-z|)=d(x,y)+d(y,z)$.'
+          - kind: result
+            text: '$d$ מקיימת את שלוש האקסיומות, ולכן היא מטריקה על $\mathbb{R}$; כל ערכיה ב-$[0,1)$.'
+        rubric:
+          - text: 'אקסיומת האפס בשני הכיוונים, וסימטריה'
+            weight: 2
+          - text: 'הוכחה ש-$\varphi$ עולה, ושימוש בה עם אי-שוויון המשולש בישר'
+            weight: 3
+          - text: 'הוכחה ש-$\varphi(a+b)\le\varphi(a)+\varphi(b)$ לכל $a,b\ge0$ (לא בדיקה על מספרים)'
+            weight: 4
+          - text: 'שרשור נכון של שני השלבים לאי-שוויון המשולש של $d$'
+            weight: 1
+
+      - label: ב
+        points: 5
+        type: mc
+        objectives: [OBJ-1.2-1]
+        qualitative: true
+        prompt: >-
+          האם $d$ היא המטריקה המושרית של נורמה כלשהי על $\mathbb{R}$?
+        choices:
+          - text: 'לא, כי $d<1$, ומטריקה של נורמה מקיימת $d(t,0)=|t|\,\|1\|\to\infty$'
+            correct: true
+            feedback: >-
+              נכון. מטריקה מושרית על מרחב שאינו $\{0\}$ אינה חסומה. $d$ אינווריאנטית להזזות, אבל אינה הומוגנית:
+              $d(2,0)=\frac23\neq2d(1,0)=1$.
+          - text: 'כן, $\|x\|=d(x,0)=\frac{|x|}{1+|x|}$'
+            feedback: >-
+              זו אינה נורמה: $\|2\cdot1\|=\frac23$ ואילו $2\|1\|=1$. ההומוגניות נכשלת.
+            misconception: MC-c1-every-metric-norm
+          - text: 'לא, כי $d$ אינה אינווריאנטית להזזות'
+            feedback: >-
+              היא כן אינווריאנטית: $d(x+a,y+a)=d(x,y)$. מה שחסר הוא הומוגניות, וזה מתבטא בחסימות.
+            misconception: MC-c1-axiom-misdiagnosed
+
+      - label: ג
+        points: 5
+        type: twotier
+        objectives: [OBJ-1.7-3]
+        qualitative: true
+        prompt: >-
+          האם $d$ והמטריקה הרגילה $|x-y|$ על $\mathbb{R}$ **שקולות ליפשיץ**?
+        choices:
+          - text: לא
+            correct: true
+            feedback: >-
+              נכון. $d\le|x-y|$, אבל אין $C$ עם $|x-y|\le C\,d(x,y)$. ובכל זאת יש להן אותן קבוצות פתוחות ואותן סדרות
+              מתכנסות.
+          - text: כן
+            feedback: >-
+              $d(0,n)=\frac{n}{n+1}<1$ ו-$|0-n|=n$, ולכן $|x-y|\le C\,d(x,y)$ דורש $C>n$ לכל $n$.
+            misconception: MC-c1-lipschitz-equiv-one-side
+        reasons:
+          - text: '$\frac{|0-n|}{d(0,n)}=n+1$ אינו חסום, ולכן אין קבוע $C$ בכיוון הזה'
+            correct: true
+            feedback: >-
+              בדיוק. ליד האלכסון, כש-$|x-y|\le1$, מתקיים $|x-y|\le2d(x,y)$, ולכן הכדורים הקטנים "שקולים" וכך גם הקבוצות
+              הפתוחות. הבעיה רק במרחקים גדולים.
+          - text: '$d(x,y)\le|x-y|$ לכל $x,y$, וזה מספיק'
+            feedback: >-
+              זה רק כיוון אחד; שקילות ליפשיץ דורשת שני קבועים.
+            misconception: MC-c1-lipschitz-equiv-one-side
+          - text: 'יש להן אותן סדרות מתכנסות, ולכן הן שקולות ליפשיץ'
+            feedback: >-
+              אותן סדרות מתכנסות (ואותן קבוצות פתוחות) אינן גוררות שקילות ליפשיץ; $d$ ו-$|x-y|$ הן בדיוק הדוגמה.
+            misconception: MC-c1-same-open-lipschitz
+
+      - label: ד
+        points: 5
+        type: numeric
+        objectives: [OBJ-1.3-1]
+        prompt: >-
+          הכדור $B_d(0,\frac12)$ במטריקה $d$ הוא קטע $(-r,r)$. מהו $r$?
+        answer: 1
+        tolerance: 0.001
+        correctFeedback: >-
+          נכון: $\frac{t}{1+t}<\frac12\iff2t<1+t\iff t<1$, ולכן $B_d(0,\frac12)=(-1,1)$.
+        wrongFeedback: >-
+          פתרו את $\frac{|x|}{1+|x|}<\frac12$ עבור $|x|$.
+        commonWrong:
+          - value: 0.5
+            feedback: >-
+              $\frac12$ הוא הרדיוס במטריקה $d$, לא במטריקה הרגילה. כדור ב-$d$ נראה כמו כדור רגיל ברדיוס אחר.
+            misconception: MC-c1-one-distance
+
+  - id: Q-1-exam-2
+    type: exam
+    title: פונקציונל אינטגרלי ונורמת האופרטור שלו
+    prompt: >-
+      לפונקציה $g\in C[0,1]$ מגדירים $\varphi_g:C[0,1]\to\mathbb{R}$, $\varphi_g(f)=\int_0^1g(x)f(x)\,dx$. אלא אם נאמר
+      אחרת, $C[0,1]$ עם נורמת הסופרמום.
+    parts:
+      - label: א
+        points: 10
+        type: open
+        objectives: [OBJ-1.8-1, OBJ-1.8-2]
+        prompt: >-
+          הוכיחו ש-$\varphi_g$ לינארית וחסומה, עם $\|\varphi_g\|_{\mathrm{op}}\le\|g\|_1=\int_0^1|g|$, והסיקו שהיא רציפה.
+          הוכיחו שאם $g\ge0$ אז $\|\varphi_g\|_{\mathrm{op}}=\|g\|_1$.
+        solution:
+          - kind: goal
+            text: '$|\varphi_g(f)|\le\|g\|_1\|f\|_\infty$ לכל $f$; ושוויון בנורמה כש-$g\ge0$.'
+          - kind: idea
+            text: >-
+              חסם מלעיל: מוציאים את $|f|$ מהאינטגרל בעזרת הסופרמום שלה. חסם מלרע: מוצאים $f$ אחת עם $\|f\|_\infty=1$ שבה
+              החסם מתקבל.
+          - kind: step
+            text: 'לינאריות: $\varphi_g(af_1+bf_2)=a\varphi_g(f_1)+b\varphi_g(f_2)$ מהלינאריות של האינטגרל.'
+          - kind: computation
+            text: >-
+              $|\varphi_g(f)|\le\int_0^1|g(x)|\,|f(x)|\,dx\le\|f\|_\infty\int_0^1|g|=\|g\|_1\|f\|_\infty$.
+          - kind: theorem
+            text: >-
+              העתקה לינארית בין מרחבים נורמיים חסומה אם ורק אם היא רציפה. לכן $\varphi_g$ רציפה, ו-$\|\varphi_g\|_{\mathrm{op}}\le\|g\|_1$.
+          - kind: step
+            text: 'אם $g\ge0$: עם $f\equiv1$, $\|f\|_\infty=1$ ו-$\varphi_g(1)=\int_0^1g=\|g\|_1$, ולכן $\|\varphi_g\|_{\mathrm{op}}\ge\|g\|_1$.'
+          - kind: result
+            text: '$\varphi_g$ לינארית, חסומה ורציפה, $\|\varphi_g\|_{\mathrm{op}}\le\|g\|_1$, ובשוויון כש-$g\ge0$.'
+        rubric:
+          - text: 'לינאריות'
+            weight: 1
+          - text: 'החסם $|\varphi_g(f)|\le\|g\|_1\|f\|_\infty$ עם הצדקה של כל מעבר'
+            weight: 4
+          - text: 'מעבר מחסימות לרציפות, בציטוט המשפט או ב-$|\varphi_g(f)-\varphi_g(h)|\le\|g\|_1\|f-h\|_\infty$'
+            weight: 2
+          - text: 'חסם מלרע עם $f\equiv1$ במקרה $g\ge0$, ומסקנה שיש שוויון'
+            weight: 3
+
+      - label: ב
+        points: 5
+        type: numeric
+        objectives: [OBJ-1.8-2]
+        prompt: >-
+          עבור $g(x)=2x-1$, חשבו את $\|\varphi_g\|_{\mathrm{op}}$.
+        answer: 0.5
+        tolerance: 0.001
+        correctFeedback: >-
+          נכון: $\frac12=\|g\|_1$. החסם מסעיף א נותן $\le\frac12$; ופונקציות רציפות $f_n$ ששוות ל-$\pm1$ פרט לקטע
+          ברוחב $\frac1n$ סביב $\frac12$, עם הסימן של $2x-1$, נותנות $\varphi_g(f_n)\to\frac12$.
+        wrongFeedback: >-
+          חסם מלעיל: $\int_0^1|2x-1|\,dx$. חסם מלרע: קרבו את $\operatorname{sign}(2x-1)$ בפונקציות רציפות.
+        commonWrong:
+          - value: 0
+            feedback: >-
+              $\varphi_g(1)=\int_0^1(2x-1)\,dx=0$, אבל $f\equiv1$ היא רק וקטור אחד. כאן $g$ מחליפה סימן, ו-$f$ טובה
+              צריכה להחליף סימן איתה.
+            misconception: MC-c1-opnorm-test-one
+          - value: 1
+            feedback: >-
+              $1=\|g\|_\infty$, הנורמה אילו התחום היה עם נורמת האינטגרל (סעיף ד). עם נורמת הסופרמום החסם הוא $\|g\|_1$.
+            misconception: MC-c1-one-distance
+
+      - label: ג
+        points: 5
+        type: twotier
+        standalone: false
+        objectives: [OBJ-1.8-2]
+        qualitative: true
+        prompt: >-
+          עבור $g(x)=2x-1$: האם יש $f\in C[0,1]$ עם $\|f\|_\infty\le1$ ו-$\varphi_g(f)=\|\varphi_g\|_{\mathrm{op}}$?
+        choices:
+          - text: לא
+            correct: true
+            feedback: 'נכון. הסופרמום בהגדרת הנורמה כאן אינו מקסימום.'
+          - text: כן
+            feedback: >-
+              שוויון $\int_0^1(2x-1)f=\int_0^1|2x-1|$ עם $|f|\le1$ מחייב $f=\operatorname{sign}(2x-1)$ בכל נקודה
+              שבה $2x-1\neq0$, וזו אינה פונקציה רציפה.
+            misconception: MC-c1-sup-attained
+        reasons:
+          - text: 'אז $\int_0^1|2x-1|\,(1-f\cdot\operatorname{sign}(2x-1))\,dx=0$ עם אינטגרנד רציף פרט ל-$\frac12$ ואי-שלילי, ולכן $f=\pm1$ משני צדי $\frac12$: קפיצה'
+            correct: true
+            feedback: >-
+              בדיוק. אינטגרנד אי-שלילי עם אינטגרל 0 מתאפס (בנקודות הרציפות), ומכאן $f=-1$ על $[0,\frac12)$ ו-$f=1$
+              על $(\frac12,1]$, ואין $f$ רציפה כזו.
+          - text: 'נורמת אופרטור היא תמיד מקסימום, כי כדור היחידה סגור'
+            feedback: >-
+              סגירות אינה מספיקה. במימד סופי הנורמה מתקבלת (קומפקטיות, פרק 3); ב-$C[0,1]$ היא יכולה שלא להתקבל, כמו כאן.
+            misconception: MC-c1-sup-attained
+          - text: '$f\equiv1$ משיגה אותה'
+            feedback: '$\varphi_g(1)=0\neq\frac12$.'
+            misconception: MC-c1-opnorm-test-one
+
+      - label: ד
+        points: 5
+        type: twotier
+        objectives: [OBJ-1.8-1, OBJ-1.2-4]
+        qualitative: true
+        prompt: >-
+          עכשיו $C[0,1]$ עם **נורמת האינטגרל** $\|f\|_1$, ו-$g(x)=2x-1$. האם $\varphi_g$ חסומה?
+        choices:
+          - text: 'כן, עם $\|\varphi_g\|_{\mathrm{op}}\le\|g\|_\infty=1$'
+            correct: true
+            feedback: >-
+              נכון: $|\varphi_g(f)|\le\max|g|\cdot\int_0^1|f|=\|g\|_\infty\|f\|_1$. מחליפים את התפקידים של שתי
+              הנורמות.
+          - text: 'לא, כי $\|f\|_1$ יכולה להיות קטנה בזמן ש-$f$ גדולה'
+            feedback: >-
+              זה מה שהורס את $f\mapsto f(0)$, אבל כאן $g$ חסומה, ואינטגרל של $gf$ נשלט על ידי $\int|f|$.
+            misconception: MC-c1-one-distance
+        reasons:
+          - text: '$\left|\int_0^1gf\right|\le\int_0^1|g|\,|f|\le\|g\|_\infty\int_0^1|f|=\|f\|_1$'
+            correct: true
+            feedback: >-
+              בדיוק. (הנורמה שווה ל-1: פונקציות $f\ge0$ עם אינטגרל 1 שמרוכזות ליד $x=1$ נותנות $\varphi_g(f)\to1$.)
+          - text: 'כל פונקציונל לינארי על $C[0,1]$ חסום בכל נורמה'
+            feedback: >-
+              $f\mapsto f(0)$ אינו חסום בנורמת האינטגרל. החסימות כאן באה מהחסם הספציפי.
+            misconception: MC-c1-linear-always-continuous
+          - text: 'החסם מסעיף א, $\|g\|_1\|f\|_\infty$, עובד בכל נורמה'
+            feedback: >-
+              הוא משתמש ב-$\|f\|_\infty$, לא ב-$\|f\|_1$, ו-$\|f\|_\infty$ אינו חסום על ידי $C\|f\|_1$. צריך חסם חדש.
+            misconception: MC-c1-norms-comparable
+
+  - id: Q-1-exam-3
+    type: exam
+    title: קבוצות במרחב הפונקציות הרציפות
+    prompt: >-
+      ב-$C[0,1]$ עם נורמת הסופרמום נתונות $F=\{f: \int_0^1f=0\}$ ו-$U=\{f: f(\frac12)>0\}$.
+    parts:
+      - label: א
+        points: 10
+        type: open
+        objectives: [OBJ-1.5-2, OBJ-1.6-2]
+        prompt: >-
+          הוכיחו ש-$F$ סגורה ו-$U$ פתוחה.
+        solution:
+          - kind: goal
+            text: 'כל גבול של סדרה מ-$F$ נמצא ב-$F$; ולכל $f\in U$ יש כדור סביבה בתוך $U$.'
+          - kind: idea
+            text: >-
+              שתי הפונקציות $I(f)=\int_0^1f$ ו-$E(f)=f(\frac12)$ ליפשיציות עם קבוע 1 בנורמת הסופרמום. $F=I^{-1}(\{0\})$
+              ו-$U=E^{-1}((0,\infty))$.
+          - kind: computation
+            text: >-
+              $|I(f)-I(h)|\le\int_0^1|f-h|\le\|f-h\|_\infty$ ו-$|E(f)-E(h)|=|f(\frac12)-h(\frac12)|\le\|f-h\|_\infty$.
+          - kind: step
+            text: >-
+              $F$ סגורה: אם $f_n\in F$ ו-$f_n\to f$, אז $|I(f)|=|I(f)-I(f_n)|\le\|f-f_n\|_\infty\to0$, ולכן $I(f)=0$,
+              כלומר $f\in F$.
+          - kind: step
+            text: >-
+              $U$ פתוחה: אם $f\in U$ נסמן $r=f(\frac12)>0$. לכל $h$ עם $\|h-f\|_\infty<r$:
+              $h(\frac12)>f(\frac12)-r=0$, ולכן $B(f,r)\subseteq U$.
+          - kind: result
+            text: '$F$ סגורה ו-$U$ פתוחה ב-$(C[0,1],\|\cdot\|_\infty)$.'
+        rubric:
+          - text: 'הערכה $|I(f)-I(h)|\le\|f-h\|_\infty$ (או רציפות של $I$)'
+            weight: 2
+          - text: 'סגירות $F$: סדרה כלשהי מ-$F$ וגבולה, לא דוגמה אחת'
+            weight: 3
+          - text: 'פתיחות $U$: רדיוס מפורש $r=f(\frac12)$ והכלה $B(f,r)\subseteq U$, או מקור של פתוחה תחת $E$ רציפה'
+            weight: 4
+          - text: 'ציון שהנורמה היא נורמת הסופרמום ושם היא משמשת'
+            weight: 1
+
+      - label: ב
+        points: 5
+        type: mc
+        objectives: [OBJ-1.4-1]
+        prompt: >-
+          מהו $F^\circ$, הפנים של $F$?
+        choices:
+          - text: '$\emptyset$'
+            correct: true
+            feedback: >-
+              נכון. לכל $f\in F$ ולכל $r>0$, $f+\frac r2\in B(f,r)$ ו-$\int_0^1(f+\frac r2)=\frac r2\neq0$.
+          - text: '$F$ עצמה'
+            feedback: >-
+              זה היה אומר ש-$F$ פתוחה. אבל הזזה בקבוע קטן יוצאת מ-$F$, ולכן אין כדור סביב אף נקודה בתוך $F$.
+            misconception: MC-c1-interior-closure-swap
+          - text: 'הפונקציות ב-$F$ שאינן זהותית אפס'
+            feedback: >-
+              גם סביבן הזזה ב-$\frac r2$ יוצאת מ-$F$. הפנים נבדק בכדורים, ובכל כדור יש פונקציה עם אינטגרל שונה מאפס.
+            misconception: MC-c1-boundary-in-set
+
+      - label: ג
+        points: 5
+        type: mc
+        objectives: [OBJ-1.4-1, OBJ-1.5-2]
+        prompt: >-
+          מהו $\overline U$?
+        choices:
+          - text: '$\{f: f(\frac12)\ge0\}$'
+            correct: true
+            feedback: >-
+              נכון. אם $f(\frac12)\ge0$ אז $f+\frac1n\in U$ ושואפת ל-$f$. ולהפך, הקבוצה הזו היא $E^{-1}([0,\infty))$,
+              סגורה ומכילה את $U$.
+          - text: '$U$ עצמה'
+            feedback: >-
+              $\frac1n\in U$ ו-$\frac1n\to0\notin U$. $U$ פתוחה ואינה סגורה.
+            misconception: MC-c1-few-sequences
+          - text: '$C[0,1]$: כל פונקציה היא גבול של פונקציות מ-$U$'
+            feedback: >-
+              אם $f(\frac12)<0$, הכדור $B(f,|f(\frac12)|)$ זר ל-$U$. לכן $U$ אינה צפופה.
+            misconception: MC-c1-dense-large
+
+      - label: ד
+        points: 5
+        type: twotier
+        objectives: [OBJ-1.3-3, OBJ-1.6-2]
+        qualitative: true
+        prompt: >-
+          האם $U$ פתוחה ב-$C[0,1]$ עם **נורמת האינטגרל**?
+        choices:
+          - text: לא
+            correct: true
+            feedback: 'נכון. בנורמת האינטגרל ערך בנקודה אחת אינו נשלט.'
+          - text: כן, אותה הוכחה כמו בסעיף א
+            feedback: >-
+              סעיף א השתמש ב-$|h(\frac12)-f(\frac12)|\le\|h-f\|_\infty$. אין אי-שוויון כזה עם $\|h-f\|_1$.
+            misconception: MC-c1-one-distance
+        reasons:
+          - text: '$1\in U$, ו-$g_n=1-2\max(0,1-n|x-\frac12|)$ מקיימת $\|g_n-1\|_1=\frac2n$ ו-$g_n(\frac12)=-1$'
+            correct: true
+            feedback: >-
+              בדיוק: בכל כדור סביב $1$ יש פונקציה מחוץ ל-$U$. "קוץ" צר כלפי מטה עולה מעט מאוד בנורמת האינטגרל.
+          - text: '$U$ היא מקור של $(0,\infty)$ תחת $f\mapsto f(\frac12)$, שרציפה'
+            feedback: >-
+              היא רציפה בנורמת הסופרמום בלבד. בנורמת האינטגרל $g_n-1\to0$ ו-$g_n(\frac12)-1=-2\not\to0$.
+            misconception: MC-c1-one-distance
+          - text: 'כל קבוצה פתוחה בנורמת הסופרמום פתוחה גם בנורמת האינטגרל'
+            feedback: >-
+              הכיוון ההפוך נכון ($\|f\|_1\le\|f\|_\infty$, ולכן כדור בסופרמום מוכל בכדור באינטגרל באותו רדיוס). הכיוון
+              הזה נכשל, ו-$U$ היא הדוגמה.
+            misconception: MC-c1-norms-comparable

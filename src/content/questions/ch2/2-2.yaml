@@ -1,0 +1,369 @@
+# Lesson 2.2 — complete spaces: subspaces and spaces of functions.
+# Objectives (src/course.ts):
+#   OBJ-2.2-1  a closed subset of a complete space is complete; a complete subspace is closed
+#   OBJ-2.2-2  B(X) with the sup norm is complete, hence (C[a,b], ‖·‖∞) is complete
+#   OBJ-2.2-3  an explicit sequence shows (C[a,b], ‖·‖₁) is not complete
+# The "ramps" used below: for n ≥ 2, f_n = 0 on [0, 1/2], rises linearly to 1 on [1/2, 1/2 + 1/n], and is 1 after.
+chapter: 2
+questions:
+  - id: Q-2.2-closed-sub
+    type: multi
+    objectives: [OBJ-2.2-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      אילו מתת-הקבוצות הבאות של $\mathbb{R}$, עם המרחק הרגיל, הן מרחבים **שלמים**? סמנו את כולן.
+    choices:
+      - text: '$[0,\infty)$'
+        correct: true
+        feedback: >-
+          נכון. היא סגורה ב-$\mathbb{R}$, ו-$\mathbb{R}$ שלם. היא לא חסומה, וזה לא משנה.
+      - text: '$\mathbb{Z}$'
+        correct: true
+        feedback: >-
+          נכון. היא סגורה ב-$\mathbb{R}$ (המשלים שלה הוא איחוד של קטעים פתוחים). אפשר גם ישירות: סדרת קושי של
+          שלמים קבועה מאינדקס מסוים.
+      - text: '$\left\{\frac1n:n\in\mathbb{N}\right\}$'
+        feedback: >-
+          לא. $\frac1n$ היא סדרת קושי בקבוצה, וגבולה ב-$\mathbb{R}$ הוא $0$, שאינו בקבוצה. הקבוצה אינה סגורה, ולכן
+          אינה שלמה.
+        misconception: MC-c2-subset-of-complete
+      - text: '$\{0\}\cup\left\{\frac1n:n\in\mathbb{N}\right\}$'
+        correct: true
+        feedback: >-
+          נכון. הוספנו בדיוק את נקודת ההצטברות היחידה, והקבוצה סגורה. סגורה בתוך מרחב שלם, ולכן שלמה.
+      - text: '$(0,1]$'
+        feedback: >-
+          לא. $\frac1n$ היא סדרת קושי ב-$(0,1]$ בלי גבול בה. להיות תת-קבוצה של מרחב שלם לא מספיק.
+        misconception: MC-c2-subset-of-complete
+      - text: '$\mathbb{Q}\cap[0,1]$'
+        feedback: >-
+          לא. הקירובים העשרוניים של $\frac{\sqrt2}{2}$ הם סדרת קושי בקבוצה, וגבולם ב-$\mathbb{R}$ אי-רציונלי.
+        misconception: MC-c2-subset-of-complete
+    explanation: >-
+      בתוך מרחב שלם יש מבחן פשוט: תת-קבוצה שלמה אם ורק אם היא סגורה. כך הופכים שאלה על סדרות קושי לשאלה על
+      נקודות הצטברות.
+
+  - id: Q-2.2-C-closed
+    type: mc
+    objectives: [OBJ-2.2-2]
+    qualitative: true
+    level: basic
+    prompt: >-
+      מה הנימוק הנכון לכך ש-$(C[a,b],\|\cdot\|_\infty)$ שלם, כשכבר ידוע ש-$B[a,b]$ (הפונקציות החסומות עם נורמת
+      הסופרמום) שלם?
+    choices:
+      - text: '$C[a,b]$ קבוצה סגורה ב-$B[a,b]$, כי גבול במידה שווה של פונקציות רציפות הוא רציף'
+        correct: true
+        feedback: >-
+          נכון. התכנסות בנורמת הסופרמום היא התכנסות במידה שווה, והמשפט מאינפי (שיעור 0.3) אומר שהגבול רציף. לכן
+          $C[a,b]$ סגורה בתוך מרחב שלם, ולכן שלמה.
+      - text: '$C[a,b]$ תת-קבוצה של המרחב השלם $B[a,b]$'
+        feedback: >-
+          תת-קבוצה של מרחב שלם אינה שלמה בהכרח: $(0,1)\subseteq\mathbb{R}$. צריך שהיא תהיה **סגורה**, וזה התוכן של
+          המשפט על גבול במידה שווה.
+        misconception: MC-c2-subset-of-complete
+      - text: 'לכל $x$ הסדרה $f_n(x)$ היא סדרת קושי ב-$\mathbb{R}$ ולכן מתכנסת'
+        feedback: >-
+          זה נותן רק גבול נקודתי. צריך עוד שהגבול רציף ושההתכנסות היא בנורמה. $x^n$ על $[0,1]$ מתכנסת נקודתית
+          לפונקציה לא רציפה.
+        misconception: MC-c2-pointwise-limit-enough
+      - text: 'הקטע $[a,b]$ סגור וחסום'
+        feedback: >-
+          זה משמש בשביל ש-$\|f\|_\infty$ יהיה סופי לכל $f$ רציפה, אבל לא בשביל השלמות. השלמות באה משלמות
+          $\mathbb{R}$ ומהמשפט על גבול במידה שווה.
+        misconception: MC-c2-complete-closed-bounded
+
+  - id: Q-2.2-L1-dist
+    type: numeric
+    objectives: [OBJ-2.2-3]
+    level: basic
+    prompt: >-
+      לכל $n\ge2$ תהי $f_n\in C[0,1]$ ה"שיפוע": $f_n=0$ על $[0,\frac12]$, עולה לינארית מ-0 ל-1 על
+      $[\frac12,\frac12+\frac1n]$, ו-$f_n=1$ על $[\frac12+\frac1n,1]$. חשבו את $\|f_2-f_4\|_1=\int_0^1|f_2-f_4|$.
+    answer: 0.125
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון, $\frac18$. כי $f_4\ge f_2$, מתקיים $\int|f_4-f_2|=\int f_4-\int f_2$, ו-$\int_0^1 f_n=\frac12-\frac1{2n}$
+      (מלבן באורך $\frac12-\frac1n$ ועוד משולש בשטח $\frac1{2n}$). לכן $\frac{3}{8}-\frac14=\frac18$. באופן כללי
+      $\|f_n-f_m\|_1=\frac12\left|\frac1n-\frac1m\right|$.
+    wrongFeedback: >-
+      ציירו את שתי הפונקציות: ההפרש שונה מאפס רק על $[\frac12,1]$, ושם $f_4\ge f_2$. חשבו את השטח של כל אחת
+      בנפרד, או את השטח שביניהן.
+    commonWrong:
+      - value: 0.5
+        feedback: >-
+          $\frac12$ הוא $\|f_2-f_4\|_\infty$: ההפרש הגדול ביותר, ב-$x=\frac34$, שם $f_4=1$ ו-$f_2=\frac12$. השאלה
+          על נורמת האינטגרל, שמודדת שטח ולא גובה.
+        misconception: MC-c2-norm-irrelevant
+
+  - id: Q-2.2-closed-in-Q
+    type: twotier
+    objectives: [OBJ-2.2-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      הקבוצה $A=\{q\in\mathbb{Q}:0\le q\le2\}$ סגורה במרחב המטרי $\mathbb{Q}$ (עם המרחק הרגיל). האם $A$ שלמה?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. המשפט "סגורה גוררת שלמה" דורש שהמרחב הגדול יהיה שלם, ו-$\mathbb{Q}$ אינו שלם.
+      - text: כן
+        feedback: >-
+          "סגורה" כאן פירושה סגורה בתוך $\mathbb{Q}$: היא מכילה את כל הגבולות **הרציונליים** של סדרות שלה. סדרה
+          ששואפת ל-$\sqrt2$ לא נתפסת בזה.
+        misconception: MC-c2-closed-implies-complete
+    reasons:
+      - text: 'הקירובים העשרוניים של $\sqrt2$ נמצאים ב-$A$ והם סדרת קושי, וגבולם ב-$\mathbb{R}$, $\sqrt2$, אינו רציונלי'
+        correct: true
+        feedback: >-
+          בדיוק. סדרת קושי ב-$A$ שאין לה גבול ב-$A$: אם היה לה גבול ב-$A$, הוא היה גבולה גם ב-$\mathbb{R}$, ומיחידות
+          הגבול שווה ל-$\sqrt2$.
+      - text: '$A$ חסומה, וקבוצה חסומה אינה שלמה'
+        feedback: >-
+          $[0,2]$ חסומה ושלמה. החסימות לא קשורה; מה שחסר הוא שלמות של המרחב הגדול $\mathbb{Q}$.
+        misconception: MC-c2-complete-closed-bounded
+      - text: '$A$ סגורה במרחב מטרי, וקבוצה סגורה במרחב מטרי שלמה'
+        feedback: >-
+          זה נכון רק כשהמרחב המטרי הגדול שלם. גם $\mathbb{Q}$ עצמו סגור ב-$\mathbb{Q}$, והוא בוודאי לא שלם.
+        misconception: MC-c2-closed-implies-complete
+
+  - id: Q-2.2-proof-closed
+    type: rank
+    objectives: [OBJ-2.2-1]
+    level: mid
+    prompt: >-
+      $X$ מרחב מטרי שלם ו-$F\subseteq X$ קבוצה סגורה. סדרו את שלבי ההוכחה ש-$F$ (עם אותה מטריקה) שלם.
+    help: גררו את השלבים לסדר הנכון, מהשלב הראשון של ההוכחה לאחרון.
+    items:
+      - id: take
+        label: 'תהי $(x_n)$ סדרת קושי ב-$F$. היא סדרת קושי גם ב-$X$, כי המטריקה זהה.'
+      - id: complete
+        label: '$X$ שלם, ולכן קיים $x\in X$ עם $x_n\to x$.'
+      - id: closed
+        label: '$F$ סגורה ו-$x$ הוא גבול של סדרה מ-$F$, ולכן $x\in F$.'
+      - id: done
+        label: 'הסדרה מתכנסת לנקודה של $F$; כי $(x_n)$ הייתה כלשהי, $F$ שלם.'
+    order: [take, complete, closed, done]
+    correctFeedback: >-
+      נכון. הרעיון: שלמות $X$ נותנת גבול, וסגירות $F$ מחזירה את הגבול לתוך $F$. כל הנחה משמשת בדיוק בשלב אחד.
+    wrongFeedback: >-
+      לפני שאפשר להשתמש בסגירות צריך שיהיה גבול, והגבול בא משלמות $X$. האפיון של קבוצה סגורה בסדרות הוא משיעור 1.5.
+
+  - id: Q-2.2-complete-closed
+    type: twotier
+    objectives: [OBJ-2.2-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $Y\subseteq X$, ו-$Y$ עם המטריקה של $X$ הוא מרחב שלם. האם $Y$ בהכרח סגורה ב-$X$, **גם כש-$X$ אינו שלם**?
+    choices:
+      - text: כן
+        correct: true
+        feedback: >-
+          נכון. בכיוון הזה לא צריך את השלמות של $X$. למשל $\mathbb{Z}$ שלם, ולכן סגור בכל מרחב שהוא יושב בו, גם
+          ב-$\mathbb{Q}$.
+      - text: 'לא, רק כש-$X$ שלם'
+        feedback: >-
+          השלמות של $X$ נחוצה רק בכיוון ההפוך ("סגורה גוררת שלמה"). בכיוון הזה מספיקה שלמות $Y$ ויחידות הגבול.
+        misconception: MC-c2-ambient-needed
+    reasons:
+      - text: 'אם $y_n\in Y$ ו-$y_n\to x\in X$, אז $(y_n)$ סדרת קושי ב-$Y$, מתכנסת לאיזה $y\in Y$, ומיחידות הגבול ב-$X$, $x=y\in Y$'
+        correct: true
+        feedback: >-
+          בדיוק. סדרה מתכנסת היא סדרת קושי, שלמות $Y$ נותנת לה גבול ב-$Y$, ויחידות הגבול (שיעור 1.5) מזהה אותו
+          עם $x$.
+      - text: 'צריך ש-$X$ יהיה שלם כדי ש-$(y_n)$ תתכנס בכלל'
+        feedback: >-
+          כאן כבר נתון ש-$y_n\to x$ ב-$X$. השאלה היא רק אם $x\in Y$, ושלמות $Y$ עונה עליה.
+        misconception: MC-c2-ambient-needed
+      - text: 'מרחב שלם הוא סגור וחסום, ולכן $Y$ סגורה'
+        feedback: >-
+          שלמות לא גוררת חסימות ($\mathbb{R}$), ו"סגורה" היא תמיד ביחס למרחב גדול יותר, כאן $X$. הנימוק צריך לעבור
+          דרך סדרות ב-$X$.
+        misconception: MC-c2-complete-closed-bounded
+
+  - id: Q-2.2-Bx-proof
+    type: rank
+    objectives: [OBJ-2.2-2]
+    level: mid
+    prompt: >-
+      $(f_n)$ סדרת קושי ב-$B(X)$, הפונקציות החסומות על קבוצה $X$ עם $\|f\|_\infty=\sup_X|f|$. סדרו את שלבי
+      ההוכחה ש-$(f_n)$ מתכנסת ב-$B(X)$.
+    help: גררו את השלבים לסדר הנכון. שני השלבים האחרונים יכולים לבוא בכל סדר ביניהם.
+    items:
+      - id: pointwise
+        label: 'לכל $x$: $|f_m(x)-f_n(x)|\le\|f_m-f_n\|_\infty$, ולכן $(f_n(x))$ סדרת קושי ב-$\mathbb{R}$; נגדיר $f(x)=\lim_n f_n(x)$.'
+      - id: eps
+        label: 'יהי $\varepsilon>0$, ו-$N$ כך ש-$\|f_m-f_n\|_\infty<\varepsilon$ לכל $m,n>N$; אז $|f_m(x)-f_n(x)|<\varepsilon$ לכל $x$.'
+      - id: limit
+        label: 'נקבע $n>N$ ו-$x$ ונשאיף $m\to\infty$: $|f(x)-f_n(x)|\le\varepsilon$, לכל $x$.'
+      - id: bounded
+        label: '$|f(x)|\le\|f_n\|_\infty+\varepsilon$ לכל $x$, ולכן $f$ חסומה: $f\in B(X)$.'
+      - id: norm
+        label: '$\|f_n-f\|_\infty\le\varepsilon$ לכל $n>N$, כלומר $f_n\to f$ בנורמת הסופרמום.'
+    order: [pointwise, eps, limit, [bounded, norm]]
+    correctFeedback: >-
+      נכון. שלושה שלבים: מועמד (הגבול הנקודתי), הערכה אחידה שעוברת לגבול ב-$m$ (שימו לב ש-$<$ הופך ל-$\le$), ומזה
+      גם שהמועמד במרחב וגם שההתכנסות בנורמה.
+    wrongFeedback: >-
+      קודם צריך מועמד לגבול, והוא בא נקודה-נקודה משלמות $\mathbb{R}$. אחר כך לוקחים את תנאי קושי האחיד ומשאיפים
+      בו $m\to\infty$; משם יוצאות שתי המסקנות.
+
+  - id: Q-2.2-pointwise
+    type: twotier
+    objectives: [OBJ-2.2-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      בהוכחה ש-$B(X)$ שלם, הראינו שלכל $x$ הגבול $f(x)=\lim f_n(x)$ קיים. האם ההוכחה הסתיימה?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. מצאנו מועמד בלבד. עוד צריך להראות שהוא איבר של המרחב ושהסדרה מתכנסת אליו במטריקה של המרחב.
+      - text: כן
+        feedback: >-
+          גבול נקודתי אינו גבול ב-$B(X)$. ב-$B(\mathbb{R})$ הפונקציות $f_n=$ האינדיקטור של $[n,n+1)$ שואפות נקודתית
+          ל-0, אבל $\|f_n-0\|_\infty=1$ לכל $n$.
+        misconception: MC-c2-pointwise-limit-enough
+    reasons:
+      - text: 'צריך עוד ש-$f$ חסומה ושמתקיים $\|f_n-f\|_\infty\to0$; שניהם נובעים מתנאי קושי **האחיד**, לא מההתכנסות הנקודתית'
+        correct: true
+        feedback: >-
+          בדיוק. ההתכנסות הנקודתית לבדה לא נותנת אף אחד מהם; מה שנותן אותם הוא שה-$N$ מתנאי קושי אחד לכל $x$.
+      - text: '$f$ היא גבול נקודתי של פונקציות חסומות ולכן חסומה, ולכן $f_n\to f$ ב-$B(X)$'
+        feedback: >-
+          שני הצעדים שגויים בלי תנאי קושי. $f_n(x)=\min(x,n)$ על $\mathbb{R}$ חסומות, ושואפות נקודתית ל-$f(x)=x$,
+          שאינה חסומה; וגבול נקודתי חסום עדיין לא אומר התכנסות בנורמה (האינדיקטורים של $[n,n+1)$).
+        misconception: MC-c2-pointwise-limit-enough
+
+  - id: Q-2.2-xn
+    type: twotier
+    objectives: [OBJ-2.2-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      האם הסדרה $f_n(x)=x^n$ מראה ש-$(C[0,1],\|\cdot\|_1)$ אינו שלם?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. בנורמת האינטגרל הסדרה הזו מתכנסת, וגבולה רציף.
+      - text: 'כן, כי הגבול הנקודתי שלה אינו רציף'
+        feedback: >-
+          הגבול הנקודתי אינו הגבול בנורמה $\|\cdot\|_1$. בנורמה הזו $x^n$ שואפת לפונקציית האפס, שרציפה.
+        misconception: MC-c2-xn-counterexample-L1
+    reasons:
+      - text: '$\|x^n-0\|_1=\int_0^1x^n\,dx=\frac{1}{n+1}\to0$, ולכן $x^n\to0$ במרחב'
+        correct: true
+        feedback: >-
+          בדיוק. סדרה מתכנסת אינה עדות לאי-שלמות. צריך סדרת קושי שאין לה **שום** גבול רציף, כמו השיפועים סביב
+          $\frac12$.
+      - text: 'הגבול הנקודתי שווה 1 ב-$x=1$ ו-0 בשאר הנקודות, וזו פונקציה לא רציפה'
+        feedback: >-
+          זה נכון על הגבול הנקודתי, ולא רלוונטי: שינוי בנקודה אחת לא משנה אינטגרל, ובנורמה $\|\cdot\|_1$ הסדרה שואפת
+          ל-0.
+        misconception: MC-c2-xn-counterexample-L1
+      - text: '$x^n$ אינה סדרת קושי בנורמה $\|\cdot\|_1$'
+        feedback: >-
+          היא כן: היא מתכנסת, ולכן סדרת קושי. היא אינה סדרת קושי בנורמת **הסופרמום** ($\|x^n-x^{2n}\|_\infty=\frac14$),
+          וזה ההבדל בין שתי הנורמות.
+        misconception: MC-c2-norm-irrelevant
+
+  - id: Q-2.2-norm-matters
+    type: multi
+    objectives: [OBJ-2.2-2, OBJ-2.2-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $f_n$ הם השיפועים מהשאלה על $\|f_2-f_4\|_1$ ($f_n=0$ על $[0,\frac12]$, עולה לינארית ל-1 על
+      $[\frac12,\frac12+\frac1n]$, ו-1 אחר כך). אילו מהטענות נכונות? סמנו את כולן.
+    choices:
+      - text: '$(C[0,1],\|\cdot\|_\infty)$ שלם'
+        correct: true
+        feedback: 'נכון: תת-קבוצה סגורה של $B[0,1]$ השלם.'
+      - text: '$(C[0,1],\|\cdot\|_1)$ שלם'
+        feedback: >-
+          לא. אותה קבוצה של פונקציות, נורמה אחרת, ועכשיו יש סדרות קושי בלי גבול, למשל השיפועים.
+        misconception: MC-c2-norm-irrelevant
+      - text: '$(f_n)$ סדרת קושי בנורמה $\|\cdot\|_1$'
+        correct: true
+        feedback: >-
+          נכון. $\|f_n-f_m\|_1=\frac12\left|\frac1n-\frac1m\right|$, ו-$\frac1n$ היא סדרת קושי.
+      - text: '$(f_n)$ סדרת קושי בנורמה $\|\cdot\|_\infty$'
+        feedback: >-
+          לא. ב-$x=\frac12+\frac1{2n}$ מתקיים $f_{2n}=1$ ו-$f_n=\frac12$, ולכן $\|f_n-f_{2n}\|_\infty=\frac12$ לכל $n$.
+        misconception: MC-c2-norm-irrelevant
+      - text: 'כל סדרת קושי בנורמה $\|\cdot\|_\infty$ על $C[0,1]$ היא סדרת קושי בנורמה $\|\cdot\|_1$'
+        correct: true
+        feedback: >-
+          נכון: $\|g\|_1=\int_0^1|g|\le\|g\|_\infty$, ולכן כל הערכה בסופרמום עוברת לאינטגרל.
+      - text: 'כל סדרת קושי בנורמה $\|\cdot\|_1$ על $C[0,1]$ היא סדרת קושי בנורמה $\|\cdot\|_\infty$'
+        feedback: >-
+          לא: השיפועים. אי-השוויון $\|g\|_1\le\|g\|_\infty$ הולך רק בכיוון אחד; פונקציה יכולה להיות גבוהה על קטע
+          צר ולכן קטנה באינטגרל.
+        misconception: MC-c2-norm-irrelevant
+
+  - id: Q-2.2-poly
+    type: twotier
+    objectives: [OBJ-2.2-1, OBJ-2.2-2]
+    qualitative: true
+    level: exam
+    prompt: >-
+      יהי $P$ מרחב הפולינומים על $[0,1]$ עם נורמת הסופרמום, תת-קבוצה של $(C[0,1],\|\cdot\|_\infty)$. האם $P$ שלם?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. $P$ אינו סגור ב-$C[0,1]$, ותת-מרחב שלם חייב להיות סגור.
+      - text: 'כן, כי הוא תת-קבוצה של המרחב השלם $C[0,1]$'
+        feedback: >-
+          כל סדרת קושי ב-$P$ מתכנסת ב-$C[0,1]$, אבל הגבול עלול לא להיות פולינום. תת-קבוצה של מרחב שלם שלמה רק
+          אם היא סגורה.
+        misconception: MC-c2-subset-of-complete
+    reasons:
+      - text: '$p_n(x)=\sum_{k=0}^{n}\frac{x^k}{k!}$ מקיימת $\|e^x-p_n\|_\infty\le\sum_{k>n}\frac1{k!}\to0$, ולכן היא סדרת קושי ב-$P$; לו $P$ היה שלם, הוא היה סגור ו-$e^x$ היה פולינום'
+        correct: true
+        feedback: >-
+          בדיוק. $e^x$ אינו פולינום (כל נגזרת שלו שווה ל-$e^x\ne0$, ולכן אף נגזרת לא מתאפסת). זה שילוב של שני
+          המשפטים של השיעור: $C[0,1]$ שלם, ותת-מרחב שלם סגור.
+      - text: '$P$ אינו חסום (הוא מכיל את $n\cdot x$ לכל $n$), ולכן אינו שלם'
+        feedback: >-
+          גם $C[0,1]$ אינו חסום, והוא שלם. חסימות לא קשורה לשלמות.
+        misconception: MC-c2-complete-closed-bounded
+
+  - id: Q-2.2-step-argument
+    type: mc
+    objectives: [OBJ-2.2-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      הראינו שהשיפועים $f_n$ הם סדרת קושי ב-$(C[0,1],\|\cdot\|_1)$. מה עוד **חייבים** להראות כדי להסיק שהמרחב
+      אינו שלם?
+    choices:
+      - text: 'שאין אף $g\in C[0,1]$ עם $\|f_n-g\|_1\to0$'
+        correct: true
+        feedback: >-
+          נכון. אי-שלמות פירושה סדרת קושי בלי גבול **במרחב**, ולכן צריך לשלול כל מועמד רציף, לא רק את המועמד
+          הנקודתי.
+      - text: 'שהגבול הנקודתי של $f_n$, פונקציית המדרגה, אינו רציף'
+        feedback: >-
+          זה לא מספיק: ייתכן שהסדרה מתכנסת בנורמה $\|\cdot\|_1$ לפונקציה רציפה **אחרת**. ראו $x^n$, שהגבול הנקודתי
+          שלה לא רציף ובכל זאת $\|x^n\|_1\to0$.
+        misconception: MC-c2-limit-outside-not-checked
+      - text: 'ש-$(f_n)$ אינה סדרת קושי בנורמה $\|\cdot\|_\infty$'
+        feedback: >-
+          זה נכון, אבל לא רלוונטי: השאלה על המרחב עם $\|\cdot\|_1$. ההתנהגות בנורמה אחרת לא אומרת דבר על התכנסות
+          בנורמה הזו.
+        misconception: MC-c2-norm-irrelevant
+      - text: 'שום דבר: סדרת קושי של פונקציות לעולם לא מתכנסת במרחב הפונקציות'
+        feedback: >-
+          לא נכון: $x^n$ היא סדרת קושי ב-$\|\cdot\|_1$ ומתכנסת ל-0. סדרת קושי היא רק מועמדת להיות עדות; צריך להראות
+          שלה דווקא אין גבול.
+        misconception: MC-c2-incomplete-no-cauchy-converges
+    explanation: >-
+      איך שוללים כל גבול רציף: נניח $\|f_n-g\|_1\to0$ עם $g$ רציפה. אז $\int_0^{1/2}|g|\le\|f_n-g\|_1\to0$, ולכן
+      $g=0$ על $[0,\frac12]$. לכל $c>\frac12$ ולכל $n$ עם $\frac12+\frac1n<c$: $\int_c^1|g-1|\le\|f_n-g\|_1\to0$,
+      ולכן $g=1$ על $[c,1]$. כך $g=1$ על $(\frac12,1]$ ו-$g(\frac12)=0$: סתירה לרציפות.

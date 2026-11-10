@@ -1,0 +1,329 @@
+# Lesson 4.5 — the Weierstrass approximation theorem.
+# Objectives (src/course.ts):
+#   OBJ-4.5-1  state the theorem: polynomials are dense in C[a,b] with the sup norm
+#   OBJ-4.5-2  prove it with Bernstein polynomials or an approximating kernel; the role of uniform continuity
+#   OBJ-4.5-3  deduce that C[a,b] is separable, and that a continuous function with all moments zero is zero
+# Numbers: B_n(x^2) = x^2 + x(1-x)/n (sup error 1/(4n)), B_3|x-1/2| at 1/2 = 1/4, B_4|x-1/2| at 1/4 = 71/256,
+# all evaluated with bernstein() from src/math/multivar.ts.
+chapter: 4
+questions:
+  - id: Q-4.5-statement
+    type: mc
+    objectives: [OBJ-4.5-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      מה אומר משפט הקירוב של ויירשטראס?
+    choices:
+      - text: 'לכל $f\in C[a,b]$ ולכל $\varepsilon>0$ יש פולינום $p$ עם $\max_{[a,b]}|f-p|<\varepsilon$'
+        correct: true
+        feedback: >-
+          נכון. בשפת המרחב $C[a,b]$: הפולינומים צפופים בנורמת הסופרמום, כלומר הסגור שלהם הוא כל המרחב.
+      - text: 'לכל $f\in C[a,b]$ ולכל $n$ נקודות בקטע יש פולינום שמסכים עם $f$ בכולן'
+        feedback: >-
+          זו אינטרפולציה, והיא נכונה (פולינום לגרנז') אבל אינה המשפט: הסכמה בנקודות לא אומרת דבר על המרחק במידה שווה
+          בין הנקודות.
+        misconception: MC-c4-interpolation-approximates
+      - text: 'פולינומי טיילור של כל $f\in C[a,b]$ מתכנסים אליה במידה שווה'
+        feedback: >-
+          ל-$|x|$ אין בכלל פולינום טיילור מסדר 1 ב-0, וגם לפונקציה חלקה זה יכול להיכשל. המשפט מבטיח פולינומים כלשהם, לא
+          את פולינומי טיילור.
+        misconception: MC-c4-taylor-approximates
+      - text: 'לכל פונקציה רציפה $f$ על $\mathbb{R}$ ולכל $\varepsilon>0$ יש פולינום עם $\sup_{\mathbb{R}}|f-p|<\varepsilon$'
+        feedback: >-
+          על $\mathbb{R}$ זה נכשל: אם $\sup_{\mathbb{R}}|\sin x-p(x)|<1$ אז $p$ חסום על $\mathbb{R}$, ולכן קבוע, ואז
+          $|\sin x-c|<1$ לכל $x$, בלתי אפשרי. המשפט הוא על קטע סגור.
+        misconception: MC-c4-weierstrass-noncompact
+
+  - id: Q-4.5-bern10
+    type: numeric
+    objectives: [OBJ-4.5-2]
+    level: basic
+    prompt: >-
+      פולינום ברנשטיין של $f(x)=x^2$ הוא $B_n f(x)=x^2+\frac{x(1-x)}{n}$. מהו $\|B_{10}f-f\|_\infty$ על $[0,1]$?
+    answer: 0.025
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $\max_{[0,1]}x(1-x)=\frac14$ ב-$x=\frac12$, ולכן השגיאה היא $\frac{1}{4n}=\frac1{40}$.
+    wrongFeedback: >-
+      השגיאה היא $\frac{x(1-x)}{10}$. מצאו את המקסימום של $x(1-x)$ על $[0,1]$.
+    commonWrong:
+      - value: 0.1
+        feedback: >-
+          $0.1=\frac1n$ מניח ש-$x(1-x)$ מגיע ל-1. המקסימום שלו $\frac14$, באמצע הקטע.
+      - value: 0
+        feedback: >-
+          בקצוות $B_nf=f$, אבל בפנים לא: ב-$x=\frac12$ השגיאה $\frac1{40}$.
+        misconception: MC-c4-max-at-endpoints
+
+  - id: Q-4.5-node
+    type: twotier
+    objectives: [OBJ-4.5-2]
+    qualitative: true
+    level: basic
+    prompt: >-
+      טענה: לכל $f\in C[0,1]$ ולכל $k=0,\dots,n$ מתקיים $B_nf(\frac kn)=f(\frac kn)$. נכון או לא נכון?
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: 'נכון. פולינום ברנשטיין אינו פולינום אינטרפולציה.'
+      - text: נכון
+        feedback: >-
+          $B_nf(x)$ הוא ממוצע משוקלל של **כל** הערכים $f(\frac jn)$, גם ב-$x=\frac kn$. ראו את החישוב בנימוק הנכון.
+        misconception: MC-c4-bernstein-interpolates
+    reasons:
+      - text: 'עבור $f(x)=|x-\frac12|$: $B_4f(\frac14)=\frac{71}{256}\ne\frac14$; השוויון מובטח רק ב-$x=0$ וב-$x=1$'
+        correct: true
+        feedback: >-
+          בדיוק. ב-$x=0$ כל המשקל על $k=0$, וב-$x=1$ על $k=n$; בנקודות האחרות המשקלות $\binom nk x^k(1-x)^{n-k}$ מפוזרים.
+      - text: 'המשקלות $\binom nk x^k(1-x)^{n-k}$ מסתכמים ל-1, ולכן הממוצע שווה לערך באמצע'
+        feedback: >-
+          סכום משקלות 1 נותן ממוצע, לא ערך של נקודה אחת. ממוצע של ערכים שונים שונה בדרך כלל מכל אחד מהם.
+        misconception: MC-c4-bernstein-interpolates
+      - text: 'גם $B_n(x^2)=x^2+\frac{x(1-x)}n$ שווה ל-$x^2$ בכל $\frac kn$'
+        feedback: >-
+          ב-$x=\frac kn$ עם $0<k<n$ האיבר $\frac{x(1-x)}{n}$ חיובי, ולכן $B_n(x^2)\ne x^2$ שם.
+        misconception: MC-c4-bernstein-interpolates
+
+  - id: Q-4.5-bern-n
+    type: numeric
+    objectives: [OBJ-4.5-2]
+    level: mid
+    prompt: >-
+      מהו ה-$n$ **הקטן ביותר** כך ש-$\|B_n(x^2)-x^2\|_\infty\le0.01$ על $[0,1]$?
+    answer: 25
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $\|B_n(x^2)-x^2\|_\infty=\frac1{4n}\le0.01\iff n\ge25$. ב-$n=25$ השגיאה בדיוק $0.01$.
+    wrongFeedback: >-
+      השגיאה הגדולה ביותר היא $\frac{1}{4n}$ (ב-$x=\frac12$). פתרו $\frac1{4n}\le0.01$.
+    commonWrong:
+      - value: 100
+        feedback: >-
+          $100$ פותר $\frac1n\le0.01$, כלומר שוכח שהמקסימום של $x(1-x)$ הוא $\frac14$, לא 1.
+      - value: 26
+        feedback: >-
+          אי-השוויון כאן חלש ($\le$), ו-$n=25$ כבר נותן בדיוק $0.01$.
+
+  - id: Q-4.5-b3
+    type: numeric
+    objectives: [OBJ-4.5-2]
+    level: mid
+    prompt: >-
+      עבור $f(x)=|x-\frac12|$ על $[0,1]$, חשבו את $B_3f(\frac12)=\sum_{k=0}^{3}f(\frac k3)\binom3k(\frac12)^k(\frac12)^{3-k}$.
+    answer: 0.25
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. הערכים $f(0),f(\frac13),f(\frac23),f(1)$ הם $\frac12,\frac16,\frac16,\frac12$, והמשקלות
+      $\frac18,\frac38,\frac38,\frac18$: $\frac1{16}+\frac1{16}+\frac1{16}+\frac1{16}=\frac14$. השגיאה ב-$\frac12$ היא
+      $\frac14$, כי $f(\frac12)=0$.
+    wrongFeedback: >-
+      חשבו את ארבעת הערכים $f(\frac k3)$, כפלו כל אחד ב-$\binom3k\cdot\frac18$ וחברו.
+    commonWrong:
+      - value: 0
+        feedback: >-
+          $0=f(\frac12)$. פולינום ברנשטיין אינו מסכים עם $f$ בנקודות הפנימיות, כאן הוא ממוצע של ערכים חיוביים.
+        misconception: MC-c4-bernstein-interpolates
+      - value: 0.3333333333333333
+        feedback: >-
+          $\frac13$ הוא הממוצע הפשוט של ארבעת הערכים $(\frac12+\frac16+\frac16+\frac12)/4$. המשקלות אינם שווים: באמצע
+          הם $\frac38$, בקצוות $\frac18$.
+
+  - id: Q-4.5-uniform-role
+    type: twotier
+    objectives: [OBJ-4.5-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      בהוכחה ש-$B_nf\to f$ במידה שווה מפצלים את הסכום לאיברים עם $|\frac kn-x|<\delta$ ולשאר. טענה: מספיק לבחור את
+      $\delta$ מתוך הרציפות של $f$ **בנקודה** $x$. נכון או לא נכון?
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: 'נכון. המטרה היא $n$ אחד שמתאים לכל $x$ בבת אחת.'
+      - text: נכון
+        feedback: >-
+          עם $\delta(x)$ שונה לכל נקודה, ה-$n$ שמשתלט על האיברים הרחוקים (שמוערכים ב-$\frac{2\|f\|_\infty}{4n\delta^2}$)
+          תלוי ב-$x$, ומקבלים רק התכנסות נקודתית.
+        misconception: MC-c4-pointwise-delta-enough
+    reasons:
+      - text: 'צריך $\delta$ שלא תלוי ב-$x$; משפט קנטור נותן אותו כי $f$ רציפה במידה שווה על $[0,1]$, ואז $n>\frac{\|f\|_\infty}{\varepsilon\delta^2}$ מתאים לכל $x$'
+        correct: true
+        feedback: >-
+          בדיוק. האיברים הקרובים תורמים פחות מ-$\varepsilon$ בזכות $\delta$, והרחוקים לכל היותר $\frac{2\|f\|_\infty}{4n\delta^2}$
+          לפי $\sum(\frac kn-x)^2\binom nk x^k(1-x)^{n-k}=\frac{x(1-x)}n\le\frac1{4n}$. שני החסמים לא תלויים ב-$x$.
+      - text: 'בכל נקודה הרציפות נותנת $\delta(x)$, וכל $\delta(x)$ חיובי, ולכן אפשר לקחת את המינימום'
+        feedback: >-
+          יש אינסוף נקודות, ו-$\inf_x\delta(x)$ יכול להיות 0. מה שמבטיח $\delta$ חיובי משותף הוא רציפות במידה שווה.
+        misconception: MC-c4-pointwise-delta-enough
+      - text: 'כי $f$ ליפשיצית על הקטע הסגור, ו-$\delta=\frac\varepsilon L$'
+        feedback: >-
+          פונקציה רציפה על קטע סגור אינה בהכרח ליפשיצית ($\sqrt x$). המשפט נכון לכל $f$ רציפה, בזכות קנטור.
+        misconception: MC-c4-continuous-is-lipschitz
+
+  - id: Q-4.5-taylor
+    type: twotier
+    objectives: [OBJ-4.5-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      טענה: הפולינומים שמשפט ויירשטראס מבטיח עבור $f\in C[-1,1]$ הם פולינומי טיילור של $f$ סביב 0. נכון או לא נכון?
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: 'נכון. המשפט לא דורש שום גזירות, ופולינומי טיילור תלויים רק בהתנהגות ליד נקודה אחת.'
+      - text: נכון
+        feedback: >-
+          לפולינומי טיילור צריך נגזרות בנקודה, והמשפט חל על כל פונקציה רציפה. ראו את הדוגמאות בנימוק הנכון.
+        misconception: MC-c4-taylor-approximates
+    reasons:
+      - text: '$|x|$ אינה גזירה ב-0 ובכל זאת מקורבת; ולפונקציה $e^{-1/x^2}$ (עם 0 ב-0) כל פולינומי טיילור ב-0 הם אפס'
+        correct: true
+        feedback: >-
+          בדיוק. ב-$e^{-1/x^2}$ פולינומי טיילור קיימים מכל סדר ומתכנסים במידה שווה ל-0, לא לפונקציה ($e^{-1}$ ב-$x=1$).
+          הקירוב של ויירשטראס גלובלי: פולינומי ברנשטיין משתמשים בערכים בכל הקטע.
+      - text: 'כל פונקציה רציפה היא סכום של טור חזקות על הקטע'
+        feedback: >-
+          $|x|$ רציפה ואינה סכום של טור חזקות סביב 0 (סכום כזה גזיר בתוך תחום ההתכנסות).
+        misconception: MC-c4-taylor-approximates
+      - text: 'פולינום שמסכים עם $f$ בהרבה נקודות קרוב אליה בכל הקטע'
+        feedback: >-
+          הסכמה בנקודות לא שולטת במה שקורה ביניהן; זה גם לא מה שטיילור עושה. המשפט מבטיח קרבה במידה שווה.
+        misconception: MC-c4-interpolation-approximates
+
+  - id: Q-4.5-poly-set
+    type: mc
+    objectives: [OBJ-4.5-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $\mathcal{P}$, קבוצת כל הפולינומים, כתת-קבוצה של $C[0,1]$ (נורמת הסופרמום), היא:
+    choices:
+      - text: לא פתוחה ולא סגורה
+        correct: true
+        feedback: >-
+          נכון. אינה סגורה: לפי ויירשטראס $\overline{\mathcal{P}}=C[0,1]\ne\mathcal{P}$ (למשל $e^x\notin\mathcal{P}$). אינה
+          פתוחה: לכל $p$ ולכל $r>0$, $p+\frac r2|x-\frac12|$ נמצאת ב-$B(p,r)$ ואינה פולינום (אינה גזירה ב-$\frac12$).
+      - text: סגורה, כי גבול במידה שווה של פולינומים הוא פולינום
+        feedback: >-
+          על קטע זה לא נכון: $\sum_{k\le n}\frac{x^k}{k!}\to e^x$ במידה שווה על $[0,1]$, ו-$e^x$ אינה פולינום.
+        misconception: MC-c4-poly-limit-poly
+      - text: פתוחה, כי היא אינה סגורה
+        feedback: >-
+          פתוחה וסגורה אינן הפכים. כל כדור סביב פולינום מכיל פונקציות שאינן פולינומים, ולכן $\mathcal{P}$ אינה פתוחה.
+        misconception: MC-c4-not-closed-means-open
+      - text: גם פתוחה וגם סגורה, כי היא צפופה
+        feedback: >-
+          צפופה פירושו שהסגור הוא כל המרחב. קבוצה צפופה וסגורה הייתה שווה למרחב כולו, ו-$e^x\notin\mathcal{P}$.
+        misconception: MC-c4-poly-limit-poly
+
+  - id: Q-4.5-moments-rank
+    type: rank
+    objectives: [OBJ-4.5-3]
+    level: mid
+    prompt: >-
+      סדרו את שלבי ההוכחה: אם $f\in C[0,1]$ ו-$\int_0^1 f(x)x^n\,dx=0$ לכל $n\ge0$, אז $f\equiv0$.
+    help: סדרו את שלבי ההוכחה מהראשון לאחרון.
+    items:
+      - id: linear
+        label: 'מליניאריות האינטגרל: $\int_0^1 fp=0$ לכל פולינום $p$'
+      - id: approx
+        label: 'לפי ויירשטראס יש פולינומים $p_k$ עם $\|p_k-f\|_\infty\to0$'
+      - id: limit
+        label: '$|\int_0^1 f^2-\int_0^1 fp_k|\le\|f\|_\infty\|f-p_k\|_\infty\to0$, ולכן $\int_0^1f^2=\lim\int_0^1 fp_k=0$'
+      - id: zero
+        label: '$f^2\ge0$ רציפה עם אינטגרל 0, ולכן $f^2\equiv0$, כלומר $f\equiv0$'
+    order: [linear, approx, limit, zero]
+    correctFeedback: >-
+      נכון. הרעיון: $f$ "מאונכת" לכל הפולינומים, והם צפופים, ולכן היא מאונכת לעצמה. השלב האחרון משתמש ברציפות: לפונקציה
+      רציפה אי-שלילית שחיובית בנקודה יש אינטגרל חיובי.
+    wrongFeedback: >-
+      קודם מעבירים את ההנחה מחזקות לכל הפולינומים, אחר כך מקרבים את $f$ עצמה, ומעבירים את האינטגרל לגבול. רק אז
+      מסיקים מ-$\int f^2=0$.
+
+  - id: Q-4.5-separable
+    type: mc
+    objectives: [OBJ-4.5-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      איך משפט ויירשטראס מראה ש-$C[0,1]$ ספרבילי?
+    choices:
+      - text: 'הפולינומים עם מקדמים רציונליים בני מנייה, וכל פולינום $\sum_{k\le n}a_kx^k$ קרוב לאחד מהם: $\|\sum(a_k-r_k)x^k\|_\infty\le\sum|a_k-r_k|$'
+        correct: true
+        feedback: >-
+          נכון. הקבוצה היא $\bigcup_n\mathbb{Q}^{n+1}$, איחוד בן מנייה של בנות מנייה. בוחרים $|a_k-r_k|<\frac{\varepsilon}{n+1}$,
+          ומשלבים עם ויירשטראס: $f$ קרובה ל-$p$, ו-$p$ קרובה ל-$q$ רציונלי.
+      - text: הפולינומים עצמם הם קבוצה בת מנייה וצפופה
+        feedback: >-
+          הפולינומים אינם בני מנייה: כבר הקבועים $c\in\mathbb{R}$ אינם בני מנייה. צריך להגביל את המקדמים לרציונליים.
+        misconception: MC-c4-separable-countable
+      - text: הפולינומים עם מקדמים שלמים בני מנייה וצפופים
+        feedback: >-
+          בני מנייה כן, צפופים לא: $p(0)\in\mathbb{Z}$, ולכן $\|p-\frac12\|_\infty\ge\frac12$ לכל פולינום כזה.
+        misconception: MC-c4-integer-polys-dense
+      - text: '$C[0,1]$ הוא תת-מרחב של $B([0,1])$'
+        feedback: >-
+          $B([0,1])$ אינו ספרבילי, ולכן זה לא מוכיח דבר. ספרביליות עוברת מהמרחב הגדול לתת-מרחביו, ורק כשהגדול ספרבילי.
+        misconception: MC-c4-superset-separable
+
+  - id: Q-4.5-real-line
+    type: twotier
+    objectives: [OBJ-4.5-1]
+    qualitative: true
+    level: exam
+    prompt: >-
+      האם $\sin x$ היא גבול במידה שווה **על כל $\mathbb{R}$** של סדרת פולינומים?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. על תחום לא חסום גבול במידה שווה של פולינומים הוא פולינום.'
+      - text: כן
+        feedback: >-
+          משפט ויירשטראס נותן קירוב על כל קטע סגור בנפרד, אבל לא פולינום אחד שמתאים לכל $\mathbb{R}$.
+        misconception: MC-c4-weierstrass-noncompact
+    reasons:
+      - text: 'אם $\sup_{\mathbb{R}}|p_n-f|\to0$, אז מ-$N$ והלאה $p_n-p_N$ חסום על $\mathbb{R}$ ולכן קבוע $c_n$; לכן $f=p_N+\lim c_n$ פולינום, ו-$\sin x$ אינה פולינום'
+        correct: true
+        feedback: >-
+          בדיוק. פולינום חסום על $\mathbb{R}$ הוא קבוע. ו-$\sin x$ אינה פולינום: יש לה אינסוף שורשים ($k\pi$) והיא לא
+          אפס.
+      - text: 'לפי ויירשטראס על הקטעים $[-n,n]$ יש $p_n$ עם שגיאה $\frac1n$ שם, ולכן $p_n\to\sin$ במידה שווה על $\mathbb{R}$'
+        feedback: >-
+          זה נותן התכנסות במידה שווה על כל קטע חסום, לא על $\mathbb{R}$: מחוץ ל-$[-n,n]$ הפולינום $p_n$ רחוק מאוד מ-$\sin$.
+        misconception: MC-c4-weierstrass-noncompact
+      - text: 'טור טיילור של $\sin x$ מתכנס בכל נקודה של $\mathbb{R}$, ולכן במידה שווה'
+        feedback: >-
+          התכנסות בכל נקודה אינה במידה שווה: $\sup_{\mathbb{R}}|\sin x-T_n(x)|=\infty$ לכל $n$, כי $T_n$ פולינום לא קבוע.
+        misconception: MC-c4-taylor-approximates
+
+  - id: Q-4.5-two-moments
+    type: twotier
+    objectives: [OBJ-4.5-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $f\in C[0,1]$ מקיימת $\int_0^1 f(x)\,dx=0$ ו-$\int_0^1 xf(x)\,dx=0$. האם בהכרח $f\equiv0$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. שני מומנטים אינם כל המומנטים.'
+      - text: כן
+        feedback: >-
+          ההוכחה צריכה $\int fp=0$ לפולינומים מכל מעלה, כי הקירוב של ויירשטראס דורש מעלות גבוהות. עם שני מומנטים יש
+          רק $p$ ממעלה עד 1.
+        misconception: MC-c4-moments-finite
+    reasons:
+      - text: '$f(x)=6x^2-6x+1$: $\int_0^1f=2-3+1=0$ ו-$\int_0^1xf=\frac32-2+\frac12=0$, ו-$f\not\equiv0$'
+        correct: true
+        feedback: >-
+          בדיוק. (ובאמת $\int_0^1x^2f=\frac65-\frac32+\frac13=\frac1{30}\ne0$.) לכל $N$ יש פולינום לא אפס ממעלה $N+1$
+          שמאונך ל-$1,x,\dots,x^N$.
+      - text: 'מספיק שהאינטגרל עם הפולינומים ממעלה עד 1 מתאפס, כי כל פונקציה רציפה קרובה לקו ישר'
+        feedback: >-
+          פונקציה רציפה אינה קרובה במידה שווה לקו ישר: $x^2$ במרחק $\frac18$ לפחות מכל קו ישר על $[0,1]$.
+        misconception: MC-c4-moments-finite
+      - text: '$f$ רציפה ו-$\int f=0$ גורר $f\equiv0$'
+        feedback: >-
+          $\int_0^1(x-\frac12)\,dx=0$ ו-$x-\frac12\ne0$. רק $\int f^2=0$ (או $\int|f|=0$) גורר $f\equiv0$.
+        misconception: MC-c4-moments-finite

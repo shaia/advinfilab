@@ -1,0 +1,29 @@
+# Terms first defined in lesson 5.4.
+- id: continuously-differentiable
+  term: גזירה ברציפות
+  en: continuously differentiable
+  symbol: 'C^1(U)'
+  definition: >-
+    $f:U\to\mathbb{R}^m$ ($U\subseteq\mathbb{R}^n$ פתוחה) גזירה ברציפות, או מחלקה $C^1$, אם כל הנגזרות החלקיות של
+    כל הרכיבים קיימות בכל נקודה של $U$ ורציפות ב-$U$. פונקציה גזירה ברציפות דיפרנציאבילית בכל נקודה של $U$; ההפך
+    אינו נכון.
+  lesson: '5.4'
+- id: gradient
+  term: גרדיאנט
+  en: gradient
+  symbol: '\nabla f(a)'
+  definition: >-
+    לפונקציה ממשית $f$ שדיפרנציאבילית ב-$a$: הווקטור
+    $\nabla f(a)=\left(\frac{\partial f}{\partial x_1}(a),\dots,\frac{\partial f}{\partial x_n}(a)\right)$, כך
+    ש-$Df(a)h=\nabla f(a)\cdot h$. הוא כיוון העלייה המהירה ביותר של $f$, הקצב שם הוא $\|\nabla f(a)\|_2$, והוא ניצב
+    לקבוצת הגובה דרך $a$.
+  reject: [גראדיאנט]
+  lesson: '5.4'
+- id: tangent-plane
+  term: מישור משיק
+  en: tangent plane
+  definition: >-
+    לגרף של $f:\mathbb{R}^2\to\mathbb{R}$ הדיפרנציאבילית ב-$a$: המישור $z=f(a)+\nabla f(a)\cdot(x-a)$. למשטח הגובה
+    $F(x)=c$ דרך $a$, כש-$F$ גזירה ברציפות ו-$\nabla F(a)\ne0$: המישור $\nabla F(a)\cdot(x-a)=0$, שהגרדיאנט הוא הנורמל
+    שלו.
+  lesson: '5.4'
