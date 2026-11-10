@@ -92,4 +92,14 @@ test.describe('lesson 1.4: interior, closure, boundary and density', () => {
     await expect(examples).toHaveCount(6);
     await expect(examples.first().locator('details').first()).not.toHaveAttribute('open', '');
   });
+
+  test('the anchors that misconceptions and the chapter summary link to exist, and the statements are numbered', async ({ page }) => {
+    await page.goto(LESSON);
+    for (const id of ['interior', 'closure', 'set-operations', 'boundary', 'thin-boundary', 'accumulation', 'balls', 'dense']) {
+      await expect(page.locator(`[id="${id}"]`).first()).toBeAttached();
+    }
+    // the formal spine: the first and the last numbered statement of the lesson
+    await expect(page.getByText('טענה 1.4.2 (הפתוחה הגדולה ביותר).')).toHaveCount(1);
+    await expect(page.getByText('משפט 1.4.18 (קירוב בקווים שבורים).')).toHaveCount(1);
+  });
 });

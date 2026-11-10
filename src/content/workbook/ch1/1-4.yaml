@@ -3,7 +3,8 @@
 #   OBJ-1.4-1  define interior, closure and boundary and compute them for given sets
 #   OBJ-1.4-2  accumulation points and isolated points; the closure in their terms
 #   OBJ-1.4-3  dense sets; Q dense in R and Q^n dense in R^n
-# Numbers recomputed with src/math/metric.ts (dist) and a tsx one-off (W-1.4-07).
+# Rebuilt on the formal spine 2026-11-10: solutions cite the lesson's numbered results (1.4.1–1.4.18) and the spine
+# numbers of lessons 1.1–1.3. Numbers recomputed with tsx one-offs (W-1.4-06, W-1.4-07, W-1.4-09, c2).
 lesson: '1.4'
 practice:
   - id: W-1.4-01
@@ -11,32 +12,36 @@ practice:
     objectives: [OBJ-1.4-1]
     prompt: >-
       במישור עם $d_2$ תהי $A=[0,1]\times(0,1)$: הריבוע שבו הצלעות האנכיות שייכות לקבוצה והצלעות האופקיות לא.
-      מצאו את $A^\circ$, את $\overline A$ ואת $\partial A$.
+      מצאו את $A^\circ$, את $\overline A$ ואת $\partial A$, ונמקו כל שלב בטענה ממוספרת מהשיעור.
     answer: >-
       $A^\circ=(0,1)\times(0,1)$, $\overline A=[0,1]\times[0,1]$, $\partial A$ היא ארבע הצלעות של הריבוע.
     solution:
       - kind: idea
         text: >-
-          פנים: הנקודות שיש סביבן עיגול בתוך $A$. סגור: הנקודות שכל עיגול סביבן פוגש את $A$. שתי השאלות לא תלויות
-          בשאלה אילו צלעות שייכות ל-$A$, ורק הפנים והסגור קובעים את השפה.
+          את הפנים נותנת טענה 1.4.2(ב): קבוצה פתוחה בתוך $A$ מוכלת בפנים. את הסגור נותנת טענה 1.4.4(ב): קבוצה סגורה
+          שמכילה את $A$ מכילה את הסגור. נשאר לבדוק את הנקודות שעל הצלעות.
       - kind: step
         text: >-
-          **פנים.** לנקודה $(x,y)$ עם $0<x<1$ ו-$0<y<1$ מתאים $r=\min(x,\ 1-x,\ y,\ 1-y)$: מעיגול ברדיוס הזה
-          לא יוצאים מהריבוע הפתוח. נקודה על צלע, גם על צלע ששייכת ל-$A$ כמו $(0,\ 0.5)$, אינה פנימית: כל עיגול
-          סביבה מכיל נקודות עם $x<0$. לכן $A^\circ=(0,1)\times(0,1)$.
+          **פנים.** $Q=(0,1)\times(0,1)$ פתוחה: לנקודה $(x,y)\in Q$ ו-$r=\min(x,\ 1-x,\ y,\ 1-y)$, כל נקודה $(x',y')$
+          ב-$B\big((x,y),r\big)$ מקיימת $|x'-x|\le d_2<r$ ו-$|y'-y|<r$, ולכן ב-$Q$. $Q\subseteq A$, ולפי טענה 1.4.2(ב)
+          $Q\subseteq A^\circ$. נקודות הצלעות האופקיות אינן ב-$A$, ולכן אינן פנימיות ($A^\circ\subseteq A$). נקודה
+          $(0,y)$ של הצלע השמאלית, ששייכת ל-$A$, אינה פנימית: כל עיגול $B\big((0,y),r\big)$ מכיל את
+          $(-\tfrac r2,\ y)\notin A$; ובצלע הימנית, $(1,y)$, הנקודה $(1+\tfrac r2,\ y)$. לכן $A^\circ=Q$.
       - kind: step
         text: >-
-          **סגור.** כל נקודה של הריבוע הסגור בסגור: גם נקודה על צלע אופקית, כמו $(0.5,\ 0)$, כי כל עיגול סביבה
-          מכיל נקודות $(0.5,\ t)$ עם $t>0$ קטן, שב-$A$. לנקודה $(x,y)$ מחוץ לריבוע הסגור יש קואורדינטה מחוץ
-          ל-$[0,1]$, למשל $x>1$. אז העיגול ברדיוס $x-1$ זר ל-$A$: בכל נקודה שלו הקואורדינטה הראשונה גדולה מ-1, כי
-          $|x'-x|\le d_2$. (וכך גם ל-$x<0$, $y>1$, $y<0$.) לכן $\overline A=[0,1]\times[0,1]$.
+          **סגור.** $K=[0,1]\times[0,1]$ סגורה: לנקודה מחוץ ל-$K$ יש קואורדינטה מחוץ ל-$[0,1]$, למשל $x>1$, והעיגול ברדיוס
+          $x-1$ זר ל-$K$, כי $|x'-x|\le d_2$. (וכך לכל אחד מארבעת המקרים.) $A\subseteq K$, ולפי טענה 1.4.4(ב)
+          $\overline A\subseteq K$. בכיוון השני, כל נקודה של $K$ בסגור: לנקודה $(a,b)\in K$ ו-$r>0$, הנקודה
+          $(a,b)+t\big((\tfrac12,\tfrac12)-(a,b)\big)$ עם $t\in(0,1]$ קטן מספיק נמצאת ב-$Q\subseteq A$ ובמרחק
+          $t\cdot d_2\big((a,b),(\tfrac12,\tfrac12)\big)<r$. לכן $\overline A=K$.
       - kind: step
         text: >-
-          **שפה.** $\partial A=\overline A\setminus A^\circ$: הנקודות של הריבוע הסגור עם $x\in\{0,1\}$ או
-          $y\in\{0,1\}$, כלומר ארבע הצלעות.
+          **שפה.** לפי הגדרה 1.4.6, $\partial A=\overline A\setminus A^\circ=K\setminus Q$: הנקודות של $K$ עם
+          $x\in\{0,1\}$ או $y\in\{0,1\}$, כלומר ארבע הצלעות.
       - kind: check
         text: >-
-          בשפה יש נקודות של $A$ (הצלעות האנכיות, בלי הפינות) ונקודות שאינן ב-$A$ (הצלעות האופקיות והפינות).
+          בשפה יש נקודות של $A$ (הצלעות האנכיות, בלי הפינות) ונקודות שאינן ב-$A$ (הצלעות האופקיות והפינות). לפי טענה
+          1.4.6(ה), $A$ אינה סגורה (יש נקודת שפה מחוצה לה) ואינה פתוחה (יש נקודת שפה בתוכה).
       - kind: result
         text: >-
           $A^\circ=(0,1)^2$, $\overline A=[0,1]^2$, $\partial A$ = ארבע הצלעות.
@@ -51,23 +56,32 @@ practice:
     answer: >-
       $A'=\{0\}\cup[2,3]$; המבודדות הן $\frac1n$ לכל $n$; $\overline A=A\cup\{0\}$; $2$ אינה מבודדת.
     solution:
+      - kind: definition
+        text: >-
+          הגדרה 1.4.7: $x\in A'$ אם כל כדור סביב $x$ מכיל נקודה של $A$ ששונה מ-$x$; נקודה $x\in A$ מבודדת אם יש
+          כדור שבו היא הנקודה היחידה של $A$. נקודה של $A$ היא בדיוק אחד מהשניים.
       - kind: step
         text: >-
-          **הקטע.** כל $x\in[2,3]$ היא נקודת הצטברות: כל קטע סביבה מכיל נקודות אחרות של $[2,3]$. ובפרט $2$ אינה
-          מבודדת, אף שהיא "קצה".
+          **הקטע.** כל $x\in[2,3]$ היא נקודת הצטברות: לכל $r>0$ הקטע $(x-r,x+r)\cap[2,3]$ אינסופי, ולכן יש בו נקודה
+          ששונה מ-$x$. ובפרט $2$ אינה מבודדת, אף שהיא "קצה".
       - kind: step
         text: >-
-          **הסדרה.** כל $\frac1n$ מבודדת: הכדור ברדיוס $\frac1n-\frac1{n+1}$ סביבה לא מכיל אף נקודה אחרת של $A$
-          (השכנות $\frac1{n+1}$ ו-(ל-$n\ge2$) $\frac1{n-1}$ רחוקות לפחות כמוהו, והקטע $[2,3]$ רחוק יותר). $0$ היא נקודת הצטברות: כל קטע
-          $(-r,r)$ מכיל $\frac1n$ עם $n>\frac1r$.
+          **הסדרה.** כל $\frac1n$ מבודדת: הכדור ברדיוס $r_n=\frac1n-\frac1{n+1}$ סביבה לא מכיל אף נקודה אחרת של $A$.
+          הסדרה $\frac1m$ יורדת ממש, ולכן ל-$m>n$, $\frac1n-\frac1m\ge\frac1n-\frac1{n+1}=r_n$, ול-$m<n$,
+          $\frac1m-\frac1n\ge\frac1{n-1}-\frac1n>r_n$: כל $\frac1m$ אחרת, לא רק השכנות, רחוקה לפחות $r_n$. והקטע $[2,3]$
+          במרחק לפחות $1>r_n$. $0$ היא נקודת
+          הצטברות: כל קטע $(-r,r)$ מכיל $\frac1n$ עם $n>\frac1r$ (ארכימדס).
       - kind: step
         text: >-
-          שאר הנקודות אינן נקודות הצטברות: לכל אחת יש קטע סביבה שזר ל-$A$ (חוץ אולי מהנקודה עצמה). אם $x<0$, הרדיוס
-          $|x|$. אם $1<x<2$, הרדיוס $\min(x-1,\ 2-x)$; אם $x>3$, הרדיוס $x-3$. ואם $0<x<1$ ו-$x$ אינו
-          מהצורה $\frac1n$, יש $n$ עם $\frac1{n+1}<x<\frac1n$, והרדיוס $\min\big(x-\frac1{n+1},\ \frac1n-x\big)$.
-      - kind: step
+          שאר הנקודות אינן נקודות הצטברות: לכל אחת יש קטע סביבה שזר ל-$A$. אם $x<0$, הרדיוס $|x|$. אם $1<x<2$, הרדיוס
+          $\min(x-1,\ 2-x)$; אם $x>3$, הרדיוס $x-3$. ואם $0<x<1$ ו-$x$ אינו מהצורה $\frac1n$, יש $n$ עם
+          $\frac1{n+1}<x<\frac1n$, והרדיוס $\min\big(x-\frac1{n+1},\ \frac1n-x\big)$.
+      - kind: theorem
         text: >-
-          לפי המשפט $\overline A=A\cup A'=\{\frac1n\}\cup\{0\}\cup[2,3]$.
+          לפי משפט 1.4.9, $\overline A=A\cup A'=\{\frac1n\}\cup\{0\}\cup[2,3]$.
+      - kind: check
+        text: >-
+          לפי מסקנה 1.4.10, $A$ אינה סגורה, כי $0\in A'\setminus A$. ו-$A\cup\{0\}=\overline A$ סגורה לפי טענה 1.4.4(א).
       - kind: result
         text: >-
           $A'=\{0\}\cup[2,3]$, המבודדות $\{\frac1n: n\in\mathbb{N}\}$, $\overline A=A\cup\{0\}$, ו-$2$ אינה מבודדת.
@@ -77,7 +91,7 @@ practice:
     qualitative: true
     objectives: [OBJ-1.4-3]
     prompt: >-
-      ב-$\mathbb{R}$ עם $|x-y|$, אילו מהקבוצות צפופות? נמקו.
+      ב-$\mathbb{R}$ עם $|x-y|$, קבעו אילו מהקבוצות צפופות, והוכיחו.
 
       (א) $\mathbb{Z}$
 
@@ -87,119 +101,138 @@ practice:
     answer: >-
       (א) לא. (ב) כן. (ג) לא: הקטע $(-2,-1)$ זר לה.
     solution:
-      - kind: definition
+      - kind: theorem
         text: >-
-          $A$ צפופה ב-$\mathbb{R}$ אם כל קטע פתוח לא ריק $(a,b)$ פוגש את $A$.
+          לפי טענה 1.4.14(ג), $A$ צפופה ב-$\mathbb{R}$ אם ורק אם כל כדור, כלומר כל קטע $(a,b)$ עם $a<b$, פוגש את $A$.
       - kind: step
         text: >-
           (א) הקטע $(\tfrac14,\ \tfrac34)$ זר ל-$\mathbb{Z}$, ולכן $\mathbb{Z}$ אינה צפופה.
       - kind: step
         text: >-
-          (ב) יהי $a<b$. נבחר $k$ עם $2^k>\frac1{b-a}$ (קיים כי $2^k\ge k$ ולפי תכונת ארכימדס), כלומר
-          $\frac1{2^k}<b-a$. יהי $m=\lfloor 2^ka\rfloor+1$. כמו בהוכחה ש-$\mathbb{Q}$ צפופה:
+          (ב) יהי $a<b$. נבחר $k$ עם $2^k>\frac1{b-a}$: קיים כי $2^k\ge k$ (אינדוקציה) ולפי תכונת ארכימדס יש $k>\frac1{b-a}$.
+          אז $\frac1{2^k}<b-a$. יהי $m=\lfloor 2^ka\rfloor+1$. כמו בהוכחת משפט 1.4.15:
           $a<\frac{m}{2^k}\le a+\frac1{2^k}<b$. לכן $D$ צפופה.
       - kind: step
         text: >-
-          (ג) הקטע $(-2,-1)$ אינו מכיל אף מספר חיובי, ולכן זר לקבוצה. היא צפופה ב-$(0,\infty)$ כתת-מרחב, אבל לא
-          ב-$\mathbb{R}$.
+          (ג) הקטע $(-2,-1)$ אינו מכיל אף מספר חיובי, ולכן זר לקבוצה, והיא אינה צפופה ב-$\mathbb{R}$. אבל היא צפופה
+          בתת-המרחב $(0,\infty)$: כדור בו הוא $(y-\varepsilon,y+\varepsilon)\cap(0,\infty)$ עם $y>0$ (הגדרה 1.3.10), והוא
+          מכיל את הקטע הלא ריק $\big(\max(0,y-\varepsilon),\ y+\varepsilon\big)$, שבו יש רציונלי לפי משפט 1.4.15, וזה
+          רציונלי חיובי.
       - kind: check
         text: >-
-          (ב) מראה שאפשר להסתפק בפחות רציונליים מכל $\mathbb{Q}$: ההוכחה השתמשה רק בכך שאפשר לבחור צעד $\frac1{2^k}$
-          קטן כרצוננו.
+          (ב) מראה שאפשר להסתפק בפחות רציונליים מכל $\mathbb{Q}$: ההוכחה של משפט 1.4.15 השתמשה רק בכך שאפשר לבחור צעד
+          $\frac1n$ קטן כרצוננו, ו-$\frac1{2^k}$ הוא צעד כזה.
       - kind: result
         text: >-
           רק (ב) צפופה ב-$\mathbb{R}$.
 
   - id: W-1.4-04
     level: mid
+    qualitative: true
     objectives: [OBJ-1.4-1]
     prompt: >-
-      $X$ מרחב מטרי ו-$A,B\subseteq X$.
+      $X$ מרחב מטרי.
 
-      (א) הוכיחו: $\overline{A\cup B}=\overline A\cup\overline B$.
+      (א) הוכיחו: אם $U$ פתוחה, אז $U\subseteq\big(\overline U\big)^\circ$; ואם $F$ סגורה, אז $\overline{F^\circ}\subseteq F$.
 
-      (ב) הוכיחו: $\overline{A\cap B}\subseteq\overline A\cap\overline B$, ותנו דוגמה ב-$\mathbb{R}$ שבה ההכלה ממש.
+      (ב) הראו ב-$\mathbb{R}$ ששתי ההכלות יכולות להיות ממש.
+
+      (ג) חשבו את $\big(\overline{\mathbb{Q}}\big)^\circ$ ואת $\overline{\mathbb{Q}^\circ}$ ב-$\mathbb{R}$. מה זה אומר על הסדר של "סגור" ו"פנים"?
     answer: >-
-      (א) $\supseteq$ מהמונוטוניות; $\subseteq$ כי $\overline A\cup\overline B$ סגורה ומכילה את $A\cup B$.
-      (ב) $A=(0,1)$, $B=(1,2)$: $\overline{A\cap B}=\emptyset$ ו-$\overline A\cap\overline B=\{1\}$.
+      (א) $U$ פתוחה בתוך $\overline U$; $\overline{F^\circ}$ הסגורה הקטנה שמכילה את $F^\circ\subseteq F$.
+      (ב) $U=(0,1)\cup(1,2)$: $\big(\overline U\big)^\circ=(0,2)$. $F=[0,1]\cup\{2\}$: $\overline{F^\circ}=[0,1]$.
+      (ג) $\big(\overline{\mathbb{Q}}\big)^\circ=\mathbb{R}$ ו-$\overline{\mathbb{Q}^\circ}=\emptyset$: הסדר משנה.
     solution:
       - kind: idea
         text: >-
-          שני כלים: אם $A\subseteq B$ אז $\overline A\subseteq\overline B$; והסגור מוכל בכל קבוצה סגורה שמכילה את
-          הקבוצה.
+          שתי ההכלות הן "מקסימליות" ו"מינימליות": הפנים הוא הפתוחה הגדולה ביותר בפנים (טענה 1.4.2(ב)), והסגור הוא
+          הסגורה הקטנה ביותר מבחוץ (טענה 1.4.4(ב)).
       - kind: step
         text: >-
-          (א) $A\subseteq A\cup B$, ולכן $\overline A\subseteq\overline{A\cup B}$; כך גם $\overline B$. לכן
-          $\overline A\cup\overline B\subseteq\overline{A\cup B}$.
-      - kind: step
-        text: >-
-          בכיוון השני: $\overline A\cup\overline B$ היא איחוד של **שתי** קבוצות סגורות, ולכן סגורה (שיעור 1.3), והיא
-          מכילה את $A\cup B$. הסגור של $A\cup B$ מוכל בכל קבוצה סגורה כזו, ולכן
-          $\overline{A\cup B}\subseteq\overline A\cup\overline B$.
-      - kind: step
-        text: >-
-          (ב) $A\cap B\subseteq A$, ולכן $\overline{A\cap B}\subseteq\overline A$; כך גם עם $B$, ולכן
-          $\overline{A\cap B}\subseteq\overline A\cap\overline B$.
+          (א) $U\subseteq\overline U$, ו-$U$ פתוחה, ולכן לפי טענה 1.4.2(ב) $U\subseteq\big(\overline U\big)^\circ$.
+          $F^\circ\subseteq F$, ו-$F$ סגורה, ולכן לפי טענה 1.4.4(ב) $\overline{F^\circ}\subseteq F$.
       - kind: computation
         text: >-
-          דוגמה: $A=(0,1)$ ו-$B=(1,2)$. $A\cap B=\emptyset$, ולכן $\overline{A\cap B}=\emptyset$. אבל
-          $\overline A\cap\overline B=[0,1]\cap[1,2]=\{1\}$.
+          (ב) $U=(0,1)\cup(1,2)$ פתוחה (איחוד של שני כדורים, משפט 1.3.7). $[0,2]=B[1,1]$ סגורה (טענה 1.3.5) ומכילה
+          את $U$, ולכן $\overline U\subseteq[0,2]$ (טענה 1.4.4(ב)); ו-$0,1,2$ נקודות הצטברות של $U$ (כל קטע סביבן
+          מכיל נקודות של $(0,1)$ או של $(1,2)$ ששונות מהן), ולכן לפי משפט 1.4.9 $\overline U\supseteq U\cup\{0,1,2\}=[0,2]$.
+          הפנים: $(0,2)$ פתוחה ומוכלת ב-$[0,2]$, ולכן מוכלת ב-$[0,2]^\circ$ (טענה 1.4.2(ב)); ו-$0$, $2$ אינן פנימיות,
+          כי כל קטע סביבן מכיל את $-\frac r2$ או את $2+\frac r2$, שאינם ב-$[0,2]$. לכן
+          $\big(\overline U\big)^\circ=(0,2)\ni1$, ו-$1\notin U$.
+      - kind: computation
+        text: >-
+          $F=[0,1]\cup\{2\}$ סגורה (איחוד של שתי סגורות, מסקנה 1.3.8). $F^\circ=(0,1)$: $(0,1)$ פתוחה ומוכלת ב-$F$,
+          ולכן ב-$F^\circ$ (טענה 1.4.2(ב)); ו-$0$, $1$, $2$ אינן פנימיות, כי כל קטע ברדיוס $r$ סביבן מכיל בהתאמה את
+          $-\frac r2$, את $1+\min(\frac r2,\frac12)\in(1,\tfrac32]$ ואת $2+\frac r2$, ואף אחד מהם אינו ב-$F$. הסגור:
+          $[0,1]=B[\tfrac12,\tfrac12]$ סגורה ומכילה את $(0,1)$, ולכן $\overline{(0,1)}\subseteq[0,1]$ (טענה 1.4.4(ב)); ו-$0,1$
+          נקודות הצטברות של $(0,1)$, ולכן לפי משפט 1.4.9 $\overline{(0,1)}\supseteq[0,1]$. אז $\overline{F^\circ}=[0,1]$,
+          ו-$2\notin[0,1]$.
+      - kind: step
+        text: >-
+          (ג) לפי משפט 1.4.15 $\overline{\mathbb{Q}}=\mathbb{R}$, ו-$\mathbb{R}^\circ=\mathbb{R}$ (טענה 1.4.2(ג)). ולפי
+          דוגמה 4 בשיעור $\mathbb{Q}^\circ=\emptyset$, ו-$\overline\emptyset=\emptyset$.
       - kind: check
         text: >-
-          ב-(א) השתמשנו בכך שאיחוד **סופי** של סגורות סגור. לאיחוד אינסופי זה נכשל: $\bigcup_n\overline{\{\frac1n\}}=
-          \{\frac1n\}$, והסגור של האיחוד מכיל גם את $0$.
+          ב-(ג) $\mathbb{Q}$ אינה פתוחה ואינה סגורה, כך ש-(א) לא חל עליה; היא מראה ש"סגור ואחר כך פנים" ו"פנים
+          ואחר כך סגור" יכולים להיות רחוקים ככל האפשר: כל הישר מול הקבוצה הריקה.
       - kind: result
         text: >-
-          (א) $\overline{A\cup B}=\overline A\cup\overline B$. (ב) רק הכלה; $(0,1)$ ו-$(1,2)$ נותנות הכלה ממש.
+          (א) $U\subseteq\big(\overline U\big)^\circ$, $\overline{F^\circ}\subseteq F$. (ב) $(0,1)\cup(1,2)$ ו-$[0,1]\cup\{2\}$.
+          (ג) $\mathbb{R}$ מול $\emptyset$.
 
   - id: W-1.4-05
     level: mid
+    qualitative: true
     objectives: [OBJ-1.4-2]
     prompt: >-
-      $X$ מרחב מטרי, $A\subseteq X$ ו-$x\in X$.
+      $X$ מרחב מטרי ו-$A,E\subseteq X$.
 
-      (א) הוכיחו: $x$ נקודת הצטברות של $A$ אם ורק אם כל כדור סביב $x$ מכיל **אינסוף** נקודות של $A$.
+      (א) הוכיחו: אם $A\subseteq E$ אז $A'\subseteq E'$.
 
-      (ב) הסיקו שלקבוצה סופית אין נקודות הצטברות, ושקבוצה סופית סגורה.
+      (ב) הוכיחו: $(A\cup E)'=A'\cup E'$.
+
+      (ג) הוכיחו או הפריכו: לכל משפחה $(A_n)_{n\in\mathbb{N}}$, $\big(\bigcup_nA_n\big)'=\bigcup_nA_n'$.
     answer: >-
-      (א) אם בכדור $B(x,r)$ רק מספר סופי של נקודות של $A$ ששונות מ-$x$, כדור ברדיוס המרחק הקטן ביותר אליהן לא
-      מכיל אף אחת. (ב) $A'=\emptyset$, ולכן $\overline A=A\cup A'=A$.
+      (א) מההגדרה. (ב) $\supseteq$ מ-(א); $\subseteq$ בשלילה, עם המינימום של שני רדיוסים. (ג) לא נכון:
+      $A_n=\{q_n\}$ לסידור $q_1,q_2,\dots$ של $\mathbb{Q}$: $\bigcup_nA_n'=\emptyset$ ו-$\big(\bigcup_nA_n\big)'=\mathbb{Q}'=\mathbb{R}$.
     solution:
-      - kind: idea
+      - kind: definition
         text: >-
-          הכיוון הקשה הוא $\Rightarrow$. אם באחד הכדורים יש רק מספר סופי של נקודות של $A$, אפשר לכווץ את הכדור כך
-          שאף אחת מהן לא תישאר, ואז $x$ אינה נקודת הצטברות. זה עובד כי למספר סופי של מרחקים חיוביים יש מינימום חיובי.
+          הגדרה 1.4.7: $x\in A'$ אם $B(x,r)\cap(A\setminus\{x\})\ne\emptyset$ לכל $r>0$.
       - kind: step
         text: >-
-          ($\Leftarrow$) כדור עם אינסוף נקודות של $A$ מכיל בפרט נקודה של $A$ ששונה מ-$x$.
+          (א) $A\setminus\{x\}\subseteq E\setminus\{x\}$, ולכן כל כדור שפוגש את הראשונה פוגש את השנייה.
       - kind: step
         text: >-
-          ($\Rightarrow$) נניח בשלילה שיש $r>0$ שבכדור $B(x,r)$ רק מספר סופי של נקודות של $A$. אלה ששונות מ-$x$ הן
-          $a_1,\dots,a_k$ (ייתכן $k=0$). אם $k=0$, הכדור הזה עצמו מראה ש-$x$ אינה נקודת הצטברות. אחרת נגדיר
-          $s=\min_i d(x,a_i)$, מינימום של מספר סופי של מספרים חיוביים, ולכן $s>0$.
+          (ב) ($\supseteq$) $A\subseteq A\cup E$ ו-$E\subseteq A\cup E$, ולפי (א) $A'\cup E'\subseteq(A\cup E)'$.
       - kind: step
         text: >-
-          הכדור $B(x,\min(r,s))$ מוכל ב-$B(x,r)$, ולכן כל נקודה של $A$ בו ששונה מ-$x$ היא אחת מה-$a_i$; אבל
-          $d(x,a_i)\ge s$, כך ש-$a_i$ אינה בכדור. לכן בכדור אין נקודה של $A$ ששונה מ-$x$, בסתירה לכך ש-$x\in A'$.
+          ($\subseteq$) נניח $x\notin A'\cup E'$. אז יש $r_1>0$ עם $B(x,r_1)\cap(A\setminus\{x\})=\emptyset$ ו-$r_2>0$ עם
+          $B(x,r_2)\cap(E\setminus\{x\})=\emptyset$. נגדיר $r=\min(r_1,r_2)>0$. אז $B(x,r)$ זר ל-$A\setminus\{x\}$ ול-$E\setminus\{x\}$,
+          ולכן ל-$(A\cup E)\setminus\{x\}$: $x\notin(A\cup E)'$.
       - kind: step
         text: >-
-          (ב) לקבוצה סופית אין אינסוף נקודות בשום כדור, ולכן לפי (א) $A'=\emptyset$. לפי המשפט
-          $\overline A=A\cup A'=A$, ולכן $A$ סגורה.
+          (ג) **לא נכון.** $\mathbb{Q}$ בת מנייה (אינפי 1); נסדר אותה בסדרה $q_1,q_2,\dots$ ונגדיר $A_n=\{q_n\}$. לפי
+          טענה 1.4.8(ב), לקבוצה סופית אין נקודות הצטברות, ולכן $\bigcup_nA_n'=\emptyset$. אבל $\bigcup_nA_n=\mathbb{Q}$,
+          ו-$\mathbb{Q}'=\mathbb{R}$: לכל $x\in\mathbb{R}$ ו-$r>0$ יש לפי משפט 1.4.15 רציונלי בקטע $(x,\ x+r)$, והוא
+          שונה מ-$x$ ונמצא ב-$B(x,r)$.
       - kind: check
         text: >-
-          במטריקה הבדידה $A'=\emptyset$ לכל $A$, גם אינסופית: שם הכדור $B(x,\tfrac12)$ מכיל נקודה אחת בלבד, ו-(א)
-          מסכים.
+          איפה ההוכחה של (ב) נכשלת לאינסוף קבוצות? במינימום: ל-$x$ נתון, הרדיוס שמרחיק את $q_n$ הוא $|x-q_n|$ (כש-$q_n\ne x$),
+          והאינפימום של כל הרדיוסים האלה הוא $0$, כי $\mathbb{Q}$ צפופה. זו אותה תופעה כמו בדוגמה הנגדית אחרי טענה 1.4.2.
       - kind: result
         text: >-
-          (א) נקודת הצטברות = בכל כדור סביבה אינסוף נקודות של $A$. (ב) לקבוצה סופית $A'=\emptyset$, והיא סגורה.
+          (א) $A'\subseteq E'$. (ב) $(A\cup E)'=A'\cup E'$. (ג) לא נכון לאינסוף קבוצות: הנקודות של $\mathbb{Q}$, כל אחת
+          לבד, נותנות $\emptyset$ מול $\mathbb{R}$.
 
   - id: W-1.4-06
     level: mid
     qualitative: true
     objectives: [OBJ-1.4-1, OBJ-1.4-2, OBJ-1.4-3]
     prompt: >-
-      על $\mathbb{N}$ נגדיר $\rho(m,n)=\left|\frac1m-\frac1n\right|$. זו מטריקה, כי $n\mapsto\frac1n$ חד-חד-ערכית
-      (שיעור 1.1). במרחב הזה כל המרחקים קטנים מ-1, והכדורים הגדולים מכילים נקודות רבות, כך שהוא אינו "נראה" בדיד.
+      על $\mathbb{N}$ נגדיר $\rho(m,n)=\left|\frac1m-\frac1n\right|$. זו מטריקה לפי טענה 1.1.13(ב), כי $n\mapsto\frac1n$
+      חד-חד-ערכית. במרחב הזה כל המרחקים קטנים מ-1, והכדורים הגדולים
+      מכילים נקודות רבות, כך שהוא אינו "נראה" בדיד.
 
       (א) הוכיחו שכל $n\in\mathbb{N}$ היא נקודה מבודדת של $\mathbb{N}$: מצאו $r_n>0$ עם $B(n,r_n)=\{n\}$.
 
@@ -218,22 +251,20 @@ practice:
           במקום $B(x,\tfrac12)=\{x\}$.
       - kind: step
         text: >-
-          (א) יהי $n\in\mathbb{N}$ ו-$r_n=\frac1n-\frac1{n+1}=\frac1{n(n+1)}$. ל-$m>n$:
-          $\rho(m,n)=\frac1n-\frac1m\ge\frac1n-\frac1{n+1}=r_n$. ל-$m<n$ (אם $n\ge2$):
-          $\rho(m,n)=\frac1m-\frac1n\ge\frac1{n-1}-\frac1n=\frac1{n(n-1)}>r_n$. לכן אף $m\ne n$ אינו ב-$B(n,r_n)$,
-          ו-$B(n,r_n)=\{n\}$.
+          (א) $\rho(m,n)$ הוא בדיוק המרחק בישר בין $\frac1m$ ל-$\frac1n$, ולכן החישוב בדוגמה שאחרי טענה 1.4.8 עובר
+          כמו שהוא: עם $r_n=\frac1n-\frac1{n+1}=\frac1{n(n+1)}$, כל $m\ne n$ מקיים $\rho(m,n)\ge r_n$, ו-$B(n,r_n)=\{n\}$.
       - kind: step
         text: >-
-          (ב) כל $n\in A$ פנימית, כי $B(n,r_n)=\{n\}\subseteq A$; לכן $A^\circ=A$. כל $n\notin A$ אינה בסגור, כי
-          $B(n,r_n)=\{n\}$ זר ל-$A$; לכן $\overline A=A$, ו-$\partial A=\overline A\setminus A^\circ=\emptyset$. ואף נקודה
-          אינה נקודת הצטברות, כי $B(n,r_n)$ לא מכיל נקודה אחרת: $A'=\emptyset$.
+          (ב) כל תת-קבוצה $A$ פתוחה: לכל $n\in A$, $B(n,r_n)=\{n\}\subseteq A$. לכן כל תת-קבוצה גם סגורה (המשלים
+          שלה פתוח). לפי טענות 1.4.2(ג) ו-1.4.4(ג), $A^\circ=A=\overline A$, ולכן $\partial A=\emptyset$. ואף נקודה אינה
+          נקודת הצטברות, כי $B(n,r_n)$ לא מכיל נקודה אחרת: $A'=\emptyset$.
       - kind: step
         text: >-
-          (ג) $A$ צפופה אם $\overline A=\mathbb{N}$, ו-$\overline A=A$, ולכן רק $A=\mathbb{N}$ צפופה.
+          (ג) $A$ צפופה אם $\overline A=\mathbb{N}$ (הגדרה 1.4.13), ו-$\overline A=A$, ולכן רק $A=\mathbb{N}$ צפופה, כמו
+          במטריקה הבדידה (טענה 1.4.17).
       - kind: step
         text: >-
-          ב-$\mathbb{R}$, הקבוצה $\{\frac1n\}$ היא "אותן נקודות" בדיוק: $\rho(m,n)$ הוא המרחק בין $\frac1m$ ל-$\frac1n$
-          בישר. שם $0$ נקודת הצטברות, כי כל קטע $(-r,r)$ מכיל $\frac1n$ עם $n>\frac1r$. ההבדל: $0$ היא נקודה של
+          ב-$\mathbb{R}$, הקבוצה $\{\frac1n\}$ היא "אותן נקודות" בדיוק, ושם $0$ נקודת הצטברות (אותה דוגמה). ההבדל: $0$ היא נקודה של
           $\mathbb{R}$, ולא של המרחב $(\mathbb{N},\rho)$. נקודות ההצטברות תלויות במרחב שבו מסתכלים, כמו הפתיחות בשיעור 1.3.
       - kind: check
         text: >-
@@ -246,149 +277,172 @@ practice:
 
   - id: W-1.4-07
     level: mid
-    qualitative: true
-    objectives: [OBJ-1.4-3]
+    objectives: [OBJ-1.4-3, OBJ-1.4-1]
     prompt: >-
-      (א) הוכיחו ישירות ש-$\mathbb{Q}^2$ צפופה במישור עם $d_1$ ועם $d_\infty$. בכמה מותר לקרב כל קואורדינטה בכל
-      מטריקה?
+      במישור עם $d_2$ יהיו $\ell=\{(t,\ \sqrt2\,t):\ t\in\mathbb{R}\}$ הישר $y=\sqrt2x$, ו-$L=\{(q,\ \sqrt2\,q):\ q\in\mathbb{Q}\}$.
 
-      (ב) עבור $x=(\sqrt2,\ \pi)$ ו-$\varepsilon=0.01$, בדקו שהנקודה הרציונלית $q=(1.41,\ 3.14)$ מקיימת
-      $d_1(x,q)<\varepsilon$, ומצאו את $d_\infty(x,q)$.
+      (א) הוכיחו ש-$L$ צפופה בתת-המרחב $\ell$.
 
-      (ג) תהי $L=\{(q,\ \sqrt2\,q):\ q\in\mathbb{Q}\}$, נקודות על הישר $y=\sqrt2x$. הוכיחו ש-$L$ **אינה** צפופה במישור
-      עם $d_2$.
+      (ב) הוכיחו ש-$\ell$ סגורה במישור. רמז: לנקודה $(a,b)$ עם $b\ne\sqrt2a$ השתמשו באי-שוויון קושי-שוורץ
+      $|u_1|+\sqrt2|u_2|\le\sqrt3\,\|u\|_2$.
+
+      (ג) הסיקו ש-$\overline L=\ell$ במישור, ולכן $L$ **אינה** צפופה במישור. מה הרדיוס הגדול ביותר של עיגול סביב
+      $(1,0)$ שזר ל-$L$?
     answer: >-
-      (א) ב-$d_1$ תקציב $\frac\varepsilon2$ לכל קואורדינטה, ב-$d_\infty$ תקציב $\varepsilon$. (ב)
-      $d_1(x,q)\approx0.00581<0.01$, $d_\infty(x,q)=\sqrt2-1.41\approx0.00421$. (ג) העיגול סביב $(1,0)$ ברדיוס
-      $\frac{\sqrt2}{\sqrt3}\approx0.816$ זר לישר $y=\sqrt2x$, ולכן גם ל-$L$.
+      (א) $d_2\big((t,\sqrt2t),(q,\sqrt2q)\big)=\sqrt3\,|t-q|$. (ב) העיגול ברדיוס $\frac{|b-\sqrt2a|}{\sqrt3}$ זר ל-$\ell$.
+      (ג) $\overline L=\ell\ne\mathbb{R}^2$; הרדיוס $\sqrt{2/3}\approx0.8165$.
     solution:
       - kind: idea
         text: >-
-          מקרבים כל קואורדינטה בנפרד בעזרת צפיפות $\mathbb{Q}$ ב-$\mathbb{R}$. כמה מותר לכל אחת תלוי באיך המטריקה
-          מצרפת את ההפרשים: סכום ב-$d_1$, מקסימום ב-$d_\infty$.
+          $L$ היא העתק של $\mathbb{Q}$ על הישר, ולכן צפופה בו לפי משפט 1.4.15. אבל הישר עצמו סגור ודק, ולכן הסגור של $L$
+          במישור לא יכול לצאת ממנו (טענה 1.4.4(ב)).
       - kind: step
         text: >-
-          (א) יהיו $(a,b)$ ו-$\varepsilon>0$. ב-$d_1$: נבחר רציונליים $q_1,q_2$ עם $|a-q_1|<\frac\varepsilon2$ ו-$|b-q_2|<\frac\varepsilon2$.
-          אז $d_1\big((a,b),(q_1,q_2)\big)<\frac\varepsilon2+\frac\varepsilon2=\varepsilon$.
+          (א) כדור בתת-המרחב $\ell$ הוא $B(x,\varepsilon)\cap\ell$ (הגדרה 1.3.10). יהיו $x=(t,\sqrt2t)\in\ell$ ו-$\varepsilon>0$.
+          לפי משפט 1.4.15 יש $q\in\mathbb{Q}$ עם $|t-q|<\frac{\varepsilon}{\sqrt3}$. אז
+          $d_2\big(x,(q,\sqrt2q)\big)=\sqrt{(t-q)^2+2(t-q)^2}=\sqrt3\,|t-q|<\varepsilon$. לפי טענה 1.4.14(ג), $L$ צפופה ב-$\ell$.
       - kind: step
         text: >-
-          ב-$d_\infty$: מספיק $|a-q_1|<\varepsilon$ ו-$|b-q_2|<\varepsilon$, כי
-          $d_\infty=\max(|a-q_1|,\ |b-q_2|)<\varepsilon$.
+          (ב) תהי $(a,b)\notin\ell$, ו-$\delta=|b-\sqrt2a|>0$. לנקודה $(x,y)$ עם $d_2\big((x,y),(a,b)\big)<\rho=\frac{\delta}{\sqrt3}$,
+          לפי קושי-שוורץ ב-$\mathbb{R}^2$ (אלגברה לינארית) עם הווקטורים $(1,\sqrt2)$ ו-$(|y-b|,|x-a|)$:
+          $|y-b|+\sqrt2|x-a|\le\sqrt3\,d_2<\delta$.
+      - kind: step
+        text: >-
+          לכן $|y-\sqrt2x|\ge|b-\sqrt2a|-|y-b|-\sqrt2|x-a|>\delta-\delta=0$: $(x,y)\notin\ell$. העיגול $B\big((a,b),\rho\big)$
+          זר ל-$\ell$, המשלים פתוח, ו-$\ell$ סגורה.
+      - kind: step
+        text: >-
+          (ג) $\ell$ סגורה ומכילה את $L$, ולכן $\overline L\subseteq\ell$ (טענה 1.4.4(ב)). ולכל $x\in\ell$ ו-$\varepsilon>0$
+          מצאנו ב-(א) נקודה של $L$ במרחק קטן מ-$\varepsilon$, ולכן $\ell\subseteq\overline L$. לכן $\overline L=\ell\ne\mathbb{R}^2$,
+          ו-$L$ אינה צפופה במישור.
       - kind: computation
         text: >-
-          (ב) $|\sqrt2-1.41|\approx0.0042136$ ו-$|\pi-3.14|\approx0.0015927$. לכן $d_1(x,q)\approx0.0058062<0.01$ ו-
-          $d_\infty(x,q)\approx0.0042136$. (ב-$d_2$ יוצא $\approx0.0045045$.)
+          ל-$(a,b)=(1,0)$: $\delta=\sqrt2$, ו-$\rho=\frac{\sqrt2}{\sqrt3}=\sqrt{2/3}\approx0.8165$. זה הגדול ביותר: הנקודה
+          $\big(\frac13,\ \frac{\sqrt2}3\big)\in\ell$ במרחק $\sqrt{\frac49+\frac29}=\sqrt{2/3}$ מ-$(1,0)$, ולכן כל עיגול
+          גדול יותר מכיל אותה ואת נקודות $\ell$ הסמוכות לה, ובהן נקודות של $L$ לפי (א).
       - kind: check
         text: >-
-          $d_\infty\le d_2\le d_1$, כמו שצריך: $0.00421\le0.00450\le0.00581$.
-      - kind: step
-        text: >-
-          (ג) **רעיון:** כל $L$ יושבת על ישר אחד, ונקודה שמחוץ לישר רחוקה ממנו. מספיק עיגול אחד שזר ל-$L$. ניקח את
-          הנקודה $(a,b)=(1,0)$, ש-$|b-\sqrt2a|=\sqrt2>0$. תהי $(x,y)$ עם $d_2\big((x,y),(1,0)\big)<r$. לפי קושי-שוורץ,
-          $|y-b|+\sqrt2\,|x-a|\le\sqrt{1+2}\cdot\sqrt{(y-b)^2+(x-a)^2}<\sqrt3\,r$.
-      - kind: step
-        text: >-
-          לכן $|y-\sqrt2x|\ge|b-\sqrt2a|-|y-b|-\sqrt2\,|x-a|>\sqrt2-\sqrt3\,r$. עם $r=\frac{\sqrt2}{\sqrt3}$ מקבלים
-          $|y-\sqrt2x|>0$: אף נקודה בעיגול אינה על הישר, ובפרט אף נקודה של $L$. לכן $\overline L\ne\mathbb{R}^2$.
-      - kind: check
-        text: >-
-          $\frac{\sqrt2}{\sqrt3}\approx0.8165$ הוא בדיוק המרחק מ-$(1,0)$ לישר: לנקודה $\big(\frac13,\ \frac{\sqrt2}3\big)$
-          שעל הישר המרחק הוא $\sqrt{\frac49+\frac29}=\frac{\sqrt2}{\sqrt3}$. והשוו: $L$ צפופה
-          **בתוך הישר**, כמו ש-$\mathbb{Q}$ צפופה ב-$\mathbb{R}$, אבל המישור "רחב" ממנה. צפיפות תלויה במרחב.
+          $L$ צפופה **בתוך הישר**, כמו ש-$\mathbb{Q}$ צפופה ב-$\mathbb{R}$, אבל לא במישור: צפיפות תלויה במרחב. השוו ל-$\mathbb{Q}^2$,
+          שצפופה במישור (משפט 1.4.16).
       - kind: result
         text: >-
-          (א) $\mathbb{Q}^2$ צפופה ב-$d_1$ (תקציב $\frac\varepsilon2$) וב-$d_\infty$ (תקציב $\varepsilon$). (ב)
-          $d_1\approx0.00581$, $d_\infty\approx0.00421$. (ג) $L$ אינה צפופה במישור.
+          (א) $L$ צפופה ב-$\ell$. (ב) $\ell$ סגורה. (ג) $\overline L=\ell$; $L$ אינה צפופה במישור; הרדיוס המקסימלי
+          סביב $(1,0)$ הוא $\sqrt{2/3}$.
 
   - id: W-1.4-08
     level: exam
+    qualitative: true
     objectives: [OBJ-1.4-1]
     prompt: >-
-      $X$ מרחב מטרי ו-$A\subseteq X$.
+      $X$ מרחב מטרי ו-$A,E\subseteq X$.
 
-      (א) הוכיחו: $\partial A=\overline A\cap\overline{X\setminus A}$.
+      (א) הוכיחו: $\partial(A\cup E)\subseteq\partial A\cup\partial E$.
 
-      (ב) הסיקו ש-$\partial A$ סגורה ושמתקיים $\partial A=\partial(X\setminus A)$.
+      (ב) הוכיחו: תמיד $\partial(\partial A)\subseteq\partial A$; ואם $A$ סגורה או פתוחה, אז $(\partial A)^\circ=\emptyset$ ו-$\partial(\partial A)=\partial A$.
 
-      (ג) הוכיחו: $A$ סגורה אם ורק אם $\partial A\subseteq A$.
+      (ג) הראו שבלי ההנחה של (ב) השוויון יכול להיכשל.
     answer: >-
-      (א) $X\setminus A^\circ=\overline{X\setminus A}$. (ב) חיתוך של שתי סגורות; הנוסחה סימטרית. (ג) $\overline A=A\cup\partial A$.
+      (א) $\partial(A\cup E)\subseteq(\overline A\cup\overline E)\cap\overline{X\setminus A}\cap\overline{X\setminus E}$.
+      (ב) $\partial A$ סגורה; כדור בתוך $\partial A\subseteq A$ היה הופך נקודת שפה לנקודה פנימית. (ג) $\partial\mathbb{Q}=\mathbb{R}$
+      ו-$\partial\mathbb{R}=\emptyset$.
     solution:
       - kind: idea
         text: >-
-          הכלי הוא הזהות $X\setminus\overline B=(X\setminus B)^\circ$ מהשיעור. עם $B=X\setminus A$ היא נותנת
-          $X\setminus A^\circ=\overline{X\setminus A}$: "לא פנימית" פירושו "בסגור של המשלים".
+          הכלי הוא הנוסחה $\partial A=\overline A\cap\overline{X\setminus A}$ (טענה 1.4.6(ב)), יחד עם
+          $\overline{A\cup E}=\overline A\cup\overline E$ (טענה 1.4.5(ג)) והמונוטוניות של הסגור (טענה 1.4.4(ד)).
       - kind: step
         text: >-
-          (א) מהזהות עם $B=X\setminus A$: $X\setminus\overline{X\setminus A}=A^\circ$, כלומר
-          $X\setminus A^\circ=\overline{X\setminus A}$. לכן
-          $\partial A=\overline A\setminus A^\circ=\overline A\cap(X\setminus A^\circ)=\overline A\cap\overline{X\setminus A}$.
+          (א) $X\setminus(A\cup E)$ מוכלת ב-$X\setminus A$ וב-$X\setminus E$, ולכן לפי טענה 1.4.4(ד)
+          $\overline{X\setminus(A\cup E)}\subseteq\overline{X\setminus A}\cap\overline{X\setminus E}$. לפי טענות 1.4.6(ב) ו-1.4.5(ג):
+          $$\partial(A\cup E)=\overline{A\cup E}\cap\overline{X\setminus(A\cup E)}\subseteq(\overline A\cup\overline E)\cap\overline{X\setminus A}\cap\overline{X\setminus E}.$$
       - kind: step
         text: >-
-          (ב) $\overline A$ ו-$\overline{X\setminus A}$ סגורות, וחיתוך של סגורות סגור. והנוסחה של (א) לא משתנה כשמחליפים
-          את $A$ ב-$X\setminus A$, כי $X\setminus(X\setminus A)=A$. לכן $\partial(X\setminus A)=\partial A$.
+          תהי $x$ בצד ימין. אם $x\in\overline A$, אז $x\in\overline A\cap\overline{X\setminus A}=\partial A$; אחרת
+          $x\in\overline E$, ו-$x\in\overline E\cap\overline{X\setminus E}=\partial E$.
       - kind: step
         text: >-
-          (ג) $\overline A=A^\circ\cup\partial A$ (כי $\partial A=\overline A\setminus A^\circ$ ו-$A^\circ\subseteq\overline A$),
-          ולכן $\overline A=A\cup\partial A$, כי $A^\circ\subseteq A\subseteq\overline A$. אם $\partial A\subseteq A$,
-          אז $\overline A=A$ ו-$A$ סגורה. אם $A$ סגורה, $\partial A\subseteq\overline A=A$.
+          (ב) $\partial A$ סגורה (טענה 1.4.6(ב)), ולכן שווה לסגור שלה (טענה 1.4.4(ג)), ו-$\partial(\partial A)=\partial A\setminus(\partial A)^\circ\subseteq\partial A$.
+      - kind: step
+        text: >-
+          נניח ש-$A$ סגורה. לפי טענה 1.4.6(ה), $\partial A\subseteq A$. נניח בשלילה ש-$x\in(\partial A)^\circ$: יש $r>0$ עם
+          $B(x,r)\subseteq\partial A\subseteq A$. אז $x\in A^\circ$. אבל $x\in\partial A=\overline A\setminus A^\circ$, סתירה.
+          לכן $(\partial A)^\circ=\emptyset$, ו-$\partial(\partial A)=\partial A\setminus\emptyset=\partial A$.
+      - kind: step
+        text: >-
+          אם $A$ פתוחה, $X\setminus A$ סגורה (הגדרה 1.3.4), ו-$\partial A=\partial(X\setminus A)$ (טענה 1.4.6(ג)). לפי המקרה
+          הקודם על $X\setminus A$: $(\partial A)^\circ=\emptyset$ ו-$\partial(\partial A)=\partial A$.
+      - kind: step
+        text: >-
+          (ג) ב-$\mathbb{R}$, $\partial\mathbb{Q}=\mathbb{R}$ (דוגמה 4 בשיעור). $\mathbb{R}$ פתוחה וסגורה בעצמה, ולכן לפי טענה
+          1.4.6(ה) $\partial\mathbb{R}=\emptyset$. לכן $\partial(\partial\mathbb{Q})=\emptyset\ne\mathbb{R}=\partial\mathbb{Q}$. ו-$\mathbb{Q}$
+          אכן אינה סגורה ואינה פתוחה.
       - kind: check
         text: >-
-          על $A=[0,1)$: $\overline A\cap\overline{\mathbb{R}\setminus A}=[0,1]\cap\big((-\infty,0]\cup[1,\infty)\big)=\{0,1\}$,
-          ו-$1\notin A$, כך ש-$A$ אינה סגורה, כמו ש-(ג) אומר.
+          על $A=[0,1)$ (לא סגורה ולא פתוחה, ובכל זאת): $\partial A=\{0,1\}$, סופית ולכן סגורה ובלי פנים, ו-$\partial\{0,1\}=\{0,1\}$.
+          ההנחה של (ב) מספיקה, לא הכרחית. וב-(א) ההכלה יכולה להיות ממש: $\partial[0,1]\cup\partial[1,2]=\{0,1,2\}$, אבל
+          $\partial[0,2]=\{0,2\}$.
       - kind: result
         text: >-
-          $\partial A=\overline A\cap\overline{X\setminus A}$, סגורה, שווה ל-$\partial(X\setminus A)$; ו-$A$ סגורה
-          אם ורק אם היא מכילה את שפתה.
+          (א) $\partial(A\cup E)\subseteq\partial A\cup\partial E$. (ב) $\partial\partial A\subseteq\partial A$, ושוויון כש-$A$
+          סגורה או פתוחה. (ג) $\partial\partial\mathbb{Q}=\emptyset\ne\partial\mathbb{Q}$.
 
   - id: W-1.4-09
     level: exam
-    objectives: [OBJ-1.4-1]
+    qualitative: true
+    objectives: [OBJ-1.4-3]
     prompt: >-
-      ב-$C[0,1]$ עם $d_\infty(f,g)=\max|f-g|$, נסמן $I(f)=\int_0^1f$, ותהיינה
-      $V=\{f\in C[0,1]:\ I(f)>0\}$ ו-$E=\{f\in C[0,1]:\ I(f)=0\}$.
+      (א) תהי $L_{\mathbb{Q}}\subseteq C[0,1]$ קבוצת הקווים השבורים שהצמתים שלהם $t_i=\frac im$ ($m\in\mathbb{N}$) והערכים
+      בצמתים רציונליים. הוכיחו ש-$L_{\mathbb{Q}}$ צפופה ב-$(C[0,1],d_\infty)$.
 
-      (א) הוכיחו: $|I(g)-I(h)|\le d_\infty(g,h)$ לכל $g,h\in C[0,1]$.
-
-      (ב) הוכיחו ש-$V$ פתוחה ושהקבוצה $W=\{f:\ I(f)\ge0\}$ סגורה.
-
-      (ג) מצאו את $\overline V$, את $W^\circ$ ואת $\partial V$.
+      (ב) במשפט 1.4.18 הקטע **סגור**. במרחב $B((0,1])$ של הפונקציות החסומות על $(0,1]$ עם $d_\infty$ (הגדרה 1.1.7), תהי
+      $f(x)=\sin\frac1x$, רציפה וחסומה. פונקציה $g$ על $(0,1]$ היא לינארית למקוטעין אם יש $0=t_0<t_1<\dots<t_m=1$ כך
+      ש-$g$ רציפה ועל $(t_0,t_1]$ ועל כל $[t_{i-1},t_i]$, $i\ge2$, היא מהצורה $\alpha t+\beta$. הוכיחו
+      ש-$d_\infty(f,g)\ge1$ לכל $g$ כזו.
     answer: >-
-      (א) $|I(g)-I(h)|\le\int_0^1|g-h|\le\max|g-h|$. (ב) סביב $f\in V$ מתאים הרדיוס $I(f)$; המשלים של $W$ פתוח מאותה
-      סיבה. (ג) $\overline V=W$, $W^\circ=V$, $\partial V=E$.
+      (א) לפי משפט 1.4.18 קו שבור עם צמתים $\frac im$ קרוב ל-$f$; מחליפים את ערכיו ברציונליים קרובים, והשינוי קטן
+      ב-$d_\infty$. (ב) על $(0,t_1]$, $g=\alpha t+\beta$, ו-$f$ מקבלת $1$ ו-$-1$ קרוב ל-$0$: $\sup|f-g|\ge\max(|1-\beta|,|1+\beta|)\ge1$.
     solution:
       - kind: idea
         text: >-
-          ההבדל מדוגמה 5 בשיעור: שם התנאי היה על ערך בכל נקודה, וכאן על ממוצע. מה שמחבר אותו ל-$d_\infty$ הוא (א): אם
-          הגרפים קרובים בכל נקודה, גם האינטגרלים קרובים. אחר כך הכלי הוא שוב הזזה של הגרף בקבוע קטן.
+          (א) שני קירובים בזה אחר זה, כל אחד בתקציב $\frac\varepsilon2$: קו שבור עם ערכי $f$ בצמתים (משפט 1.4.18),
+          ואחר כך ערכים רציונליים במקום ערכי $f$ (משפט 1.4.15). (ב) הקטע הראשון של $g$ ישר, ו-$f$ מתנודדת בו בין $1$ ל-$-1$
+          אינסוף פעמים: ישר לא יכול להיות קרוב לשני הערכים.
       - kind: step
         text: >-
-          (א) לפי תכונות האינטגרל (אינפי 1–2): $|I(g)-I(h)|=\left|\int_0^1(g-h)\right|\le\int_0^1|g-h|\le\int_0^1d_\infty(g,h)
-          =d_\infty(g,h)$, כי $|g(x)-h(x)|\le d_\infty(g,h)$ בכל $x$ והקטע באורך 1.
+          (א) יהיו $f\in C[0,1]$ ו-$\varepsilon>0$. לפי משפט 1.4.18(א) יש $m$ כך שהקו השבור $g$ עם הצמתים $t_i=\frac im$
+          ו-$g(t_i)=f(t_i)$ מקיים $d_\infty(f,g)<\frac\varepsilon2$.
       - kind: step
         text: >-
-          (ב) תהי $f\in V$, ו-$r=I(f)>0$. אם $d_\infty(g,f)<r$, אז לפי (א) $I(g)\ge I(f)-|I(g)-I(f)|>r-r=0$, כלומר
-          $g\in V$. לכן $V$ פתוחה. באותו אופן המשלים של $W$, $\{f:\ I(f)<0\}$, פתוח (הרדיוס $|I(f)|$), ולכן $W$ סגורה.
+          לפי משפט 1.4.15 נבחר $q_i\in\mathbb{Q}$ עם $|q_i-f(t_i)|<\frac\varepsilon2$, ל-$i=0,\dots,m$, ונגדיר את $h\in L_{\mathbb{Q}}$
+          שמחבר בקווים ישרים את $(t_i,q_i)$. על $[t_{i-1},t_i]$, עם $\lambda=m(t-t_{i-1})\in[0,1]$:
+          $$g(t)-h(t)=(1-\lambda)\big(f(t_{i-1})-q_{i-1}\big)+\lambda\big(f(t_i)-q_i\big),$$
+          ולכן $|g(t)-h(t)|<(1-\lambda)\frac\varepsilon2+\lambda\frac\varepsilon2=\frac\varepsilon2$.
       - kind: step
         text: >-
-          (ג) **הסגור.** $W$ סגורה ומכילה את $V$, ולכן $\overline V\subseteq W$. בכיוון השני, תהי $f\in W$ ו-$r>0$. אז
-          $g=f+\frac r2$ רציפה, $d_\infty(f,g)=\frac r2<r$, ו-$I(g)=I(f)+\frac r2>0$, כלומר $g\in V$. כל כדור סביב $f$
-          פוגש את $V$, ולכן $f\in\overline V$. מכאן $\overline V=W$.
+          $|g-h|$ רציפה על $[0,1]$, ולפי ויירשטראס המקסימום שלה מתקבל בנקודה, ולכן $d_\infty(g,h)<\frac\varepsilon2$. לפי
+          אי-שוויון המשולש $d_\infty(f,h)<\varepsilon$, ולפי טענה 1.4.14(ג) $L_{\mathbb{Q}}$ צפופה.
       - kind: step
         text: >-
-          **הפנים של $W$.** $V$ פתוחה ומוכלת ב-$W$, ולכן $V\subseteq W^\circ$. בכיוון השני, תהי $f\in E$ ו-$r>0$: הפונקציה
-          $f-\frac r2$ ב-$B(f,r)$ ו-$I\big(f-\frac r2\big)=-\frac r2<0$, ולכן אינה ב-$W$. כלומר אף $f\in E$ אינה פנימית
-          ב-$W$, ו-$W^\circ=V$.
+          (ב) תהי $g$ כזו; על $(0,t_1]$, $g(t)=\alpha t+\beta$. קודם, $g$ חסומה, ולכן $g\in B((0,1])$ ו-$d_\infty(f,g)$
+          מוגדר: על $(0,t_1]$, $|g|\le|\alpha|+|\beta|$; ועל $[t_1,1]$ $g$ רציפה, ולפי משפט ויירשטראס חסומה. נגדיר $x_k=\frac{1}{\pi/2+2\pi k}$ ו-$y_k=\frac{1}{3\pi/2+2\pi k}$:
+          $f(x_k)=1$, $f(y_k)=-1$, ושתי הסדרות שואפות ל-$0$, ולכן מ-$k$ מסוים הן ב-$(0,t_1]$.
       - kind: step
         text: >-
-          **השפה.** $V$ פתוחה, ולכן $V^\circ=V$, ו-$\partial V=\overline V\setminus V^\circ=W\setminus V=E$.
+          לכל $k$ כזה, $d_\infty(f,g)\ge|f(x_k)-g(x_k)|=|1-\beta-\alpha x_k|\ge|1-\beta|-|\alpha|x_k$. כש-$k\to\infty$,
+          $x_k\to0$, ולכן $d_\infty(f,g)\ge|1-\beta|$. מאותו חישוב עם $y_k$: $d_\infty(f,g)\ge|1+\beta|$.
+      - kind: step
+        text: >-
+          לכן $d_\infty(f,g)\ge\max(|1-\beta|,|1+\beta|)\ge\frac{|1-\beta|+|1+\beta|}{2}\ge\frac{|(1-\beta)+(1+\beta)|}{2}=1$.
+          כלומר הכדור $B(f,1)$ ב-$B((0,1])$ זר לקבוצת הקווים השבורים: הם אינם צפופים שם.
       - kind: check
         text: >-
-          $f(x)=x-\frac12$ ב-$E$: $I(f)=0$. בכדור $B(f,0.1)$ נמצאות $x-0.45$, עם אינטגרל $0.05>0$ (ב-$V$), ו-$x-0.55$, עם
-          אינטגרל $-0.05$ (מחוץ ל-$W$): הכדור פוגש את שני הצדדים, כמו שנקודת שפה צריכה.
+          איפה ההוכחה של משפט 1.4.18 נשברת? בשלב 1: $\sin\frac1x$ רציפה על $(0,1]$ אבל אינה רציפה במידה שווה, כי
+          $|x_k-y_k|\to0$ ו-$|f(x_k)-f(y_k)|=2$. משפט קנטור דורש קטע סגור וחסום. ו-$L_{\mathbb{Q}}$ היא בת מנייה (כל
+          איבר נקבע על ידי $m$ ו-$m+1$ רציונליים); בשיעור 4.4 נראה שזה הופך את $C[0,1]$ למרחב ספרבילי.
       - kind: result
         text: >-
-          $V$ פתוחה, $W$ סגורה, $\overline V=W$, $W^\circ=V$, ו-$\partial V=E$: הפונקציות שהאינטגרל שלהן אפס.
+          (א) $L_{\mathbb{Q}}$ צפופה ב-$(C[0,1],d_\infty)$. (ב) $d_\infty(\sin\frac1x,\ g)\ge1$ לכל קו שבור $g$ על $(0,1]$: בלי
+          קטע סגור משפט 1.4.18 נכשל.
 
   - id: W-1.4-10
     level: exam
@@ -400,36 +454,47 @@ practice:
       (א) הוכיחו: אם $U$ ו-$V$ פתוחות וצפופות ב-$X$, אז $U\cap V$ צפופה ב-$X$.
 
       (ב) נכון או לא נכון: החיתוך של שתי קבוצות צפופות ב-$X$ צפוף. הוכיחו או תנו דוגמה נגדית.
+
+      (ג) הסיקו: אם $F_1,F_2$ סגורות ו-$F_1^\circ=F_2^\circ=\emptyset$, אז $(F_1\cup F_2)^\circ=\emptyset$.
     answer: >-
       (א) כדור $B$ פוגש את $U$; $B\cap U$ פתוחה ולא ריקה ולכן מכילה כדור, שפוגש את $V$. (ב) לא נכון:
-      $\mathbb{Q}\cap(\mathbb{R}\setminus\mathbb{Q})=\emptyset$.
+      $\mathbb{Q}\cap(\mathbb{R}\setminus\mathbb{Q})=\emptyset$. (ג) המשלימים פתוחים וצפופים; מפעילים את (א) ועוברים
+      למשלים.
     solution:
       - kind: goal
         text: >-
-          (א) לכל $x\in X$ ו-$r>0$: $B(x,r)\cap U\cap V\neq\emptyset$.
+          (א) לפי טענה 1.4.14(ג): לכל $x\in X$ ו-$r>0$, $B(x,r)\cap U\cap V\neq\emptyset$.
       - kind: idea
         text: >-
           הפתיחות של $U$ מאפשרת להחליף את "הכדור פוגש את $U$" ב"יש כדור קטן **בתוך** $B(x,r)\cap U$". את הכדור הקטן
           הזה פוגשת $V$, כי היא צפופה.
       - kind: step
         text: >-
-          (א) $U$ צפופה, ולכן יש $y\in B(x,r)\cap U$. החיתוך $B(x,r)\cap U$ הוא חיתוך של שתי פתוחות, ולכן פתוח, ויש
-          $s>0$ עם $B(y,s)\subseteq B(x,r)\cap U$.
+          (א) $U$ צפופה, ולכן לפי טענה 1.4.14(ג) יש $y\in B(x,r)\cap U$. החיתוך $B(x,r)\cap U$ הוא חיתוך של שתי פתוחות
+          (משפט 1.3.3), ולכן פתוח (משפט 1.3.7), ויש $s>0$ עם $B(y,s)\subseteq B(x,r)\cap U$.
       - kind: step
         text: >-
           $V$ צפופה, ולכן יש $z\in B(y,s)\cap V$. אז $z\in B(x,r)$, $z\in U$ ו-$z\in V$, כלומר
           $B(x,r)\cap U\cap V\neq\emptyset$.
       - kind: step
         text: >-
-          (ב) **לא נכון.** ב-$\mathbb{R}$, $\mathbb{Q}$ ו-$\mathbb{R}\setminus\mathbb{Q}$ צפופות (שיעור 1.4, דוגמה 4),
+          (ב) **לא נכון.** ב-$\mathbb{R}$, $\mathbb{Q}$ ו-$\mathbb{R}\setminus\mathbb{Q}$ צפופות (משפט 1.4.15 ודוגמה 4 בשיעור),
           והחיתוך שלהן ריק, שאינו צפוף.
+      - kind: step
+        text: >-
+          (ג) $U_j=X\setminus F_j$ פתוחה (הגדרה 1.3.4). לפי טענה 1.4.5(א),
+          $X\setminus\overline{U_j}=(X\setminus U_j)^\circ=F_j^\circ=\emptyset$, ולכן $U_j$ צפופה. לפי (א),
+          $U_1\cap U_2$ צפופה, ושוב לפי טענה 1.4.5(א):
+          $(F_1\cup F_2)^\circ=\big(X\setminus(U_1\cap U_2)\big)^\circ=X\setminus\overline{U_1\cap U_2}=\emptyset$.
       - kind: check
         text: >-
           איפה (ב) נכשל לעומת (א)? ב-$\mathbb{Q}$ אין כדור קטן בתוך $B(x,r)\cap\mathbb{Q}$, כי הפנים שלה ריק. בלי
-          פתיחות אין "כדור קטן" לתת ל-$V$.
+          פתיחות אין "כדור קטן" לתת ל-$V$. ו-(ג) נכשל בלי סגירות: $\mathbb{Q}^\circ=(\mathbb{R}\setminus\mathbb{Q})^\circ=\emptyset$,
+          אבל $(\mathbb{Q}\cup(\mathbb{R}\setminus\mathbb{Q}))^\circ=\mathbb{R}$.
       - kind: result
         text: >-
-          (א) חיתוך של שתי פתוחות צפופות צפוף. (ב) לא נכון בלי פתיחות: $\mathbb{Q}$ והאי-רציונליים.
+          (א) חיתוך של שתי פתוחות צפופות צפוף. (ב) לא נכון בלי פתיחות: $\mathbb{Q}$ והאי-רציונליים. (ג) איחוד של שתי
+          סגורות בלי פנים הוא בלי פנים.
 challenge:
   - id: W-1.4-c1
     stars: 1
@@ -439,18 +504,19 @@ challenge:
 
       (א) הוכיחו ש-$E'$ סגורה, כלומר שכל נקודת הצטברות של $E'$ שייכת ל-$E'$.
 
-      (ב) הראו בדוגמה ב-$\mathbb{R}$ שקבוצת הנקודות המבודדות של $E$ אינה בהכרח סגורה.
+      (ב) הראו בדוגמה ב-$\mathbb{R}$ שקבוצת הנקודות המבודדות של $E$ אינה בהכרח סגורה, אפילו כש-$E$ עצמה סגורה.
+      רמז: $E=\mathbb{Z}\cup\{k+\frac1n:\ k\in\mathbb{Z},\ n\ge2\}$.
     answer: >-
       (א) אם $x$ נקודת הצטברות של $E'$, כל כדור $B(x,r)$ מכיל $y\in E'$ עם $y\ne x$, וכדור קטן סביב $y$, שנשאר בתוך
-      $B(x,r)$ ולא מגיע ל-$x$, מכיל נקודה של $E$ ששונה מ-$x$; לכן $x\in E'$. (ב) $E=\{0\}\cup\{\frac1n:\ n\in\mathbb{N}\}$:
-      המבודדות הן $\frac1n$, ו-$0$ גבול שלהן שאינו מבודד.
+      $B(x,r)$ ולא מגיע ל-$x$, מכיל נקודה של $E$ ששונה מ-$x$; לכן $x\in E'$. (ב) ב-$E=\mathbb{Z}\cup\{k+\frac1n:\ n\ge2\}$:
+      $E'=\mathbb{Z}\subseteq E$, כך ש-$E$ סגורה; המבודדות הן $I=E\setminus\mathbb{Z}$, ו-$I'=\mathbb{Z}$ זרה ל-$I$.
     solution:
       - kind: given
         text: >-
-          $(X,d)$ מרחב מטרי, $E\subseteq X$. $x\in E'$ אם כל כדור $B(x,r)$ מכיל נקודה של $E$ ששונה מ-$x$.
+          $(X,d)$ מרחב מטרי, $E\subseteq X$. $x\in E'$ אם כל כדור $B(x,r)$ מכיל נקודה של $E$ ששונה מ-$x$ (הגדרה 1.4.7).
       - kind: goal
         text: >-
-          (א) לפי המשפט $\overline A=A\cup A'$, קבוצה $A$ סגורה אם ורק אם $A'\subseteq A$. לכן צריך להראות: כל נקודת
+          (א) לפי מסקנה 1.4.10, קבוצה $A$ סגורה אם ורק אם $A'\subseteq A$. לכן צריך להראות: כל נקודת
           הצטברות $x$ של $E'$ שייכת ל-$E'$, כלומר לכל $r>0$ יש $z\in E$ עם $z\ne x$ ו-$d(x,z)<r$.
       - kind: idea
         text: >-
@@ -477,27 +543,45 @@ challenge:
           ו-$E'$ סגורה.
       - kind: check
         text: >-
-          בדוגמאות מהשיעור: לקבוצה $\{\frac1n\}$, $E'=\{0\}$; לקבוצה $(0,1)\cup\mathbb{N}$ (דוגמה 2), $E'=[0,1]$; ול-$\mathbb{Q}$,
+          בדוגמאות מהשיעור: לקבוצה $\{\frac1n\}$, $E'=\{0\}$; לקבוצה $(0,1)\cup(1,2]\cup\{3\}$ (דוגמה 1), $E'=[0,2]$; ול-$\mathbb{Q}$,
           $E'=\mathbb{R}$. שלושתן סגורות, אף ש-$E$ עצמה אינה סגורה באף אחד מהמקרים.
       - kind: step
         text: >-
-          (ב) ב-$\mathbb{R}$ תהי $E=\{0\}\cup\{\frac1n:\ n\in\mathbb{N}\}$. כל $\frac1n$ מבודדת:
-          $B\big(\frac1n,\ \frac1n-\frac1{n+1}\big)\cap E=\{\frac1n\}$, כי השכנות הקרובות, $\frac1{n+1}$ ו-(ל-$n\ge2$) $\frac1{n-1}$ (ו-$0$),
-          רחוקות לפחות כרדיוס הזה. $0$ אינה מבודדת: כל קטע $(-r,r)$ מכיל $\frac1n$ עם $n>\frac1r$.
+          (ב) ב-$\mathbb{R}$ תהי $E=\mathbb{Z}\cup\{k+\frac1n:\ k\in\mathbb{Z},\ n\ge2\}$. בכל קטע $[k,k+1)$ הנקודות של $E$
+          הן $k$ והנקודות $k+\frac1n$, $n\ge2$, וכולן ב-$[k,\ k+\tfrac12]$; בקטע $(k+\tfrac12,\ k+1)$ אין נקודות של $E$.
       - kind: step
         text: >-
-          לכן קבוצת המבודדות היא $I=\{\frac1n:\ n\in\mathbb{N}\}$. ל-$I$ יש נקודת הצטברות, $0$, שאינה ב-$I$, ולכן $I$
-          אינה סגורה.
+          **כל $s=k+\frac1n$ ($n\ge2$) מבודדת.** נגדיר $\rho=\frac1n-\frac1{n+1}\le\frac16$. הסדרה $\frac1m$ יורדת ממש,
+          ולכן ל-$m\ne n$, $m\ge2$: $|s-(k+\frac1m)|\ge\rho$ (כמו בדוגמה שאחרי טענה 1.4.8). המרחק מ-$s$ ל-$k$ הוא
+          $\frac1n>\rho$; וכל נקודה אחרת של $E$ קטנה או שווה ל-$k-\frac12$ או גדולה או שווה ל-$k+1$, במרחק לפחות
+          $\frac12>\rho$ מ-$s\in(k,\ k+\tfrac12]$. לכן $B(s,\rho)\cap E=\{s\}$.
+      - kind: step
+        text: >-
+          **כל $k\in\mathbb{Z}$ היא נקודת הצטברות של $I=E\setminus\mathbb{Z}$.** לכל $r>0$, לפי תכונת ארכימדס יש
+          $n\ge2$ עם $\frac1n<r$, ואז $k+\frac1n\in I\cap B(k,r)$, ושונה מ-$k$. בפרט $k\in E'$, ולפי טענה 1.4.7א $k$
+          אינה מבודדת. לכן קבוצת המבודדות היא בדיוק $I$.
+      - kind: step
+        text: >-
+          **$E$ סגורה.** תהי $x\notin E$, ו-$k=\lfloor x\rfloor$, כך ש-$k<x<k+1$. אם $x>k+\frac12$, הקטע ברדיוס
+          $\min\big(x-k-\frac12,\ k+1-x\big)$ זר ל-$E$. אחרת $k<x<k+\frac12$ ו-$x$ אינו מהצורה $k+\frac1m$, ולכן יש $n\ge2$
+          עם $k+\frac1{n+1}<x<k+\frac1n$, והקטע ברדיוס $\min\big(x-k-\frac1{n+1},\ k+\frac1n-x\big)$ זר ל-$E$. לכן
+          $x\notin E'$, כלומר $E'\subseteq E$, ולפי מסקנה 1.4.10 $E$ סגורה.
+      - kind: step
+        text: >-
+          **$I$ אינה סגורה.** כל שלם $k$ הוא נקודת הצטברות של $I$ שאינה ב-$I$, ולפי מסקנה 1.4.10 $I$ אינה סגורה.
+          יתרה מזו, $I'=\mathbb{Z}$: מההגדרה $I'\subseteq E'$ (כי $I\subseteq E$), $E'\subseteq E$, ונקודות $I$ מבודדות ולכן
+          אינן ב-$E'$; כלומר $\mathbb{Z}\subseteq I'\subseteq E'\subseteq\mathbb{Z}$. לנקודות המבודדות יש אינסוף נקודות
+          הצטברות, כולן ב-$E$, ולפי משפט 1.4.9 $\overline I=I\cup\mathbb{Z}=E$.
       - kind: result
         text: >-
-          (א) קבוצת נקודות ההצטברות של כל קבוצה סגורה. (ב) קבוצת הנקודות המבודדות לא בהכרח: ל-$\{0\}\cup\{\frac1n\}$
-          היא $\{\frac1n\}$, שאינה סגורה.
+          (א) קבוצת נקודות ההצטברות של כל קבוצה סגורה. (ב) קבוצת הנקודות המבודדות לא בהכרח, אפילו של קבוצה סגורה:
+          ל-$E=\mathbb{Z}\cup\{k+\frac1n\}$ היא $E\setminus\mathbb{Z}$, שהסגור שלה הוא $E$.
     source:
       name: 'Harvard University, Math 112, Homework 2 (due February 14, 2019)'
       year: 2019
-      problem: 'Problem 5'
+      problem: 'Problem 5 (the source asks for part (א) only; part (ב) is added)'
       url: 'https://people.math.harvard.edu/~auroux/112s19/hw2.pdf'
-      verified: '2026-11-09'
+      verified: '2026-11-10'
       adapted: true
 
   - id: W-1.4-c2
@@ -524,8 +608,8 @@ challenge:
       - kind: given
         text: >-
           $S=\{2^m3^n:\ m,n\in\mathbb{Z}\}\subseteq(0,\infty)$. כדור בתת-מרחב $(0,\infty)$ הוא
-          $(y-\varepsilon,y+\varepsilon)\cap(0,\infty)$, ו-$S\subseteq(0,\infty)$, ולכן צפיפות פירושה בדיוק: לכל $y>0$ ולכל
-          $\varepsilon>0$ יש $s\in S$ עם $|s-y|<\varepsilon$.
+          $(y-\varepsilon,y+\varepsilon)\cap(0,\infty)$ (הגדרה 1.3.10), ו-$S\subseteq(0,\infty)$, ולכן לפי טענה 1.4.14(ג)
+          צפיפות פירושה בדיוק: לכל $y>0$ ולכל $\varepsilon>0$ יש $s\in S$ עם $|s-y|<\varepsilon$.
       - kind: idea
         text: >-
           לוקחים לוגריתם: $\ln(2^m3^n)=m\ln2+n\ln3$, והכפל הופך לחיבור. הקבוצה $L$ של הלוגריתמים מכילה את הסכום של
@@ -535,7 +619,8 @@ challenge:
         text: >-
           (א) יהיו $t\in\mathbb{R}$ ו-$\delta>0$. נבחר $g\in G$ עם $0<g<\delta$, ונסמן $k=\lfloor t/g\rfloor\in\mathbb{Z}$.
           $kg\in G$: ל-$k>0$ זה $g+\dots+g$, ל-$k=0$ זה $0$, ול-$k<0$ זה הנגדי של $|k|g$. ומהגדרת הערך השלם,
-          $kg\le t<(k+1)g$, כלומר $0\le t-kg<g<\delta$. כל קטע $(t-\delta,t+\delta)$ פוגש את $G$.
+          $kg\le t<(k+1)g$, כלומר $0\le t-kg<g<\delta$. כל קטע $(t-\delta,t+\delta)$ פוגש את $G$, ולפי טענה 1.4.14(ג)
+          $G$ צפופה.
       - kind: step
         text: >-
           (ב) $L$ מכילה את $0$, את הסכום של כל שני איברים שלה ואת הנגדי של כל איבר, ובפרט את ההפרש של כל שניים.

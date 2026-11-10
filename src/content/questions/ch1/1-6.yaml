@@ -47,7 +47,7 @@ questions:
       - text: כן
         feedback: >-
           על הצירים $f=0$, אבל לאורך האלכסון $f(\frac1n,\frac1n)=\frac{1/n^2}{2/n^2}=\frac12$ לכל $n$.
-        misconception: MC-c1-few-sequences
+        misconception: MC-c1-few-sequences-continuity
     reasons:
       - text: '$(\frac1n,\frac1n)\to(0,0)$, ו-$f(\frac1n,\frac1n)=\frac12\not\to0=f(0,0)$'
         correct: true
@@ -56,11 +56,11 @@ questions:
       - text: '$f(\frac1n,0)=0\to0$ ו-$f(0,\frac1n)=0\to0$, ולכן $f$ רציפה'
         feedback: >-
           שתי סדרות אינן כל הסדרות. סדרה אחת יכולה להפריך רציפות, אבל לא להוכיח אותה.
-        misconception: MC-c1-few-sequences
+        misconception: MC-c1-few-sequences-continuity
       - text: 'לכל $y$ קבוע, $x\mapsto f(x,y)$ רציפה'
         feedback: >-
           רציפות בכל משתנה בנפרד היא בדיקה לאורך ישרים מקבילים לצירים, ולא כל הסדרות. האלכסון מפריך.
-        misconception: MC-c1-few-sequences
+        misconception: MC-c1-few-sequences-continuity
 
   - id: Q-1.6-preimage
     type: multi

@@ -32,9 +32,10 @@
   belief: >-
     בכל מרחב מטרי $\overline{B(x,r)}=B[x,r]$.
   truth: >-
-    תמיד $\overline{B(x,r)}\subseteq B[x,r]$, אבל השוויון יכול להיכשל: במטריקה הבדידה
-    $\overline{B(x,1)}=\{x\}$ ו-$B[x,1]=X$. במרחב נורמי השוויון כן מתקיים.
-  remedy: { lesson: '1.4', anchor: ex-1-4-3, label: 'הסגור של כדור במטריקה הבדידה' }
+    תמיד $\overline{B(x,r)}\subseteq B[x,r]$ (טענה 1.4.11), אבל השוויון יכול להיכשל: במטריקה הבדידה
+    $\overline{B(x,1)}=\{x\}$ ו-$B[x,1]=X$, וב-$\mathbb{Z}$, כתת-מרחב של הישר, $\overline{B(0,1)}=\{0\}$ ו-$B[0,1]=\{-1,0,1\}$. במרחב
+    נורמי השוויון כן מתקיים (משפט 1.4.12), כי יש נקודות על הקטע בין המרכז לספרה.
+  remedy: { lesson: '1.4', anchor: balls, label: 'הסגור של כדור: נורמי מול בדיד' }
 
 - id: MC-c1-interior-closure-swap
   title: מבלבלים בין התנאי של פנים לתנאי של סגור
@@ -61,5 +62,7 @@
     $(A\cup B)^\circ=A^\circ\cup B^\circ$ ו-$\overline{A\cap B}=\overline A\cap\overline B$.
   truth: >-
     מתקיים רק $A^\circ\cup B^\circ\subseteq(A\cup B)^\circ$ ו-$\overline{A\cap B}\subseteq\overline A\cap\overline B$.
-    עם $A=\mathbb{Q}$ ו-$B=\mathbb{R}\setminus\mathbb{Q}$: אגף שמאל של הראשון ריק ואגף ימין $\mathbb{R}$.
+    עם $A=[0,1]$ ו-$B=[1,2]$ הנקודה $1$ פנימית באיחוד ולא באף אחת מהן; עם $A=\mathbb{Q}$ ו-$B=\mathbb{R}\setminus\mathbb{Q}$
+    אגף שמאל של הראשון ריק ואגף ימין $\mathbb{R}$. השוויונות שכן נכונים הם $(A\cap B)^\circ=A^\circ\cap B^\circ$ ו-$\overline{A\cup B}=\overline A\cup\overline B$
+    (טענות 1.4.2(ה) ו-1.4.5(ג)), ורק לשתי קבוצות או למספר סופי.
   remedy: { lesson: '1.4', anchor: set-operations, label: 'פנים של איחוד' }

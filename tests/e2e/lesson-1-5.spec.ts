@@ -78,4 +78,19 @@ test.describe('lesson 1.5: sequences in a metric space', () => {
     await expect(examples).toHaveCount(6);
     await expect(examples.first().locator('details').first()).not.toHaveAttribute('open', '');
   });
+
+  test('the anchors other pages link to exist, and the numbered statements appear in order', async ({ page }) => {
+    await page.goto(LESSON);
+    for (const id of ['definition', 'unique', 'bounded', 'discrete', 'closed-seq', 'coordinates', 'sup-convergence', 'norms']) {
+      await expect(page.locator(`[id="${id}"]`)).toHaveCount(1);
+    }
+    // every statement opens with a bold label "משפט 1.5.k." or "משפט 1.5.k (name)."; one counter, in order.
+    // The summary's labels end in ":" and are not counted.
+    const labels = await page.locator('strong').allInnerTexts();
+    const numbers = labels
+      .map((t) => t.trim().match(/^(?:הגדרה וטענה|הגדרה|למה|טענה|משפט|מסקנה) 1\.5\.(\d+)(?:\.|\s\()/))
+      .filter((m): m is RegExpMatchArray => m !== null)
+      .map((m) => Number(m[1]));
+    expect(numbers).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
+  });
 });

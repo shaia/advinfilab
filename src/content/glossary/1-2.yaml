@@ -22,14 +22,78 @@
     המטריקה $d(x,y)=\|x-y\|$ שנורמה משרה על מרחב וקטורי. היא אינווריאנטית להזזות והומוגנית, ולכן אינה חסומה
     (אם המרחב אינו $\{0\}$); מטריקה חסומה, כמו המטריקה הבדידה, אינה באה מנורמה.
   lesson: '1.2'
+- id: translation-invariant
+  term: מטריקה אינווריאנטית להזזות
+  en: translation-invariant metric
+  symbol: 'd(x+a,y+a)=d(x,y)'
+  definition: >-
+    מטריקה $d$ על מרחב וקטורי שמקיימת $d(x+a,y+a)=d(x,y)$ לכל $x,y,a$. כל מטריקה מושרית מנורמה היא כזו, וגם
+    הומוגנית: $d(\lambda x,\lambda y)=|\lambda|\,d(x,y)$; מטריקה עם שתי התכונות באה מהנורמה $d(x,0)$.
+  lesson: '1.2'
 - id: p-norms
   term: נורמות p
   en: p-norms
-  symbol: '\|x\|_1,\ \|x\|_2,\ \|x\|_\infty'
+  symbol: '\|x\|_p=\Big(\sum|x_i|^p\Big)^{1/p}'
   definition: >-
-    על $\mathbb{R}^n$: $\|x\|_1=\sum|x_i|$, $\|x\|_2=\sqrt{\sum x_i^2}$ (הנורמה האוקלידית) ו-$\|x\|_\infty=\max|x_i|$.
-    הן מקיימות $\|x\|_\infty\le\|x\|_2\le\|x\|_1\le n\|x\|_\infty$, וכדורי היחידה שלהן במישור הם מעוין, עיגול
-    וריבוע.
+    על $\mathbb{R}^n$, ל-$1\le p<\infty$: $\|x\|_p=\big(\sum|x_i|^p\big)^{1/p}$; בפרט $\|x\|_1=\sum|x_i|$ ו-$\|x\|_2=\sqrt{\sum x_i^2}$
+    (הנורמה האוקלידית). ו-$\|x\|_\infty=\max|x_i|$. כולן נורמות (אי-שוויון מינקובסקי), והן מקיימות
+    $\|x\|_\infty\le\|x\|_2\le\|x\|_1\le n\|x\|_\infty$. כדורי היחידה במישור: מעוין, עיגול, ריבוע. ל-$0<p<1$
+    הנוסחה אינה נורמה.
+  lesson: '1.2'
+- id: conjugate-exponents
+  term: מעריכים צמודים
+  en: conjugate (Hölder) exponents
+  symbol: '\tfrac1p+\tfrac1q=1'
+  definition: >-
+    ל-$1<p<\infty$ המעריך הצמוד הוא $q=\frac{p}{p-1}$, היחיד עם $\frac1p+\frac1q=1$. הצמוד של $2$ הוא $2$, והזוג $1,\infty$
+    נחשב גם הוא צמוד. אלה המעריכים באי-שוויון יאנג ובאי-שוויון הלדר.
+  lesson: '1.2'
+- id: young-inequality
+  term: אי-שוויון יאנג
+  en: Young's inequality
+  symbol: 'ab\le\frac{a^p}{p}+\frac{b^q}{q}'
+  definition: >-
+    לכל $a,b\ge0$ ומעריכים צמודים $1<p,q<\infty$: $ab\le\frac{a^p}{p}+\frac{b^q}{q}$, ושוויון אם ורק אם $a^p=b^q$.
+    ממנו נובע אי-שוויון הלדר.
+  lesson: '1.2'
+- id: holder-inequality
+  term: אי-שוויון הלדר
+  en: Hölder's inequality
+  symbol: '\sum|x_iy_i|\le\|x\|_p\|y\|_q'
+  definition: >-
+    לכל $x,y\in\mathbb{R}^n$ ומעריכים צמודים $p,q$: $\sum_i|x_iy_i|\le\|x\|_p\,\|y\|_q$. עם $p=q=2$ זה אי-שוויון
+    קושי-שוורץ במרחב האוקלידי.
+  lesson: '1.2'
+- id: minkowski-inequality
+  term: אי-שוויון מינקובסקי
+  en: Minkowski's inequality
+  symbol: '\|x+y\|_p\le\|x\|_p+\|y\|_p'
+  definition: >-
+    אי-שוויון המשולש לנורמת $p$ על $\mathbb{R}^n$, $1\le p<\infty$: $\|x+y\|_p\le\|x\|_p+\|y\|_p$. מוכיחים אותו בעזרת
+    אי-שוויון הלדר. ל-$0<p<1$ הוא נכשל: $\big(1+1\big)^{1/p}>2$.
+  lesson: '1.2'
+- id: convex-set
+  term: קבוצה קמורה
+  en: convex set
+  symbol: '\lambda x+(1-\lambda)y\in K'
+  definition: >-
+    תת-קבוצה $K$ של מרחב וקטורי היא קמורה אם לכל $x,y\in K$ ולכל $\lambda\in[0,1]$ גם $\lambda x+(1-\lambda)y\in K$:
+    הקטע בין כל שתי נקודות שלה מוכל בה. פונקציה עם חיוביות והומוגניות היא נורמה אם ורק אם כדור היחידה שלה קמור.
+  lesson: '1.2'
+- id: cauchy-schwarz
+  term: אי-שוויון קושי-שוורץ
+  en: Cauchy–Schwarz inequality
+  symbol: '|\langle x,y\rangle|\le\|x\|\,\|y\|'
+  definition: >-
+    בכל מרחב מכפלה פנימית ממשי: $|\langle x,y\rangle|\le\|x\|\,\|y\|$ עם $\|x\|=\sqrt{\langle x,x\rangle}$, ושוויון
+    אם ורק אם $x,y$ תלויים לינארית. ממנו נובע ש-$\sqrt{\langle x,x\rangle}$ מקיימת את אי-שוויון המשולש.
+  lesson: '1.2'
+- id: jordan-von-neumann
+  term: משפט ז׳ורדן-פון נוימן
+  en: Jordan–von Neumann theorem
+  definition: >-
+    נורמה על מרחב וקטורי ממשי באה ממכפלה פנימית אם ורק אם היא מקיימת את חוק המקבילית; המכפלה היא אז
+    $\langle x,y\rangle=\frac14\left(\|x+y\|^2-\|x-y\|^2\right)$.
   lesson: '1.2'
 - id: sup-norm
   term: נורמת הסופרמום

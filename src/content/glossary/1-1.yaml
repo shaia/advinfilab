@@ -53,6 +53,31 @@
   symbol: '\varphi(a+b)\le\varphi(a)+\varphi(b)'
   definition: >-
     $\varphi:[0,\infty)\to[0,\infty)$ עם $\varphi(a+b)\le\varphi(a)+\varphi(b)$ לכל $a,b\ge0$. אם $\varphi$ גם
-    עולה ומתאפסת רק ב-0, ו-$d$ מטריקה, אז $\varphi\circ d$ מטריקה. כך $\sqrt t$, $\frac{t}{1+t}$ ו-$\min(t,1)$;
-    אבל $t^2$ אינה תת-חיבורית.
+    לא-יורדת ומתאפסת רק ב-0, ו-$d$ מטריקה, אז $\varphi\circ d$ מטריקה (למה 1.1.11). כך $\sqrt t$,
+    $\frac{t}{1+t}$ ו-$\min(t,1)$ (מסקנה 1.1.12); אבל $t^2$ אינה תת-חיבורית.
+  lesson: '1.1'
+- id: polygon-inequality
+  term: אי-שוויון המצולע
+  en: polygon inequality
+  symbol: 'd(x_0,x_m)\le\sum_{i=1}^m d(x_{i-1},x_i)'
+  definition: >-
+    במרחב מטרי, הדרך הישירה מ-$x_0$ ל-$x_m$ אינה ארוכה מעקיפה דרך $x_1,\dots,x_{m-1}$:
+    $d(x_0,x_m)\le\sum_{i=1}^m d(x_{i-1},x_i)$. נובע מאי-שוויון המשולש באינדוקציה (למה 1.1.2).
+  lesson: '1.1'
+- id: reverse-triangle-inequality
+  term: אי-שוויון המשולש ההפוך
+  en: reverse triangle inequality
+  symbol: '|d(x,z)-d(y,z)|\le d(x,y)'
+  definition: >-
+    במרחב מטרי, לכל $x,y,z$: $|d(x,z)-d(y,z)|\le d(x,y)$ (למה 1.1.2). בישר עם $z=0$ זה
+    $\big||x|-|y|\big|\le|x-y|$; במרחב נורמי, $\big|\|u\|-\|v\|\big|\le\|u-v\|$.
+  lesson: '1.1'
+- id: ultrametric
+  term: אולטרה-מטריקה
+  en: ultrametric
+  symbol: 'd(x,z)\le\max(d(x,y),d(y,z))'
+  definition: >-
+    פונקציה שמקיימת את שתי האקסיומות הראשונות של מטריקה ואת אי-שוויון המשולש החזק
+    $d(x,z)\le\max\big(d(x,y),d(y,z)\big)$. כל אולטרה-מטריקה היא מטריקה, והמטריקה הבדידה היא אולטרה-מטריקה;
+    $|x-y|$ על $\mathbb{R}$ אינה.
   lesson: '1.1'

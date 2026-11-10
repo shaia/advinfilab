@@ -5,19 +5,28 @@
   symbol: 'x_n\to x'
   definition: >-
     $x_n\to x$ ב-$(X,d)$ אם $d(x_n,x)\to0$: לכל $\varepsilon>0$ קיים $N$ כך שלכל $n>N$ מתקיים
-    $d(x_n,x)<\varepsilon$. הגבול, אם קיים, יחיד.
+    $d(x_n,x)<\varepsilon$ (הגדרה 1.5.1). הגבול, אם קיים, יחיד (משפט 1.5.2).
   lesson: '1.5'
 - id: coordinatewise-convergence
   term: התכנסות לפי קואורדינטות
   en: coordinatewise convergence
   definition: >-
     סדרה $x_n=(x_{n,1},\dots,x_{n,k})$ ב-$\mathbb{R}^k$ מתכנסת לפי קואורדינטות ל-$x$ אם $x_{n,i}\to x_i$ לכל
-    $i$. ב-$\mathbb{R}^k$ עם $d_1$, $d_2$ או $d_\infty$ זה שקול ל-$x_n\to x$, כי
-    $|x_{n,i}-x_i|\le\|x_n-x\|_\infty\le\|x_n-x\|_2\le\sqrt k\,\|x_n-x\|_\infty$.
+    $i$. ב-$\mathbb{R}^k$ עם $d_1$, $d_2$ או $d_\infty$ זה שקול ל-$x_n\to x$ (משפט 1.5.9), כי
+    $|x_{n,i}-x_i|\le\|x_n-x\|_\infty\le\|x_n-x\|_2\le\|x_n-x\|_1\le k\,\|x_n-x\|_\infty$. במימד אינסופי זה נכשל.
   lesson: '1.5'
 - id: eventually-constant
   term: קבועה מ-N והלאה
   en: eventually constant
   definition: >-
-    סדרה שיש לה $N$ כך ש-$x_n=x_{N+1}$ לכל $n>N$. במטריקה הבדידה אלה בדיוק הסדרות המתכנסות.
+    סדרה שיש לה $N$ כך ש-$x_n=x_{N+1}$ לכל $n>N$. בכל מרחב מטרי היא מתכנסת, ובמטריקה הבדידה אלה בדיוק הסדרות
+    המתכנסות (טענה 1.5.5).
+  lesson: '1.5'
+- id: bounded-set
+  term: קבוצה חסומה (במרחב מטרי)
+  en: bounded set
+  definition: >-
+    $A\subseteq X$ חסומה במרחב המטרי $(X,d)$ אם היא מוכלת בכדור כלשהו $B(a,r)$ (הגדרה וטענה 1.5.3); לקבוצה לא
+    ריקה זה שקול לכך שיש $M$ עם $d(a,b)\le M$ לכל $a,b\in A$. החסימות תלויה במטריקה: $\mathbb{R}$ אינה חסומה
+    ב-$|x-y|$, וחסומה ב-$|\arctan x-\arctan y|$. מטריקות שקולות ליפשיץ נותנות אותן קבוצות חסומות (משפט 1.7.5).
   lesson: '1.5'

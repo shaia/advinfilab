@@ -22,11 +22,12 @@ async function press(canvas: Locator, key: string, times: number) {
 }
 
 test.describe('lesson 1.1: metric spaces', () => {
-  test('both figures draw, in LTR math space', async ({ page }) => {
+  test('all three figures draw, in LTR math space', async ({ page }) => {
     await page.goto(LESSON);
     const canvases = page.locator('.sim-stage canvas');
-    await expect(canvases).toHaveCount(2);
-    for (let i = 0; i < 2; i++) {
+    // 1.1א (axioms on the line), 1.1ב (sup metric), 1.1ג (new metrics from old, 1.1.10–1.1.13)
+    await expect(canvases).toHaveCount(3);
+    for (let i = 0; i < 3; i++) {
       const c = canvases.nth(i);
       await c.scrollIntoViewIfNeeded();
       await expect(c).toHaveCSS('direction', 'ltr');
@@ -81,7 +82,7 @@ test.describe('lesson 1.1: metric spaces', () => {
 
   test('a text step never ticks a task, even one that sets a failing triple', async ({ page }) => {
     await page.goto(LESSON);
-    // the second step of 1.1א sets (x − y)² at 0, 1, 2: exactly the break-square answer
+    // the second Explore step of 1.1א sets (x − y)² at 0, 1, 2: exactly the break-square answer
     for (const step of await page.locator('.step[data-fig="fig-1-1a"]').all()) {
       await step.scrollIntoViewIfNeeded();
       await page.waitForTimeout(120);

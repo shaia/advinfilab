@@ -39,3 +39,18 @@
     $f^{-1}(V)=\{x\in X: f(x)\in V\}$ עבור $f:X\to Y$ ו-$V\subseteq Y$. מוגדר לכל $f$, גם כשאין לה הפכית.
     $f$ רציפה אם ורק אם המקור של כל קבוצה פתוחה פתוח; התמונה של פתוחה, לעומת זאת, אינה בהכרח פתוחה.
   lesson: '1.6'
+- id: sequential-continuity
+  term: רציפות סדרתית
+  en: sequential continuity
+  definition: >-
+    $f:(X,d_X)\to(Y,d_Y)$ רציפה סדרתית ב-$a$ אם לכל סדרה $x_n\to a$ ב-$X$ מתקיים $f(x_n)\to f(a)$ ב-$Y$. במרחבים
+    מטריים זה שקול לרציפות ב-$a$ (משפט 1.6.3; בכיוון אחד בוחרים סדרה בעזרת אקסיומת הבחירה הבת-מנייה).
+  lesson: '1.6'
+- id: distance-to-set
+  term: מרחק מנקודה לקבוצה
+  en: distance from a point to a set
+  symbol: '\operatorname{dist}(x,A)'
+  definition: >-
+    במרחב מטרי $(X,d)$, עבור $A\subseteq X$ לא ריקה: $\operatorname{dist}(x,A)=\inf\{d(x,a): a\in A\}$. זו פונקציה
+    ליפשיצית עם קבוע 1 של $x$, והיא מתאפסת בדיוק על $\overline{A}$ (טענה 1.6.6).
+  lesson: '1.6'

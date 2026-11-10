@@ -50,6 +50,20 @@
   definition: >-
     $x$ היא נקודה פנימית של $A$ אם יש $r>0$ עם $B(x,r)\subseteq A$. קבוצת הנקודות הפנימיות היא הפנים $A^\circ$.
   lesson: '1.4'
+- id: closure-point
+  term: נקודת סגור
+  en: closure point (adherent point)
+  definition: >-
+    $x$ היא נקודת סגור של $A$ אם כל כדור $B(x,r)$, $r>0$, פוגש את $A$. קבוצת נקודות הסגור היא הסגור
+    $\overline A$, והיא שווה ל-$A\cup A'$ (משפט 1.4.9).
+  lesson: '1.4'
+- id: piecewise-linear
+  term: פונקציה לינארית למקוטעין
+  en: continuous piecewise-linear function
+  definition: >-
+    $g\in C[a,b]$ שיש לה חלוקה $a=t_0<\dots<t_m=b$ כך שעל כל $[t_{i-1},t_i]$ היא מהצורה $\alpha_it+\beta_i$: קו
+    שבור (הגדרה 1.4.17א). הפונקציות האלה צפופות ב-$C[a,b]$ ב-$d_\infty$ וב-$d_1$ (משפט 1.4.18).
+  lesson: '1.4'
 - id: exterior-point
   term: נקודה חיצונית
   en: exterior point

@@ -27,7 +27,7 @@ async function turn(canvas: Locator, degrees: number) {
   for (let i = 0; i < degrees % 10; i++) await canvas.press('ArrowRight');
 }
 
-test.describe('lesson 1.7: bounded linear maps and the operator norm', () => {
+test.describe('lesson 1.8: bounded linear maps and the operator norm', () => {
   test('both figures draw, in LTR math space', async ({ page }) => {
     await page.goto(LESSON);
     const canvases = page.locator('.sim-stage canvas');
@@ -76,7 +76,7 @@ test.describe('lesson 1.7: bounded linear maps and the operator norm', () => {
 
   test('a text step never ticks a task, even one that sets x to the maximising direction', async ({ page }) => {
     await page.goto(LESSON);
-    // the second step of 1.7א sets the triangular matrix with x at 58°: exactly the stretch-2 answer
+    // the second step of 1.8א sets the triangular matrix with x at 58°: exactly the stretch-2 answer
     for (const step of await page.locator('.step[data-fig="fig-1-8a"]').all()) {
       await step.scrollIntoViewIfNeeded();
       await page.waitForTimeout(120);
