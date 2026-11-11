@@ -8,7 +8,7 @@
 lesson: '2.4'
 practice:
   - id: W-2.4-01
-    level: basic
+    level: mid
     qualitative: true
     objectives: [OBJ-2.4-1]
     prompt: >-
@@ -181,7 +181,7 @@ practice:
           הטור מתכנס בהחלט ב-$c_{00}$ ואינו מתכנס בו; $c_{00}$ אינו מרחב בנך ואינו סגור ב-$B(\mathbb{N})$.
 
   - id: W-2.4-05
-    level: mid
+    level: basic
     objectives: [OBJ-2.4-1, OBJ-2.4-3]
     prompt: >-
       $V$ מרחב בנך ו-$A\in\mathcal{L}(V,V)$.
@@ -309,47 +309,54 @@ practice:
     qualitative: true
     objectives: [OBJ-2.4-3]
     prompt: >-
-      (א) $V$ מרחב בנך, $A\in\mathcal{L}(V,V)$, ויש $v\ne0$ ו-$\lambda\in\mathbb{R}$ עם $Av=\lambda v$ ו-$|\lambda|\ge1$. הוכיחו שטור
-      נוימן $\sum_kA^k$ מתבדר ב-$\mathcal{L}(V,V)$.
+      (א) $V$ מרחב בנך, $A\in\mathcal{L}(V,V)$, ויש $m\in\mathbb{N}$ עם $\|A^m\|_{\mathrm{op}}<1$. הוכיחו ש-$\sum_{k\ge0}\|A^k\|<\infty$,
+      ושלכן $I-A$ הפיכה ו-$(I-A)^{-1}=\sum_{k\ge0}A^k$.
 
       (ב) הוכיחו או הפריכו: אם $\|A\|_p\ge1$ ל-$p=1,2,\infty$, טור נוימן של המטריצה $A$ מתבדר. בדקו את
-      $A=\begin{pmatrix}\frac12&1\\0&\frac12\end{pmatrix}$: חשבו את שלוש הנורמות, הוכיחו ש-$\sum A^k$ מתכנס, ומצאו את סכומו.
+      $A=\begin{pmatrix}\frac12&1\\0&\frac12\end{pmatrix}$: חשבו את שלוש הנורמות, מצאו $m$ עם $\|A^m\|_\infty<1$, ומצאו את סכום הטור.
     answer: >-
-      (א) $\|A^k\|\ge|\lambda|^k\ge1$, האיברים אינם שואפים ל-$0$. (ב) לא נכון: $\|A\|_1=\|A\|_\infty=\frac32$,
-      $\|A\|_2=\frac{1+\sqrt2}2\approx1.207$, ובכל זאת $\sum A^k=\begin{pmatrix}2&4\\0&2\end{pmatrix}=(I-A)^{-1}$.
+      (א) עם $k=qm+r$: $\|A^k\|\le\|A^m\|^q\max_{r<m}\|A^r\|$, וסכום הנדסי. (ב) לא נכון: $\|A\|_1=\|A\|_\infty=\frac32$,
+      $\|A\|_2=\frac{1+\sqrt2}2\approx1.207$, אבל $\|A^3\|_\infty=\frac78<1$, והטור מתכנס ל-$(I-A)^{-1}=\begin{pmatrix}2&4\\0&2\end{pmatrix}$.
     solution:
+      - kind: idea
+        text: >-
+          חזקה אחת שמכווצת מספיקה: כל חזקה $A^k$ היא $(A^m)^q$ כפול חזקה קטנה $A^r$, ולכן הנורמות דועכות הנדסית בקצב של
+          $\|A^m\|$ לכל $m$ צעדים. משם ההוכחה של משפט 2.4.9 עוברת כמו שהיא.
       - kind: step
         text: >-
-          (א) לפי טענה 2.4.9א, $\|A^k\|\ge|\lambda|^k\ge1$ לכל $k$. האיברים אינם שואפים ל-$0$, ולפי טענה 2.4.3(א) הטור מתבדר.
+          (א) נסמן $a=\|A^m\|<1$ ו-$C=\max_{0\le r<m}\|A^r\|$ (מקסימום של $m$ מספרים). כל $k\ge0$ נכתב ביחידות $k=qm+r$ עם
+          $q\ge0$ ו-$0\le r<m$ (חילוק עם שארית), ו-$A^k=(A^m)^qA^r$. לפי טענה 1.8.6, $\|A^k\|\le\|A^m\|^q\|A^r\|\le Ca^q$.
+      - kind: step
+        text: >-
+          לכל $K$, הסכום החלקי $\sum_{k<Km}\|A^k\|=\sum_{q<K}\sum_{r<m}\|A^{qm+r}\|\le mC\sum_{q\ge0}a^q=\frac{mC}{1-a}$. הסכומים החלקיים
+          של טור עם איברים אי-שליליים עולים וחסומים, ולכן הטור מתכנס (אינפי 1): $\sum_k\|A^k\|<\infty$.
+      - kind: step
+        text: >-
+          לפי משפטים 2.4.8 ו-2.4.4, $S=\sum A^k$ מתכנס ב-$\mathcal{L}(V,V)$, ו-$\|A^{n+1}\|\to0$ (איברים של טור ממשי מתכנס). הזהויות
+          הטלסקופיות $(I-A)T_n=I-A^{n+1}$ ו-$T_n(I-A)=I-A^{n+1}$, עם $T_n=\sum_{k\le n}A^k$, עוברות לגבול כמו בשלבים 3–5 של משפט 2.4.9:
+          $(I-A)S=S(I-A)=I$.
       - kind: computation
         text: >-
           (ב) לפי משפטים 1.8.8 ו-1.8.9, $\|A\|_1=\max(\frac12,\frac32)=\frac32$ ו-$\|A\|_\infty=\max(\frac32,\frac12)=\frac32$.
           $A^TA=\begin{pmatrix}\frac14&\frac12\\\frac12&\frac54\end{pmatrix}$, עם עקבה $\frac32$ ודטרמיננטה $\frac1{16}$; לפי משפט 1.8.10
           $\|A\|_2=\sqrt{\lambda_{\max}}=\sqrt{\frac{3+2\sqrt2}4}=\frac{1+\sqrt2}2\approx1.207$.
-      - kind: idea
-        text: >-
-          $A=\frac12I+N$ עם $N=\begin{pmatrix}0&1\\0&0\end{pmatrix}$, $N^2=0$, ו-$I$ מתחלפת עם $N$. לכן הבינום של ניוטון חל, ונשארים
-          רק שני מחוברים בכל חזקה. הנורמה של $A$ גדולה, אבל החזקות שלה דועכות.
       - kind: computation
         text: >-
-          $A^k=\left(\tfrac12\right)^kI+k\left(\tfrac12\right)^{k-1}N$ (ל-$k\ge1$; ל-$k=0$ זה $I$). לכן
-          $\|A^k\|_\infty\le2^{-k}+k\,2^{1-k}$, ו-$\sum_k\left(2^{-k}+k2^{1-k}\right)=2+2\sum_kk2^{-k}=2+4=6<\infty$
-          (כי $\sum_{k\ge1}kt^k=\frac{t}{(1-t)^2}$ ל-$|t|<1$, אינפי 2).
-      - kind: step
+          נכתוב $A=\frac12I+N$ עם $N=\begin{pmatrix}0&1\\0&0\end{pmatrix}$, $N^2=0$. נוכיח באינדוקציה ש-$A^k=2^{-k}I+k\,2^{1-k}N$: ל-$k=0$ זה $I$;
+          ואם זה נכון ל-$k$, אז $A^{k+1}=\left(\tfrac12I+N\right)\left(2^{-k}I+k2^{1-k}N\right)=2^{-(k+1)}I+\left(2^{-k}+k2^{-k}\right)N+k2^{1-k}N^2=2^{-(k+1)}I+(k+1)2^{-k}N$.
+      - kind: computation
         text: >-
-          $\mathbb{R}^2$ עם $\|\cdot\|_\infty$ מרחב בנך, ולפי משפטים 2.4.8 ו-2.4.4 $S=\sum A^k$ מתכנס. הסכום: איבר-איבר
-          (טענה 2.4.2א(א)), $S=\sum_k2^{-k}I+\sum_kk2^{1-k}N=2I+4N=\begin{pmatrix}2&4\\0&2\end{pmatrix}$.
-      - kind: step
-        text: >-
-          $S$ היא $(I-A)^{-1}$: הזהויות הטלסקופיות $(I-A)T_n=I-A^{n+1}$ ו-$T_n(I-A)=I-A^{n+1}$ נכונות לכל מטריצה, ו-$\|A^{n+1}\|_\infty\to0$
-          (איברים של טור ממשי מתכנס), ולכן במעבר לגבול $(I-A)S=I$ וגם $S(I-A)=I$, כמו בשלבים 3–4 של משפט 2.4.9.
+          לכן $\|A^k\|_\infty=2^{-k}+k\,2^{1-k}$ (משפט 1.8.9, השורה הראשונה): $\frac32$, $\frac54$, $\frac78$ ל-$k=1,2,3$. כלומר $m=3$
+          מתאים, ולפי (א) הטור מתכנס ו-$I-A$ הפיכה. הסכום, איבר-איבר (טענה 2.4.2א(א)):
+          $S=\sum_k2^{-k}I+\sum_kk2^{1-k}N=2I+4N=\begin{pmatrix}2&4\\0&2\end{pmatrix}$ (כי $\sum_{k\ge1}kt^k=\frac{t}{(1-t)^2}$ ל-$|t|<1$, אינפי 2).
       - kind: check
         text: >-
-          $(I-A)S=\left(\tfrac12I-N\right)(2I+4N)=I+2N-2N-4N^2=I$. וסעיף (א) אינו חל על $A$: הערך העצמי היחיד שלה הוא
-          $\frac12$.
+          $(I-A)S=\left(\tfrac12I-N\right)(2I+4N)=I+2N-2N-4N^2=I$, ובאותו חישוב $S(I-A)=I$. ואין סתירה לטענה 2.4.9א: הערך העצמי
+          היחיד של $A$ הוא $\frac12$.
       - kind: result
         text: >-
-          (א) ערך עצמי עם $|\lambda|\ge1$ גורר התבדרות. (ב) לא נכון: ל-$A$ כל שלוש הנורמות גדולות מ-1, והטור מתכנס ל-$(I-A)^{-1}=\begin{pmatrix}2&4\\0&2\end{pmatrix}$.
+          (א) מספיק ש-$\|A^m\|<1$ לאיזה $m$. (ב) לא נכון: ל-$A$ כל שלוש הנורמות גדולות מ-1, אבל $\|A^3\|_\infty=\frac78<1$, והטור
+          מתכנס ל-$(I-A)^{-1}=\begin{pmatrix}2&4\\0&2\end{pmatrix}$.
 
   - id: W-2.4-09
     level: exam
@@ -372,9 +379,9 @@ practice:
           נותן את ההתכנסות במרחב הנכון.
       - kind: step
         text: >-
-          (א) $I(f)=\int_a^bf$ לינארית, ו-$|I(f)|\le\int_a^b|f|\le(b-a)\|f\|_\infty$ (מונוטוניות), ולכן $I\in\mathcal{L}(C[a,b],\mathbb{R})$.
-          לפי משפט 2.4.7 הטור מתכנס ב-$(C[a,b],\|\cdot\|_\infty)$ לסכום $f$ שערכו בכל נקודה $\sum_kf_k(x)$. לפי טענה 2.4.2א(ג),
-          $I(f)=\sum_kI(f_k)$.
+          (א) $\mathcal{I}(f)=\int_a^bf$ לינארית, ו-$|\mathcal{I}(f)|\le\int_a^b|f|\le(b-a)\|f\|_\infty$ (מונוטוניות), ולכן
+          $\mathcal{I}\in\mathcal{L}(C[a,b],\mathbb{R})$. לפי משפט 2.4.7 הטור מתכנס ב-$(C[a,b],\|\cdot\|_\infty)$ לסכום $f$ שערכו בכל נקודה
+          $\sum_kf_k(x)$. לפי טענה 2.4.2א(ג), $\mathcal{I}(f)=\sum_k\mathcal{I}(f_k)$.
       - kind: computation
         text: >-
           (ב) על $[0,\frac12]$, $\|x^k\|_\infty=2^{-k}$, סכימים, והסכום הנקודתי הוא $\frac1{1-x}$. לפי (א), עם $k\ge0$:
@@ -482,7 +489,7 @@ challenge:
       - kind: check
         text: >-
           מספרית $f(0.01)\approx15.2\ge5$ ו-$f(10^{-4})\approx156.6\ge50$. ו-(ג) נותן עוד הוכחה ל-(ב): אילו ההתכנסות על $(0,1]$ הייתה במידה
-          שווה, הסכום היה חסום שם לפי משפט 1.5.10(ג), כי כל $s_n$ חסום ב-$n$.
+          שווה, הסכום היה חסום שם לפי משפט 1.5.10(ג), כי כל $s_n$ חסום על ידי $n$.
       - kind: result
         text: >-
           (א) התכנסות במידה שווה על כל $[a,\infty)$ ו-$f$ רציפה על $(0,\infty)$; (ב) לא במידה שווה על $(0,b]$; (ג) $f$ אינה חסומה.
@@ -498,8 +505,8 @@ challenge:
     stars: 1
     objectives: [OBJ-2.4-2]
     prompt: >-
-      $I(x)=0$ ל-$x\le0$ ו-$I(x)=1$ ל-$x>0$. יהיו $x_1,x_2,\ldots$ נקודות שונות זו מזו בקטע $(a,b)$, ו-$c_n$ מספרים עם
-      $\sum|c_n|<\infty$. נגדיר $f(x)=\sum_{n\ge1}c_n\,I(x-x_n)$ על $[a,b]$.
+      $H(x)=0$ ל-$x\le0$ ו-$H(x)=1$ ל-$x>0$. יהיו $x_1,x_2,\ldots$ נקודות שונות זו מזו בקטע $(a,b)$, ו-$c_n$ מספרים עם
+      $\sum|c_n|<\infty$. נגדיר $f(x)=\sum_{n\ge1}c_n\,H(x-x_n)$ על $[a,b]$.
 
       (א) הוכיחו שהטור מתכנס במידה שווה על $[a,b]$.
 
@@ -508,7 +515,7 @@ challenge:
       (ג) הוכיחו שב-$x_m$ הגבול מימין קיים ו-$\lim_{x\to x_m^+}f(x)-f(x_m)=c_m$. (בפרט, אם $c_m\ne0$, $f$ אינה רציפה ב-$x_m$.)
     answer: >-
       (א) מבחן ה-M ב-$B([a,b])$ עם $M_n=|c_n|$. (ב) כל סכום חלקי רציף ב-$x$, וגבול במידה שווה שומר רציפות בנקודה. (ג)
-      $f=c_mI(\cdot-x_m)+g$, ו-$g$ רציפה ב-$x_m$ לפי (ב).
+      $f=c_mH(\cdot-x_m)+g$, ו-$g$ רציפה ב-$x_m$ לפי (ב).
     solution:
       - kind: idea
         text: >-
@@ -516,22 +523,22 @@ challenge:
           שווה. את הרציפות בודקים נקודה אחר נקודה, בגרסה הנקודתית של למה 2.2.5.
       - kind: step
         text: >-
-          (א) $\sup|c_nI(x-x_n)|\le|c_n|=M_n$, ו-$\sum M_n<\infty$. לפי משפט 2.4.7(א) (עם $X=[a,b]$) הטור מתכנס במידה שווה לפונקציה
+          (א) $\sup|c_nH(x-x_n)|\le|c_n|=M_n$, ו-$\sum M_n<\infty$. לפי משפט 2.4.7(א) (עם $X=[a,b]$) הטור מתכנס במידה שווה לפונקציה
           חסומה $f$, ו-$|f-s_n|\le\sum_{k>n}|c_k|$ בכל נקודה.
       - kind: theorem
         text: >-
           למה 2.2.5: אם $h_n\to h$ במידה שווה על מרחב מטרי $X$ וכל $h_n$ רציפה **בנקודה** $p$, אז $h$ רציפה ב-$p$.
       - kind: step
         text: >-
-          (ב) יהי $x\ne x_n$ לכל $n$. כל $y\mapsto I(y-x_n)$ קבועה בסביבה של $x$ (אם $x>x_n$ היא $1$ על $(x_n,\infty)$, ואם $x<x_n$ היא $0$ על
+          (ב) יהי $x\ne x_n$ לכל $n$. כל $y\mapsto H(y-x_n)$ קבועה בסביבה של $x$ (אם $x>x_n$ היא $1$ על $(x_n,\infty)$, ואם $x<x_n$ היא $0$ על
           $(-\infty,x_n)$), ולכן רציפה ב-$x$; גם כל סכום חלקי רציף ב-$x$. לפי (א) ולמה 2.2.5 (עם $X=[a,b]$), $f$ רציפה ב-$x$.
       - kind: step
         text: >-
-          (ג) $g=\sum_{n\ne m}c_nI(\cdot-x_n)$ מתכנס במידה שווה מאותה סיבה, ו-$x_m\ne x_n$ לכל $n\ne m$ (הנקודות שונות), ולכן לפי (ב)
-          $g$ רציפה ב-$x_m$. לפי טענה 2.4.2א(א), $f=c_mI(\cdot-x_m)+g$.
+          (ג) $g=\sum_{n\ne m}c_nH(\cdot-x_n)$ מתכנס במידה שווה מאותה סיבה, ו-$x_m\ne x_n$ לכל $n\ne m$ (הנקודות שונות), ולכן לפי (ב)
+          $g$ רציפה ב-$x_m$. לפי טענה 2.4.2א(א), $f=c_mH(\cdot-x_m)+g$.
       - kind: computation
         text: >-
-          $I(x-x_m)=1$ ל-$x>x_m$ ו-$I(0)=0$. לכן $\lim_{x\to x_m^+}f(x)=c_m+g(x_m)$ ו-$f(x_m)=0+g(x_m)$, וההפרש $c_m$. ומשמאל
+          $H(x-x_m)=1$ ל-$x>x_m$ ו-$H(0)=0$. לכן $\lim_{x\to x_m^+}f(x)=c_m+g(x_m)$ ו-$f(x_m)=0+g(x_m)$, וההפרש $c_m$. ומשמאל
           $\lim_{x\to x_m^-}f(x)=g(x_m)=f(x_m)$: $f$ רציפה משמאל בכל נקודה.
       - kind: check
         text: >-

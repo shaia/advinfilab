@@ -41,6 +41,13 @@
     $\|S-T\|_{\mathrm{op}}<\frac{1}{\|T^{-1}\|_{\mathrm{op}}}$ הפיכה גם היא (מסקנה 2.4.10): ההעתקות ההפיכות הן קבוצה
     פתוחה.
   lesson: '2.4'
+- id: nilpotent
+  term: נילפוטנטית
+  en: nilpotent
+  definition: >-
+    מטריצה (או העתקה לינארית) $A$ שחזקה כלשהי שלה היא $0$: $A^m=0$ לאיזה $m\in\mathbb{N}$. למשל
+    $\begin{pmatrix}0&2\\0&0\end{pmatrix}$. טור נוימן שלה הוא סכום סופי, $I+A+\dots+A^{m-1}=(I-A)^{-1}$, גם כש-$\|A\|\ge1$.
+  lesson: '2.4'
 - id: neumann-series
   term: טור נוימן
   en: Neumann series

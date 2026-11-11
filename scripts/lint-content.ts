@@ -375,7 +375,7 @@ for (const m of misconceptions) {
 /* -------------------------------------------------------------- lessons */
 
 // No time cap on a lesson (the user's decision for the advanced courses, 2026-11-10: rigor first, "never cut a proof to
-// shorten a lesson"); `minutes` is the honest estimate and the schema bounds it.
+// shorten a lesson"); `minutes` is the honest estimate, with no upper bound in the schema either (2026-11-11).
 const TEMPLATE = ['Hook', 'Predict', 'Explore', 'Explain', 'Example', 'Check', 'Watch', 'Summary'];
 /** A prose line of MDX: Markdown joins it with its neighbours into one paragraph. */
 const prose = (s: string) => s.trim() !== '' && !/^\s*(<|\$\$|\||-|\*|#)/.test(s) && !s.includes('="') && !s.includes('$$');

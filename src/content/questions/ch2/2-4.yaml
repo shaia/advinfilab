@@ -88,7 +88,8 @@ questions:
         misconception: MC-c2-neumann-bound-formula
       - value: 0.75
         feedback: >-
-          $\frac34=1-\|A\|$ הוא חסם ל-$\|I-A\|$ מלמטה, לא להופכית. ההופכית גדולה יותר: היא "מבטלת" את הכיווץ.
+          $\frac34=1-\|A\|$ הוא חסם **מלמטה** ל-$\|I-A\|$, לא חסם להופכית: לפי אי-שוויון המשולש ההפוך (למה 1.2.2) ב-$\mathcal{L}(V,V)$,
+          $\|I-A\|\ge\|I\|-\|A\|=1-\|A\|$ (כאן $\|I\|=1$, כי $V\ne\{0\}$). ההופכית גדולה יותר: היא "מבטלת" את הכיווץ.
         misconception: MC-c2-neumann-bound-formula
 
   - id: Q-2.4-entries
@@ -173,8 +174,9 @@ questions:
         misconception: MC-c2-abs-converges-anywhere
       - text: 'הסכומים החלקיים אינם סדרת קושי ב-$P$'
         feedback: >-
-          הם כן: ההוכחה של "בהחלט גורר קושי" משתמשת רק באי-שוויון המשולש. מה שחסר הוא גבול, לא תנאי קושי.
-        misconception: MC-c2-cauchy-always-converges
+          הם כן: ההוכחה של "בהחלט גורר קושי" משתמשת רק באי-שוויון המשולש (שלבים 1–2 בהוכחה של משפט 2.4.4). מה שחסר
+          הוא גבול, לא תנאי קושי.
+        misconception: MC-c2-abs-not-cauchy
 
   - id: Q-2.4-mtest-apply
     type: multi
@@ -268,31 +270,33 @@ questions:
     qualitative: true
     level: mid
     prompt: >-
-      $B=\begin{pmatrix}0.5&0.6\\0&0.3\end{pmatrix}$, ו-$\|B\|_\infty=1.1$. מה אפשר להסיק בעזרת טור נוימן על $I-B$?
+      $B=\begin{pmatrix}0.6&0.6\\0.1&0.2\end{pmatrix}$, ו-$\|B\|_\infty=1.2$ (סכום שורה מקסימלי). מה אפשר להסיק בעזרת טור
+      נוימן על $I-B$?
     choices:
-      - text: '$\|B\|_1=0.9<1$ (סכום עמודה מקסימלי), ולכן $I-B$ הפיכה ו-$\|(I-B)^{-1}\|_1\le10$'
+      - text: '$\|B\|_1=0.8<1$ (סכום עמודה מקסימלי), ולכן $I-B$ הפיכה ו-$\|(I-B)^{-1}\|_1\le5$'
         correct: true
         feedback: >-
-          נכון. התנאי הוא $\|B\|<1$ בנורמת אופרטור **כלשהי**, ומותר לבחור את הנורמה הנוחה. (בפועל
-          $(I-B)^{-1}=\begin{pmatrix}2&\frac{12}{7}\\0&\frac{10}{7}\end{pmatrix}$ ו-$\|(I-B)^{-1}\|_1=\frac{22}{7}$.)
+          נכון. משפט 2.4.9 חל בנורמת האופרטור של כל נורמה על $\mathbb{R}^2$ שבה המרחב שלם, ומותר לבחור את הנוחה. (בפועל
+          $(I-B)^{-1}=\frac1{13}\begin{pmatrix}40&30\\5&20\end{pmatrix}$ ו-$\|(I-B)^{-1}\|_1=\frac{50}{13}\approx3.85$.)
       - text: '$\|B\|_\infty>1$, ולכן $I-B$ אינה הפיכה'
         feedback: >-
-          $\|A\|<1$ הוא תנאי מספיק, לא הכרחי. גם ל-$A=2I$ יש $\|A\|=2$, ו-$I-A=-I$ הפיכה.
+          $\|B\|<1$ הוא תנאי מספיק, לא הכרחי: למשל למטריצה $2I$ יש נורמה $2$ בכל נורמה, ו-$I-2I=-I$ הפיכה. וכאן
+          $\det(I-B)=0.26\ne0$, כך ש-$I-B$ הפיכה.
         misconception: MC-c2-neumann-necessary
       - text: '$\|B\|_\infty>1$, ולכן טור נוימן לא אומר כאן דבר'
         feedback: >-
-          בנורמה $\|\cdot\|_\infty$ הוא לא אומר דבר, אבל בנורמה $\|\cdot\|_1$ הוא כן: $\|B\|_1=\max(0.5,\ 0.9)=0.9$.
+          בנורמה $\|\cdot\|_\infty$ הוא לא אומר דבר, אבל בנורמה $\|\cdot\|_1$ הוא כן: $\|B\|_1=\max(0.7,\ 0.8)=0.8$.
         misconception: MC-c2-neumann-necessary
       - text: 'כל האיברים של $B$ קטנים מ-1, ולכן $\|B\|<1$ בכל נורמה'
         feedback: >-
-          $\|B\|_\infty=1.1$ כבר מפריך את זה. נורמת אופרטור היא סכום של איברים (בשורה או בעמודה), לא איבר בודד.
+          $\|B\|_\infty=1.2$ כבר מפריך את זה. נורמת אופרטור היא סכום של איברים (בשורה או בעמודה), לא איבר בודד.
         misconception: MC-c2-neumann-entrywise
 
   - id: Q-2.4-mtest-continuity
     type: twotier
     objectives: [OBJ-2.4-2, OBJ-2.4-1]
     qualitative: true
-    level: exam
+    level: mid
     prompt: >-
       $f(x)=\sum_{k\ge1}\frac{x^k}{k^2}$. האם $f$ רציפה על **כל** $[0,1]$, כולל בנקודה $x=1$?
     choices:
@@ -313,7 +317,7 @@ questions:
       - text: 'כל סכום חלקי רציף, והטור מתכנס בכל נקודה, ולכן הסכום רציף'
         feedback: >-
           התכנסות נקודתית לא שומרת רציפות: הסכומים החלקיים של $\sum_{k\ge0}(x^{k+1}-x^k)$ הם $x^{n+1}-1$, רציפים,
-          והסכום הוא $-1$ על $[0,1)$ ו-$0$ ב-$x=1$. צריך התכנסות במידה שווה.
+          והסכום $f$ מקיים $f(x)=-1$ על $[0,1)$ ו-$f(1)=0$. צריך התכנסות במידה שווה.
         misconception: MC-c2-pointwise-limit-enough
 
   - id: Q-2.4-neumann-proof
@@ -328,7 +332,7 @@ questions:
       - id: bound
         label: '$\|A^k\|\le\|A\|^k$ (נורמת אופרטור תת-כפלית), ולכן $\sum_k\|A^k\|\le\sum_k\|A\|^k=\frac{1}{1-\|A\|}<\infty$.'
       - id: converge
-        label: 'מרחב המטריצות עם נורמת האופרטור שלם (כל איבר חסום על ידי הנורמה), ולכן $S=\sum_{k\ge0}A^k$ מתכנס, ו-$\|S\|\le\frac{1}{1-\|A\|}$.'
+        label: 'מרחב המטריצות עם נורמת האופרטור שלם (משפט 2.4.8: $\mathbb{R}^n$ שלם), ולכן לפי משפט 2.4.4 $S=\sum_{k\ge0}A^k$ מתכנס, ו-$\|S\|\le\frac{1}{1-\|A\|}$.'
       - id: telescope
         label: 'טלסקופ: $(I-A)\sum_{k=0}^{N}A^k=\left(\sum_{k=0}^{N}A^k\right)(I-A)=I-A^{N+1}$.'
       - id: limit
@@ -345,7 +349,7 @@ questions:
   - id: Q-2.4-neumann-terms
     type: numeric
     objectives: [OBJ-2.4-3]
-    level: exam
+    level: mid
     prompt: >-
       $\|A\|_{\mathrm{op}}=\frac12$. מהו ה-$N$ **הקטן ביותר** שעבורו החסם
       $\left\|(I-A)^{-1}-\sum_{k=0}^{N}A^k\right\|\le\sum_{k>N}\|A\|^k$ מבטיח שגיאה קטנה מ-$10^{-3}$?
@@ -367,3 +371,40 @@ questions:
           11 מתקבל מ-$\frac{\|A\|^{N}}{1-\|A\|}$, זנב שמתחיל ב-$k=N$. אבל $A^N$ כבר בתוך הסכום החלקי; הזנב מתחיל
           ב-$k=N+1$.
         misconception: MC-c2-bound-formula
+
+  - id: Q-2.4-l1-abs-series
+    type: twotier
+    objectives: [OBJ-2.4-1, OBJ-2.4-2]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $f_k(x)=\frac{x^k}{k}$ על $[0,1]$, $k\ge1$. במרחב $(C[0,1],\|\cdot\|_1)$, $\|f_k\|_1=\int_0^1\frac{x^k}{k}\,dx=\frac{1}{k(k+1)}$,
+      ולכן $\sum_k\|f_k\|_1=1<\infty$. האם הטור $\sum_kf_k$ מתכנס **במרחב** $(C[0,1],\|\cdot\|_1)$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. הטור מתכנס בהחלט, אבל $(C[0,1],\|\cdot\|_1)$ אינו מרחב בנך (טענה 2.2.7), ומשפט 2.4.4 אינו חל. צריך לבדוק
+          ישירות, והגבול היחיד האפשרי אינו רציף.
+      - text: כן
+        feedback: >-
+          משפט 2.4.4 דורש מרחב **שלם**, ו-$(C[0,1],\|\cdot\|_1)$ אינו שלם. כאן התכנסות בהחלט אינה מספיקה: ראו את הנימוק
+          הנכון.
+        misconception: MC-c2-abs-converges-anywhere
+    reasons:
+      - text: 'על כל $[0,c]$ עם $c<1$ מבחן ה-M נותן התכנסות במידה שווה ל-$h(x)=-\ln(1-x)$; גבול $g$ בנורמה $\|\cdot\|_1$ היה שווה ל-$h$ על כל $[0,c]$, ולכן לא חסום ליד $1$, ולא רציף ב-$[0,1]$'
+        correct: true
+        feedback: >-
+          בדיוק. על $[0,c]$, $\sup\frac{x^k}{k}=\frac{c^k}{k}$ סכימים, והסכום הוא $h(x)=-\ln(1-x)$ (טור טיילור, אינפי 2). אם
+          $s_n\to g$ ב-$\|\cdot\|_1$, אז $\int_0^c|g-h|\le\|g-s_n\|_1+c\sup_{[0,c]}|s_n-h|\to0$, ולפי למה 1.2.19
+          $g=h$ על $[0,c]$, לכל $c<1$. אבל $\lim_{x\to1^{-}}h(x)=\infty$, ו-$g$ רציפה על $[0,1]$ חסומה. סתירה.
+      - text: 'לפי משפט 2.4.4: $\sum\|f_k\|_1<\infty$, וטור מתכנס בהחלט מתכנס'
+        feedback: >-
+          משפט 2.4.4 הוא על מרחב בנך. במרחב שאינו שלם הסכומים החלקיים הם סדרת קושי (אי-שוויון המשולש), ותו לא; כאן
+          אין להם גבול רציף.
+        misconception: MC-c2-abs-converges-anywhere
+      - text: '$\|f_k\|_\infty=\frac1k$ אינם סכימים, ולכן הטור מתבדר בכל נורמה על $C[0,1]$'
+        feedback: >-
+          התכנסות תלויה בנורמה: אי-סכימות של $\|f_k\|_\infty$ אומרת רק שמבחן ה-M אינו חל ב-$\|\cdot\|_\infty$. את השאלה
+          ב-$\|\cdot\|_1$ צריך לבדוק ב-$\|\cdot\|_1$.
+        misconception: MC-c2-norm-irrelevant

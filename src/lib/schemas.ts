@@ -14,8 +14,8 @@ export const lessonSchema = z.object({
     order: z.number().int().min(1),
     title: z.string(),
     subtitle: z.string().optional(),
-    // the time cap lives in lint-content (MINUTES_CAP); chapter 6 (beyond the syllabus) has none
-    minutes: z.number().int().min(5).max(180),
+    // the honest length of one careful session; no upper bound (the user's decision, 2026-11-11: "no limit at all")
+    minutes: z.number().int().positive(),
     objectives: z.array(objective).min(1),
     prerequisites: z.array(z.string()).default([]),
     videos: z.array(z.string()).default([]),

@@ -24,10 +24,10 @@ questions:
           **הקטן ביותר** שמכיל את $X$, וזה מה שהצפיפות אומרת (מסקנה 2.6.11(ד): ההשלמה נכנסת לכל מרחב שלם שמכיל
           עותק של $X$, כסגור של העותק).
         misconception: MC-c2-completion-any-superset
-      - text: '$\iota$ הומיאומורפיזם על תת-קבוצה צפופה של $Y$'
+      - text: '$\iota$ הומיאומורפיזם מ-$X$ אל תת-קבוצה צפופה של $Y$ (ולא בהכרח איזומטריה)'
         feedback: >-
-          הומיאומורפיזם לא שומר סדרות קושי. $x\mapsto\tan(\pi(x-\frac12))$ הוא הומיאומורפיזם של $(0,1)$ **על**
-          $\mathbb{R}$ השלם, אבל ההשלמה של $(0,1)$ היא $[0,1]$.
+          הומיאומורפיזם לא שומר סדרות קושי. $x\mapsto\tan(\pi(x-\frac12))$ הוא הומיאומורפיזם מ-$(0,1)$ אל
+          $\mathbb{R}$ השלם, והוא על, אבל ההשלמה של $(0,1)$ היא $[0,1]$.
         misconception: MC-c2-completeness-topological
       - text: '$Y$ הוא $X$ יחד עם הגבולות של כל סדרות הקושי ב-$X$'
         feedback: >-
@@ -144,23 +144,27 @@ questions:
   - id: Q-2.6-metric-value
     type: numeric
     objectives: [OBJ-2.6-2]
-    level: mid
+    level: basic
     prompt: >-
-      בהשלמה $\widehat{\mathbb{Q}}$ של $\mathbb{Q}$ (מחלקות של סדרות קושי, $\widehat d([(x_n)],[(y_n)])=\lim|x_n-y_n|$), תהי $\xi$
-      המחלקה של הקירובים העשרוניים $1,\ 1.4,\ 1.41,\ 1.414,\dots$ של $\sqrt2$, ו-$\eta$ המחלקה של $y_n=1+\frac1n$. חשבו
-      את $\widehat d(\xi,\eta)$ (בקירוב עשרוני).
-    answer: 0.4142135624
+      ב-$\widehat{\mathbb{Q}}$, הבנייה של משפט 2.6.8 (מחלקות של סדרות קושי, $\widehat d([(x_n)],[(y_n)])=\lim|x_n-y_n|$), תהי $\xi$
+      המחלקה של הקירובים העשרוניים $x_n$: $1,\ 1.4,\ 1.41,\ 1.414,\dots$ של $\sqrt2$, ו-$\eta$ המחלקה של $y_n=2-\frac1n$.
+      חשבו את $\widehat d(\xi,\eta)$ (בקירוב עשרוני).
+    answer: 0.5857864376
     tolerance: 0.001
     correctFeedback: >-
-      נכון: $\sqrt2-1\approx0.4142$. $x_n\to\sqrt2$ ו-$y_n\to1$ ב-$\mathbb{R}$, ולכן $|x_n-y_n|\to\sqrt2-1$. כאן
-      $\eta$ היא המחלקה של הסדרה הקבועה 1, כלומר הנקודה $1\in\mathbb{Q}$.
+      נכון: $2-\sqrt2\approx0.5858$. $x_n\to\sqrt2$ ו-$y_n\to2$ ב-$\mathbb{R}$, ולכן $|x_n-y_n|\to2-\sqrt2$. כאן
+      $\eta$ היא המחלקה של הסדרה הקבועה 2, כלומר הנקודה $\iota(2)$.
     wrongFeedback: >-
       המטריקה היא גבול של המרחקים בין האיברים, לא המרחק בין איברים מסוימים. לאן שואפות שתי הסדרות ב-$\mathbb{R}$?
     commonWrong:
-      - value: 1
+      - value: 0
         feedback: >-
-          1 הוא $|x_1-y_1|=|1-2|$, המרחק בין האיברים הראשונים. $\widehat d$ מוגדר כגבול, ולא תלוי באף מספר סופי של איברים
-          (אחרת הוא היה תלוי בנציג).
+          0 הוא $|x_1-y_1|=|1-1|$, המרחק בין האיברים הראשונים. $\widehat d$ מוגדר כגבול, ולא תלוי באף מספר סופי של איברים
+          (אחרת הוא היה תלוי בנציג); ו-$\widehat d=0$ היה אומר ש-$\xi=\eta$, כלומר ש-$\sqrt2=2$.
+        misconception: MC-c2-metric-not-well-defined
+      - value: 0.1
+        feedback: >-
+          $0.1=|x_2-y_2|=|1.4-1.5|$: שוב מרחק באינדקס מסוים. צריך את הגבול כש-$n\to\infty$.
         misconception: MC-c2-metric-not-well-defined
 
   - id: Q-2.6-well-defined
@@ -176,7 +180,7 @@ questions:
       - id: cauchy
         label: 'שתי הסדרות הן סדרות קושי, ולכן $\big(d(x_n,y_n)\big)$ היא סדרת קושי ב-$\mathbb{R}$, ומתכנסת כי $\mathbb{R}$ שלם.'
       - id: reps
-        label: 'אם $(x_n'')\sim(x_n)$ ו-$(y_n'')\sim(y_n)$, אותו אי-שוויון נותן $|d(x_n'',y_n'')-d(x_n,y_n)|\le d(x_n'',x_n)+d(y_n'',y_n)\to0$, ולכן, כי $d(x_n,y_n)\to L$ (השלב הקודם), גם $d(x_n'',y_n'')\to L$.'
+        label: 'אם $(x_n'')\sim(x_n)$ ו-$(y_n'')\sim(y_n)$, אותו אי-שוויון נותן $|d(x_n'',y_n'')-d(x_n,y_n)|\le d(x_n'',x_n)+d(y_n'',y_n)\to0$, ולכן $d(x_n'',y_n'')$ שואפת לאותו גבול שאליו שואפת $d(x_n,y_n)$.'
       - id: done
         label: 'לכן $\widehat d$ תלוי רק במחלקות, לא בנציגים.'
     order: [four, cauchy, reps, done]
@@ -244,14 +248,14 @@ questions:
     type: mc
     objectives: [OBJ-2.6-1, OBJ-2.6-3]
     qualitative: true
-    level: exam
+    level: mid
     prompt: >-
       מהי ההשלמה של $\mathbb{R}$ עם המטריקה $d(x,y)=|\arctan x-\arctan y|$ (עד כדי איזומטריה)?
     choices:
       - text: 'הקטע $[-\frac\pi2,\frac\pi2]$ עם המרחק הרגיל'
         correct: true
         feedback: >-
-          נכון. $x\mapsto\arctan x$ היא איזומטריה של $(\mathbb{R},d)$ על $(-\frac\pi2,\frac\pi2)$ עם המרחק הרגיל, וזה
+          נכון. $x\mapsto\arctan x$ היא איזומטריה מ-$(\mathbb{R},d)$ אל $(-\frac\pi2,\frac\pi2)$ עם המרחק הרגיל, והיא על, וזה
           תת-מרחב של $\mathbb{R}$ השלם; ההשלמה שלו היא הסגור. שתי הנקודות החדשות מתנהגות כמו $\pm\infty$.
       - text: '$\mathbb{R}$ עם המרחק הרגיל'
         feedback: >-
@@ -288,8 +292,41 @@ questions:
         label: '$\Phi(Y_1)$ שלם ולכן סגור ב-$Y_2$, והוא מכיל את $\iota_2(X)$ הצפופה; לכן $\Phi(Y_1)=Y_2$.'
     order: [dense, seq, extend, iso, onto]
     correctFeedback: >-
-      נכון. הרעיון: איזומטריה על קבוצה צפופה נמשכת באופן יחיד למרחב שלם, דרך גבולות של סדרות קושי. ה"על" בא מכך
+      נכון. הרעיון: איזומטריה מקבוצה צפופה אל מרחב שלם נמשכת באופן יחיד לכל המרחב, דרך גבולות של סדרות קושי. ה"על" בא מכך
       שתמונה שלמה סגורה (שיעור 2.2) ומכילה קבוצה צפופה.
     wrongFeedback: >-
       מגדירים קודם על החלק הצפוף, ממשיכים בעזרת סדרות (צפיפות ב-$Y_1$, שלמות ב-$Y_2$), מראים ששמירת המרחקים עוברת
       לגבול, ולבסוף מראים שההעתקה על.
+
+  - id: Q-2.6-sine-curve
+    type: mc
+    objectives: [OBJ-2.6-1, OBJ-2.6-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      תהי $G=\left\{\big(x,\sin\tfrac1x\big):\ 0<x\le1\right\}\subseteq\mathbb{R}^2$, הגרף של $\sin\frac1x$, עם המטריקה
+      $d_2$ של המישור. מהי ההשלמה של $G$ (עם ההכלה)?
+    choices:
+      - text: '$G\cup\big(\{0\}\times[-1,1]\big)$'
+        correct: true
+        feedback: >-
+          נכון. $\mathbb{R}^2$ שלם (משפט 2.1.11), ולפי טענה 2.6.2 ההשלמה היא הסגור של $G$. ל-$|y|\le1$, עם
+          $t_0=\arcsin y$ ו-$x_n=\frac1{t_0+2\pi n}\in(0,1)$, הנקודות $(x_n,\sin\frac1{x_n})=(x_n,y)$ שואפות ל-$(0,y)$.
+          להפך, גבול $(x,y)$ של נקודות $(x_n,\sin\frac1{x_n})$ מקיים $x\in[0,1]$ (משפט 1.5.9); אם $x>0$ אז
+          $y=\sin\frac1x$ מרציפות, ואם $x=0$ אז $|y|\le1$. כל סדרת קושי ב-$G$ ש"בורחת" אל $x=0$ מכוונת לנקודה אחת
+          של הקטע.
+      - text: '$G\cup\{(0,0)\}$'
+        feedback: >-
+          ל-$\sin\frac1x$ אין גבול ב-$0$, ולכן אין "נקודת גבול" אחת להוסיף. לכל $y\in[-1,1]$ יש סדרה ב-$G$ שמכוונת
+          ל-$(0,y)$, ושתי סדרות כאלה עם $y\ne y'$ אינן שקולות: המרחק ביניהן שואף ל-$|y-y'|$.
+        misconception: MC-c2-completion-adds-limits
+      - text: '$[0,1]\times[-1,1]$'
+        feedback: >-
+          המלבן שלם ומכיל את $G$, אבל $G$ אינה צפופה בו: הנקודה $(1,0)$ במרחק חיובי מ-$G$ (שם $\sin1\approx0.84$, ובקרבת
+          $x=1$ הגרף רחוק מ-$0$). ההשלמה היא הסגור, לא כל מרחב שלם שמכיל את $G$.
+        misconception: MC-c2-completion-any-superset
+      - text: '$G$ עצמה: היא גרף של פונקציה רציפה, ולכן סגורה, ולכן שלמה'
+        feedback: >-
+          $G$ אינה סגורה ב-$\mathbb{R}^2$: $(0,0)$ היא גבול של $\big(\frac1{\pi n},0\big)\in G$ ואינה ב-$G$. גרף של פונקציה
+          רציפה על קטע **לא סגור** אינו בהכרח סגור. ו"סגורה" גוררת "שלמה" רק בתוך מרחב שלם (משפט 2.2.1(א)).
+        misconception: MC-c2-closed-implies-complete

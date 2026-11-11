@@ -68,7 +68,7 @@ practice:
 
       (ג) הקטע $S=[0,1]\times\{0\}$ במישור, עם $d_2$.
     answer: >-
-      (א) דלילה: $\overline A\subseteq A\cup\mathbb{Z}\subseteq\mathbb{Q}$, בלי פנים. (ב) לא דלילה: $(0,1)\subseteq\overline E$, אף
+      (א) דלילה: $A$ סגורה ו-$A\subseteq\mathbb{Q}$, ולכן $\overline A=A$ בלי פנים. (ב) לא דלילה: $(0,1)\subseteq\overline E$, אף
       של-$E$ עצמה אין פנים. (ג) דלילה: תת-קבוצה של הישר $x_2=0$.
     solution:
       - kind: idea
@@ -77,13 +77,14 @@ practice:
           מכיל קטע שלם. ב-(ג) משתמשים בכך שתת-קבוצה של דלילה דלילה.
       - kind: step
         text: >-
-          (א) נראה ש-$A\cup\mathbb{Z}$ סגורה. יהי $x\notin A\cup\mathbb{Z}$ ו-$m=\lfloor x\rfloor$, כך ש-$m<x<m+1$. הנקודות של
-          $A\cup\mathbb{Z}$ ב-$[m,m+1]$ הן $m$, $m+1$ ו-$m+\frac1n$ עם $n\ge2$. לפי ארכימדס יש $N\ge2$ עם $\frac1N<x-m$. הנקודות
+          (א) קודם, $\mathbb{Z}\subseteq A$: עם $n=1$, $m+\frac11=m+1$, ו-$m+1$ עובר על כל השלמים. נראה ש-$A$ סגורה. יהי
+          $x\notin A$; אז $x\notin\mathbb{Z}$, ונסמן $m=\lfloor x\rfloor$, כך ש-$m<x<m+1$. הנקודות של $A$ ב-$[m,m+1]$ הן $m$,
+          $m+1$ ו-$m+\frac1n$ עם $n\ge2$. לפי ארכימדס יש $N\ge2$ עם $\frac1N<x-m$. הנקודות
           $m+\frac1n$ עם $n\ge N$ נמצאות ב-$(m,m+\frac1N]$, במרחק לפחות $x-m-\frac1N>0$ מ-$x$; ושאר הנקודות ב-$[m,m+1]$ הן
-          מספר סופי של נקודות שונות מ-$x$. לכן יש $r>0$ עם $B(x,r)\subseteq(m,m+1)$ שזר ל-$A\cup\mathbb{Z}$: המשלים פתוח.
+          מספר סופי של נקודות שונות מ-$x$. לכן יש $r>0$ עם $B(x,r)\subseteq(m,m+1)$ שזר ל-$A$: המשלים פתוח, ו-$A$ סגורה.
       - kind: step
         text: >-
-          לפי טענה 1.4.4(ב), $\overline A\subseteq A\cup\mathbb{Z}\subseteq\mathbb{Q}$. כל כדור ב-$\mathbb{R}$ מכיל מספר אי-רציונלי
+          לפי טענה 1.4.4(ג), $\overline A=A\subseteq\mathbb{Q}$. כל כדור ב-$\mathbb{R}$ מכיל מספר אי-רציונלי
           (טענה 2.5.7(ו)), ולכן אף כדור אינו מוכל ב-$\overline A$: $\big(\overline A\big)^\circ=\emptyset$, ו-$A$ דלילה.
       - kind: step
         text: >-
@@ -102,7 +103,7 @@ practice:
           (א) דלילה; (ב) אינה דלילה; (ג) דלילה.
 
   - id: W-2.5-03
-    level: basic
+    level: mid
     qualitative: true
     objectives: [OBJ-2.5-3]
     prompt: >-
@@ -115,7 +116,8 @@ practice:
       (ב) $K=\{0\}\cup\{\frac1n:\ n\in\mathbb{N}\}$ עם $|x-y|$.
 
 
-      (ג) $S=\{x\in B(\mathbb{N}):\ x_k\in\{0,1\}\ \forall k\}$, הסדרות של אפסים ואחדים, עם $d_\infty$.
+      (ג) $S=\{x\in B(\mathbb{N}):\ x_k\in\{0,1\}\ \forall k\}$, הסדרות של אפסים ואחדים, עם $d_\infty$. (כאן $B(\mathbb{N})$
+      הוא מרחב הסדרות הממשיות החסומות, שיעור 2.2, ולא כדור.)
     answer: >-
       (א) המשפט חל: אינו בן מנייה. (ב) לא חל (הנקודות $\frac1n$ מבודדות), ו-$K$ בת מנייה. (ג) לא חל (כל נקודה מבודדת),
       ובכל זאת $S$ אינה בת מנייה.
@@ -152,7 +154,7 @@ practice:
           מספיקה, לא הכרחית.
 
   - id: W-2.5-04
-    level: mid
+    level: basic
     objectives: [OBJ-2.5-1]
     prompt: >-
       יהי $(X,d)$ מרחב מטרי שלם, ו-$(x_n)$ סדרה ב-$X$ עם $d(x_n,x_{n+1})\le2^{-n}$ לכל $n$.
@@ -242,7 +244,7 @@ practice:
           $f_k(s)\le f_k(t)$ לכל $k$, ואי-שוויון חלש עובר לגבול: $f(s)\le f(t)$. לכן $f\in M$, ולפי מסקנה 1.5.8(ב) $M$ סגורה.
       - kind: step
         text: >-
-          (בחירת רוחב) יהיו $f\in M$ ו-$r>0$. $f$ רציפה במידה שווה על $[0,1]$ (משפט קנטור, אינפי 1), ולכן יש
+          (בחירת רוחב) יהיו $f\in M$ ו-$r>0$. $f$ רציפה במידה שווה על $[0,1]$ (רציפות במידה שווה על קטע סגור, אינפי 1), ולכן יש
           $\delta'>0$ כך ש-$|f(s)-f(t)|<\frac r4$ כש-$|s-t|<\delta'$. נגדיר $\delta=\min(\frac{\delta'}2,1)\in(0,1]$; אז
           $|s-t|\le\delta$ גורר $|s-t|<\delta'$, ולכן $|f(s)-f(t)|<\frac r4$.
       - kind: step
@@ -259,7 +261,8 @@ practice:
           היא דלילה.
       - kind: check
         text: >-
-          עם $f(x)=x$ ו-$r=0.1$: $|f(s)-f(t)|<0.025$ כש-$|s-t|\le0.02$, אז $\delta=0.02$, ו-$g(0.01)=0.01-0.05=-0.04<0=g(0)$.
+          עם $f(x)=x$ ו-$r=0.1$: $|f(s)-f(t)|=|s-t|<0.025$ כש-$|s-t|<\delta'=0.025$; לפי המתכון
+          $\delta=\min(0.0125,1)=0.0125$, ו-$g(\frac\delta2)=g(0.00625)=0.00625-0.05=-0.04375<0=g(0)$.
       - kind: result
         text: >-
           הפונקציות הלא יורדות הן קבוצה סגורה בלי פנים, ולכן דלילה ב-$(C[0,1],d_\infty)$.
