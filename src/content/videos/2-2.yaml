@@ -1,0 +1,33 @@
+- id: v-2-2-closed-subsets
+  youtubeId: QEVWZP_4H0A
+  title: Closed Subsets of Complete Metric Spaces are Complete Subspaces
+  channel: Elliot Nicholson
+  lang: en
+  start: 0
+  minutes: 14
+  why: >-
+    לפי הכותרת והתיאור: הוכחה שתת-קבוצה סגורה של מרחב מטרי שלם היא תת-מרחב שלם. זה משפט 2.2.1(א): בדקו איפה
+    ההוכחה משתמשת בשלמות של המרחב הגדול ואיפה בסגירות של תת-הקבוצה.
+  verified: '2026-11-10'
+- id: v-2-2-uniform-limit
+  youtubeId: UJnK4Xbi1h4
+  title: The Uniform Limit of Continuous Functions is Continuous
+  channel: Mike, the Mathematician
+  lang: en
+  start: 0
+  minutes: 7
+  why: >-
+    לפי התיאור: הגדרה של התכנסות במידה שווה של סדרת פונקציות, והוכחה שהגבול במידה שווה של פונקציות רציפות
+    רציף. זה התוכן של למה 2.2.5, שבשיעור מוכחת בכל מרחב מטרי.
+  verified: '2026-11-10'
+- id: v-2-2-technion-uniform
+  youtubeId: b8y0_PeVOG0
+  title: '21 - סדרות של פונקציות והתכנסות במ"ש'
+  channel: הטכניון - מכון טכנולוגי לישראל
+  lang: he
+  start: 0
+  minutes: 61
+  why: >-
+    לפי הכותרת והתיאור: הרצאה 21 בקורס חשבון אינפיניטסימלי 2מ' של הטכניון (ד"ר אביב צנזור), על סדרות של
+    פונקציות והתכנסות במידה שווה. חזרה על הרקע מאינפי 2 שמשפט 2.2.4 ולמה 2.2.5 בנויים עליו.
+  verified: '2026-11-10'

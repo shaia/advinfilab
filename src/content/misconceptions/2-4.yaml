@@ -6,7 +6,7 @@
   truth: >-
     מרחב בנך הוא **מרחב נורמי** (מרחב וקטורי עם נורמה) שהוא שלם במטריקה שהנורמה משרה. $\mathbb{Z}$ שלם אבל אינו
     מרחב וקטורי.
-  remedy: { lesson: '2.4', label: 'הגדרת מרחב בנך' }
+  remedy: { lesson: '2.4', anchor: 'banach', label: 'הגדרת מרחב בנך' }
 
 - id: MC-c2-abs-converges-anywhere
   title: חושבים שטור מתכנס בהחלט מתכנס בכל מרחב נורמי
@@ -15,7 +15,7 @@
   truth: >-
     התכונה הזו שקולה לשלמות. במרחב הפולינומים על $[0,1]$ עם נורמת הסופרמום, $\sum\frac{x^k}{k!}$ מתכנס בהחלט
     ($\sum\frac1{k!}<\infty$), אבל הסכום $e^x$ אינו פולינום.
-  remedy: { lesson: '2.4', label: 'התכנסות בהחלט במרחב בנך' }
+  remedy: { lesson: '2.4', anchor: 'incomplete-ce', label: 'התכנסות בהחלט במרחב שאינו שלם' }
 
 - id: MC-c2-mtest-pointwise-bound
   title: משתמשים במבחן ה-M עם חסמים שתלויים ב-x
@@ -24,7 +24,7 @@
   truth: >-
     $M_k$ הוא מספר אחד לכל $k$, $M_k\ge\|f_k\|_\infty$, ו-$\sum M_k<\infty$. $\sum x^k$ על $[0,1)$ מתכנס לכל
     $x$, אבל $\|x^k\|_\infty=1$, וההתכנסות שם אינה במידה שווה.
-  remedy: { lesson: '2.4', label: 'מבחן ה-M כהתכנסות בהחלט בנורמת הסופרמום' }
+  remedy: { lesson: '2.4', anchor: 'm-test-ce', label: 'מבחן ה-M: חסם על הסופרמום' }
 
 - id: MC-c2-mtest-necessary
   title: חושבים שמבחן ה-M הכרחי להתכנסות במידה שווה
@@ -33,7 +33,7 @@
   truth: >-
     מבחן ה-M הוא תנאי מספיק בלבד. $\sum\frac{(-1)^k x^k}{k}$ מתכנס במידה שווה על $[0,1]$ (הזנב חסום על ידי
     $\frac{1}{N+1}$ לפי לייבניץ), אבל $\sum\frac1k=\infty$.
-  remedy: { lesson: '2.4', label: 'מבחן ה-M: מספיק, לא הכרחי' }
+  remedy: { lesson: '2.4', anchor: 'm-test-not-necessary', label: 'מבחן ה-M: מספיק, לא הכרחי' }
 
 - id: MC-c2-neumann-bound-formula
   title: טועים בחסם לנורמת ההופכית בטור נוימן
@@ -41,7 +41,7 @@
     $\|(I-A)^{-1}\|\le\frac{1}{1+\|A\|}$, או $\le1-\|A\|$.
   truth: >-
     $(I-A)^{-1}=\sum_{k\ge0}A^k$, ולכן $\|(I-A)^{-1}\|\le\sum\|A\|^k=\frac{1}{1-\|A\|}$, מספר שגדול מ-1.
-  remedy: { lesson: '2.4', label: 'החסם מהטור ההנדסי' }
+  remedy: { lesson: '2.4', anchor: 'neumann-bound', label: 'החסם מהטור ההנדסי' }
 
 - id: MC-c2-neumann-entrywise
   title: חושבים שמספיק שכל איברי המטריצה קטנים מ-1
@@ -50,7 +50,7 @@
   truth: >-
     נורמת האופרטור היא למשל סכום שורה מקסימלי, לא איבר. ל-$A=\begin{pmatrix}\frac12&\frac12\\\frac12&\frac12\end{pmatrix}$
     כל האיברים $\frac12$, ובכל זאת $(I-A)\binom11=0$.
-  remedy: { lesson: '2.4', label: 'נורמת אופרטור, לא איבר' }
+  remedy: { lesson: '2.4', anchor: 'neumann-ce', label: 'נורמת אופרטור, לא איבר' }
 
 - id: MC-c2-neumann-necessary
   title: חושבים שאם נורמת A לפחות 1 אז I פחות A לא הפיכה
@@ -59,4 +59,4 @@
   truth: >-
     התנאי $\|A\|<1$ מספיק בנורמת אופרטור **כלשהי**, ואינו הכרחי. ל-$A=2I$ יש $\|A\|=2$ ו-$I-A=-I$ הפיכה; ולמטריצה
     עם $\|A\|_\infty>1$ ייתכן ש-$\|A\|_1<1$, ואז טור נוימן עובד בנורמה השנייה.
-  remedy: { lesson: '2.4', label: 'התנאי מספיק, ובוחרים נורמה' }
+  remedy: { lesson: '2.4', anchor: 'neumann-norm-choice', label: 'התנאי מספיק, ובוחרים נורמה' }

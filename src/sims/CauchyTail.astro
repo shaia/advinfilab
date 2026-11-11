@@ -1,0 +1,7 @@
+---
+/** Lessons 2.1, 2.5, 2.6 figure: <Spread figure={CauchyTail} figureProps={{ mode, seq, seqs, N, eps, space, spaces, compare, nest, nests, k }}>. */
+import CauchyTail, { type CauchyTailProps } from './CauchyTail';
+type Props = CauchyTailProps;
+---
+
+<CauchyTail client:visible {...Astro.props} />

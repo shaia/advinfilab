@@ -1,12 +1,4 @@
-# Terms first defined in lesson 2.5.
-- id: diameter
-  term: קוטר
-  en: diameter
-  symbol: '\operatorname{diam}A'
-  definition: >-
-    הקוטר של קבוצה $A\neq\emptyset$ במרחב מטרי הוא $\operatorname{diam}A=\sup\{d(x,y):x,y\in A\}$ (ייתכן שהוא
-    אינסופי). הוא תלוי במטריקה: לריבוע $[0,1]^2$ קוטר $2$ בנורמה $\|\cdot\|_1$ ו-$1$ בנורמה $\|\cdot\|_\infty$.
-  lesson: '2.5'
+# Terms first defined in lesson 2.5. (`diameter` moved to 2-1.yaml: lesson 2.1 defines it, 2.1.2.)
 - id: nowhere-dense-set
   term: קבוצה דלילה
   en: nowhere dense set

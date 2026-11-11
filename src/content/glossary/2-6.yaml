@@ -10,13 +10,22 @@
   term: שיכון איזומטרי
   en: isometric embedding
   definition: >-
-    איזומטריה $i:X\to Y$ שאינה בהכרח על: היא מציגה את $X$ כתת-מרחב $i(X)$ של $Y$, עם אותם מרחקים.
+    איזומטריה $\iota:X\to Y$ שאינה בהכרח על: היא מציגה את $X$ כתת-מרחב $\iota(X)$ של $Y$, עם אותם מרחקים.
   lesson: '2.6'
 - id: completion
   term: השלמה של מרחב מטרי
   en: completion of a metric space
   symbol: '\widehat{X}'
   definition: >-
-    מרחב מטרי שלם $\widehat X$ יחד עם שיכון איזומטרי $i:X\to\widehat X$ שתמונתו צפופה. לכל מרחב מטרי יש השלמה
+    מרחב מטרי שלם $\widehat X$ יחד עם שיכון איזומטרי $\iota:X\to\widehat X$ שתמונתו צפופה. לכל מרחב מטרי יש השלמה
     (ממחלקות שקילות של סדרות קושי), והיא יחידה עד כדי איזומטריה. למשל $\mathbb{R}$ היא ההשלמה של $\mathbb{Q}$.
+  lesson: '2.6'
+- id: equivalent-cauchy-sequences
+  term: סדרות קושי שקולות
+  en: equivalent Cauchy sequences
+  symbol: '(x_n)\sim(y_n)'
+  definition: >-
+    שתי סדרות קושי $(x_n)$, $(y_n)$ במרחב מטרי $(X,d)$ שקולות אם $d(x_n,y_n)\to0$. זה יחס שקילות, ומחלקות
+    השקילות שלו הן הנקודות של ההשלמה $\widehat X$. ההגדרה אינה מזכירה גבול, ולכן היא עובדת גם כשאין לסדרות גבול
+    ב-$X$.
   lesson: '2.6'

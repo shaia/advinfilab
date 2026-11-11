@@ -34,7 +34,7 @@ questions:
     type: multi
     objectives: [OBJ-2.1-3, OBJ-2.2-1, OBJ-2.2-3]
     qualitative: true
-    level: basic
+    level: mid
     prompt: >-
       אילו מהמרחבים המטריים הבאים **שלמים**? סמנו את כולם.
     choices:
@@ -54,11 +54,11 @@ questions:
       - text: '$\mathbb{R}$ עם $d(x,y)=|x^3-y^3|$'
         correct: true
         feedback: >-
-          שלם. $x\mapsto x^3$ היא איזומטריה של $(\mathbb{R},d)$ **על** $(\mathbb{R},|\cdot|)$, כי $x^3$ מקבלת כל ערך
-          ממשי; ולכן סדרות קושי עוברות לסדרות קושי וגבולות לגבולות.
+          שלם. לפי ההגדרה, $(x_n)$ סדרת קושי ב-$d$ אם ורק אם $(x_n^3)$ סדרת קושי ב-$\mathbb{R}$, ואז $x_n^3\to b$
+          לאיזשהו $b$ (משפט 2.1.10). כי $x\mapsto x^3$ חח״ע ועל, יש $a$ עם $a^3=b$, ו-$d(x_n,a)=|x_n^3-b|\to0$.
       - text: '$(C[0,1],\|\cdot\|_1)$'
         feedback: >-
-          לא שלם: השיפועים סביב $\frac12$ הם סדרת קושי בלי גבול רציף. ב-$\|\cdot\|_\infty$ אותה קבוצה כן שלמה.
+          לא שלם: הרמפות סביב $\frac12$ הם סדרת קושי בלי גבול רציף. ב-$\|\cdot\|_\infty$ אותה קבוצה כן שלמה.
         misconception: MC-c2-norm-irrelevant
       - text: '$\{0\}\cup\{\frac1n:n\in\mathbb{N}\}$ עם $|x-y|$'
         correct: true
@@ -98,7 +98,7 @@ questions:
     objectives: [OBJ-2.4-3, OBJ-1.8-2]
     level: basic
     prompt: >-
-      $R=\begin{pmatrix}0.3&-0.4\\0.2&0.1\end{pmatrix}$. חשבו את $\|R\|_\infty$ (סכום שורה מקסימלי), ואת החסם
+      $R=\begin{pmatrix}0.3&-0.4\\0.2&0.1\end{pmatrix}$. חשבו את $\|R\|_\infty$ (המקסימום על השורות של סכום **הערכים המוחלטים** בשורה, משפט 1.8.9), ואת החסם
       $\frac{1}{1-\|R\|_\infty}$ שטור נוימן נותן ל-$\|(I-R)^{-1}\|_\infty$. מהו החסם? (אפשר לענות בשבר.)
     answer: 3.3333333333
     tolerance: 0.001
@@ -110,12 +110,23 @@ questions:
     commonWrong:
       - value: 0.5882352941
         feedback: >-
-          $\frac{1}{1.7}=\frac1{1+\|R\|}$. ההופכית היא $\sum R^k$, וכל מחובר נחסם בערכו המוחלט; הסימן הוא מינוס.
+          $\frac{1}{1.7}=\frac1{1+\|R\|}$. אבל $\|\sum R^k\|\le\sum\|R\|^k=\frac1{1-\|R\|}$: טור הנדסי במנה $\|R\|$.
+          המכנה $1+\|R\|$ היה בא מהמנה $-\|R\|$.
         misconception: MC-c2-neumann-bound-formula
       - value: 1.6666666667
         feedback: >-
           $\frac1{0.6}$ מתקבל מנורמה שהיא האיבר הגדול ביותר, $0.4$. נורמת האופרטור היא סכום שורה, $0.7$.
         misconception: MC-c2-neumann-entrywise
+      - value: 1.4285714286
+        feedback: >-
+          $\frac1{0.7}$ מתקבל מסכומי שורות **עם סימן**: $0.3-0.4=-0.1$ ו-$0.2+0.1=0.3$, מקסימום $0.3$. בנורמת אינסוף
+          סוכמים ערכים מוחלטים, ולכן $\|R\|_\infty=0.7$.
+        misconception: MC-c2-neumann-entrywise
+      - value: 2
+        feedback: >-
+          $2=\frac1{1-0.5}$ מתקבל מ-$\|R\|_1=0.5$, סכום העמודה המקסימלי (משפט 1.8.8). גם זה חסם נכון, אבל לנורמה
+          $\|(I-R)^{-1}\|_1$; השאלה שואלת על נורמת אינסוף.
+        misconception: MC-c2-neumann-necessary
     hints:
       - 'חזרו לשיעור 2.4: טור נוימן; ולשיעור 1.8: נורמת אופרטור של מטריצה בנורמת אינסוף.'
 
@@ -124,7 +135,7 @@ questions:
     objectives: [OBJ-2.2-3]
     level: basic
     prompt: >-
-      $f_n$ הם השיפועים: $f_n=0$ על $[0,\frac12]$, עולה לינארית מ-0 ל-1 על $[\frac12,\frac12+\frac1n]$, ו-1 על
+      $f_n$ הן הרמפות: $f_n=0$ על $[0,\frac12]$, עולה לינארית מ-0 ל-1 על $[\frac12,\frac12+\frac1n]$, ו-1 על
       $[\frac12+\frac1n,1]$. חשבו את $\|f_5-f_{10}\|_1$.
     answer: 0.05
     tolerance: 0.001
@@ -151,7 +162,7 @@ questions:
     choices:
       - text: כן
         correct: true
-        feedback: 'נכון: שני המשפטים של שיעור 2.2 יחד.'
+        feedback: 'נכון: משפט 2.2.1(א) ו-(ב) יחד, כלומר מסקנה 2.2.2.'
       - text: 'לא, $Y$ שלם אם ורק אם הוא סגור וחסום'
         feedback: >-
           חסימות לא קשורה: $[0,\infty)$ סגורה ב-$\mathbb{R}$, לא חסומה, ושלמה.
@@ -207,8 +218,9 @@ questions:
           נכון. גם הטור וגם טור הנגזרות מתכנסים במידה שווה, וזה מה שמתיר גזירה איבר-איבר.
       - text: 'לא, אי אפשר לגזור טור אינסופי איבר-איבר'
         feedback: >-
-          לפעמים אפשר: המשפט משיעור 0.3 מתיר את זה כשטור הנגזרות מתכנס במידה שווה (והטור עצמו מתכנס בנקודה).
-        misconception: MC-c2-mtest-necessary
+          לפעמים אפשר: משפט הגזירה איבר-איבר מאינפי 2 מתיר את זה כשטור הנגזרות מתכנס במידה שווה (והטור עצמו מתכנס
+          בנקודה).
+        misconception: MC-c0-no-termwise-derivative
     reasons:
       - text: '$\|\frac{\sin kx}{k^3}\|_\infty=\frac1{k^3}$ ו-$\|\frac{\cos kx}{k^2}\|_\infty=\frac1{k^2}$ סכימים: שני הטורים מתכנסים בהחלט במרחב הבנך $(C[-\pi,\pi],\|\cdot\|_\infty)$, וטור הנגזרות הרציף הוא $f''$'
         correct: true
@@ -221,7 +233,7 @@ questions:
           טור הנגזרות.
         misconception: MC-c2-pointwise-limit-enough
     hints:
-      - 'חזרו לשיעור 2.4: מבחן ה-M כהתכנסות בהחלט; ולשיעור 0.3: מתי מותר לגזור איבר-איבר.'
+      - 'חזרו לשיעור 2.4: מבחן ה-M (משפט 2.4.7); משפט הגזירה איבר-איבר הוא מאינפי 2.'
 
   - id: Q-2-review-09
     type: twotier
@@ -260,7 +272,8 @@ questions:
       - text: לא
         correct: true
         feedback: >-
-          נכון. העתקה **ליפשיצית** (או רציפה במידה שווה) כן שולחת סדרות קושי לסדרות קושי; רציפות בלבד לא מספיקה.
+          נכון. העתקה **ליפשיצית** כן שולחת סדרות קושי לסדרות קושי (אם $d(f(x),f(y))\le L\,d(x,y)$, אז $N$ שמתאים
+          ל-$\frac{\varepsilon}{L+1}$ מתאים ל-$\varepsilon$); רציפות בלבד לא מספיקה.
       - text: כן
         feedback: >-
           $h(x)=\frac1x$ רציפה על $(0,1)$, ו-$\frac1{n+1}$ היא סדרת קושי שם, אבל $h(\frac1{n+1})=n+1$ אינה סדרת קושי.
@@ -297,7 +310,7 @@ questions:
         misconception: MC-c2-completion-any-superset
       - text: '$\mathbb{R}$'
         feedback: >-
-          ההשלמה היא המרחב השלם הקטן ביותר שבו $X$ צפוף. בתוך $\mathbb{R}$ זה הסגור, לא $\mathbb{R}$ כולו.
+          בהשלמה $X$ צריך להיות צפוף, ו-$X$ אינו צפוף ב-$\mathbb{R}$: הסגור שלו הוא $[0,1]\cup\{2\}$.
         misconception: MC-c2-completion-any-superset
       - text: '$\big(\mathbb{Q}\cap[0,1]\big)\cup\{2\}$'
         feedback: >-
@@ -324,12 +337,13 @@ questions:
       - text: 'ל-$T$ יש נקודת שבת יחידה ב-$C[0,1]$, והיא $e^{x/2}$'
         correct: true
         feedback: >-
-          נכון. $(C[0,1],\|\cdot\|_\infty)$ שלם (שיעור 2.2), ולכן משפט בנך חל. ואכן
+          נכון. $(C[0,1],\|\cdot\|_\infty)$ שלם (מסקנה 2.2.6), ולכן משפט בנך חל. ואכן
           $1+\frac12\int_0^xe^{t/2}dt=1+(e^{x/2}-1)=e^{x/2}$.
       - text: 'האיטרציות מ-$f_0=0$ הן פולינומים, ולכן נקודת השבת היא פולינום'
         feedback: >-
           האיטרציות הן $1,\ 1+\frac x2,\ 1+\frac x2+\frac{x^2}8,\dots$, אבל הגבול שלהן ב-$C[0,1]$ הוא $e^{x/2}$. מרחב
-          הפולינומים אינו סגור, ולכן הגבול יכול לצאת ממנו.
+          הפולינומים אינו סגור, והגבול אכן יוצא ממנו: $e^{x/2}$ אינה פולינום, כי כל נגזרת שלה, $2^{-k}e^{x/2}$, שונה
+          מאפס, ואילו נגזרת מסדר גבוה מהמעלה של פולינום היא אפס.
         misconception: MC-c2-subset-of-complete
       - text: 'משפט בנך חל באותה מידה על $T$ במרחב $(C[0,1],\|\cdot\|_1)$'
         feedback: >-
@@ -348,7 +362,7 @@ questions:
     qualitative: true
     level: exam
     prompt: >-
-      $(X,d)$ מרחב מטרי **לא בהכרח שלם**, $f:X\to X$ ו-$d(f(x),f(y))\le q\,d(x,y)$ עם $q<1$. האם סדרת האיטרציות
+      $(X,d)$ מרחב מטרי **לא בהכרח שלם**, $f:X\to X$ ו-$d(f(x),f(y))\le q\,d(x,y)$ עם $0\le q<1$. האם סדרת האיטרציות
       $x_{n+1}=f(x_n)$ היא בהכרח סדרת קושי?
     choices:
       - text: כן
@@ -375,7 +389,7 @@ questions:
   - id: Q-2-review-14
     type: numeric
     objectives: [OBJ-2.4-3, OBJ-2.2-2, OBJ-1.8-2]
-    level: exam
+    level: mid
     prompt: >-
       על $(C[0,1],\|\cdot\|_\infty)$ מגדירים $(Tf)(x)=\frac x2f(x)$, ולכן $\|T\|_{\mathrm{op}}=\frac12$. נתון $g$ עם
       $\|g\|_\infty=1$, ו-$f$ הפתרון של $f-Tf=g$. מהו החסם העליון ש**טור נוימן** נותן ל-$\|f\|_\infty$?
@@ -389,7 +403,8 @@ questions:
     commonWrong:
       - value: 0.6666666667
         feedback: >-
-          $\frac23=\frac1{1+\|T\|}$. בטור $\sum T^k$ כל המחוברים נחסמים בערכם המוחלט, ולכן המכנה הוא $1-\|T\|$.
+          $\frac23=\frac1{1+\|T\|}$. אבל $\|\sum T^k\|\le\sum\|T\|^k=\frac1{1-\|T\|}$: טור הנדסי במנה $\|T\|$. המכנה
+          $1+\|T\|$ היה בא מהמנה $-\|T\|$.
         misconception: MC-c2-neumann-bound-formula
     hints:
       - 'חזרו לשיעור 2.4: טור נוימן במרחב בנך; ולשיעור 1.8: נורמת אופרטור.'
@@ -416,8 +431,8 @@ questions:
       - text: 'כל $P_n$ סגורה ובלי פנים, כלומר דלילה; אילו $P$ היה שלם, בייר היה אוסר עליו להיות איחוד בן מנייה של דלילות'
         correct: true
         feedback: >-
-          בדיוק. ומכאן משהו חזק: **אף** נורמה על מרחב הפולינומים אינה הופכת אותו למרחב בנך, כי הטיעון עובד בכל
-          נורמה שבה $P_n$ סגורות.
+          בדיוק. והטיעון חוזר בכל נורמה על מרחב הפולינומים שבה כל $P_n$ סגורה (בפרק 3 נראה שזה קורה בכל נורמה, ולכן
+          אף נורמה אינה הופכת אותו למרחב בנך).
       - text: 'איחוד בן מנייה של דלילות דליל, ו-$P$ אינו דליל בעצמו'
         feedback: >-
           איחוד בן מנייה של דלילות יכול להיות גדול מאוד ($\mathbb{Q}$ בתוך $\mathbb{R}$). בייר אומר רק שהוא אינו
@@ -425,3 +440,92 @@ questions:
         misconception: MC-c2-union-nowhere-dense
     hints:
       - 'חזרו לשיעור 2.5: משפט בייר; ולשיעור 2.4: הגדרת מרחב בנך.'
+
+  - id: Q-2-review-16
+    type: mc
+    objectives: [OBJ-2.5-1, OBJ-2.2-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      בכל אחת מהאפשרויות $F_1\supseteq F_2\supseteq\cdots$ קבוצות לא ריקות. באיזו מהן **כל** ההנחות של משפט החיתוך של
+      קנטור מתקיימות?
+    choices:
+      - text: '$F_n=[-\frac1n,\frac1n]$ במרחב $\mathbb{R}$'
+        correct: true
+        feedback: >-
+          נכון: $\mathbb{R}$ שלם, כל $F_n$ קטע סגור, והקוטר $\frac2n\to0$. ואכן $\bigcap_nF_n=\{0\}$, נקודה אחת.
+      - text: '$F_n=(0,\frac1n]$ במרחב $\mathbb{R}$'
+        feedback: >-
+          $F_n$ אינה סגורה ב-$\mathbb{R}$ (הנקודה 0 היא נקודת סגור שלה ואינה בה), והחיתוך אכן ריק: לכל $x>0$ יש $n$
+          עם $\frac1n<x$.
+        misconception: MC-c2-cantor-closed-optional
+      - text: '$F_n=[n,\infty)$ במרחב $\mathbb{R}$'
+        feedback: >-
+          סגורות ויורדות, אבל $\operatorname{diam}F_n=\infty$, והחיתוך ריק: לכל $x$ יש $n>x$.
+        misconception: MC-c2-cantor-no-diameter
+      - text: '$F_n=\mathbb{Q}\cap[\sqrt2-\frac1n,\sqrt2+\frac1n]$ במרחב $\mathbb{Q}$'
+        feedback: >-
+          $F_n$ סגורה ב-$\mathbb{Q}$ והקוטר שואף ל-0, אבל $\mathbb{Q}$ אינו שלם (טענה 2.1.14), והחיתוך ריק: הנקודה
+          היחידה שיכלה להיות בו היא $\sqrt2\notin\mathbb{Q}$.
+        misconception: MC-c2-subset-of-complete
+    hints:
+      - 'חזרו לשיעור 2.5: משפט החיתוך של קנטור ושלוש הדוגמאות הנגדיות שאחריו.'
+
+  - id: Q-2-review-17
+    type: twotier
+    objectives: [OBJ-2.1-2, OBJ-2.1-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $(x_n)$ סדרת קושי במרחב מטרי $X$, ו-$x_{2n}\to a$ עבור $a\in X$. האם בהכרח $x_n\to a$?
+    choices:
+      - text: כן
+        correct: true
+        feedback: >-
+          נכון: זו טענה 2.1.8. תנאי קושי קושר את האיברים האי-זוגיים לזוגיים, ולכן אין להם לאן לברוח.
+      - text: 'לא בהכרח: ייתכן שהאיברים האי-זוגיים מתכנסים לגבול אחר'
+        feedback: >-
+          לסדרת קושי זה לא קורה: $d(x_{2n+1},x_{2n})\to0$ כי שני האינדקסים גדלים, ולכן לאי-זוגיים אותו גבול. בלי תנאי
+          קושי זה כן קורה, למשל $(-1)^n$.
+        misconception: MC-c2-subsequence-enough
+    reasons:
+      - text: 'יהי $\varepsilon>0$: מתנאי קושי יש $N$ עם $d(x_m,x_n)<\frac\varepsilon2$ לכל $m,n>N$, ויש $k$ עם $2k>N$ ו-$d(x_{2k},a)<\frac\varepsilon2$; לכל $n>N$ מתקיים $d(x_n,a)\le d(x_n,x_{2k})+d(x_{2k},a)<\varepsilon$'
+        correct: true
+        feedback: >-
+          בדיוק: איבר אחד של תת-הסדרה, רחוק מספיק, משמש עוגן לכל הסדרה.
+      - text: 'כל סדרה שיש לה תת-סדרה מתכנסת מתכנסת לגבול של תת-הסדרה'
+        feedback: >-
+          המסקנה כאן נכונה, אבל הנימוק שגוי: $(-1)^n$ יש לה תת-סדרה מתכנסת והיא מתבדרת. מה שעובד הוא תנאי קושי.
+        misconception: MC-c2-subsequence-enough
+    hints:
+      - 'חזרו לשיעור 2.1: סדרת קושי עם תת-סדרה מתכנסת (טענה 2.1.8).'
+
+  - id: Q-2-review-18
+    type: twotier
+    objectives: [OBJ-2.5-3, OBJ-2.2-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $\mathbb{N}$ עם $|x-y|$ הוא מרחב מטרי שלם ובן מנייה. האם זו סתירה למשפט 2.5.9 (מרחב שלם לא ריק בלי נקודות
+      מבודדות אינו בן מנייה)?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון: $\mathbb{N}$ אינו מקיים את ההנחה של המשפט.'
+      - text: 'כן, ולכן המשפט צריך גם הנחה של חסימות'
+        feedback: >-
+          המשפט נכון כפי שהוא. $\mathbb{N}$ נופל על ההנחה "בלי נקודות מבודדות", לא על חסימות: גם
+          $\{1,2,\dots,10\}$ חסום, שלם ובן מנייה.
+        misconception: MC-c2-isolated-ignored
+    reasons:
+      - text: 'כל נקודה של $\mathbb{N}$ מבודדת: $B(n,\frac12)=\{n\}$; ולכן כל יחידון בו פתוח ואינו דליל, ובייר אינו נותן סתירה'
+        correct: true
+        feedback: >-
+          בדיוק. ההוכחה של 2.5.9 צריכה שכל יחידון יהיה דליל (טענה 2.5.7), וזה נכשל בדיוק בנקודות מבודדות.
+      - text: '$\mathbb{N}$ אינו שלם, כי $x_n=n$ אינה מתכנסת'
+        feedback: >-
+          $x_n=n$ אינה סדרת קושי ($|x_{n+1}-x_n|=1$). כל סדרת קושי ב-$\mathbb{N}$ קבועה מאינדקס מסוים, ולכן $\mathbb{N}$
+          שלם (מסקנה 2.2.2: סגור ב-$\mathbb{R}$).
+        misconception: MC-c2-cauchy-always-converges
+    hints:
+      - 'חזרו לשיעור 2.5: משפט 2.5.9 והדוגמה הנגדית שאחריו.'

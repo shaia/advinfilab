@@ -1,0 +1,590 @@
+# Workbook of lesson 2.6 — the completion of a metric space.
+# Objectives (src/course.ts):
+#   OBJ-2.6-1  completion = isometric embedding onto a dense subset of a complete space; R completes Q
+#   OBJ-2.6-2  the construction from classes of Cauchy sequences; the metric is well defined
+#   OBJ-2.6-3  uniqueness up to isometry; inside a complete space the completion is the closure
+# Numbers recomputed with npx tsx (sqrt(2) - 1/3 = 1.08088..., x_3 = 0.333, y_3 = 0, a_3 = 1.41,
+# 2n/(1+n) at n = 10: 1.81818...). Challenge sources opened on 2026-11-10 (PDFs read with pdftotext).
+lesson: '2.6'
+practice:
+  - id: W-2.6-01
+    level: basic
+    qualitative: true
+    objectives: [OBJ-2.6-1]
+    prompt: >-
+      מצאו את ההשלמה של כל אחת מתת-הקבוצות הבאות של $\mathbb{R}$, עם $|x-y|$, והסבירו בקצרה.
+
+      (א) $A=\left\{\frac1n+\frac1m:\ n,m\in\mathbb{N}\right\}$.
+
+      (ב) $\mathbb{Q}\cap[0,1]$.
+
+      (ג) $\mathbb{R}\setminus\mathbb{Q}$.
+
+      (ד) $\mathbb{Z}$.
+    answer: >-
+      בכל הסעיפים ההשלמה היא הסגור ב-$\mathbb{R}$ (טענה 2.6.2): (א) $A\cup\{0\}$; (ב) $[0,1]$; (ג) $\mathbb{R}$; (ד)
+      $\mathbb{Z}$ עצמה.
+    solution:
+      - kind: idea
+        text: >-
+          כל הקבוצות יושבות במרחב השלם $\mathbb{R}$ (משפט 2.1.10). לפי טענה 2.6.2, ההשלמה של קבוצה כזו היא הסגור שלה
+          ב-$\mathbb{R}$, עם ההכלה. לכן כל סעיף הוא חישוב של סגור.
+      - kind: step
+        text: >-
+          (א) בדוגמה 5 של שיעור 1.5 הוכח $\overline A=A\cup\{0\}$. לכן ההשלמה היא $A\cup\{0\}$, ו-$A$ עצמה אינה שלמה:
+          $\frac1n+\frac1n\to0\notin A$ היא סדרת קושי בלי גבול ב-$A$.
+      - kind: step
+        text: >-
+          (ב) $[0,1]$ סגורה ומכילה את $\mathbb{Q}\cap[0,1]$, ולכן הסגור מוכל בה (טענה 1.4.4(ב)). להפך, יהיו
+          $x\in[0,1]$ ו-$r>0$. הקטע $(x-r,x+r)\cap(0,1)$ הוא קטע פתוח לא ריק, ולפי משפט 1.4.15 יש בו רציונלי; לכן
+          $B(x,r)$ פוגש את $\mathbb{Q}\cap[0,1]$, ו-$x$ בסגור (הגדרה 1.4.3).
+      - kind: step
+        text: >-
+          (ג) יהי קטע $(a,b)$ עם $a<b$. לפי משפט 1.4.15 יש רציונלי $q\in(a-\sqrt2,\ b-\sqrt2)$, ואז $q+\sqrt2\in(a,b)$
+          אינו רציונלי (אחרת $\sqrt2=(q+\sqrt2)-q$ היה רציונלי). לכן כל כדור פוגש את $\mathbb{R}\setminus\mathbb{Q}$,
+          והסגור הוא $\mathbb{R}$ (טענה 1.4.14).
+      - kind: step
+        text: >-
+          (ד) $\mathbb{Z}$ סגורה ב-$\mathbb{R}$ (המשלים הוא איחוד של הקטעים הפתוחים $(k,k+1)$), ולכן שלמה (מסקנה
+          2.2.2) והיא ההשלמה של עצמה (מסקנה 2.6.11(א)).
+      - kind: check
+        text: >-
+          ב-(ג) הנקודות החדשות הן בדיוק הרציונליים: ההשלמה מוסיפה קבוצה צפופה ובת מנייה. ב-(ד) לא נוספה אף נקודה,
+          אף ש-$\mathbb{Z}$ אינסופית ואינה חסומה: מה שקובע הוא סדרות קושי, ובמרחב הזה כל סדרת קושי קבועה מאינדקס
+          מסוים.
+      - kind: result
+        text: >-
+          (א) $A\cup\{0\}$; (ב) $[0,1]$; (ג) $\mathbb{R}$; (ד) $\mathbb{Z}$. בכולם השיכון הוא ההכלה.
+
+  - id: W-2.6-02
+    level: basic
+    objectives: [OBJ-2.6-1]
+    prompt: >-
+      תהי $f:\mathbb{R}\to\mathbb{R}$ איזומטריה של $(\mathbb{R},|\cdot|)$, כלומר $|f(x)-f(y)|=|x-y|$ לכל $x,y$.
+      הוכיחו שיש $s\in\{1,-1\}$ ו-$c\in\mathbb{R}$ כך ש-$f(x)=sx+c$ לכל $x$. הסיקו שכל איזומטריה של $\mathbb{R}$ לתוך
+      עצמו היא על, והשוו ל-$x\mapsto x+1$ על $[0,\infty)$.
+    answer: >-
+      $g=f-f(0)$ מקיימת $|g(x)|=|x|$, ועם $s=g(1)$ התנאי $|g(x)-s|=|x-1|$ שולל $g(x)=-sx$ ל-$x\ne0$. לכן $f(x)=sx+f(0)$,
+      שהיא על. $x\mapsto x+1$ היא איזומטריה של $[0,\infty)$ שאינה על.
+    solution:
+      - kind: idea
+        text: >-
+          אחרי הזזה $f(0)=0$, ואז כל $x$ נשלח ל-$x$ או ל-$-x$. המרחק מהתמונה של $1$ מכריע איזה סימן, והוא אותו סימן
+          לכל $x$.
+      - kind: step
+        text: >-
+          נגדיר $g(x)=f(x)-f(0)$. הזזה היא איזומטריה, והרכבה של איזומטריות היא איזומטריה (הגדרה וטענה 2.6.1(ב)), ולכן
+          $|g(x)-g(y)|=|x-y|$ ו-$g(0)=0$. עם $y=0$: $|g(x)|=|x|$, כלומר $g(x)\in\{x,-x\}$ לכל $x$.
+      - kind: step
+        text: >-
+          יהי $s=g(1)\in\{1,-1\}$. נניח בשלילה שיש $x\ne0$ עם $g(x)=-sx$. אז
+          $|g(x)-g(1)|=|-sx-s|=|s|\,|x+1|=|x+1|$, ולפי ההנחה זה שווה ל-$|x-1|$. אבל $|x+1|=|x-1|$ פירושו
+          $(x+1)^2=(x-1)^2$, כלומר $4x=0$, בסתירה ל-$x\ne0$.
+      - kind: step
+        text: >-
+          לכן $g(x)=sx$ לכל $x\ne0$, וגם ל-$x=0$. כלומר $f(x)=sx+c$ עם $c=f(0)$.
+      - kind: step
+        text: >-
+          (על) לכל $y\in\mathbb{R}$, $x=s(y-c)$ מקיים $f(x)=s^2(y-c)+c=y$. לעומת זאת $h(x)=x+1$ על $[0,\infty)$ שומרת
+          מרחקים ($|(x+1)-(y+1)|=|x-y|$) ותמונתה $[1,\infty)$: איזומטריה אינה חייבת להיות על (ההערות שאחרי הגדרה וטענה
+          2.6.1).
+      - kind: check
+        text: >-
+          $f(x)=-x+3$: $f(0)=3$, $g(x)=-x$, $s=g(1)=-1$, ו-$|f(2)-f(5)|=|1-(-2)|=3=|2-5|$. ההפרש בין $\mathbb{R}$ ל-$[0,\infty)$
+          הוא שב-$\mathbb{R}$ אין "קצה" ש-$x\mapsto x+1$ משאיר מאחור.
+      - kind: result
+        text: >-
+          כל איזומטריה של $\mathbb{R}$ היא $x\mapsto\pm x+c$, ולכן על $\mathbb{R}$; על $[0,\infty)$ יש איזומטריות שאינן על.
+
+  - id: W-2.6-03
+    level: basic
+    objectives: [OBJ-2.6-2]
+    prompt: >-
+      ב-$\widehat{\mathbb{Q}}$ (משפט 2.6.8) תהיינה $x_n=\frac{1-10^{-n}}3$ (כלומר $0.3,\ 0.33,\ 0.333,\dots$),
+      $y_n=\frac13+\frac{(-1)^n}n$, ו-$a_n=\lfloor10^{n-1}\sqrt2\rfloor/10^{n-1}$, הקירובים העשרוניים של $\sqrt2$.
+
+      (א) הוכיחו ששלוש הסדרות הן סדרות קושי ב-$\mathbb{Q}$, וקבעו אילו מהן שקולות.
+
+      (ב) חשבו את $\widehat d\big([(x_n)],[(a_n)]\big)$.
+
+      (ג) אילו מהמחלקות $[(x_n)]$, $[(y_n)]$, $[(a_n)]$ שייכות ל-$\iota(\mathbb{Q})$?
+    answer: >-
+      (א) שלושתן מתכנסות ב-$\mathbb{R}$, ולכן סדרות קושי; $(x_n)\sim(y_n)$, ו-$(a_n)$ אינה שקולה לאף אחת מהן. (ב)
+      $\sqrt2-\frac13\approx1.0809$. (ג) $[(x_n)]=[(y_n)]=\iota(\frac13)$; $[(a_n)]\notin\iota(\mathbb{Q})$.
+    solution:
+      - kind: idea
+        text: >-
+          לסדרות של רציונליים שמתכנסות ב-$\mathbb{R}$, כל הגבולות בהגדרות של $\sim$ ושל $\widehat d$ הם גבולות של אינפי 1.
+          מחלקה היא ב-$\iota(\mathbb{Q})$ בדיוק כשהגבול הממשי רציונלי (טענה 2.6.5(ג)).
+      - kind: step
+        text: >-
+          (א) $x_n\to\frac13$, $y_n\to\frac13$ ו-$a_n\to\sqrt2$ ב-$\mathbb{R}$ ($0\le\sqrt2-a_n<10^{-(n-1)}$). לפי טענה
+          2.1.4 שלושתן סדרות קושי ב-$\mathbb{R}$, ובאותם מרחקים גם ב-$\mathbb{Q}$.
+      - kind: step
+        text: >-
+          $|x_n-y_n|\to|\frac13-\frac13|=0$, ולכן $(x_n)\sim(y_n)$. $|x_n-a_n|\to\sqrt2-\frac13\ne0$ ו-$|y_n-a_n|\to\sqrt2-\frac13\ne0$,
+          ולכן $(a_n)$ אינה שקולה לאף אחת מהן.
+      - kind: computation
+        text: >-
+          (ב) לפי טענה 2.6.6, $\widehat d\big([(x_n)],[(a_n)]\big)=\lim|x_n-a_n|=\sqrt2-\frac13\approx1.08088$.
+      - kind: step
+        text: >-
+          (ג) $x_n\to\frac13$ ב-$\mathbb{Q}$, ולפי טענה 2.6.5(ג) $(x_n)\sim(\frac13,\frac13,\dots)$, כלומר
+          $[(x_n)]=\iota(\frac13)$, וגם $[(y_n)]$ שווה לה לפי (א). אילו $[(a_n)]=\iota(q)$, אז $a_n\to q$ ב-$\mathbb{Q}$,
+          ולכן ב-$\mathbb{R}$, ולפי משפט 1.5.2 $q=\sqrt2$, שאינו רציונלי.
+      - kind: check
+        text: >-
+          $x_3=0.333$, $y_3=\frac13-\frac13=0$, $a_3=1.41$: $|x_3-a_3|=1.077$, כבר קרוב ל-$1.0809$; ו-$|x_3-y_3|=0.333$,
+          רחוק מ-0, ובכל זאת המחלקות שוות: $\widehat d$ הוא גבול, לא ערך באינדקס מסוים.
+      - kind: result
+        text: >-
+          $(x_n)\sim(y_n)$, שתיהן במחלקה $\iota(\frac13)$; $\widehat d\big([(x_n)],[(a_n)]\big)=\sqrt2-\frac13\approx1.0809$;
+          $[(a_n)]$ היא נקודה חדשה.
+
+  - id: W-2.6-04
+    level: mid
+    objectives: [OBJ-2.6-2]
+    prompt: >-
+      יהי $(X,d)$ מרחב מטרי ו-$\xi\in\widehat X$. הוכיחו שיש ל-$\xi$ נציג $(x'_k)$ עם $d(x'_k,x'_{k+1})<2^{-k}$ לכל $k$,
+      והסיקו ש-$d(x'_k,x'_m)\le2^{1-k}$ לכל $m>k$.
+    answer: >-
+      לוקחים תת-סדרה $x'_k=x_{p_k}$ של נציג כלשהו, עם $p_k$ אחרי ה-$N$ של תנאי קושי עבור $2^{-k}$; תת-סדרה כזו שקולה
+      לסדרה. החסם מלמה 2.1.7: $\sum_{j\ge k}2^{-j}=2^{1-k}$.
+    solution:
+      - kind: idea
+        text: >-
+          תת-סדרה של סדרת קושי נמצאת באותה מחלקה, כי $p_k\ge k$. בוחרים את האינדקסים מאוחר מספיק, כך שכל צעד קטן
+          מ-$2^{-k}$: "נציג מהיר".
+      - kind: step
+        text: >-
+          יהי $(x_n)$ נציג של $\xi$. לפי הגדרה 2.1.1, לכל $k$ יש $N\in\mathbb{N}$ עם $d(x_m,x_n)<2^{-k}$ לכל $m,n>N$.
+          אם $N$ כזה מתאים, גם כל $N'>N$ מתאים (כי $m,n>N'$ גורר $m,n>N$), ולכן יש $N$ מתאים שגדול מכל מספר
+          נתון, בפרט מ-$N_{k-1}$. נגדיר ברקורסיה $N_k$ כ**קטן ביותר** מבין ה-$N$ המתאימים ל-$2^{-k}$ שגדולים מ-$N_{k-1}$
+          (עם $N_0=0$); הקטן ביותר קיים (סדר טוב של $\mathbb{N}$), ולכן אין כאן בחירה. אז $N_1<N_2<\cdots$.
+      - kind: step
+        text: >-
+          נגדיר $p_k=N_k+1$ ו-$x'_k=x_{p_k}$. האינדקסים $p_k<p_{k+1}$ שניהם גדולים מ-$N_k$, ולכן
+          $d(x'_k,x'_{k+1})=d(x_{p_k},x_{p_{k+1}})<2^{-k}$.
+      - kind: step
+        text: >-
+          $(x'_k)\sim(x_k)$: הסדרה $p_k$ עולה ממש, ולכן $p_k\ge k$. יהי $\varepsilon>0$ ו-$N$ עם $d(x_m,x_n)<\varepsilon$
+          לכל $m,n>N$. לכל $k>N$ גם $p_k>N$, ולכן $d(x'_k,x_k)=d(x_{p_k},x_k)<\varepsilon$. כלומר $d(x'_k,x_k)\to0$.
+      - kind: step
+        text: >-
+          לפי דוגמה 3(ד) של השיעור (סדרה שצמודה לסדרת קושי היא סדרת קושי), $(x'_k)\in\mathcal C$, ו-$[(x'_k)]=\xi$.
+      - kind: theorem
+        text: >-
+          למה 2.1.7 עם $c_k=2^{-k}$: לכל $m>k$, $d(x'_k,x'_m)\le\sum_{j=k}^{m-1}2^{-j}<\sum_{j\ge k}2^{-j}=2^{1-k}$.
+      - kind: check
+        text: >-
+          לקירובים העשרוניים $a_n$ של $\sqrt2$: $|a_n-a_{n+1}|<10^{-(n-1)}$, וזה קטן מ-$2^{-n}$ כבר מ-$n=2$
+          ($10^{-1}<2^{-2}$); כאן גם $p_k=k+1$ מתאים. הנציג המהיר שימושי כשרוצים חסם מפורש בלי $\varepsilon$ ו-$N$.
+      - kind: result
+        text: >-
+          לכל מחלקה יש נציג עם $d(x'_k,x'_{k+1})<2^{-k}$, ולו $d(x'_k,x'_m)\le2^{1-k}$ לכל $m>k$.
+
+  - id: W-2.6-05
+    level: mid
+    qualitative: true
+    objectives: [OBJ-2.6-2]
+    prompt: >-
+      במקום $\widehat d$ של טענה 2.6.6 הציעו, ל-$\xi=[(x_n)]$ ו-$\eta=[(y_n)]$ ב-$\widehat X$:
+
+      (א) $\delta_1(\xi,\eta)=d(x_1,y_1)$;
+
+      (ב) $\delta_2(\xi,\eta)=\inf_n d(x_n,y_n)$;
+
+      (ג) $\delta_3(\xi,\eta)=\sup_n d(x_n,y_n)$;
+
+      (ד) $\delta_4(\xi,\eta)=\lim_n d(x_{2n},y_n)$.
+
+      לכל אחת: האם היא מוגדרת היטב על המחלקות (לא תלויה בנציגים)? הוכיחו או תנו דוגמה נגדית ב-$X=\mathbb{Q}$.
+    answer: >-
+      (א), (ב), (ג) אינן מוגדרות היטב: נציגים ששונים באיבר אחד נותנים ערכים שונים. (ד) מוגדרת היטב, והיא שווה ל-$\widehat d$.
+    solution:
+      - kind: idea
+        text: >-
+          לפי טענה 2.6.5(ב), שינוי של מספר סופי של איברים לא משנה את המחלקה. כל נוסחה שתלויה באיבר מסוים (הראשון, או
+          האיבר שבו מתקבל inf או sup) נכשלת. גבול לא רואה מספר סופי של איברים.
+      - kind: step
+        text: >-
+          (א) ו-(ג): $\xi=\eta=\iota(0)$. נציגים $(0,0,0,\dots)$ ו-$(1,0,0,\dots)$ של $\xi$ (שוות מ-$n=2$, טענה
+          2.6.5(ב)), ו-$(0,0,\dots)$ של $\eta$. עם הראשון $\delta_1=\delta_3=0$, ועם השני $\delta_1=\delta_3=1$.
+      - kind: step
+        text: >-
+          (ב) $\xi=\iota(1)$, $\eta=\iota(0)$. נציגים $(1,1,1,\dots)$ ו-$(0,1,1,\dots)$ של $\xi$, ו-$(0,0,\dots)$ של
+          $\eta$. ה-inf הוא $1$ עם הראשון ו-$0$ עם השני.
+      - kind: step
+        text: >-
+          (ד) לפי דוגמה 3(ב) של השיעור $(x_{2n})_n\sim(x_n)_n$. לפי למה 1.1.2(ג),
+          $|d(x_{2n},y_n)-d(x_n,y_n)|\le d(x_{2n},x_n)+d(y_n,y_n)=d(x_{2n},x_n)\to0$. לכן $d(x_{2n},y_n)\to\widehat d(\xi,\eta)$,
+          והגבול קיים ותלוי רק ב-$\xi,\eta$ (טענה 2.6.6(א)).
+      - kind: check
+        text: >-
+          ב-(ב) הדוגמה מראה עוד דבר: $\delta_2(\iota(1),\iota(0))=0$ עם נציג אחד, אף שהנקודות שונות, ולכן גם (M1)
+          הייתה נכשלת. ב-(ד) ההזזה באינדקס לא מזיקה, כי תת-סדרה שקולה לסדרה.
+      - kind: result
+        text: >-
+          (א), (ב), (ג) אינן מוגדרות היטב; (ד) מוגדרת היטב ושווה ל-$\widehat d$.
+
+  - id: W-2.6-06
+    level: mid
+    objectives: [OBJ-2.6-1, OBJ-2.6-3]
+    prompt: >-
+      (א) יהיו $X,Z$ מרחבים מטריים, $\varphi:X\to Z$ איזומטריה **על**, ו-$(\widehat Z,\kappa)$ השלמה של $Z$. הוכיחו
+      ש-$(\widehat Z,\kappa\circ\varphi)$ היא השלמה של $X$.
+
+      (ב) על $\mathbb{R}$ נגדיר $\sigma(x,y)=\left|\frac{x}{1+|x|}-\frac{y}{1+|y|}\right|$. הוכיחו ש-$\sigma$ מטריקה,
+      ושההשלמה של $(\mathbb{R},\sigma)$ היא $[-1,1]$ עם השיכון $h(x)=\frac{x}{1+|x|}$.
+
+      (ג) אילו סדרות קושי של $(\mathbb{R},\sigma)$ מייצגות את הנקודות החדשות? חשבו את $\lim_n\sigma(n,-n)$.
+    answer: >-
+      (א) שלם, הרכבה של איזומטריות, ותמונה $\kappa(Z)$ צפופה. (ב) $h$ היא העתקה חד-חד-ערכית של $\mathbb{R}$ על $(-1,1)$,
+      $\sigma$ היא המשיכה שלה, וההשלמה של $(-1,1)$ היא $[-1,1]$. (ג) $(n)$ ו-$(-n)$, עבור $\pm1$; $\sigma(n,-n)=\frac{2n}{1+n}\to2$.
+    solution:
+      - kind: idea
+        text: >-
+          איזומטריה על מזהה את $X$ עם $Z$, ולכן כל השלמה של $Z$ היא השלמה של $X$. ב-(ב) $h$ מזהה את $(\mathbb{R},\sigma)$
+          עם הקטע $(-1,1)$ הרגיל, כמו $\arctan$ בטענה 2.6.3.
+      - kind: step
+        text: >-
+          (א) $\widehat Z$ שלם. $\kappa\circ\varphi$ איזומטריה, כהרכבה של איזומטריות (הגדרה וטענה 2.6.1(ב)). $\varphi$ על
+          $Z$, ולכן $\kappa(\varphi(X))=\kappa(Z)$, שצפופה ב-$\widehat Z$. לפי הגדרה 2.6.1(ד) זו השלמה.
+      - kind: step
+        text: >-
+          (ב) $h$ אי-זוגית, ול-$x\ge0$: $h(x)=1-\frac1{1+x}$, עולה ממש מ-$0$ ושואפת ל-$1$. לכן $h$ עולה ממש על $\mathbb{R}$
+          ותמונתה $(-1,1)$; ההפכית היא $y\mapsto\frac{y}{1-|y|}$ (בדיקה: ל-$y\in[0,1)$, $h\big(\frac y{1-y}\big)=\frac{y/(1-y)}{1/(1-y)}=y$).
+          $h$ חד-חד-ערכית, ולפי טענה 1.1.13(ב) $\sigma(x,y)=|h(x)-h(y)|$ מטריקה, ו-$h$ איזומטריה של $(\mathbb{R},\sigma)$
+          על $(-1,1)$.
+      - kind: step
+        text: >-
+          לפי טענה 2.6.2 עם $X=\mathbb{R}$ השלם, ההשלמה של $(-1,1)$ היא הסגור $[-1,1]$ (כמו בדוגמה של $(0,1)$ אחרי טענה
+          2.6.2) עם ההכלה. לפי (א), $([-1,1],h)$ היא השלמה של $(\mathbb{R},\sigma)$.
+      - kind: computation
+        text: >-
+          (ג) $h(n)=\frac n{1+n}\to1$ ו-$h(-n)\to-1$. לכן $(n)$ ו-$(-n)$ סדרות קושי ב-$(\mathbb{R},\sigma)$ (הגדרה וטענה
+          2.6.1(ג)) שמייצגות את $1$ ואת $-1$. $\sigma(n,-n)=\frac{2n}{1+n}\to2$, המרחק בין שתי הנקודות החדשות.
+      - kind: check
+        text: >-
+          $\sigma(10,-10)=\frac{20}{11}\approx1.8182$, קרוב ל-2. ולפי משפט 2.6.10 ההשלמה של $(\mathbb{R},\sigma)$ איזומטרית לזו של
+          $(\mathbb{R},\rho)$ עם $\arctan$ אם ורק אם $[-1,1]$ ו-$[-\frac\pi2,\frac\pi2]$ איזומטריים, וזה לא נכון: הקטרים
+          שלהם $2\ne\pi$.
+      - kind: result
+        text: >-
+          ההשלמה של $(\mathbb{R},\sigma)$ היא $[-1,1]$ עם $h(x)=\frac x{1+|x|}$; שתי הנקודות החדשות $\pm1$ הן המחלקות של
+          $(\pm n)$, ו-$\sigma(n,-n)\to2$.
+
+  - id: W-2.6-07
+    level: mid
+    objectives: [OBJ-2.6-1, OBJ-2.6-3]
+    prompt: >-
+      יהיו $(X_1,d_1)$, $(X_2,d_2)$ מרחבים מטריים, ועל $X_1\times X_2$ נגדיר
+      $d_{\max}\big((x,y),(x',y')\big)=\max\big(d_1(x,x'),\ d_2(y,y')\big)$ (מטריקה; מותר להניח).
+
+      (א) הוכיחו שאם $X_1$ ו-$X_2$ שלמים, גם $(X_1\times X_2,d_{\max})$ שלם.
+
+      (ב) הוכיחו שאם $(Y_1,\iota_1)$ ו-$(Y_2,\iota_2)$ השלמות של $X_1$ ושל $X_2$, אז $Y_1\times Y_2$ עם $d_{\max}$ ועם
+      $(x,y)\mapsto(\iota_1(x),\iota_2(y))$ היא השלמה של $X_1\times X_2$.
+
+      (ג) הסיקו שההשלמה של $(\mathbb{Q}^2,d_\infty)$ היא $(\mathbb{R}^2,d_\infty)$.
+    answer: >-
+      (א) כל קואורדינטה היא סדרת קושי ומתכנסת, ו-max של שתי סדרות ששואפות ל-0 שואף ל-0. (ב) שלמות מ-(א), שמירת המרחקים
+      בכל קואורדינטה, וצפיפות: לכל קואורדינטה בנפרד נקודה קרובה. (ג) $X_1=X_2=\mathbb{Q}$, $Y_1=Y_2=\mathbb{R}$.
+    solution:
+      - kind: idea
+        text: >-
+          $d_{\max}$ קטן מ-$r$ בדיוק כששתי הקואורדינטות קטנות מ-$r$. לכן כל תנאי על $d_{\max}$ מתפרק לשני תנאים, אחד לכל
+          קואורדינטה, ומרכיבים חזרה עם מקסימום של שני אינדקסים.
+      - kind: step
+        text: >-
+          (א) תהי $(x_n,y_n)$ סדרת קושי. $d_1(x_m,x_n)\le d_{\max}\big((x_m,y_m),(x_n,y_n)\big)$, ולכן $(x_n)$ סדרת קושי
+          ב-$X_1$, ובאותה דרך $(y_n)$ ב-$X_2$. לכן $x_n\to x$ ו-$y_n\to y$.
+      - kind: step
+        text: >-
+          יהי $\varepsilon>0$, ו-$N_1,N_2$ עם $d_1(x_n,x)<\varepsilon$ ל-$n>N_1$ ו-$d_2(y_n,y)<\varepsilon$ ל-$n>N_2$. ל-$n>\max(N_1,N_2)$:
+          $d_{\max}\big((x_n,y_n),(x,y)\big)<\varepsilon$. לכן $(x_n,y_n)\to(x,y)$.
+      - kind: step
+        text: >-
+          (ב) שלמות: לפי (א). איזומטריה: $d_{\max}\big((\iota_1x,\iota_2y),(\iota_1x',\iota_2y')\big)=\max\big(d_1(x,x'),d_2(y,y')\big)$,
+          כי $\iota_1,\iota_2$ שומרות מרחקים.
+      - kind: step
+        text: >-
+          צפיפות: יהיו $(u,v)\in Y_1\times Y_2$ ו-$r>0$. לפי טענה 1.4.14(ג) יש $x\in X_1$ עם $d(\iota_1(x),u)<r$ ו-$y\in X_2$
+          עם $d(\iota_2(y),v)<r$. אז $d_{\max}\big((\iota_1x,\iota_2y),(u,v)\big)<r$: כל כדור פוגש את התמונה, והיא צפופה
+          (טענה 1.4.14).
+      - kind: step
+        text: >-
+          (ג) $\mathbb{R}$ עם ההכלה היא השלמה של $\mathbb{Q}$ (טענה 2.6.2), ו-$d_{\max}$
+          על $\mathbb{R}\times\mathbb{R}$ היא $d_\infty$. לפי (ב), $(\mathbb{R}^2,d_\infty)$ עם ההכלה היא השלמה של
+          $(\mathbb{Q}^2,d_\infty)$.
+      - kind: check
+        text: >-
+          (ג) מתאים לטענה 2.6.2 ישירות: $\mathbb{R}^2$ שלם (משפט 2.1.11) ו-$\mathbb{Q}^2$ צפופה בו (משפט 1.4.16). שתי
+          הדרכים נותנות אותה השלמה, כפי שמשפט 2.6.10 מבטיח.
+      - kind: result
+        text: >-
+          מכפלה של מרחבים שלמים עם $d_{\max}$ שלמה, וההשלמה של מכפלה היא מכפלת ההשלמות; בפרט $\widehat{\mathbb{Q}^2}=\mathbb{R}^2$.
+
+  - id: W-2.6-08
+    level: exam
+    objectives: [OBJ-2.6-2, OBJ-2.6-3]
+    prompt: >-
+      יהי $X$ מרחב מטרי ו-$f:X\to X$ איזומטריה (לא בהכרח על). בהשלמה $(\widehat X,\iota)$ של משפט 2.6.8 נגדיר
+      $F\big([(x_n)]\big)=\big[(f(x_n))\big]$.
+
+      (א) הוכיחו ש-$F$ מוגדרת היטב, שהיא איזומטריה של $\widehat X$, ש-$F\circ\iota=\iota\circ f$, ושהיא ההעתקה
+      הרציפה היחידה $\widehat X\to\widehat X$ עם התכונה הזו.
+
+      (ב) הוכיחו שאם $f$ על $X$, אז $F$ על $\widehat X$.
+
+      (ג) ב-$X=\mathbb{Q}\cap[0,\infty)$ עם $f(q)=q+1$: הוכיחו ש-$\iota(\frac12)$ אינה בתמונה של $F$.
+    answer: >-
+      (א) $f$ שולחת סדרות קושי לסדרות קושי וסדרות שקולות לשקולות, ושומרת $d(x_n,y_n)$ איבר-איבר. יחידות: צפיפות
+      ו-$\iota(x_n)\to\xi$. (ב) $x_n=f^{-1}(y_n)$. (ג) $\widehat d\big(F(\xi),\iota(\frac12)\big)=\lim|x_n+\frac12|\ge\frac12$.
+    solution:
+      - kind: idea
+        text: >-
+          $F$ מפעילה את $f$ על כל איבר של הנציג. כל מה שצריך לבדוק (קושי, שקילות, מרחק) מנוסח במרחקים בין איברים, ו-$f$
+          שומרת אותם. ליחידות: שתי העתקות רציפות שמסכימות על קבוצה צפופה שוות.
+      - kind: step
+        text: >-
+          (א) אם $(x_n)\in\mathcal C$, אז $(f(x_n))\in\mathcal C$ (הגדרה וטענה 2.6.1(ג)). אם $(x'_n)\sim(x_n)$, אז
+          $d(f(x'_n),f(x_n))=d(x'_n,x_n)\to0$, ולכן $[(f(x'_n))]=[(f(x_n))]$: $F$ מוגדרת היטב.
+      - kind: step
+        text: >-
+          לפי טענה 2.6.6: $\widehat d\big(F[(x_n)],F[(y_n)]\big)=\lim d(f(x_n),f(y_n))=\lim d(x_n,y_n)=\widehat d\big([(x_n)],[(y_n)]\big)$.
+          ו-$F(\iota(x))=[(f(x),f(x),\dots)]=\iota(f(x))$.
+      - kind: step
+        text: >-
+          יחידות: תהי $G$ רציפה עם $G\circ\iota=\iota\circ f$, ויהי $\xi=[(x_n)]$. לפי למה 2.6.7(ג) $\iota(x_n)\to\xi$. $G$ ו-$F$
+          רציפות (2.6.1(ב)), ולפי משפט 1.6.3 $G(\xi)=\lim G(\iota(x_n))=\lim\iota(f(x_n))=\lim F(\iota(x_n))=F(\xi)$.
+      - kind: step
+        text: >-
+          (ב) יהי $\eta=[(y_n)]\in\widehat X$. $f$ חד-חד-ערכית ועל, ולכן $x_n=f^{-1}(y_n)$ מוגדר ביחידות. לפי 2.6.1(ג),
+          $(x_n)$ סדרת קושי כי $(f(x_n))=(y_n)$ סדרת קושי. לכן $F([(x_n)])=[(y_n)]=\eta$.
+      - kind: step
+        text: >-
+          (ג) $f(q)=q+1$ שומרת מרחקים. יהי $\xi=[(x_n)]$ עם $x_n\ge0$. לפי למה 2.6.7(א),
+          $\widehat d\big(F(\xi),\iota(\frac12)\big)=\lim_n\big|x_n+1-\frac12\big|=\lim_n\big(x_n+\frac12\big)\ge\frac12$, כי אי-שוויון
+          חלש עובר לגבול. לכן $F(\xi)\ne\iota(\frac12)$ לכל $\xi$.
+      - kind: check
+        text: >-
+          ב-(ג) $f$ אינה על ($\frac12\notin f(X)$), ולכן (ב) אינו חל, ואכן $F$ אינה על. דרך מסקנה 2.6.11(ב), ההשלמה של $X$
+          היא $[0,\infty)$ ו-$F$ היא $t\mapsto t+1$, שתמונתה $[1,\infty)$.
+      - kind: result
+        text: >-
+          כל איזומטריה של $X$ מתרחבת ביחידות לאיזומטריה $F$ של $\widehat X$ עם $F\circ\iota=\iota\circ f$; היא על כש-$f$ על,
+          ובלי זה לא בהכרח.
+
+  - id: W-2.6-09
+    level: exam
+    qualitative: true
+    objectives: [OBJ-2.6-1]
+    prompt: >-
+      יהי $X$ מרחב מטרי ו-$(\widehat X,\iota)$ השלמה שלו. הוכיחו או הפריכו.
+
+      (א) אם $X$ בן מנייה, גם $\widehat X$ בן מנייה.
+
+      (ב) אם $X$ חסום, אז $\widehat X$ חסום ו-$\operatorname{diam}\widehat X=\operatorname{diam}X$.
+
+      (ג) אם ל-$X$ אין נקודות מבודדות, גם ל-$\widehat X$ אין.
+
+      (ד) אם $X$ אינו שלם, ההשלמה מוסיפה אינסוף נקודות: $\widehat X\setminus\iota(X)$ אינסופית.
+    answer: >-
+      (א) לא: $\mathbb{Q}$ ו-$\mathbb{R}$. (ב) נכון. (ג) נכון. (ד) לא: $(0,1]$ ו-$[0,1]$, נקודה אחת.
+    solution:
+      - kind: idea
+        text: >-
+          השלמה שומרת כל מה שנקבע ממרחקים בתוך קבוצה צפופה (קוטר, נקודות מבודדות), אבל יכולה להוסיף הרבה נקודות או מעט
+          מאוד: את זה קובעות סדרות הקושי שאין להן גבול.
+      - kind: step
+        text: >-
+          (א) **לא נכון.** $\mathbb{Q}$ בן מנייה (אינפי 1), וההשלמה שלו היא $\mathbb{R}$ (טענה 2.6.2), עד כדי איזומטריה
+          (משפט 2.6.10). $\mathbb{R}$ שלם ואין בו נקודות מבודדות (כל $(x-r,x+r)$ מכיל את $x+\frac r2$), ולפי משפט 2.5.9 הוא
+          אינו בן מנייה.
+      - kind: step
+        text: >-
+          (ב) **נכון.** $\operatorname{diam}\iota(X)=\sup\widehat d(\iota x,\iota x')=\sup d(x,x')=\operatorname{diam}X<\infty$.
+          $\widehat X=\overline{\iota(X)}$, ולפי טענה 2.5.1 $\operatorname{diam}\widehat X=\operatorname{diam}\iota(X)$. קוטר סופי
+          פירושו חסימות (הגדרה וטענה 2.1.2).
+      - kind: step
+        text: >-
+          (ג) **נכון.** נניח בשלילה ש-$\xi$ מבודדת: $B(\xi,r)=\{\xi\}$ לאיזה $r>0$. $\iota(X)$ צפופה, ולכן הכדור פוגש
+          אותה (טענה 1.4.14(ג)): $\xi=\iota(x)$. $x$ אינה מבודדת ב-$X$, ולכן יש $x'\ne x$ עם $d(x,x')<r$. אז
+          $\iota(x')\ne\iota(x)$ (איזומטריה חד-חד-ערכית) ו-$\widehat d(\iota x',\xi)=d(x',x)<r$, בסתירה ל-$B(\xi,r)=\{\xi\}$.
+      - kind: step
+        text: >-
+          (ד) **לא נכון.** $X=(0,1]$ אינו שלם ($\frac1n$ סדרת קושי בלי גבול בו, טענה 2.1.14 באותה דרך). ההשלמה שלו
+          היא הסגור $[0,1]$ (טענה 2.6.2), ו-$[0,1]\setminus(0,1]=\{0\}$: נקודה אחת.
+      - kind: check
+        text: >-
+          ב-(ג) השתמשנו בשני דברים בלבד: צפיפות (הנקודה המבודדת הייתה חייבת להיות ב-$\iota(X)$) ושמירת מרחקים. ב-(א)
+          ההשלמה הוסיפה קבוצה לא בת מנייה, וב-(ד) נקודה אחת.
+      - kind: result
+        text: >-
+          (א) לא נכון; (ב) נכון; (ג) נכון; (ד) לא נכון.
+
+  - id: W-2.6-10
+    level: exam
+    objectives: [OBJ-2.6-1, OBJ-2.6-3]
+    prompt: >-
+      יהי $(X,d)$ מרחב מטרי ו-$a\in X$ נקודה קבועה. לכל $x\in X$ נגדיר $f_x:X\to\mathbb{R}$ על ידי
+      $f_x(t)=d(x,t)-d(a,t)$.
+
+      (א) הוכיחו ש-$f_x\in B(X)$, ושההעתקה $x\mapsto f_x$ היא שיכון איזומטרי של $(X,d)$ ב-$(B(X),d_\infty)$.
+
+      (ב) הסיקו, בלי מחלקות של סדרות קושי, שהסגור של $\{f_x:\ x\in X\}$ ב-$B(X)$, עם השיכון $x\mapsto f_x$, הוא השלמה
+      של $X$, ושהוא איזומטרי ל-$\widehat X$ של משפט 2.6.8.
+
+      (ג) הראו שבלי החיסור של $d(a,t)$ הטענה נופלת: ב-$X=\mathbb{R}$ הפונקציה $t\mapsto|x-t|$ אינה ב-$B(\mathbb{R})$.
+    answer: >-
+      (א) $|f_x(t)|\le d(x,a)$; $\|f_x-f_y\|_\infty=\sup_t|d(x,t)-d(y,t)|\le d(x,y)$, עם שוויון ב-$t=y$. (ב) $B(X)$ שלם
+      (משפט 2.2.4), ולפי מסקנה 2.6.11(ד) הסגור הוא השלמה, איזומטרית ל-$\widehat X$ (משפט 2.6.10). (ג) $|x-t|\to\infty$
+      כש-$t\to\infty$.
+    solution:
+      - kind: idea
+        text: >-
+          כל נקודה $x$ מיוצגת על ידי "פונקציית המרחק ממנה". אי-שוויון המשולש ההפוך אומר שפונקציות מרחק של שתי נקודות
+          רחוקות זו מזו לכל היותר במרחק בין הנקודות, וההצבה $t=y$ מראה שבדיוק במרחק הזה. כך $X$ יושב בתוך מרחב שלם מוכן,
+          והסגור שם הוא השלמה.
+      - kind: theorem
+        text: >-
+          למה 1.1.2(ב) (אי-שוויון המשולש ההפוך): $|d(x,t)-d(y,t)|\le d(x,y)$ לכל $x,y,t\in X$.
+      - kind: step
+        text: >-
+          (א) לפי הלמה עם $y=a$: $|f_x(t)|=|d(x,t)-d(a,t)|\le d(x,a)$ לכל $t$, ולכן $f_x$ חסומה, $f_x\in B(X)$.
+      - kind: step
+        text: >-
+          לכל $t$: $f_x(t)-f_y(t)=d(x,t)-d(y,t)$ (ה-$d(a,t)$ מתבטל). לפי הלמה, $|f_x(t)-f_y(t)|\le d(x,y)$, ולכן
+          $\|f_x-f_y\|_\infty\le d(x,y)$. ב-$t=y$: $|f_x(y)-f_y(y)|=|d(x,y)-0|=d(x,y)$, ולכן הסופרמום לפחות $d(x,y)$.
+          כלומר $d_\infty(f_x,f_y)=d(x,y)$.
+      - kind: step
+        text: >-
+          (ב) $(B(X),d_\infty)$ שלם (משפט 2.2.4), ו-$x\mapsto f_x$ שיכון איזומטרי לתוכו. לפי מסקנה 2.6.11(ד), הסגור של
+          תמונתו, עם השיכון, הוא השלמה של $X$, ולכל השלמה אחרת, בפרט $(\widehat X,\iota)$, יש איזומטריה יחידה שלה על
+          הסגור הזה שמתאימה בין השיכונים.
+      - kind: step
+        text: >-
+          (ג) $|x-t|\ge t-|x|$ לכל $t\ge0$, וזה לא חסום כש-$t$ גדל (ארכימדס). לכן $t\mapsto|x-t|\notin B(\mathbb{R})$. עם
+          החיסור, $f_x(t)=|x-t|-|t|$ חסומה ב-$|x|$, כמו ב-(א).
+      - kind: check
+        text: >-
+          $X=\{0,1,2\}\subseteq\mathbb{R}$, $a=0$: $f_1=(1,-1,-1)$ ו-$f_2=(2,0,-2)$ (ערכים ב-$t=0,1,2$). אז
+          $\|f_1-f_2\|_\infty=\max(1,1,1)=1=d(1,2)$, ו-$\|f_2-f_0\|_\infty=\|f_2\|_\infty=2=d(2,0)$ (כאן $f_0=0$). ההוכחה
+          משתמשת בשלמות של $B(X)$, כלומר בשלמות של $\mathbb{R}$: גם היא אינה בונה את $\mathbb{R}$.
+      - kind: result
+        text: >-
+          כל מרחב מטרי משוכן איזומטרית במרחב השלם $B(X)$ דרך $x\mapsto d(x,\cdot)-d(a,\cdot)$, והסגור של התמונה הוא
+          השלמה שלו, איזומטרית לבנייה ממחלקות.
+
+challenge:
+  - id: W-2.6-c1
+    stars: 1
+    objectives: [OBJ-2.6-1, OBJ-2.6-3]
+    prompt: >-
+      תהי $S$ קבוצת הקטעים הסגורים $[a,b]\subseteq\mathbb{R}$ עם $a<b$, ונגדיר
+      $\delta\big([a,b],[c,e]\big)=|a-c|+|b-e|$.
+
+      (א) הוכיחו ש-$\delta$ מטריקה על $S$.
+
+      (ב) הוכיחו ש-$(S,\delta)$ אינו שלם.
+
+      (ג) מצאו את ההשלמה של $(S,\delta)$ והוכיחו.
+    answer: >-
+      (א) המשיכה של $d_1$ על $\mathbb{R}^2$ דרך $g([a,b])=(a,b)$, שהיא חד-חד-ערכית. (ב) $[0,\frac1n]$ סדרת קושי בלי
+      גבול. (ג) $K=\{(a,b)\in\mathbb{R}^2:\ a\le b\}$ עם $d_1$ והשיכון $g$: הקטעים ועוד "קטעים מנוונים" $[a,a]$.
+    solution:
+      - kind: idea
+        text: >-
+          קטע נקבע על ידי זוג הקצוות שלו, ו-$\delta$ היא המרחק $d_1$ בין הזוגות. לכן $(S,\delta)$ הוא עותק איזומטרי של
+          חצי המישור הפתוח $\{a<b\}$, וההשלמה היא הסגור שלו במישור: מוסיפים את האלכסון, הנקודות.
+      - kind: step
+        text: >-
+          (א) $g:S\to\mathbb{R}^2$, $g([a,b])=(a,b)$, חד-חד-ערכית (קטע נקבע מקצותיו), ו-$\delta(I,J)=d_1(g(I),g(J))$. לפי
+          טענה 1.1.13(ב) $\delta$ מטריקה, ו-$g$ שיכון איזומטרי של $(S,\delta)$ ב-$(\mathbb{R}^2,d_1)$ עם תמונה
+          $H=\{(a,b):\ a<b\}$.
+      - kind: step
+        text: >-
+          (ב) $I_n=[0,\frac1n]$: $\delta(I_m,I_n)=|\frac1m-\frac1n|$, ו-$(\frac1n)$ סדרת קושי ב-$\mathbb{R}$, ולכן $(I_n)$ סדרת
+          קושי. אילו $I_n\to[a,b]$, אז לפי 2.6.1(ג) $(0,\frac1n)\to(a,b)$ ב-$(\mathbb{R}^2,d_1)$, ולפי משפט 1.5.9 $a=0$ ו-$b=0$,
+          בסתירה ל-$a<b$.
+      - kind: step
+        text: >-
+          (ג) $K=\{(a,b):\ a\le b\}$ סגורה ב-$(\mathbb{R}^2,d_1)$: אם $(a_n,b_n)\in K$ ו-$(a_n,b_n)\to(a,b)$, אז לפי משפט 1.5.9
+          $a_n\to a$, $b_n\to b$, ו-$a_n\le b_n$ עובר לגבול; לפי מסקנה 1.5.8(ב) $K$ סגורה. $H\subseteq K$, ולכן
+          $\overline H\subseteq K$ (טענה 1.4.4(ב)).
+      - kind: step
+        text: >-
+          כל $(a,a)$ הוא גבול של $(a,a+\frac1n)\in H$ (משפט 1.5.9), ולכן $K\subseteq\overline H$ (משפט 1.5.7(א)). כלומר
+          $\overline H=K$.
+      - kind: step
+        text: >-
+          $(\mathbb{R}^2,d_1)$ שלם (משפט 2.1.11), ולפי טענה 2.6.2 $K$ עם ההכלה היא השלמה של $H$.
+          $g:S\to H$ איזומטריה על, ולפי תרגיל W-2.6-06(א) $(K,g)$ היא השלמה של $(S,\delta)$.
+      - kind: check
+        text: >-
+          הנקודות החדשות הן הזוגות $(a,a)$, "קטעים מנוונים" $[a,a]=\{a\}$. הסדרה של (ב) מייצגת את $(0,0)$. ו-$\delta$
+          בין שני קטעים מנוונים היא $2|a-c|$: האלכסון הוא עותק של $\mathbb{R}$ עם מטריקה כפולה.
+      - kind: result
+        text: >-
+          $(S,\delta)$ אינו שלם, וההשלמה שלו היא $\{(a,b):\ a\le b\}$ עם $d_1$ והשיכון $[a,b]\mapsto(a,b)$.
+    source:
+      name: 'LMU Munich, Functional Analysis (T. Ø. Sørensen, A. Michelangeli), Homework Assignment no. 6'
+      year: 2012
+      problem: 'Exercise 21(iv)'
+      url: 'https://www.math.lmu.de/~michel/SS12_FA_Assignment06.pdf'
+      verified: '2026-11-10'
+      adapted: true
+
+  - id: W-2.6-c2
+    stars: 1
+    objectives: [OBJ-2.6-2]
+    prompt: >-
+      יהי $(X,d)$ מרחב מטרי ו-$\mathcal C$ קבוצת סדרות הקושי שלו. ל-$(p_n),(q_n)\in\mathcal C$ נגדיר את הסדרה
+      המשולבת $(r_n)$: $r_n=p_{n/2}$ ל-$n$ זוגי ו-$r_n=q_{(n+1)/2}$ ל-$n$ אי-זוגי (כלומר $q_1,p_1,q_2,p_2,\dots$),
+      ונכתוב $(p_n)\approx(q_n)$ אם $(r_n)$ סדרת קושי.
+
+      (א) הוכיחו ש-$(p_n)\approx(q_n)$ אם ורק אם $d(p_n,q_n)\to0$.
+
+      (ב) הסיקו ש-$\approx$ הוא יחס שקילות על $\mathcal C$, ושמחלקות השקילות שלו הן הנקודות של $\widehat X$.
+    answer: >-
+      (א) ($\Rightarrow$) $d(p_k,q_k)=d(r_{2k},r_{2k-1})$ עם שני אינדקסים גדולים. ($\Leftarrow$) לשני איברים של $(r_n)$
+      מאותה סדרה תנאי קושי שלה, ולאיברים משתי סדרות $d(p_k,q_l)\le d(p_k,p_l)+d(p_l,q_l)$. (ב) $\approx$ הוא $\sim$ של
+      טענה 2.6.5.
+    solution:
+      - kind: idea
+        text: >-
+          הסדרה המשולבת עוברת הלוך ושוב בין $(p_n)$ ל-$(q_n)$. היא סדרת קושי בדיוק כשהקפיצות בין שתי הסדרות קטנות,
+          כלומר כשהן מתקרבות זו לזו: זו השקילות של השיעור, בניסוח שלא מזכיר אף מספר מלבד מרחקים בתוך סדרה אחת.
+      - kind: step
+        text: >-
+          (א, $\Rightarrow$) יהי $\varepsilon>0$, ו-$N$ עם $d(r_m,r_n)<\varepsilon$ לכל $m,n>N$. לכל $k>N$ האינדקסים $2k-1\ge k$
+          ו-$2k$ גדולים מ-$N$, ולכן $d(p_k,q_k)=d(r_{2k},r_{2k-1})<\varepsilon$. לכן $d(p_k,q_k)\to0$.
+      - kind: step
+        text: >-
+          (א, $\Leftarrow$) יהי $\varepsilon>0$. יש $K_1$ עם $d(p_k,p_l)<\frac\varepsilon2$ ל-$k,l>K_1$; $K_2$ עם
+          $d(q_k,q_l)<\frac\varepsilon2$ ל-$k,l>K_2$; ו-$K_3$ עם $d(p_k,q_k)<\frac\varepsilon2$ ל-$k>K_3$. יהי $K=\max(K_1,K_2,K_3)$.
+      - kind: step
+        text: >-
+          ל-$m>2K$, $r_m$ הוא $p_k$ עם $k=\frac m2>K$ או $q_k$ עם $k=\frac{m+1}2>K$. יהיו $m,n>2K$. אם $r_m,r_n$ שניהם
+          מ-$(p)$ או שניהם מ-$(q)$, המרחק קטן מ-$\frac\varepsilon2$. אם $r_m=p_k$ ו-$r_n=q_l$, אז לפי (M3)
+          $d(p_k,q_l)\le d(p_k,p_l)+d(p_l,q_l)<\frac\varepsilon2+\frac\varepsilon2=\varepsilon$. לכן $(r_n)$ סדרת קושי.
+      - kind: step
+        text: >-
+          (ב) לפי (א), $\approx$ ו-$\sim$ של טענה 2.6.5 הם אותו יחס על $\mathcal C$. לפי טענה 2.6.5(א) הוא יחס שקילות,
+          ו-$\widehat X$ של משפט 2.6.8 הוא בדיוק $\mathcal C/{\approx}$.
+      - kind: check
+        text: >-
+          ב-$\mathbb{Q}$, $p_n=a_n$ (הקירובים העשרוניים של $\sqrt2$) ו-$q_n=y_n$ (סדרת ניוטון): הסדרה המשולבת
+          $2,\ 1,\ 1.5,\ 1.4,\ 1.41\overline6,\ 1.41,\dots$ מתקרבת ל-$\sqrt2$ משני הצדדים, ולכן היא סדרת קושי, כצפוי
+          מ-$(a_n)\sim(y_n)$. עם $p_n=0$, $q_n=1$ היא $1,0,1,0,\dots$, שאינה סדרת קושי.
+      - kind: result
+        text: >-
+          $(p_n)\approx(q_n)$ אם ורק אם $d(p_n,q_n)\to0$; לכן $\approx$ יחס שקילות, והמחלקות שלו הן נקודות ההשלמה.
+    source:
+      name: 'University of British Columbia, Math 320 (Real Analysis I), Assignment 8 (Fall 2018)'
+      year: 2018
+      problem: 'Problem 1'
+      url: 'https://personal.math.ubc.ca/~malabika/teaching/ubc/fall18/math320/HW8.pdf'
+      verified: '2026-11-10'
+      adapted: true

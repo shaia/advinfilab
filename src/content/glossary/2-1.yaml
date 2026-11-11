@@ -15,3 +15,26 @@
     מרחב מטרי שבו כל סדרת קושי מתכנסת לנקודה של המרחב. $\mathbb{R}^n$ שלם; $\mathbb{Q}$ ו-$(0,1)$ עם המרחק הרגיל
     אינם שלמים.
   lesson: '2.1'
+- id: diameter
+  term: קוטר
+  en: diameter
+  symbol: '\operatorname{diam}A'
+  definition: >-
+    הקוטר של קבוצה $A\neq\emptyset$ במרחב מטרי הוא $\operatorname{diam}A=\sup\{d(x,y):x,y\in A\}$ (ייתכן שהוא
+    אינסופי). הוא תלוי במטריקה: לריבוע $[0,1]^2$ קוטר $2$ בנורמה $\|\cdot\|_1$ ו-$1$ בנורמה $\|\cdot\|_\infty$.
+  lesson: '2.1'
+- id: sequence-tail
+  term: זנב של סדרה
+  en: tail of a sequence
+  symbol: 'T_N=\{x_n:\ n\ge N\}'
+  definition: >-
+    הזנב מ-$N$ של סדרה $(x_n)$ הוא קבוצת האיברים $T_N=\{x_n:\ n\ge N\}$. סדרה היא סדרת קושי אם ורק אם הקוטר של
+    הזנב, $D_N=\operatorname{diam}T_N$, שואף ל-0.
+  lesson: '2.1'
+- id: uniformly-cauchy
+  term: קושי במידה שווה
+  en: uniformly Cauchy
+  definition: >-
+    סדרת פונקציות $f_n:X\to\mathbb{R}$ היא קושי במידה שווה אם לכל $\varepsilon>0$ קיים $N$ כך ש-$|f_m(t)-f_n(t)|<\varepsilon$
+    לכל $m,n>N$ ולכל $t\in X$. ב-$B(X)$ זה בדיוק תנאי קושי במטריקת הסופרמום.
+  lesson: '2.1'

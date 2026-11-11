@@ -6,7 +6,7 @@
   truth: >-
     כיווץ דורש מקדם **אחיד** $q<1$: $d(f(x),f(y))\le q\,d(x,y)$ לכל $x,y$. הפונקציה $f(x)=x+\frac1x$ על
     $[1,\infty)$ מקטינה כל מרחק, היחס $1-\frac{1}{xy}$ שואף ל-1, ואין לה נקודת שבת.
-  remedy: { lesson: '2.3', label: 'הגדרת העתקה מכווצת: q אחד לכל הזוגות' }
+  remedy: { lesson: '2.3', anchor: 'definition', label: 'הגדרת העתקה מכווצת: q אחד לכל הזוגות' }
 
 - id: MC-c2-q-one-enough
   title: חושבים שמקדם 1 מספיק
@@ -15,7 +15,7 @@
   truth: >-
     עם $q=1$ הכול יכול לקרות: ההזזה $x\mapsto x+1$ בלי נקודת שבת, הזהות עם אינסוף, $x\mapsto -x$ עם אחת. ההוכחה
     משתמשת בטור ההנדסי $\sum q^n$, שמתבדר ב-$q=1$.
-  remedy: { lesson: '2.3', label: 'למה q קטן ממש מ-1' }
+  remedy: { lesson: '2.3', anchor: 'shrinking', label: 'למה q קטן ממש מ-1' }
 
 - id: MC-c2-q-at-one-point
   title: מחשבים את מקדם הכיווץ מהנגזרת בנקודה אחת
@@ -24,7 +24,7 @@
   truth: >-
     לפי משפט הערך הממוצע $|g(x)-g(y)|\le\sup|g'|\cdot|x-y|$, כשהסופרמום הוא על **כל** הקטע. ל-$g(x)=\frac{x}{2}+\frac1x$
     על $[1,2]$: $g'(2)=\frac14$ ו-$g'(\sqrt2)=0$, אבל $|g'(1)|=\frac12$, ולכן $q=\frac12$.
-  remedy: { lesson: '2.3', label: 'מקדם הכיווץ מסופרמום הנגזרת' }
+  remedy: { lesson: '2.3', anchor: 'derivative-test', label: 'מקדם הכיווץ מסופרמום הנגזרת' }
 
 - id: MC-c2-ignore-self-map
   title: שוכחים לבדוק שההעתקה שולחת את המרחב לתוך עצמו
@@ -33,7 +33,7 @@
   truth: >-
     בלי $f(X)\subseteq X$ האיטרציות יוצאות מ-$X$. $g(x)=\frac x2+1$ מכווצת עם $q=\frac12$ על $[0,1]$, אבל
     $g([0,1])=[1,\frac32]$, ונקודת השבת שלה היא $2\notin[0,1]$.
-  remedy: { lesson: '2.3', label: 'ההנחה השלישית: f מ-X לתוך X' }
+  remedy: { lesson: '2.3', anchor: 'self-map', label: 'ההנחה השלישית: f מ-X לתוך X' }
 
 - id: MC-c2-start-point-matters
   title: חושבים שנקודת השבת תלויה בנקודת ההתחלה
@@ -42,7 +42,7 @@
   truth: >-
     למכווצת על מרחב שלם יש נקודת שבת **יחידה**, והאיטרציות מכל $x_0$ מתכנסות אליה. נקודת ההתחלה משפיעה רק על
     $d(x_1,x_0)$, כלומר על הקבוע בחסם.
-  remedy: { lesson: '2.3', label: 'יחידות נקודת השבת' }
+  remedy: { lesson: '2.3', anchor: 'banach', label: 'יחידות נקודת השבת' }
 
 - id: MC-c2-bound-formula
   title: טועים בנוסחת חסם השגיאה של בנך
@@ -51,7 +51,7 @@
   truth: >-
     $d(x_n,x^*)\le\frac{q^n}{1-q}\,d(x_1,x_0)$: סכום הצעדים $d(x_k,x_{k+1})\le q^k d(x_1,x_0)$ מ-$k=n$ עד אינסוף.
     בהתחלה מחדש מ-$x_{n-1}$ מקבלים $d(x_n,x^*)\le\frac{q}{1-q}\,d(x_n,x_{n-1})$.
-  remedy: { lesson: '2.3', label: 'חסם השגיאה מטור הנדסי' }
+  remedy: { lesson: '2.3', anchor: 'error-bounds', label: 'חסם השגיאה מטור הנדסי' }
 
 - id: MC-c2-wrong-hypothesis-blamed
   title: מאשימים את ההנחה הלא נכונה כשמשפט בנך נכשל
@@ -60,7 +60,7 @@
   truth: >-
     יש שלוש הנחות, ובודקים כל אחת: $X$ שלם? $f(X)\subseteq X$? קיים $q<1$ אחיד? ב-$\frac x2$ על $(0,1]$ נכשלת
     השלמות, ב-$\frac x2+1$ על $[0,1]$ נכשלת ההכלה, וב-$x+\frac1x$ על $[1,\infty)$ נכשל ה-$q$.
-  remedy: { lesson: '2.3', label: 'כל הנחה נחוצה: שלוש דוגמאות' }
+  remedy: { lesson: '2.3', anchor: 'hypotheses', label: 'כל הנחה נחוצה: שלוש דוגמאות' }
 
 - id: MC-c2-unique-fp-means-contraction
   title: חושבים שרק העתקה מכווצת יכולה להבטיח נקודת שבת יחידה
@@ -70,7 +70,7 @@
   truth: >-
     משפט בנך הוא תנאי מספיק בלבד. $\cos$ אינה מכווצת על $\mathbb{R}$, אבל $\cos\circ\cos$ מכווצת (הנגזרת חסומה
     על ידי $\sin1<1$), ומזה נובע שגם ל-$\cos$ נקודת שבת יחידה.
-  remedy: { lesson: '2.3', label: 'כשאיטרציה של f מכווצת' }
+  remedy: { lesson: '2.3', anchor: 'iterate-contraction', label: 'כשאיטרציה של f מכווצת' }
 
 - id: MC-c2-incomplete-no-fixed-point
   title: חושבים שבמרחב לא שלם למכווצת אין נקודת שבת
@@ -79,4 +79,4 @@
   truth: >-
     משפט בנך לא מבטיח, אבל גם לא שולל. $\frac x2$ על $(-1,1)$, מרחב לא שלם, היא מכווצת עם נקודת שבת $0$. רק
     ההבטחה הולכת לאיבוד, לא בהכרח נקודת השבת.
-  remedy: { lesson: '2.3', label: 'מה קורה כשהנחה חסרה' }
+  remedy: { lesson: '2.3', anchor: 'hypotheses', label: 'מה קורה כשהנחה חסרה' }

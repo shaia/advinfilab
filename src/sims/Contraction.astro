@@ -1,0 +1,7 @@
+---
+/** Lesson 2.3 figure: <Spread figure={Contraction} figureProps={{ map, maps, x0, n, showBound, showImages, … }}>. */
+import Contraction, { type ContractionProps } from './Contraction';
+type Props = ContractionProps;
+---
+
+<Contraction client:visible {...Astro.props} />

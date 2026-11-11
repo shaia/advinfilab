@@ -162,7 +162,7 @@ questions:
       - id: iterate
         label: 'נבחר $x_0\in X$ ונגדיר $x_{n+1}=f(x_n)$. באינדוקציה $d(x_{n+1},x_n)\le q^n d(x_1,x_0)$.'
       - id: geometric
-        label: 'ל-$m>n$, מאי-שוויון המשולש: $d(x_m,x_n)\le\sum_{k=n}^{m-1}q^k d(x_1,x_0)<\frac{q^n}{1-q}\,d(x_1,x_0)$.'
+        label: 'ל-$m>n$, מאי-שוויון המשולש: $d(x_m,x_n)\le\sum_{k=n}^{m-1}q^k d(x_1,x_0)\le\frac{q^n}{1-q}\,d(x_1,x_0)$.'
       - id: cauchy
         label: 'כי $q^n\to0$, הסדרה היא סדרת קושי; $X$ שלם, ולכן $x_n\to x^*$ לאיזה $x^*\in X$.'
       - id: fixed

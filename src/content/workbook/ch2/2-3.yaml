@@ -1,0 +1,519 @@
+# Workbook of lesson 2.3 — Banach's fixed point theorem.
+# Objectives (src/course.ts):
+#   OBJ-2.3-1  define a contraction and state Banach's fixed point theorem
+#   OBJ-2.3-2  prove it with the iteration sequence; estimate the error after a given number of iterations
+#   OBJ-2.3-3  every hypothesis is needed: completeness, q < 1 (not just shrinking), f(X) ⊆ X
+# Results cited by the numbers of the formal spine (2.3.k). Every number recomputed with npx tsx (iterations, bounds,
+# first n for a tolerance, a grid maximum of |f'| for W-01(ב), a midpoint integral for W-07).
+lesson: '2.3'
+practice:
+  - id: W-2.3-01
+    level: basic
+    objectives: [OBJ-2.3-1]
+    prompt: >-
+      לכל אחת מההעתקות קבעו אם היא מכווצת, ואם כן מצאו את מקדם הכיווץ **הקטן ביותר**.
+
+      (א) $f(x)=\frac x3+5$ על $\mathbb{R}$.
+
+      (ב) $f(x)=\frac{1}{2+x^2}$ על $\mathbb{R}$.
+
+      (ג) $f(x)=x^2$ על $[0,\frac13]$.
+
+      (ד) $F(x,y)=\left(\frac y2,\ \frac x3\right)$ על $(\mathbb{R}^2,d_\infty)$.
+
+      (ה) $f(x)=\sin x$ על $\mathbb{R}$.
+    answer: >-
+      (א) $\frac13$. (ב) $\frac{3\sqrt6}{32}\approx0.2296$. (ג) $\frac23$. (ד) $\frac12$. (ה) אינה מכווצת.
+    solution:
+      - kind: theorem
+        text: >-
+          טענה 2.3.6: על קטע, $|f(x)-f(y)|\le q|x-y|$ לכל $x,y$ אם ורק אם $|f'|\le q$ בכל נקודה. לכן מקדם הכיווץ
+          הקטן ביותר של פונקציה גזירה על קטע הוא $\sup|f'|$, אם הוא קטן מ-1. ול-$Ax$ ב-$d_p$: טענה 1.8.4(ג), הקבוע
+          הקטן ביותר הוא $\|A\|_p$.
+      - kind: computation
+        text: >-
+          (א) $|f(x)-f(y)|=\frac13|x-y|$, בשוויון: המקדם הקטן ביותר $\frac13$.
+      - kind: computation
+        text: >-
+          (ב) $f'(x)=\frac{-2x}{(2+x^2)^2}$. נגזור את $h(x)=\frac{2x}{(2+x^2)^2}$ ל-$x\ge0$:
+          $h'(x)=\frac{2(2+x^2)-8x^2}{(2+x^2)^3}=\frac{4-6x^2}{(2+x^2)^3}$, שמתאפסת ב-$x^2=\frac23$; $h(0)=0$ ו-$h\to0$
+          באינסוף, ולכן המקסימום הוא $h\big(\sqrt{2/3}\big)=2\sqrt{\tfrac23}\cdot\frac{9}{64}=\frac{3\sqrt6}{32}\approx0.2296$.
+          $|f'|$ זוגית, ולכן זה $\sup_{\mathbb{R}}|f'|<1$.
+      - kind: computation
+        text: >-
+          (ג) $f([0,\frac13])=[0,\frac19]\subseteq[0,\frac13]$, ו-$|f'(x)|=2x\le\frac23$, עם שוויון ב-$\frac13$: המקדם
+          הקטן ביותר $\frac23$.
+      - kind: computation
+        text: >-
+          (ד) $F(v)=Av$ עם $A=\begin{pmatrix}0&\frac12\\\frac13&0\end{pmatrix}$. לפי משפט 1.8.9, $\|A\|_\infty$ הוא סכום
+          השורה הגדול: $\max(\frac12,\frac13)=\frac12$.
+      - kind: step
+        text: >-
+          (ה) $|\sin'(0)|=\cos0=1$. לפי טענה 2.3.6(ב), כל קבוע $q$ שמתאים מקיים $q\ge1$. לכן $\sin$ אינה מכווצת על
+          $\mathbb{R}$, אף שלפי טענה 2.3.6(א) היא ליפשיצית עם קבוע 1.
+      - kind: check
+        text: >-
+          (ב) בחישוב על רשת: המקסימום של $|f'|$ הוא $0.229640$, ב-$x\approx0.8165=\sqrt{2/3}$. נקודת השבת של (ב) היא
+          השורש הממשי של $x^3+2x-1=0$, $x^*\approx0.4534$.
+      - kind: result
+        text: >-
+          (א) $\frac13$; (ב) $\frac{3\sqrt6}{32}$; (ג) $\frac23$; (ד) $\frac12$; (ה) אינה מכווצת.
+
+  - id: W-2.3-02
+    level: basic
+    objectives: [OBJ-2.3-2]
+    prompt: >-
+      $g(x)=\frac{1}{1+x}$ על $X=[\frac12,1]$.
+
+      (א) הוכיחו שמשפט 2.3.4 חל, עם $q=\frac49$.
+
+      (ב) מ-$x_0=1$ חשבו את $x_1,\dots,x_4$, ואת החסם האפריורי ואת החסם האפוסטריורי על $|x_4-x^*|$.
+
+      (ג) מצאו את $x^*$ והשוו לשגיאה האמיתית.
+    answer: >-
+      (ב) $x_1,\dots,x_4=\frac12,\frac23,\frac35,\frac58$; אפריורי $\frac{128}{3645}\approx0.0351$, אפוסטריורי
+      $\frac1{50}=0.02$. (ג) $x^*=\frac{\sqrt5-1}{2}\approx0.618034$, שגיאה $\approx0.00697$.
+    solution:
+      - kind: step
+        text: >-
+          (א) $[\frac12,1]$ קטע סגור, ולכן שלם. $g$ יורדת, ולכן $g(X)=[g(1),g(\frac12)]=[\frac12,\frac23]\subseteq X$.
+          $|g'(x)|=\frac1{(1+x)^2}\le\frac1{(3/2)^2}=\frac49$ על $X$. לפי טענה 2.3.6(ג), $g$ מכווצת עם $q=\frac49$.
+      - kind: computation
+        text: >-
+          (ב) $x_1=\frac12$, $x_2=\frac1{3/2}=\frac23$, $x_3=\frac35$, $x_4=\frac58$. $d(x_0,x_1)=\frac12$, $1-q=\frac59$.
+          לפי 2.3.4(א): $\frac{(4/9)^4}{5/9}\cdot\frac12=\frac{256}{6561}\cdot\frac95\cdot\frac12=\frac{128}{3645}\approx0.0351$.
+      - kind: computation
+        text: >-
+          לפי 2.3.4(ב): $\frac{q}{1-q}|x_4-x_3|=\frac45\cdot\left|\frac58-\frac35\right|=\frac45\cdot\frac1{40}=\frac1{50}$.
+      - kind: computation
+        text: >-
+          (ג) $x=\frac1{1+x}$ שקול ל-$x^2+x-1=0$, והשורש ב-$X$ הוא $\frac{\sqrt5-1}{2}\approx0.618034$. השגיאה
+          $|\frac58-0.618034|\approx0.006966$.
+      - kind: check
+        text: >-
+          $0.006966\le0.02\le0.0351$: השגיאה מתחת לשני החסמים, והאפוסטריורי חד יותר. האיטרציות הן מנות של מספרי
+          פיבונאצ'י עוקבים.
+      - kind: result
+        text: >-
+          חסם אפריורי $\frac{128}{3645}$, חסם אפוסטריורי $\frac1{50}$, שגיאה אמיתית $\approx0.00697$.
+
+  - id: W-2.3-03
+    level: basic
+    qualitative: true
+    objectives: [OBJ-2.3-3]
+    prompt: >-
+      לאף אחת מההעתקות הבאות אין נקודת שבת ב-$X$. לכל אחת קבעו איזו מההנחות של משפט 2.3.4 נכשלת (שלמות, $f(X)\subseteq X$,
+      מקדם $q<1$), והוכיחו שהשתיים האחרות מתקיימות.
+
+      (א) $f(x)=\frac{x+1}{2}$ על $X=[0,1)$.
+
+      (ב) $f(x)=2-\frac x2$ על $X=[0,1]$.
+
+      (ג) $f(x)=\ln(1+e^x)$ על $X=\mathbb{R}$.
+    answer: >-
+      (א) השלמות. (ב) ההכלה $f(X)\subseteq X$. (ג) המקדם $q<1$.
+    solution:
+      - kind: step
+        text: >-
+          (א) $|f(x)-f(y)|=\frac12|x-y|$, ו-$f([0,1))=[\frac12,1)\subseteq X$. $X$ אינו שלם: $1-\frac1n\to1\notin X$, כך ש-$X$
+          אינו סגור ב-$\mathbb{R}$ (מסקנה 1.5.8(ב)), ולפי מסקנה 2.2.2 אינו שלם. $f(x)=x$ רק ב-$x=1\notin X$.
+      - kind: step
+        text: >-
+          (ב) $|f(x)-f(y)|=\frac12|x-y|$, ו-$[0,1]$ שלם. אבל $f([0,1])=[\frac32,2]$, זר ל-$[0,1]$. $f(x)=x$ רק
+          ב-$x=\frac43\notin X$.
+      - kind: step
+        text: >-
+          (ג) $\mathbb{R}$ שלם (משפט 2.1.10) ו-$f:\mathbb{R}\to\mathbb{R}$. $f'(x)=\frac{e^x}{1+e^x}\in(0,1)$, ולכן לפי
+          משפט לגרנז' $|f(x)-f(y)|<|x-y|$ לכל $x\ne y$. אבל $f'(x)\to1$ כש-$x\to\infty$, ולפי טענה 2.3.6(ב) אף $q<1$
+          אינו מקדם כיווץ.
+      - kind: step
+        text: >-
+          ב-(ג) אין נקודת שבת: $1+e^x>e^x$ ו-$\ln$ עולה ממש, ולכן $f(x)>\ln e^x=x$ לכל $x$.
+      - kind: check
+        text: >-
+          כל דוגמה נכשלת בהנחה אחרת, כמו בטענה 2.3.5. ב-(ג) $f(x)-x=\ln(1+e^{-x})\to0$ כש-$x\to\infty$: הגרף מתקרב
+          לאלכסון ואינו פוגש אותו.
+      - kind: result
+        text: >-
+          (א) שלמות; (ב) $f(X)\subseteq X$; (ג) $q<1$.
+
+  - id: W-2.3-04
+    level: mid
+    objectives: [OBJ-2.3-1, OBJ-2.3-2]
+    prompt: >-
+      יהי $(X,d)$ מרחב מטרי שלם, $f:X\to X$ מכווצת עם מקדם $q$ ונקודת שבת $x^*$, ו-$g:X\to X$ העתקה כלשהי עם
+      $d\big(f(x),g(x)\big)\le\varepsilon$ לכל $x\in X$.
+
+      (א) הוכיחו: אם $y$ נקודת שבת של $g$, אז $d(y,x^*)\le\frac{\varepsilon}{1-q}$.
+
+      (ב) הראו בדוגמה ב-$\mathbb{R}$ שהחסם הדוק.
+    answer: >-
+      (א) $d(y,x^*)\le\varepsilon+q\,d(y,x^*)$. (ב) $f(x)=\frac x2$, $g(x)=\frac x2+\varepsilon$: $d(2\varepsilon,0)=2\varepsilon=\frac{\varepsilon}{1-1/2}$.
+    solution:
+      - kind: idea
+        text: >-
+          משווים את $y=g(y)$ ל-$x^*=f(x^*)$ דרך הנקודה $f(y)$: הפער בין $g$ ל-$f$ באותה נקודה, ועוד הכיווץ של $f$.
+      - kind: step
+        text: >-
+          (א) לפי אי-שוויון המשולש, ההנחה, והגדרה 2.3.1(ב):
+          $d(y,x^*)=d\big(g(y),f(x^*)\big)\le d\big(g(y),f(y)\big)+d\big(f(y),f(x^*)\big)\le\varepsilon+q\,d(y,x^*)$.
+      - kind: step
+        text: >-
+          לכן $(1-q)\,d(y,x^*)\le\varepsilon$, ו-$1-q>0$ נותן $d(y,x^*)\le\frac{\varepsilon}{1-q}$.
+      - kind: step
+        text: >-
+          (ב) $f(x)=\frac x2$ מכווצת עם $q=\frac12$ ו-$x^*=0$; $g(x)=\frac x2+\varepsilon$ מקיימת $|f(x)-g(x)|=\varepsilon$, ונקודת
+          השבת שלה $y=2\varepsilon$. אז $d(y,x^*)=2\varepsilon=\frac{\varepsilon}{1-1/2}$: שוויון.
+      - kind: check
+        text: >-
+          לא השתמשנו בכך ש-$g$ רציפה או מכווצת: רק בקיום נקודת שבת שלה. זו "יציבות" של נקודת השבת: שגיאה $\varepsilon$
+          בחישוב $f$ מזיזה את התשובה לכל היותר ב-$\frac{\varepsilon}{1-q}$.
+      - kind: result
+        text: >-
+          $d(y,x^*)\le\frac{\varepsilon}{1-q}$, והחסם מתקבל.
+
+  - id: W-2.3-05
+    level: mid
+    qualitative: true
+    objectives: [OBJ-2.3-2]
+    prompt: >-
+      יהיו $0\le q<1$ ו-$c\in\mathbb{R}$, ו-$f(x)=qx+c$ על $\mathbb{R}$.
+
+      (א) הוכיחו שלכל $x_0$ ולכל $n\ge1$, שני החסמים של משפט 2.3.4, האפריורי והאפוסטריורי, מתקיימים **בשוויון**.
+
+      (ב) יהי $0<q<1$. הסיקו שבמשפט 2.3.4 אי אפשר להחליף את הגורם $\frac{1}{1-q}$ בחסם (א), או את $\frac{q}{1-q}$ בחסם
+      (ב), בגורם קטן יותר שתלוי רק ב-$q$.
+    answer: >-
+      (א) $x_n-x^*=q^n(x_0-x^*)$ ו-$x_1-x_0=(q-1)(x_0-x^*)$. (ב) גורם קטן יותר היה נותן אי-שוויון שנכשל עבור ההעתקה
+      הזו.
+    solution:
+      - kind: step
+        text: >-
+          (א) נקודת השבת: $qx+c=x$, $x^*=\frac{c}{1-q}$. אז $f(x)-x^*=qx+c-qx^*-c=q(x-x^*)$, ובאינדוקציה
+          $x_n-x^*=q^n(x_0-x^*)$.
+      - kind: step
+        text: >-
+          $x_1-x_0=(x_1-x^*)-(x_0-x^*)=(q-1)(x_0-x^*)$, כלומר $|x_0-x^*|=\frac{|x_1-x_0|}{1-q}$. לכן
+          $|x_n-x^*|=q^n|x_0-x^*|=\frac{q^n}{1-q}|x_1-x_0|$: שוויון בחסם (א).
+      - kind: step
+        text: >-
+          (ב של המשפט) $x_n-x_{n-1}=(x_n-x^*)-(x_{n-1}-x^*)=q^{n-1}(q-1)(x_0-x^*)$, ולכן
+          $\frac{q}{1-q}|x_n-x_{n-1}|=q^n|x_0-x^*|=|x_n-x^*|$: שוויון גם בחסם האפוסטריורי.
+      - kind: step
+        text: >-
+          (ב) יהי $0<q<1$. נניח שלכל מכווצת עם מקדם $q$ על מרחב שלם מתקיים $d(x_n,x^*)\le C\,q^n\,d(x_0,x_1)$ עם
+          $C<\frac1{1-q}$. עם $f(x)=qx+1$ ו-$x_0=0$ ($x_1=1$), לפי (א): $\frac{q^n}{1-q}\le Cq^n$, וחלוקה ב-$q^n>0$ נותנת
+          $\frac1{1-q}\le C$, סתירה.
+      - kind: step
+        text: >-
+          לחסם (ב): נניח ש-$d(x_n,x^*)\le C'\,d(x_{n-1},x_n)$ לכל מכווצת עם מקדם $q$ ולכל $n\ge1$. לאותה $f$ ו-$x_0=0$, לפי
+          (א) של התרגיל $|x_n-x^*|=\frac{q}{1-q}|x_n-x_{n-1}|$, ו-$|x_n-x_{n-1}|=q^{n-1}(1-q)|x_0-x^*|=q^{n-1}>0$ (כאן
+          $x^*=\frac1{1-q}$). לכן $\frac{q}{1-q}|x_n-x_{n-1}|\le C'|x_n-x_{n-1}|$, וחלוקה במספר החיובי הזה נותנת
+          $C'\ge\frac{q}{1-q}$.
+      - kind: check
+        text: >-
+          מספרים: $q=\frac13$, $c=1$, $x_0=0$: $x_4=\frac{40}{27}$, $x^*=\frac32$, $|x_4-x^*|=\frac1{54}$, ו-$\frac{(1/3)^4}{2/3}\cdot1=\frac1{54}$.
+          לפונקציות לא לינאריות החסמים בדרך כלל לא הדוקים ($x=\cos x$ אחרי טענה 2.3.6, ו-$x=e^{-x}$ בדוגמה 1), כי $|f'|$ קטן מ-$q$ ליד $x^*$.
+      - kind: result
+        text: >-
+          בהעתקות לינאריות $qx+c$ שני החסמים הם שוויונות, ולכן הקבועים במשפט 2.3.4 הם הטובים ביותר.
+
+  - id: W-2.3-06
+    level: mid
+    objectives: [OBJ-2.3-1, OBJ-2.3-2]
+    prompt: >-
+      $f(x)=\sqrt{2+x}$ על $X=[0,\infty)$.
+
+      (א) הוכיחו שמשפט 2.3.4 חל, עם $q=\frac{1}{2\sqrt2}$, ומצאו את נקודת השבת.
+
+      (ב) מ-$x_0=0$: כמה איטרציות מבטיח החסם האפריורי לדיוק $10^{-6}$? הסיקו מה הערך של $\sqrt{2+\sqrt{2+\sqrt{2+\cdots}}}$.
+    answer: >-
+      (א) $x^*=2$. (ב) $n=15$; הערך הוא $2$.
+    solution:
+      - kind: step
+        text: >-
+          (א) $[0,\infty)$ סגור ב-$\mathbb{R}$, ולכן שלם (מסקנה 2.2.2). $f(x)\ge\sqrt2\ge0$, ולכן $f(X)\subseteq X$.
+          $f'(x)=\frac{1}{2\sqrt{2+x}}\in\left(0,\frac1{2\sqrt2}\right]$. לפי טענה 2.3.6(ג), $f$ מכווצת עם
+          $q=\frac1{2\sqrt2}\approx0.3536$.
+      - kind: step
+        text: >-
+          נקודת שבת: $\sqrt{2+x}=x$ גורר $x\ge0$ ו-$x^2-x-2=0$, כלומר $(x-2)(x+1)=0$, ולכן $x=2$; ו-$\sqrt{4}=2$.
+      - kind: computation
+        text: >-
+          (ב) $x_1=\sqrt2$, $d(x_0,x_1)=\sqrt2$, $\frac1{1-q}\approx1.5469$. החסם $\frac{q^n}{1-q}\sqrt2$: ב-$n=14$ הוא
+          $1.043\cdot10^{-6}$, וב-$n=15$ הוא $3.69\cdot10^{-7}$. לכן $n=15$.
+      - kind: step
+        text: >-
+          הביטוי $\sqrt{2+\sqrt{2+\cdots}}$ מוגדר כגבול האיטרציות $x_1=\sqrt2$, $x_2=\sqrt{2+\sqrt2}$, …, כלומר האיטרציות
+          של $f$ מ-$x_0=0$. לפי משפט 2.3.4 הן מתכנסות ל-$x^*=2$.
+      - kind: check
+        text: >-
+          $x_4\approx1.990369$, $x_5\approx1.997591$; השגיאה האמיתית יורדת מתחת ל-$10^{-6}$ כבר ב-$n=11$, וב-$n=15$ היא
+          $\approx2.3\cdot10^{-9}$. ליד $2$ השיפוע הוא $f'(2)=\frac14$, קטן מ-$q$.
+      - kind: result
+        text: >-
+          $x^*=2$; $n=15$ מובטח מראש; $\sqrt{2+\sqrt{2+\cdots}}=2$.
+
+  - id: W-2.3-07
+    level: mid
+    objectives: [OBJ-2.3-1]
+    prompt: >-
+      על $C[0,1]$ נגדיר $(Tf)(x)=x+\frac x2\int_0^1t\,f(t)\,dt$.
+
+      (א) הוכיחו ש-$T$ מכווצת ב-$\|\cdot\|_\infty$ עם $q=\frac14$.
+
+      (ב) הסיקו שלמשוואה $f(x)=x+\frac x2\int_0^1t\,f(t)\,dt$ יש פתרון יחיד ב-$C[0,1]$, ומצאו אותו.
+    answer: >-
+      (ב) $f(x)=\frac65x$.
+    solution:
+      - kind: step
+        text: >-
+          (א) $Tf$ היא $x$ כפול קבוע ועוד $x$, ולכן ב-$C[0,1]$. לכל $f,h$ ולכל $x\in[0,1]$, לפי המונוטוניות של האינטגרל:
+          $|(Tf-Th)(x)|=\frac x2\left|\int_0^1t\,(f-h)(t)\,dt\right|\le\frac12\int_0^1t\,dt\;\|f-h\|_\infty=\frac14\|f-h\|_\infty$.
+      - kind: step
+        text: >-
+          לוקחים סופרמום על $x$: $\|Tf-Th\|_\infty\le\frac14\|f-h\|_\infty$.
+      - kind: theorem
+        text: >-
+          $(C[0,1],\|\cdot\|_\infty)$ שלם (מסקנה 2.2.6(ג)). לפי משפט 2.3.4 ל-$T$ נקודת שבת יחידה.
+      - kind: computation
+        text: >-
+          (ב) נקודת שבת $f$ היא מהצורה $f(x)=x\left(1+\frac c2\right)$ עם $c=\int_0^1t\,f(t)\,dt$. נציב:
+          $c=\left(1+\frac c2\right)\int_0^1t^2\,dt=\frac13\left(1+\frac c2\right)$, ולכן $\frac56c=\frac13$, $c=\frac25$,
+          ו-$f(x)=\frac65x$.
+      - kind: check
+        text: >-
+          $\int_0^1t\cdot\frac65t\,dt=\frac65\cdot\frac13=\frac25$, ו-$x+\frac x2\cdot\frac25=\frac65x$. (גם אינטגרל מספרי
+          בכלל האמצע נותן $0.4$.)
+      - kind: result
+        text: >-
+          הפתרון היחיד הוא $f(x)=\frac65x$.
+
+  - id: W-2.3-08
+    level: exam
+    objectives: [OBJ-2.3-3, OBJ-2.3-1]
+    prompt: >-
+      יהי $(X,d)$ מרחב מטרי שלם, $a\in X$, $r>0$, ו-$f:B[a,r]\to X$ העתקה כך שיש $q\in[0,1)$ עם
+      $d(f(x),f(y))\le q\,d(x,y)$ לכל $x,y\in B[a,r]$, וגם $d\big(f(a),a\big)\le(1-q)r$.
+
+      (א) הוכיחו ש-$f\big(B[a,r]\big)\subseteq B[a,r]$, ושיש ל-$f$ נקודת שבת יחידה ב-$B[a,r]$.
+
+      (ב) הראו שבלי התנאי $d(f(a),a)\le(1-q)r$ המסקנה עלולה להיכשל.
+    answer: >-
+      (א) $d(f(x),a)\le q\,r+(1-q)r=r$; $B[a,r]$ שלם. (ב) $f(x)=\frac x2+1$, $a=0$, $r=1$.
+    solution:
+      - kind: idea
+        text: >-
+          כדי להפעיל את משפט 2.3.4 על הכדור צריך שלוש הנחות. הכיווץ נתון; השלמות באה מכך שכדור סגור הוא קבוצה סגורה;
+          וההכלה היא החלק העיקרי: מרכז שזז מעט, וכיווץ שמקרב את שאר הנקודות אליו.
+      - kind: step
+        text: >-
+          (א) יהי $x\in B[a,r]$. לפי אי-שוויון המשולש, הכיווץ וההנחה:
+          $d\big(f(x),a\big)\le d\big(f(x),f(a)\big)+d\big(f(a),a\big)\le q\,d(x,a)+(1-q)r\le qr+(1-q)r=r$.
+          לכן $f(x)\in B[a,r]$.
+      - kind: step
+        text: >-
+          $B[a,r]$ סגור ב-$X$ (טענה 1.3.5), ו-$X$ שלם, ולכן $B[a,r]$, כתת-מרחב, שלם (משפט 2.2.1(א)).
+      - kind: theorem
+        text: >-
+          $f$ היא העתקה מכווצת של המרחב השלם $B[a,r]$ לתוך עצמו. לפי משפט 2.3.4 יש לה נקודת שבת יחידה בו.
+      - kind: step
+        text: >-
+          (ב) $X=\mathbb{R}$, $a=0$, $r=1$, $f(x)=\frac x2+1$: מכווצת עם $q=\frac12$ על $[-1,1]$, אבל
+          $d(f(0),0)=1>(1-q)r=\frac12$. נקודת השבת היחידה של הנוסחה היא $2\notin[-1,1]$, ו-$f(1)=\frac32\notin[-1,1]$.
+      - kind: check
+        text: >-
+          בדיקה עם $q=\frac12$, $a=0$, $r=2$, $f(x)=\frac x2+1$: $d(f(0),0)=1\le\frac12\cdot2$, ואכן נקודת השבת $2$ נמצאת
+          ב-$[-2,2]$, על השפה. זו הצורה ה"מקומית" של משפט בנך, שבה נשתמש בפרק 7.
+      - kind: result
+        text: >-
+          $f$ שולחת את $B[a,r]$ לתוכו ויש לה בו נקודת שבת יחידה; בלי התנאי על $d(f(a),a)$ לא.
+
+  - id: W-2.3-09
+    level: exam
+    objectives: [OBJ-2.3-1, OBJ-2.3-2]
+    prompt: >-
+      תהי $M=(m_{ij})$ מטריצה $n\times n$ **שולטת אלכסונית ממש**: $|m_{ii}|>\sum_{j\ne i}|m_{ij}|$ לכל $i$. תהי $D$ המטריצה
+      האלכסונית עם $D_{ii}=m_{ii}$.
+
+      (א) הוכיחו שלכל $c\in\mathbb{R}^n$ למערכת $Mx=c$ יש פתרון יחיד, ושאיטרציות יעקובי
+      $x_{k+1}=D^{-1}\big(c-(M-D)x_k\big)$ מתכנסות אליו מכל $x_0$.
+
+      (ב) עם $M=\begin{pmatrix}4&1&-1\\2&5&1\\1&-1&3\end{pmatrix}$, $c=(4,8,3)$ ו-$x_0=0$: מצאו את הפתרון, את $x_1,x_2$,
+      ואת מספר האיטרציות שהחסם האפריורי מבטיח לדיוק $10^{-3}$ ב-$\|\cdot\|_\infty$.
+    answer: >-
+      (א) $J(x)=D^{-1}(c-(M-D)x)$ מכווצת ב-$d_\infty$ עם $q=\max_i\frac{\sum_{j\ne i}|m_{ij}|}{|m_{ii}|}<1$. (ב) $x^*=(1,1,1)$,
+      $x_1=(1,\frac85,1)$, $x_2=(0.85,1,1.2)$, $q=\frac23$, $n=21$.
+    solution:
+      - kind: step
+        text: >-
+          (א) $m_{ii}\ne0$ (כי $|m_{ii}|>0$), ולכן $D$ הפיכה. $Mx=c$ שקול ל-$Dx=c-(M-D)x$, כלומר ל-$x=J(x)$ עם
+          $J(x)=D^{-1}\big(c-(M-D)x\big)$: פתרונות המערכת הם בדיוק נקודות השבת של $J$.
+      - kind: step
+        text: >-
+          $J(x)-J(y)=B(x-y)$ עם $B=-D^{-1}(M-D)$: $B_{ii}=0$ ו-$B_{ij}=-\frac{m_{ij}}{m_{ii}}$ ל-$j\ne i$. לפי משפט 1.8.9,
+          $\|B\|_\infty=\max_i\sum_{j\ne i}\frac{|m_{ij}|}{|m_{ii}|}=:q<1$ (שליטה אלכסונית ממש, ומקסימום על מספר סופי של
+          שורות). לפי טענה 1.8.4(א), $\|J(x)-J(y)\|_\infty\le q\|x-y\|_\infty$.
+      - kind: theorem
+        text: >-
+          $(\mathbb{R}^n,d_\infty)$ שלם (משפט 2.1.11). לפי משפט 2.3.4, ל-$J$ נקודת שבת יחידה, כלומר פתרון יחיד ל-$Mx=c$,
+          ואיטרציות יעקובי מתכנסות אליו מכל $x_0$.
+      - kind: computation
+        text: >-
+          (ב) סכומי השורות של $B$: $\frac{1+1}4=\frac12$, $\frac{2+1}5=\frac35$, $\frac{1+1}3=\frac23$, ולכן $q=\frac23$.
+          $M(1,1,1)=(4,8,3)=c$, ולכן $x^*=(1,1,1)$.
+      - kind: computation
+        text: >-
+          $x_1=D^{-1}c=(1,\frac85,1)$; $x_2=\left(\frac{4-\frac85+1}{4},\ \frac{8-2-1}{5},\ \frac{3-1+\frac85}{3}\right)=(0.85,\ 1,\ 1.2)$.
+          $\|x_1-x_0\|_\infty=\frac85$, והחסם $\frac{(2/3)^n}{1/3}\cdot\frac85=4.8\left(\frac23\right)^n$: ב-$n=20$
+          $1.44\cdot10^{-3}$, ב-$n=21$ $9.62\cdot10^{-4}$. לכן $n=21$.
+      - kind: check
+        text: >-
+          בהרצה, $\|x_n-x^*\|_\infty<10^{-3}$ כבר ב-$n=8$, וב-$n=21$ השגיאה $\approx3.4\cdot10^{-9}$. ובפרט מ-(א): מטריצה
+          שולטת אלכסונית ממש הפיכה, כי $Mx=c$ פתירה ביחידות לכל $c$.
+      - kind: result
+        text: >-
+          $x^*=(1,1,1)$; $x_1=(1,1.6,1)$, $x_2=(0.85,1,1.2)$; $n=21$ מובטח.
+
+  - id: W-2.3-10
+    level: exam
+    qualitative: true
+    objectives: [OBJ-2.3-3, OBJ-2.3-1]
+    prompt: >-
+      הוכיחו או הפריכו.
+
+      (א) אם $(X,d)$ שלם, $f:X\to X$, ויש $q<1$ כך ש-$d(f(x),f(y))\le q\,d(x,y)$ לכל $x,y$ עם $d(x,y)<1$, אז ל-$f$ יש נקודת
+      שבת.
+
+      (ב) אם $(X,d)$ שלם, $f:X\to X$ מכווצת עם נקודת שבת $x^*$, ו-$g:X\to X$ מקיימת $f\circ g=g\circ f$, אז $g(x^*)=x^*$.
+
+      (ג) אם $(X,d)$ חסום ו-$f:X\to X$ מכווצת ו**על** ($f(X)=X$), אז $X$ מכיל נקודה אחת בלבד. האם צריך את החסימות?
+    answer: >-
+      (א) לא ($n\mapsto n+1$ על $\mathbb{Z}$). (ב) נכון. (ג) נכון, וצריך את החסימות ($\frac x2$ על $\mathbb{R}$).
+    solution:
+      - kind: step
+        text: >-
+          (א) **לא נכון.** $X=\mathbb{Z}$ עם $|x-y|$: סגור ב-$\mathbb{R}$, ולכן שלם (מסקנה 2.2.2). $f(n)=n+1$. אם $d(x,y)<1$
+          אז $x=y$ (מרחקים בין שלמים שונים לפחות 1), והתנאי $0\le q\cdot0$ מתקיים. אבל $n+1\ne n$: אין נקודת שבת.
+      - kind: step
+        text: >-
+          (ב) **נכון.** $f\big(g(x^*)\big)=g\big(f(x^*)\big)=g(x^*)$, כלומר $g(x^*)$ נקודת שבת של $f$. לפי טענה 2.3.2(ב),
+          $g(x^*)=x^*$. (השלמות לא נדרשה: רק הקיום של $x^*$ והיחידות.)
+      - kind: step
+        text: >-
+          (ג) **נכון.** $X\ne\emptyset$ (הגדרה 1.1.1) וחסום, ולכן לפי טענה 2.3.4א(א) עם $A=X$:
+          $\operatorname{diam}X=\operatorname{diam}f(X)\le q\operatorname{diam}X$. לכן $(1-q)\operatorname{diam}X\le0$,
+          $\operatorname{diam}X=0$, וכל שתי נקודות של $X$ במרחק 0, כלומר שוות.
+      - kind: step
+        text: >-
+          **החסימות נחוצה:** $f(x)=\frac x2$ על $\mathbb{R}$ מכווצת ($q=\frac12$) ועל ($f(2y)=y$), ו-$\mathbb{R}$ אינו נקודה.
+          כאן $\operatorname{diam}\mathbb{R}=\infty$, והאי-שוויון $\infty\le q\cdot\infty$ לא נותן דבר.
+      - kind: check
+        text: >-
+          ב-(א) הבעיה היא שתנאי מקומי לא "רואה" זוגות רחוקים, ובמרחב שבו כל המרחקים לפחות 1 הוא ריק. ב-(ג) לא השתמשנו
+          בשלמות.
+      - kind: result
+        text: >-
+          (א) לא נכון; (ב) נכון; (ג) נכון, והחסימות נחוצה.
+
+challenge:
+  - id: W-2.3-c1
+    stars: 1
+    objectives: [OBJ-2.3-1, OBJ-2.3-3]
+    prompt: >-
+      תהי $f(x)=e^{-x}$ על $\mathbb{R}$.
+
+      (א) הוכיחו ש-$f$ אינה העתקה מכווצת של $\mathbb{R}$.
+
+      (ב) הוכיחו ש-$f\circ f$ מכווצת על $\mathbb{R}$, ומצאו מקדם כיווץ.
+
+      (ג) הסיקו שיש מספר ממשי **יחיד** $x$ עם $x=e^{-x}$, ושהאיטרציות $x_{n+1}=e^{-x_n}$ מתכנסות אליו מכל $x_0\in\mathbb{R}$.
+    answer: >-
+      (א) $|f'(x)|=e^{-x}$ אינו חסום. (ב) $(f\circ f)'(x)=te^{-t}$ עם $t=e^{-x}>0$, ולכן $0<(f\circ f)'\le\frac1e$: $q=\frac1e$.
+      (ג) טענה 2.3.7 עם $k=2$.
+    solution:
+      - kind: idea
+        text: >-
+          $e^{-x}$ תלולה מאוד משמאל, ולכן אינה מכווצת. אבל אחרי שתי הפעלות, $e^{-e^{-x}}$, השיפוע חסום: התלילות של שלב
+          אחד נבלעת בשלב השני, שבו הערכים כבר חיוביים.
+      - kind: step
+        text: >-
+          (א) $f'(x)=-e^{-x}$, ו-$|f'(x)|=e^{-x}\to\infty$ כש-$x\to-\infty$. לפי טענה 2.3.6(ב), לכל קבוע $q$ שמתאים
+          $q\ge|f'(x)|$ לכל $x$, וזה בלתי אפשרי. לכן $f$ אינה מכווצת (ואפילו אינה ליפשיצית).
+      - kind: step
+        text: >-
+          (ב) $g(x)=f(f(x))=e^{-e^{-x}}$. לפי כלל השרשרת $g'(x)=e^{-e^{-x}}\cdot e^{-x}=te^{-t}$ עם $t=e^{-x}>0$.
+          $h(t)=te^{-t}$: $h'(t)=(1-t)e^{-t}$, חיובית ב-$t<1$ ושלילית ב-$t>1$, ולכן $0<h(t)\le h(1)=\frac1e$.
+      - kind: step
+        text: >-
+          לכן $0<g'(x)\le\frac1e$ לכל $x\in\mathbb{R}$, ולפי טענה 2.3.6(ג) עם $I=\mathbb{R}$ (שלם, משפט 2.1.10), $g$
+          מכווצת עם $q=\frac1e\approx0.3679$.
+      - kind: theorem
+        text: >-
+          (ג) טענה 2.3.7 עם $k=2$: ל-$f$ נקודת שבת יחידה ב-$\mathbb{R}$, כלומר פתרון יחיד ל-$x=e^{-x}$, והאיטרציות של $f$
+          מכל $x_0$ מתכנסות אליו.
+      - kind: check
+        text: >-
+          $x^*\approx0.567143$ (דוגמה 1 של השיעור מצאה אותו על $[\frac12,\ln2]$; היחידות על כל $\mathbb{R}$ היא החידוש
+          כאן). ובדרך אחרת ליחידות: $x-e^{-x}$ עולה ממש, ולכן מתאפסת לכל היותר פעם אחת.
+      - kind: result
+        text: >-
+          $f$ אינה מכווצת, $f\circ f$ מכווצת עם $q=\frac1e$, ולכן ל-$x=e^{-x}$ פתרון ממשי יחיד, שהאיטרציות מתכנסות אליו
+          מכל נקודה.
+    source:
+      name: 'University of Cambridge, Mathematical Tripos Part IB, Analysis II'
+      year: 2009
+      problem: 'Paper 2, Section I, 3E'
+      url: 'https://www.maths.cam.ac.uk/undergrad/pastpapers/files/2009/List_IB.pdf'
+      verified: '2026-11-10'
+      adapted: true
+
+  - id: W-2.3-c2
+    stars: 1
+    objectives: [OBJ-2.3-3, OBJ-2.3-2]
+    prompt: >-
+      תהי $f:\mathbb{R}\to\mathbb{R}$ גזירה.
+
+      (א) הוכיחו: אם $f'(t)\ne1$ לכל $t\in\mathbb{R}$, אז ל-$f$ יש לכל היותר נקודת שבת אחת.
+
+      (ב) הוכיחו של-$f(t)=t+\frac{1}{1+e^t}$ אין נקודת שבת, אף ש-$0<f'(t)<1$ לכל $t$. איזו הנחה של משפט 2.3.4
+      נכשלת?
+
+      (ג) הוכיחו: אם יש $A<1$ עם $|f'(t)|\le A$ לכל $t$, אז ל-$f$ יש נקודת שבת $x$, ו-$x=\lim x_n$ לכל $x_1\in\mathbb{R}$,
+      כאשר $x_{n+1}=f(x_n)$.
+    answer: >-
+      (א) משפט לגרנז' בין שתי נקודות שבת נותן $f'(c)=1$. (ב) $f(t)-t=\frac1{1+e^t}>0$, ו-$f'\in[\frac34,1)$ עם
+      $\sup f'=1$: נכשל $q<1$. (ג) טענה 2.3.6(ג) ומשפט 2.3.4.
+    solution:
+      - kind: step
+        text: >-
+          (א) נניח $f(a)=a$, $f(b)=b$ עם $a<b$. לפי משפט לגרנז' יש $c\in(a,b)$ עם $f'(c)=\frac{f(b)-f(a)}{b-a}=\frac{b-a}{b-a}=1$,
+          בסתירה להנחה.
+      - kind: computation
+        text: >-
+          (ב) $f'(t)=1-\frac{e^t}{(1+e^t)^2}$. כיוון ש-$(1-e^t)^2\ge0$, $(1+e^t)^2\ge4e^t$, ולכן $0<\frac{e^t}{(1+e^t)^2}\le\frac14$
+          ו-$\frac34\le f'(t)<1$.
+      - kind: step
+        text: >-
+          $f(t)-t=\frac1{1+e^t}>0$ לכל $t$, ולכן אין נקודת שבת. $\mathbb{R}$ שלם ו-$f:\mathbb{R}\to\mathbb{R}$; מה שנכשל הוא
+          $q<1$: $\frac{e^t}{(1+e^t)^2}\to0$ כש-$t\to\infty$, ולכן $f'(t)\to1$, ולפי טענה 2.3.6(ב) אף $q<1$ אינו מקדם
+          כיווץ.
+      - kind: theorem
+        text: >-
+          (ג) לפי טענה 2.3.6(ג) עם $I=\mathbb{R}$ (קטע סגור, שלם לפי משפט 2.1.10), $f$ מכווצת עם $q=A$ (בהכרח $A\ge0$, כי
+          $0\le|f'(t)|\le A$). לפי משפט 2.3.4 יש לה נקודת שבת יחידה $x$, והאיטרציות מכל נקודת התחלה
+          מתכנסות אליה. (כאן האינדקס מתחיל ב-$x_1$; זה שינוי שם בלבד.)
+      - kind: check
+        text: >-
+          (א) נותנת יחידות בלי קיום: ב-(ב) $f'\ne1$ ואין אף נקודת שבת. ו-(ג) היא טענה 2.3.6(ג) על כל הישר. בחישוב על רשת
+          ב-$[-20,20]$, $f'$ נע בין $0.75$ (ב-$t=0$) ל-$0.99999\ldots$
+      - kind: result
+        text: >-
+          (א) לכל היותר נקודת שבת אחת; (ב) אין נקודת שבת, כי אין $q<1$; (ג) נקודת שבת קיימת והאיטרציות מתכנסות אליה.
+    source:
+      name: 'W. Rudin, Principles of Mathematical Analysis, 3rd ed. (statement as quoted in A. Hood, solutions to Rudin ch. 5, problems 22 and 23, Rutgers)'
+      year: 1976
+      problem: 'Chapter 5, Exercise 22 (a)–(c)'
+      url: 'https://ow3.math.rutgers.edu/~greenfie/mill_courses/math411/pdfstuff/hood.pdf'
+      verified: '2026-11-10'
+      adapted: true

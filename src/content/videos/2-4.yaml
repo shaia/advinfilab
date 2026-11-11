@@ -1,0 +1,33 @@
+- id: v-2-4-banach-series
+  youtubeId: QEuC7xzpwPw
+  title: 'F6: A normed linear space is Banach iff every absolutely convergent series is convergent.'
+  channel: Mahendra K. Gupta
+  lang: en
+  start: 0
+  minutes: 22
+  why: >-
+    לפי הכותרת והתיאור, ההרצאה מוכיחה משפט אחד: מרחב נורמי הוא מרחב בנך אם ורק אם כל טור מתכנס בהחלט בו מתכנס.
+    אלה משפטים 2.4.4 ו-2.4.5 יחד; בכיוון הקשה עקבו אחרי בניית התת-סדרה עם צעדים סכימים.
+  verified: '2026-11-10'
+- id: v-2-4-m-test
+  youtubeId: 1OMnjKzZJug
+  title: אינפי 2 - מבחן ויירשטראס להתכנסות במידה שווה של טורי פונקציות (+תרגול)
+  channel: Alon Lalezari - אלון ללזרי
+  lang: he
+  start: 0
+  minutes: 5
+  why: >-
+    לפי הכותרת: מבחן ויירשטראס (מבחן ה-M) להתכנסות במידה שווה של טורי פונקציות, מקורס אינפי 2, עם תרגול. זו
+    הגרסה של אינפי 2 למשפט 2.4.7; השיעור קורא אותה כהתכנסות בהחלט במרחב בנך.
+  verified: '2026-11-10'
+- id: v-2-4-neumann
+  youtubeId: WeP1-iyQ6Bs
+  title: UPB Math 237 LEC7C Dual Spaces and Neumann Series
+  channel: Gilbert Peralta
+  lang: en
+  start: 0
+  minutes: 40
+  why: >-
+    לפי הכותרת, הרצאה בקורס Math 237 (UPB) על מרחבים דואליים ועל טור נוימן. החלק על טור נוימן מקביל למשפט 2.4.9;
+    לסרטון אין תיאור או פרקים, ולכן לא ציינו זמן התחלה.
+  verified: '2026-11-10'

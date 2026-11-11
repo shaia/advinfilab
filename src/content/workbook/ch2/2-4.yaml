@@ -1,0 +1,549 @@
+# Workbook of lesson 2.4 — series in a normed space, the M-test, the Neumann series.
+# Objectives (src/course.ts):
+#   OBJ-2.4-1  define a Banach space; in a Banach space every absolutely convergent series converges
+#   OBJ-2.4-2  read the Weierstrass M-test as absolute convergence in (C[a,b], ‖·‖∞)
+#   OBJ-2.4-3  Neumann series: ‖A‖op < 1 ⇒ I − A invertible, with ‖(I − A)⁻¹‖ ≤ 1/(1 − ‖A‖)
+# Results are cited by the lesson's numbers (2.4.k) and the chapter-2 spine (2.1.k, 2.2.k, 2.3.k).
+# Every number recomputed with npx tsx (src/math/multivar.ts opNorm, inverse; partial sums).
+lesson: '2.4'
+practice:
+  - id: W-2.4-01
+    level: basic
+    qualitative: true
+    objectives: [OBJ-2.4-1]
+    prompt: >-
+      ב-$\mathbb{R}^2$ תהי $v_k=\left(\frac{(-1)^{k+1}}{k},\ 2^{-k}\right)$, $k\ge1$.
+
+      (א) הוכיחו שהטור $\sum v_k$ מתכנס ב-$(\mathbb{R}^2,\|\cdot\|_1)$, ומצאו את סכומו.
+
+      (ב) הוכיחו שהוא אינו מתכנס בהחלט ב-$\|\cdot\|_1$, וגם לא ב-$\|\cdot\|_\infty$.
+
+      (ג) הוכיחו: אם $\|\cdot\|$ ו-$\|\cdot\|'$ נורמות שקולות על מרחב וקטורי $V$ (קיימים $c,C>0$ עם
+      $c\|x\|\le\|x\|'\le C\|x\|$), אז טור ב-$V$ מתכנס בהחלט באחת מהן אם ורק אם הוא מתכנס בהחלט בשנייה.
+    answer: >-
+      (א) מתכנס, לסכום $(\ln2,\ 1)$. (ב) $\|v_k\|_1\ge\|v_k\|_\infty\ge\frac1k$, ו-$\sum\frac1k=\infty$. (ג) השוואה:
+      $\sum\|v_k\|'\le C\sum\|v_k\|$ ו-$\sum\|v_k\|\le\frac1c\sum\|v_k\|'$.
+    solution:
+      - kind: idea
+        text: >-
+          התכנסות ב-$\mathbb{R}^2$ נבדקת בקואורדינטות. התכנסות בהחלט היא שאלה על טור ממשי אחד, $\sum\|v_k\|$, ומבחן
+          ההשוואה מעביר אותה בין נורמות שקולות.
+      - kind: theorem
+        text: >-
+          משפט 1.5.9: ב-$\mathbb{R}^2$ עם $d_1$ (או $d_2$, $d_\infty$) סדרה מתכנסת אם ורק אם כל קואורדינטה מתכנסת. הסכומים
+          החלקיים של $\sum v_k$ הם $\left(\sum_{k\le n}\frac{(-1)^{k+1}}{k},\ \sum_{k\le n}2^{-k}\right)$.
+      - kind: step
+        text: >-
+          (א) הקואורדינטה הראשונה היא הסכום החלקי של הטור ההרמוני המתחלף, שמתכנס ל-$\ln2$ (מבחן לייבניץ וטור טיילור
+          של $\ln(1+x)$ ב-$x=1$, אינפי 2); השנייה מתכנסת ל-$1$ (טור הנדסי). לפי משפט 1.5.9 הטור מתכנס ל-$(\ln2,1)$.
+      - kind: step
+        text: >-
+          (ב) $\|v_k\|_1=\frac1k+2^{-k}\ge\frac1k$ ו-$\|v_k\|_\infty=\max\left(\frac1k,2^{-k}\right)\ge\frac1k$. לפי מבחן
+          ההשוואה עם הטור ההרמוני, $\sum\|v_k\|_1=\sum\|v_k\|_\infty=\infty$.
+      - kind: step
+        text: >-
+          (ג) אם $\sum\|v_k\|<\infty$, אז $0\le\|v_k\|'\le C\|v_k\|$, ולפי מבחן ההשוואה $\sum\|v_k\|'\le C\sum\|v_k\|<\infty$.
+          להפך, $\|v_k\|\le\frac1c\|v_k\|'$, ובאותו אופן.
+      - kind: check
+        text: >-
+          $\|(\ln2,1)\|_1=\ln2+1\approx1.693$, מספר סופי, בעוד $\sum\|v_k\|_1=\infty$: אי-השוויון $\left\|\sum v_k\right\|\le\sum\|v_k\|$
+          של משפט 2.4.4 מתקיים כאן באופן ריק, והמשפט עצמו לא חל (הטור אינו מתכנס בהחלט), ובכל זאת הטור מתכנס.
+      - kind: result
+        text: >-
+          הטור מתכנס ל-$(\ln2,1)$ ואינו מתכנס בהחלט; ובנורמות שקולות התכנסות בהחלט היא אותה תכונה. גם במרחב בנך
+          התכנסות בהחלט מספיקה ואינה הכרחית.
+
+  - id: W-2.4-02
+    level: basic
+    objectives: [OBJ-2.4-2]
+    prompt: >-
+      $f(x)=\sum_{k\ge1}\frac{\cos(kx)}{k^3}$, $x\in\mathbb{R}$.
+
+      (א) הוכיחו ש-$f$ רציפה על $\mathbb{R}$.
+
+      (ב) הוכיחו ש-$\sum_{k>n}\frac1{k^3}\le\frac1{2n^2}$, ומצאו $n$ שעבורו
+      $\left|f(x)-\sum_{k=1}^n\frac{\cos(kx)}{k^3}\right|<10^{-4}$ לכל $x$ לפי החסם הזה. מהו ה-$n$ הקטן ביותר שהחסם
+      $\frac1{2n^2}$ נותן?
+    answer: >-
+      (א) מבחן ה-M עם $M_k=\frac1{k^3}$. (ב) $n=71$.
+    solution:
+      - kind: theorem
+        text: >-
+          משפט 2.4.7 (מבחן ה-M) עם $X=\mathbb{R}$: אם $\sup|f_k|\le M_k$ ו-$\sum M_k<\infty$, הטור מתכנס במידה שווה, הסכום
+          רציף כשהמחוברים רציפים, והזנב אחרי $n$ חסום על ידי $\sum_{k>n}M_k$.
+      - kind: step
+        text: >-
+          (א) $\left|\frac{\cos(kx)}{k^3}\right|\le\frac1{k^3}=M_k$, ו-$\sum\frac1{k^3}<\infty$ (אינפי 1). כל מחובר רציף על
+          $\mathbb{R}$, ולפי משפט 2.4.7(ג) $f$ רציפה.
+      - kind: step
+        text: >-
+          (ב) הפונקציה $t\mapsto t^{-3}$ יורדת על $(0,\infty)$, ולכן $\frac1{k^3}\le\int_{k-1}^k\frac{dt}{t^3}$ לכל $k\ge2$.
+          מסכמים על $k>n$ (ל-$n\ge1$): $\sum_{k>n}\frac1{k^3}\le\int_n^\infty\frac{dt}{t^3}=\frac1{2n^2}$.
+      - kind: computation
+        text: >-
+          לפי משפט 2.4.7(ב) מספיק $\frac1{2n^2}<10^{-4}$, כלומר $n^2>5000$. $70^2=4900$ ו-$71^2=5041$, ולכן $n=71$.
+      - kind: check
+        text: >-
+          $\frac1{2\cdot70^2}\approx1.0204\cdot10^{-4}$ גדול מדי, $\frac1{2\cdot71^2}\approx0.9919\cdot10^{-4}$ מתאים. זה
+          ה-$n$ שהחסם הזה מבטיח; ה-$n$ האמיתי יכול להיות קטן יותר, כי שני החסמים (מבחן ה-M והאינטגרל) גסים.
+      - kind: result
+        text: >-
+          $f$ רציפה על $\mathbb{R}$, ולפי החסם $n=71$ מחוברים מספיקים לשגיאה אחידה קטנה מ-$10^{-4}$.
+
+  - id: W-2.4-03
+    level: basic
+    objectives: [OBJ-2.4-3]
+    prompt: >-
+      $A=\begin{pmatrix}0.1&0.6\\0.3&0.2\end{pmatrix}$.
+
+      (א) חשבו את $\|A\|_\infty$ ואת $\|A\|_1$, ואת שני החסמים שמשפט 2.4.9 נותן ל-$\|(I-A)^{-1}\|_\infty$
+      ול-$\|(I-A)^{-1}\|_1$.
+
+      (ב) חשבו את $(I-A)^{-1}$ ואת שתי הנורמות שלה, והשוו.
+
+      (ג) חשבו את $T_2=I+A+A^2$ ואת $\|(I-A)^{-1}-T_2\|_\infty$, והשוו לחסם של משפט 2.4.9(ג).
+    answer: >-
+      (א) $\|A\|_\infty=0.7$, $\|A\|_1=0.8$; חסמים $\frac{10}3$ ו-$5$. (ב)
+      $(I-A)^{-1}=\begin{pmatrix}\frac{40}{27}&\frac{10}9\\\frac59&\frac53\end{pmatrix}$, $\|\cdot\|_\infty=\frac{70}{27}\approx2.593$,
+      $\|\cdot\|_1=\frac{25}9\approx2.778$. (ג) $\approx0.523\le\frac{0.343}{0.3}\approx1.143$.
+    solution:
+      - kind: theorem
+        text: >-
+          משפט 1.8.9 ($\|A\|_\infty$ = סכום שורה מקסימלי), משפט 1.8.8 ($\|A\|_1$ = סכום עמודה מקסימלי), ומשפט 2.4.9 על
+          $(\mathbb{R}^2,\|\cdot\|_p)$, שהוא מרחב בנך לפי משפט 2.1.11.
+      - kind: computation
+        text: >-
+          (א) שורות: $0.1+0.6=0.7$, $0.3+0.2=0.5$, ולכן $\|A\|_\infty=0.7$. עמודות: $0.1+0.3=0.4$, $0.6+0.2=0.8$, ולכן
+          $\|A\|_1=0.8$. שתיהן קטנות מ-1, והחסמים $\frac1{0.3}=\frac{10}3$ ו-$\frac1{0.2}=5$.
+      - kind: computation
+        text: >-
+          (ב) $I-A=\begin{pmatrix}0.9&-0.6\\-0.3&0.8\end{pmatrix}$, $\det(I-A)=0.72-0.18=0.54$, ולכן
+          $(I-A)^{-1}=\frac1{0.54}\begin{pmatrix}0.8&0.6\\0.3&0.9\end{pmatrix}=\begin{pmatrix}\frac{40}{27}&\frac{10}9\\\frac59&\frac53\end{pmatrix}$.
+          סכומי שורות $\frac{70}{27}$, $\frac{60}{27}$; סכומי עמודות $\frac{55}{27}$, $\frac{75}{27}=\frac{25}9$.
+      - kind: computation
+        text: >-
+          (ג) $A^2=\begin{pmatrix}0.19&0.18\\0.09&0.22\end{pmatrix}$ ו-$T_2=\begin{pmatrix}1.29&0.78\\0.39&1.42\end{pmatrix}$. ההפרש
+          $(I-A)^{-1}-T_2\approx\begin{pmatrix}0.1915&0.3311\\0.1656&0.2467\end{pmatrix}$, עם סכומי שורות $\approx0.5226$ ו-$0.4122$.
+          החסם: $\frac{0.7^3}{1-0.7}=\frac{0.343}{0.3}\approx1.143$.
+      - kind: check
+        text: >-
+          $\frac{70}{27}\approx2.593\le\frac{10}3$ ו-$\frac{25}9\approx2.778\le5$. בכל נורמה החסם מתקיים ואינו הדוק; הנורמה
+          עם החסם הטוב יותר היא $\|\cdot\|_\infty$, שבה $\|A\|$ קטנה יותר.
+      - kind: result
+        text: >-
+          $\|A\|_\infty=0.7$, $\|A\|_1=0.8$; $\|(I-A)^{-1}\|_\infty=\frac{70}{27}\le\frac{10}3$, $\|(I-A)^{-1}\|_1=\frac{25}9\le5$;
+          שגיאת $T_2$ בנורמת אינסוף $\approx0.523\le1.143$.
+
+  - id: W-2.4-04
+    level: mid
+    qualitative: true
+    objectives: [OBJ-2.4-1]
+    prompt: >-
+      $c_{00}\subseteq B(\mathbb{N})$ היא קבוצת הסדרות שרק מספר סופי מאיבריהן שונה מ-$0$, עם $\|a\|_\infty=\sup_j|a_j|$.
+      $e_k$ היא הסדרה שערכה $1$ במקום $k$ ו-$0$ בשאר.
+
+      (א) הוכיחו ש-$c_{00}$ תת-מרחב וקטורי של $B(\mathbb{N})$.
+
+      (ב) הוכיחו שהטור $\sum_{k\ge1}\frac{e_k}{k!}$ מתכנס בהחלט ב-$c_{00}$ ואינו מתכנס ב-$c_{00}$.
+
+      (ג) הסיקו בשתי דרכים: $c_{00}$ אינו מרחב בנך, ו-$c_{00}$ אינה סגורה ב-$B(\mathbb{N})$.
+    answer: >-
+      (ב) $\sum\left\|\frac{e_k}{k!}\right\|=e-1$; ב-$B(\mathbb{N})$ הסכום הוא $\left(\frac1{j!}\right)_j$, שאינו ב-$c_{00}$. (ג) משפט 2.4.4
+      (בשלילה), ומשפט 2.2.1(ב).
+    solution:
+      - kind: idea
+        text: >-
+          כמו בטענה 2.4.6: במרחב הגדול והשלם $B(\mathbb{N})$ הטור מתכנס, ובתת-מרחב עם אותה נורמה גבול, אם היה, היה אותו
+          גבול. הגבול הזה אינו בתת-המרחב.
+      - kind: step
+        text: >-
+          (א) $0\in c_{00}$. אם $a$ מתאפסת מחוץ ל-$\{1,\dots,N\}$ ו-$b$ מחוץ ל-$\{1,\dots,M\}$, אז $a+\lambda b$ מתאפסת מחוץ
+          ל-$\{1,\dots,\max(N,M)\}$. וכל $a\in c_{00}$ חסומה, על ידי המקסימום של מספר סופי של ערכים.
+      - kind: step
+        text: >-
+          (ב) $\frac{e_k}{k!}\in c_{00}$ ו-$\sum_{k\ge1}\left\|\frac{e_k}{k!}\right\|_\infty=\sum_{k\ge1}\frac1{k!}=e-1<\infty$ (אינפי 2): התכנסות
+          בהחלט.
+      - kind: step
+        text: >-
+          $B(\mathbb{N})$ מרחב בנך (משפט 2.2.4), ולפי משפט 2.4.4 הטור מתכנס בו לאיזו $a$. לפי טענה 2.4.2א(ג) עם ההעתקה
+          החסומה $b\mapsto b_j$: $a_j=\sum_k\frac{(e_k)_j}{k!}=\frac1{j!}$. (או ישירות: $\|a-S_n\|_\infty=\sup_{j>n}\frac1{j!}=\frac1{(n+1)!}\to0$.)
+      - kind: step
+        text: >-
+          נניח בשלילה ש-$S_n\to b$ ב-$c_{00}$. הנורמה של $c_{00}$ היא זו של $B(\mathbb{N})$, ולכן $S_n\to b$ גם ב-$B(\mathbb{N})$,
+          ולפי משפט 1.5.2 $b=a$. אבל $a_j=\frac1{j!}\ne0$ לכל $j$, ולכן $a\notin c_{00}$. סתירה.
+      - kind: step
+        text: >-
+          (ג) דרך ראשונה: ב-$c_{00}$ יש טור מתכנס בהחלט שאינו מתכנס, ולפי משפט 2.4.4 (בשלילה) $c_{00}$ אינו שלם. דרך שנייה:
+          $a\in\overline{c_{00}}$ (גבול של סדרה מ-$c_{00}$, משפט 1.5.7(א)) ו-$a\notin c_{00}$, ולכן $c_{00}$ אינה סגורה;
+          ולפי משפט 2.2.1(ב) תת-מרחב שלם היה סגור, ולכן גם כך $c_{00}$ אינו שלם.
+      - kind: result
+        text: >-
+          הטור מתכנס בהחלט ב-$c_{00}$ ואינו מתכנס בו; $c_{00}$ אינו מרחב בנך ואינו סגור ב-$B(\mathbb{N})$.
+
+  - id: W-2.4-05
+    level: mid
+    objectives: [OBJ-2.4-1, OBJ-2.4-3]
+    prompt: >-
+      $V$ מרחב בנך ו-$A\in\mathcal{L}(V,V)$.
+
+      (א) הוכיחו שהטור $e^A=\sum_{k\ge0}\frac{A^k}{k!}$ מתכנס ב-$\mathcal{L}(V,V)$, ו-$\|e^A\|\le e^{\|A\|}$.
+
+      (ב) עם $V=\mathbb{R}^2$ ו-$N=\begin{pmatrix}0&1\\0&0\end{pmatrix}$, חשבו את $e^{tN}$ לכל $t\in\mathbb{R}$.
+
+      (ג) עם $D=\begin{pmatrix}1&0\\0&-1\end{pmatrix}$, חשבו את $e^D$ ובדקו את החסם של (א) בנורמה $\|\cdot\|_\infty$.
+    answer: >-
+      (א) $\sum\left\|\frac{A^k}{k!}\right\|\le\sum\frac{\|A\|^k}{k!}=e^{\|A\|}$, ומשפטים 2.4.8 ו-2.4.4. (ב) $e^{tN}=I+tN$. (ג)
+      $e^D=\begin{pmatrix}e&0\\0&e^{-1}\end{pmatrix}$, $\|e^D\|_\infty=e=e^{\|D\|_\infty}$: החסם הדוק.
+    solution:
+      - kind: idea
+        text: >-
+          כמו טור נוימן: חסם הנדסי (או עצרת) על נורמות החזקות, ומשם התכנסות בהחלט במרחב הבנך $\mathcal{L}(V,V)$.
+      - kind: step
+        text: >-
+          (א) לפי טענה 1.8.6, $\|A^k\|\le\|A\|^k$ ל-$k\ge1$, ו-$\|A^0\|=\|I\|\le1$. לכן
+          $\sum_k\left\|\frac{A^k}{k!}\right\|\le\sum_k\frac{\|A\|^k}{k!}=e^{\|A\|}<\infty$ (טור האקספוננט, אינפי 2).
+      - kind: theorem
+        text: >-
+          לפי משפט 2.4.8, $\mathcal{L}(V,V)$ מרחב בנך, ולפי משפט 2.4.4 הטור מתכנס ו-$\|e^A\|\le\sum_k\left\|\frac{A^k}{k!}\right\|\le e^{\|A\|}$.
+      - kind: computation
+        text: >-
+          (ב) $N^2=0$, ולכן $(tN)^k=0$ ל-$k\ge2$, והטור הוא הסכום הסופי $I+tN=\begin{pmatrix}1&t\\0&1\end{pmatrix}$.
+      - kind: computation
+        text: >-
+          (ג) $D^k=\begin{pmatrix}1&0\\0&(-1)^k\end{pmatrix}$, ולכן הסכום החלקי ה-$n$ הוא
+          $\begin{pmatrix}\sum_{k\le n}\frac1{k!}&0\\0&\sum_{k\le n}\frac{(-1)^k}{k!}\end{pmatrix}$. התכנסות ב-$\|\cdot\|_\infty$ היא התכנסות
+          של כל איבר (כל איבר חסום על ידי הנורמה, וכל נורמה חסומה על ידי סכום הערכים המוחלטים), ולכן
+          $e^D=\begin{pmatrix}e&0\\0&e^{-1}\end{pmatrix}$.
+      - kind: check
+        text: >-
+          $\|D\|_\infty=1$ (משפט 1.8.9), והחסם הוא $e^1=e\approx2.718$. $\|e^D\|_\infty=\max(e,e^{-1})=e$: שוויון. ב-(ב)
+          $\|e^{tN}\|_\infty=1+|t|\le e^{|t|}=e^{\|tN\|_\infty}$.
+      - kind: result
+        text: >-
+          $e^A$ מתכנס לכל $A$ עם $\|e^A\|\le e^{\|A\|}$; $e^{tN}=I+tN$; $e^D=\operatorname{diag}(e,e^{-1})$, והחסם הדוק.
+
+  - id: W-2.4-06
+    level: mid
+    qualitative: true
+    objectives: [OBJ-2.4-2]
+    prompt: >-
+      $f_k(x)=x\,e^{-kx}$, $k\ge1$. הוכיחו או הפריכו:
+
+      (א) $\sum_{k\ge1}f_k$ מתכנס במידה שווה על $[1,\infty)$.
+
+      (ב) $\sum_{k\ge1}f_k$ מתכנס במידה שווה על $[0,\infty)$.
+    answer: >-
+      (א) נכון: $\sup_{[1,\infty)}f_k=e^{-k}$, מבחן ה-M. (ב) לא נכון: הסכום הוא $\frac{x}{e^x-1}$ ל-$x>0$ ו-$0$ ב-$x=0$, לא רציף
+      ב-$0$.
+    solution:
+      - kind: idea
+        text: >-
+          על $[1,\infty)$ כל מחובר יורד, והסופרמום שלו בקצה, טור הנדסי. על $[0,\infty)$ הגבעה של $f_k$ נודדת אל $0$, והסכום
+          "קופץ" שם; פונקציה לא רציפה אינה גבול במידה שווה של רציפות.
+      - kind: step
+        text: >-
+          (א) $f_k'(x)=e^{-kx}(1-kx)<0$ ל-$x>\frac1k$, ובפרט על $[1,\infty)$ (כי $k\ge1$). לכן $\sup_{[1,\infty)}|f_k|=f_k(1)=e^{-k}$,
+          ו-$\sum e^{-k}=\frac1{e-1}<\infty$. כל $f_k$ חסומה על $[1,\infty)$, ולפי משפט 2.4.7 הטור מתכנס שם במידה שווה.
+      - kind: step
+        text: >-
+          (ב) הסכום הנקודתי: ב-$x=0$ כל המחוברים $0$. ל-$x>0$, $e^{-x}<1$, ולפי הטור ההנדסי
+          $\sum_{k\ge1}xe^{-kx}=x\cdot\frac{e^{-x}}{1-e^{-x}}=\frac{x}{e^x-1}$.
+      - kind: step
+        text: >-
+          $\lim_{x\to0^+}\frac{x}{e^x-1}=1$ (לופיטל, או הנגזרת של $e^x$ ב-$0$), ולכן הסכום אינו רציף ב-$0$. כל $f_k$ רציפה
+          וחסומה על $[0,\infty)$; אילו ההתכנסות הייתה במידה שווה, לפי למה 2.2.5 הסכום היה רציף. לכן ההתכנסות אינה במידה
+          שווה.
+      - kind: check
+        text: >-
+          בהתאם: על $[0,\infty)$, $\sup f_k=f_k(\frac1k)=\frac1{ek}$, ו-$\sum\frac1{ek}=\infty$, כך שמבחן ה-M אינו חל שם. ועל
+          $[1,\infty)$ הסכום $\frac{x}{e^x-1}$ רציף, כמו שמשפט 2.4.7(ג) מבטיח.
+      - kind: result
+        text: >-
+          (א) נכון; (ב) לא נכון.
+
+  - id: W-2.4-07
+    level: mid
+    objectives: [OBJ-2.4-3]
+    prompt: >-
+      $V\ne\{0\}$ מרחב בנך, $A\in\mathcal{L}(V,V)$ עם $\|A\|<1$.
+
+      (א) הוכיחו: $\|(I-A)^{-1}\|\ge\frac{1}{1+\|A\|}$.
+
+      (ב) הוכיחו: $\|(I-A)^{-1}-(I+A)\|\le\frac{\|A\|^2}{1-\|A\|}$.
+
+      (ג) בדקו את שני אי-השוויונות בנורמה $\|\cdot\|_\infty$ עם $A=\begin{pmatrix}0.1&0.6\\0.3&0.2\end{pmatrix}$ (תרגיל 3).
+    answer: >-
+      (א) $\|x\|=\|(I-A)(I-A)^{-1}x\|\le(1+\|A\|)\|(I-A)^{-1}x\|$. (ב) משפט 2.4.9(ג) עם $N=1$. (ג) $\frac{70}{27}\ge\frac1{1.7}$ ו-$\frac{241}{270}\approx0.893\le\frac{0.49}{0.3}\approx1.633$.
+    solution:
+      - kind: idea
+        text: >-
+          (א) $I-A$ מותחת לכל היותר פי $1+\|A\|$, ולכן ההופכית שלה חייבת להחזיר לפחות פי $\frac1{1+\|A\|}$. (ב) זה חסם הזנב של
+          טור נוימן אחרי שני מחוברים.
+      - kind: step
+        text: >-
+          (א) $\|I-A\|\le\|I\|+\|A\|\le1+\|A\|$ (משפט 1.8.5). נבחר $x\ne0$ ב-$V$ ונסמן $y=(I-A)^{-1}x$. לפי טענה 1.8.4(א),
+          $\|x\|=\|(I-A)y\|\le(1+\|A\|)\|y\|$.
+      - kind: step
+        text: >-
+          לכן $\frac{\|(I-A)^{-1}x\|}{\|x\|}\ge\frac1{1+\|A\|}$, ולפי טענה 1.8.4(ב) $\|(I-A)^{-1}\|\ge\frac1{1+\|A\|}$. (כאן משתמשים
+          ב-$V\ne\{0\}$: אחרת כל הנורמות $0$.)
+      - kind: step
+        text: >-
+          (ב) לפי משפט 2.4.9(ג) עם $N=1$: $\left\|(I-A)^{-1}-\sum_{k=0}^1A^k\right\|\le\frac{\|A\|^{2}}{1-\|A\|}$, ו-$\sum_{k=0}^1A^k=I+A$.
+      - kind: computation
+        text: >-
+          (ג) מתרגיל 3, $\|A\|_\infty=0.7$ ו-$(I-A)^{-1}=\begin{pmatrix}\frac{40}{27}&\frac{10}9\\\frac59&\frac53\end{pmatrix}$, עם נורמה
+          $\frac{70}{27}\approx2.593\ge\frac1{1.7}\approx0.588$. ו-$(I-A)^{-1}-I-A=\begin{pmatrix}\frac{103}{270}&\frac{23}{45}\\\frac{23}{90}&\frac7{15}\end{pmatrix}$,
+          עם סכומי שורות $\frac{241}{270}\approx0.893$ ו-$\frac{65}{90}\approx0.722$.
+      - kind: check
+        text: >-
+          $0.893\le\frac{0.7^2}{0.3}\approx1.633$. ושני החסמים יחד אומרים ש-$\|(I-A)^{-1}\|$ נמצאת בין $\frac1{1+\|A\|}$
+          ל-$\frac1{1-\|A\|}$, כמו המספר $\frac1{1-t}$ ל-$t\in[-\|A\|,\|A\|]$.
+      - kind: result
+        text: >-
+          $\frac1{1+\|A\|}\le\|(I-A)^{-1}\|\le\frac1{1-\|A\|}$ ו-$\|(I-A)^{-1}-I-A\|\le\frac{\|A\|^2}{1-\|A\|}$; בדוגמה $0.588\le2.593\le3.333$
+          ו-$0.893\le1.633$.
+
+  - id: W-2.4-08
+    level: exam
+    qualitative: true
+    objectives: [OBJ-2.4-3]
+    prompt: >-
+      (א) $V$ מרחב בנך, $A\in\mathcal{L}(V,V)$, ויש $v\ne0$ ו-$\lambda\in\mathbb{R}$ עם $Av=\lambda v$ ו-$|\lambda|\ge1$. הוכיחו שטור
+      נוימן $\sum_kA^k$ מתבדר ב-$\mathcal{L}(V,V)$.
+
+      (ב) הוכיחו או הפריכו: אם $\|A\|_p\ge1$ ל-$p=1,2,\infty$, טור נוימן של המטריצה $A$ מתבדר. בדקו את
+      $A=\begin{pmatrix}\frac12&1\\0&\frac12\end{pmatrix}$: חשבו את שלוש הנורמות, הוכיחו ש-$\sum A^k$ מתכנס, ומצאו את סכומו.
+    answer: >-
+      (א) $\|A^k\|\ge|\lambda|^k\ge1$, האיברים אינם שואפים ל-$0$. (ב) לא נכון: $\|A\|_1=\|A\|_\infty=\frac32$,
+      $\|A\|_2=\frac{1+\sqrt2}2\approx1.207$, ובכל זאת $\sum A^k=\begin{pmatrix}2&4\\0&2\end{pmatrix}=(I-A)^{-1}$.
+    solution:
+      - kind: step
+        text: >-
+          (א) לפי טענה 2.4.9א, $\|A^k\|\ge|\lambda|^k\ge1$ לכל $k$. האיברים אינם שואפים ל-$0$, ולפי טענה 2.4.3(א) הטור מתבדר.
+      - kind: computation
+        text: >-
+          (ב) לפי משפטים 1.8.8 ו-1.8.9, $\|A\|_1=\max(\frac12,\frac32)=\frac32$ ו-$\|A\|_\infty=\max(\frac32,\frac12)=\frac32$.
+          $A^TA=\begin{pmatrix}\frac14&\frac12\\\frac12&\frac54\end{pmatrix}$, עם עקבה $\frac32$ ודטרמיננטה $\frac1{16}$; לפי משפט 1.8.10
+          $\|A\|_2=\sqrt{\lambda_{\max}}=\sqrt{\frac{3+2\sqrt2}4}=\frac{1+\sqrt2}2\approx1.207$.
+      - kind: idea
+        text: >-
+          $A=\frac12I+N$ עם $N=\begin{pmatrix}0&1\\0&0\end{pmatrix}$, $N^2=0$, ו-$I$ מתחלפת עם $N$. לכן הבינום של ניוטון חל, ונשארים
+          רק שני מחוברים בכל חזקה. הנורמה של $A$ גדולה, אבל החזקות שלה דועכות.
+      - kind: computation
+        text: >-
+          $A^k=\left(\tfrac12\right)^kI+k\left(\tfrac12\right)^{k-1}N$ (ל-$k\ge1$; ל-$k=0$ זה $I$). לכן
+          $\|A^k\|_\infty\le2^{-k}+k\,2^{1-k}$, ו-$\sum_k\left(2^{-k}+k2^{1-k}\right)=2+2\sum_kk2^{-k}=2+4=6<\infty$
+          (כי $\sum_{k\ge1}kt^k=\frac{t}{(1-t)^2}$ ל-$|t|<1$, אינפי 2).
+      - kind: step
+        text: >-
+          $\mathbb{R}^2$ עם $\|\cdot\|_\infty$ מרחב בנך, ולפי משפטים 2.4.8 ו-2.4.4 $S=\sum A^k$ מתכנס. הסכום: איבר-איבר
+          (טענה 2.4.2א(א)), $S=\sum_k2^{-k}I+\sum_kk2^{1-k}N=2I+4N=\begin{pmatrix}2&4\\0&2\end{pmatrix}$.
+      - kind: step
+        text: >-
+          $S$ היא $(I-A)^{-1}$: הזהויות הטלסקופיות $(I-A)T_n=I-A^{n+1}$ ו-$T_n(I-A)=I-A^{n+1}$ נכונות לכל מטריצה, ו-$\|A^{n+1}\|_\infty\to0$
+          (איברים של טור ממשי מתכנס), ולכן במעבר לגבול $(I-A)S=I$ וגם $S(I-A)=I$, כמו בשלבים 3–4 של משפט 2.4.9.
+      - kind: check
+        text: >-
+          $(I-A)S=\left(\tfrac12I-N\right)(2I+4N)=I+2N-2N-4N^2=I$. וסעיף (א) אינו חל על $A$: הערך העצמי היחיד שלה הוא
+          $\frac12$.
+      - kind: result
+        text: >-
+          (א) ערך עצמי עם $|\lambda|\ge1$ גורר התבדרות. (ב) לא נכון: ל-$A$ כל שלוש הנורמות גדולות מ-1, והטור מתכנס ל-$(I-A)^{-1}=\begin{pmatrix}2&4\\0&2\end{pmatrix}$.
+
+  - id: W-2.4-09
+    level: exam
+    objectives: [OBJ-2.4-2, OBJ-2.4-1]
+    prompt: >-
+      (א) הוכיחו: אם $f_k\in C[a,b]$, $\|f_k\|_\infty\le M_k$ ו-$\sum M_k<\infty$, אז
+      $\int_a^b\sum_kf_k(x)\,dx=\sum_k\int_a^bf_k(x)\,dx$.
+
+      (ב) הסיקו ש-$\sum_{k\ge1}\frac{1}{k\,2^k}=\ln2$.
+
+      (ג) הראו שבלי התכנסות במידה שווה (א) יכול להיכשל: מצאו $g_k\in C[0,1]$ כך ש-$\sum g_k$ מתכנס נקודתית על $[0,1]$
+      לפונקציה רציפה, ו-$\int_0^1\sum_kg_k\ne\sum_k\int_0^1g_k$.
+    answer: >-
+      (א) טענה 2.4.2א(ג) עם הפונקציונל החסום $f\mapsto\int_a^bf$. (ב) (א) עם $\sum x^k$ על $[0,\frac12]$. (ג) $g_k=h_{k+1}-h_k$ עם
+      האוהלים של טענה 1.5.11(ד): $\int_0^1\sum g_k=-1$ ו-$\sum\int_0^1g_k=0$.
+    solution:
+      - kind: idea
+        text: >-
+          אינטגרל הוא העתקה לינארית חסומה על $(C[a,b],\|\cdot\|_\infty)$, והעתקה כזו עוברת דרך סכום של טור מתכנס. מבחן ה-M
+          נותן את ההתכנסות במרחב הנכון.
+      - kind: step
+        text: >-
+          (א) $I(f)=\int_a^bf$ לינארית, ו-$|I(f)|\le\int_a^b|f|\le(b-a)\|f\|_\infty$ (מונוטוניות), ולכן $I\in\mathcal{L}(C[a,b],\mathbb{R})$.
+          לפי משפט 2.4.7 הטור מתכנס ב-$(C[a,b],\|\cdot\|_\infty)$ לסכום $f$ שערכו בכל נקודה $\sum_kf_k(x)$. לפי טענה 2.4.2א(ג),
+          $I(f)=\sum_kI(f_k)$.
+      - kind: computation
+        text: >-
+          (ב) על $[0,\frac12]$, $\|x^k\|_\infty=2^{-k}$, סכימים, והסכום הנקודתי הוא $\frac1{1-x}$. לפי (א), עם $k\ge0$:
+          $\int_0^{1/2}\frac{dx}{1-x}=\sum_{k\ge0}\int_0^{1/2}x^k\,dx=\sum_{k\ge0}\frac{2^{-(k+1)}}{k+1}=\sum_{j\ge1}\frac1{j\,2^j}$. ואגף שמאל הוא
+          $\int_0^{1/2}\frac{dx}{1-x}=\big[-\ln(1-x)\big]_0^{1/2}=\ln2$.
+      - kind: step
+        text: >-
+          (ג) יהיו $h_n$ האוהלים של טענה 1.5.11(ד): $h_n\in C[0,1]$, $\int_0^1h_n=1$, ו-$h_n(x)\to0$ לכל $x$. נגדיר $g_k=h_{k+1}-h_k$.
+          הסכום החלקי טלסקופי: $\sum_{k=1}^ng_k=h_{n+1}-h_1\to-h_1$ בכל נקודה, והגבול $G=-h_1$ רציף.
+      - kind: computation
+        text: >-
+          $\int_0^1g_k=1-1=0$ לכל $k$, ולכן $\sum_k\int_0^1g_k=0$; אבל $\int_0^1(-h_1)=-1$.
+      - kind: check
+        text: >-
+          (ב) מספרית: $\sum_{k=1}^{59}\frac1{k2^k}\approx0.693147$, ו-$\ln2\approx0.693147$. ב-(ג), לפי טענה 1.5.11(ד) $\|h_n\|_\infty=n+1$ (גובה האוהל).
+          לכן $\|g_k\|_\infty\ge\|h_{k+1}\|_\infty-\|h_k\|_\infty=1$ (למה 1.2.2), ואין $M_k$ סכימים; והסכומים החלקיים אינם מתכנסים
+          במידה שווה, כי $\|(h_{n+1}-h_1)-(-h_1)\|_\infty=n+2\to\infty$.
+      - kind: result
+        text: >-
+          (א) מותר להחליף אינטגרל וסכום תחת תנאי מבחן ה-M; (ב) $\sum\frac1{k2^k}=\ln2$; (ג) בלי התכנסות במידה שווה זה יכול להיכשל:
+          $\int_0^1\sum_kg_k=-1\ne0=\sum_k\int_0^1g_k$.
+
+  - id: W-2.4-10
+    level: exam
+    objectives: [OBJ-2.4-1]
+    prompt: >-
+      $V$ מרחב בנך, $\sum_{k\ge1}\|v_k\|<\infty$, ו-$\sigma:\mathbb{N}\to\mathbb{N}$ חד-חד-ערכית ועל. הוכיחו שהטור
+      $\sum_kv_{\sigma(k)}$ מתכנס, ולאותו סכום כמו $\sum_kv_k$.
+    answer: >-
+      $\sum\|v_{\sigma(k)}\|=\sum\|v_k\|<\infty$ ולכן מתכנס (משפט 2.4.4). להשוואת הסכומים: אחרי ש-$\{1,\dots,N\}\subseteq\sigma(\{1,\dots,m\})$
+      ההפרש $S'_m-S_N$ הוא סכום של איברים מהזנב, ונורמתו לכל היותר $\sum_{k>N}\|v_k\|$.
+    solution:
+      - kind: given
+        text: >-
+          $S_n=\sum_{k\le n}v_k\to S$ (משפט 2.4.4), ו-$S'_m=\sum_{k\le m}v_{\sigma(k)}$.
+      - kind: idea
+        text: >-
+          הסדר לא משנה מספרים אי-שליליים, ולכן הטור המסודר מחדש מתכנס בהחלט. כדי להראות שסכומו $S$: אחרי מספיק צעדים
+          הסדר החדש כבר "אסף" את כל האיברים הראשונים, ומה שנשאר הוא חלק מהזנב, שהוא קטן.
+      - kind: step
+        text: >-
+          $\sum_k\|v_{\sigma(k)}\|=\sum_k\|v_k\|<\infty$: סידור מחדש של טור ממשי עם איברים אי-שליליים לא משנה את סכומו (אינפי 1).
+          לפי משפט 2.4.4, $S'_m\to S'$ לאיזה $S'\in V$.
+      - kind: step
+        text: >-
+          יהי $\varepsilon>0$, ו-$N$ כך ש-$\sum_{k>N}\|v_k\|<\varepsilon$ (זנב של טור ממשי מתכנס). לכל $j\le N$ יש $m_j$ עם
+          $\sigma(m_j)=j$ ($\sigma$ על); נסמן $M=\max(m_1,\dots,m_N)$.
+      - kind: step
+        text: >-
+          לכל $m\ge M$: $\{1,\dots,N\}\subseteq\sigma(\{1,\dots,m\})$, ולכן $S'_m-S_N=\sum_{k\in F}v_k$, כאשר
+          $F=\sigma(\{1,\dots,m\})\setminus\{1,\dots,N\}$ קבוצה סופית של אינדקסים גדולים מ-$N$ ($\sigma$ חד-חד-ערכית, ולכן אין
+          אינדקס שנספר פעמיים). לפי N3, $\|S'_m-S_N\|\le\sum_{k\in F}\|v_k\|\le\sum_{k>N}\|v_k\|<\varepsilon$.
+      - kind: step
+        text: >-
+          לפי משפט 2.4.4, $\|S-S_N\|\le\sum_{k>N}\|v_k\|<\varepsilon$. לכן לכל $m\ge M$: $\|S'_m-S\|\le\|S'_m-S_N\|+\|S_N-S\|<2\varepsilon$.
+          זה לכל $\varepsilon>0$, ולכן $S'_m\to S$, ולפי יחידות הגבול $S'=S$.
+      - kind: check
+        text: >-
+          ההנחה "בהחלט" נחוצה כבר ב-$\mathbb{R}$: לפי משפט רימן (אינפי 1) את הטור ההרמוני המתחלף אפשר לסדר מחדש כך שיתכנס לכל
+          מספר. איפה השתמשנו בהחלט? ב-$\sum_{k\in F}\|v_k\|\le\sum_{k>N}\|v_k\|<\varepsilon$.
+      - kind: result
+        text: >-
+          במרחב בנך, סידור מחדש של טור מתכנס בהחלט מתכנס לאותו סכום.
+
+challenge:
+  - id: W-2.4-c1
+    stars: 1
+    objectives: [OBJ-2.4-2]
+    prompt: >-
+      $f(x)=\sum_{n\ge1}\frac{1}{1+n^2x}$, $x>0$.
+
+      (א) הוכיחו שהטור מתכנס במידה שווה על כל קרן $[a,\infty)$ עם $a>0$, והסיקו ש-$f$ רציפה על $(0,\infty)$.
+
+      (ב) הוכיחו שעל אף קטע $(0,b]$, $b>0$, הטור אינו מתכנס במידה שווה.
+
+      (ג) האם $f$ חסומה על $(0,\infty)$?
+    answer: >-
+      (א) $\sup_{x\ge a}\frac1{1+n^2x}=\frac1{1+n^2a}\le\frac1{an^2}$, מבחן ה-M. (ב) ב-$x=\frac1{(n+1)^2}$ הזנב אחרי $n$ לפחות $\frac12$.
+      (ג) לא: $f\left(\frac1{N^2}\right)\ge\frac N2$.
+    solution:
+      - kind: idea
+        text: >-
+          ככל ש-$x$ קטן, האיברים $\frac1{1+n^2x}$ נשארים קרובים ל-$1$ עוד ועוד זמן. רחוק מ-$0$ יש חסם אחיד סכים; ליד $0$ תמיד יש
+          איבר בזנב בגודל $\frac12$.
+      - kind: step
+        text: >-
+          (א) $\frac1{1+n^2x}$ יורדת ב-$x$, ולכן $\sup_{x\ge a}\frac1{1+n^2x}=\frac1{1+n^2a}\le\frac1{a}\cdot\frac1{n^2}=M_n$, ו-$\sum M_n<\infty$.
+          לפי משפט 2.4.7 (עם $X=[a,\infty)$, מרחב מטרי, ומחוברים רציפים) הטור מתכנס במידה שווה על $[a,\infty)$ וסכומו רציף שם.
+      - kind: step
+        text: >-
+          כל $x_0>0$ נמצא בקרן $[\frac{x_0}2,\infty)$, ו-$f$ רציפה עליה; כיוון שהקרן מכילה את הקטע הפתוח $(\frac{x_0}2,\infty)$ סביב $x_0$,
+          $f$ רציפה ב-$x_0$ כפונקציה על $(0,\infty)$. לכן $f$ רציפה על $(0,\infty)$.
+      - kind: step
+        text: >-
+          (ב) יהי $b>0$ ו-$n$ עם $(n+1)^2\ge\frac1b$. הנקודה $x=\frac1{(n+1)^2}$ ב-$(0,b]$, וכל המחוברים חיוביים, ולכן
+          $f(x)-s_n(x)=\sum_{k>n}\frac1{1+k^2x}\ge\frac1{1+(n+1)^2x}=\frac12$.
+      - kind: step
+        text: >-
+          לכן לכל $N$ יש $n>N$ ו-$x\in(0,b]$ עם $|f(x)-s_n(x)|\ge\frac12$: זו בדיוק השלילה של הגדרת ההתכנסות במידה שווה, עם
+          $\varepsilon=\frac12$. ההתכנסות על $(0,b]$ אינה במידה שווה.
+      - kind: step
+        text: >-
+          (ג) ל-$N\in\mathbb{N}$ ו-$x=\frac1{N^2}$: לכל $n\le N$, $n^2x\le1$, ולכן $\frac1{1+n^2x}\ge\frac12$. לכן $f\left(\frac1{N^2}\right)\ge\sum_{n\le N}\frac12=\frac N2$,
+          ו-$f$ אינה חסומה.
+      - kind: check
+        text: >-
+          מספרית $f(0.01)\approx15.2\ge5$ ו-$f(10^{-4})\approx156.6\ge50$. ו-(ג) נותן עוד הוכחה ל-(ב): אילו ההתכנסות על $(0,1]$ הייתה במידה
+          שווה, הסכום היה חסום שם לפי משפט 1.5.10(ג), כי כל $s_n$ חסום ב-$n$.
+      - kind: result
+        text: >-
+          (א) התכנסות במידה שווה על כל $[a,\infty)$ ו-$f$ רציפה על $(0,\infty)$; (ב) לא במידה שווה על $(0,b]$; (ג) $f$ אינה חסומה.
+    source:
+      name: 'MIT 18.100B/18.100C (Real Analysis), Homework, Spring 2007, Assignment 10 solutions (Rudin, Principles of Mathematical Analysis, ch. 7, exercise 4)'
+      year: 2007
+      problem: '2'
+      url: 'https://math.mit.edu/classes/18.100/HW10solutions.pdf'
+      verified: '2026-11-10'
+      adapted: true
+
+  - id: W-2.4-c2
+    stars: 1
+    objectives: [OBJ-2.4-2]
+    prompt: >-
+      $I(x)=0$ ל-$x\le0$ ו-$I(x)=1$ ל-$x>0$. יהיו $x_1,x_2,\ldots$ נקודות שונות זו מזו בקטע $(a,b)$, ו-$c_n$ מספרים עם
+      $\sum|c_n|<\infty$. נגדיר $f(x)=\sum_{n\ge1}c_n\,I(x-x_n)$ על $[a,b]$.
+
+      (א) הוכיחו שהטור מתכנס במידה שווה על $[a,b]$.
+
+      (ב) הוכיחו ש-$f$ רציפה בכל נקודה $x\in[a,b]$ שאינה מהנקודות $x_n$.
+
+      (ג) הוכיחו שב-$x_m$ הגבול מימין קיים ו-$\lim_{x\to x_m^+}f(x)-f(x_m)=c_m$. (בפרט, אם $c_m\ne0$, $f$ אינה רציפה ב-$x_m$.)
+    answer: >-
+      (א) מבחן ה-M ב-$B([a,b])$ עם $M_n=|c_n|$. (ב) כל סכום חלקי רציף ב-$x$, וגבול במידה שווה שומר רציפות בנקודה. (ג)
+      $f=c_mI(\cdot-x_m)+g$, ו-$g$ רציפה ב-$x_m$ לפי (ב).
+    solution:
+      - kind: idea
+        text: >-
+          המחוברים אינם רציפים, ולכן עובדים במרחב הבנך $B([a,b])$ ולא ב-$C[a,b]$: משפט 2.4.7(א) עדיין נותן התכנסות במידה
+          שווה. את הרציפות בודקים נקודה אחר נקודה, בגרסה הנקודתית של למה 2.2.5.
+      - kind: step
+        text: >-
+          (א) $\sup|c_nI(x-x_n)|\le|c_n|=M_n$, ו-$\sum M_n<\infty$. לפי משפט 2.4.7(א) (עם $X=[a,b]$) הטור מתכנס במידה שווה לפונקציה
+          חסומה $f$, ו-$|f-s_n|\le\sum_{k>n}|c_k|$ בכל נקודה.
+      - kind: theorem
+        text: >-
+          למה 2.2.5: אם $h_n\to h$ במידה שווה על מרחב מטרי $X$ וכל $h_n$ רציפה **בנקודה** $p$, אז $h$ רציפה ב-$p$.
+      - kind: step
+        text: >-
+          (ב) יהי $x\ne x_n$ לכל $n$. כל $y\mapsto I(y-x_n)$ קבועה בסביבה של $x$ (אם $x>x_n$ היא $1$ על $(x_n,\infty)$, ואם $x<x_n$ היא $0$ על
+          $(-\infty,x_n)$), ולכן רציפה ב-$x$; גם כל סכום חלקי רציף ב-$x$. לפי (א) ולמה 2.2.5 (עם $X=[a,b]$), $f$ רציפה ב-$x$.
+      - kind: step
+        text: >-
+          (ג) $g=\sum_{n\ne m}c_nI(\cdot-x_n)$ מתכנס במידה שווה מאותה סיבה, ו-$x_m\ne x_n$ לכל $n\ne m$ (הנקודות שונות), ולכן לפי (ב)
+          $g$ רציפה ב-$x_m$. לפי טענה 2.4.2א(א), $f=c_mI(\cdot-x_m)+g$.
+      - kind: computation
+        text: >-
+          $I(x-x_m)=1$ ל-$x>x_m$ ו-$I(0)=0$. לכן $\lim_{x\to x_m^+}f(x)=c_m+g(x_m)$ ו-$f(x_m)=0+g(x_m)$, וההפרש $c_m$. ומשמאל
+          $\lim_{x\to x_m^-}f(x)=g(x_m)=f(x_m)$: $f$ רציפה משמאל בכל נקודה.
+      - kind: check
+        text: >-
+          דוגמה: $x_n=\frac1{n+1}$ ב-$(0,1)$, $c_n=2^{-n}$: $f$ עולה, קופצת ב-$2^{-n}$ ב-$\frac1{n+1}$, וב-$x=1$ ערכה $\sum2^{-n}=1$. פונקציה
+          עם אינסוף קפיצות, וגבול במידה שווה של פונקציות מדרגה.
+      - kind: result
+        text: >-
+          הטור מתכנס במידה שווה; $f$ רציפה מחוץ ל-$\{x_n\}$, וקופצת ב-$c_m$ בכל $x_m$.
+    source:
+      name: 'MIT 18.100B/18.100C (Real Analysis), Homework, Spring 2007, Assignment 10 solutions'
+      year: 2007
+      problem: '4'
+      url: 'https://math.mit.edu/classes/18.100/HW10solutions.pdf'
+      verified: '2026-11-10'
+      adapted: true

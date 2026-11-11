@@ -1,0 +1,19 @@
+# Terms first defined in lesson 2.2 (complete subspaces and spaces of functions).
+- id: bounded-continuous-functions
+  term: מרחב הפונקציות הרציפות החסומות
+  en: space of bounded continuous functions
+  symbol: 'C_b(X)'
+  definition: >-
+    ל-$(X,d)$ מרחב מטרי, $C_b(X)$ היא קבוצת הפונקציות $f:X\to\mathbb{R}$ שהן רציפות וחסומות, עם נורמת הסופרמום
+    $\|f\|_\infty=\sup_X|f|$. היא תת-מרחב סגור של $B(X)$, ולכן מרחב שלם (מסקנה 2.2.6). כש-$X=[a,b]$ זה
+    $C[a,b]$; כש-$X$ בדיד זה כל $B(X)$.
+  lesson: '2.2'
+- id: ell-infinity
+  term: מרחב הסדרות החסומות
+  en: the space of bounded sequences
+  symbol: '\ell^\infty'
+  definition: >-
+    $\ell^\infty=B(\mathbb{N})$: הסדרות הממשיות החסומות $a=(a_k)_{k\in\mathbb{N}}$ עם
+    $\|a\|_\infty=\sup_k|a_k|$. נקודה של המרחב היא סדרה שלמה. הוא שלם (משפט 2.2.4), אבל התכנסות בו חזקה ממש
+    מהתכנסות בכל קואורדינטה.
+  lesson: '2.2'

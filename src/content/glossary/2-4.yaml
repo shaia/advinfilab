@@ -3,16 +3,50 @@
   term: מרחב בנך
   en: Banach space
   definition: >-
-    מרחב נורמי $(V,\|\cdot\|)$ שהוא שלם במטריקה $d(x,y)=\|x-y\|$. למשל $(\mathbb{R}^n,\|\cdot\|_p)$, $B(X)$
-    ו-$(C[a,b],\|\cdot\|_\infty)$. במרחב בנך כל טור מתכנס בהחלט ($\sum\|x_k\|<\infty$) מתכנס.
+    מרחב נורמי $(V,\|\cdot\|)$ שהוא שלם במטריקה $d(x,y)=\|x-y\|$ (הגדרה 2.4.1). למשל $(\mathbb{R}^n,\|\cdot\|_p)$, $B(X)$
+    ו-$(C[a,b],\|\cdot\|_\infty)$. במרחב בנך כל טור מתכנס בהחלט ($\sum\|x_k\|<\infty$) מתכנס (משפט 2.4.4), ומרחב
+    נורמי שבו זה קורה הוא מרחב בנך (משפט 2.4.5).
   reject: [מרחב באנך]
+  lesson: '2.4'
+- id: series-normed
+  term: טור במרחב נורמי
+  en: series in a normed space
+  symbol: '\sum_{k=1}^{\infty}v_k'
+  definition: >-
+    ל-$v_1,v_2,\ldots$ במרחב נורמי $V$, הסכומים החלקיים הם $S_n=\sum_{k=1}^{n}v_k$. הטור $\sum v_k$ מתכנס אם
+    $(S_n)$ מתכנסת ב-$V$, וסכומו הוא הגבול (הגדרה 2.4.2). ב-$(B(X),\|\cdot\|_\infty)$ זו התכנסות במידה שווה של
+    הסכומים החלקיים.
+  lesson: '2.4'
+- id: absolute-convergence-normed
+  term: התכנסות בהחלט
+  en: absolute convergence
+  symbol: '\sum_{k=1}^{\infty}\|v_k\|<\infty'
+  definition: >-
+    הטור $\sum v_k$ במרחב נורמי מתכנס בהחלט אם הטור הממשי $\sum\|v_k\|$ מתכנס (הגדרה 2.4.2). במרחב בנך טור
+    מתכנס בהחלט מתכנס (משפט 2.4.4); במרחב שאינו שלם לא בהכרח (טענה 2.4.6).
+  lesson: '2.4'
+- id: weierstrass-m-test
+  term: מבחן ה-M של ויירשטראס
+  en: Weierstrass M-test
+  definition: >-
+    אם $f_k\in B(X)$, $\sup_X|f_k|\le M_k$ ו-$\sum M_k<\infty$, אז $\sum f_k$ מתכנס במידה שווה על $X$, והזנב אחרי
+    $n$ חסום על ידי $\sum_{k>n}M_k$; אם $X$ מרחב מטרי וכל $f_k$ רציפה, הסכום רציף (משפט 2.4.7). זו התכנסות בהחלט
+    במרחב הבנך $(B(X),\|\cdot\|_\infty)$. $M_k$ הוא מספר, לא פונקציה של $x$.
+  lesson: '2.4'
+- id: invertible-operator
+  term: העתקה הפיכה (חסומה)
+  en: invertible bounded operator
+  definition: >-
+    $T\in\mathcal{L}(V,V)$ שהיא חד-חד-ערכית ועל, וההופכית שלה $T^{-1}$ חסומה גם היא. במרחב בנך, כל $S$ עם
+    $\|S-T\|_{\mathrm{op}}<\frac{1}{\|T^{-1}\|_{\mathrm{op}}}$ הפיכה גם היא (מסקנה 2.4.10): ההעתקות ההפיכות הן קבוצה
+    פתוחה.
   lesson: '2.4'
 - id: neumann-series
   term: טור נוימן
   en: Neumann series
   symbol: '(I-A)^{-1}=\sum_{k=0}^{\infty}A^k'
   definition: >-
-    הטור $\sum_{k\ge0}A^k$ של חזקות של העתקה לינארית חסומה $A$. אם $\|A\|_{\mathrm{op}}<1$ הוא מתכנס, סכומו הוא
-    $(I-A)^{-1}$, ו-$\|(I-A)^{-1}\|_{\mathrm{op}}\le\frac{1}{1-\|A\|_{\mathrm{op}}}$.
+    הטור $\sum_{k\ge0}A^k$ של חזקות של העתקה לינארית חסומה $A$ על מרחב בנך ($A^0=I$). אם $\|A\|_{\mathrm{op}}<1$ הוא
+    מתכנס, סכומו הוא $(I-A)^{-1}$, ו-$\|(I-A)^{-1}\|_{\mathrm{op}}\le\frac{1}{1-\|A\|_{\mathrm{op}}}$ (משפט 2.4.9).
   reject: [טור נוימאן]
   lesson: '2.4'

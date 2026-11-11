@@ -313,7 +313,7 @@ questions:
     type: twotier
     objectives: [OBJ-2.5-3]
     qualitative: true
-    level: exam
+    level: mid
     prompt: >-
       האם **כל** מרחב מטרי שלם ולא ריק אינו בן מנייה?
     choices:

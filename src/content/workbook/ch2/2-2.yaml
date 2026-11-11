@@ -1,0 +1,546 @@
+# Workbook of lesson 2.2 — complete spaces: subspaces and spaces of functions.
+# Objectives (src/course.ts):
+#   OBJ-2.2-1  a closed subset of a complete space is complete; a complete subspace is closed
+#   OBJ-2.2-2  B(X) with the sup norm is complete, hence (C[a,b], ‖·‖∞) is complete
+#   OBJ-2.2-3  an explicit sequence shows (C[a,b], ‖·‖₁) is not complete
+# Written 2026-11-10 on the formal spine (results cited as 2.2.k). Numbers recomputed with npx tsx
+# (src/math/multivar.ts simpson and supDist as probes): 1/(2n), ln(1+n)/n, 3 − 2√2, 1/(1+n²), 1/n.
+lesson: '2.2'
+practice:
+  - id: W-2.2-01
+    level: basic
+    qualitative: true
+    objectives: [OBJ-2.2-3]
+    prompt: >-
+      על $[0,1]$ תהי $g_n(x)=\min(1,nx)$, $n\in\mathbb{N}$.
+
+      (א) חשבו את $\|1-g_n\|_1=\int_0^1|1-g_n|$.
+
+      (ב) הגבול הנקודתי של $g_n$ הוא 0 בנקודה 0 ו-1 בשאר הנקודות, ואינו רציף. האם $(g_n)$ מראה ש-$(C[0,1],\|\cdot\|_1)$
+      אינו שלם? נמקו.
+
+      (ג) האם $(g_n)$ סדרת קושי בנורמת הסופרמום?
+    answer: >-
+      (א) $\frac1{2n}$. (ב) לא: $g_n\to1$ בנורמת האינטגרל, והקבוע 1 רציף. (ג) לא: $\|g_n-g_{2n}\|_\infty=\frac12$.
+    solution:
+      - kind: computation
+        text: >-
+          (א) $1-g_n(x)=1-nx$ על $[0,\frac1n]$ ו-0 על $[\frac1n,1]$. זה משולש עם בסיס $\frac1n$ וגובה 1, ולפי המשפט היסודי
+          $\int_0^{1/n}(1-nx)\,dx=\frac1n-\frac n2\cdot\frac1{n^2}=\frac1{2n}$.
+      - kind: step
+        text: >-
+          (ב) לפי (א), $\|g_n-1\|_1=\frac1{2n}\to0$, כלומר $g_n\to1$ ב-$(C[0,1],\|\cdot\|_1)$, והקבוע 1 שייך ל-$C[0,1]$. סדרה
+          שמתכנסת במרחב אינה עדות לאי-שלמות. הגבול הנקודתי שונה מ-1 בנקודה אחת בלבד, ונורמת האינטגרל אינה רואה אותה.
+      - kind: computation
+        text: >-
+          (ג) ב-$x=\frac1{2n}$: $g_{2n}(x)=1$ ו-$g_n(x)=\frac12$. לכן $\|g_n-g_{2n}\|_\infty\ge\frac12$ לכל $n$, ותנאי קושי
+          נכשל עם $\varepsilon=\frac12$: לכל $N$ הזוג $n=N+1$, $m=2N+2$ במרחק לפחות $\frac12$.
+      - kind: check
+        text: >-
+          (ג) חייב להיות כך: אילו $(g_n)$ הייתה סדרת קושי בסופרמום, לפי מסקנה 2.2.6(ג) היה לה גבול רציף בסופרמום, ולפי
+          משפט 1.5.10(ב) הוא היה הגבול הנקודתי, שאינו רציף. ולמעשה $\|g_n-g_{2n}\|_\infty=\frac12$ בדיוק (חישוב מספרי
+          נותן $0.5$ ל-$n=1,2,5$).
+      - kind: result
+        text: >-
+          (א) $\frac1{2n}$; (ב) לא, $g_n\to1$ בנורמת האינטגרל; (ג) לא.
+
+  - id: W-2.2-02
+    level: basic
+    objectives: [OBJ-2.2-1]
+    prompt: >-
+      ב-$\mathbb{R}$ עם $|x-y|$ הכריעו, עם הוכחה, אילו מהקבוצות הבאות שלמות:
+
+      (א) $A=\left\{n+\frac1n:\ n\in\mathbb{N}\right\}$;
+
+      (ב) $B=\bigcup_{k\in\mathbb{N}}[2k,2k+1]$;
+
+      (ג) $C=[0,1]\setminus\{\frac12\}$.
+    answer: >-
+      $A$ ו-$B$ שלמות, $C$ לא.
+    solution:
+      - kind: theorem
+        text: >-
+          מסקנה 2.2.2: $\mathbb{R}$ שלם (משפט 2.1.10), ולכן תת-קבוצה שלו שלמה אם ורק אם היא סגורה.
+      - kind: step
+        text: >-
+          (א) נסמן $a_n=n+\frac1n$. אז $a_{n+1}-a_n=1-\frac1{n(n+1)}\ge\frac12$, ולכן ל-$m>n$: $a_m-a_n\ge\frac{m-n}2\ge\frac12$.
+          תהי $(x_j)$ סדרת קושי ב-$A$. עם $\varepsilon=\frac12$ יש $N$ כך ש-$|x_i-x_j|<\frac12$ לכל $i,j>N$, ולכן $x_i=x_j$:
+          הסדרה קבועה מ-$N$ והלאה ומתכנסת לערך הקבוע, שנמצא ב-$A$. לכן $A$ שלמה (ישירות, בלי מסקנה 2.2.2).
+      - kind: step
+        text: >-
+          (ב) המשלים של $B$ הוא $(-\infty,2)\cup\bigcup_{k\in\mathbb{N}}(2k+1,\,2k+2)$. כל קטע פתוח הוא כדור פתוח, ולכן קבוצה
+          פתוחה, וגם $(-\infty,2)$ פתוחה (לכל $x<2$, $B(x,2-x)\subseteq(-\infty,2)$). איחוד של פתוחות פתוח (משפט 1.3.7(ב)),
+          ולכן $B$ סגורה, ולפי מסקנה 2.2.2 שלמה.
+      - kind: step
+        text: >-
+          (ג) $c_n=\frac12+\frac1{n+2}$ נמצאת ב-$C$ (היא ב-$(\frac12,\frac56]$) ושואפת ל-$\frac12\notin C$. לפי מסקנה 1.5.8(ב)
+          $C$ אינה סגורה, ולפי מסקנה 2.2.2 אינה שלמה. במפורש: $(c_n)$ סדרת קושי ב-$C$ (טענה 2.1.4) שאין לה גבול ב-$C$.
+      - kind: check
+        text: >-
+          $a_1,\dots,a_4=2,\ 2.5,\ 3.\overline3,\ 4.25$: הפערים $0.5,\ 0.8\overline3,\ 0.91\overline6$, כולם לפחות $\frac12$.
+          $A$ ו-$B$ אינן חסומות ובכל זאת שלמות; $C$ חסומה ואינה שלמה.
+      - kind: result
+        text: >-
+          $A$ ו-$B$ שלמות; $C$ אינה שלמה.
+
+  - id: W-2.2-03
+    level: basic
+    objectives: [OBJ-2.2-2]
+    prompt: >-
+      ב-$\ell^\infty=B(\mathbb{N})$ תהי $a^{(n)}=\left(\frac{k}{n+k}\right)_{k\in\mathbb{N}}$.
+
+      (א) הראו ש-$a^{(n)}\in\ell^\infty$, ושלכל $k$ קבוע $a^{(n)}_k\to0$ כש-$n\to\infty$.
+
+      (ב) חשבו את $\|a^{(n)}\|_\infty$. האם הסופרמום מתקבל?
+
+      (ג) הוכיחו ש-$(a^{(n)})$ אינה מתכנסת ב-$\ell^\infty$, והסיקו שהיא אינה סדרת קושי.
+    answer: >-
+      (ב) $\|a^{(n)}\|_\infty=1$, ואינו מתקבל. (ג) הגבול היחיד האפשרי הוא 0, והמרחק אליו 1; ו-$\ell^\infty$ שלם, ולכן
+      סדרת קושי בו הייתה מתכנסת.
+    solution:
+      - kind: step
+        text: >-
+          (א) $0<\frac{k}{n+k}<1$, ולכן $a^{(n)}$ חסומה. לכל $k$ קבוע, $\frac{k}{n+k}\to0$ כש-$n\to\infty$ (אינפי 1).
+      - kind: computation
+        text: >-
+          (ב) $\frac{k}{n+k}=1-\frac{n}{n+k}<1$ לכל $k$, ו-$1-\frac n{n+k}\to1$ כש-$k\to\infty$. לכן הסופרמום 1, ואינו מתקבל.
+      - kind: step
+        text: >-
+          (ג) נניח ש-$a^{(n)}\to b$ ב-$\ell^\infty$. לכל $k$: $|a^{(n)}_k-b_k|\le\|a^{(n)}-b\|_\infty\to0$, ולכן לפי (א) ויחידות
+          הגבול ב-$\mathbb{R}$ (משפט 1.5.2) $b_k=0$ לכל $k$. אבל לפי (ב) $\|a^{(n)}-0\|_\infty=1\not\to0$. סתירה.
+      - kind: theorem
+        text: >-
+          משפט 2.2.4: $\ell^\infty=B(\mathbb{N})$ שלם.
+      - kind: step
+        text: >-
+          אילו $(a^{(n)})$ הייתה סדרת קושי ב-$\ell^\infty$, לפי משפט 2.2.4 היא הייתה מתכנסת בו, בסתירה למה שהוכחנו. לכן
+          היא אינה סדרת קושי.
+      - kind: check
+        text: >-
+          חיפוש מספרי של $\max_{k<10^6}\frac{k}{n+k}$ נותן $0.999999$ ל-$n=1$ ו-$0.99999$ ל-$n=10$: מתקרב ל-1 ולא מגיע.
+          שימו לב לכיוון הטיעון: במרחב שלם, "אין גבול" גורר "לא סדרת קושי".
+      - kind: result
+        text: >-
+          $\|a^{(n)}\|_\infty=1$ (לא מתקבל); הסדרה אינה מתכנסת ב-$\ell^\infty$ ואינה סדרת קושי בו.
+
+  - id: W-2.2-04
+    level: mid
+    objectives: [OBJ-2.2-1]
+    prompt: >-
+      יהי $(X,d)$ מרחב מטרי **כלשהו**, ויהיו $Y_1,Y_2\subseteq X$ לא ריקות, כך ש-$(Y_1,d)$ ו-$(Y_2,d)$ שלמים.
+
+      (א) הוכיחו ש-$Y_1\cup Y_2$ שלם.
+
+      (ב) הוכיחו שאם $Y_1\cap Y_2\ne\emptyset$, אז $Y_1\cap Y_2$ שלם.
+
+      (ג) הראו שאיחוד של **אינסוף** תת-מרחבים שלמים אינו שלם בהכרח.
+    answer: >-
+      (א) לסדרת קושי יש תת-סדרה באחת משתי הקבוצות; היא מתכנסת שם, ולפי טענה 2.1.8 הסדרה כולה. (ב) $Y_1\cap Y_2$ סגורה
+      במרחב השלם $Y_1$. (ג) $\{\frac1n\}$, $n\in\mathbb{N}$, ב-$\mathbb{R}$.
+    solution:
+      - kind: idea
+        text: >-
+          ב-(א) עקרון שובך היונים נותן תת-סדרה שכולה בקבוצה אחת. ב-(ב) משפט 2.2.1(ב) הופך את $Y_2$ לקבוצה סגורה, ואז
+          מפעילים את משפט 2.2.1(א) **בתוך המרחב השלם $Y_1$**, ולא בתוך $X$, שעליו לא הנחנו דבר.
+      - kind: step
+        text: >-
+          (א) תהי $(z_n)$ סדרת קושי ב-$Y_1\cup Y_2$. אחת הקבוצות, נאמר $Y_i$, מכילה $z_n$ לאינסוף אינדקסים
+          $n_1<n_2<\cdots$ (אחרת היו רק מספר סופי של אינדקסים בסך הכול). התת-סדרה $(z_{n_k})$ היא סדרת קושי: אם
+          $d(z_m,z_n)<\varepsilon$ לכל $m,n>N$, אז לכל $k,l>N$, $n_k\ge k>N$ ו-$n_l>N$.
+      - kind: step
+        text: >-
+          המרחקים ב-$Y_i$ הם המרחקים ב-$Y_1\cup Y_2$, ו-$Y_i$ שלם, ולכן $z_{n_k}\to y\in Y_i$, גם ב-$Y_1\cup Y_2$. לפי טענה
+          2.1.8 (במרחב $Y_1\cup Y_2$), סדרת קושי עם תת-סדרה מתכנסת מתכנסת לאותו גבול: $z_n\to y\in Y_1\cup Y_2$.
+      - kind: step
+        text: >-
+          (ב) לפי משפט 2.2.1(ב), $Y_2$ סגורה ב-$X$ (בלי הנחה על $X$). לפי מסקנה 1.3.12, עם $Y_1$ כתת-מרחב של $X$,
+          $Y_1\cap Y_2=Y_2\cap Y_1$ סגורה ב-$Y_1$. $Y_1$ שלם, ולפי משפט 2.2.1(א) במרחב $Y_1$, $Y_1\cap Y_2$ שלם.
+      - kind: step
+        text: >-
+          (ג) כל נקודה $\{y\}$ היא תת-מרחב שלם: סדרת קושי בה היא הסדרה הקבועה, שמתכנסת. אבל
+          $\bigcup_{n\in\mathbb{N}}\{\frac1n\}=\{\frac1n: n\in\mathbb{N}\}$ אינה שלמה ב-$\mathbb{R}$: $\frac1n\to0$, שאינו בה, ולכן
+          היא אינה סגורה, ולפי משפט 2.2.1(ב) אינה שלמה.
+      - kind: check
+        text: >-
+          איפה נשבר (א) לאינסוף קבוצות: ב-(ג) כל $\frac1n$ נמצא בקבוצה אחרת, ואין תת-סדרה שכולה בקבוצה אחת. השובך עובד רק עם
+          מספר סופי של תאים.
+      - kind: result
+        text: >-
+          איחוד של שני תת-מרחבים שלמים, וחיתוך לא ריק שלהם, שלמים בכל מרחב מטרי; איחוד אינסופי לא בהכרח.
+
+  - id: W-2.2-05
+    level: mid
+    objectives: [OBJ-2.2-2]
+    prompt: >-
+      תהי $\mathrm{Per}$ קבוצת הפונקציות הרציפות $f:\mathbb{R}\to\mathbb{R}$ שמקיימות $f(x+1)=f(x)$ לכל $x$.
+
+      (א) הוכיחו ש-$\mathrm{Per}\subseteq C_b(\mathbb{R})$.
+
+      (ב) הוכיחו ש-$(\mathrm{Per},\|\cdot\|_\infty)$ שלם.
+    answer: >-
+      (א) $|f|\le\max_{[0,1]}|f|$ בכל $\mathbb{R}$, לפי המחזוריות. (ב) $\mathrm{Per}$ סגורה ב-$C_b(\mathbb{R})$ השלם.
+    solution:
+      - kind: step
+        text: >-
+          (א) תהי $f\in\mathrm{Per}$. מ-$f(x+1)=f(x)$ לכל $x$ נובע גם $f(x-1)=f(x)$ (הציבו $x-1$), ובאינדוקציה $f(x+k)=f(x)$
+          לכל $k\in\mathbb{Z}$. לכל $x$, $t=x-\lfloor x\rfloor\in[0,1)$ ו-$f(x)=f(t)$. לפי משפט ויירשטראס (אינפי 1) $|f|\le M$
+          על $[0,1]$, ולכן $|f(x)|\le M$ לכל $x$.
+      - kind: step
+        text: >-
+          (ב) תהי $f_n\in\mathrm{Per}$ עם $f_n\to f$ ב-$(C_b(\mathbb{R}),d_\infty)$. לפי משפט 1.5.10(ב), $f_n(y)\to f(y)$ לכל
+          $y$. לכן לכל $x$: $f(x+1)=\lim f_n(x+1)=\lim f_n(x)=f(x)$, ו-$f$ רציפה כאיבר של $C_b(\mathbb{R})$. לכן
+          $f\in\mathrm{Per}$, ו-$\mathrm{Per}$ סגורה ב-$C_b(\mathbb{R})$ (מסקנה 1.5.8(ב)).
+      - kind: theorem
+        text: >-
+          מסקנה 2.2.6(ב): $C_b(\mathbb{R})$ שלם. משפט 2.2.1(א): תת-קבוצה סגורה של מרחב שלם שלמה.
+      - kind: check
+        text: >-
+          $\sin(2\pi x)\in\mathrm{Per}$ ו-$\sin x\notin\mathrm{Per}$. ו-$\mathrm{Per}$ מוגדרת בשוויונות בין ערכים בנקודות, וכאלה
+          תמיד עוברים לגבול נקודתי; השאלה אם ההתכנסות במרחב גוררת התכנסות נקודתית, ובסופרמום היא גוררת (1.5.10(ב)).
+      - kind: result
+        text: >-
+          $\mathrm{Per}\subseteq C_b(\mathbb{R})$, והיא סגורה בו ולכן שלמה עם נורמת הסופרמום.
+
+  - id: W-2.2-06
+    level: mid
+    qualitative: true
+    objectives: [OBJ-2.2-2, OBJ-2.2-3]
+    prompt: >-
+      על $[0,1]$ תהי $h_n(x)=\frac1{1+nx}$, $n\in\mathbb{N}$.
+
+      (א) חשבו את $\|h_n\|_1$ והוכיחו ש-$h_n\to0$ ב-$(C[0,1],\|\cdot\|_1)$.
+
+      (ב) הוכיחו ש-$\|h_n-h_{2n}\|_\infty=3-2\sqrt2$ לכל $n$.
+
+      (ג) נכון או לא נכון, ולמה: "$(h_n)$ מראה ש-$(C[0,1],\|\cdot\|_1)$ אינו שלם, כי הגבול הנקודתי שלה אינו רציף"; ו-"$(h_n)$
+      מראה ש-$(C[0,1],\|\cdot\|_\infty)$ אינו שלם".
+    answer: >-
+      (א) $\|h_n\|_1=\frac{\ln(1+n)}n\to0$. (ב) המקסימום ב-$x=\frac1{n\sqrt2}$. (ג) שתי הטענות לא נכונות: בנורמת האינטגרל
+      הסדרה מתכנסת ל-0, ובנורמת הסופרמום היא אינה סדרת קושי.
+    solution:
+      - kind: computation
+        text: >-
+          (א) $h_n>0$, ולפי המשפט היסודי $\int_0^1\frac{dx}{1+nx}=\frac1n\ln(1+nx)\Big|_0^1=\frac{\ln(1+n)}n$. מאינפי 1,
+          $\frac{\ln(1+n)}n\to0$ (למשל לפי לופיטל על $\frac{\ln(1+t)}t$). לכן $\|h_n-0\|_1\to0$.
+      - kind: computation
+        text: >-
+          (ב) עם $u=nx\in[0,n]$: $h_n(x)-h_{2n}(x)=\frac1{1+u}-\frac1{1+2u}=\frac{u}{(1+u)(1+2u)}=:\varphi(u)\ge0$. הנגזרת
+          $\varphi'(u)=\frac{1-2u^2}{(1+u)^2(1+2u)^2}$ חיובית ל-$u<\frac1{\sqrt2}$ ושלילית אחריו, ו-$\frac1{\sqrt2}\le1\le n$.
+          לכן המקסימום הוא $\varphi(\frac1{\sqrt2})=\frac{1/\sqrt2}{2+3/\sqrt2}=\frac1{2\sqrt2+3}=3-2\sqrt2$.
+      - kind: step
+        text: >-
+          (ג) הטענה הראשונה לא נכונה: לפי (א) $h_n$ **מתכנסת** במרחב, לפונקציה הרציפה 0. הגבול הנקודתי (1 ב-0 ו-0 בשאר
+          הנקודות) שונה מ-0 בנקודה אחת, ונורמת האינטגרל אינה רואה אותה.
+      - kind: step
+        text: >-
+          הטענה השנייה לא נכונה: לפי (ב), לכל $N$ יש $n=N+1$ ו-$m=2N+2$ עם $\|h_n-h_m\|_\infty=3-2\sqrt2\approx0.17$, ולכן
+          $(h_n)$ אינה סדרת קושי בסופרמום ואינה מעידה על שום דבר לגבי שלמות. ובאמת $(C[0,1],\|\cdot\|_\infty)$ שלם (מסקנה
+          2.2.6(ג)).
+      - kind: check
+        text: >-
+          מספרית, $\|h_n\|_1\approx0.693,\ 0.462,\ 0.240$ ל-$n=1,3,10$ (שווה ל-$\ln2$, $\frac{\ln4}3$, $\frac{\ln11}{10}$),
+          וחיפוש מספרי של $\max|h_n-h_{2n}|$ נותן $0.171573$, שהוא $3-2\sqrt2$.
+      - kind: result
+        text: >-
+          $h_n\to0$ בנורמת האינטגרל; $\|h_n-h_{2n}\|_\infty=3-2\sqrt2$; שתי הטענות של (ג) לא נכונות.
+
+  - id: W-2.2-07
+    level: mid
+    objectives: [OBJ-2.2-3]
+    prompt: >-
+      יהיו $a<b$. הוכיחו ש-$(C[a,b],\|\cdot\|_1)$, עם $\|g\|_1=\int_a^b|g|$, אינו שלם, ותנו סדרת קושי מפורשת בלי גבול בו.
+    answer: >-
+      $\varphi_n(t)=f_n\!\left(\frac{t-a}{b-a}\right)$, כאשר $f_n$ הרמפות של טענה 2.2.7. ההעתקה $f\mapsto f(\frac{t-a}{b-a})$
+      מכפילה את נורמת האינטגרל ב-$b-a$, ולכן מעבירה סדרות קושי לסדרות קושי וגבולות לגבולות.
+    solution:
+      - kind: idea
+        text: >-
+          לא צריך לחזור על כל ההוכחה של טענה 2.2.7: שינוי משתנה לינארי מעביר את $[0,1]$ על $[a,b]$ ומכפיל כל שטח בקבוע
+          $b-a$. סדרת קושי עוברת לסדרת קושי, וגבול ב-$C[a,b]$ היה מחזיר גבול ב-$C[0,1]$.
+      - kind: definition
+        text: >-
+          ל-$f\in C[0,1]$ נגדיר $(Tf)(t)=f\!\left(\frac{t-a}{b-a}\right)$, $t\in[a,b]$, ול-$g\in C[a,b]$ נגדיר
+          $(Sg)(x)=g\big(a+(b-a)x\big)$, $x\in[0,1]$. שתיהן לינאריות, $Tf\in C[a,b]$ ו-$Sg\in C[0,1]$ (הרכבה של רציפות), ו-$S$
+          ההפכית של $T$.
+      - kind: computation
+        text: >-
+          בהצבה $t=a+(b-a)x$ (אינפי 1): $\int_a^b|Tf(t)|\,dt=(b-a)\int_0^1|f(x)|\,dx$, כלומר $\|Tf\|_1=(b-a)\|f\|_1$, וכך גם
+          $\|Sg\|_1=\frac1{b-a}\|g\|_1$.
+      - kind: step
+        text: >-
+          יהיו $f_n$ הרמפות ($n\ge2$) ו-$\varphi_n=Tf_n$. לפי טענה 2.2.7(א),
+          $\|\varphi_n-\varphi_m\|_1=(b-a)\|f_n-f_m\|_1=(b-a)\left|\frac1{2n}-\frac1{2m}\right|$, ולכן $(\varphi_n)$ סדרת קושי
+          ב-$(C[a,b],\|\cdot\|_1)$.
+      - kind: step
+        text: >-
+          נניח $\|\varphi_n-g\|_1\to0$ עם $g\in C[a,b]$. אז $Sg\in C[0,1]$ ו-
+          $\|f_n-Sg\|_1=\|S(\varphi_n-g)\|_1=\frac1{b-a}\|\varphi_n-g\|_1\to0$, בסתירה לטענה 2.2.7(ב).
+      - kind: check
+        text: >-
+          עם $[a,b]=[0,2]$: $\varphi_n$ היא 0 עד $t=1$ ועולה ל-1 על $[1,1+\frac2n]$, ו-$\|\varphi_2-\varphi_4\|_1=2\cdot\frac18=\frac14$,
+          פעמיים הערך על $[0,1]$.
+      - kind: result
+        text: >-
+          $(C[a,b],\|\cdot\|_1)$ אינו שלם לכל $a<b$; $\varphi_n(t)=\min\!\left(1,\max\!\left(0,\,n\left(\frac{t-a}{b-a}-\frac12\right)\right)\right)$
+          היא סדרת קושי בלי גבול.
+
+  - id: W-2.2-08
+    level: exam
+    objectives: [OBJ-2.2-1, OBJ-2.2-2]
+    prompt: >-
+      תהי $C_0(\mathbb{R})$ קבוצת הפונקציות הרציפות $f:\mathbb{R}\to\mathbb{R}$ עם $\lim_{|x|\to\infty}f(x)=0$, ותהי
+      $K\subseteq C_0(\mathbb{R})$ קבוצת הפונקציות הרציפות שיש להן $R>0$ כך ש-$f(x)=0$ לכל $|x|>R$.
+
+      (א) הוכיחו ש-$C_0(\mathbb{R})\subseteq C_b(\mathbb{R})$ ושהיא סגורה בו, והסיקו ש-$(C_0(\mathbb{R}),\|\cdot\|_\infty)$ שלם.
+
+      (ב) יהיו $f(x)=\frac1{1+x^2}$ ו-$f_n(x)=\max\!\left(0,\ f(x)-\frac1{1+n^2}\right)$. חשבו את $\|f-f_n\|_\infty$.
+
+      (ג) הוכיחו ש-$(K,\|\cdot\|_\infty)$ אינו שלם.
+    answer: >-
+      (א) $C_0$ סגורה ב-$C_b(\mathbb{R})$ השלם. (ב) $\frac1{1+n^2}$. (ג) $f\in\overline K\setminus K$, ולפי משפט 2.2.1(ב) $K$ אינו
+      שלם.
+    solution:
+      - kind: step
+        text: >-
+          (א), חסימות. תהי $f\in C_0(\mathbb{R})$. לפי ההגדרה עם $\varepsilon=1$ יש $R$ כך ש-$|f(x)|<1$ לכל $|x|>R$, ולפי משפט
+          ויירשטראס (אינפי 1) $|f|\le M$ על $[-R,R]$. לכן $|f|\le\max(M,1)$ על $\mathbb{R}$.
+      - kind: step
+        text: >-
+          (א), סגירות. יהיו $f_k\in C_0(\mathbb{R})$ ו-$g\in C_b(\mathbb{R})$ עם $\|f_k-g\|_\infty\to0$, ויהי $\varepsilon>0$. נקבע
+          $k$ עם $\|f_k-g\|_\infty<\frac\varepsilon2$, ואחר כך $R$ עם $|f_k(x)|<\frac\varepsilon2$ לכל $|x|>R$. אז לכל $|x|>R$:
+          $|g(x)|\le|g(x)-f_k(x)|+|f_k(x)|<\varepsilon$. לכן $g\in C_0(\mathbb{R})$, והיא סגורה (מסקנה 1.5.8(ב)).
+      - kind: theorem
+        text: >-
+          מסקנה 2.2.6(ב) ($C_b(\mathbb{R})$ שלם) ומשפט 2.2.1(א) נותנים ש-$(C_0(\mathbb{R}),\|\cdot\|_\infty)$ שלם.
+      - kind: computation
+        text: >-
+          (ב) $f$ רציפה, זוגית ויורדת ב-$|x|$, ו-$f(\pm n)=\frac1{1+n^2}$. ל-$|x|\le n$: $f(x)\ge\frac1{1+n^2}$, ולכן
+          $f-f_n=\frac1{1+n^2}$. ל-$|x|>n$: $f_n(x)=0$ ו-$f(x)-f_n(x)=f(x)<\frac1{1+n^2}$. לכן
+          $\|f-f_n\|_\infty=\frac1{1+n^2}$, מתקבל בכל $|x|\le n$.
+      - kind: step
+        text: >-
+          (ג) $f_n$ רציפה (מקסימום של רציפות) ומתאפסת ב-$|x|\ge n$, ולכן $f_n\in K$. לפי (ב) $f_n\to f$ בסופרמום, ו-$f\notin K$
+          כי $f>0$ בכל מקום. לכן $f\in\overline K\setminus K$ (משפט 1.5.7(א)), $K$ אינה סגורה ב-$C_b(\mathbb{R})$, ולפי משפט
+          2.2.1(ב) $(K,\|\cdot\|_\infty)$ אינו שלם.
+      - kind: check
+        text: >-
+          חישוב מספרי של $\sup|f-f_n|$ על $[-50,50]$ נותן $0.5,\ 0.2,\ 0.03846$ ל-$n=1,2,5$, כלומר $\frac12,\frac15,\frac1{26}$.
+          $K$ הוא תת-מרחב וקטורי של $C_0(\mathbb{R})$, וזה לא עוזר לו: תת-מרחב וקטורי של מרחב שלם אינו סגור בהכרח.
+      - kind: result
+        text: >-
+          $(C_0(\mathbb{R}),\|\cdot\|_\infty)$ שלם; $\|f-f_n\|_\infty=\frac1{1+n^2}$; $(K,\|\cdot\|_\infty)$ אינו שלם.
+
+  - id: W-2.2-09
+    level: exam
+    qualitative: true
+    objectives: [OBJ-2.2-1, OBJ-2.2-3]
+    prompt: >-
+      תהי $Y=\{f\in C[0,1]: f(\tfrac12)=0\}$, ול-$n\ge2$ תהי $v_n(x)=\min\!\big(1,\ n|x-\tfrac12|\big)$.
+
+      (א) הוכיחו שלכל $g\in C[0,1]$: $gv_n\in Y$ ו-$\|g-gv_n\|_1\le\frac{\|g\|_\infty}n$. הסיקו ש-$Y$ צפופה ב-$(C[0,1],\|\cdot\|_1)$.
+
+      (ב) הכריעו: האם $(Y,\|\cdot\|_1)$ שלם? נמקו בלי להשתמש ברמפות של טענה 2.2.7.
+
+      (ג) האם $(Y,\|\cdot\|_\infty)$ שלם?
+    answer: >-
+      (א) $\int_0^1(1-v_n)=\frac1n$. (ב) לא: $Y$ אינה סגורה ב-$(C[0,1],\|\cdot\|_1)$ ($1\in\overline Y\setminus Y$), ולפי משפט
+      2.2.1(ב) אינה שלמה. (ג) כן: סגורה במרחב השלם $(C[0,1],\|\cdot\|_\infty)$.
+    solution:
+      - kind: computation
+        text: >-
+          (א) $v_n$ רציפה ו-$v_n(\frac12)=0$, ולכן $(gv_n)(\frac12)=0$ ו-$gv_n\in Y$. $1-v_n$ הוא 0 מחוץ ל-$[\frac12-\frac1n,\frac12+\frac1n]$
+          (שמוכל ב-$[0,1]$ כי $n\ge2$) ובתוכו משולש בגובה 1 ובבסיס $\frac2n$: $\int_0^1(1-v_n)=\frac1n$. לכן
+          $\|g-gv_n\|_1=\int_0^1|g|(1-v_n)\le\|g\|_\infty\int_0^1(1-v_n)=\frac{\|g\|_\infty}n$.
+      - kind: step
+        text: >-
+          לפי (א), כל $g\in C[0,1]$ היא גבול בנורמת האינטגרל של סדרה מ-$Y$, ולפי משפט 1.5.7(א) $\overline Y=C[0,1]$: $Y$
+          צפופה (הגדרה 1.4.13).
+      - kind: step
+        text: >-
+          (ב) הפונקציה הקבועה 1 שייכת ל-$\overline Y$ ולא ל-$Y$, ולכן $Y$ אינה סגורה ב-$(C[0,1],\|\cdot\|_1)$ (טענה 1.4.4(ג)).
+          לפי משפט 2.2.1(ב), שאינו דורש שהמרחב הגדול יהיה שלם, $(Y,\|\cdot\|_1)$ אינו שלם. במפורש: $(v_n)$ סדרת קושי ב-$Y$
+          (היא מתכנסת ל-1 ב-$C[0,1]$, טענה 2.1.4), ואין לה גבול ב-$Y$, כי הגבול ב-$C[0,1]$ יחיד והוא 1.
+      - kind: step
+        text: >-
+          (ג) אם $f_n\in Y$ ו-$\|f_n-f\|_\infty\to0$, אז $|f(\frac12)|=|f(\frac12)-f_n(\frac12)|\le\|f-f_n\|_\infty\to0$, ולכן $f\in Y$.
+          $Y$ סגורה במרחב השלם $(C[0,1],\|\cdot\|_\infty)$ (מסקנה 2.2.6(ג)), ולפי מסקנה 2.2.2 שלמה.
+      - kind: check
+        text: >-
+          עם $g(x)=1+x$ ($\|g\|_\infty=2$): $\|g-gv_2\|_1=0.75\le1$ ו-$\|g-gv_4\|_1=0.375\le0.5$ (חישוב מספרי). וההבדל בין
+          הנורמות: $f\mapsto f(\frac12)$ רציפה בסופרמום ואינה רציפה בנורמת האינטגרל (טענה 1.6.11), ולכן "ערך בנקודה" מגדיר
+          קבוצה סגורה רק בראשונה.
+      - kind: result
+        text: >-
+          $Y$ צפופה ב-$(C[0,1],\|\cdot\|_1)$ ולכן אינה שלמה שם; $(Y,\|\cdot\|_\infty)$ שלם.
+
+  - id: W-2.2-10
+    level: exam
+    objectives: [OBJ-2.2-2]
+    prompt: >-
+      יהי $(X,d)$ מרחב מטרי ו-$(Y,\rho)$ מרחב מטרי **שלם**. נסמן ב-$C_b(X,Y)$ את הפונקציות **הרציפות** $f:X\to Y$
+      שהתמונה שלהן $f(X)$ חסומה ב-$Y$ (הגדרה וטענה 1.5.3), ונגדיר $D(f,g)=\sup_{x\in X}\rho\big(f(x),g(x)\big)$. (בפתרון,
+      $B(y,R)$ הוא כדור פתוח במרחב $Y$.)
+
+      (א) הוכיחו ש-$D$ מוגדרת (סופית) ושהיא מטריקה על $C_b(X,Y)$.
+
+      (ב) הוכיחו ש-$(C_b(X,Y),D)$ שלם.
+
+      (ג) הראו בדוגמה שבלי שלמות של $Y$, (ב) אינו נכון.
+    answer: >-
+      (א) $\rho(f(x),g(x))<R_1+\rho(y_1,y_2)+R_2$; האקסיומות נקודה-נקודה ואחר כך סופרמום. (ב) הגבול הנקודתי קיים כי $Y$ שלם,
+      ההערכה האחידה עוברת לגבול דרך טענה 1.5.6(א), והרציפות של הגבול היא טיעון שלושת ה-$\frac\varepsilon3$ עם $\rho$ במקום
+      $|\cdot|$. (ג) $Y=(0,1]$ והפונקציות הקבועות $\frac1n$.
+    solution:
+      - kind: idea
+        text: >-
+          כש-$Y=\mathbb{R}$ זו מסקנה 2.2.6(ב). שם הכלים היו הסדר והערך המוחלט של $\mathbb{R}$; כאן יש רק מטריקה $\rho$. שלושה דברים
+          צריכים טיעון חדש: מאיפה בא הגבול הנקודתי (שלמות $Y$ במקום משפט 2.1.10), איך מעבירים אי-שוויון לגבול בלי ערך מוחלט
+          (רציפות המטריקה, טענה 1.5.6(א)), ולמה הגבול רציף **כפונקציה אל $Y$** (למה 2.2.5 מדברת רק על פונקציות ממשיות).
+      - kind: step
+        text: >-
+          (א) יהיו $f(X)\subseteq B(y_1,R_1)$ ו-$g(X)\subseteq B(y_2,R_2)$. לכל $x$, לפי אי-שוויון המשולש,
+          $\rho(f(x),g(x))\le\rho(f(x),y_1)+\rho(y_1,y_2)+\rho(y_2,g(x))<R_1+\rho(y_1,y_2)+R_2$. הקבוצה
+          $\{\rho(f(x),g(x)):x\in X\}$ לא ריקה וחסומה, ולפי אקסיומת החסם העליון יש לה סופרמום ממשי. M1 ו-M2 של $D$ נובעות
+          מאלה של $\rho$ נקודה-נקודה, ואי-שוויון המשולש כמו בטענה 1.1.8(א): לכל $x$,
+          $\rho(f(x),h(x))\le D(f,g)+D(g,h)$, ומעבר לסופרמום.
+      - kind: step
+        text: >-
+          (ב), מועמד. תהי $(f_n)$ סדרת קושי ב-$D$. לכל $x$: $\rho(f_m(x),f_n(x))\le D(f_m,f_n)$, ולכן $(f_n(x))$ סדרת קושי
+          ב-$Y$. $Y$ שלם, ולכן יש לה גבול, יחיד לפי משפט 1.5.2; נסמן אותו $f(x)$.
+      - kind: step
+        text: >-
+          (ב), הערכה אחידה. יהי $\varepsilon>0$ ו-$N$ עם $D(f_m,f_n)<\varepsilon$ לכל $m,n>N$. נקבע $n>N$ ו-$x$. לפי טענה
+          1.5.6(א) (עם $f_m(x)\to f(x)$ והסדרה הקבועה $f_n(x)$), $\rho(f_m(x),f_n(x))\to\rho(f(x),f_n(x))$ כש-$m\to\infty$, וכל
+          האיברים עם $m>N$ קטנים מ-$\varepsilon$; לכן $\rho(f(x),f_n(x))\le\varepsilon$ לכל $x\in X$ ולכל $n>N$.
+      - kind: step
+        text: >-
+          (ב), $f$ רציפה. יהיו $a\in X$ ו-$\eta>0$. לפי ההערכה האחידה עם $\varepsilon=\frac\eta4$ יש $N$; נקבע $n=N+1$, כך
+          ש-$\rho(f(x),f_n(x))\le\frac\eta4$ לכל $x$. $f_n$ רציפה ב-$a$: יש $\delta>0$ עם $\rho(f_n(x),f_n(a))<\frac\eta4$ כש-$d(x,a)<\delta$.
+          לכן לכל $x$ כזה, לפי אי-שוויון המשולש של $\rho$ פעמיים,
+          $\rho(f(x),f(a))\le\rho(f(x),f_n(x))+\rho(f_n(x),f_n(a))+\rho(f_n(a),f(a))<\frac\eta4+\frac\eta4+\frac\eta4<\eta$.
+      - kind: step
+        text: >-
+          (ב), תמונה חסומה. עם $\varepsilon=1$, $n=N+1$ ו-$f_n(X)\subseteq B(y_0,R)$: $\rho(f(x),y_0)\le1+\rho(f_n(x),y_0)<1+R$ לכל
+          $x$. לכן $f\in C_b(X,Y)$, ולפי ההערכה האחידה עם $\frac\varepsilon2$, $D(f_n,f)\le\frac\varepsilon2<\varepsilon$ לכל $n$
+          גדול מספיק: $f_n\to f$.
+      - kind: step
+        text: >-
+          (ג) יהי $X$ מרחב מטרי כלשהו, $Y=(0,1]$ עם $|s-t|$ (לא שלם, מסקנה 2.2.2), ו-$f_n\equiv\frac1n$ קבועות; הן רציפות ובעלות
+          תמונה חסומה. $D(f_n,f_m)=|\frac1n-\frac1m|$, ולכן $(f_n)$ סדרת קושי. אילו $f_n\to f$ ב-$D$, אז לכל $x$,
+          $|\frac1n-f(x)|\le D(f_n,f)\to0$, כלומר $\frac1n\to f(x)$ ב-$\mathbb{R}$, ולפי משפט 1.5.2 $f(x)=0\notin Y$. סתירה.
+      - kind: check
+        text: >-
+          עם $Y=\mathbb{R}$ (ב) הוא מסקנה 2.2.6(ב); עם $Y=(\mathbb{R}^k,d_2)$ (שלם, משפט 2.1.11) מקבלים שהעקומות הרציפות והחסומות
+          $X\to\mathbb{R}^k$ עם $\sup_x\|f(x)-g(x)\|_2$ הן מרחב שלם. ב-(ג) נשבר בדיוק שלב המועמד: הגבול הנקודתי 0 קיים
+          ב-$\mathbb{R}$ אבל לא ב-$Y$.
+      - kind: result
+        text: >-
+          $D$ מטריקה על $C_b(X,Y)$; $(C_b(X,Y),D)$ שלם בכל פעם ש-$Y$ שלם, ולא בהכרח אחרת.
+
+challenge:
+  - id: W-2.2-c1
+    stars: 1
+    objectives: [OBJ-2.2-1, OBJ-2.2-2]
+    prompt: >-
+      תהי $c_0\subseteq\ell^\infty$ קבוצת הסדרות הממשיות $a=(a_k)_{k\in\mathbb{N}}$ עם $a_k\to0$, עם המטריקה
+      $d(a,b)=\sup_k|a_k-b_k|$. הוכיחו ש-$(c_0,d)$ מרחב מטרי שלם.
+    answer: >-
+      $c_0$ סגורה ב-$\ell^\infty$, שהוא שלם (משפט 2.2.4), ולכן שלמה (משפט 2.2.1(א)).
+    solution:
+      - kind: given
+        text: >-
+          $c_0$, הסדרות ששואפות ל-0, עם מטריקת הסופרמום.
+      - kind: idea
+        text: >-
+          לא בונים גבולות מאפס: $\ell^\infty=B(\mathbb{N})$ כבר שלם, ומספיק להראות ש-$c_0$ סגורה בו. סגירות היא טיעון $\frac\varepsilon2$:
+          קרוב בסופרמום לסדרה ששואפת ל-0, ולכן שואף ל-0.
+      - kind: step
+        text: >-
+          $c_0\subseteq\ell^\infty$: סדרה מתכנסת חסומה (טענה 1.5.3(ג)), ו-$d$ היא מטריקת הסופרמום של $\ell^\infty$ מוגבלת ל-$c_0$.
+      - kind: step
+        text: >-
+          יהיו $a^{(n)}\in c_0$ ו-$a\in\ell^\infty$ עם $d(a^{(n)},a)\to0$, ויהי $\varepsilon>0$. נקבע $n$ עם
+          $d(a^{(n)},a)<\frac\varepsilon2$, ואחר כך $K$ עם $|a^{(n)}_k|<\frac\varepsilon2$ לכל $k>K$ (כי $a^{(n)}\in c_0$).
+      - kind: step
+        text: >-
+          לכל $k>K$: $|a_k|\le|a_k-a^{(n)}_k|+|a^{(n)}_k|<\frac\varepsilon2+\frac\varepsilon2=\varepsilon$. לכן $a_k\to0$, כלומר
+          $a\in c_0$, ולפי מסקנה 1.5.8(ב) $c_0$ סגורה ב-$\ell^\infty$.
+      - kind: theorem
+        text: >-
+          משפט 2.2.4 ($\ell^\infty=B(\mathbb{N})$ שלם) ומשפט 2.2.1(א) (תת-קבוצה סגורה של מרחב שלם שלמה).
+      - kind: check
+        text: >-
+          ההנחה "סגורה" אינה קישוט: $c_{00}$, הסדרות שרק מספר סופי מאיבריהן שונים מ-0, מוכלת ב-$c_0$, ובדוגמה 2 ראינו שהיא
+          אינה סגורה ואינה שלמה; הגבול שם, $(\frac1k)$, נמצא ב-$c_0$.
+      - kind: result
+        text: >-
+          $(c_0,d)$ שלם.
+    source:
+      name: 'Karl-Franzens-Universität Graz, Proseminar Funktionalanalysis (L. Peichl), Problems 1'
+      year: 2005
+      problem: 'Problem 5'
+      url: 'https://imsc.uni-graz.at/peichl/Blatt1_05.pdf'
+      verified: '2026-11-10'
+      adapted: true
+
+  - id: W-2.2-c2
+    stars: 1
+    objectives: [OBJ-2.2-2]
+    prompt: >-
+      יהיו $a<b$. פונקציה $f:[a,b]\to\mathbb{R}$ היא ליפשיצית אם יש $K$ עם $|f(x)-f(y)|\le K|x-y|$ לכל $x,y$. לפונקציה ליפשיצית
+      $h$ נסמן $L(h)=\sup_{x\ne y}\frac{|h(x)-h(y)|}{|x-y|}$, ולשתי פונקציות ליפשיציות נגדיר
+
+      $$
+      d(f,g)=\sup_{x\in[a,b]}|f(x)-g(x)|+L(f-g).
+      $$
+
+      הוכיחו שמרחב הפונקציות הליפשיציות על $[a,b]$ עם $d$ הוא מרחב מטרי שלם.
+    answer: >-
+      $d(f,g)=\|f-g\|$ עם הנורמה $\|h\|=\|h\|_\infty+L(h)$. סדרת קושי בה היא סדרת קושי בסופרמום, ולכן מתכנסת במידה שווה
+      לפונקציה רציפה $f$ (מסקנה 2.2.6(ג)); מעבר לגבול בתנאי קושי של מנות ההפרשים נותן $L(f_n-f)\le\varepsilon$.
+    solution:
+      - kind: given
+        text: >-
+          $\mathrm{Lip}[a,b]$, הפונקציות הליפשיציות על $[a,b]$, והמטריקה $d(f,g)=\|f-g\|_\infty+L(f-g)$.
+      - kind: step
+        text: >-
+          מרחב וקטורי ונורמה. אם $h_1,h_2$ ליפשיציות עם קבועים $K_1,K_2$, אז $\lambda h_1+\mu h_2$ ליפשיצית עם קבוע
+          $|\lambda|K_1+|\mu|K_2$. $L(h)$ הוא החסם המלעיל הקטן ביותר של מנות ההפרשים, ולכן $L(h)\le K$ סופי,
+          $L(\lambda h)=|\lambda|L(h)$, ו-$L(h_1+h_2)\le L(h_1)+L(h_2)$ (אי-שוויון המשולש בכל מנה, ואחר כך סופרמום). פונקציה
+          ליפשיצית רציפה (טענה 1.6.9), ולכן $\mathrm{Lip}[a,b]\subseteq C[a,b]$ ו-$\|h\|_\infty$ מוגדרת. $\|h\|=\|h\|_\infty+L(h)$
+          מקיימת N2 ו-N3 כסכום של שתי פונקציות שמקיימות אותן, ו-N1 כי $\|h\|=0$ גורר $\|h\|_\infty=0$. לפי טענה 1.2.3, $d$
+          מטריקה.
+      - kind: step
+        text: >-
+          מועמד. תהי $(f_n)$ סדרת קושי ב-$d$. כי $\|f_n-f_m\|_\infty\le d(f_n,f_m)$, היא סדרת קושי ב-$(C[a,b],\|\cdot\|_\infty)$,
+          ולפי מסקנה 2.2.6(ג) יש $f\in C[a,b]$ עם $\|f_n-f\|_\infty\to0$; בפרט $f_n(x)\to f(x)$ לכל $x$.
+      - kind: step
+        text: >-
+          הערכה אחידה. יהי $\varepsilon>0$ ו-$N$ עם $d(f_n,f_m)<\varepsilon$ לכל $m,n>N$. אז $L(f_n-f_m)<\varepsilon$, כלומר
+          לכל $x\ne y$: $|(f_n-f_m)(x)-(f_n-f_m)(y)|\le\varepsilon|x-y|$. נקבע $n>N$ ו-$x\ne y$ ונשאיף $m\to\infty$: האגף השמאלי
+          שואף ל-$|(f_n-f)(x)-(f_n-f)(y)|$, ואי-שוויון חלש עובר לגבול:
+          $|(f_n-f)(x)-(f_n-f)(y)|\le\varepsilon|x-y|$.
+      - kind: step
+        text: >-
+          הגבול במרחב. לפי השלב הקודם $f_n-f$ ליפשיצית עם $L(f_n-f)\le\varepsilon$, ולכן $f=f_n-(f_n-f)$ ליפשיצית, כהפרש של
+          שתי ליפשיציות.
+      - kind: step
+        text: >-
+          התכנסות. לכל $n>N$: $d(f_n,f)=\|f_n-f\|_\infty+L(f_n-f)\le\|f_n-f\|_\infty+\varepsilon$, ו-$\|f_n-f\|_\infty\to0$; לכן
+          $d(f_n,f)<2\varepsilon$ לכל $n$ גדול מספיק. $\varepsilon$ שרירותי, ולכן $f_n\to f$ ב-$d$.
+      - kind: check
+        text: >-
+          בלי החלק $L(f-g)$ התשובה הייתה שונה: עם $\|\cdot\|_\infty$ בלבד הפונקציות הליפשיציות אינן שלמות. הפונקציות
+          $\sqrt{(x-\frac12)^2+\frac1{n^2}}$ של טענה 2.2.9 ליפשיציות (נגזרתן חסומה ב-1) ושואפות במידה שווה ל-$|x-\frac12|$, שהיא
+          ליפשיצית; אבל $\sqrt{x+\frac1n}$ על $[0,1]$ ליפשיציות ושואפות במידה שווה ל-$\sqrt x$, שאינה ליפשיצית. לכן הפונקציות
+          הליפשיציות אינן סגורות ב-$(C[0,1],\|\cdot\|_\infty)$, ולפי משפט 2.2.1(ב) הן אינן שלמות עם הסופרמום לבדו.
+      - kind: result
+        text: >-
+          $(\mathrm{Lip}[a,b],d)$ מרחב מטרי שלם.
+    source:
+      name: 'Indian Statistical Institute, JRF in Mathematics admission test (MTA)'
+      year: 2021
+      problem: 'Question 2'
+      url: 'https://admission.isical.ac.in/PreviousQuestion/JRF-Math-MTA-2021.pdf'
+      verified: '2026-11-10'
+      adapted: true
