@@ -186,7 +186,10 @@ $$
 **2.** (סדרות מתכנסות, קבוצות פתוחות וסגורות, קבוצות חסומות, רציפות) $d_a$ ו-$d_b$ שקולות ליפשיץ, ולפי משפט 1.7.5, סעיפים 3, 1, 5 ו-4, יש להן אותן סדרות מתכנסות עם אותם גבולות, אותן קבוצות פתוחות וסגורות, אותן קבוצות חסומות ואותן פונקציות רציפות. במפורש, עבור הקבוצות הפתוחות: מ-$c\|\cdot\|_a\le\|\cdot\|_b$ נובע $\|\cdot\|_a\le\frac1c\|\cdot\|_b$, ולפי למה 1.7.4(א) עם הקבוע $\frac1c$:
 
 $$
-B_b(x,cr)\subseteq B_a(x,r)\qquad\forall x\in V,\ \forall r>0 .
+\begin{gathered}
+B_b(x,cr)\subseteq B_a(x,r)\\
+\forall x\in V,\ \forall r>0 .
+\end{gathered}
 $$
 
 לכן אם $B_a(x,r)\subseteq U$, גם $B_b(x,cr)\subseteq U$: כל קבוצה פתוחה ב-$\|\cdot\|_a$ פתוחה ב-$\|\cdot\|_b$. את הכיוון השני נותן האי-שוויון השני, $\|\cdot\|_b\le C\|\cdot\|_a$.
@@ -269,7 +272,8 @@ $$
 
 $$
 \begin{aligned}
-\sum_{i=1}^n|x_i|\,N(e_i)&\le\Big(\sum_{i=1}^nx_i^2\Big)^{1/2}\Big(\sum_{i=1}^nN(e_i)^2\Big)^{1/2}\\
+\sum_{i=1}^n|x_i|\,N(e_i)&\le\Big(\sum_{i=1}^nx_i^2\Big)^{1/2}\\
+&\qquad\cdot\Big(\sum_{i=1}^nN(e_i)^2\Big)^{1/2}\\
 &=L\,\|x\|_2 .
 \end{aligned}
 $$
@@ -277,7 +281,10 @@ $$
 **4.** לפי אי-שוויון המשולש ההפוך (למה 1.2.2) ושלבים 2–3 עם $x-y$:
 
 $$
-|N(x)-N(y)|\le N(x-y)\le L\,\|x-y\|_2 .
+\begin{aligned}
+|N(x)-N(y)|&\le N(x-y)\\
+&\le L\,\|x-y\|_2 .
+\end{aligned}
 $$
 
 זו הגדרה 1.6.8 עם קבוע $L$, ולפי טענה 1.6.9 פונקציה ליפשיצית רציפה. $\blacksquare$
@@ -486,13 +493,19 @@ $$
 **4.** יהי $w\in W$. הווקטור $w'=w_0+\|x-w_0\|\,w$ שייך ל-$W$, כי $W$ תת-מרחב. מההגדרה של $v$ ושל $w'$:
 
 $$
-v-w=\frac{x-w_0-\|x-w_0\|\,w}{\|x-w_0\|}=\frac{x-w'}{\|x-w_0\|} .
+\begin{aligned}
+v-w&=\frac{x-w_0-\|x-w_0\|\,w}{\|x-w_0\|}\\
+&=\frac{x-w'}{\|x-w_0\|} .
+\end{aligned}
 $$
 
 $w'\in W$, ו-$\rho$ הוא האינפימום של $\{\|x-u\|:\ u\in W\}$, ובפרט חסם מלרע שלה; לכן $\|x-w'\|\ge\rho$. לפי (N2) ושלב 3 ($\|x-w_0\|<\frac\rho\eta$):
 
 $$
-\|v-w\|=\frac{\|x-w'\|}{\|x-w_0\|}\ge\frac{\rho}{\|x-w_0\|}>\frac{\rho}{\rho/\eta}=\eta .
+\begin{aligned}
+\|v-w\|&=\frac{\|x-w'\|}{\|x-w_0\|}\ge\frac{\rho}{\|x-w_0\|}\\
+&>\frac{\rho}{\rho/\eta}=\eta .
+\end{aligned}
 $$
 
 **5.** לכן $\eta$ חוסם מלרע את $\{\|v-w\|:\ w\in W\}$, ו-$\operatorname{dist}(v,W)\ge\eta$. $\blacksquare$
@@ -642,7 +655,8 @@ $$
 $$
 \begin{aligned}
 x^TBx&=\Big(\sum_ic_iu_i\Big)^T\Big(\sum_jc_j\mu_ju_j\Big)\\
-&=\sum_{i,j}c_ic_j\mu_j\,u_i^Tu_j=\sum_i\mu_ic_i^2,\\
+&=\sum_{i,j}c_ic_j\mu_j\,u_i^Tu_j\\
+&=\sum_i\mu_ic_i^2,\\
 \|x\|_2^2&=x^Tx=\sum_{i,j}c_ic_j\,u_i^Tu_j\\
 &=\sum_ic_i^2 .
 \end{aligned}
@@ -662,8 +676,10 @@ $$
 
 $$
 \begin{aligned}
-m&=\sqrt{3-\sqrt5}=\frac{\sqrt5-1}{\sqrt2}\approx0.8740,\\
-M&=\sqrt{3+\sqrt5}=\frac{\sqrt5+1}{\sqrt2}\approx2.2882 .
+m&=\sqrt{3-\sqrt5}=\frac{\sqrt5-1}{\sqrt2}\\
+&\approx0.8740,\\
+M&=\sqrt{3+\sqrt5}=\frac{\sqrt5+1}{\sqrt2}\\
+&\approx2.2882 .
 \end{aligned}
 $$
 
@@ -791,7 +807,10 @@ $$
 (ג) **נכון.** **4.** (מימד אינסופי) תהי $(v_k)$ הסדרה משלב 2 של משפט 3.5.10: $\|v_k\|=1$ ו-$\|v_k-v_j\|\ge\frac12$ לכל $k\ne j$. נגדיר $c_k=\frac12v_k$; אז $\|c_k-c_j\|\ge\frac14$. אם $\|z-c_k\|<\frac18$, אז $\|z\|<\frac12+\frac18\le1$: $B(c_k,\frac18)\subseteq B[0,1]$. ואם $z$ בשני כדורים, אז
 
 $$
-\|c_k-c_j\|\le\|c_k-z\|+\|z-c_j\|<\tfrac14 ,
+\begin{aligned}
+\|c_k-c_j\|&\le\|c_k-z\|+\|z-c_j\|\\
+&<\tfrac14 ,
+\end{aligned}
 $$
 
 סתירה: הכדורים זרים.
@@ -835,7 +854,7 @@ $$
 
 <Formula tex="\begin{gathered}m\,\|x\|_2\le N(x)\le M\,\|x\|_2,\\ m=\min_{\|u\|_2=1}N(u)>0\end{gathered}" label="משפט 3.5.5: כל נורמה על ℝⁿ" />
 
-<Formula tex="N(x)\le L\,\|x\|_2,\qquad L=\Big(\sum_{i=1}^nN(e_i)^2\Big)^{1/2}" label="למה 3.5.4: החסם העליון, בלי קומפקטיות" />
+<Formula tex="\begin{gathered}N(x)\le L\,\|x\|_2,\\ L=\Big(\sum_{i=1}^nN(e_i)^2\Big)^{1/2}\end{gathered}" label="למה 3.5.4: החסם העליון, בלי קומפקטיות" />
 
 <Formula tex="\|x^n\|_\infty=1,\qquad \|x^n\|_1=\frac{1}{n+1}" label="טענה 3.5.8: על C[0,1] אין קבוע בכיוון השני" />
 

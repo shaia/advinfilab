@@ -487,7 +487,10 @@ $$
 **4.** (המרחק) לפי צעד 3, לכל $x$
 
 $$
-|t_n(x)-t_m(x)|=\max\big(t_n(x),t_m(x)\big)\le1 .
+\begin{aligned}
+&|t_n(x)-t_m(x)|\\
+&\quad=\max\big(t_n(x),t_m(x)\big)\le1 .
+\end{aligned}
 $$
 
 ב-$x=m_n$: $m_n>2^{-n}$, ולכן $m_n\notin I_m$, $t_m(m_n)=0$, ו-$|t_n(m_n)-t_m(m_n)|=1$. לכן $d_\infty(t_n,t_m)=1$ לכל $n\ne m$.
@@ -579,7 +582,10 @@ $$
 אפשר גם דרך מסקנה 3.1.8: $K\times L$ חסומה, וסגורה כי גבול של סדרה ב-$K\times L$ מתכנס ברכיבים. ההוכחה שלמעלה לא משתמשת ב-$\mathbb{R}^k$ בכלל, חוץ מבמשפט 1.5.9, כלומר חוץ מהעובדה ש-$d_\infty$ על $\mathbb{R}^{k+l}$ היא המקסימום של $d_\infty$ על $\mathbb{R}^k$ ושל $d_\infty$ על $\mathbb{R}^l$. לכן היא עובדת גם לשני מרחבים מטריים $(Y,d_Y)$, $(Z,d_Z)$ כלשהם, עם <Term id="product-max-metric">מטריקת המקסימום</Term> על $Y\times Z$:
 
 $$
-d\big((y,z),(y',z')\big)=\max\big(d_Y(y,y'),\,d_Z(z,z')\big).
+\begin{aligned}
+&d\big((y,z),(y',z')\big)\\
+&\quad=\max\big(d_Y(y,y'),\,d_Z(z,z')\big).
+\end{aligned}
 $$
 
 זו מטריקה: החיוביות והסימטריה עוברות מ-$d_Y$ ומ-$d_Z$, ולאי-שוויון המשולש:
@@ -605,7 +611,10 @@ $$
 (ב) הקבוצה הבאה, עם $d_2$:
 
 $$
-B=\{(x,y)\in\mathbb{R}^2:\ x\ge0,\ 0\le y\le e^{-x}\}.
+\begin{aligned}
+B=\{(x,y)\in\mathbb{R}^2:\ &x\ge0,\\
+&0\le y\le e^{-x}\}.
+\end{aligned}
 $$
 
 (ג) $C=\mathbb{Q}\cap[0,1]$, עם $|x-y|$.
@@ -645,7 +654,10 @@ $$
 תהי
 
 $$
-A=\Big\{(-1)^n\big(1+\tfrac1n\big):\ n\in\mathbb{N}\Big\}\cup\{-1,1\}\subseteq\mathbb{R}.
+\begin{aligned}
+&A=\Big\{(-1)^n\big(1+\tfrac1n\big):\ n\in\mathbb{N}\Big\}\\
+&\qquad\cup\{-1,1\}\subseteq\mathbb{R}.
+\end{aligned}
 $$
 
 (א) הוכיחו ש-$A$ קומפקטית סדרתית, בלי להשתמש במסקנה 3.1.8.
@@ -709,7 +721,10 @@ $$
 **בדיקה**:
 
 $$
-\rho(n,n+1)=\arctan(n+1)-\arctan n ;
+\begin{aligned}
+&\rho(n,n+1)\\
+&\quad=\arctan(n+1)-\arctan n ;
+\end{aligned}
 $$
 
 חישוב נותן $0.3218$, $0.0090$, $0.0001$ ל-$n=1,10,100$, כלומר צעדים ששואפים ל-0, בהתאם לכך שהסדרה קושי.
@@ -841,7 +856,10 @@ $$
 - **(ג)** $(n_k)$ עולה ממש: לפי (א) עם $a=m^{(k)}$, $b=m^{(k+1)}$ ו-$p=k+1$, ומכיוון ש-$m^{(k)}$ עולה ממש,
 
 $$
-n_{k+1}=m^{(k+1)}_{k+1}\ge m^{(k)}_{k+1}>m^{(k)}_k=n_k .
+\begin{aligned}
+n_{k+1}=m^{(k+1)}_{k+1}&\ge m^{(k)}_{k+1}\\
+&>m^{(k)}_k=n_k .
+\end{aligned}
 $$
 
 עכשיו נקבע $i$. לכל $k\ge i$, $n_k$ הוא איבר של $m^{(k)}$, ולפי (ב) גם איבר של $m^{(i)}$: $n_k=m^{(i)}_{r_k}$ לאיזה מקום $r_k$. כי $(n_k)$ ו-$m^{(i)}$ עולות ממש, גם המקומות $r_k$ עולים ממש, ולכן הזנב $(n_k)_{k\ge i}$ הוא תת-סדרה של $m^{(i)}$. לפי צעד 1 $x_{m^{(i)}_p}(i)\to y(i)$, ולפי טענה 1.5.4(א) $x_{n_k}(i)\to y(i)$ (לזנב ולסדרה אותו גבול). זה לכל $i$.
@@ -908,7 +926,7 @@ $$
 
 <Formula tex="\forall\,(x_n)\subseteq K\ \ \exists\,x_{n_k}\to x\in K" label="הגדרה 3.1.1: קומפקטיות סדרתית" />
 
-<Formula tex="K\subseteq\mathbb{R}^k:\qquad \overline K=K,\quad K\subseteq B(0,R)" label="מסקנה 3.1.8: ב-ℝᵏ (עם d₁, d₂ או d∞) K קומפקטית סדרתית אם ורק אם היא כזו: סגורה וחסומה" />
+<Formula tex="\begin{aligned}&K\subseteq\mathbb{R}^k:\\ &\overline K=K,\quad K\subseteq B(0,R)\end{aligned}" label="מסקנה 3.1.8: ב-ℝᵏ (עם d₁, d₂ או d∞) K קומפקטית סדרתית אם ורק אם היא כזו: סגורה וחסומה" />
 
 <Formula tex="d(x_n,x_m)\ge\varepsilon\quad\forall n\ne m" label="למה 3.1.4: לסדרה מופרדת כזו אין אף תת-סדרה מתכנסת" />
 

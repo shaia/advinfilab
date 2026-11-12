@@ -254,7 +254,7 @@ import Connect from '~/sims/Connect.astro';
 
 **מסקנה 3.6.7 (משפט ערך הביניים).** יהי $(X,d)$ מרחב מטרי **קשיר**, $f:X\to\mathbb{R}$ רציפה, ו-$p,q\in X$, $y\in\mathbb{R}$ עם $f(p)<y<f(q)$. אז יש $x\in X$ עם $f(x)=y$.
 
-<Formula tex="f(p)<y<f(q)\ \Longrightarrow\ \exists x\in X:\ f(x)=y" label="מסקנה 3.6.7: X קשיר ו-f רציפה (ערך הביניים)" />
+<Formula tex="\begin{gathered}f(p)<y<f(q)\ \Longrightarrow\\ \exists x\in X:\ f(x)=y\end{gathered}" label="מסקנה 3.6.7: X קשיר ו-f רציפה (ערך הביניים)" />
 
 **הוכחה.** לפי משפט 3.6.6 (עם $A=X$), $f(X)$ קשירה ב-$\mathbb{R}$, ולפי משפט 3.6.5 היא קטע. $f(p),f(q)\in f(X)$ ו-$f(p)<y<f(q)$, ולפי הגדרה 3.6.4 $y\in f(X)$. $\blacksquare$
 
@@ -421,7 +421,7 @@ $$
 
 **משפט 3.6.12.** יהי $(V,\|\cdot\|)$ מרחב נורמי, ותהי $U\subseteq V$ **פתוחה** ו**קשירה**. אז כל שתי נקודות של $U$ מתחברות במסילה פוליגונלית ב-$U$; בפרט $U$ קשירה מסילתית.
 
-<Formula tex="p=z_0,\,z_1,\dots,z_m=x,\qquad [z_{j-1},z_j]\subseteq U" label="משפט 3.6.12: בקבוצה פתוחה וקשירה במרחב נורמי, קו שבור בין כל שתי נקודות" />
+<Formula tex="\begin{gathered}p=z_0,\,z_1,\dots,z_m=x,\\ {}[z_{j-1},z_j]\subseteq U\end{gathered}" label="משפט 3.6.12: בקבוצה פתוחה וקשירה במרחב נורמי, קו שבור בין כל שתי נקודות" />
 
 **רעיון.** קובעים נקודה $p$ ומסתכלים על קבוצת הנקודות שאפשר להגיע אליהן מ-$p$ בקו שבור בתוך $U$. סביב כל נקודה של $U$ יש כדור בתוך $U$ (פתיחות), וכדור קמור: כל נקודה בו מתחברת למרכז בקטע. לכן אם המרכז נגיש, כל הכדור נגיש, ואם המרכז לא נגיש, אף נקודה בכדור לא נגישה. הקבוצה הנגישה והמשלים שלה פתוחים, והקשירות מכריעה.
 
@@ -483,7 +483,10 @@ $$
 **2.** ($J\subseteq\overline G$) יהי $(0,y)\in J$, ו-$\theta=\arcsin y\in[-\frac\pi2,\frac\pi2]$. לכל $k\in\mathbb{N}$ נגדיר $x_k=\frac1{\theta+2\pi k}$. המכנה לפחות $2\pi-\frac\pi2>1$, ולכן $0<x_k<1$; ו-$\sin\frac1{x_k}=\sin(\theta+2\pi k)=y$. לכן $(x_k,y)\in G$, ומתקיים
 
 $$
-d_2\big((x_k,y),(0,y)\big)=x_k\le\frac1{2\pi k-\pi/2}\to0 .
+\begin{aligned}
+&d_2\big((x_k,y),(0,y)\big)=x_k\\
+&\quad\le\frac1{2\pi k-\pi/2}\to0 .
+\end{aligned}
 $$
 
 לפי משפט 1.5.7(א), $(0,y)\in\overline G$.
@@ -568,8 +571,9 @@ $$
 
 $$
 \begin{aligned}
-|x-1|+|x+1|&=(1-x)+(-1-x)\\
-&=-2x>2 ,
+&|x-1|+|x+1|\\
+&\quad=(1-x)+(-1-x)\\
+&\quad=-2x>2 ,
 \end{aligned}
 $$
 
@@ -577,8 +581,9 @@ $$
 
 $$
 \begin{aligned}
-|x-1|+|x+1|&=(1-x)+(x+1)\\
-&=2 ,
+&|x-1|+|x+1|\\
+&\quad=(1-x)+(x+1)\\
+&\quad=2 ,
 \end{aligned}
 $$
 
@@ -757,8 +762,10 @@ $$
 
 $$
 \begin{aligned}
-P&=\{(x,x\sin\tfrac1x):\ 0<x\le1\}\cup\{(0,0)\},\\
-Q&=\{(x,\sin\tfrac1x):\ 0<x\le1\}\cup\{(0,0)\}.
+P&=\{(x,x\sin\tfrac1x):\\
+&\qquad 0<x\le1\}\cup\{(0,0)\},\\
+Q&=\{(x,\sin\tfrac1x):\\
+&\qquad 0<x\le1\}\cup\{(0,0)\}.
 \end{aligned}
 $$
 
@@ -828,7 +835,7 @@ $$
 
 <Formula tex="a,b\in A,\ a<c<b\ \Longrightarrow\ c\in A" label="משפט 3.6.5: A ⊆ ℝ קשירה אם ורק אם היא קטע" />
 
-<Formula tex="f(p)<y<f(q)\ \Longrightarrow\ \exists x\in X:\ f(x)=y" label="משפט 3.6.6 ומסקנה 3.6.7: התמונה הרציפה של קשיר קשירה, ולכן ערך הביניים על X קשיר" />
+<Formula tex="\begin{gathered}f(p)<y<f(q)\ \Longrightarrow\\ \exists x\in X:\ f(x)=y\end{gathered}" label="משפט 3.6.6 ומסקנה 3.6.7: התמונה הרציפה של קשיר קשירה, ולכן ערך הביניים על X קשיר" />
 
 <Formula tex="[0,1]=\gamma^{-1}(U)\cup\gamma^{-1}(V)" label="משפט 3.6.10: מסילה בין שני צדי פירוק הייתה מפרקת את [0,1]; ההפך נכון לקבוצות פתוחות במרחב נורמי (משפט 3.6.12)" />
 

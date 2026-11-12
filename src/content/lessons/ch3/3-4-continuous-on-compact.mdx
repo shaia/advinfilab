@@ -227,8 +227,10 @@ $$
 
 $$
 \begin{aligned}
-|\Phi(f)-\Phi(g)|&\le\int_0^{1/2}|f-g|+\int_{1/2}^1|f-g|\\
-&=\int_0^1|f-g|\le\|f-g\|_\infty .
+|\Phi(f)-\Phi(g)|&\le\int_0^{1/2}|f-g|\\
+&\quad+\int_{1/2}^1|f-g|\\
+&=\int_0^1|f-g|\\
+&\le\|f-g\|_\infty .
 \end{aligned}
 $$
 
@@ -245,7 +247,10 @@ $$
 **4. (אינו מתקבל.)** נניח $f\in B[\theta,1]$ ו-$\Phi(f)=1$. אז
 
 $$
-\int_0^{1/2}(1-f)+\int_{1/2}^1(1+f)=1-\Phi(f)=0 .
+\begin{aligned}
+&\int_0^{1/2}(1-f)+\int_{1/2}^1(1+f)\\
+&\quad=1-\Phi(f)=0 .
+\end{aligned}
 $$
 
 שתי הפונקציות $1-f$ ו-$1+f$ רציפות ואי-שליליות (כי $|f|\le1$), ולכן שני האינטגרלים אי-שליליים לפי המונוטוניות של האינטגרל; סכומם 0, ולכן כל אחד מהם 0. אינטגרל של פונקציה רציפה אי-שלילית על קטע מתאפס רק כשהיא אפס זהותית (אינפי 1). לכן $f=1$ על $[0,\frac12]$ ו-$f=-1$ על $[\frac12,1]$; ב-$x=\frac12$ זה נותן $1=-1$. סתירה. $\blacksquare$
@@ -310,7 +315,10 @@ $$
 **5.** $f$ רציפה ב-$p$; לפי משפט 1.6.3, $f(x_{n_k})\to f(p)$ ו-$f(y_{n_k})\to f(p)$, ולפי טענה 1.5.6(א)
 
 $$
-d_Y\big(f(x_{n_k}),f(y_{n_k})\big)\to d_Y\big(f(p),f(p)\big)=0 .
+\begin{aligned}
+&d_Y\big(f(x_{n_k}),f(y_{n_k})\big)\\
+&\quad\to d_Y\big(f(p),f(p)\big)=0 .
+\end{aligned}
 $$
 
 **6.** אבל לפי שלב 2 כל המרחקים האלה $\ge\varepsilon>0$. סתירה. $\blacksquare$
@@ -551,7 +559,10 @@ $$
 (ג) תהיינה $K,F\subseteq X$ לא ריקות וזרות, $K$ קומפקטית ו-$F$ סגורה. נגדיר את ה<Term id="distance-between-sets">מרחק בין הקבוצות</Term>
 
 $$
-\operatorname{dist}(K,F)=\inf\{d(k,y):\ k\in K,\ y\in F\}.
+\begin{aligned}
+\operatorname{dist}(K,F)&=\inf\{d(k,y):\\
+&\qquad k\in K,\ y\in F\}.
+\end{aligned}
 $$
 
 אז $\operatorname{dist}(K,F)>0$.
@@ -624,7 +635,10 @@ $f(x,y)=x^2+y^2-x$, ו-$D=\{(x,y): x^2+y^2\le1\}$ עם $d_2$.
 **2. (מינימום.)** בהשלמה לריבוע,
 
 $$
-f(x,y)=\Big(x-\frac12\Big)^2+y^2-\frac14\ \ge\ -\frac14 ,
+\begin{aligned}
+f(x,y)&=\Big(x-\frac12\Big)^2+y^2-\frac14\\
+&\ge-\frac14 ,
+\end{aligned}
 $$
 
 עם שוויון ב-$(\frac12,0)\in D$. לכן $\min_Df=-\frac14$.
@@ -635,8 +649,9 @@ $$
 
 $$
 \begin{aligned}
-f\Big(-1+\frac1n,\,0\Big)&=\Big(1-\frac1n\Big)^2+1-\frac1n\\
-&\to\ 2 .
+&f\Big(-1+\frac1n,\,0\Big)\\
+&\quad=\Big(1-\frac1n\Big)^2+1-\frac1n\\
+&\quad\to\ 2 .
 \end{aligned}
 $$
 
@@ -720,8 +735,10 @@ $$
 $$
 \begin{aligned}
 &d_2\big((0,2),(x,x^2)\big)^2\\
-&\quad=x^2+(x^2-2)^2=x^4-3x^2+4\\
-&\quad=\Big(x^2-\frac32\Big)^2+\frac74\ \ge\ \frac74 ,
+&\quad=x^2+(x^2-2)^2\\
+&\quad=x^4-3x^2+4\\
+&\quad=\Big(x^2-\frac32\Big)^2+\frac74\\
+&\quad\ge\frac74 ,
 \end{aligned}
 $$
 
@@ -731,8 +748,9 @@ $$
 
 $$
 \begin{aligned}
-\operatorname{dist}\big((t,t^2),\ell\big)&=\frac{|t-t^2-2|}{\sqrt2}\\
-&=\frac{(t-\frac12)^2+\frac74}{\sqrt2}\ \ge\ \frac{7}{4\sqrt2}.
+&\operatorname{dist}\big((t,t^2),\ell\big)\\
+&\quad=\frac{|t-t^2-2|}{\sqrt2}\\
+&\quad=\frac{(t-\frac12)^2+\frac74}{\sqrt2}\ \ge\ \frac{7}{4\sqrt2}.
 \end{aligned}
 $$
 
@@ -747,7 +765,10 @@ $$
 **בדיקה**: $q_1\in\ell$, כי $\frac{11}8-2=-\frac58$. ו-$q_1-p_1=(\frac78,-\frac78)$, ניצב לכיוון $(1,1)$ של $\ell$, ו-
 
 $$
-d_2(p_1,q_1)^2=2\cdot\frac{49}{64}=\frac{49}{32}=\Big(\frac7{4\sqrt2}\Big)^2 .
+\begin{aligned}
+d_2(p_1,q_1)^2&=2\cdot\frac{49}{64}=\frac{49}{32}\\
+&=\Big(\frac7{4\sqrt2}\Big)^2 .
+\end{aligned}
 $$
 
 (ב) מראה שטענה 3.4.10(ג) היא תנאי מספיק: כאן שתי הקבוצות סגורות ואינן קומפקטיות, והמרחק חיובי בכל זאת; בדוגמה של $xy=1$ וציר ה-$x$ הוא 0.
@@ -812,8 +833,9 @@ $$
 
 $$
 \begin{aligned}
-|f(x)-f(y)|&\le|f(x)-\ell|+|\ell-f(y)|\\
-&<\tfrac\varepsilon2+\tfrac\varepsilon2=\varepsilon .
+&|f(x)-f(y)|\\
+&\quad\le|f(x)-\ell|+|\ell-f(y)|\\
+&\quad<\tfrac\varepsilon2+\tfrac\varepsilon2=\varepsilon .
 \end{aligned}
 $$
 
@@ -847,7 +869,8 @@ $$
 
 $$
 \begin{aligned}
-|g(x)-g(y)|&\le d(x,y)+d\big(f(x),f(y)\big)\\
+|g(x)-g(y)|&\le d(x,y)\\
+&\quad+d\big(f(x),f(y)\big)\\
 &\le2\,d(x,y).
 \end{aligned}
 $$
@@ -874,7 +897,10 @@ $$
 **8.** אבל $y\ne p$, ולפי ההנחה
 
 $$
-d(f(y),p)=d\big(f(y),f(p)\big)<d(y,p)=r .
+\begin{aligned}
+d(f(y),p)&=d\big(f(y),f(p)\big)\\
+&<d(y,p)=r .
+\end{aligned}
 $$
 
 סתירה. לכן $r=0$, כלומר $x_n\to p$.
@@ -883,8 +909,9 @@ $$
 
 $$
 \begin{aligned}
-|f(x)-f(y)|&=|x-y|\Big(1-\frac{x+y}2\Big)\\
-&<|x-y| ;
+&|f(x)-f(y)|\\
+&\quad=|x-y|\Big(1-\frac{x+y}2\Big)\\
+&\quad<|x-y| ;
 \end{aligned}
 $$
 

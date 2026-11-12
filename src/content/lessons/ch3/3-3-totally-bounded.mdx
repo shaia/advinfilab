@@ -182,7 +182,10 @@ $$
 **3.** יהי $a\in A$. יש $i$ עם $a\in B(x_i,\frac\varepsilon2)$; בפרט $i\in J$. לפי אי-שוויון המשולש ו-(M2):
 
 $$
-d(a,a_i)\le d(a,x_i)+d(x_i,a_i)<\tfrac\varepsilon2+\tfrac\varepsilon2=\varepsilon .
+\begin{aligned}
+d(a,a_i)&\le d(a,x_i)+d(x_i,a_i)\\
+&<\tfrac\varepsilon2+\tfrac\varepsilon2=\varepsilon .
+\end{aligned}
 $$
 
 לכן $F$ היא $\varepsilon$-רשת של $A$. כיוון ש-$\varepsilon$ היה כלשהו, $A$ חסומה כליל.
@@ -408,7 +411,10 @@ $$
 **3.** יהי $\varepsilon>0$. לפי משפט 1.7.3, $d_p\le k\,d_\infty$ לכל $p\in\{1,2,\infty\}$ (כי $\sqrt k\le k$). לפי ארכימדס נבחר $m\in\mathbb{N}$ עם $m>\frac{kR}{2\varepsilon}$, ונגדיר את הסריג
 
 $$
-G=\Big\{a+\tfrac Rm\,(j_1,\dots,j_k):\ j_i\in\mathbb{Z},\ |j_i|\le m\Big\},
+\begin{aligned}
+&G=\Big\{a+\tfrac Rm\,(j_1,\dots,j_k):\\
+&\qquad j_i\in\mathbb{Z},\ |j_i|\le m\Big\},
+\end{aligned}
 $$
 
 קבוצה סופית של $(2m+1)^k$ נקודות של $\mathbb{R}^k$.
@@ -587,7 +593,10 @@ $$
 **2. ($Z_m\subseteq L$.)** $g_s(0)=0$. יהיו $0\le x<y\le1$. נחלק את $[x,y]$ בנקודות $x=u_0<u_1<\dots<u_r=y$: הנקודות $x_j$ שבין $x$ ל-$y$, ו-$x,y$ עצמן. כל $[u_{i-1},u_i]$ מוכל בקטע אחד $[x_j,x_{j+1}]$, ושם השיפוע $\pm1$, ולכן $|g_s(u_i)-g_s(u_{i-1})|=u_i-u_{i-1}$. לפי אי-שוויון המשולש
 
 $$
-|g_s(y)-g_s(x)|\le\sum_{i=1}^r\big(u_i-u_{i-1}\big)=y-x .
+\begin{aligned}
+&|g_s(y)-g_s(x)|\\
+&\quad\le\sum_{i=1}^r\big(u_i-u_{i-1}\big)=y-x .
+\end{aligned}
 $$
 
 **3. (כלל הסימנים.)** תהי $f\in L$. נבחר את $s_0,s_1,\dots$ ברקורסיה, ונכתוב $g=g_s$: אם $s_0,\dots,s_{j-1}$ נבחרו, אז $g(x_j)$ ידוע, ונבחר $s_j=1$ אם $f(x_{j+1})\ge g(x_j)$, ו-$s_j=-1$ אחרת. נוכיח באינדוקציה ש-$|f(x_j)-g(x_j)|\le h$ לכל $j$. ל-$j=0$: $f(0)=g(0)=0$. נניח $|f(x_j)-g(x_j)|\le h$. כיוון ש-$f\in L$, $|f(x_{j+1})-f(x_j)|\le h$, ולכן
@@ -647,7 +656,11 @@ $$
 **6. ($L$ סגורה.)** יהיו $f_n\in L$ עם $f_n\to f$ ב-$d_\infty$. לכל $x$: $|f_n(x)-f(x)|\le\|f_n-f\|_\infty\to0$. לכן $f(0)=\lim f_n(0)=0$, ולכל $x,y$, אי-שוויון חלש עובר לגבול (אינפי 1):
 
 $$
-|f(x)-f(y)|=\lim_n|f_n(x)-f_n(y)|\le|x-y| .
+\begin{aligned}
+&|f(x)-f(y)|\\
+&\quad=\lim_n|f_n(x)-f_n(y)|\\
+&\quad\le|x-y| .
+\end{aligned}
 $$
 
 כלומר $f\in L$, ולפי מסקנה 1.5.8(ב) $L$ סגורה.
@@ -660,9 +673,11 @@ $$
 
 $$
 \begin{aligned}
-|f(x)-g(x)|&\le|f(x)-f(x_j)|+|f(x_j)-g(x_j)|\\
+|f(x)-g(x)|&\le|f(x)-f(x_j)|\\
+&\quad+|f(x_j)-g(x_j)|\\
 &\quad+|g(x_j)-g(x)|\\
-&\le(x-x_j)+h+(x-x_j)\le3h .
+&\le(x-x_j)+h+(x-x_j)\\
+&\le3h .
 \end{aligned}
 $$
 
@@ -677,7 +692,10 @@ $$
 - **בלי חסם על השיפוע:** הקבוצה
 
   $$
-  \{f\in C[0,1]:\ f(0)=0,\ \|f\|_\infty\le1\}
+  \begin{aligned}
+  \{f\in C[0,1]:\ &f(0)=0,\\
+  &\|f\|_\infty\le1\}
+  \end{aligned}
   $$
 
   מכילה את כל האוהלים $t_n$ ($t_n(0)=0$, כי $0\notin[2^{-n},2^{-n+1}]$), והם $1$-מופרדים; לפי למה 3.3.3א(ג) היא אינה חסומה כליל. כל אוהל לבדו ליפשיצי, עם קבוע $2^{n+1}$ (השיפוע על כל חצי של $[2^{-n},2^{-n+1}]$, שאורכו $2^{-n-1}$); מה שחסר הוא קבוע **אחד** לכל הפונקציות.
@@ -725,7 +743,10 @@ $$
 **נתון**: $Q=[0,1]^2$, $\varepsilon=\frac14$, והמטריקה
 
 $$
-d_\infty(x,y)=\max(|x_1-y_1|,|x_2-y_2|).
+\begin{aligned}
+&d_\infty(x,y)\\
+&\quad=\max(|x_1-y_1|,|x_2-y_2|).
+\end{aligned}
 $$
 
 **צריך להוכיח**: (1) יש $\frac14$-רשת של $Q$ עם $9$ נקודות; (2) כל קבוצה סופית $P\subseteq\mathbb{R}^2$ שכדוריה ברדיוס $\frac14$ מכסים את $Q$ מכילה לפחות $9$ נקודות.
@@ -867,7 +888,10 @@ $$
 יהיו $(X,d_X)$ ו-$(Y,d_Y)$ מרחבים מטריים קומפקטיים. על $X\times Y$ נגדיר
 
 $$
-d\big((x,y),(x',y')\big)=\max\big(d_X(x,x'),\ d_Y(y,y')\big).
+\begin{aligned}
+&d\big((x,y),(x',y')\big)\\
+&\quad=\max\big(d_X(x,x'),\ d_Y(y,y')\big).
+\end{aligned}
 $$
 
 (א) הוכיחו ש-$d$ מטריקה.
@@ -924,9 +948,9 @@ $$
 
 $$
 \begin{aligned}
-K=\big\{f\in C^1[0,1]:\ &f(0)=0,\\
-&|f'(x)|\le1\ \ \forall x\in[0,1]\big\}\\
-&\subseteq(C[0,1],d_\infty).
+&K=\big\{f\in C^1[0,1]:\ f(0)=0,\\
+&\qquad|f'(x)|\le1\ \ \forall x\in[0,1]\big\}\\
+&\quad\subseteq(C[0,1],d_\infty).
 \end{aligned}
 $$
 
@@ -1033,7 +1057,7 @@ $$
 
 <Formula tex="\Big\lfloor\frac{\ell}{2\varepsilon}\Big\rfloor+1" label="מספר הנקודות ב-ε-רשת הקטנה ביותר של קטע באורך ℓ (טענה 3.3.3ב)" />
 
-<Formula tex="f\in L\ \Longrightarrow\ \exists g\in Z_m:\ \|f-g\|_\infty\le h=\tfrac1m" label="רשת הזיגזגים (טענה 3.3.10(א))" />
+<Formula tex="\begin{gathered}f\in L\ \Longrightarrow\ \exists g\in Z_m:\\ \|f-g\|_\infty\le h=\tfrac1m\end{gathered}" label="רשת הזיגזגים (טענה 3.3.10(א))" />
 
 <Revisit id="pred-3-3" />
 
