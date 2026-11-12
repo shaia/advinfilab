@@ -321,8 +321,10 @@ describe('probes (a sampled tail; compares the closed form D_N, does not prove i
     for (const id of TAIL_IDS) {
       const t = TAILS[id];
       for (const N of [1, 5]) {
+        // each term once: some presets are partial sums, and 80² pairs × 2 evaluations timed out on a loaded CI runner
+        const xs = Array.from({ length: 80 }, (_, i) => t.x(N + i));
         let best = 0;
-        for (let m = N; m < N + 80; m++) for (let n = N; n < N + 80; n++) best = Math.max(best, Math.abs(t.x(m) - t.x(n)));
+        for (const a of xs) for (const b of xs) best = Math.max(best, Math.abs(a - b));
         expect(relativeError(best, sampledSpread(t.x, N, N + 79))).toBeLessThan(1e-12);
       }
     }
