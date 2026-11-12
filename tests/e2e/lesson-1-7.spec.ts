@@ -35,17 +35,21 @@ test.describe('lesson 1.7: Lipschitz equivalence of metrics', () => {
     await page.goto(LESSON);
     const fig = await ready(page, 'fig-1-7a');
     const rho = fig.locator('input[type=range]').nth(0);
-    await expect(fig.locator('[data-readout="best"]')).toContainText('0.5');
+    // the answer of the open task is hidden: no constant, no largest radius
+    await expect(fig.locator('[data-readout="constant"]')).toHaveCount(0);
+    await expect(fig.locator('[data-readout="best"]')).not.toContainText('0.5');
     await slide(rho, 0.5);
     await expect(fig.locator('[data-readout="verdict"]')).toContainText('כולו בתוך');
     await expect.poll(async () => (await progress(page))?.tasks?.['fig-1-7a:best-inner']).toBeTruthy();
+    // once the task is ticked, the figure states the answer
+    await expect(fig.locator('[data-readout="best"]')).toContainText('0.5');
     await slide(rho, 0.55);
     await expect(fig.locator('[data-readout="verdict"]')).toContainText('בולט');
   });
 
   test('a text step never ticks a task, even one that sets the best radius', async ({ page }) => {
     await page.goto(LESSON);
-    // the second Explore step sets ρ = 0.5 with outer d₁ and inner d∞: exactly the best-inner answer
+    // the step after the lemma sets ρ = 1 with outer d∞ and inner d₁: exactly the reverse answer
     for (const step of await page.locator('.step[data-fig="fig-1-7a"]').all()) {
       await step.scrollIntoViewIfNeeded();
       await page.waitForTimeout(120);
@@ -57,7 +61,7 @@ test.describe('lesson 1.7: Lipschitz equivalence of metrics', () => {
 
   test('the Check has its six bank questions, and worked solutions stay closed until opened', async ({ page }) => {
     await page.goto(LESSON);
-    for (const id of ['Q-1.7-def', 'Q-1.7-r5', 'Q-1.7-cont', 'Q-1.7-discrete', 'Q-1.7-one-side', 'Q-1.7-one-way']) {
+    for (const id of ['Q-1.7-def', 'Q-1.7-r5', 'Q-1.7-cont', 'Q-1.7-one-side', 'Q-1.7-one-way', 'Q-1.7-bounded-not-enough']) {
       await expect(page.locator(`[data-qid="${id}"]`)).toHaveCount(1);
     }
     const examples = page.locator('[id^="ex-1-7-"]');

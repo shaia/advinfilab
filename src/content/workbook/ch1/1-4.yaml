@@ -22,21 +22,26 @@ practice:
           שמכילה את $A$ מכילה את הסגור. נשאר לבדוק את הנקודות שעל הצלעות.
       - kind: step
         text: >-
-          **פנים.** $Q=(0,1)\times(0,1)$ פתוחה: לנקודה $(x,y)\in Q$ ו-$r=\min(x,\ 1-x,\ y,\ 1-y)$, כל נקודה $(x',y')$
-          ב-$B\big((x,y),r\big)$ מקיימת $|x'-x|\le d_2<r$ ו-$|y'-y|<r$, ולכן ב-$Q$. $Q\subseteq A$, ולפי טענה 1.4.2(ב)
-          $Q\subseteq A^\circ$. נקודות הצלעות האופקיות אינן ב-$A$, ולכן אינן פנימיות ($A^\circ\subseteq A$). נקודה
+          **פנים.** $\Omega=(0,1)\times(0,1)$ פתוחה: לנקודה $(x,y)\in\Omega$ ו-$r=\min(x,\ 1-x,\ y,\ 1-y)$, כל נקודה
+          $(x',y')$ ב-$B\big((x,y),r\big)$ מקיימת $|x'-x|\le d_2\big((x,y),(x',y')\big)<r$ (למה 1.1.6), ולכן
+          $0\le x-r<x'<x+r\le1$ (כי $r\le x$ ו-$r\le1-x$); וכך גם $0<y'<1$. לכן $(x',y')\in\Omega$. $\Omega\subseteq A$, ולפי טענה 1.4.2(ב)
+          $\Omega\subseteq A^\circ$. נקודות הצלעות האופקיות אינן ב-$A$, ולכן אינן פנימיות ($A^\circ\subseteq A$). נקודה
           $(0,y)$ של הצלע השמאלית, ששייכת ל-$A$, אינה פנימית: כל עיגול $B\big((0,y),r\big)$ מכיל את
-          $(-\tfrac r2,\ y)\notin A$; ובצלע הימנית, $(1,y)$, הנקודה $(1+\tfrac r2,\ y)$. לכן $A^\circ=Q$.
+          $(-\tfrac r2,\ y)\notin A$; ובצלע הימנית, $(1,y)$, הנקודה $(1+\tfrac r2,\ y)$. לכן $A^\circ=\Omega$.
       - kind: step
         text: >-
           **סגור.** $K=[0,1]\times[0,1]$ סגורה: לנקודה מחוץ ל-$K$ יש קואורדינטה מחוץ ל-$[0,1]$, למשל $x>1$, והעיגול ברדיוס
           $x-1$ זר ל-$K$, כי $|x'-x|\le d_2$. (וכך לכל אחד מארבעת המקרים.) $A\subseteq K$, ולפי טענה 1.4.4(ב)
-          $\overline A\subseteq K$. בכיוון השני, כל נקודה של $K$ בסגור: לנקודה $(a,b)\in K$ ו-$r>0$, הנקודה
-          $(a,b)+t\big((\tfrac12,\tfrac12)-(a,b)\big)$ עם $t\in(0,1]$ קטן מספיק נמצאת ב-$Q\subseteq A$ ובמרחק
-          $t\cdot d_2\big((a,b),(\tfrac12,\tfrac12)\big)<r$. לכן $\overline A=K$.
+          $\overline A\subseteq K$. בכיוון השני, כל נקודה של $K$ בסגור. יהיו $(a,b)\in K$ ו-$r>0$, נבחר
+          $t=\min(1,\ r)\in(0,1]$, ונגדיר $z=(a,b)+t\big((\tfrac12,\tfrac12)-(a,b)\big)=\big((1-t)a+\tfrac t2,\ (1-t)b+\tfrac t2\big)$.
+          **$z\in\Omega$:** $0\le a\le1$ ו-$1-t\ge0$, ולכן $0\le(1-t)a\le1-t$, ו-$(1-t)a+\tfrac t2\in[\tfrac t2,\ 1-\tfrac t2]\subseteq(0,1)$
+          כי $t>0$; וכך גם הקואורדינטה השנייה. לכן $z\in\Omega\subseteq A$. **$z$ קרובה:**
+          $d_2\big((a,b),z\big)=t\cdot d_2\big((a,b),(\tfrac12,\tfrac12)\big)\le t\cdot\tfrac{1}{\sqrt2}<r$, כי שתי
+          הקואורדינטות של $(a,b)-(\tfrac12,\tfrac12)$ בערך מוחלט לכל היותר $\tfrac12$ ו-$t\le r$. כל כדור סביב $(a,b)$
+          פוגש את $A$, ולכן $\overline A=K$.
       - kind: step
         text: >-
-          **שפה.** לפי הגדרה 1.4.6, $\partial A=\overline A\setminus A^\circ=K\setminus Q$: הנקודות של $K$ עם
+          **שפה.** לפי הגדרה 1.4.6, $\partial A=\overline A\setminus A^\circ=K\setminus\Omega$: הנקודות של $K$ עם
           $x\in\{0,1\}$ או $y\in\{0,1\}$, כלומר ארבע הצלעות.
       - kind: check
         text: >-
@@ -230,7 +235,7 @@ practice:
     qualitative: true
     objectives: [OBJ-1.4-1, OBJ-1.4-2, OBJ-1.4-3]
     prompt: >-
-      על $\mathbb{N}$ נגדיר $\rho(m,n)=\left|\frac1m-\frac1n\right|$. זו מטריקה לפי טענה 1.1.13(ב), כי $n\mapsto\frac1n$
+      על $\mathbb{N}$ נגדיר $\sigma(m,n)=\left|\frac1m-\frac1n\right|$. זו מטריקה לפי טענה 1.1.13(ב), כי $n\mapsto\frac1n$
       חד-חד-ערכית. במרחב הזה כל המרחקים קטנים מ-1, והכדורים הגדולים
       מכילים נקודות רבות, כך שהוא אינו "נראה" בדיד.
 
@@ -238,11 +243,11 @@ practice:
 
       (ב) תהי $A\subseteq\mathbb{N}$ כלשהי. מצאו את $A^\circ$, $\overline A$, $\partial A$ ו-$A'$.
 
-      (ג) אילו תת-קבוצות של $(\mathbb{N},\rho)$ צפופות? והאם לקבוצה $\{\frac1n:\ n\in\mathbb{N}\}$ ב-$\mathbb{R}$ יש נקודת
+      (ג) אילו תת-קבוצות של $(\mathbb{N},\sigma)$ צפופות? והאם לקבוצה $\{\frac1n:\ n\in\mathbb{N}\}$ ב-$\mathbb{R}$ יש נקודת
       הצטברות? הסבירו את ההבדל.
     answer: >-
       (א) $r_n=\frac1n-\frac1{n+1}=\frac1{n(n+1)}$. (ב) $A^\circ=\overline A=A$, $\partial A=A'=\emptyset$. (ג) רק
-      $\mathbb{N}$ צפופה. ב-$\mathbb{R}$ ל-$\{\frac1n\}$ יש נקודת הצטברות, $0$, אבל $0$ אינה במרחב $(\mathbb{N},\rho)$.
+      $\mathbb{N}$ צפופה. ב-$\mathbb{R}$ ל-$\{\frac1n\}$ יש נקודת הצטברות, $0$, אבל $0$ אינה במרחב $(\mathbb{N},\sigma)$.
     solution:
       - kind: idea
         text: >-
@@ -251,8 +256,8 @@ practice:
           במקום $B(x,\tfrac12)=\{x\}$.
       - kind: step
         text: >-
-          (א) $\rho(m,n)$ הוא בדיוק המרחק בישר בין $\frac1m$ ל-$\frac1n$, ולכן החישוב בדוגמה שאחרי טענה 1.4.8 עובר
-          כמו שהוא: עם $r_n=\frac1n-\frac1{n+1}=\frac1{n(n+1)}$, כל $m\ne n$ מקיים $\rho(m,n)\ge r_n$, ו-$B(n,r_n)=\{n\}$.
+          (א) $\sigma(m,n)$ הוא בדיוק המרחק בישר בין $\frac1m$ ל-$\frac1n$, ולכן החישוב בדוגמה שאחרי טענה 1.4.8 עובר
+          כמו שהוא: עם $r_n=\frac1n-\frac1{n+1}=\frac1{n(n+1)}$, כל $m\ne n$ מקיים $\sigma(m,n)\ge r_n$, ו-$B(n,r_n)=\{n\}$.
       - kind: step
         text: >-
           (ב) כל תת-קבוצה $A$ פתוחה: לכל $n\in A$, $B(n,r_n)=\{n\}\subseteq A$. לכן כל תת-קבוצה גם סגורה (המשלים
@@ -265,68 +270,68 @@ practice:
       - kind: step
         text: >-
           ב-$\mathbb{R}$, הקבוצה $\{\frac1n\}$ היא "אותן נקודות" בדיוק, ושם $0$ נקודת הצטברות (אותה דוגמה). ההבדל: $0$ היא נקודה של
-          $\mathbb{R}$, ולא של המרחב $(\mathbb{N},\rho)$. נקודות ההצטברות תלויות במרחב שבו מסתכלים, כמו הפתיחות בשיעור 1.3.
+          $\mathbb{R}$, ולא של המרחב $(\mathbb{N},\sigma)$. נקודות ההצטברות תלויות במרחב שבו מסתכלים, כמו הפתיחות בשיעור 1.3.
       - kind: check
         text: >-
-          מספרים: $r_1=\frac12$, ו-$\rho(1,2)=\frac12$ אינו קטן ממש מ-$\frac12$. $r_3=\frac1{12}$, ו-$\rho(3,4)=\frac1{12}$
-          בדיוק, ו-$\rho(2,3)=\frac16>\frac1{12}$. כלומר הרדיוס $r_n$ הוא הגדול ביותר שמבודד את $n$.
+          מספרים: $r_1=\frac12$, ו-$\sigma(1,2)=\frac12$ אינו קטן ממש מ-$\frac12$. $r_3=\frac1{12}$, ו-$\sigma(3,4)=\frac1{12}$
+          בדיוק, ו-$\sigma(2,3)=\frac16>\frac1{12}$. כלומר הרדיוס $r_n$ הוא הגדול ביותר שמבודד את $n$.
       - kind: result
         text: >-
           (א) $B\big(n,\frac1{n(n+1)}\big)=\{n\}$. (ב) $A^\circ=\overline A=A$, $\partial A=A'=\emptyset$. (ג) רק
-          $\mathbb{N}$ צפופה; ל-$\{\frac1n\}$ בתוך $\mathbb{R}$ יש נקודת הצטברות $0$, שאינה במרחב $(\mathbb{N},\rho)$.
+          $\mathbb{N}$ צפופה; ל-$\{\frac1n\}$ בתוך $\mathbb{R}$ יש נקודת הצטברות $0$, שאינה במרחב $(\mathbb{N},\sigma)$.
 
   - id: W-1.4-07
     level: mid
     objectives: [OBJ-1.4-3, OBJ-1.4-1]
     prompt: >-
-      במישור עם $d_2$ יהיו $\ell=\{(t,\ \sqrt2\,t):\ t\in\mathbb{R}\}$ הישר $y=\sqrt2x$, ו-$L=\{(q,\ \sqrt2\,q):\ q\in\mathbb{Q}\}$.
+      במישור עם $d_2$ יהיו $\ell=\{(t,\ \sqrt2\,t):\ t\in\mathbb{R}\}$ הישר $y=\sqrt2x$, ו-$M=\{(q,\ \sqrt2\,q):\ q\in\mathbb{Q}\}$.
 
-      (א) הוכיחו ש-$L$ צפופה בתת-המרחב $\ell$.
+      (א) הוכיחו ש-$M$ צפופה בתת-המרחב $\ell$.
 
       (ב) הוכיחו ש-$\ell$ סגורה במישור. רמז: לנקודה $(a,b)$ עם $b\ne\sqrt2a$ השתמשו באי-שוויון קושי-שוורץ
-      $|u_1|+\sqrt2|u_2|\le\sqrt3\,\|u\|_2$.
+      $\sqrt2|u_1|+|u_2|\le\sqrt3\,\|u\|_2$ לווקטור $u=(x-a,\ y-b)$.
 
-      (ג) הסיקו ש-$\overline L=\ell$ במישור, ולכן $L$ **אינה** צפופה במישור. מה הרדיוס הגדול ביותר של עיגול סביב
-      $(1,0)$ שזר ל-$L$?
+      (ג) הסיקו ש-$\overline M=\ell$ במישור, ולכן $M$ **אינה** צפופה במישור. מה הרדיוס הגדול ביותר של עיגול סביב
+      $(1,0)$ שזר ל-$M$?
     answer: >-
       (א) $d_2\big((t,\sqrt2t),(q,\sqrt2q)\big)=\sqrt3\,|t-q|$. (ב) העיגול ברדיוס $\frac{|b-\sqrt2a|}{\sqrt3}$ זר ל-$\ell$.
-      (ג) $\overline L=\ell\ne\mathbb{R}^2$; הרדיוס $\sqrt{2/3}\approx0.8165$.
+      (ג) $\overline M=\ell\ne\mathbb{R}^2$; הרדיוס $\sqrt{2/3}\approx0.8165$.
     solution:
       - kind: idea
         text: >-
-          $L$ היא העתק של $\mathbb{Q}$ על הישר, ולכן צפופה בו לפי משפט 1.4.15. אבל הישר עצמו סגור ודק, ולכן הסגור של $L$
+          $M$ היא העתק של $\mathbb{Q}$ על הישר, ולכן צפופה בו לפי משפט 1.4.15. אבל הישר עצמו סגור ודק, ולכן הסגור של $M$
           במישור לא יכול לצאת ממנו (טענה 1.4.4(ב)).
       - kind: step
         text: >-
           (א) כדור בתת-המרחב $\ell$ הוא $B(x,\varepsilon)\cap\ell$ (הגדרה 1.3.10). יהיו $x=(t,\sqrt2t)\in\ell$ ו-$\varepsilon>0$.
           לפי משפט 1.4.15 יש $q\in\mathbb{Q}$ עם $|t-q|<\frac{\varepsilon}{\sqrt3}$. אז
-          $d_2\big(x,(q,\sqrt2q)\big)=\sqrt{(t-q)^2+2(t-q)^2}=\sqrt3\,|t-q|<\varepsilon$. לפי טענה 1.4.14(ג), $L$ צפופה ב-$\ell$.
+          $d_2\big(x,(q,\sqrt2q)\big)=\sqrt{(t-q)^2+2(t-q)^2}=\sqrt3\,|t-q|<\varepsilon$. לפי טענה 1.4.14(ג), $M$ צפופה ב-$\ell$.
       - kind: step
         text: >-
-          (ב) תהי $(a,b)\notin\ell$, ו-$\delta=|b-\sqrt2a|>0$. לנקודה $(x,y)$ עם $d_2\big((x,y),(a,b)\big)<\rho=\frac{\delta}{\sqrt3}$,
-          לפי קושי-שוורץ ב-$\mathbb{R}^2$ (אלגברה לינארית) עם הווקטורים $(1,\sqrt2)$ ו-$(|y-b|,|x-a|)$:
-          $|y-b|+\sqrt2|x-a|\le\sqrt3\,d_2<\delta$.
+          (ב) תהי $(a,b)\notin\ell$, ו-$\eta=|b-\sqrt2a|>0$. תהי $(x,y)$ עם $d_2\big((x,y),(a,b)\big)<\rho=\frac{\eta}{\sqrt3}$.
+          לפי קושי-שוורץ ב-$\mathbb{R}^2$ (אלגברה לינארית) עם הווקטורים $(\sqrt2,1)$ ו-$(|x-a|,|y-b|)$:
+          $\sqrt2|x-a|+|y-b|\le\sqrt3\,d_2\big((x,y),(a,b)\big)<\eta$.
       - kind: step
         text: >-
-          לכן $|y-\sqrt2x|\ge|b-\sqrt2a|-|y-b|-\sqrt2|x-a|>\delta-\delta=0$: $(x,y)\notin\ell$. העיגול $B\big((a,b),\rho\big)$
+          לכן $|y-\sqrt2x|\ge|b-\sqrt2a|-|y-b|-\sqrt2|x-a|>\eta-\eta=0$: $(x,y)\notin\ell$. העיגול $B\big((a,b),\rho\big)$
           זר ל-$\ell$, המשלים פתוח, ו-$\ell$ סגורה.
       - kind: step
         text: >-
-          (ג) $\ell$ סגורה ומכילה את $L$, ולכן $\overline L\subseteq\ell$ (טענה 1.4.4(ב)). ולכל $x\in\ell$ ו-$\varepsilon>0$
-          מצאנו ב-(א) נקודה של $L$ במרחק קטן מ-$\varepsilon$, ולכן $\ell\subseteq\overline L$. לכן $\overline L=\ell\ne\mathbb{R}^2$,
-          ו-$L$ אינה צפופה במישור.
+          (ג) $\ell$ סגורה ומכילה את $M$, ולכן $\overline M\subseteq\ell$ (טענה 1.4.4(ב)). ולכל $x\in\ell$ ו-$\varepsilon>0$
+          מצאנו ב-(א) נקודה של $M$ במרחק קטן מ-$\varepsilon$, ולכן $\ell\subseteq\overline M$. לכן $\overline M=\ell\ne\mathbb{R}^2$,
+          ו-$M$ אינה צפופה במישור.
       - kind: computation
         text: >-
-          ל-$(a,b)=(1,0)$: $\delta=\sqrt2$, ו-$\rho=\frac{\sqrt2}{\sqrt3}=\sqrt{2/3}\approx0.8165$. זה הגדול ביותר: הנקודה
-          $\big(\frac13,\ \frac{\sqrt2}3\big)\in\ell$ במרחק $\sqrt{\frac49+\frac29}=\sqrt{2/3}$ מ-$(1,0)$, ולכן כל עיגול
-          גדול יותר מכיל אותה ואת נקודות $\ell$ הסמוכות לה, ובהן נקודות של $L$ לפי (א).
+          ל-$(a,b)=(1,0)$: $\eta=\sqrt2$, ו-$\rho=\frac{\sqrt2}{\sqrt3}=\sqrt{2/3}\approx0.8165$; לפי (ב) העיגול הזה זר ל-$\ell$,
+          ולכן ל-$M$. זה הגדול ביותר: הנקודה $\big(\frac13,\ \frac{\sqrt2}3\big)$ שייכת ל-$M$ (כי $\frac13\in\mathbb{Q}$), והיא במרחק
+          $\sqrt{\frac49+\frac29}=\sqrt{2/3}$ מ-$(1,0)$, ולכן כל עיגול סביב $(1,0)$ ברדיוס גדול יותר מכיל אותה.
       - kind: check
         text: >-
-          $L$ צפופה **בתוך הישר**, כמו ש-$\mathbb{Q}$ צפופה ב-$\mathbb{R}$, אבל לא במישור: צפיפות תלויה במרחב. השוו ל-$\mathbb{Q}^2$,
+          $M$ צפופה **בתוך הישר**, כמו ש-$\mathbb{Q}$ צפופה ב-$\mathbb{R}$, אבל לא במישור: צפיפות תלויה במרחב. השוו ל-$\mathbb{Q}^2$,
           שצפופה במישור (משפט 1.4.16).
       - kind: result
         text: >-
-          (א) $L$ צפופה ב-$\ell$. (ב) $\ell$ סגורה. (ג) $\overline L=\ell$; $L$ אינה צפופה במישור; הרדיוס המקסימלי
+          (א) $M$ צפופה ב-$\ell$. (ב) $\ell$ סגורה. (ג) $\overline M=\ell$; $M$ אינה צפופה במישור; הרדיוס המקסימלי
           סביב $(1,0)$ הוא $\sqrt{2/3}$.
 
   - id: W-1.4-08
@@ -394,7 +399,7 @@ practice:
       (א) תהי $L_{\mathbb{Q}}\subseteq C[0,1]$ קבוצת הקווים השבורים שהצמתים שלהם $t_i=\frac im$ ($m\in\mathbb{N}$) והערכים
       בצמתים רציונליים. הוכיחו ש-$L_{\mathbb{Q}}$ צפופה ב-$(C[0,1],d_\infty)$.
 
-      (ב) במשפט 1.4.18 הקטע **סגור**. במרחב $B((0,1])$ של הפונקציות החסומות על $(0,1]$ עם $d_\infty$ (הגדרה 1.1.7), תהי
+      (ב) במשפט 1.4.18 הקטע **סגור**. במרחב $B((0,1])$ של הפונקציות החסומות על $(0,1]$ עם $d_\infty$ (הגדרה 1.1.7; זה שם של מרחב, לא של כדור), תהי
       $f(x)=\sin\frac1x$, רציפה וחסומה. פונקציה $g$ על $(0,1]$ היא לינארית למקוטעין אם יש $0=t_0<t_1<\dots<t_m=1$ כך
       ש-$g$ רציפה ועל $(t_0,t_1]$ ועל כל $[t_{i-1},t_i]$, $i\ge2$, היא מהצורה $\alpha t+\beta$. הוכיחו
       ש-$d_\infty(f,g)\ge1$ לכל $g$ כזו.
@@ -433,7 +438,8 @@ practice:
       - kind: step
         text: >-
           לכן $d_\infty(f,g)\ge\max(|1-\beta|,|1+\beta|)\ge\frac{|1-\beta|+|1+\beta|}{2}\ge\frac{|(1-\beta)+(1+\beta)|}{2}=1$.
-          כלומר הכדור $B(f,1)$ ב-$B((0,1])$ זר לקבוצת הקווים השבורים: הם אינם צפופים שם.
+          כלומר אף קו שבור אינו במרחק קטן מ-$1$ מ-$f$: הכדור ברדיוס $1$ סביב $f$, במרחב הפונקציות החסומות על $(0,1]$,
+          זר לקבוצת הקווים השבורים, והם אינם צפופים שם.
       - kind: check
         text: >-
           איפה ההוכחה של משפט 1.4.18 נשברת? בשלב 1: $\sin\frac1x$ רציפה על $(0,1]$ אבל אינה רציפה במידה שווה, כי
@@ -457,7 +463,7 @@ practice:
 
       (ג) הסיקו: אם $F_1,F_2$ סגורות ו-$F_1^\circ=F_2^\circ=\emptyset$, אז $(F_1\cup F_2)^\circ=\emptyset$.
     answer: >-
-      (א) כדור $B$ פוגש את $U$; $B\cap U$ פתוחה ולא ריקה ולכן מכילה כדור, שפוגש את $V$. (ב) לא נכון:
+      (א) כל כדור $B(x,r)$ פוגש את $U$; $B(x,r)\cap U$ פתוחה ולא ריקה ולכן מכילה כדור, שפוגש את $V$. (ב) לא נכון:
       $\mathbb{Q}\cap(\mathbb{R}\setminus\mathbb{Q})=\emptyset$. (ג) המשלימים פתוחים וצפופים; מפעילים את (א) ועוברים
       למשלים.
     solution:
@@ -588,31 +594,31 @@ challenge:
     stars: 2
     objectives: [OBJ-1.4-3]
     prompt: >-
-      האם הקבוצה $S=\{2^m3^n:\ m,n\in\mathbb{Z}\}$ צפופה בקרן $(0,\infty)$, כתת-מרחב של $\mathbb{R}$? כלומר: האם לכל
-      $y>0$ ולכל $\varepsilon>0$ יש $s\in S$ עם $|s-y|<\varepsilon$? (המעריכים שלמים, גם שליליים.)
+      האם הקבוצה $T=\{2^m3^n:\ m,n\in\mathbb{Z}\}$ צפופה בקרן $(0,\infty)$, כתת-מרחב של $\mathbb{R}$? כלומר: האם לכל
+      $y>0$ ולכל $\varepsilon>0$ יש $s\in T$ עם $|s-y|<\varepsilon$? (המעריכים שלמים, גם שליליים.)
 
       (א) תהי $G\subseteq\mathbb{R}$ קבוצה שמכילה את $0$, את הסכום של כל שני איברים שלה ואת הנגדי של כל איבר שלה
       (כלומר $x,x'\in G$ גורר $x+x'\in G$ ו-$-x\in G$). הוכיחו: אם לכל $\delta>0$ יש $g\in G$ עם $0<g<\delta$, אז $G$
       צפופה ב-$\mathbb{R}$.
 
-      (ב) תהי $L=\{m\ln2+n\ln3:\ m,n\in\mathbb{Z}\}$. הוכיחו שלכל $\delta>0$ יש $g\in L$ עם $0<g<\delta$. רמז:
-      הניחו ש-$s_0=\inf\big(L\cap(0,\infty)\big)>0$, הראו ש-$s_0\in L$ ושכל איבר של $L$ הוא כפולה שלמה של
+      (ב) תהי $\Lambda=\{m\ln2+n\ln3:\ m,n\in\mathbb{Z}\}$. הוכיחו שלכל $\delta>0$ יש $g\in\Lambda$ עם $0<g<\delta$. רמז:
+      הניחו ש-$s_0=\inf\big(\Lambda\cap(0,\infty)\big)>0$, הראו ש-$s_0\in\Lambda$ ושכל איבר של $\Lambda$ הוא כפולה שלמה של
       $s_0$, והגיעו לסתירה.
 
       (ג) הכריעו את השאלה.
     answer: >-
-      כן. $L$ מקיימת את תנאי (א), וב-(ב) מראים שיש בה איברים חיוביים קטנים כרצוננו: אחרת $L=s_0\mathbb{Z}$, ואז
-      $2^b=3^a$ עם $a,b\in\mathbb{N}$, זוגי שווה לאי-זוגי. לכן $L$ צפופה ב-$\mathbb{R}$, ומהרציפות של $e^t$
-      הקבוצה $S=\{e^x:\ x\in L\}$ צפופה ב-$(0,\infty)$.
+      כן. $\Lambda$ מקיימת את תנאי (א), וב-(ב) מראים שיש בה איברים חיוביים קטנים כרצוננו: אחרת $\Lambda=s_0\mathbb{Z}$, ואז
+      $2^b=3^a$ עם $a,b\in\mathbb{N}$, זוגי שווה לאי-זוגי. לכן $\Lambda$ צפופה ב-$\mathbb{R}$, ומהרציפות של $e^t$
+      הקבוצה $T=\{e^x:\ x\in\Lambda\}$ צפופה ב-$(0,\infty)$.
     solution:
       - kind: given
         text: >-
-          $S=\{2^m3^n:\ m,n\in\mathbb{Z}\}\subseteq(0,\infty)$. כדור בתת-מרחב $(0,\infty)$ הוא
-          $(y-\varepsilon,y+\varepsilon)\cap(0,\infty)$ (הגדרה 1.3.10), ו-$S\subseteq(0,\infty)$, ולכן לפי טענה 1.4.14(ג)
-          צפיפות פירושה בדיוק: לכל $y>0$ ולכל $\varepsilon>0$ יש $s\in S$ עם $|s-y|<\varepsilon$.
+          $T=\{2^m3^n:\ m,n\in\mathbb{Z}\}\subseteq(0,\infty)$. כדור בתת-מרחב $(0,\infty)$ הוא
+          $(y-\varepsilon,y+\varepsilon)\cap(0,\infty)$ (הגדרה 1.3.10), ו-$T\subseteq(0,\infty)$, ולכן לפי טענה 1.4.14(ג)
+          צפיפות פירושה בדיוק: לכל $y>0$ ולכל $\varepsilon>0$ יש $s\in T$ עם $|s-y|<\varepsilon$.
       - kind: idea
         text: >-
-          לוקחים לוגריתם: $\ln(2^m3^n)=m\ln2+n\ln3$, והכפל הופך לחיבור. הקבוצה $L$ של הלוגריתמים מכילה את הסכום של
+          לוקחים לוגריתם: $\ln(2^m3^n)=m\ln2+n\ln3$, והכפל הופך לחיבור. הקבוצה $\Lambda$ של הלוגריתמים מכילה את הסכום של
           כל שני איברים שלה ואת הנגדי של כל איבר. אם יש בה איבר חיובי זעיר $g$, הכפולות $kg$ הן "סולם" עם שלבים ברוחב $g$, שמגיע עד מרחק $g$ מכל
           מספר ממשי. בסוף חוזרים עם $e^t$.
       - kind: step
@@ -623,31 +629,31 @@ challenge:
           $G$ צפופה.
       - kind: step
         text: >-
-          (ב) $L$ מכילה את $0$, את הסכום של כל שני איברים שלה ואת הנגדי של כל איבר, ובפרט את ההפרש של כל שניים.
-          $P=L\cap(0,\infty)$ לא ריקה ($\ln2\in P$) וחסומה
-          מלרע ב-$0$, ולכן $s_0=\inf P\ge0$ קיים. נניח בשלילה ש-$s_0>0$.
+          (ב) $\Lambda$ מכילה את $0$, את הסכום של כל שני איברים שלה ואת הנגדי של כל איבר, ובפרט את ההפרש של כל שניים.
+          $\Lambda_+=\Lambda\cap(0,\infty)$ לא ריקה ($\ln2\in\Lambda_+$) וחסומה
+          מלרע ב-$0$, ולכן $s_0=\inf\Lambda_+\ge0$ קיים. נניח בשלילה ש-$s_0>0$.
       - kind: step
         text: >-
-          **$s_0\in P$.** נניח שלא. אז $s_0$ אינו מתקבל, ומתכונת האינפימום יש $x_1\in P$ עם $s_0<x_1<2s_0$, ושוב
-          מתכונת האינפימום (עם $x_1>s_0$) יש $x_2\in P$ עם $s_0<x_2<x_1$. אז $x_1-x_2\in L$
-          ו-$0<x_1-x_2<2s_0-s_0=s_0$: איבר של $P$ שקטן מהאינפימום, סתירה.
+          **$s_0\in\Lambda_+$.** נניח שלא. אז $s_0$ אינו מתקבל, ומתכונת האינפימום יש $x_1\in\Lambda_+$ עם $s_0<x_1<2s_0$, ושוב
+          מתכונת האינפימום (עם $x_1>s_0$) יש $x_2\in\Lambda_+$ עם $s_0<x_2<x_1$. אז $x_1-x_2\in\Lambda$
+          ו-$0<x_1-x_2<2s_0-s_0=s_0$: איבר של $\Lambda_+$ שקטן מהאינפימום, סתירה.
       - kind: step
         text: >-
-          **$L=s_0\mathbb{Z}$.** כל כפולה שלמה של $s_0$ ב-$L$, כי $L$ מכילה סכומים ונגדיים. להפך, יהי $x\in L$
-          ו-$k=\lfloor x/s_0\rfloor$. אז $\rho=x-ks_0\in L$ ו-$0\le\rho<s_0$. אילו $\rho>0$, היה $\rho\in P$ קטן מ-$s_0$; לכן $\rho=0$ ו-$x=ks_0$.
+          **$\Lambda=s_0\mathbb{Z}$.** כל כפולה שלמה של $s_0$ ב-$\Lambda$, כי $\Lambda$ מכילה סכומים ונגדיים. להפך, יהי $x\in\Lambda$
+          ו-$k=\lfloor x/s_0\rfloor$. אז $\theta=x-ks_0\in\Lambda$ ו-$0\le\theta<s_0$. אילו $\theta>0$, היה $\theta\in\Lambda_+$ קטן מ-$s_0$; לכן $\theta=0$ ו-$x=ks_0$.
       - kind: step
         text: >-
           **הסתירה.** $\ln2=as_0$ ו-$\ln3=bs_0$ עם $a,b\in\mathbb{Z}$, ומכיוון ש-$\ln2,\ln3,s_0>0$, $a,b\in\mathbb{N}$.
           אז $b\ln2=abs_0=a\ln3$, כלומר $2^b=3^a$. אבל $2^b$ זוגי ו-$3^a$ אי-זוגי. לכן $s_0=0$, ומתכונת האינפימום
-          לכל $\delta>0$ יש $g\in P$ עם $g<\delta$.
+          לכל $\delta>0$ יש $g\in\Lambda_+$ עם $g<\delta$.
       - kind: step
         text: >-
           (ג) יהיו $y>0$ ו-$\varepsilon>0$. $e^t$ רציפה ב-$\ln y$ (אינפי 1), ולכן יש $\delta>0$ כך ש-$|t-\ln y|<\delta$
-          גורר $|e^t-y|<\varepsilon$. לפי (א) ו-(ב) יש $x=m\ln2+n\ln3\in L$ עם $|x-\ln y|<\delta$. אז
-          $e^x=2^m3^n\in S$ ו-$|2^m3^n-y|<\varepsilon$.
+          גורר $|e^t-y|<\varepsilon$. לפי (א) ו-(ב) יש $x=m\ln2+n\ln3\in\Lambda$ עם $|x-\ln y|<\delta$. אז
+          $e^x=2^m3^n\in T$ ו-$|2^m3^n-y|<\varepsilon$.
       - kind: check
         text: >-
-          איבר קטן מפורש: $\frac{3^{12}}{2^{19}}=\frac{531441}{524288}\approx1.01364$, ולכן $g=12\ln3-19\ln2\approx0.013551\in L$.
+          איבר קטן מפורש: $\frac{3^{12}}{2^{19}}=\frac{531441}{524288}\approx1.01364$, ולכן $g=12\ln3-19\ln2\approx0.013551\in\Lambda$.
           ל-$y=5$: $k=\lfloor\ln5/g\rfloor=118$, ו-$e^{118g}=3^{1416}\cdot2^{-2242}\approx4.9482$, במרחק כ-$0.052$ מ-$5$.
           עם $g$ קטן יותר מתקבל קירוב טוב יותר. (חישוב מספרי; ההוכחה היא (א)–(ג).)
       - kind: result

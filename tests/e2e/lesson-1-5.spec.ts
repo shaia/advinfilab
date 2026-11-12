@@ -60,7 +60,7 @@ test.describe('lesson 1.5: sequences in a metric space', () => {
 
   test('a text step never ticks a task, even one that sets the figure to the answer', async ({ page }) => {
     await page.goto(LESSON);
-    // the second step of 1.5א sets n = 11 on x/n with ε = 0.1: exactly the find-n answer
+    // the steps of 1.5א drive x/n (n = 1 with ε = 0.1 and 0.05; the Explain sets n = 5, 20); none may tick find-n
     for (const step of await page.locator('.step[data-fig="fig-1-5a"]').all()) {
       await step.scrollIntoViewIfNeeded();
       await page.waitForTimeout(120);

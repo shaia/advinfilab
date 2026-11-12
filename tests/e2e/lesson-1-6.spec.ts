@@ -33,18 +33,20 @@ test.describe('lesson 1.6: continuity between metric spaces', () => {
     }
   });
 
-  test('for x² at a = 1 and ε = 0.5, δ = 0.3 fails and the largest δ is √1.5 − 1; at a = 2 a fitting δ ticks the task', async ({ page }) => {
+  test('for x² at a = 1 and ε = 0.5, δ = 0.3 fails; the largest δ stays hidden until a fitting δ at a = 2 ticks the task', async ({ page }) => {
     await page.goto(LESSON);
     const fig = await ready(page, 'fig-1-6a');
     await expect(fig.locator('[data-readout="verdict"]')).toContainText('אינו מתאים');
-    await expect(fig.locator('[data-readout="best"]')).toContainText('0.225');
+    // δ*(1, 0.5) = √1.5 − 1 ≈ 0.225 answers the open task, so it is not printed
+    await expect(fig.locator('[data-readout="best"]')).not.toContainText('0.225');
     const [a, , delta] = [0, 1, 2].map((i) => fig.locator('input[type=range]').nth(i));
     await slide(a, 2);
-    // δ*(2, 0.5) = √4.5 − 2 ≈ 0.121
-    await expect(fig.locator('[data-readout="best"]')).toContainText('0.121');
+    await expect(fig.locator('[data-readout="best"]')).not.toContainText('0.121');
     await slide(delta, 0.1);
     await expect(fig.locator('[data-readout="verdict"]')).not.toContainText('אינו');
     await expect.poll(async () => (await progress(page))?.tasks?.['fig-1-6a:find-delta']).toBeTruthy();
+    // δ*(2, 0.5) = √4.5 − 2 ≈ 0.121, shown once the task is ticked
+    await expect(fig.locator('[data-readout="best"]')).toContainText('0.121');
   });
 
   test('the jump at 0 has no δ at all, however small', async ({ page }) => {
@@ -57,8 +59,8 @@ test.describe('lesson 1.6: continuity between metric spaces', () => {
       await slide(delta, v);
       await expect(fig.locator('[data-readout="verdict"]')).toContainText('אינו מתאים');
     }
-    await expect(fig.locator('[data-readout="best"]')).toContainText('אין אף δ');
     await expect.poll(async () => (await progress(page))?.tasks?.['fig-1-6a:no-delta']).toBeTruthy();
+    await expect(fig.locator('[data-readout="best"]')).toContainText('אין אף δ');
   });
 
   test('a text step never ticks a task', async ({ page }) => {
@@ -73,9 +75,9 @@ test.describe('lesson 1.6: continuity between metric spaces', () => {
       expect(tasks[t]).toBeFalsy();
   });
 
-  test('the Check has its six bank questions, and worked solutions stay closed until opened', async ({ page }) => {
+  test('the Check has its seven bank questions, and worked solutions stay closed until opened', async ({ page }) => {
     await page.goto(LESSON);
-    for (const id of ['Q-1.6-epsdelta', 'Q-1.6-preimage', 'Q-1.6-lipconst', 'Q-1.6-closed-ball', 'Q-1.6-x2', 'Q-1.6-eval']) {
+    for (const id of ['Q-1.6-epsdelta', 'Q-1.6-preimage', 'Q-1.6-lipconst', 'Q-1.6-closed-ball', 'Q-1.6-x2', 'Q-1.6-eval', 'Q-1.6-closed-dist']) {
       await expect(page.locator(`[data-qid="${id}"]`)).toHaveCount(1);
     }
     const examples = page.locator('[id^="ex-1-6-"]');

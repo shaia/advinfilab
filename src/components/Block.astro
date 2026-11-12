@@ -9,6 +9,8 @@ interface Props {
   kind: BlockKind;
   title?: string;
   id?: string;
+  /** a worked example's number, shown in its kicker */
+  num?: string;
 }
 
 const KICKER: Record<BlockKind, string> = {
@@ -22,11 +24,11 @@ const KICKER: Record<BlockKind, string> = {
   summary: 'לסיכום',
 };
 
-const { kind, title, id } = Astro.props;
+const { kind, title, id, num } = Astro.props;
 ---
 
 <section class={`block block-${kind}`} data-block={kind} id={id}>
-  <p class="kicker">{KICKER[kind]}</p>
+  <p class="kicker">{num ? `${KICKER[kind]} ${num}` : KICKER[kind]}</p>
   {title && <h2>{title}</h2>}
   <slot />
 </section>

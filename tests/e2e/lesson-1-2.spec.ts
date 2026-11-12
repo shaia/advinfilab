@@ -58,22 +58,33 @@ test.describe('lesson 1.2: normed spaces and inner products', () => {
     await expect.poll(async () => (await progress(page))?.tasks?.['fig-1-2a:corner']).toBeTruthy();
   });
 
-  test('the parallelogram law: holds for collinear vectors in p = 1, fails off the line, holds again in p = 2', async ({ page }) => {
+  test('the parallelogram law in p = ∞ holds for many pairs and fails for some; in p = 1 it holds for a pair off one line', async ({ page }) => {
+    // 26 key presses, each waiting for the readout: ~23 s alone, more under a parallel run
+    test.setTimeout(90_000);
     await page.goto(LESSON);
     const fig = await ready(page, 'fig-1-2c');
+    const canvas = fig.locator('canvas');
     await expect(fig.locator('[data-readout="verdict"]')).toContainText('מתקיים');
-    await fig.getByRole('button', { name: 'p = 1' }).click();
+    await fig.getByRole('button', { name: 'p = ∞' }).click();
     await expect(fig.locator('[data-readout="verdict"]')).toContainText('מתקיים');
-    expect((await progress(page))?.tasks?.['fig-1-2c:par-fails']).toBeFalsy();
-    // y from (0.5, 0) to (0.5, 0.2): 1.7² + 0.7² = 3.38 against 2 + 2·0.7² = 2.98
-    await press(fig.locator('canvas'), 'ArrowUp', 4);
-    await expect(fig.locator('[data-readout="sides"]')).toContainText('3.38');
-    await expect(fig.locator('[data-readout="sides"]')).toContainText('2.98');
+    // y from (0.5, 0) to (0.5, 0.2): off the line of x, and still 1.5² + 0.5² = 2.5 = 2 + 2·0.5²
+    await press(canvas, 'ArrowUp', 4);
+    await expect(fig.locator('[data-readout="verdict"]')).toContainText('מתקיים');
+    expect((await progress(page))?.tasks?.['fig-1-2c:par-fails-inf']).toBeFalsy();
+    // y to (0.5, 0.8): 1.5² + 0.8² = 2.89 against 2 + 2·0.8² = 3.28
+    await press(canvas, 'ArrowUp', 12);
+    await expect(fig.locator('[data-readout="sides"]')).toContainText('2.89');
+    await expect(fig.locator('[data-readout="sides"]')).toContainText('3.28');
     await expect(fig.locator('[data-readout="verdict"]')).toContainText('נכשל');
-    await expect.poll(async () => (await progress(page))?.tasks?.['fig-1-2c:par-fails']).toBeTruthy();
-    await fig.getByRole('button', { name: 'p = 2' }).click();
+    await expect.poll(async () => (await progress(page))?.tasks?.['fig-1-2c:par-fails-inf']).toBeTruthy();
+    // p = 1, y to (1, 0.8): 2.8² + 0.8² = 8.48 = 2 + 2·1.8², a pair off one line that satisfies the law
+    await fig.getByRole('button', { name: 'p = 1' }).click();
+    await expect(fig.locator('[data-readout="verdict"]')).toContainText('נכשל');
+    expect((await progress(page))?.tasks?.['fig-1-2c:par-holds-l1']).toBeFalsy();
+    await press(canvas, 'ArrowRight', 10);
+    await expect(fig.locator('[data-readout="sides"]')).toContainText('8.48');
     await expect(fig.locator('[data-readout="verdict"]')).toContainText('מתקיים');
-    await expect.poll(async () => (await progress(page))?.tasks?.['fig-1-2c:par-holds']).toBeTruthy();
+    await expect.poll(async () => (await progress(page))?.tasks?.['fig-1-2c:par-holds-l1']).toBeTruthy();
   });
 
   test('a text step never ticks a task, even one that puts the figure in a failing pair', async ({ page }) => {
@@ -84,7 +95,7 @@ test.describe('lesson 1.2: normed spaces and inner products', () => {
     }
     await page.waitForTimeout(400);
     const tasks = (await progress(page))?.tasks ?? {};
-    for (const t of ['fig-1-2a:square', 'fig-1-2a:corner', 'fig-1-2c:par-fails', 'fig-1-2c:par-holds']) expect(tasks[t]).toBeFalsy();
+    for (const t of ['fig-1-2a:square', 'fig-1-2a:corner', 'fig-1-2c:par-fails-inf', 'fig-1-2c:par-holds-l1']) expect(tasks[t]).toBeFalsy();
   });
 
   test('the Check has its six bank questions, and worked solutions stay closed until opened', async ({ page }) => {

@@ -59,10 +59,10 @@
 - id: MC-c1-interior-union
   title: חושבים שפנים וסגור מתחלפים עם כל פעולה על קבוצות
   belief: >-
-    $(A\cup B)^\circ=A^\circ\cup B^\circ$ ו-$\overline{A\cap B}=\overline A\cap\overline B$.
+    $(A\cup E)^\circ=A^\circ\cup E^\circ$ ו-$\overline{A\cap E}=\overline A\cap\overline E$.
   truth: >-
-    מתקיים רק $A^\circ\cup B^\circ\subseteq(A\cup B)^\circ$ ו-$\overline{A\cap B}\subseteq\overline A\cap\overline B$.
-    עם $A=[0,1]$ ו-$B=[1,2]$ הנקודה $1$ פנימית באיחוד ולא באף אחת מהן; עם $A=\mathbb{Q}$ ו-$B=\mathbb{R}\setminus\mathbb{Q}$
-    אגף שמאל של הראשון ריק ואגף ימין $\mathbb{R}$. השוויונות שכן נכונים הם $(A\cap B)^\circ=A^\circ\cap B^\circ$ ו-$\overline{A\cup B}=\overline A\cup\overline B$
+    מתקיים רק $A^\circ\cup E^\circ\subseteq(A\cup E)^\circ$ ו-$\overline{A\cap E}\subseteq\overline A\cap\overline E$.
+    עם $A=[0,1]$ ו-$E=[1,2]$ הנקודה $1$ פנימית באיחוד ולא באף אחת מהן; עם $A=\mathbb{Q}$ ו-$E=\mathbb{R}\setminus\mathbb{Q}$
+    בשוויון הראשון אגף ימין ריק ואגף שמאל $\mathbb{R}$. השוויונות שכן נכונים הם $(A\cap E)^\circ=A^\circ\cap E^\circ$ ו-$\overline{A\cup E}=\overline A\cup\overline E$
     (טענות 1.4.2(ה) ו-1.4.5(ג)), ורק לשתי קבוצות או למספר סופי.
   remedy: { lesson: '1.4', anchor: set-operations, label: 'פנים של איחוד' }

@@ -72,6 +72,15 @@
     במרחב מטרי, לכל $x,y,z$: $|d(x,z)-d(y,z)|\le d(x,y)$ (למה 1.1.2). בישר עם $z=0$ זה
     $\big||x|-|y|\big|\le|x-y|$; במרחב נורמי, $\big|\|u\|-\|v\|\big|\le\|u-v\|$.
   lesson: '1.1'
+- id: pullback-metric
+  term: משיכה של מטריקה
+  en: pullback of a metric
+  symbol: 'd_g(s,s'')=d(g(s),g(s''))'
+  definition: >-
+    בהינתן קבוצה $S$, מרחב מטרי $(X,d)$ והעתקה $g:S\to X$: הפונקציה $d_g(s,s')=d\big(g(s),g(s')\big)$ על $S$,
+    שמודדת מרחק בין נקודות של $S$ לפי המרחק בין התמונות שלהן. היא מקיימת לכל $g$ את (M2), את (M3) ואת
+    האי-שליליות, והיא מטריקה בדיוק כש-$g$ חד-חד-ערכית (טענה 1.1.13).
+  lesson: '1.1'
 - id: ultrametric
   term: אולטרה-מטריקה
   en: ultrametric

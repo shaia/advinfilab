@@ -75,9 +75,9 @@
 - id: convex-set
   term: קבוצה קמורה
   en: convex set
-  symbol: '\lambda x+(1-\lambda)y\in K'
+  symbol: 'tx+(1-t)y\in K'
   definition: >-
-    תת-קבוצה $K$ של מרחב וקטורי היא קמורה אם לכל $x,y\in K$ ולכל $\lambda\in[0,1]$ גם $\lambda x+(1-\lambda)y\in K$:
+    תת-קבוצה $K$ של מרחב וקטורי היא קמורה אם לכל $x,y\in K$ ולכל $t\in[0,1]$ גם $tx+(1-t)y\in K$:
     הקטע בין כל שתי נקודות שלה מוכל בה. פונקציה עם חיוביות והומוגניות היא נורמה אם ורק אם כדור היחידה שלה קמור.
   lesson: '1.2'
 - id: cauchy-schwarz

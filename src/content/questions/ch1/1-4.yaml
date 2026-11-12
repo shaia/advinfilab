@@ -17,7 +17,7 @@ questions:
         correct: true
         feedback: >-
           נכון. בשקילות $\partial A=\overline A\setminus A^\circ$. נקודת שפה יכולה להיות ב-$A$ או מחוץ לה.
-      - text: 'הנקודות של $A$ שאינן נקודות פנימיות של $A$'
+      - text: 'הנקודות של $A$ שאינן נקודות פנימיות של $A$, כלומר שאין סביבן כדור שמוכל ב-$A$'
         feedback: >-
           זה רק החלק של השפה שבתוך $A$. ל-$A=(0,1)$ אין נקודות כאלה כלל, אבל $\partial A=\{0,1\}$.
         misconception: MC-c1-boundary-in-set
@@ -35,24 +35,25 @@ questions:
     objectives: [OBJ-1.4-1]
     level: basic
     prompt: >-
-      עבור $A=[0,1)\subseteq\mathbb{R}$, מהם הפנים, הסגור והשפה?
+      עבור $A=(-1,2]\subseteq\mathbb{R}$, מהם הפנים, הסגור והשפה?
     choices:
-      - text: '$A^\circ=(0,1)$, $\overline A=[0,1]$, $\partial A=\{0,1\}$'
+      - text: '$A^\circ=(-1,2)$, $\overline A=[-1,2]$, $\partial A=\{-1,2\}$'
         correct: true
         feedback: >-
-          נכון. $0\in A$ אבל אינה פנימית, $1\notin A$ אבל בסגור; שתיהן נקודות שפה.
-      - text: '$A^\circ=(0,1)$, $\overline A=[0,1]$, $\partial A=\{1\}$'
+          נכון. הנקודה $x=2$ ב-$A$ אבל אינה פנימית, והנקודה $x=-1$ אינה ב-$A$ אבל בסגור; שתיהן נקודות שפה.
+      - text: '$A^\circ=(-1,2)$, $\overline A=[-1,2]$, $\partial A=\{-1\}$'
         feedback: >-
-          גם $0$ נקודת שפה: כל קטע סביבה מכיל את $0\in A$ ומספרים שליליים שאינם ב-$A$. שפה יכולה להיות בתוך $A$.
+          גם $2$ נקודת שפה: כל קטע סביבה מכיל את $2\in A$ ומספרים גדולים מ-$2$, שאינם ב-$A$. שפה יכולה להיות בתוך
+          $A$.
         misconception: MC-c1-boundary-in-set
-      - text: '$A^\circ=[0,1)$, $\overline A=[0,1]$, $\partial A=\{1\}$'
+      - text: '$A^\circ=(-1,2]$, $\overline A=[-1,2]$, $\partial A=\{-1\}$'
         feedback: >-
-          $0$ אינה פנימית: אין קטע $(-r,r)$ שמוכל ב-$A$. הפנים הוא רק הנקודות שיש סביבן כדור בתוך $A$.
+          $2$ אינה פנימית: אין קטע $(2-r,2+r)$ שמוכל ב-$A$. הפנים הוא רק הנקודות שיש סביבן כדור בתוך $A$.
         misconception: MC-c1-interior-closure-swap
-      - text: '$A^\circ=(0,1)$, $\overline A=[0,1)$, $\partial A=\{0\}$'
+      - text: '$A^\circ=(-1,2)$, $\overline A=(-1,2]$, $\partial A=\{2\}$'
         feedback: >-
-          $1$ בסגור: כל קטע סביבה פוגש את $A$, למשל ב-$\max\big(1-\frac r2,\ 0\big)$. הסגור מוסיף נקודות, הוא לא רק
-          $A$ עצמה.
+          הנקודה $x=-1$ בסגור: כל קטע סביבה ברדיוס $r$ פוגש את $A$, למשל בנקודה $\min\big(\frac r2,\ 1\big)-1$. הסגור
+          מוסיף נקודות, הוא לא רק $A$ עצמה.
         misconception: MC-c1-boundary-in-set
 
   - id: Q-1.4-count
@@ -66,7 +67,7 @@ questions:
     correctFeedback: >-
       נכון: $\partial A=\{0,1,2\}$. הנקודה המבודדת $2$ היא נקודת שפה: היא ב-$A$, וכל קטע סביבה מכיל נקודות שאינן ב-$A$.
     wrongFeedback: >-
-      בדקו כל נקודה חשודה: האם כל קטע סביבה פוגש גם את $A$ וגם את המשלים? אל תשכחו את הנקודה הבודדת.
+      בדקו כל נקודה חשודה: האם כל קטע סביבה פוגש גם את $A$ וגם את המשלים? אל תשכחו את הנקודה $2$.
     commonWrong:
       - value: 2
         feedback: >-
@@ -109,27 +110,27 @@ questions:
     qualitative: true
     level: mid
     prompt: >-
-      $A=(0,1]\times\{0\}$, קטע על ציר ה-$x$ בתוך $\mathbb{R}^2$ עם המטריקה האוקלידית. אילו מהטענות נכונות?
+      $A=[-1,2)\times\{1\}$, קטע אופקי בגובה $1$ בתוך $\mathbb{R}^2$ עם המטריקה האוקלידית. אילו מהטענות נכונות?
       סמנו את כולן.
     choices:
       - text: '$A^\circ=\emptyset$'
         correct: true
         feedback: >-
-          נכון: כל עיגול סביב נקודה של $A$ מכיל נקודות עם $y\neq0$, שאינן ב-$A$.
-      - text: '$\overline A=[0,1]\times\{0\}$'
+          נכון: כל עיגול $B\big((a,1),r\big)$ סביב נקודה של $A$ מכיל את $(a,\ 1+\frac r2)$, שאינה ב-$A$.
+      - text: '$\overline A=[-1,2]\times\{1\}$'
         correct: true
         feedback: >-
-          נכון: כל עיגול $B((0,0),r)$ מכיל את $(t,0)$ עם $0<t<\min(r,1)$, שב-$A$; ונקודות מחוץ לקטע הסגור רחוקות ממנו
-          מרחק חיובי.
+          נכון: כל עיגול $B((2,1),r)$ מכיל את $(2-t,\ 1)$ עם $0<t<\min(r,3)$, שב-$A$; ונקודות מחוץ לקטע הסגור רחוקות
+          ממנו מרחק חיובי.
       - text: '$\partial A=\overline A$'
         correct: true
         feedback: 'נכון: $\partial A=\overline A\setminus A^\circ=\overline A\setminus\emptyset$. הקטע כולו שפה.'
-      - text: '$A^\circ=(0,1)\times\{0\}$'
+      - text: '$A^\circ=(-1,2)\times\{1\}$'
         feedback: >-
-          זה הפנים של $(0,1]$ **בתוך $\mathbb{R}$**. במישור כל כדור הוא עיגול, ויוצא מהקטע. הפנים תלוי במרחב שבו
-          מסתכלים.
+          זה מתאים לפנים של $[-1,2)$ **בתוך $\mathbb{R}$**. במישור כל כדור הוא עיגול, ויוצא מהקטע. הפנים תלוי במרחב
+          שבו מסתכלים.
         misconception: MC-c1-subspace-ignored
-      - text: '$\partial A=\{(0,0),(1,0)\}$'
+      - text: '$\partial A=\{(-1,1),(2,1)\}$'
         feedback: >-
           אלה נקודות הקצה, אבל במישור כל נקודה של הקטע היא נקודת שפה: כל עיגול סביבה פוגש את $A$ ואת המשלים.
         misconception: MC-c1-boundary-thin
@@ -140,32 +141,34 @@ questions:
     qualitative: true
     level: mid
     prompt: >-
-      $A=\{\frac1n:n\in\mathbb{N}\}\subseteq\mathbb{R}$. אילו מהטענות נכונות? סמנו את כולן.
+      $A=\{2-\frac1n:\ n\in\mathbb{N}\}=\{1,\ \frac32,\ \frac53,\ \dots\}\subseteq\mathbb{R}$. אילו מהטענות נכונות? סמנו את
+      כולן.
     choices:
-      - text: '$0$ היא נקודת הצטברות של $A$'
+      - text: '$2$ היא נקודת הצטברות של $A$'
         correct: true
-        feedback: 'נכון: כל קטע $(-r,r)$ מכיל $\frac1n\neq0$ עם $n>\frac1r$.'
-      - text: '$\frac12$ היא נקודת הצטברות של $A$'
+        feedback: 'נכון: כל קטע $(2-r,2+r)$ מכיל את $2-\frac1n\neq2$ עם $n>\frac1r$ (ארכימדס).'
+      - text: '$\frac32$ היא נקודת הצטברות של $A$'
         feedback: >-
-          הקטע $(\frac13,1)$ סביב $\frac12$ לא מכיל אף נקודה של $A$ מלבד $\frac12$ עצמה. נקודה של $A$ אינה בהכרח
+          הקטע $(1,\frac53)$ סביב $\frac32$ לא מכיל אף נקודה של $A$ מלבד $\frac32$ עצמה. נקודה של $A$ אינה בהכרח
           נקודת הצטברות.
         misconception: MC-c1-accumulation-in-set
       - text: 'כל נקודה של $A$ היא נקודה מבודדת'
         correct: true
         feedback: >-
-          נכון: סביב $\frac1n$ הקטע $(\frac1{n+1},\frac1{n-1})$ (או $(\frac12,2)$ ל-$n=1$) פוגש את $A$ רק ב-$\frac1n$.
-      - text: '$\overline A=A\cup\{0\}$'
+          נכון: הסדרה $2-\frac1n$ עולה ממש, ולכן סביב $2-\frac1n$ הקטע הפתוח שבין השכנות $2-\frac1{n-1}$ ו-$2-\frac1{n+1}$
+          (או $(0,\frac32)$ ל-$n=1$) פוגש את $A$ רק בה.
+      - text: '$\overline A=A\cup\{2\}$'
         correct: true
-        feedback: 'נכון: $\overline A=A\cup A''$, ו-$A''=\{0\}$.'
-      - text: '$0\notin A$, ולכן $0$ אינה בסגור של $A$'
+        feedback: 'נכון: $\overline A=A\cup A''$ (משפט 1.4.9), ו-$A''=\{2\}$.'
+      - text: '$2\notin A$, ולכן $2$ אינה בסגור של $A$'
         feedback: >-
-          נקודת הצטברות לא חייבת להיות ב-$A$, והסגור כולל את כל נקודות ההצטברות. $0$ היא הנקודה שהסגור מוסיף.
+          נקודת הצטברות לא חייבת להיות ב-$A$, והסגור כולל את כל נקודות ההצטברות. $2$ היא הנקודה שהסגור מוסיף.
         misconception: MC-c1-accumulation-in-set
 
   - id: Q-1.4-closure-char
     type: mc
     objectives: [OBJ-1.4-2]
-    level: mid
+    level: basic
     prompt: >-
       איזה תנאי שקול ל-$x\in\overline A$?
     choices:
@@ -205,7 +208,9 @@ questions:
     order: [take, coord, vec, est, done]
     correctFeedback: >-
       נכון. הרעיון: מקרבים כל קואורדינטה בנפרד, עם "תקציב" $\frac{\varepsilon}{\sqrt n}$ לכל אחת, כדי שהשגיאות
-      יחד לא יעברו את $\varepsilon$.
+      יחד לא יעברו את $\varepsilon$. בהוכחה של משפט 1.4.16 התקציב היה $\frac{\varepsilon}{n}$, והעריכו את $d_1$ ואז
+      השתמשו ב-$d_2\le d_1$. שתי הדרכים נכונות: כאן מעריכים את $d_2$ ישירות, ולכן מספיק התקציב הגדול יותר
+      $\frac{\varepsilon}{\sqrt n}\ge\frac{\varepsilon}{n}$.
     wrongFeedback: >-
       התחילו מנקודה ורדיוס; קרבו כל קואורדינטה; בנו את הווקטור; העריכו את המרחק; הסיקו צפיפות.
 
@@ -213,7 +218,7 @@ questions:
     type: twotier
     objectives: [OBJ-1.4-3]
     qualitative: true
-    level: mid
+    level: basic
     prompt: >-
       נכון או לא: קבוצה צפופה ב-$\mathbb{R}$ חייבת להכיל קטע פתוח לא ריק.
     choices:
@@ -231,7 +236,8 @@ questions:
           בדיוק. גם $\mathbb{R}\setminus\mathbb{Q}$ צפופה ופניה ריקים: שתי קבוצות זרות, ושתיהן צפופות.
       - text: 'קבוצה צפופה חייבת להיות לא בת מנייה, ולכן "גדולה"'
         feedback: >-
-          $\mathbb{Q}$ בת מנייה וצפופה. צפיפות לא אומרת כלום על גודל: היא אומרת שאין קטע שזר לקבוצה.
+          $\mathbb{Q}$ בת מנייה (אפשר לסדר את כל איבריה בסדרה אחת $q_1,q_2,\dots$; עובדה מאינפי 1), ובכל זאת צפופה.
+          צפיפות לא אומרת כלום על גודל: היא אומרת שאין קטע שזר לקבוצה.
         misconception: MC-c1-dense-large
       - text: 'אם $\overline A=\mathbb{R}$ אז גם $A^\circ=\mathbb{R}$'
         feedback: >-
@@ -243,7 +249,7 @@ questions:
     type: twotier
     objectives: [OBJ-1.4-1, OBJ-1.4-2]
     qualitative: true
-    level: exam
+    level: basic
     prompt: >-
       $X$ קבוצה עם לפחות שתי נקודות והמטריקה הבדידה, ו-$x\in X$. האם $\overline{B(x,1)}=B[x,1]$?
     choices:
@@ -257,10 +263,11 @@ questions:
           והמטריקה הבדידה היא הדוגמה הנגדית.
         misconception: MC-c1-closure-of-ball
     reasons:
-      - text: '$B(x,1)=\{y:d(x,y)<1\}=\{x\}$, וכל קבוצה סגורה במטריקה הבדידה; אבל $d(x,y)\le1$ לכל $y$, ולכן $B[x,1]=X$'
+      - text: '$B(x,1)=\{x\}$, והיא סגורה; אבל $B[x,1]=X$'
         correct: true
         feedback: >-
-          בדיוק. הכדור הפתוח "רואה" רק את המרכז, והכדור הסגור את כל המרחב, וביניהם אין "שפה" לסגור.
+          בדיוק. $B(x,1)=\{y:d(x,y)<1\}=\{x\}$, וכל קבוצה סגורה במטריקה הבדידה (טענה 1.3.6); אבל $d(x,y)\le1$ לכל
+          $y$, ולכן $B[x,1]=X$. הכדור הפתוח "רואה" רק את המרכז, והכדור הסגור את כל המרחב.
       - text: '$B(x,1)=X$, ולכן גם הסגור הוא $X$'
         feedback: >-
           $d(x,y)=1$ ל-$y\neq x$, ו-$1<1$ שקרי: $B(x,1)=\{x\}$. רק $B(x,r)$ עם $r>1$ הוא $X$.
@@ -274,13 +281,20 @@ questions:
     type: multi
     objectives: [OBJ-1.4-3]
     qualitative: true
-    level: exam
+    level: mid
     prompt: >-
       אילו מהקבוצות הבאות **צפופות** במרחב הנתון? סמנו את כולן.
     choices:
-      - text: '$\mathbb{R}\setminus\mathbb{Q}$ ב-$\mathbb{R}$ עם המטריקה הרגילה'
+      - text: '$\{q\sqrt2:\ q\in\mathbb{Q}\}$ ב-$\mathbb{R}$ עם המטריקה הרגילה'
         correct: true
-        feedback: 'נכון: בכל קטע $(a,b)$ יש אי-רציונלי, למשל $q+\frac{\sqrt2}{n}$ עם $q\in(a,b)$ רציונלי ו-$n$ גדול.'
+        feedback: >-
+          נכון: לקטע $(a,b)$ עם $a<b$ יש לפי משפט 1.4.15 רציונלי $q$ בקטע $\big(\frac{a}{\sqrt2},\ \frac{b}{\sqrt2}\big)$,
+          ואז $q\sqrt2\in(a,b)$. לפי טענה 1.4.14(ג) זה מספיק.
+      - text: '$\mathbb{Q}\cap(0,1)$ ב-$\mathbb{R}$ עם המטריקה הרגילה'
+        feedback: >-
+          הקטע $(2,3)$ זר לה, ולכן היא אינה צפופה ב-$\mathbb{R}$: הסגור שלה הוא $[0,1]$. היא כן צפופה בתת-המרחב $(0,1)$.
+          צפיפות תלויה במרחב שבו בודקים.
+        misconception: MC-c1-subspace-ignored
       - text: '$\{(x,y)\in\mathbb{R}^2: x\in\mathbb{Q}\}$ ב-$\mathbb{R}^2$ עם המטריקה האוקלידית'
         correct: true
         feedback: >-
@@ -301,31 +315,96 @@ questions:
     type: twotier
     objectives: [OBJ-1.4-1]
     qualitative: true
-    level: exam
+    level: mid
     prompt: >-
-      נכון או לא: לכל שתי קבוצות $A,B$ במרחב מטרי, $(A\cup B)^\circ=A^\circ\cup B^\circ$.
+      נכון או לא: לכל שתי קבוצות $A,E$ במרחב מטרי, $(A\cup E)^\circ=A^\circ\cup E^\circ$.
     choices:
       - text: לא נכון
         correct: true
-        feedback: 'נכון. מתקיימת רק ההכלה $A^\circ\cup B^\circ\subseteq(A\cup B)^\circ$.'
+        feedback: 'נכון. מתקיימת רק ההכלה $A^\circ\cup E^\circ\subseteq(A\cup E)^\circ$ (טענה 1.4.2(ו)).'
       - text: נכון
         feedback: >-
-          עם $A=\mathbb{Q}$ ו-$B=\mathbb{R}\setminus\mathbb{Q}$: $A^\circ\cup B^\circ=\emptyset$ ואילו
-          $(A\cup B)^\circ=\mathbb{R}$.
+          עם $A=\mathbb{Q}$ ו-$E=\mathbb{R}\setminus\mathbb{Q}$: $A^\circ\cup E^\circ=\emptyset$ ואילו
+          $(A\cup E)^\circ=\mathbb{R}$.
         misconception: MC-c1-interior-union
     reasons:
-      - text: 'עם $A=\mathbb{Q}$, $B=\mathbb{R}\setminus\mathbb{Q}$: אגף שמאל $\mathbb{R}$, אגף ימין $\emptyset$'
+      - text: 'עם $A=\mathbb{Q}$, $E=\mathbb{R}\setminus\mathbb{Q}$: אגף שמאל $\mathbb{R}$, אגף ימין $\emptyset$'
         correct: true
         feedback: >-
           בדיוק. האיחוד יכול "להשלים" כדורים ששתי הקבוצות לבד לא מכילות. (ההכלה $\supseteq$ תמיד נכונה: כדור בתוך
-          $A$ נמצא גם בתוך $A\cup B$.)
-      - text: 'פנים מתנהג כמו סגור, ו-$\overline{A\cup B}=\overline A\cup\overline B$'
+          $A$ נמצא גם בתוך $A\cup E$.)
+      - text: 'פנים מתנהג כמו סגור, ו-$\overline{A\cup E}=\overline A\cup\overline E$'
         feedback: >-
-          לסגור זה אכן נכון באיחוד סופי, ולפנים זה נכון בחיתוך סופי: $(A\cap B)^\circ=A^\circ\cap B^\circ$. באיחוד,
+          לסגור זה אכן נכון באיחוד סופי, ולפנים זה נכון בחיתוך סופי: $(A\cap E)^\circ=A^\circ\cap E^\circ$. באיחוד,
           הפנים יכול לגדול: $\mathbb{Q}$ ו-$\mathbb{R}\setminus\mathbb{Q}$.
         misconception: MC-c1-interior-union
-      - text: 'ההכלה $(A\cup B)^\circ\subseteq A^\circ\cup B^\circ$ תמיד נכונה, ולכן יש שוויון'
+      - text: 'ההכלה $(A\cup E)^\circ\subseteq A^\circ\cup E^\circ$ תמיד נכונה, ולכן יש שוויון'
         feedback: >-
           זו בדיוק ההכלה שנכשלת: $\mathbb{R}=(\mathbb{Q}\cup(\mathbb{R}\setminus\mathbb{Q}))^\circ\not\subseteq\emptyset$.
           ההכלה הנכונה היא ההפוכה.
         misconception: MC-c1-interior-union
+
+  - id: Q-1.4-ball-subspace
+    type: twotier
+    objectives: [OBJ-1.4-1]
+    qualitative: true
+    level: exam
+    prompt: >-
+      תהי $Y=[0,1]\cup[2,3]$, תת-מרחב של $\mathbb{R}$ עם המטריקה $|x-y|$, והכדורים הם כדורים **בתוך** $Y$. נכון או
+      לא: ב-$Y$ מתקיים $\overline{B(0,2)}=B[0,2]$.
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: >-
+          נכון. ב-$Y$, $B(0,2)=[0,1]$ והסגור שלו ב-$Y$ הוא $[0,1]$, ואילו $B[0,2]=[0,1]\cup\{2\}$.
+      - text: נכון
+        feedback: >-
+          משפט 1.4.12 מניח מרחב נורמי, ו-$Y$ אינו מרחב וקטורי. חשבו את הכדורים בתוך $Y$: $2\in B[0,2]$, כי
+          $|2-0|=2$; אבל הכדור $B(2,1)$ ב-$Y$ הוא $[2,3)$, והוא זר ל-$B(0,2)$.
+        misconception: MC-c1-closure-of-ball
+    reasons:
+      - text: '$B(0,2)=[0,1]$ סגורה ב-$Y$, אבל $2\in B[0,2]$ והכדור $B(2,1)=[2,3)$ זר ל-$[0,1]$'
+        correct: true
+        feedback: >-
+          בדיוק. $B(0,2)=\{y\in Y:\ |y|<2\}=[0,1]$. היא שווה ל-$Y\cap[0,1]$, חיתוך של $Y$ עם סגורה בישר, ולכן סגורה
+          ב-$Y$ (מסקנה 1.3.12) ושווה לסגור שלה (טענה 1.4.4(ג)). ו-$2\in B[0,2]\setminus\overline{B(0,2)}$. מה שנשבר
+          בהוכחה של משפט 1.4.12: הנקודות $0+t(2-0)$ עם $\frac12<t<1$ אינן ב-$Y$.
+      - text: 'המשפט חל, כי $Y\subseteq\mathbb{R}$ ו-$\mathbb{R}$ מרחב נורמי, ולכן יש שוויון'
+        feedback: >-
+          משפט 1.4.12 עוסק בכדורים **במרחב הנורמי עצמו**. כדור ב-$Y$ הוא חיתוך של כדור בישר עם $Y$ (הגדרה 1.3.10),
+          ו-$Y$ אינו סגור לחיבור ולכפל בסקלר, כך שאין בו את הנקודות "שבין" המרכז לספרה.
+        misconception: MC-c1-subspace-ignored
+      - text: '$B(0,2)=[0,2)$, ולכן הסגור שלו $[0,2]$, שאינו $B[0,2]=[0,1]\cup\{2\}$'
+        feedback: >-
+          המסקנה נכונה והנימוק לא: $[0,2)$ אינה תת-קבוצה של $Y$. הכדור ב-$Y$ מכיל רק נקודות של $Y$:
+          $B(0,2)=[0,2)\cap Y=[0,1]$.
+        misconception: MC-c1-subspace-ignored
+
+  - id: Q-1.4-open-no-isolated
+    type: rank
+    objectives: [OBJ-1.4-2]
+    level: exam
+    prompt: >-
+      יהי $(V,\|\cdot\|)$ מרחב נורמי עם $V\neq\{0\}$, ותהי $U\subseteq V$ קבוצה פתוחה. סדרו את שלבי ההוכחה לטענה:
+      לקבוצה $U$ אין נקודות מבודדות.
+    help: סדרו את שלבי ההוכחה מהראשון לאחרון.
+    items:
+      - id: pick
+        label: 'נבחר $v\in V$ עם $v\neq0$; לפי (N1) $\|v\|>0$, ונגדיר $y=x+\frac{s}{2\|v\|}\,v$.'
+      - id: end
+        label: 'לכן כל $x\in U$ היא נקודת הצטברות של $U$, ולפי טענה 1.4.7א אף נקודה של $U$ אינה מבודדת.'
+      - id: fix
+        label: 'תהי $x\in U$ ויהי $r>0$. נראה שבכדור $B(x,r)$ יש נקודה של $U$ ששונה מ-$x$.'
+      - id: dist
+        label: 'לפי (N2), $\|y-x\|=\frac s2$; לכן $y\neq x$, ו-$y\in B(x,s)\subseteq U\cap B(x,r)$.'
+      - id: inner
+        label: '$U$ פתוחה, ולכן יש $\rho>0$ עם $B(x,\rho)\subseteq U$. נגדיר $s=\min(r,\rho)>0$.'
+    order: [fix, inner, pick, dist, end]
+    correctFeedback: >-
+      נכון. זה הרעיון של משפט 1.4.12: במרחב נורמי אפשר "ללכת" מ-$x$ בכיוון $v$ מרחק קטן כרצוננו. כל שלב תלוי בקודמו:
+      $s$ מוגדר בעזרת $r$ ו-$\rho$, הנקודה $y$ בעזרת $s$, והמרחק שלה מחושב רק אחרי שהיא מוגדרת. שתי ההנחות נחוצות:
+      במטריקה הבדידה (בלי מבנה נורמי) כל קבוצה פתוחה וכל נקודה מבודדת; וב-$V=\{0\}$ הנקודה $0$ מבודדת בקבוצה הפתוחה
+      $V$.
+    wrongFeedback: >-
+      שאלו את עצמכם בכל שלב מה הוא צריך: הנקודה $y$ מוגדרת בעזרת $s$, ו-$s$ בעזרת $r$ ו-$\rho$. מה צריך להיות קבוע
+      לפני שאפשר להגדיר את $\rho$?

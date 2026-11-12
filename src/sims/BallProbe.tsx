@@ -19,8 +19,9 @@
 
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { SETS, ballInBall, dist, distToOtherSideSet, inSet, isAccumulation, pointKind, type MetricId, type PlaneSet, type Pt, type Rect, type SetId } from '~/math/metric';
-import { markTask } from '~/progress/store';
+import { markTask, progress } from '~/progress/store';
 import { subscribeSteps } from '~/ui/steps';
+import { useMounted } from '~/ui/useMounted';
 import { useFigureCanvas, type FrameInfo, type Palette } from './core/canvas';
 import { sci } from './core/format';
 import { withAlpha } from './core/ink';
@@ -32,12 +33,12 @@ type Rule = 'fit' | 'naive';
 const TASK_LABEL: Record<string, string> = {
   'naive-out': 'בחרו את הרדיוס ⁦s = d(a,y)⁩ ומצאו נקודה y שהכדור סביבה בולט מחוץ ל-⁦B(a,1)⁩.',
   'fit-edge': 'בחרו את הרדיוס ⁦s = 1 − d(a,y)⁩ וקרבו את y לשפה, עד מרחק 0.1 ממנה או פחות: הכדור הקטן עדיין בפנים.',
-  'edge-point': 'בריבוע הסגור, מצאו נקודה של הקבוצה שאין סביבה אף כדור שכולו בקבוצה.',
-  'not-closed': 'בריבוע עם הצלע התחתונה, מצאו נקודה מחוץ לקבוצה שאין סביבה אף כדור שכולו מחוץ לקבוצה.',
-  discrete: 'במטריקה הבדידה, שימו את הנקודה על צלע של הריבוע הסגור ומצאו רדיוס שהכדור שלו כולו בקבוצה.',
-  'boundary-out': 'בריבוע עם נקודה בודדת, מצאו נקודת שפה שאינה שייכת לקבוצה.',
-  isolated: 'בריבוע עם נקודה בודדת, מצאו נקודה של הקבוצה שאינה נקודת הצטברות שלה.',
-  'segment-boundary': 'בקטע שעל הציר, מצאו נקודה של הקבוצה, לא בקצה, ובדקו שהיא נקודת שפה.',
+  'edge-point': 'בריבוע הסגור: האם לכל נקודה של הקבוצה יש כדור שכולו בקבוצה? אם מצאתם נקודה שאין לה, המשימה תסומן.',
+  'not-closed': 'בריבוע עם הצלע התחתונה: האם לכל נקודה מחוץ לקבוצה יש כדור שכולו מחוץ לקבוצה? אם מצאתם נקודה שאין לה, המשימה תסומן.',
+  discrete: 'במטריקה הבדידה, עם הנקודה על צלע של הריבוע הסגור: האם יש רדיוס שהכדור שלו כולו בקבוצה? שנו את r ובדקו.',
+  'boundary-out': 'בריבוע ונקודה נפרדת: האם יש נקודת שפה שאינה שייכת לקבוצה? חפשו אחת.',
+  isolated: 'בריבוע ונקודה נפרדת: מצאו נקודה של הקבוצה שיש סביבה כדור שאין בו אף נקודה אחרת של הקבוצה.',
+  'segment-boundary': 'בקטע שעל הציר (במטריקה שאינה הבדידה), בחרו נקודה של הקבוצה שאינה קצה: האם היא נקודה פנימית?',
 };
 
 const METRIC_LABEL: Record<MetricId, string> = { d1: 'd₁', d2: 'd₂', dinf: 'd∞', disc: 'בדידה' };
@@ -46,7 +47,7 @@ const SET_LABEL: Record<SetId, string> = {
   closed: 'ריבוע עם השפה',
   mixed: 'ריבוע עם הצלע התחתונה',
   half: 'חצי מישור',
-  isolated: 'ריבוע ונקודה בודדת',
+  isolated: 'ריבוע ונקודה נפרדת',
   segment: 'קטע על הציר',
 };
 const SET_TEX: Record<SetId, string> = {
@@ -86,6 +87,13 @@ export interface BallProbeProps {
   sets?: SetId[];
   /** lesson 1.4: also say whether the probe is an interior, exterior or boundary point, and an accumulation or isolated point */
   classify?: boolean;
+  /**
+   * lesson 1.4: classification rows hidden at first, so that a row never answers a prediction or uses a term before
+   * its definition. A row appears once a text step sends `reveal: ['kind']` / `['acc']`, and the 'kind' row also once
+   * the prediction `revealOn` is committed. A revealed row stays shown.
+   */
+  hide?: ('kind' | 'acc')[];
+  revealOn?: string;
   p?: [number, number];
   r?: number;
   rule?: Rule;
@@ -146,7 +154,14 @@ function ballPath(ctx: CanvasRenderingContext2D, m: MetricId, c: Pt, r: number, 
 export default function BallProbe(props: BallProbeProps) {
   const [s, setS] = useState<State>(() => fresh(props));
   const [live, setLive] = useState('');
+  const [revealed, setRevealed] = useState<{ kind?: boolean; acc?: boolean }>({});
+  const mounted = useMounted();
+  const predicted = mounted && !!props.revealOn && !!progress.value.predictions[props.revealOn];
+  const showKind = !!props.classify && (!props.hide?.includes('kind') || !!revealed.kind || predicted);
+  const showAcc = !!props.classify && (!props.hide?.includes('acc') || !!revealed.acc);
   const tasks: TaskDef[] = (props.tasks ?? []).map((id) => ({ id, label: TASK_LABEL[id] ?? id }));
+  /** lesson 1.3: in the discrete metric the "largest radius" readout is the answer of the open 'discrete' task */
+  const hideBest = props.mode === 'set' && s.metric === 'disc' && !!props.tasks?.includes('discrete') && !(mounted && progress.value.tasks[`${props.id}:discrete`]);
   const dragging = useRef(false);
   const geo = useRef<{ cx: number; cy: number; k: number } | null>(null);
   const mode = props.mode;
@@ -177,6 +192,10 @@ export default function BallProbe(props: BallProbeProps) {
   useEffect(
     () =>
       subscribeSteps(props.id, (st) => {
+        if (Array.isArray(st.reveal)) {
+          const rows = st.reveal as unknown[];
+          setRevealed((prev) => ({ kind: prev.kind || rows.includes('kind'), acc: prev.acc || rows.includes('acc') }));
+        }
         setS((prev) => {
           const next = { ...prev };
           if (typeof st.metric === 'string' && st.metric in METRIC_LABEL) next.metric = st.metric as MetricId;
@@ -198,15 +217,16 @@ export default function BallProbe(props: BallProbeProps) {
     }
     const side = v.inside ? 'בקבוצה' : 'מחוץ לקבוצה';
     const fits = v.fits ? `הכדור ברדיוס ${fmt(s.r)} כולו ${side}.` : `הכדור ברדיוס ${fmt(s.r)} אינו כולו ${side}.`;
-    const best = v.best === 0 ? 'אין אף כדור סביב הנקודה שכולו באותו צד.' : `הרדיוס הגדול ביותר שמתאים: ${fmt(v.best)}.`;
-    const kind = props.classify ? ` היא ${KIND_LABEL[pointKind(s.metric, SETS[s.set], s.p)]}. ${accText(s)}` : '';
-    return `המטריקה ${m}, הקבוצה ${SET_TEX[s.set]}. הנקודה ${fmtPt(s.p)} ${side}. ${fits} ${best}${kind}`;
+    const best = hideBest ? 'שנו את הרדיוס ובדקו.' : v.best === 0 ? 'אין אף כדור סביב הנקודה שכולו באותו צד.' : `הרדיוס הגדול ביותר שמתאים: ${fmt(v.best)}.`;
+    const kind = showKind ? ` היא ${KIND_LABEL[pointKind(s.metric, SETS[s.set], s.p)]}.` : '';
+    const acc = showAcc ? ` ${accText(s)}` : '';
+    return `המטריקה ${m}, הקבוצה ${SET_TEX[s.set]}. הנקודה ${fmtPt(s.p)} ${side}. ${fits} ${best}${kind}${acc}`;
   };
 
   useEffect(() => {
     const t = setTimeout(() => setLive(describe()), 300);
     return () => clearTimeout(t);
-  }, [s]);
+  }, [s, showKind, showAcc, hideBest]);
 
   const draw = ({ ctx, view, palette: pal }: FrameInfo) => {
     const k = Math.min(view.w / (2 * X_HALF + 0.3), view.h / (2 * Y_HALF + 0.3));
@@ -389,7 +409,9 @@ export default function BallProbe(props: BallProbeProps) {
               הכדור ברדיוס <b class="q">r = {fmt(s.r)}</b> {v.fits ? 'כולו' : 'אינו כולו'} {v.inside ? 'בקבוצה' : 'מחוץ לקבוצה'}.
             </span>
             <span data-readout="best">
-              {v.best === 0 ? (
+              {hideBest ? (
+                <>מהו הרדיוס הגדול ביותר שמתאים כאן? שנו את r ובדקו.</>
+              ) : v.best === 0 ? (
                 <>אין אף כדור סביב x שכולו {v.inside ? 'בקבוצה' : 'מחוץ לה'}.</>
               ) : (
                 <>
@@ -397,14 +419,15 @@ export default function BallProbe(props: BallProbeProps) {
                 </>
               )}
             </span>
-            {props.classify && (
-              <>
-                <span data-readout="kind">
-                  x היא <b>{KIND_LABEL[pointKind(s.metric, SETS[s.set], s.p)]}</b> של הקבוצה.
-                </span>
-                <span data-readout="acc">{accText(s)}</span>
-              </>
+            {showKind && (
+              <span data-readout="kind">
+                x היא <b>{KIND_LABEL[pointKind(s.metric, SETS[s.set], s.p)]}</b> של הקבוצה.
+              </span>
             )}
+            {props.classify && !showKind && (
+              <span data-readout="kind-hidden">האם x פנימית, חיצונית או נקודת שפה? הסיווג יוצג כאן אחרי החיזוי.</span>
+            )}
+            {showAcc && <span data-readout="acc">{accText(s)}</span>}
           </>
         )
       }

@@ -28,10 +28,10 @@ type Mode = 'line' | 'sup';
 type Which = 'x' | 'y' | 'z';
 
 const TASK_LABEL: Record<string, string> = {
-  equality: 'עם ⁦|x − y|⁩, מצאו שלוש נקודות שונות שבהן אי-שוויון המשולש מתקיים בשוויון.',
-  'break-square': 'עם ⁦(x − y)²⁩, מצאו שלשה x, y, z שבה אי-שוויון המשולש נכשל.',
-  'zero-fail': 'עם ⁦|x² − y²|⁩, מצאו שתי נקודות שונות שהמרחק ביניהן 0.',
-  'find-sup': 'בזוג ⁦sin, cos⁩, הזיזו את t למקום שבו הפער בין הגרפים הגדול ביותר.',
+  equality: 'עם ⁦|x − y|⁩: האם יש שלוש נקודות שונות שבהן הפס התחתון ארוך בדיוק כמו העליון? מצאו שלשה כזו.',
+  'break-square': 'עם ⁦(x − y)²⁩: בדקו אם יש שלשה x, y, z שמפריכה את אחת האקסיומות, ומצאו אותה אם יש.',
+  'zero-fail': 'עם ⁦|x² − y²|⁩ אחת האקסיומות נכשלת. מצאו זוג נקודות שמראה איזו.',
+  'find-sup': 'בזוג ⁦sin, cos⁩: איפה על הקטע הפער בין הגרפים הגדול ביותר? הזיזו את t לשם.',
 };
 
 /** the grid is in tenths, kept as integers so that equal points compare equal */
@@ -157,7 +157,7 @@ export default function MetricCheck(props: MetricCheckProps) {
       const c = CANDIDATES[s.dist];
       const tri =
         v.tri === 'fails' ? 'אי-שוויון המשולש נכשל בשלשה הזו.' : v.tri === 'equal' ? 'אי-שוויון המשולש מתקיים בשוויון.' : 'אי-שוויון המשולש מתקיים.';
-      return `d(x,y) = ${c.formula}. x = ${fmt(v.x)}, y = ${fmt(v.y)}, z = ${fmt(v.z)}. d(x,z) = ${fmt(v.dxz)}, d(x,y) + d(y,z) = ${fmt(v.dxy + v.dyz)}: ${tri} ${v.zero ? `אקסיומת האפס נכשלת: ${v.zero}.` : ''}`;
+      return `d(x,y) = ${c.formula}. x = ${fmt(v.x)}, y = ${fmt(v.y)}, z = ${fmt(v.z)}. d(x,z) = ${fmt(v.dxz)}, d(x,y) + d(y,z) = ${fmt(v.dxy + v.dyz)}: ${tri} ${v.zero ? `אקסיומת החיוביות (M1) נכשלת: ${v.zero}.` : ''}`;
     }
     return `f(x) = ${pair.fName}, g(x) = ${pair.gName}. t = ${fmt(t)}, |f(t) − g(t)| = ${fmt(gap)}.${s.showSup ? ` המרחק במטריקת הסופרמום: ${fmt(pair.sup)}.` : ''}`;
   };
@@ -452,10 +452,10 @@ export default function MetricCheck(props: MetricCheckProps) {
             <span data-readout="zero">
               {v.zero ? (
                 <>
-                  אקסיומת האפס נכשלת: <b class="q">{v.zero}</b>
+                  אקסיומת החיוביות (M1) נכשלת: <b class="q">{v.zero}</b>
                 </>
               ) : (
-                <>אקסיומת האפס מתקיימת בנקודות האלה.</>
+                <>אקסיומת החיוביות (M1) מתקיימת בנקודות האלה.</>
               )}
             </span>
           </>

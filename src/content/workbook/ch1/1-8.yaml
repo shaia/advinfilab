@@ -97,14 +97,14 @@ practice:
           לאט יותר משהם גדלים; (ג) במימד אינסופי ההפכית יכולה למתוח בלי גבול גם כש-$T$ מכווצת.
       - kind: step
         text: >-
-          (א) **נכון.** יהי $y\in V$ ו-$y_n\to y$. לפי טענה 1.5.6, $x_0+(y_n-y)\to x_0$, ולפי טענה 1.6.3 (הרציפות
+          (א) **נכון.** יהי $y\in V$ ו-$y_n\to y$. לפי טענה 1.5.6, $x_0+(y_n-y)\to x_0$, ולפי משפט 1.6.3 (הרציפות
           ב-$x_0$ בניסוח סדרתי) $T(x_0+y_n-y)\to Tx_0$. לפי הלינאריות $T(x_0+y_n-y)-Tx_0=Ty_n-Ty$, ולכן
-          $\|Ty_n-Ty\|\to0$, כלומר $Ty_n\to Ty$. לפי טענה 1.6.3, $T$ רציפה ב-$y$.
+          $\|Ty_n-Ty\|\to0$, כלומר $Ty_n\to Ty$. לפי משפט 1.6.3, $T$ רציפה ב-$y$.
       - kind: step
         text: >-
           (ב) **נכון.** נניח בשלילה ש-$T$ אינה חסומה. לפי משפט 1.8.2, (ה)$\Leftrightarrow$(ד), הסופרמום של $\|Tx\|$
           על כדור היחידה הסגור אינו סופי, ולכן לכל $n\in\mathbb{N}$ יש $x_n$ עם $\|x_n\|\le1$ ו-$\|Tx_n\|>n^2$;
-          בוחרים סדרה כזו (בחירה בת-מנייה).
+          בוחרים סדרה כזו (בחירה בת מנייה).
       - kind: computation
         text: >-
           נגדיר $y_n=\frac{x_n}{n}$. אז $\|y_n\|\le\frac1n\to0$, כלומר $y_n\to0$, ואילו $\|Ty_n\|=\frac{\|Tx_n\|}{n}>n$.
@@ -218,32 +218,32 @@ practice:
     level: basic
     objectives: [OBJ-1.8-1, OBJ-1.8-2]
     prompt: >-
-      תהי $g\in C[0,1]$, ונגדיר על $(C[0,1],\|\cdot\|_\infty)$ את העתקת הכפל $(M_gf)(x)=g(x)f(x)$.
+      תהי $g\in C[0,1]$, ונגדיר על $(C[0,1],\|\cdot\|_\infty)$ את העתקת הכפל $(T_gf)(x)=g(x)f(x)$.
 
-      (א) הוכיחו ש-$M_g$ לינארית, חסומה ורציפה.
+      (א) הוכיחו ש-$T_g$ לינארית, חסומה ורציפה.
 
-      (ב) הוכיחו ש-$\|M_g\|=\|g\|_\infty$, ושהסופרמום מתקבל.
+      (ב) הוכיחו ש-$\|T_g\|=\|g\|_\infty$, ושהסופרמום מתקבל.
     answer: >-
-      $\|M_gf\|_\infty\le\|g\|_\infty\|f\|_\infty$, ושוויון ב-$f\equiv1$.
+      $\|T_gf\|_\infty\le\|g\|_\infty\|f\|_\infty$, ושוויון ב-$f\equiv1$.
     solution:
       - kind: step
         text: >-
-          (א) מכפלה של פונקציות רציפות רציפה (טענה 1.6.5), ולכן $M_gf\in C[0,1]$. לינאריות: $g(af+bh)=a\,gf+b\,gh$.
+          (א) מכפלה של פונקציות רציפות רציפה (טענה 1.6.5), ולכן $T_gf\in C[0,1]$. לינאריות: $g(af+bh)=a\,gf+b\,gh$.
       - kind: computation
         text: >-
-          חסם: לכל $x$, $|g(x)f(x)|\le\|g\|_\infty\,\|f\|_\infty$, ולכן $\|M_gf\|_\infty\le\|g\|_\infty\|f\|_\infty$. זו
-          חסימות עם $M=\|g\|_\infty$ (הגדרה 1.8.1), ולפי משפט 1.8.2 $M_g$ רציפה, ואפילו ליפשיצית עם קבוע $\|g\|_\infty$.
+          חסם: לכל $x$, $|g(x)f(x)|\le\|g\|_\infty\,\|f\|_\infty$, ולכן $\|T_gf\|_\infty\le\|g\|_\infty\|f\|_\infty$. זו
+          חסימות עם $M=\|g\|_\infty$ (הגדרה 1.8.1), ולפי משפט 1.8.2 $T_g$ רציפה, ואפילו ליפשיצית עם קבוע $\|g\|_\infty$.
       - kind: step
         text: >-
-          (ב) לפי טענה 1.8.4(א), החסם נותן $\|M_g\|\le\|g\|_\infty$. מלרע: $f\equiv1$ מקיימת $\|f\|_\infty=1$
-          ו-$M_g1=g$, ולכן לפי הגדרה 1.8.3 $\|M_g\|\ge\|g\|_\infty$, והסופרמום מתקבל ב-$f\equiv1$.
+          (ב) לפי טענה 1.8.4(א), החסם נותן $\|T_g\|\le\|g\|_\infty$. מלרע: $f\equiv1$ מקיימת $\|f\|_\infty=1$
+          ו-$T_g1=g$, ולכן לפי הגדרה 1.8.3 $\|T_g\|\ge\|g\|_\infty$, והסופרמום מתקבל ב-$f\equiv1$.
       - kind: check
         text: >-
-          עם $g(x)=x$ מקבלים $\|M_g\|=1$, כמו שצריך: $|xf(x)|\le|f(x)|$ על $[0,1]$. ועם $g$ קבועה $c$, $M_g=c\cdot\mathrm{id}$
-          ו-$\|M_g\|=|c|$, לפי ההומוגניות שבמשפט 1.8.5.
+          עם $g(x)=x$ מקבלים $\|T_g\|=1$, כמו שצריך: $|xf(x)|\le|f(x)|$ על $[0,1]$. ועם $g$ קבועה $c$, $T_g=c\cdot\mathrm{id}$
+          ו-$\|T_g\|=|c|$, לפי ההומוגניות שבמשפט 1.8.5.
       - kind: result
         text: >-
-          $M_g$ חסומה ורציפה, ו-$\|M_g\|=\|g\|_\infty$, מתקבלת ב-$f\equiv1$.
+          $T_g$ חסומה ורציפה, ו-$\|T_g\|=\|g\|_\infty$, מתקבלת ב-$f\equiv1$.
 
   - id: W-1.8-07
     level: mid
@@ -293,13 +293,13 @@ practice:
       (ג) האם (ב) נכון גם להעתקה לינארית $T:V\to W$ כללית, כלומר: גרעין סגור גורר חסומה? בדקו את הגזירה
       $D:P\to P$ על הפולינומים עם נורמת הסופרמום.
 
-      (ד) נניח $\varphi\ne0$. הוכיחו ש-$\overline{\ker\varphi}$ תת-מרחב וקטורי של $V$, ושכל תת-מרחב $M$ עם
-      $\ker\varphi\subseteq M\subseteq V$ הוא $\ker\varphi$ או $V$. הסיקו: $\ker\varphi$ סגורה או צפופה, ו-$\varphi$
+      (ד) נניח $\varphi\ne0$. הוכיחו ש-$\overline{\ker\varphi}$ תת-מרחב וקטורי של $V$, ושכל תת-מרחב $Y$ עם
+      $\ker\varphi\subseteq Y\subseteq V$ הוא $\ker\varphi$ או $V$. הסיקו: $\ker\varphi$ סגורה או צפופה, ו-$\varphi$
       אינו חסום אם ורק אם $\ker\varphi$ צפופה.
     answer: >-
       (א) משפט 1.8.2, טענה 1.3.5 ומשפט 1.6.4. (ב) $y_n\in\ker\varphi$ ו-$y_n\to z$, אבל $\varphi(z)=1$: סתירה
-      לסגירות. (ג) לא: $\ker D$ היא הפולינומים הקבועים, קבוצה סגורה, ו-$D$ אינה חסומה. (ד) אם $w\in M$ ו-$\varphi(w)\ne0$,
-      כל $x$ הוא $\big(x-\frac{\varphi(x)}{\varphi(w)}w\big)+\frac{\varphi(x)}{\varphi(w)}w\in M$; לכן הסגור הוא
+      לסגירות. (ג) לא: $\ker D$ היא הפולינומים הקבועים, קבוצה סגורה, ו-$D$ אינה חסומה. (ד) אם $w\in Y$ ו-$\varphi(w)\ne0$,
+      כל $x$ הוא $\big(x-\frac{\varphi(x)}{\varphi(w)}w\big)+\frac{\varphi(x)}{\varphi(w)}w\in Y$; לכן הסגור הוא
       $\ker\varphi$ או $V$.
     solution:
       - kind: step
@@ -319,7 +319,7 @@ practice:
         text: >-
           נניח בשלילה ש-$\varphi$ אינו חסום. לפי משפט 1.8.2, (ה)$\Leftrightarrow$(ד), $\sup_{\|x\|\le1}|\varphi(x)|$ אינו
           סופי, ולכן לכל $n\in\mathbb{N}$ יש $x_n$ עם $\|x_n\|\le1$ ו-$|\varphi(x_n)|>n$; בוחרים סדרה כזו (בחירה
-          בת-מנייה). בפרט $\varphi(x_n)\ne0$, ונגדיר $y_n=z-\frac{x_n}{\varphi(x_n)}$.
+          בת מנייה). בפרט $\varphi(x_n)\ne0$, ונגדיר $y_n=z-\frac{x_n}{\varphi(x_n)}$.
       - kind: computation
         text: >-
           לפי הלינאריות $\varphi(y_n)=\varphi(z)-\frac{\varphi(x_n)}{\varphi(x_n)}=1-1=0$, כלומר $y_n\in\ker\varphi$.
@@ -343,18 +343,18 @@ practice:
       - kind: step
         text: >-
           (ד) **הסגור הוא תת-מרחב.** $0\in\ker\varphi\subseteq\overline{\ker\varphi}$. יהיו $x,y\in\overline{\ker\varphi}$
-          ו-$a,b\in\mathbb{R}$. לפי משפט 1.5.7 יש סדרות $x_n\to x$ ו-$y_n\to y$ ב-$\ker\varphi$ (בחירה בת-מנייה), ואז
+          ו-$a,b\in\mathbb{R}$. לפי משפט 1.5.7 יש סדרות $x_n\to x$ ו-$y_n\to y$ ב-$\ker\varphi$ (בחירה בת מנייה), ואז
           $ax_n+by_n\in\ker\varphi$ (לינאריות) ו-$ax_n+by_n\to ax+by$ (טענה 1.5.6). לפי משפט 1.5.7 שוב,
           $ax+by\in\overline{\ker\varphi}$.
       - kind: step
         text: >-
-          **אין תת-מרחב באמצע.** יהי $M$ תת-מרחב עם $\ker\varphi\subseteq M$ ו-$M\ne\ker\varphi$; יש $w\in M$ עם
-          $\varphi(w)\ne0$. לכל $x\in V$, הווקטור $x-\frac{\varphi(x)}{\varphi(w)}w$ נמצא ב-$\ker\varphi\subseteq M$ (לפי
-          הלינאריות, $\varphi$ שלו הוא $\varphi(x)-\varphi(x)=0$), ו-$\frac{\varphi(x)}{\varphi(w)}w\in M$. הסכום שלהם, $x$,
-          ב-$M$. לכן $M=V$.
+          **אין תת-מרחב באמצע.** יהי $Y$ תת-מרחב עם $\ker\varphi\subseteq Y$ ו-$Y\ne\ker\varphi$; יש $w\in Y$ עם
+          $\varphi(w)\ne0$. לכל $x\in V$, הווקטור $x-\frac{\varphi(x)}{\varphi(w)}w$ נמצא ב-$\ker\varphi\subseteq Y$ (לפי
+          הלינאריות, $\varphi$ שלו הוא $\varphi(x)-\varphi(x)=0$), ו-$\frac{\varphi(x)}{\varphi(w)}w\in Y$. הסכום שלהם, $x$,
+          ב-$Y$. לכן $Y=V$.
       - kind: step
         text: >-
-          **המסקנה.** עם $M=\overline{\ker\varphi}$: או $\overline{\ker\varphi}=\ker\varphi$, ואז $\ker\varphi$ סגורה
+          **המסקנה.** עם $Y=\overline{\ker\varphi}$: או $\overline{\ker\varphi}=\ker\varphi$, ואז $\ker\varphi$ סגורה
           (טענה 1.4.4), או $\overline{\ker\varphi}=V$, ואז $\ker\varphi$ צפופה (הגדרה 1.4.13). שתי האפשרויות לא מתקיימות
           יחד, כי $\ker\varphi\ne V$ ($\varphi\ne0$). לפי (א) ו-(ב), $\varphi$ אינו חסום אם ורק אם $\ker\varphi$ אינה
           סגורה, כלומר אם ורק אם היא צפופה.
@@ -395,7 +395,7 @@ practice:
       - kind: step
         text: >-
           (ב) $q_n=\frac{x^n}{2^{n/2}}$: $\|q_n\|_\infty=2^{-n/2}\to0$, ו-$S(q_n)=\frac{2^n}{2^{n/2}}=2^{n/2}\to\infty$.
-          לפי טענה 1.6.3 זו הפרה ישירה של רציפות ב-0: $q_n\to0$, אבל $S(q_n)\not\to S(0)=0$, כפי שמשפט 1.8.2 מנבא.
+          לפי משפט 1.6.3 זו הפרה ישירה של רציפות ב-0: $q_n\to0$, אבל $S(q_n)\not\to S(0)=0$, כפי שמשפט 1.8.2 מנבא.
       - kind: step
         text: >-
           (ג) $|E(p)|=|p(\tfrac12)|\le\max_{[0,1]}|p|=\|p\|_\infty$, ולכן לפי טענה 1.8.4(א) $\|E\|\le1$; והפולינום הקבוע
@@ -465,23 +465,23 @@ challenge:
     prompt: >-
       תהי $k$ פונקציה רציפה על הריבוע $[0,1]\times[0,1]$ עם $k(x,y)\ge0$ לכל $x,y$, ונגדיר על $(C[0,1],\|\cdot\|_\infty)$
       את **העתקת האינטגרל** $(Tf)(x)=\int_0^1k(x,y)\,f(y)\,dy$. הניחו (נוכיח את זה בפרק 3) ש-$Tf\in C[0,1]$ לכל
-      $f\in C[0,1]$, ושהפונקציה $K(x)=\int_0^1k(x,y)\,dy$ רציפה על $[0,1]$.
+      $f\in C[0,1]$, ושהפונקציה $\kappa(x)=\int_0^1k(x,y)\,dy$ רציפה על $[0,1]$.
 
-      (א) הוכיחו ש-$T$ לינארית וחסומה, ולכן רציפה, וש-$\|T\|_{\mathrm{op}}=\max_{x\in[0,1]}K(x)$.
+      (א) הוכיחו ש-$T$ לינארית וחסומה, ולכן רציפה, וש-$\|T\|_{\mathrm{op}}=\max_{x\in[0,1]}\kappa(x)$.
 
       (ב) חשבו את $\|T\|_{\mathrm{op}}$ עבור $k(x,y)=x+y$.
 
       (ג) עבור $k(x,y)=x-y$, שמחליף סימן, (א) אינו חל. הוכיחו בכל זאת ש-$\|T\|_{\mathrm{op}}=\max_x\int_0^1|x-y|\,dy$,
       וחשבו אותה.
     answer: >-
-      (א) $|Tf(x)|\le K(x)\|f\|_\infty$ נותן $\|T\|_{\mathrm{op}}\le\max K$, ו-$f\equiv1$ נותנת $Tf=K$, ולכן שוויון. (ב)
-      $K(x)=x+\frac12$, $\|T\|_{\mathrm{op}}=\frac32$. (ג) $\int_0^1|x-y|\,dy=\frac{x^2+(1-x)^2}2\le\frac12$, ו-$f\equiv-1$
+      (א) $|Tf(x)|\le \kappa(x)\|f\|_\infty$ נותן $\|T\|_{\mathrm{op}}\le\max\kappa$, ו-$f\equiv1$ נותנת $Tf=\kappa$, ולכן שוויון. (ב)
+      $\kappa(x)=x+\frac12$, $\|T\|_{\mathrm{op}}=\frac32$. (ג) $\int_0^1|x-y|\,dy=\frac{x^2+(1-x)^2}2\le\frac12$, ו-$f\equiv-1$
       נותנת $Tf(x)=\frac12-x$ עם $\|Tf\|_\infty=\frac12$; לכן $\|T\|_{\mathrm{op}}=\frac12$.
     solution:
       - kind: given
         text: >-
-          $k$ רציפה ו-$k\ge0$ על $[0,1]^2$; $Tf\in C[0,1]$ ו-$K(x)=\int_0^1k(x,y)\,dy$ רציפה (נתון). לפי משפט
-          ויירשטראס מאינפי 1, ל-$K$ יש מקסימום $M=\max_{[0,1]}K$.
+          $k$ רציפה ו-$k\ge0$ על $[0,1]^2$; $Tf\in C[0,1]$ ו-$\kappa(x)=\int_0^1k(x,y)\,dy$ רציפה (נתון). לפי משפט
+          ויירשטראס מאינפי 1, ל-$\kappa$ יש מקסימום $M=\max_{[0,1]}\kappa$.
       - kind: goal
         text: >-
           $\|T\|_{\mathrm{op}}=M$: חסם מלעיל $\|Tf\|_\infty\le M\|f\|_\infty$, ופונקציה אחת עם $\|f\|_\infty=1$ שמשיגה
@@ -497,16 +497,16 @@ challenge:
       - kind: step
         text: >-
           **חסם מלעיל:** לכל $f$ ולכל $x$, מכיוון ש-$k\ge0$,
-          $|(Tf)(x)|\le\int_0^1k(x,y)\,|f(y)|\,dy\le\|f\|_\infty\int_0^1k(x,y)\,dy=K(x)\|f\|_\infty\le M\|f\|_\infty$.
+          $|(Tf)(x)|\le\int_0^1k(x,y)\,|f(y)|\,dy\le\|f\|_\infty\int_0^1k(x,y)\,dy=\kappa(x)\|f\|_\infty\le M\|f\|_\infty$.
           לכן $\|Tf\|_\infty\le M\|f\|_\infty$: $T$ חסומה, לפי משפט 1.8.2 רציפה, ולפי טענה 1.8.4(א) $\|T\|_{\mathrm{op}}\le M$.
       - kind: step
         text: >-
-          **חסם מלרע:** $f\equiv1$ מקיימת $\|f\|_\infty=1$ ו-$(Tf)(x)=\int_0^1k(x,y)\,dy=K(x)$, ולכן
-          $\|Tf\|_\infty=\max|K|=M$ (כי $K\ge0$). לכן $\|T\|_{\mathrm{op}}\ge M$, וביחד $\|T\|_{\mathrm{op}}=M$. הסופרמום
+          **חסם מלרע:** $f\equiv1$ מקיימת $\|f\|_\infty=1$ ו-$(Tf)(x)=\int_0^1k(x,y)\,dy=\kappa(x)$, ולכן
+          $\|Tf\|_\infty=\max|\kappa|=M$ (כי $\kappa\ge0$). לכן $\|T\|_{\mathrm{op}}\ge M$, וביחד $\|T\|_{\mathrm{op}}=M$. הסופרמום
           בהגדרה 1.8.3 מתקבל כאן.
       - kind: computation
         text: >-
-          (ב) $k=x+y\ge0$ על הריבוע. $K(x)=\int_0^1(x+y)\,dy=x+\frac12$, עולה, ולכן $M=K(1)=\frac32$
+          (ב) $k=x+y\ge0$ על הריבוע. $\kappa(x)=\int_0^1(x+y)\,dy=x+\frac12$, עולה, ולכן $M=\kappa(1)=\frac32$
           ו-$\|T\|_{\mathrm{op}}=\frac32$.
       - kind: computation
         text: >-
@@ -538,18 +538,18 @@ challenge:
     stars: 1
     objectives: [OBJ-1.8-2, OBJ-1.8-1]
     prompt: >-
-      על $(C[0,1],\|\cdot\|_\infty)$ נגדיר $(Tf)(x)=f\big(\tfrac x2\big)$. מספר $\lambda$ הוא **ערך עצמי** של $T$ אם יש
-      $f\in C[0,1]$, $f\ne0$, עם $Tf=\lambda f$, כמו באלגברה לינארית.
+      על $(C[0,1],\|\cdot\|_\infty)$ נגדיר $(Tf)(x)=f\big(\tfrac x2\big)$. מספר $\mu$ הוא **ערך עצמי** של $T$ אם יש
+      $f\in C[0,1]$, $f\ne0$, עם $Tf=\mu f$, כמו באלגברה לינארית.
 
       (א) הוכיחו ש-$T$ לינארית וחסומה, וחשבו את $\|T\|_{\mathrm{op}}$.
 
-      (ב) הוכיחו שכל $\lambda\in(0,1]$ הוא ערך עצמי של $T$. רמז: $f_p(x)=x^p$ עם $p\ge0$.
+      (ב) הוכיחו שכל $\mu\in(0,1]$ הוא ערך עצמי של $T$. רמז: $f_p(x)=x^p$ עם $p\ge0$.
 
-      (ג) יהי $\lambda\in\mathbb{R}$ עם $|\lambda|>\|T\|_{\mathrm{op}}$, ו-$g(x)=x$. מצאו את **כל** הפונקציות
-      $f\in C[0,1]$ עם $Tf-\lambda f=g$.
+      (ג) יהי $\mu\in\mathbb{R}$ עם $|\mu|>\|T\|_{\mathrm{op}}$, ו-$g(x)=x$. מצאו את **כל** הפונקציות
+      $f\in C[0,1]$ עם $Tf-\mu f=g$.
     answer: >-
-      (א) $\|T\|_{\mathrm{op}}=1$. (ב) $Tx^p=2^{-p}x^p$, ו-$\lambda=2^{-p}$ עם $p=\log_2\frac1\lambda\ge0$. (ג) הפתרון
-      היחיד הוא $f(x)=\dfrac{x}{\frac12-\lambda}$.
+      (א) $\|T\|_{\mathrm{op}}=1$. (ב) $Tx^p=2^{-p}x^p$, ו-$\mu=2^{-p}$ עם $p=\log_2\frac1\mu\ge0$. (ג) הפתרון
+      היחיד הוא $f(x)=\dfrac{x}{\frac12-\mu}$.
     solution:
       - kind: given
         text: >-
@@ -559,7 +559,7 @@ challenge:
         text: >-
           $Tf$ מסתכלת רק על הערכים של $f$ ב-$[0,\tfrac12]$, ולכן לא יכולה להיות גדולה מ-$f$; קבועים מראים שהיא גם לא
           קטנה ממנה. ב-(ג) מנחשים פתרון מאותה צורה כמו $g$, ומשתמשים בנורמה כדי להראות שההפרש בין שני פתרונות חייב
-          להתאפס כש-$|\lambda|>\|T\|_{\mathrm{op}}$.
+          להתאפס כש-$|\mu|>\|T\|_{\mathrm{op}}$.
       - kind: step
         text: >-
           (א) **לינאריות:** $T(af+bh)(x)=af(\tfrac x2)+bh(\tfrac x2)=a(Tf)(x)+b(Th)(x)$.
@@ -571,26 +571,26 @@ challenge:
       - kind: step
         text: >-
           (ב) ל-$p\ge0$, $f_p(x)=x^p$ (ו-$f_0\equiv1$) רציפה על $[0,1]$ ואינה אפס,
-          ו-$(Tf_p)(x)=\left(\tfrac x2\right)^p=2^{-p}x^p=2^{-p}f_p(x)$. לכן $2^{-p}$ ערך עצמי. בהינתן $\lambda\in(0,1]$,
-          נבחר $p=\log_2\frac1\lambda$; מכיוון ש-$\frac1\lambda\ge1$, $p\ge0$, ו-$2^{-p}=\lambda$.
+          ו-$(Tf_p)(x)=\left(\tfrac x2\right)^p=2^{-p}x^p=2^{-p}f_p(x)$. לכן $2^{-p}$ ערך עצמי. בהינתן $\mu\in(0,1]$,
+          נבחר $p=\log_2\frac1\mu$; מכיוון ש-$\frac1\mu\ge1$, $p\ge0$, ו-$2^{-p}=\mu$.
       - kind: step
         text: >-
-          (ג) **קיום.** נחפש $f(x)=cx$: $(Tf-\lambda f)(x)=\frac{cx}2-\lambda cx=c\left(\tfrac12-\lambda\right)x$. מכיוון
-          ש-$|\lambda|>1$, $\lambda\ne\frac12$, ולכן $c=\frac{1}{\frac12-\lambda}$ נותן $Tf-\lambda f=g$.
+          (ג) **קיום.** נחפש $f(x)=cx$: $(Tf-\mu f)(x)=\frac{cx}2-\mu cx=c\left(\tfrac12-\mu\right)x$. מכיוון
+          ש-$|\mu|>1$, $\mu\ne\frac12$, ולכן $c=\frac{1}{\frac12-\mu}$ נותן $Tf-\mu f=g$.
       - kind: step
         text: >-
-          **יחידות.** אם $f_1,f_2$ שני פתרונות, $h=f_1-f_2$ מקיימת, מהלינאריות, $Th-\lambda h=g-g=0$, כלומר $Th=\lambda h$.
-          לפי טענה 1.8.4(א), $|\lambda|\,\|h\|_\infty=\|\lambda h\|_\infty=\|Th\|_\infty\le\|T\|_{\mathrm{op}}\|h\|_\infty=\|h\|_\infty$,
-          ולכן $(|\lambda|-1)\|h\|_\infty\le0$. מכיוון ש-$|\lambda|-1>0$, $\|h\|_\infty=0$, כלומר $h=0$ ו-$f_1=f_2$.
+          **יחידות.** אם $f_1,f_2$ שני פתרונות, $h=f_1-f_2$ מקיימת, מהלינאריות, $Th-\mu h=g-g=0$, כלומר $Th=\mu h$.
+          לפי טענה 1.8.4(א), $|\mu|\,\|h\|_\infty=\|\mu h\|_\infty=\|Th\|_\infty\le\|T\|_{\mathrm{op}}\|h\|_\infty=\|h\|_\infty$,
+          ולכן $(|\mu|-1)\|h\|_\infty\le0$. מכיוון ש-$|\mu|-1>0$, $\|h\|_\infty=0$, כלומר $h=0$ ו-$f_1=f_2$.
       - kind: check
         text: >-
-          $\lambda=3$: $f(x)=\frac{x}{\frac12-3}=-0.4x$. ב-$x=0.7$: $f(0.35)-3f(0.7)=-0.14+0.84=0.7=g(0.7)$.
-          ובניסוח של (ב): היחידות אומרת שאין ערך עצמי $\lambda$ עם $|\lambda|>1$, כי וקטור עצמי $h\ne0$ היה נותן
-          $|\lambda|\le\|T\|_{\mathrm{op}}=1$ (כמו בדוגמה 4 של השיעור).
+          $\mu=3$: $f(x)=\frac{x}{\frac12-3}=-0.4x$. ב-$x=0.7$: $f(0.35)-3f(0.7)=-0.14+0.84=0.7=g(0.7)$.
+          ובניסוח של (ב): היחידות אומרת שאין ערך עצמי $\mu$ עם $|\mu|>1$, כי וקטור עצמי $h\ne0$ היה נותן
+          $|\mu|\le\|T\|_{\mathrm{op}}=1$ (כמו בדוגמה 4 של השיעור).
       - kind: result
         text: >-
-          $\|T\|_{\mathrm{op}}=1$; כל $\lambda\in(0,1]$ ערך עצמי; ל-$|\lambda|>1$ הפתרון היחיד של $Tf-\lambda f=x$ הוא
-          $f(x)=\dfrac{x}{\frac12-\lambda}$.
+          $\|T\|_{\mathrm{op}}=1$; כל $\mu\in(0,1]$ ערך עצמי; ל-$|\mu|>1$ הפתרון היחיד של $Tf-\mu f=x$ הוא
+          $f(x)=\dfrac{x}{\frac12-\mu}$.
     source:
       name: 'University of Groningen, Functional Analysis (WBMA033-05), Final Exam, 4 April 2023'
       year: 2023

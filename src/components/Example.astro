@@ -4,6 +4,8 @@ interface Props {
   title?: string;
   id?: string;
 }
+// Lessons cite worked examples by number ("דוגמה 3"); the number is the last part of the id ex-<lesson>-<n>.
+const n = Astro.props.id?.match(/^ex-\d+-\d+-(\d+)$/)?.[1];
 ---
 
-<Block kind="example" {...Astro.props}><slot /></Block>
+<Block kind="example" num={n} {...Astro.props}><slot /></Block>

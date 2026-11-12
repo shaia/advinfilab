@@ -31,26 +31,30 @@ questions:
     objectives: [OBJ-1.8-2]
     level: basic
     prompt: >-
-      $A=\begin{pmatrix}1&2\\3&4\end{pmatrix}$ כהעתקה $(\mathbb{R}^2,\|\cdot\|_\infty)\to(\mathbb{R}^2,\|\cdot\|_\infty)$.
+      $A=\begin{pmatrix}1&-2\\-5&3\end{pmatrix}$ כהעתקה $(\mathbb{R}^2,\|\cdot\|_\infty)\to(\mathbb{R}^2,\|\cdot\|_\infty)$.
       חשבו את $\|A\|_{\mathrm{op}}$.
-    answer: 7
+    answer: 8
     tolerance: 0.001
     correctFeedback: >-
-      נכון: הסכום המקסימלי של ערכים מוחלטים בשורה, $\max(1+2,\ 3+4)=7$. הוא מתקבל ב-$x=(1,1)$: $Ax=(3,7)$.
+      נכון: לפי משפט 1.8.9, הסכום המקסימלי של ערכים מוחלטים בשורה, $\max(1+2,\ 5+3)=8$. הוא מתקבל בווקטור הסימנים
+      של השורה השנייה, $x=(-1,1)$: $Ax=(-3,8)$.
     wrongFeedback: >-
-      כל רכיב של $Ax$ הוא שורה כפול $x$, ולכן $|(Ax)_i|\le\sum_j|a_{ij}|\cdot\|x\|_\infty$. מצאו את השורה הגרועה.
+      כל רכיב של $Ax$ הוא שורה כפול $x$, ולכן $|(Ax)_i|\le\sum_j|a_{ij}|\cdot\|x\|_\infty$. מצאו את השורה הגרועה,
+      ואל תשכחו ערכים מוחלטים.
     commonWrong:
       - value: 6
         feedback: >-
-          6 הוא הסכום המקסימלי של **עמודה**, $\max(1+3,2+4)$: זו הנורמה בנורמת 1. בנורמת אינסוף סוכמים שורות.
+          6 הוא הסכום המקסימלי של **עמודה**, $\max(1+5,\ 2+3)$: זו נורמת האופרטור בנורמה 1 (משפט 1.8.8). בנורמת אינסוף
+          סוכמים שורות.
         misconception: MC-c1-opnorm-rowcol-swap
-      - value: 4
+      - value: 5
         feedback: >-
-          4 היא הכניסה הגדולה. $x=(1,1)$ עם $\|x\|_\infty=1$ נותן $\|Ax\|_\infty=7$, ולכן הנורמה לפחות 7.
+          5 הוא הערך המוחלט של הכניסה הגדולה. $x=(-1,1)$ עם $\|x\|_\infty=1$ נותן $\|Ax\|_\infty=8$, ולכן הנורמה לפחות 8.
         misconception: MC-c1-opnorm-entrywise
-      - value: 10
+      - value: 11
         feedback: >-
-          10 הוא סכום כל הכניסות. נורמת האופרטור היא $\sup_{\|x\|_\infty\le1}\|Ax\|_\infty$, וב-$x=(1,1)$ מקבלים 7.
+          11 הוא סכום הערכים המוחלטים של כל הכניסות. כל רכיב של $Ax$ משתמש בשורה אחת בלבד, ולכן הנורמה היא סכום
+          השורה הגדול, 8.
         misconception: MC-c1-opnorm-entrywise
 
   - id: Q-1.8-norm-1
@@ -82,16 +86,17 @@ questions:
     level: mid
     prompt: >-
       סדרו את שלבי ההוכחה: אם $T:V\to W$ לינארית ורציפה ב-$0$, אז $T$ חסומה.
-    help: סדרו את השלבים מהראשון לאחרון.
+    help: >-
+      סדרו את השלבים מהראשון לאחרון. כל שלב משתמש רק בעצמים שהוגדרו בשלבים שלפניו.
     items:
-      - id: eps
-        label: 'מרציפות ב-0 עם $\varepsilon=1$ (ו-$T0=0$): יש $\delta>0$ כך ש-$\|y\|<\delta$ גורר $\|Ty\|<1$.'
-      - id: scale
-        label: 'יהי $x\neq0$, ונגדיר $y=\frac{\delta}{2\|x\|}\,x$; אז $\|y\|=\frac\delta2<\delta$.'
       - id: apply
-        label: 'לכן $\|Ty\|<1$, ולפי הלינאריות $\|Ty\|=\frac{\delta}{2\|x\|}\,\|Tx\|$.'
+        label: 'הלינאריות נותנת $\|Ty\|=\frac{\delta}{2\|x\|}\,\|Tx\|$, והמספר הזה קטן מ-1.'
       - id: bound
-        label: 'מכאן $\|Tx\|<\frac2\delta\|x\|$; ול-$x=0$ זה טריוויאלי. לכן $T$ חסומה עם $M=\frac2\delta$.'
+        label: 'אי-השוויון $\|Tx\|\le\frac2\delta\|x\|$ מתקיים לכל $x\ne0$, וגם ל-$x=0$; זו חסימות עם $M=\frac2\delta$.'
+      - id: eps
+        label: 'הרציפות ב-0 עם $\varepsilon=1$ (ו-$T0=0$) נותנת $\delta>0$ כך ש-$\|y\|<\delta$ גורר $\|Ty\|<1$.'
+      - id: scale
+        label: 'ל-$x\neq0$ הווקטור $y=\frac{\delta}{2\|x\|}\,x$ מקיים $\|y\|=\frac\delta2<\delta$.'
     order: [eps, scale, apply, bound]
     correctFeedback: >-
       נכון. הרעיון: רציפות נותנת חסם על כדור קטן אחד, ולינאריות "מנפחת" אותו לכל המרחב, בתמורה לגורם $\frac2\delta$.
@@ -133,37 +138,41 @@ questions:
     objectives: [OBJ-1.8-2]
     level: mid
     prompt: >-
-      $A=\begin{pmatrix}1&1\\0&1\end{pmatrix}$ כהעתקה $(\mathbb{R}^2,\|\cdot\|_2)\to(\mathbb{R}^2,\|\cdot\|_2)$.
-      חשבו את $\|A\|_{\mathrm{op}}=\sqrt{\lambda_{\max}(A^TA)}$. (תשובה עשרונית בשלוש ספרות אחרי הנקודה מתקבלת.)
-    answer: 1.61803399
+      $A=\begin{pmatrix}1&2\\-1&1\end{pmatrix}$ כהעתקה $(\mathbb{R}^2,\|\cdot\|_2)\to(\mathbb{R}^2,\|\cdot\|_2)$.
+      חשבו את $\|A\|_{\mathrm{op}}$. (תשובה עשרונית בשלוש ספרות אחרי הנקודה מתקבלת.)
+    answer: 2.30277564
     tolerance: 0.0005
     correctFeedback: >-
-      נכון: $A^TA=\begin{pmatrix}1&1\\1&2\end{pmatrix}$, ערכיה העצמיים $\frac{3\pm\sqrt5}{2}$, והשורש של הגדול הוא
-      $\frac{1+\sqrt5}{2}\approx1.618$.
+      נכון. לפי משפט 1.8.10, $A^TA=\begin{pmatrix}2&1\\1&5\end{pmatrix}$, עם עקבה 7 ודטרמיננטה 9, ולכן הערכים העצמיים
+      $\frac{7\pm\sqrt{13}}{2}$, והשורש של הגדול הוא $\frac{1+\sqrt{13}}{2}\approx2.303$ (כי
+      $\left(\frac{1+\sqrt{13}}{2}\right)^2=\frac{14+2\sqrt{13}}{4}$).
     wrongFeedback: >-
-      חשבו את $A^TA$, את הפולינום האופייני שלה $\lambda^2-3\lambda+1$, ואת השורש של הערך העצמי הגדול.
+      לפי משפט 1.8.10 צריך את הערכים העצמיים של $A^TA$, לא של $A$ (ל-$A$ כאן אין ערכים עצמיים ממשיים). חשבו את
+      $A^TA$, את הפולינום האופייני שלה, ואת השורש של הערך העצמי הגדול.
     commonWrong:
-      - value: 1
+      - value: 5.30277564
         feedback: >-
-          1 הוא הערך העצמי (היחיד) של $A$. הנורמה האוקלידית היא שורש הערך העצמי הגדול של $A^TA$; לא-סימטרית כמו $A$
-          יכולה למתוח יותר: $\|A(0,1)\|_2=\|(1,1)\|_2=\sqrt2>1$.
-        misconception: MC-c1-opnorm-2-eigen
-      - value: 1.7320508
+          זה $\lambda_{\max}(A^TA)$ עצמו. לפי משפט 1.8.10 הנורמה היא **השורש** שלו: $\|Ax\|_2^2=\langle A^TAx,x\rangle$
+          מודד את ריבוע האורך.
+        misconception: MC-c1-norm-squared
+      - value: 2.64575131
         feedback: >-
-          $\sqrt3=\sqrt{1+1+0+1}$ הוא שורש סכום ריבועי הכניסות. זה רק חסם מלעיל לנורמה, לא הנורמה.
+          $\sqrt7=\sqrt{1+4+1+1}$ הוא שורש סכום ריבועי הכניסות, נורמת פרובניוס. לפי טענה 1.8.10ב זה רק חסם מלעיל
+          לנורמה, לא הנורמה.
         misconception: MC-c1-opnorm-entrywise
-      - value: 2
+      - value: 3
         feedback: >-
-          2 הוא $\|A\|_{\mathrm{op}}$ בנורמת 1 או בנורמת אינסוף. בנורמה האוקלידית התשובה אחרת.
+          3 הוא נורמת האופרטור כשהמישור נמדד בנורמה 1 (סכום עמודה) או בנורמת אינסוף (סכום שורה). בנורמה האוקלידית
+          התשובה אחרת.
         misconception: MC-c1-one-distance
 
   - id: Q-1.8-frobenius
     type: twotier
     objectives: [OBJ-1.8-2, OBJ-1.8-1]
     qualitative: true
-    level: mid
+    level: basic
     prompt: >-
-      נכון או לא: לכל מטריצה $A$ מסדר $m\times n$, כהעתקה בין המרחבים האוקלידיים,
+      נכון או לא: לכל מטריצה $A$ מגודל $m\times n$, כהעתקה בין המרחבים האוקלידיים,
       $\|A\|_{\mathrm{op}}\le\sqrt{\sum_{i,j}a_{ij}^2}$. (בפרט כל העתקה כזו חסומה, ולכן רציפה.)
     choices:
       - text: נכון
@@ -175,10 +184,11 @@ questions:
           $\|A\|_{\mathrm{op}}\approx5.465\le\sqrt{30}\approx5.477$.
         misconception: MC-c1-opnorm-entrywise
     reasons:
-      - text: '$\|Ax\|_2^2=\sum_i\langle r_i,x\rangle^2\le\sum_i\|r_i\|_2^2\|x\|_2^2=\left(\sum_{i,j}a_{ij}^2\right)\|x\|_2^2$'
+      - text: 'קושי-שוורץ לכל שורה $r_i$: $(Ax)_i^2\le\|r_i\|_2^2\|x\|_2^2$, ומסכמים על $i$'
         correct: true
         feedback: >-
-          בדיוק. זה חסם מפורש שלא משתמש בשום משפט על שקילות נורמות, ולכן אפשר להשתמש בו כבר עכשיו.
+          בדיוק: $\|Ax\|_2^2=\sum_i\langle r_i,x\rangle^2\le\left(\sum_{i,j}a_{ij}^2\right)\|x\|_2^2$ (טענה 1.8.10ב). זה
+          חסם מפורש שלא משתמש בשום משפט על שקילות נורמות.
       - text: 'נורמת האופרטור **שווה** ל-$\sqrt{\sum a_{ij}^2}$'
         feedback: >-
           לא תמיד: ל-$\begin{pmatrix}1&1\\0&1\end{pmatrix}$ הנורמה $\frac{1+\sqrt5}2\approx1.618$ והביטוי $\sqrt3$.
@@ -206,15 +216,16 @@ questions:
     commonWrong:
       - value: 1
         feedback: >-
-          1 הוא $\max_{[0,1]}x$, הנורמה של $T$ אילו התחום היה עם נורמת **האינטגרל**. עם נורמת הסופרמום החסם הוא
-          $\int_0^1x\,dx$.
-        misconception: MC-c1-one-distance
+          1 בא מהחסם הגס $x\le1$: $|Tf|\le\int_0^1|f|\le\|f\|_\infty$. זה חסם מלעיל נכון, אבל לא הדוק: הוא מוותר על
+          הגורם $x$, ואף $f$ עם $\|f\|_\infty\le1$ אינה מגיעה אליו. החסם $\int_0^1x\,|f(x)|\,dx\le\|f\|_\infty\int_0^1x\,dx$
+          חד יותר, ו-$f\equiv1$ משיגה אותו. (1 היה הנורמה אילו התחום היה עם נורמת **האינטגרל**.)
+        misconception: MC-c1-opnorm-upper-only
 
   - id: Q-1.8-deriv
     type: twotier
     objectives: [OBJ-1.8-3]
     qualitative: true
-    level: mid
+    level: basic
     prompt: >-
       $P$ הוא מרחב הפולינומים על $[0,1]$ עם נורמת הסופרמום, ו-$D:P\to P$, $Dp=p'$. האם $D$ חסומה?
     choices:
@@ -243,7 +254,7 @@ questions:
   - id: Q-1.8-props
     type: multi
     objectives: [OBJ-1.8-2]
-    level: mid
+    level: basic
     prompt: >-
       $S,T$ העתקות לינאריות חסומות (כך ש-$ST$ מוגדרת). אילו מהטענות נכונות תמיד? סמנו את כולן.
     choices:
@@ -258,6 +269,11 @@ questions:
           עם $S=\begin{pmatrix}1&0\\0&0\end{pmatrix}$, $T=\begin{pmatrix}0&0\\0&1\end{pmatrix}$: $ST=0$ ואילו
           $\|S\|\,\|T\|=1$. זה אי-שוויון, לא שוויון.
         misconception: MC-c1-triangle-wrong-form
+      - text: 'אם $T=A$ מטריצה ריבועית ממשית, אז $\|A\|_2=\max|\mu|$ על הערכים העצמיים הממשיים $\mu$ של $A$'
+        feedback: >-
+          רק למטריצה **סימטרית** (מסקנה 1.8.10א). ל-$N=\begin{pmatrix}0&1\\0&0\end{pmatrix}$ הערך העצמי היחיד $0$,
+          ו-$\|Ne_2\|_2=\|e_1\|_2=1$, ולכן $\|N\|_2\ge1$.
+        misconception: MC-c1-opnorm-2-eigen
       - text: '$\|S+T\|_{\mathrm{op}}\le\|S\|_{\mathrm{op}}+\|T\|_{\mathrm{op}}$'
         correct: true
         feedback: 'נכון: $\|(S+T)x\|\le\|Sx\|+\|Tx\|$. נורמת האופרטור היא נורמה על מרחב ההעתקות החסומות.'
@@ -265,7 +281,7 @@ questions:
   - id: Q-1.8-sign
     type: numeric
     objectives: [OBJ-1.8-2]
-    level: exam
+    level: mid
     prompt: >-
       $T:(C[0,1],\|\cdot\|_\infty)\to\mathbb{R}$, $Tf=\int_0^1(2x-1)f(x)\,dx$. חשבו את $\|T\|_{\mathrm{op}}$.
     answer: 0.5
@@ -292,7 +308,7 @@ questions:
     type: twotier
     objectives: [OBJ-1.8-1, OBJ-1.8-3]
     qualitative: true
-    level: exam
+    level: mid
     prompt: >-
       האם הפונקציונל $\varphi(f)=f(0)$ רציף על $(C[0,1],\|\cdot\|_1)$, עם $\|f\|_1=\int_0^1|f|$?
     choices:
@@ -322,7 +338,7 @@ questions:
     type: twotier
     objectives: [OBJ-1.8-3]
     qualitative: true
-    level: exam
+    level: mid
     prompt: >-
       על הפולינומים $P$ ב-$[0,1]$ נשנה את הנורמה **בתחום** ל-$\|p\|_{C^1}=\|p\|_\infty+\|p'\|_\infty$, ונשאיר
       $\|\cdot\|_\infty$ בטווח. האם $D:(P,\|\cdot\|_{C^1})\to(P,\|\cdot\|_\infty)$, $Dp=p'$, חסומה?
@@ -349,3 +365,70 @@ questions:
         feedback: >-
           לא: עם נורמת הסופרמום בתחום אותה $D$ אינה חסומה. כאן היא חסומה בגלל הנורמה שבחרנו, לא בגלל לינאריות.
         misconception: MC-c1-linear-always-continuous
+
+  - id: Q-1.8-inf-to-1
+    type: numeric
+    objectives: [OBJ-1.8-2]
+    level: exam
+    prompt: >-
+      $A=\begin{pmatrix}1&2\\3&-1\end{pmatrix}$, הפעם בין **שתי נורמות שונות**: כהעתקה
+      $(\mathbb{R}^2,\|\cdot\|_\infty)\to(\mathbb{R}^2,\|\cdot\|_1)$. חשבו את $\|A\|_{\mathrm{op}}$, והיו מוכנים להוכיח
+      גם חסם מלעיל וגם חסם מלרע.
+    answer: 5
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון: 5. **חסם מלעיל:** לכל ממשי $u$, $|u|=\max(u,-u)$, ולכן
+      $\|Ax\|_1=|x_1+2x_2|+|3x_1-x_2|$ הוא המקסימום, על $s_1,s_2\in\{\pm1\}$, של
+      $(s_1+3s_2)x_1+(2s_1-s_2)x_2$. לכל $x$, כל ביטוי כזה קטן או שווה ל-$\big(|s_1+3s_2|+|2s_1-s_2|\big)\|x\|_\infty$, כי $|x_1|,|x_2|\le\|x\|_\infty$, וארבע הבחירות של
+      הסימנים נותנות בסוגריים $5$, $5$, $5$, $5$. לכן $\|Ax\|_1\le5\|x\|_\infty$, ולפי טענה 1.8.4(א) $\|A\|\le5$. **חסם מלרע:** $x=(1,1)$ מקיים $\|x\|_\infty=1$
+      ו-$Ax=(3,2)$, עם $\|Ax\|_1=5$.
+    wrongFeedback: >-
+      הסופרמום הוא על הריבוע $\|x\|_\infty\le1$, והנורמה של התמונה היא $\|\cdot\|_1$. נסו את ארבע הפינות $(\pm1,\pm1)$,
+      ואז הוכיחו שאף $x$ בריבוע לא נותן יותר: כתבו כל ערך מוחלט כמקסימום של שני סימנים.
+    commonWrong:
+      - value: 4
+        feedback: >-
+          4 הוא סכום העמודה הגדול (משפט 1.8.8) וגם סכום השורה הגדול (משפט 1.8.9). שני המשפטים מניחים אותה נורמה בשני
+          הצדדים. כאן הפינה $x=(1,1)$, ש-$\|x\|_\infty=1$, נותנת $\|Ax\|_1=5>4$.
+        misconception: MC-c1-one-distance
+      - value: 7
+        feedback: >-
+          7 הוא סכום הערכים המוחלטים של כל הכניסות: החסם הגס $\|Ax\|_1\le\sum_{i,j}|a_{ij}|\,|x_j|\le7\|x\|_\infty$. הוא
+          נכון אבל לא הדוק: הסימנים בשורות "מתנגשים", ואף פינה לא נותנת יותר מ-5.
+        misconception: MC-c1-opnorm-upper-only
+
+  - id: Q-1.8-eval-new-norm
+    type: twotier
+    objectives: [OBJ-1.8-1, OBJ-1.8-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      על $C[0,1]$ נגדיר $\|f\|_*=\int_0^1|f|+|f(0)|$; זו נורמה (סכום של נורמת האינטגרל ושל $|f(0)|$). האם הפונקציונל
+      הלינארי $\psi(f)=f(1)$ רציף על $(C[0,1],\|\cdot\|_*)$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. $\psi$ לינארי ואינו חסום, ולכן לפי משפט 1.8.2 אינו רציף. (לעומתו $f\mapsto f(0)$ חסום, כי
+          $|f(0)|\le\|f\|_*$: הנורמה החדשה "רואה" רק את הנקודה 0.)
+      - text: כן
+        feedback: >-
+          הנורמה החדשה שולטת ב-$f(0)$, לא ב-$f(1)$. אוהל צר ליד 1 שמתאפס ב-0 קטן בנורמה $\|\cdot\|_*$, ובכל זאת
+          $\psi$ שלו 1.
+        misconception: MC-c1-one-distance
+    reasons:
+      - text: 'האוהלים $g_n(x)=\max(0,1-n(1-x))$ מקיימים $g_n(0)=0$, $\|g_n\|_*=\frac1{2n}$ ו-$\psi(g_n)=1$'
+        correct: true
+        feedback: >-
+          בדיוק. היחס $\frac{|\psi(g_n)|}{\|g_n\|_*}=2n$ אינו חסום, ולכן אין $M$ עם $|f(1)|\le M\|f\|_*$. בלשון סדרות:
+          $g_n\to0$ ב-$\|\cdot\|_*$, ו-$\psi(g_n)=1\not\to0$ (משפט 1.6.3).
+      - text: 'לפי הרציפות של $f$, הערך $f(1)$ קרוב ל-$f(0)$, ו-$|f(0)|\le\|f\|_*$; לכן $\psi$ חסום'
+        feedback: >-
+          רציפות של $f$ אחת לא נותנת חסם **אחיד**: $g_n$ רציפה, $g_n(0)=0$ ו-$g_n(1)=1$, ו-$\|g_n\|_*\to0$. החסם צריך
+          להיות $|f(1)|\le M\|f\|_*$ עם $M$ אחד לכל $f$.
+        misconception: MC-c1-quantifier-order
+      - text: 'בנורמה שיש בה אינטגרל אף ערך בנקודה אינו רציף, ולכן גם $\psi$ לא'
+        feedback: >-
+          המסקנה נכונה, והנימוק לא: $f\mapsto f(0)$ רציף על אותו מרחב, כי $|f(0)|\le\|f\|_*$. צריך דוגמה שמראה
+          ש-$\psi$ עצמו אינו חסום.
+        misconception: MC-c1-one-distance

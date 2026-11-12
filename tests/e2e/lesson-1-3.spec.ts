@@ -74,7 +74,8 @@ test.describe('lesson 1.3: balls, open sets and closed sets', () => {
 
   test('a text step never ticks a task, even one that puts the probe on an edge', async ({ page }) => {
     await page.goto(LESSON);
-    // the second step of 1.3א puts the probe at (1, 0.4) on the closed square: exactly the edge-point answer
+    // the last step of 1.3א puts the probe at (1, 0.4) on an edge of the closed square in the discrete metric:
+    // a radius change away from the discrete answer, which only the student's own change may tick
     for (const step of await page.locator('.step[data-fig="fig-1-3a"]').all()) {
       await step.scrollIntoViewIfNeeded();
       await page.waitForTimeout(120);

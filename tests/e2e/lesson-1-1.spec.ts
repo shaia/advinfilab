@@ -39,21 +39,28 @@ test.describe('lesson 1.1: metric spaces', () => {
     await page.goto(LESSON);
     const fig = await ready(page, 'fig-1-1a');
     const canvas = fig.locator('canvas');
-    // x = −1, y = 0.5, z = 2; y is selected: one step right keeps it between
-    await press(canvas, 'ArrowRight', 1);
+    // x = −1, y = 2.4, z = 2 (the figure does not start at an equality); y is selected
+    await expect(fig.locator('[data-readout="triangle"]')).not.toContainText('בשוויון');
+    // five steps left: y = 1.9, between x and z
+    await press(canvas, 'ArrowLeft', 5);
     await expect(fig.locator('[data-readout="triangle"]')).toContainText('בשוויון');
     await expect.poll(async () => (await progress(page))?.tasks?.['fig-1-1a:equality']).toBeTruthy();
-    // fifteen more: y = 2.1, past z
-    await press(canvas, 'ArrowRight', 15);
+    // two steps right: y = 2.1, past z
+    await press(canvas, 'ArrowRight', 2);
     await expect(fig.locator('[data-readout="points"]')).toContainText('y = 2.1');
     await expect(fig.locator('[data-readout="triangle"]')).not.toContainText('בשוויון');
     await expect(fig.locator('[data-readout="triangle"]')).not.toContainText('נכשל');
   });
 
-  test('(x − y)² breaks the triangle at −1, 0.5, 2, and choosing it ticks the task', async ({ page }) => {
+  test('(x − y)² holds at the start but breaks the triangle at −1, 0.5, 2, which ticks the task', async ({ page }) => {
     await page.goto(LESSON);
     const fig = await ready(page, 'fig-1-1a');
     await fig.getByRole('button', { name: '(x − y)²', exact: true }).click();
+    // at −1, 2.4, 2 the triangle holds: choosing the function alone must not answer the task
+    await expect(fig.locator('[data-readout="triangle"]')).not.toContainText('נכשל');
+    expect((await progress(page))?.tasks?.['fig-1-1a:break-square']).toBeFalsy();
+    // nineteen steps left: y = 0.5, strictly between x and z
+    await press(fig.locator('canvas'), 'ArrowLeft', 19);
     await expect(fig.locator('[data-readout="triangle"]')).toContainText('d(x,z) = 9');
     await expect(fig.locator('[data-readout="triangle"]')).toContainText('נכשל');
     await expect.poll(async () => (await progress(page))?.tasks?.['fig-1-1a:break-square']).toBeTruthy();
@@ -63,7 +70,8 @@ test.describe('lesson 1.1: metric spaces', () => {
     await page.goto(LESSON);
     const fig = await ready(page, 'fig-1-1a');
     await fig.getByRole('button', { name: '|x² − y²|', exact: true }).click();
-    await press(fig.locator('canvas'), 'ArrowRight', 5);
+    // y = 2.4 → 1: fourteen steps left
+    await press(fig.locator('canvas'), 'ArrowLeft', 14);
     await expect(fig.locator('[data-readout="points"]')).toContainText('x = −1, y = 1');
     await expect(fig.locator('[data-readout="zero"]')).toContainText('d(x,y) = 0');
     await expect.poll(async () => (await progress(page))?.tasks?.['fig-1-1a:zero-fail']).toBeTruthy();
@@ -82,7 +90,7 @@ test.describe('lesson 1.1: metric spaces', () => {
 
   test('a text step never ticks a task, even one that sets a failing triple', async ({ page }) => {
     await page.goto(LESSON);
-    // the second Explore step of 1.1א sets (x − y)² at 0, 1, 2: exactly the break-square answer
+    // the Explain steps of 1.1א set |x − y| at −1, 0.5, 2: exactly an equality triple
     for (const step of await page.locator('.step[data-fig="fig-1-1a"]').all()) {
       await step.scrollIntoViewIfNeeded();
       await page.waitForTimeout(120);

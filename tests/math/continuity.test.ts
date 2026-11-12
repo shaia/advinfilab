@@ -3,7 +3,18 @@
  */
 
 import { describe, expect, it } from 'vitest';
-import { PRESETS, deltaWorks, innerFits, normRatio, type NormP, type PresetId } from '~/math/continuity';
+import {
+  DOMAIN_PRESETS,
+  PRESETS,
+  deltaWorks,
+  deltaWorksOn,
+  innerFits,
+  normRatio,
+  sinBadNeighbours,
+  type DomainPresetId,
+  type NormP,
+  type PresetId,
+} from '~/math/continuity';
 import { pNorm } from '~/math/multivar';
 
 describe('exact values (closed formulas)', () => {
@@ -92,6 +103,128 @@ describe('brute force agrees with the formulas (sampling)', () => {
       }
       expect(worst).toBeLessThanOrEqual(C + 1e-12);
       expect(worst).toBeGreaterThan(C - 1e-6);
+    }
+  });
+});
+
+/* ---------------------------------------------- lesson 3.4: f restricted to a compact interval D (DOMAIN_PRESETS) */
+
+const DOMAIN_IDS: DomainPresetId[] = ['recip', 'sinrecip', 'sqrtc', 'squareW'];
+/** a parameter value that gives each preset a domain where δ* is finite somewhere */
+const PARAMS: Record<DomainPresetId, number[]> = { recip: [0.05, 0.2, 0.4], sinrecip: [0.05, 0.1, 0.25], sqrtc: [0, 0.01, 0.1], squareW: [1, 2, 4] };
+
+/** the smallest |x − a| over a fine grid of x ∈ D with |f(x) − f(a)| ≥ ε: δ*_D from above, to the grid step */
+function sampledNearest(id: DomainPresetId, a: number, eps: number, p: number, n = 200000) {
+  const P = DOMAIN_PRESETS[id];
+  const [lo, hi] = P.domain(p);
+  let best = Infinity;
+  for (let i = 0; i <= n; i++) {
+    const x = lo + ((hi - lo) * i) / n;
+    if (Math.abs(P.f(x) - P.f(a)) >= eps) best = Math.min(best, Math.abs(x - a));
+  }
+  return { best, step: (hi - lo) / n };
+}
+
+describe('lesson 3.4, exact values (closed formulas on a compact interval)', () => {
+  it('1/x on [c, 1] has uniform δ = c²ε/(1 − cε): 1/6 at c = ½, ε = ½, and 1/780 at c = 0.05', () => {
+    expect(DOMAIN_PRESETS.recip.uniformDelta(0.5, 0.5)).toBeCloseTo(1 / 6, 14);
+    expect(DOMAIN_PRESETS.recip.uniformDelta(0.5, 0.05)).toBeCloseTo(0.0025 * 0.5 / 0.975, 14);
+    expect(DOMAIN_PRESETS.recip.uniformDelta(0.5, 0.2)).toBeCloseTo(0.02 / 0.9, 14);
+    // the range [1, 1/c] is narrower than ε: every δ works
+    expect(DOMAIN_PRESETS.recip.uniformDelta(0.5, 0.8)).toBe(Infinity);
+  });
+
+  it('1/x at a = ½ on [0.2, 1], ε = ½: the nearest bad point is x = 0.4, at distance 0.1', () => {
+    const nb = DOMAIN_PRESETS.recip.nearestBad(0.5, 0.5, 0.2);
+    expect(nb.x).toBeCloseTo(0.4, 14);
+    expect(nb.dist).toBeCloseTo(0.1, 14);
+    expect(deltaWorksOn('recip', 0.5, 0.5, 0.1, 0.2)).toBe(true);
+    expect(deltaWorksOn('recip', 0.5, 0.5, 0.1001, 0.2)).toBe(false);
+  });
+
+  it('√x on [c, 1] has uniform δ = 2ε√c + ε², which is ε² on [0, 1]', () => {
+    expect(DOMAIN_PRESETS.sqrtc.uniformDelta(0.5, 0)).toBeCloseTo(0.25, 14);
+    expect(DOMAIN_PRESETS.sqrtc.uniformDelta(0.1, 0)).toBeCloseTo(0.01, 14);
+    expect(DOMAIN_PRESETS.sqrtc.uniformDelta(0.5, 0.04)).toBeCloseTo(0.2 + 0.25, 14);
+  });
+
+  it('x² on [−W, W] has uniform δ = W − √(W² − ε): 1 − √0.5 at W = 1, ε = ½', () => {
+    expect(DOMAIN_PRESETS.squareW.uniformDelta(0.5, 1)).toBeCloseTo(1 - Math.sqrt(0.5), 14);
+    expect(DOMAIN_PRESETS.squareW.uniformDelta(1, 0.5)).toBe(Infinity);
+    // the same at a = −W, by symmetry
+    expect(DOMAIN_PRESETS.squareW.nearestBad(-1, 0.5, 1).dist).toBeCloseTo(1 - Math.sqrt(0.5), 14);
+  });
+
+  it('sin(1/x) at uₐ = π/2, ε = ½: the nearest u with sin u ≤ ½ are 5π/6 above and π/6 below (arcsin ½ = π/6)', () => {
+    // s = 1: {sin u ≤ ½} starts at 5π/6 above π/2 and ends at π/6 below it
+    const { above, below } = sinBadNeighbours(Math.PI / 2, 0.5);
+    expect(above).toBeCloseTo((5 * Math.PI) / 6, 13);
+    expect(below).toBeCloseTo(Math.PI / 6, 13);
+  });
+});
+
+describe('lesson 3.4, brute force agrees (sampling)', () => {
+  it('δ*_D(a, ε) is the distance to the nearest sampled bad point, to two grid steps, for every preset', () => {
+    for (const id of DOMAIN_IDS) for (const p of PARAMS[id]) for (const eps of [0.3, 0.5]) {
+      const [lo, hi] = DOMAIN_PRESETS[id].domain(p);
+      for (const t of [0, 0.13, 0.37, 0.5, 0.81, 1]) {
+        const a = lo + (hi - lo) * t;
+        if (id === 'sqrtc' && a === 0) continue; // a = 0 is the domain's own end; checked by the formula test
+        const exact = DOMAIN_PRESETS[id].nearestBad(a, eps, p).dist;
+        const { best, step } = sampledNearest(id, a, eps, p);
+        if (exact === Infinity) expect(best).toBe(Infinity);
+        else expect(Math.abs(best - exact)).toBeLessThanOrEqual(2 * step + 1e-9);
+      }
+    }
+  });
+
+  it('the uniform δ is the smallest distance between two sampled points of D whose values differ by ≥ ε', () => {
+    for (const id of DOMAIN_IDS) for (const p of PARAMS[id]) {
+      const eps = 0.5;
+      const P = DOMAIN_PRESETS[id];
+      const [lo, hi] = P.domain(p);
+      // pairs (x, y) with x on a grid and y = the nearest bad point of x: the minimum over x is the infimum over pairs
+      let min = Infinity;
+      const n = 20000;
+      for (let i = 0; i <= n; i++) {
+        // sin(1/x) oscillates near c: grid evenly in u = 1/x there, evenly in x elsewhere
+        const x = id === 'sinrecip' ? 1 / (1 + ((1 / p - 1) * i) / n) : lo + ((hi - lo) * i) / n;
+        min = Math.min(min, P.nearestBad(x, eps, p).dist);
+      }
+      const u = P.uniformDelta(eps, p);
+      if (u === Infinity) expect(min).toBe(Infinity);
+      else {
+        // the formula (or the refined sample) is never above the grid minimum, and the grid gets within 1%
+        expect(u).toBeLessThanOrEqual(min + 1e-12);
+        expect(min).toBeLessThanOrEqual(u * 1.01 + 1e-12);
+      }
+    }
+  });
+});
+
+describe('lesson 3.4, limits (Cantor on [c, 1] versus its failure on (0, 1])', () => {
+  it('the uniform δ of 1/x and of sin(1/x) on [c, 1] tends to 0 as c → 0; that of √x stays above ε²', () => {
+    const eps = 0.5;
+    let prevR = Infinity;
+    let prevS = Infinity;
+    for (const c of [0.2, 0.1, 0.05, 0.02, 0.01]) {
+      const r = DOMAIN_PRESETS.recip.uniformDelta(eps, c);
+      const s = DOMAIN_PRESETS.sinrecip.uniformDelta(eps, c);
+      expect(r).toBeLessThan(prevR);
+      expect(s).toBeLessThan(prevS);
+      // both are of the order of c²: the oscillation of f near c happens over x-intervals of length ~ c²
+      expect(r).toBeLessThanOrEqual(c * c);
+      expect(s).toBeLessThanOrEqual(2 * c * c);
+      expect(DOMAIN_PRESETS.sqrtc.uniformDelta(eps, c)).toBeGreaterThan(eps * eps);
+      [prevR, prevS] = [r, s];
+    }
+  });
+
+  it('the uniform δ of x² on [−W, W] is squeezed between ε/(2W) and ε/W, so it tends to 0 as W → ∞', () => {
+    for (const W of [1, 2, 5, 10, 100]) {
+      const u = DOMAIN_PRESETS.squareW.uniformDelta(0.5, W);
+      expect(u).toBeGreaterThanOrEqual(0.5 / (2 * W));
+      expect(u).toBeLessThanOrEqual(0.5 / W);
     }
   });
 });

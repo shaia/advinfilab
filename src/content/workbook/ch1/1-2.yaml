@@ -142,14 +142,15 @@ practice:
     prompt: >-
       יהיו $\|\cdot\|_a$ ו-$\|\cdot\|_b$ שתי נורמות על מרחב וקטורי ממשי $V$. הוכיחו או הפריכו:
 
-      (א) $N(x)=\max\big(\|x\|_a,\ \|x\|_b\big)$ היא נורמה על $V$.
+      (א) $N_{\max}(x)=\max\big(\|x\|_a,\ \|x\|_b\big)$ היא נורמה על $V$.
 
-      (ב) $M(x)=\min\big(\|x\|_a,\ \|x\|_b\big)$ היא נורמה על $V$.
+      (ב) $N_{\min}(x)=\min\big(\|x\|_a,\ \|x\|_b\big)$ היא נורמה על $V$.
 
       (ג) הסבירו את (א) ואת (ב) דרך כדורי היחידה ובעזרת טענה 1.2.11.
     answer: >-
       (א) נכון. (ב) לא נכון: על $\mathbb{R}^2$ עם $\|x\|_a=|x_1|+2|x_2|$, $\|x\|_b=2|x_1|+|x_2|$,
-      $M(1,1)=3>2=M(1,0)+M(0,1)$. (ג) הכדור של $N$ הוא החיתוך, קמור; של $M$ האיחוד, לא קמור.
+      $N_{\min}(1,1)=3>2=N_{\min}(1,0)+N_{\min}(0,1)$. (ג) הכדור של $N_{\max}$ הוא החיתוך, קמור; של $N_{\min}$
+      האיחוד, לא קמור.
     solution:
       - kind: idea
         text: >-
@@ -157,25 +158,30 @@ practice:
           המקסימומים. במינימום, $x$ ו-$y$ יכולים "לבחור" נורמות שונות, ואז הסכום שלהם גדול בשתיהן.
       - kind: step
         text: >-
-          (א) (N1) $N(x)=0$ אם ורק אם $\|x\|_a=\|x\|_b=0$, אם ורק אם $x=0$. (N2) $\max(|\lambda|s,|\lambda|t)=|\lambda|\max(s,t)$
-          ל-$s,t\ge0$. (N3) לפי (N3) של $\|\cdot\|_a$, $\|x+y\|_a\le\|x\|_a+\|y\|_a\le N(x)+N(y)$, ובאותה שרשרת עם $b$
-          במקום $a$: $\|x+y\|_b\le\|x\|_b+\|y\|_b\le N(x)+N(y)$. לכן גם המקסימום, $N(x+y)$, לכל היותר $N(x)+N(y)$.
+          (א) (N1) $N_{\max}(x)=0$ אם ורק אם $\|x\|_a=\|x\|_b=0$, אם ורק אם $x=0$. (N2)
+          $\max(|\lambda|s,|\lambda|t)=|\lambda|\max(s,t)$ ל-$s,t\ge0$. (N3) לפי (N3) של $\|\cdot\|_a$,
+          $\|x+y\|_a\le\|x\|_a+\|y\|_a\le N_{\max}(x)+N_{\max}(y)$, ולפי (N3) של $\|\cdot\|_b$,
+          $\|x+y\|_b\le\|x\|_b+\|y\|_b\le N_{\max}(x)+N_{\max}(y)$. לכן גם המקסימום, $N_{\max}(x+y)$, לכל היותר
+          $N_{\max}(x)+N_{\max}(y)$.
       - kind: step
         text: >-
           (ב) $\|x\|_a=|x_1|+2|x_2|$ ו-$\|x\|_b=2|x_1|+|x_2|$ נורמות על $\mathbb{R}^2$ (דוגמה 3: $\|Ax\|_1$ עם מטריצה
-          אלכסונית הפיכה). $M(1,0)=\min(1,2)=1$, $M(0,1)=\min(2,1)=1$, ו-$M(1,1)=\min(3,3)=3>2$. (N3) נכשלת.
+          אלכסונית הפיכה). $N_{\min}(1,0)=\min(1,2)=1$, $N_{\min}(0,1)=\min(2,1)=1$, ו-$N_{\min}(1,1)=\min(3,3)=3>2$.
+          (N3) נכשלת.
       - kind: step
         text: >-
-          (ג) $N(x)\le1$ אם ורק אם $\|x\|_a\le1$ וגם $\|x\|_b\le1$: הכדור של $N$ הוא $K_a\cap K_b$, חיתוך של שתי
-          קבוצות קמורות (טענה 1.2.11, כיוון $\Rightarrow$), ולכן קמור. $M(x)\le1$ אם ורק אם $x\in K_a\cup K_b$.
+          (ג) $N_{\max}(x)\le1$ אם ורק אם $\|x\|_a\le1$ וגם $\|x\|_b\le1$: הכדור של $N_{\max}$ הוא $K_a\cap K_b$,
+          חיתוך של שתי קבוצות קמורות (טענה 1.2.11, הכיוון "נורמה, ולכן כדור קמור"), ולכן קמור. $N_{\min}(x)\le1$ אם
+          ורק אם $x\in K_a\cup K_b$.
       - kind: computation
         text: >-
           האיחוד אינו קמור: $(1,0)\in K_a$ ו-$(0,1)\in K_b$, אבל האמצע $(\tfrac12,\tfrac12)$ נותן
-          $\|\cdot\|_a=\|\cdot\|_b=\tfrac32>1$. ל-$M$ יש (N1) ו-(N2), ולכן לפי טענה 1.2.11 הכדור הלא-קמור הוא בדיוק
-          הסיבה ש-(N3) נכשלת.
+          $\|\cdot\|_a=\|\cdot\|_b=\tfrac32>1$. ל-$N_{\min}$ יש (N1) ו-(N2), ולכן לפי טענה 1.2.11 הכדור הלא-קמור הוא
+          בדיוק הסיבה ש-(N3) נכשלת.
       - kind: check
         text: >-
-          המספרים של (ב) ו-(ג) עקביים: $M(\tfrac12,\tfrac12)=\tfrac32=\tfrac12M(1,1)$, כפי ש-(N2) מחייבת.
+          המספרים של (ב) ו-(ג) עקביים: $N_{\min}(\tfrac12,\tfrac12)=\tfrac32=\tfrac12N_{\min}(1,1)$, כפי ש-(N2)
+          מחייבת.
       - kind: result
         text: >-
           המקסימום של שתי נורמות הוא נורמה; המינימום לא בהכרח.
@@ -221,7 +227,8 @@ practice:
     level: exam
     objectives: [OBJ-1.2-2, OBJ-1.2-1]
     prompt: >-
-      יהי $1<p<\infty$ ו-$q=\frac{p}{p-1}$ הצמוד שלו, ויהי $x\in\mathbb{R}^n$, $x\ne0$.
+      יהי $1<p<\infty$ ו-$q=\frac{p}{p-1}$ הצמוד שלו, ויהי $x\in\mathbb{R}^n$, $x\ne0$. כאן $\operatorname{sgn}(t)$,
+      הסימן של מספר ממשי $t$, הוא $1$ אם $t>0$, $-1$ אם $t<0$ ו-$0$ אם $t=0$; כך ש-$\operatorname{sgn}(t)\,t=|t|$.
 
       (א) הוכיחו שלכל $y\in\mathbb{R}^n$ עם $\|y\|_q\le1$ מתקיים $\sum_ix_iy_i\le\|x\|_p$.
 
@@ -235,8 +242,7 @@ practice:
     solution:
       - kind: given
         text: >-
-          $1<p<\infty$, $\frac1p+\frac1q=1$, $x\ne0$, ולכן $\|x\|_p>0$. כאן $\operatorname{sgn}(t)$ הוא $1$, $-1$ או $0$ לפי
-          הסימן של $t$, כך ש-$\operatorname{sgn}(t)\,t=|t|$.
+          $1<p<\infty$, $\frac1p+\frac1q=1$, $x\ne0$, ולכן $\|x\|_p>0$; ו-$\operatorname{sgn}(t)\,t=|t|$ לכל $t$.
       - kind: goal
         text: >-
           חסם עליון לכל $y$ בכדור $K_q$, ווקטור אחד בכדור שמשיג אותו: אז החסם הוא מקסימום.
@@ -282,7 +288,7 @@ practice:
 
       (ג) האם $\|\cdot\|_1$ על $\mathbb{R}^2$ מקיימת את זהות אפולוניוס? נמקו.
     answer: >-
-      (א) חוק המקבילית עם $u=z-x$, $v=z-y$. (ב) עם $z=0$ הזהות היא חוק המקבילית; משפט 1.2.17. (ג) לא:
+      (א) חוק המקבילית עם $u=z-x$, $v=z-y$. (ב) עם $z=0$ הזהות שקולה לחוק המקבילית; משפט 1.2.17. (ג) לא:
       $x=(1,0)$, $y=(0,1)$, $z=0$ נותנים $2\ne4$.
     solution:
       - kind: idea
@@ -297,7 +303,8 @@ practice:
           לפי (N2), $\|2(z-m)\|^2=4\|z-m\|^2$ ו-$\|y-x\|=\|x-y\|$. מחלקים ב-2: $2\|z-m\|^2+\tfrac12\|x-y\|^2=\|z-x\|^2+\|z-y\|^2$.
       - kind: step
         text: >-
-          (ב) יהיו $u,v\in V$. נציב בזהות $z=0$, $x=-u$, $y=-v$; אז $m=-\frac{u+v}2$, והזהות נותנת
+          (ב) יהיו $u,v\in V$. נציב בזהות $x=u$, $y=v$, $z=0$; אז $m=\frac{u+v}2$. לפי (N2),
+          $\|0-u\|=\|u\|$, $\|0-v\|=\|v\|$ ו-$\|0-m\|^2=\tfrac14\|u+v\|^2$, והזהות נותנת
           $\|u\|^2+\|v\|^2=\tfrac12\|u-v\|^2+2\cdot\tfrac14\|u+v\|^2$. מכפילים ב-2: $\|u+v\|^2+\|u-v\|^2=2\|u\|^2+2\|v\|^2$,
           לכל $u,v$. לפי משפט 1.2.17 הנורמה באה ממכפלה פנימית.
       - kind: computation
@@ -342,7 +349,7 @@ practice:
           ו-$f(x_1)\ne0$.
       - kind: step
         text: >-
-          הפונקציה $h(x)=|f(x)|\,x$ רציפה, אי-שלילית, ו-$h(x_1)>0$. לפי למה 1.2.19, $N(f)=\int_0^1h>0$.
+          הפונקציה $\psi(x)=|f(x)|\,x$ רציפה, אי-שלילית, ו-$\psi(x_1)>0$. לפי למה 1.2.19, $N(f)=\int_0^1\psi>0$.
       - kind: step
         text: >-
           (ב) על הקטע $[0,1]$ מתקיים $x\le1$, ולכן $|f(x)|\,x\le|f(x)|$, ולפי המונוטוניות $N(f)\le\int_0^1|f|=\|f\|_1$.
@@ -373,9 +380,9 @@ practice:
       (ב) אם $d$ המטריקה המושרית של נורמה על $V$, אז גם $\sqrt d$ (מטריקה לפי מסקנה 1.1.12) היא המטריקה המושרית של
       נורמה.
 
-      (ג) $\rho(x,y)=|\arctan x-\arctan y|$ על $\mathbb{R}$ היא המטריקה המושרית של נורמה.
+      (ג) $\eta(x,y)=|\arctan x-\arctan y|$ על $\mathbb{R}$ היא המטריקה המושרית של נורמה.
     answer: >-
-      (א) נכון: $N=\|\cdot\|_a+\|\cdot\|_b$. (ב) לא נכון: $\sqrt d$ אינה הומוגנית. (ג) לא נכון: $\rho<\pi$ חסומה.
+      (א) נכון: $N=\|\cdot\|_a+\|\cdot\|_b$. (ב) לא נכון: $\sqrt d$ אינה הומוגנית. (ג) לא נכון: $\eta<\pi$ חסומה.
     solution:
       - kind: idea
         text: >-
@@ -392,12 +399,12 @@ practice:
           מושרית מנורמה. (היא כן אינווריאנטית להזזות: ההנחה (ii) של טענה 1.2.4 היא שנכשלת.)
       - kind: step
         text: >-
-          (ג) **לא נכון.** $\rho$ מטריקה לפי טענה 1.1.13(ב): $\arctan$ עולה ממש, ולכן חד-חד-ערכית. $|\arctan t|<\frac\pi2$, ולכן $\rho(x,y)<\pi$ לכל $x,y$: $\rho$ חסומה, ולפי מסקנה
-          1.2.5(א) אינה מושרית מנורמה על $\mathbb{R}\ne\{0\}$.
+          (ג) **לא נכון.** $\eta$ מטריקה לפי טענה 1.1.13(ב): $\arctan$ עולה ממש, ולכן חד-חד-ערכית. $|\arctan t|<\frac\pi2$,
+          ולכן $\eta(x,y)<\pi$ לכל $x,y$: $\eta$ חסומה, ולפי מסקנה 1.2.5(א) אינה מושרית מנורמה על $\mathbb{R}\ne\{0\}$.
       - kind: computation
         text: >-
-          בדיקה נוספת ל-(ג): $\rho$ גם אינה אינווריאנטית להזזות. $\rho(1,0)=\frac\pi4\approx0.785$, ואילו
-          $\rho(2,1)=\arctan2-\frac\pi4\approx0.322$.
+          בדיקה נוספת ל-(ג): $\eta$ גם אינה אינווריאנטית להזזות. $\eta(1,0)=\frac\pi4\approx0.785$, ואילו
+          $\eta(2,1)=\arctan2-\frac\pi4\approx0.322$.
       - kind: check
         text: >-
           ב-(ב), עם $V=\mathbb{R}$ ו-$d=|x-y|$: $\sqrt{|4-0|}=2\ne4=4\sqrt{|1-0|}$. מתאים.
@@ -413,69 +420,72 @@ challenge:
       כאן משווים בין נורמות $p$ שונות. (חלקים (א) ו-(ג) הם חלקים 2 ו-3 של המקור; את חלק 1 שלו, שהנוסחה נורמה,
       הוכחנו בשיעור; חלק (ב) נוסף כאן.)
 
-      (א) הוכיחו ש-$\|x\|_p\le\|x\|_q$ כש-$1\le q\le p<\infty$, וש-$\|x\|_\infty\le\|x\|_q$. הראו שב-$x=e_1=(1,0,\dots,0)$
+      בתרגיל הזה $p$ ו-$s$ הם שני מעריכים, $1\le s\le p<\infty$; $s$ **אינו** המעריך הצמוד של $p$.
+
+      (א) הוכיחו ש-$\|x\|_p\le\|x\|_s$ כש-$1\le s\le p<\infty$, וש-$\|x\|_\infty\le\|x\|_s$. הראו שב-$x=e_1=(1,0,\dots,0)$
       כל אי-השוויונות האלה הם שוויונות.
 
-      (ב) הוכיחו ש-$\|x\|_q\le n^{1/q-1/p}\,\|x\|_p$ כש-$1\le q<p<\infty$, ושיש שוויון ב-$x=(1,\dots,1)$. (רמז: אי-שוויון
-      הלדר עם המעריך $r=\frac pq$.)
+      (ב) הוכיחו ש-$\|x\|_s\le n^{1/s-1/p}\,\|x\|_p$ כש-$1\le s<p<\infty$, ושיש שוויון ב-$x=(1,\dots,1)$. (רמז: אי-שוויון
+      הלדר עם המעריך $r=\frac ps$ והצמוד שלו.)
 
       (ג) הוכיחו ש-$\|x\|_p\to\|x\|_\infty$ כש-$p\to\infty$.
     answer: >-
-      (א) מנרמלים ל-$\|y\|_q=1$; אז $|y_i|\le1$ ו-$|y_i|^p\le|y_i|^q$. (ב) הלדר על $(|x_i|^q)$ ו-$(1,\dots,1)$ עם
-      $r=\frac pq$ ו-$r'=\frac{p}{p-q}$. (ג) $\|x\|_\infty\le\|x\|_p\le n^{1/p}\|x\|_\infty$.
+      (א) מנרמלים ל-$\|y\|_s=1$; אז $|y_i|\le1$ ו-$|y_i|^p\le|y_i|^s$. (ב) הלדר על $(|x_i|^s)$ ו-$(1,\dots,1)$ עם
+      $r=\frac ps$ והצמוד שלו $r'=\frac{p}{p-s}$. (ג) $\|x\|_\infty\le\|x\|_p\le n^{1/p}\|x\|_\infty$.
     solution:
       - kind: given
         text: >-
           $\|\cdot\|_p$ נורמה על $\mathbb{R}^n$ לכל $1\le p<\infty$ (משפט 1.2.10), ו-$\|\cdot\|_\infty$ נורמה (טענה 1.2.6).
       - kind: goal
         text: >-
-          (א) $p\mapsto\|x\|_p$ אינה עולה; (ב) חסם הפוך עם הקבוע $n^{1/q-1/p}$, והוא הטוב ביותר; (ג) הגבול.
+          (א) $p\mapsto\|x\|_p$ אינה עולה; (ב) חסם הפוך עם הקבוע $n^{1/s-1/p}$, והוא הטוב ביותר; (ג) הגבול.
       - kind: idea
         text: >-
-          (א) הומוגניות מאפשרת לנרמל: לווקטור עם $\|y\|_q=1$ כל הקואורדינטות לכל היותר 1 בערכן המוחלט, ולמספר
-          ב-$[0,1]$ חזקה גדולה יותר קטנה יותר. (ב) $\sum|x_i|^q=\sum|x_i|^q\cdot1$ הוא מכפלה של שני וקטורים, ועליה
-          הלדר. (ג) סנדוויץ'.
+          (א) הומוגניות מאפשרת לנרמל: לווקטור עם $\|y\|_s=1$ כל הקואורדינטות לכל היותר 1 בערכן המוחלט, ולמספר
+          ב-$[0,1]$ חזקה גדולה יותר קטנה יותר. (ב) $\sum|x_i|^s=\sum|x_i|^s\cdot1$ הוא סכום מכפלות הקואורדינטות של
+          שני וקטורים, ועליו הלדר. (ג) סנדוויץ'.
       - kind: step
         text: >-
-          (א) אם $x=0$ אין מה להוכיח. אחרת נסמן $y=\frac{x}{\|x\|_q}$, כך ש-$\sum_i|y_i|^q=1$. כל מחובר בסכום הזה
-          קטן או שווה לסכום, ולכן $|y_i|^q\le1$, כלומר $|y_i|\le1$. ל-$0\le s\le1$ ו-$p\ge q$,
-          $s^p=s^q\cdot s^{p-q}\le s^q$. לכן $\sum_i|y_i|^p\le\sum_i|y_i|^q=1$, כלומר $\|y\|_p\le1$. לפי (N2):
-          $\|x\|_p=\|x\|_q\,\|y\|_p\le\|x\|_q$.
+          (א) אם $x=0$ אין מה להוכיח. אחרת נסמן $y=\frac{x}{\|x\|_s}$, כך ש-$\sum_i|y_i|^s=1$. כל מחובר בסכום הזה
+          קטן או שווה לסכום, ולכן $|y_i|^s\le1$, כלומר $|y_i|\le1$. ל-$0\le t\le1$ ו-$p\ge s$,
+          $t^p=t^s\cdot t^{p-s}\le t^s$. לכן $\sum_i|y_i|^p\le\sum_i|y_i|^s=1$, כלומר $\|y\|_p\le1$. לפי (N2):
+          $\|x\|_p=\|x\|_s\,\|y\|_p\le\|x\|_s$.
       - kind: step
         text: >-
-          לאינסוף: יש $j$ עם $|x_j|=\|x\|_\infty$, ו-$|x_j|^q$ הוא אחד המחוברים של $\sum_i|x_i|^q$. לכן
-          $\|x\|_\infty^q\le\|x\|_q^q$, כלומר $\|x\|_\infty\le\|x\|_q$.
+          לאינסוף: יש $j$ עם $|x_j|=\|x\|_\infty$, ו-$|x_j|^s$ הוא אחד המחוברים של $\sum_i|x_i|^s$. לכן
+          $\|x\|_\infty^s\le\|x\|_s^s$, כלומר $\|x\|_\infty\le\|x\|_s$.
       - kind: computation
         text: >-
           ב-$e_1$: $\|e_1\|_p=(1^p)^{1/p}=1$ לכל $1\le p<\infty$, ו-$\|e_1\|_\infty=1$. לכן
-          $\|e_1\|_\infty=\|e_1\|_p=\|e_1\|_q$: אי-השוויונות של (א) הם שוויונות, ואי אפשר להחליף אותם בקבוע קטן מ-1.
+          $\|e_1\|_\infty=\|e_1\|_p=\|e_1\|_s$: אי-השוויונות של (א) הם שוויונות, ואי אפשר להחליף אותם בקבוע קטן מ-1.
       - kind: step
         text: >-
-          (ב) $r=\frac pq>1$, והצמוד שלו $r'=\frac{r}{r-1}=\frac{p}{p-q}$. לפי משפט 1.2.9 על הווקטורים $a=(|x_1|^q,\dots,|x_n|^q)$
-          ו-$b=(1,\dots,1)$: $\sum_i|x_i|^q\le\Big(\sum_i|x_i|^{qr}\Big)^{1/r}\Big(\sum_i1\Big)^{1/r'}=\Big(\sum_i|x_i|^p\Big)^{q/p}n^{(p-q)/p}$.
+          (ב) $r=\frac ps>1$, והצמוד שלו $r'=\frac{r}{r-1}=\frac{p}{p-s}$. לפי משפט 1.2.9, עם המעריכים הצמודים $r$
+          ו-$r'$, על הווקטורים $a=(|x_1|^s,\dots,|x_n|^s)$ ו-$b=(1,\dots,1)$:
+          $\sum_i|x_i|^s\le\Big(\sum_i|x_i|^{sr}\Big)^{1/r}\Big(\sum_i1\Big)^{1/r'}=\Big(\sum_i|x_i|^p\Big)^{s/p}n^{(p-s)/p}$.
       - kind: step
         text: >-
-          מעלים בחזקת $\frac1q$ (פונקציה עולה על $[0,\infty)$): $\|x\|_q\le\|x\|_p\cdot n^{\frac{p-q}{pq}}=n^{1/q-1/p}\|x\|_p$.
-          ב-$x=(1,\dots,1)$: $\|x\|_q=n^{1/q}$ ו-$n^{1/q-1/p}\|x\|_p=n^{1/q-1/p}n^{1/p}=n^{1/q}$, שוויון; לכן אי אפשר
+          מעלים בחזקת $\frac1s$ (פונקציה עולה על $[0,\infty)$): $\|x\|_s\le\|x\|_p\cdot n^{\frac{p-s}{ps}}=n^{1/s-1/p}\|x\|_p$.
+          ב-$x=(1,\dots,1)$: $\|x\|_s=n^{1/s}$ ו-$n^{1/s-1/p}\|x\|_p=n^{1/s-1/p}n^{1/p}=n^{1/s}$, שוויון; לכן אי אפשר
           להקטין את הקבוע.
       - kind: step
         text: >-
-          (ג) נסמן $m=\|x\|_\infty$. כל מחובר $|x_i|^p$ הוא לכל היותר $m^p$, ואחד מהם שווה $m^p$:
-          $m^p\le\sum_i|x_i|^p\le n\,m^p$. מוציאים שורש מסדר $p$: $m\le\|x\|_p\le n^{1/p}m$. כש-$p\to\infty$,
-          $n^{1/p}=e^{(\ln n)/p}\to1$, ולפי כלל הסנדוויץ' $\|x\|_p\to m$.
+          (ג) נסמן $\mu=\|x\|_\infty$. כל מחובר $|x_i|^p$ הוא לכל היותר $\mu^p$, ואחד מהם שווה $\mu^p$:
+          $\mu^p\le\sum_i|x_i|^p\le n\,\mu^p$. מוציאים שורש מסדר $p$: $\mu\le\|x\|_p\le n^{1/p}\mu$. כש-$p\to\infty$,
+          $n^{1/p}=e^{(\ln n)/p}\to1$, ולפי כלל הסנדוויץ' $\|x\|_p\to\mu$.
       - kind: check
         text: >-
           $x=(3,4)$: $\|x\|_1=7$, $\|x\|_2=5$, $\|x\|_3\approx4.4979$, $\|x\|_{10}\approx4.0220$,
           $\|x\|_{100}\approx4.0000$, ו-$\|x\|_\infty=4$: הסדרה יורדת, כמו ש-(א) אומר, ומתקרבת ל-$4$, כמו ש-(ג) אומר.
-          ו-(ב) עם $q=1$, $p=2$: $7\le\sqrt2\cdot5\approx7.071$.
+          ו-(ב) עם $s=1$, $p=2$: $7\le\sqrt2\cdot5\approx7.071$.
       - kind: result
         text: >-
-          ל-$1\le q\le p<\infty$: $\|x\|_\infty\le\|x\|_p\le\|x\|_q\le n^{1/q-1/p}\|x\|_p$; שני אי-השוויונות הראשונים
+          ל-$1\le s\le p<\infty$: $\|x\|_\infty\le\|x\|_p\le\|x\|_s\le n^{1/s-1/p}\|x\|_p$; שני אי-השוויונות הראשונים
           שוויונות ב-$e_1$, והשלישי ב-$(1,\dots,1)$, ולכן אף קבוע אינו ניתן לשיפור; ו-$\|x\|_p\to\|x\|_\infty$.
     source:
       name: 'Universität Stuttgart, Mathematik-Online (authors as shown on the page: Höllig/Höfert), Aufgabe 457: P-Norm (undated problem; the year is the page''s "automatisch erstellt am 18. 1. 2017" line)'
       year: 2017
-      problem: 'Problem 457, parts 2 and 3 (part 1 is proved in the lesson; part (ב) here, the bound with n^{1/q-1/p}, is added)'
+      problem: 'Problem 457, parts 2 and 3 (part 1 is proved in the lesson; part (ב) here, the bound with n^{1/s-1/p}, is added)'
       url: 'https://morw-en.mathematik.uni-stuttgart.de/inhalt/aufgabe/aufgabe457'
       verified: '2026-11-10'
       adapted: true
@@ -487,26 +497,30 @@ challenge:
       במשפט 1.2.17 הוכחנו שנורמה על מרחב **ממשי** שמקיימת את חוק המקבילית באה ממכפלה פנימית. כאן המקרה המרוכב.
       יהי $V$ מרחב וקטורי מעל $\mathbb{C}$ עם נורמה מרוכבת: (N1), (N3), ו-$\|\lambda x\|=|\lambda|\,\|x\|$ לכל
       $\lambda\in\mathbb{C}$, שמקיימת את חוק המקבילית לכל $u,v\in V$. מכפלה פנימית מרוכבת (אלגברה לינארית 2) היא
-      $(\cdot,\cdot):V\times V\to\mathbb{C}$, לינארית במשתנה הראשון, עם $(y,x)=\overline{(x,y)}$ ו-$(x,x)>0$ לכל $x\ne0$.
+      פונקציה $\langle\cdot,\cdot\rangle_{\mathbb{C}}:V\times V\to\mathbb{C}$, לינארית במשתנה הראשון, עם
+      $\langle y,x\rangle_{\mathbb{C}}=\overline{\langle x,y\rangle_{\mathbb{C}}}$ ו-$\langle x,x\rangle_{\mathbb{C}}>0$
+      לכל $x\ne0$. (הכתיב $\langle\cdot,\cdot\rangle$, בלי האינדקס, שמור כאן למכפלה הממשית של (א).)
 
       (א) $V$ הוא גם מרחב וקטורי ממשי. הסבירו למה משפט 1.2.17 חל עליו, ונסמן ב-$\langle\cdot,\cdot\rangle$ את המכפלה
       הפנימית הממשית שהוא נותן. הוכיחו ש-$\langle ix,iy\rangle=\langle x,y\rangle$ ו-$\langle ix,y\rangle=-\langle x,iy\rangle$.
 
-      (ב) נגדיר $(x,y)=\langle x,y\rangle+i\langle x,iy\rangle$. הוכיחו ש-$(\cdot,\cdot)$ מכפלה פנימית מרוכבת
-      עם $(x,x)=\|x\|^2$, ושמתקיימת זהות הקיטוב המרוכבת
-      $(x,y)=\tfrac14\big(\|x+y\|^2-\|x-y\|^2+i\|x+iy\|^2-i\|x-iy\|^2\big)$.
+      (ב) נגדיר $\langle x,y\rangle_{\mathbb{C}}=\langle x,y\rangle+i\langle x,iy\rangle$. הוכיחו ש-$\langle\cdot,\cdot\rangle_{\mathbb{C}}$
+      מכפלה פנימית מרוכבת עם $\langle x,x\rangle_{\mathbb{C}}=\|x\|^2$, ושמתקיימת זהות הקיטוב המרוכבת
+      $\langle x,y\rangle_{\mathbb{C}}=\tfrac14\big(\|x+y\|^2-\|x-y\|^2+i\|x+iy\|^2-i\|x-iy\|^2\big)$.
 
-      (ג) בדקו את הזהות ב-$\mathbb{C}^2$ עם המכפלה $(x,y)=x_1\overline{y_1}+x_2\overline{y_2}$, $x=(1,i)$, $y=(2,1-i)$.
+      (ג) בדקו את הזהות ב-$\mathbb{C}^2$ עם המכפלה $\langle x,y\rangle_{\mathbb{C}}=x_1\overline{y_1}+x_2\overline{y_2}$,
+      $x=(1,i)$, $y=(2,1-i)$.
     answer: >-
-      (א) צמצום לסקלרים ממשיים, ו-$\|iz\|=\|z\|$. (ב) $(ix,y)=i(x,y)$ מ-(א); הצמידות מהסימטריה של $\langle\cdot,\cdot\rangle$;
-      $\langle x,ix\rangle=0$. (ג) שני האגפים $1+i$.
+      (א) צמצום לסקלרים ממשיים, ו-$\|iz\|=\|z\|$. (ב) $\langle ix,y\rangle_{\mathbb{C}}=i\langle x,y\rangle_{\mathbb{C}}$
+      מ-(א); הצמידות מהסימטריה של $\langle\cdot,\cdot\rangle$; $\langle x,ix\rangle=0$. (ג) שני האגפים $1+i$.
     solution:
       - kind: given
         text: >-
           $V$ מעל $\mathbb{C}$, $\|\cdot\|$ נורמה מרוכבת שמקיימת $\|u+v\|^2+\|u-v\|^2=2\|u\|^2+2\|v\|^2$.
       - kind: goal
         text: >-
-          מכפלה פנימית מרוכבת $(\cdot,\cdot)$ עם $(x,x)=\|x\|^2$, ונוסחה שלה דרך הנורמה.
+          מכפלה פנימית מרוכבת $\langle\cdot,\cdot\rangle_{\mathbb{C}}$ עם $\langle x,x\rangle_{\mathbb{C}}=\|x\|^2$, ונוסחה
+          שלה דרך הנורמה.
       - kind: idea
         text: >-
           המשפט הממשי נותן את החלק הממשי של המכפלה. את החלק המדומה נותנת אותה מכפלה ממשית עם $iy$, כי ב-$\mathbb{C}$
@@ -522,22 +536,29 @@ challenge:
           ומאותה זהות עם $ix$ במקום $x$, ומהלינאריות הממשית: $\langle ix,y\rangle=\langle i(ix),iy\rangle=\langle -x,iy\rangle=-\langle x,iy\rangle$.
       - kind: step
         text: >-
-          (ב) **חיבוריות והומוגניות ממשית** במשתנה הראשון: $(x,y)$ בנוי משתי פונקציות לינאריות (מעל $\mathbb{R}$) של
-          $x$, $\langle x,y\rangle$ ו-$\langle x,iy\rangle$.
+          (ב) **חיבוריות והומוגניות ממשית** במשתנה הראשון: $\langle x,y\rangle_{\mathbb{C}}$ בנוי משתי פונקציות
+          לינאריות (מעל $\mathbb{R}$) של $x$, $\langle x,y\rangle$ ו-$\langle x,iy\rangle$.
       - kind: computation
         text: >-
-          **הכפלה ב-$i$.** לפי (א): $(ix,y)=\langle ix,y\rangle+i\langle ix,iy\rangle=-\langle x,iy\rangle+i\langle x,y\rangle=i\big(\langle x,y\rangle+i\langle x,iy\rangle\big)=i(x,y)$.
-          לכן ל-$\lambda=a+ib$: $(\lambda x,y)=(ax+b\,ix,y)=a(x,y)+b\,i(x,y)=\lambda(x,y)$.
+          **הכפלה ב-$i$.** לפי (א):
+
+          $$\begin{aligned}\langle ix,y\rangle_{\mathbb{C}}&=\langle ix,y\rangle+i\langle ix,iy\rangle=-\langle x,iy\rangle+i\langle x,y\rangle\\&=i\big(\langle x,y\rangle+i\langle x,iy\rangle\big)=i\langle x,y\rangle_{\mathbb{C}}.\end{aligned}$$
+
+          לכן ל-$\lambda=a+ib$:
+          $\langle\lambda x,y\rangle_{\mathbb{C}}=\langle ax+b\,ix,y\rangle_{\mathbb{C}}=a\langle x,y\rangle_{\mathbb{C}}+b\,i\langle x,y\rangle_{\mathbb{C}}=\lambda\langle x,y\rangle_{\mathbb{C}}$.
       - kind: computation
         text: >-
-          **צמידות.** לפי הסימטריה של $\langle\cdot,\cdot\rangle$ ו-(א): $(y,x)=\langle y,x\rangle+i\langle y,ix\rangle=\langle x,y\rangle+i\langle ix,y\rangle=\langle x,y\rangle-i\langle x,iy\rangle=\overline{(x,y)}$.
+          **צמידות.** לפי הסימטריה של $\langle\cdot,\cdot\rangle$ ו-(א):
+
+          $$\begin{aligned}\langle y,x\rangle_{\mathbb{C}}&=\langle y,x\rangle+i\langle y,ix\rangle=\langle x,y\rangle+i\langle ix,y\rangle\\&=\langle x,y\rangle-i\langle x,iy\rangle=\overline{\langle x,y\rangle_{\mathbb{C}}}.\end{aligned}$$
       - kind: step
         text: >-
           **חיוביות.** $\langle x,ix\rangle=-\langle ix,x\rangle$ (לפי (א) עם $y=x$), וגם $\langle x,ix\rangle=\langle ix,x\rangle$
-          (סימטריה); לכן $\langle x,ix\rangle=0$ ו-$(x,x)=\langle x,x\rangle=\|x\|^2>0$ ל-$x\ne0$.
+          (סימטריה); לכן $\langle x,ix\rangle=0$ ו-$\langle x,x\rangle_{\mathbb{C}}=\langle x,x\rangle=\|x\|^2>0$ ל-$x\ne0$.
       - kind: step
         text: >-
-          **הנוסחה.** לפי ההגדרה שב-(א), $\langle x,iy\rangle=\frac14\big(\|x+iy\|^2-\|x-iy\|^2\big)$; מציבים ב-$(x,y)=\langle x,y\rangle+i\langle x,iy\rangle$.
+          **הנוסחה.** לפי ההגדרה שב-(א), $\langle x,iy\rangle=\frac14\big(\|x+iy\|^2-\|x-iy\|^2\big)$; מציבים
+          ב-$\langle x,y\rangle_{\mathbb{C}}=\langle x,y\rangle+i\langle x,iy\rangle$.
       - kind: computation
         text: >-
           (ג) $x+y=(3,\ 1)$, $x-y=(-1,\ -1+2i)$, $iy=(2i,\ 1+i)$, $x+iy=(1+2i,\ 1+2i)$, $x-iy=(1-2i,\ -1)$. הריבועים:

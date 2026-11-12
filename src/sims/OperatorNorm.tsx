@@ -1,20 +1,24 @@
 /**
- * Lesson 1.7's figure: the operator norm of a 2×2 matrix, drawn. In one plane, with one p-norm (p = 1, 2, ∞) on
- * both sides: the unit ball B = {‖x‖_p ≤ 1} (cool: the inputs), its image A(B) (warm: the outputs), and the ball
+ * Lesson 1.8's figure: the operator norm of a 2×2 matrix, drawn. In one plane, with one p-norm (p = 1, 2, ∞) on
+ * both sides: the unit ball {‖x‖_p ≤ 1} (cool: the inputs), its image under A (warm: the outputs), and the ball
  * of radius ‖A‖_op in the same norm (green, dashed). The image always fits inside that ball and touches it: that
  * is what "the smallest M with ‖Ax‖ ≤ M‖x‖" looks like.
  *
- * The student turns a unit vector x around the sphere and watches ‖Ax‖_p. When x is a direction where A stretches
- * most, Ax lands on the green sphere and is drawn filled; otherwise it is hollow with a ring (shape, not only
- * colour). The norms come from the closed formulas in src/math/opnorm2d.ts (largest column sum, largest row sum,
- * √λ_max(AᵀA)); the figure checks one direction at a time, which is evidence, and the caption says so.
+ * The student turns a unit vector x around the sphere and watches ‖Ax‖_p. The answer (the green ball, the value
+ * of ‖A‖, the crosses at the maximising directions, the filled/hollow mark on Ax and the three-norm line) stays
+ * hidden until it is revealed: by the "show" toggle (showMax), or by ticking the task that asks for it in the
+ * current setting. Once revealed, Ax on the green sphere is drawn filled, elsewhere hollow with a ring (shape, not
+ * only colour). The closed formula behind the value (column sum, row sum, √λ_max(AᵀA)) is printed only for the
+ * norms listed in `rules`, which the text steps set from the theorem that proves it on. The norms come from
+ * src/math/opnorm2d.ts; the figure checks one direction at a time, which is evidence, and the caption says so.
  */
 
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { pNorm } from '~/math/multivar';
 import { MATRICES, apply, imageOutline, maximiser, norms, sphereOutline, spherePoint, type MatrixId, type P, type V2 } from '~/math/opnorm2d';
-import { markTask } from '~/progress/store';
+import { markTask, progress } from '~/progress/store';
 import { subscribeSteps } from '~/ui/steps';
+import { useMounted } from '~/ui/useMounted';
 import { useFigureCanvas, type FrameInfo } from './core/canvas';
 import { sci } from './core/format';
 import { withAlpha } from './core/ink';
@@ -24,10 +28,15 @@ type PId = '1' | '2' | 'inf';
 type M2 = [[number, number], [number, number]];
 
 const TASK_LABEL: Record<string, string> = {
-  'stretch-2': 'במטריצה המשולשת, עם ⁦p = 2⁩, סובבו את x אל הכיוון שבו A מותחת הכי הרבה: Ax נוגע בשפת הכדור הירוק.',
-  'stretch-inf': 'במטריצה הכללית, עם ⁦p = ∞⁩, מצאו וקטור x על ספרת היחידה שבו ‖Ax‖ שווה לנורמה.',
-  differ: 'שנו כניסות של A עד שהנורמה בנורמת 1 והנורמה בנורמת אינסוף יהיו שונות זו מזו.',
+  'stretch-2': 'במטריצה המשולשת, עם ⁦p = 2⁩: באיזה כיוון של x האורך ‖Ax‖ הכי גדול, ומה האורך שם?',
+  'stretch-inf': 'במטריצה הכללית, עם ⁦p = ∞⁩: באיזו נקודה על שפת הריבוע ‖Ax‖ הכי גדול?',
+  differ:
+    'שנו כניסות של A עד שנורמת האופרטור כשהמרחב נמדד בנורמה 1 שונה מנורמת האופרטור כשהוא נמדד בנורמת אינסוף.',
 };
+
+/** The task that asks for the maximum in a given setting: ticking it reveals the answer there. */
+const TASK_OF = (p: PId, mat: MatrixId | 'custom') =>
+  p === '2' && mat === 'tri' ? 'stretch-2' : p === 'inf' && mat === 'gen' ? 'stretch-inf' : null;
 
 const P_OF: Record<PId, P> = { '1': 1, '2': 2, inf: Infinity };
 const P_LABEL: Record<PId, string> = { '1': 'p = 1', '2': 'p = 2', inf: 'p = ∞' };
@@ -51,6 +60,8 @@ interface State {
   /** the direction of x, in whole degrees */
   deg: number;
   showMax: boolean;
+  /** the norms whose closed formula the readout may name (set by the steps of the theorems that prove them) */
+  rules: PId[];
 }
 
 export interface OperatorNormProps {
@@ -62,12 +73,20 @@ export interface OperatorNormProps {
   deg?: number;
   editable?: boolean;
   showMax?: boolean;
+  rules?: PId[];
   tasks?: string[];
 }
 
 function fresh(props: OperatorNormProps): State {
   const mat = props.matrix ?? 'tri';
-  return { p: props.p ?? '2', A: copy(MATRICES[mat]), mat, deg: props.deg ?? 0, showMax: props.showMax ?? false };
+  return {
+    p: props.p ?? '2',
+    A: copy(MATRICES[mat]),
+    mat,
+    deg: props.deg ?? 0,
+    showMax: props.showMax ?? false,
+    rules: props.rules ?? [],
+  };
 }
 
 export default function OperatorNorm(props: OperatorNormProps) {
@@ -84,6 +103,12 @@ export default function OperatorNorm(props: OperatorNormProps) {
   const N = normOf(s.A, s.p);
   const top = N > 0 && ax >= ON * N;
   const all = norms(s.A);
+  // The answer shows only once revealed: by the toggle, or by ticking the task that asks for it in this setting.
+  // A text step never ticks a task, so a step cannot reveal it except through showMax.
+  const mounted = useMounted();
+  const own = TASK_OF(s.p, s.mat);
+  const ticked = mounted && own !== null && !!props.tasks?.includes(own) && !!progress.value.tasks[`${props.id}:${own}`];
+  const revealed = s.showMax || ticked;
 
   /** The student's own change: a text step sets state through subscribeSteps and never ticks a task. */
   const userSet = (patch: Partial<State>) => {
@@ -113,6 +138,7 @@ export default function OperatorNorm(props: OperatorNormProps) {
           }
           if (typeof st.deg === 'number') next.deg = ((Math.round(st.deg) % 360) + 360) % 360;
           if (typeof st.showMax === 'boolean') next.showMax = st.showMax;
+          if (Array.isArray(st.rules)) next.rules = st.rules.filter((r): r is PId => typeof r === 'string' && r in P_OF);
           return next;
         });
       }),
@@ -120,14 +146,15 @@ export default function OperatorNorm(props: OperatorNormProps) {
   );
 
   const matText = `(${fmt(s.A[0][0])}, ${fmt(s.A[0][1])}; ${fmt(s.A[1][0])}, ${fmt(s.A[1][1])})`;
+  const verdict = top ? 'כאן A מותחת הכי הרבה.' : 'יש כיוון שבו A מותחת יותר.';
   const describe = () =>
-    `${P_LABEL[s.p]}, A = ${matText}. x = (${fmt(x[0])}, ${fmt(x[1])}) על ספרת היחידה, ‖Ax‖ = ${fmt(ax)}. ` +
-    `‖A‖ = ${fmt(N)}. ${top ? 'כאן A מותחת הכי הרבה.' : 'יש כיוון שבו A מותחת יותר.'}`;
+    `${P_LABEL[s.p]}, A = ${matText}. x = (${fmt(x[0])}, ${fmt(x[1])}) על ספרת היחידה, ‖Ax‖ = ${fmt(ax)}.` +
+    (revealed ? ` ‖A‖ = ${fmt(N)}. ${verdict}` : '');
 
   useEffect(() => {
     const t = setTimeout(() => setLive(describe()), 300);
     return () => clearTimeout(t);
-  }, [s]);
+  }, [s, revealed]);
 
   const draw = ({ ctx, view, palette: pal }: FrameInfo) => {
     const half = Math.max(1, N) * 1.15;
@@ -154,8 +181,8 @@ export default function OperatorNorm(props: OperatorNormProps) {
     ctx.stroke();
     ctx.restore();
 
-    // the ball of radius ‖A‖_op: green, dashed
-    if (N > 0) {
+    // the ball of radius ‖A‖_op: green, dashed (only once revealed)
+    if (revealed && N > 0) {
       ctx.save();
       poly(sphereOutline(p, N));
       ctx.strokeStyle = pal.limit;
@@ -227,8 +254,14 @@ export default function OperatorNorm(props: OperatorNormProps) {
     ctx.arc(xx, xy, 5.5, 0, 2 * Math.PI);
     ctx.fill();
 
-    // Ax: filled on the green sphere, hollow with a ring when A stretches some other direction more
-    if (top) {
+    // Ax: before the reveal a plain dot that says nothing about the maximum; after it, filled on the green sphere
+    // and hollow with a ring when A stretches some other direction more
+    if (!revealed) {
+      ctx.fillStyle = pal.eps;
+      ctx.beginPath();
+      ctx.arc(ux, uy, 5.5, 0, 2 * Math.PI);
+      ctx.fill();
+    } else if (top) {
       ctx.fillStyle = pal.pointIn;
       ctx.beginPath();
       ctx.arc(ux, uy, 6.5, 0, 2 * Math.PI);
@@ -261,7 +294,7 @@ export default function OperatorNorm(props: OperatorNormProps) {
     ctx.textAlign = 'left';
     label('x', xx + 9, xy - 9, pal.delta);
     label('Ax', ux + 12, uy - 10, pal.eps);
-    if (N > 0) {
+    if (revealed && N > 0) {
       const [lx, ly] = S(p === Infinity ? [N, N] : p === 1 ? [0, N] : [N * Math.SQRT1_2, N * Math.SQRT1_2]);
       ctx.textAlign = 'right';
       label(`‖A‖ = ${fmt(N)}`, Math.min(lx, view.w - 4), Math.max(ly - 12, 12), pal.limit);
@@ -270,7 +303,7 @@ export default function OperatorNorm(props: OperatorNormProps) {
   };
 
   const { canvasRef, invalidate } = useFigureCanvas(draw, { worldWidth: 2, worldHeight: 2, animate: false });
-  useEffect(invalidate, [s]);
+  useEffect(invalidate, [s, revealed]);
 
   const degFromPointer = (e: PointerEvent) => {
     const g = geo.current;
@@ -308,7 +341,12 @@ export default function OperatorNorm(props: OperatorNormProps) {
 
   const ps = props.ps ?? [];
   const mats = props.matrices ?? [];
-  const formula = s.p === '1' ? 'הסכום הגדול ביותר של עמודה' : s.p === 'inf' ? 'הסכום הגדול ביותר של שורה' : 'השורש של הערך העצמי הגדול של ⁦AᵀA⁩';
+  const FORMULA: Record<PId, string> = {
+    '1': 'הסכום הגדול ביותר של עמודה',
+    inf: 'הסכום הגדול ביותר של שורה',
+    '2': 'השורש של הערך העצמי הגדול של ⁦AᵀA⁩',
+  };
+  const rule = s.rules.includes(s.p) ? `: ${FORMULA[s.p]}` : '';
   return (
     <SimShell
       fig={props.id}
@@ -337,12 +375,24 @@ export default function OperatorNorm(props: OperatorNormProps) {
             </b>
             , <b class="q">‖Ax‖ = {fmt(ax)}</b>
           </span>
-          <span data-readout="norm">
-            ‖A‖ ({P_LABEL[s.p]}) = <b class="q">{fmt(N)}</b>: {formula}. {top ? 'כאן A מותחת הכי הרבה.' : 'יש כיוון שבו A מותחת יותר.'}
-          </span>
-          <span data-readout="norms">
-            בשלוש הנורמות: <b class="q">p = 1: {fmt(all.one)}</b>, <b class="q">p = 2: {fmt(all.two)}</b>, <b class="q">p = ∞: {fmt(all.inf)}</b>
-          </span>
+          {revealed ? (
+            <span data-readout="norm">
+              ‖A‖ ({P_LABEL[s.p]}) = <b class="q">{fmt(N)}</b>
+              {rule}. {verdict}
+            </span>
+          ) : (
+            <span data-readout="norm">
+              ‖A‖ ({P_LABEL[s.p]}) = <b class="q">?</b>{' '}
+              {own !== null && props.tasks?.includes(own)
+                ? 'הערך יופיע כשתמצאו בעצמכם את כיוון המתיחה המרבית (המשימה תסומן), או כשתפעילו את המתג שמתחת לאיור.'
+                : 'הפעילו את המתג שמתחת לאיור כדי לראות את הערך.'}
+            </span>
+          )}
+          {s.showMax && (
+            <span data-readout="norms">
+              בשלוש הנורמות: <b class="q">p = 1: {fmt(all.one)}</b>, <b class="q">p = 2: {fmt(all.two)}</b>, <b class="q">p = ∞: {fmt(all.inf)}</b>
+            </span>
+          )}
         </>
       }
       controls={
@@ -376,7 +426,7 @@ export default function OperatorNorm(props: OperatorNormProps) {
               />
             ))}
           <div class="group">
-            <Toggle label="הראו את הכיוונים שבהם A מותחת הכי הרבה" on={s.showMax} onChange={(on) => userSet({ showMax: on })} />
+            <Toggle label="הראו את נורמת האופרטור ואת הכיוונים שבהם A מותחת הכי הרבה" on={s.showMax} onChange={(on) => userSet({ showMax: on })} />
           </div>
         </>
       }
