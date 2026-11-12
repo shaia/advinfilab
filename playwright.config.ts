@@ -8,7 +8,9 @@ const port = Number(process.env.E2E_PORT ?? 4371);
 
 export default defineConfig({
   testDir: 'tests/e2e',
-  timeout: 30_000,
+  // 60 s, not 30: with ~850 tests in parallel the long figure walks (key presses, each a redraw) of chapters 1–3
+  // ran past 30 s while passing alone in under 20 s (2026-11-12)
+  timeout: 60_000,
   // a whole-run ceiling: a browser that hangs on shutdown must fail the run, not stall CI
   globalTimeout: 25 * 60_000,
   fullyParallel: true,
