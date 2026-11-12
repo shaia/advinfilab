@@ -56,14 +56,16 @@ const yamlFile = <T>(p: string): T => {
  * A control character in content is almost always TeX eaten by a string escape: "\frac" written through a
  * non-raw string becomes a form feed + "rac", "\bigcap" a backspace + "igcap". rehype-katex then renders a red
  * error span instead of failing the build, so the build alone does not catch it (lesson 1.3 shipped one).
+ * TAB is included: "\theta", "\tau", "\times", "\to" lose their backslash the same way (lesson 4.4 had one),
+ * and no content file uses a literal tab.
  */
 for (const f of walk(CONTENT)) {
   const text = readFileSync(f, 'utf8');
-  const m = /[\x00-\x08\x0b\x0c\x0e-\x1f]/.exec(text);
+  const m = /[\x00-\x09\x0b\x0c\x0e-\x1f]/.exec(text);
   if (m) {
     const line = text.slice(0, m.index).split('\n').length;
     const code = m[0].charCodeAt(0).toString(16).toUpperCase().padStart(4, '0');
-    fail(rel(f), `line ${line}: control character U+${code}, probably a TeX "\\f…" or "\\b…" eaten by a string escape`);
+    fail(rel(f), `line ${line}: control character U+${code}, probably a TeX "\\f…", "\\b…" or "\\t…" eaten by a string escape`);
   }
 }
 
