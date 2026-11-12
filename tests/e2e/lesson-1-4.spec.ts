@@ -97,6 +97,8 @@ test.describe('lesson 1.4: interior, closure, boundary and density', () => {
   });
 
   test('the separate point (1.5, 0) is in the set and a boundary point, and finding it ticks the task', async ({ page }) => {
+    // 30 key presses, each redrawing the figure: passes alone, ran past 30 s under a parallel run
+    test.setTimeout(90_000);
     await withPrediction(page);
     await page.goto(LESSON);
     const fig = await ready(page, 'fig-1-4a');
