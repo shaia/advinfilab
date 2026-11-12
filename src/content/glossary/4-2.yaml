@@ -8,3 +8,29 @@
     שלכל $f\in\mathcal{F}$ ולכל $x,y\in K$ עם $d(x,y)<\delta$ מתקיים $|f(x)-f(y)|<\varepsilon$. ה-$\delta$ אחד לכל
     הנקודות ולכל הפונקציות. אל תבלבלו עם רציפות במידה שווה של פונקציה אחת, שבה $\delta$ רשאי להיות תלוי בפונקציה.
   lesson: '4.2'
+
+- id: equicontinuous-at-point
+  term: משפחה רציפה במידה אחידה בנקודה
+  en: family equicontinuous at a point
+  definition: >-
+    משפחה $\mathcal{F}$ של פונקציות ממשיות על מרחב מטרי $(X,d)$ רציפה במידה אחידה בנקודה $a\in X$ אם לכל
+    $\varepsilon>0$ קיים $\delta>0$ כך שלכל $f\in\mathcal{F}$ ולכל $x\in X$ עם $d(x,a)<\delta$ מתקיים
+    $|f(x)-f(a)|<\varepsilon$. ה-$\delta$ תלוי ב-$\varepsilon$ ובנקודה $a$, אבל אחד לכל הפונקציות במשפחה.
+  lesson: '4.2'
+
+- id: pointwise-equicontinuous
+  term: משפחה רציפה במידה אחידה נקודתית
+  en: pointwise equicontinuous family
+  definition: >-
+    משפחה שרציפה במידה אחידה בכל נקודה של המרחב: ה-$\delta$ רשאי להיות תלוי בנקודה, לא בפונקציה. על מרחב מטרי
+    קומפקטי זה שקול לרציפות במידה אחידה של המשפחה (משפט 4.2.4); על $\mathbb{R}$ לא (המשפחה $\{x^2\}$).
+  lesson: '4.2'
+
+- id: holder-condition
+  term: תנאי הלדר
+  en: Hölder condition
+  definition: >-
+    $f$ מקיימת תנאי הלדר עם מעריך $0<\alpha\le1$ וקבוע $C\ge0$ אם $|f(x)-f(y)|\le C|x-y|^\alpha$ לכל $x,y$ בתחום. עם
+    $\alpha=1$ זו ליפשיציות. דוגמה: $|\sqrt x-\sqrt y|\le|x-y|^{1/2}$ על $[0,\infty)$.
+  symbol: '|f(x)-f(y)|\le C|x-y|^\alpha'
+  lesson: '4.2'

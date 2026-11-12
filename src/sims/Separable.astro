@@ -1,0 +1,7 @@
+---
+/** Lesson 4.4 figure: <Spread figure={Separable} figureProps={{ mode, fn, fns, eps, m, s, t, r, family, tasks }}>. */
+import Separable, { type SeparableProps } from './Separable';
+type Props = SeparableProps;
+---
+
+<Separable client:visible {...Astro.props} />

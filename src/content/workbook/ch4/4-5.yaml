@@ -1,0 +1,504 @@
+# Workbook of lesson 4.5 — the Weierstrass approximation theorem.
+# Objectives (src/course.ts):
+#   OBJ-4.5-1  state the theorem: polynomials are dense in C[a,b] with the sup norm
+#   OBJ-4.5-2  prove it with Bernstein polynomials (or a kernel); the role of uniform continuity
+#   OBJ-4.5-3  C[a,b] has a countable dense subset (separable); vanishing moments force f = 0
+# Results cited by the numbers of the chapter-4 spine (4.k.m) and of chapters 1–3. Every number recomputed with
+# npx tsx on src/math/bernstein.ts (exact rational arithmetic): B_n of 3x²−x (B_3 at 1/2 = 1/2), of x(1−x), of the step χ_[1/2,1] at 1/2
+# (= 1/2 for odd n; 3/4, 11/16, 319/512 for n = 2, 4, 10).
+lesson: '4.5'
+practice:
+  - id: W-4.5-01
+    level: basic
+    objectives: [OBJ-4.5-2]
+    prompt: >-
+      תהי $f(x)=3x^2-x$ על $[0,1]$.
+
+      (א) חשבו את $B_nf$ בעזרת למה 4.5.2, בלי לחשב אף מקדם בינומי.
+
+      (ב) מצאו את $\|B_nf-f\|_\infty$ ואת הנקודה שבה הוא מתקבל, ואת ה-$n$ הקטן ביותר שבו השגיאה לכל היותר $10^{-3}$.
+    answer: >-
+      (א) $B_nf=3x^2-x+\frac{3x(1-x)}{n}$. (ב) $\|B_nf-f\|_\infty=\frac3{4n}$, ב-$x=\frac12$, ו-$n=750$.
+    solution:
+      - kind: idea
+        text: >-
+          $f$ היא צירוף לינארי של $x$ ו-$x^2$, ו-$B_n$ לינארי: מספיק לדעת את $B_n$ על הפונקציות האלה.
+      - kind: computation
+        text: >-
+          (א) לפי למה 4.5.2(א), $B_nf=3B_n(x^2)-B_n(x)$, ולפי למה 4.5.2(ג):
+          $$\begin{aligned}&(B_nf)(x)\\&\quad=3\Big(x^2+\frac{x(1-x)}n\Big)-x\\&\quad=3x^2-x+\frac{3x(1-x)}n .\end{aligned}$$
+      - kind: computation
+        text: >-
+          (ב) $(B_nf)(x)-f(x)=\frac{3x(1-x)}n$, וזה אי-שלילי. הפונקציה $x(1-x)=\frac14-(x-\frac12)^2$ מקבלת מקסימום $\frac14$ ב-$x=\frac12$
+          בלבד, ולכן $\|B_nf-f\|_\infty=\frac3{4n}$, והוא מתקבל ב-$x=\frac12$.
+      - kind: step
+        text: >-
+          $\frac3{4n}\le10^{-3}$ אם ורק אם $n\ge750$. ב-$n=750$ השגיאה בדיוק $10^{-3}$, וב-$n=749$ היא גדולה ממנו.
+      - kind: check
+        text: >-
+          השגיאה של $3x^2-x$ היא פי $3$ מזו של $x^2$: האיבר $-x$ אינו תורם לה ($B_n$ משאיר את $x$ במקומו), והמקדם של $x^2$
+          כופל אותה. בחישוב מדויק עם $n=3$: הערכים $f(0),f(\frac13),f(\frac23),f(1)$ הם $0,0,\frac23,2$, והמשקלות ב-$\frac12$
+          הם $\frac18,\frac38,\frac38,\frac18$, ולכן $(B_3f)(\frac12)=\frac{3\cdot\frac23+2}8=\frac12$, ו-$\frac12-f(\frac12)=\frac12-\frac14$, כלומר $\frac14=\frac3{4\cdot3}$.
+      - kind: result
+        text: >-
+          $B_nf=3x^2-x+\frac{3x(1-x)}n$, השגיאה $\frac3{4n}$ (ב-$x=\frac12$), ו-$n=750$.
+
+  - id: W-4.5-02
+    level: basic
+    objectives: [OBJ-4.5-2]
+    prompt: >-
+      (א) הוכיחו שלכל $c_0,c_1\in\mathbb{R}$ ו-$n\in\mathbb{N}$, $B_n(c_0+c_1x)=c_0+c_1x$.
+
+      (ב) הוכיחו שלכל $f:[0,1]\to\mathbb{R}$ הפולינום $(B_1f)(x)$ שווה ל-$(1-x)f(0)+xf(1)$, ומצאו $f\in C[0,1]$ שאינה מהצורה $c_0+c_1x$ ובכל זאת
+      $B_1f=f$ בשתי נקודות בדיוק.
+
+      (ג) האם יש $f\in C[0,1]$ שאינה מהצורה $c_0+c_1x$ ו-$B_nf=f$ לכל $n$?
+    answer: >-
+      (א) לינאריות ולמה 4.5.2(ג). (ב) $f(x)=x^2$: $B_1f=x$, שווה ל-$x^2$ רק ב-$0$ וב-$1$. (ג) לא: אם $B_nf=f$ לכל
+      $n$, אז $f=\lim B_nf$, אבל גם $f=B_1f$, שהיא מהצורה $c_0+c_1x$.
+    solution:
+      - kind: computation
+        text: >-
+          (א) לפי למה 4.5.2(א), $B_n(c_0+c_1x)$ שווה ל-$c_0B_n1+c_1B_nx$, ולפי (ג) זה $c_0+c_1x$.
+      - kind: computation
+        text: >-
+          (ב) עם $n=1$: $b_{1,0}(x)=1-x$ ו-$b_{1,1}(x)=x$, ולכן $(B_1f)(x)$ שווה ל-$f(0)(1-x)+f(1)x$. עבור $f(x)=x^2$: $B_1f=x$,
+          ו-$x=x^2$ בדיוק כש-$x\in\{0,1\}$.
+      - kind: step
+        text: >-
+          (ג) אם $B_nf=f$ לכל $n$, בפרט $f=B_1f$, ולפי (ב) $B_1f$ היא הפונקציה $f(0)+\big(f(1)-f(0)\big)x$, מהצורה $c_0+c_1x$. לכן אין $f$ כזו
+          שאינה מהצורה הזו; והפונקציות $c_0+c_1x$ כן מקיימות זאת, לפי (א).
+      - kind: result
+        text: >-
+          הפונקציות ש-$B_n$ משאיר במקומן לכל $n$ הן בדיוק הפונקציות מהצורה $c_0+c_1x$.
+
+  - id: W-4.5-03
+    level: basic
+    qualitative: true
+    objectives: [OBJ-4.5-1]
+    prompt: >-
+      לכל טענה קבעו אם היא נכונה, ונמקו במשפט או בדוגמה נגדית.
+
+      (א) $x^{1/3}$ היא גבול במידה שווה של פולינומים על $[-1,1]$.
+
+      (ב) $\frac1x$ היא גבול במידה שווה של פולינומים על $(0,1]$.
+
+      (ג) $\chi_{[1/2,1]}$ (שווה ל-$0$ על $[0,\frac12)$ ול-$1$ על $[\frac12,1]$) היא גבול במידה שווה של פולינומים על $[0,1]$.
+
+      (ד) אם $p_n$ פולינומים ממעלה $3$ לכל היותר ו-$p_n\to f$ במידה שווה על $[0,1]$, אז $f$ פולינום ממעלה $3$ לכל היותר.
+    answer: >-
+      (א) נכון. (ב) לא נכון: $\frac1x$ אינה רציפה במידה שווה על $(0,1]$. (ג) לא נכון: הגבול היה רציף. (ד) נכון: מרחב ממימד
+      סופי סגור.
+    solution:
+      - kind: step
+        text: >-
+          (א) $x^{1/3}$ רציפה על $[-1,1]$ (ההופכית הרציפה של $x^3$, אינפי 1), ולפי מסקנה 4.5.5 היא גבול במידה שווה של
+          פולינומים, אף שאינה גזירה ב-$0$.
+      - kind: step
+        text: >-
+          (ב) לפי שלבים 1–2 בהוכחת טענה 4.5.6(ב2) (שעוברים מילה במילה ל-$(0,1]$: כל פולינום רציף על $[0,1]$), גבול במידה
+          שווה של פולינומים על $(0,1]$ רציף שם במידה שווה. $\frac1x$ אינה כזו (טענה 3.4.7(א)). (היא גם אינה חסומה, ופולינום
+          על $[0,1]$ חסום; גבול במידה שווה של פונקציות חסומות חסום.)
+      - kind: step
+        text: >-
+          (ג) כל פולינום רציף, וגבול במידה שווה של פונקציות רציפות רציף (למה 2.2.5). $\chi_{[1/2,1]}$ אינה רציפה ב-$\frac12$:
+          $\chi(\frac12-\frac1m)=0\not\to1=\chi(\frac12)$.
+      - kind: step
+        text: >-
+          (ד) $V_3$, הפולינומים ממעלה $\le3$ מצומצמים ל-$[0,1]$, הוא תת-מרחב ממימד $4$ של $C[0,1]$ (פולינום ממעלה $\le3$
+          שמתאפס על $[0,1]$ הוא אפס: יש לו אינסוף שורשים), ולכן סגור (מסקנה 3.5.6(ג)). לפי משפט 1.5.7(א), $f\in\overline{V_3}=V_3$.
+      - kind: result
+        text: >-
+          (א) ו-(ד) נכונות; (ב) ו-(ג) לא. ב-(ד) רואים למה הקירוב של ויירשטראס דורש מעלות שגדלות לאינסוף.
+
+  - id: W-4.5-04
+    level: mid
+    objectives: [OBJ-4.5-2]
+    prompt: >-
+      תהי $f(x)=x(1-x)$ על $[0,1]$.
+
+      (א) הוכיחו ש-$B_nf=(1-\frac1n)f$.
+
+      (ב) הסיקו ש-$B_nf\le f$, ומצאו את $\|B_nf-f\|_\infty$.
+
+      (ג) למה ב-$x^2$ פולינום ברנשטיין מעל הפונקציה וכאן מתחתיה? הוכיחו טענה כללית: אם $f$ קמורה על $[0,1]$,
+      כלומר לכל $u,v\in[0,1]$ ולכל $t\in[0,1]$
+      $$\begin{aligned}&f(tu+(1-t)v)\\&\quad\le tf(u)+(1-t)f(v),\end{aligned}$$
+      אז $B_nf\ge f$ לכל $n$.
+    answer: >-
+      (א) לינאריות ולמה 4.5.2(ג). (ב) $\|B_nf-f\|_\infty=\frac1{4n}$. (ג) אי-שוויון ינסן הסופי עם המשקלות $b_{n,k}(x)$,
+      שסכומם 1 ושהממוצע המשוקלל של $\frac kn$ בהם הוא $x$.
+    solution:
+      - kind: computation
+        text: >-
+          (א) $f=x-x^2$. לפי למה 4.5.2(א),(ג):
+          $$\begin{aligned}B_nf&=x-\Big(x^2+\frac{x(1-x)}n\Big)\\&=\Big(1-\frac1n\Big)x(1-x).\end{aligned}$$
+      - kind: computation
+        text: >-
+          (ב) $B_nf-f=-\frac1nx(1-x)$, וזה לכל היותר $0$ על $[0,1]$. לכן $B_nf\le f$, ו-$\|B_nf-f\|_\infty$ הוא
+          $\frac1n\max x(1-x)=\frac1{4n}$.
+      - kind: idea
+        text: >-
+          (ג) $B_nf(x)$ הוא ממוצע משוקלל של הערכים $f(\frac kn)$, והממוצע של הנקודות $\frac kn$ באותם משקלות הוא $x$
+          (למה 4.5.2(ג)). לפונקציה קמורה, ממוצע הערכים גדול מהערך בממוצע.
+      - kind: step
+        text: >-
+          נוכיח באינדוקציה על מספר הנקודות את אי-שוויון ינסן הסופי: אם $f$ קמורה, $t_0,\dots,t_m\ge0$ עם $\sum t_k=1$
+          ו-$u_k\in[0,1]$, אז $f(\sum t_ku_k)\le\sum t_kf(u_k)$. ל-$m=1$ זו ההגדרה. בצעד: אם $t_m=1$ הטענה מיידית; אחרת
+          $\sum_{k\le m}t_ku_k$ שווה ל-$(1-t_m)v+t_mu_m$ עם $v=\sum_{k<m}\frac{t_k}{1-t_m}u_k\in[0,1]$, ולפי ההגדרה ואז הנחת
+          האינדוקציה (המשקלות $\frac{t_k}{1-t_m}$ מסתכמים ל-1),
+          $$\begin{aligned}&f\Big(\sum_kt_ku_k\Big)\\&\quad\le(1-t_m)f(v)\\&\qquad+t_mf(u_m)\\&\quad\le\sum_kt_kf(u_k).\end{aligned}$$
+      - kind: step
+        text: >-
+          עם $t_k=b_{n,k}(x)$ ($\ge0$, סכום 1) ו-$u_k=\frac kn$: $\sum_kt_ku_k=x$ (למה 4.5.2(ג)), ולכן
+          $f(x)\le\sum_kb_{n,k}(x)f(\frac kn)$, וזה $(B_nf)(x)$.
+      - kind: check
+        text: >-
+          $x^2$ קמורה, ואכן $B_n(x^2)-x^2=\frac{x(1-x)}n\ge0$; $x(1-x)$ קעורה ($-f$ קמורה), ולפי (ג) עבור $-f$ ולינאריות,
+          $B_nf\le f$, כמו ב-(ב). בחישוב מדויק: $(B_3f)(\frac13)=\frac{4}{27}=\frac23\cdot\frac29$.
+      - kind: result
+        text: >-
+          $B_nf=(1-\frac1n)f\le f$, השגיאה $\frac1{4n}$; ולכל $f$ קמורה $B_nf\ge f$.
+
+  - id: W-4.5-05
+    level: mid
+    objectives: [OBJ-4.5-2]
+    prompt: >-
+      (א) הוכיחו: אם $f:[0,1]\to\mathbb{R}$ ו-$m\le f\le M$ על $[0,1]$, אז $m\le B_nf\le M$ על $[0,1]$.
+
+      (ב) הסיקו ש-$B_n:C[0,1]\to C[0,1]$ היא העתקה לינארית חסומה עם $\|B_n\|_{\mathrm{op}}=1$ (נורמת הסופרמום בשני
+      הצדדים).
+
+      (ג) הוכיחו שלכל $f,g\in C[0,1]$ הנורמה $\|B_nf-B_ng\|_\infty$ לכל היותר $\|f-g\|_\infty$, והסיקו שאם $B_ng\to g$ במידה שווה לכל $g$
+      בקבוצה $D$ צפופה ב-$C[0,1]$, אז $B_nf\to f$ במידה שווה לכל $f\in C[0,1]$.
+    answer: >-
+      (א) מונוטוניות ו-$B_n1=1$. (ב) $\|B_nf\|_\infty\le\|f\|_\infty$, שוויון ב-$f=1$. (ג) לינאריות ו-(ב); ואז $\frac\varepsilon3$.
+    solution:
+      - kind: step
+        text: >-
+          (א) $m\cdot1\le f\le M\cdot1$. לפי המונוטוניות (למה 4.5.2(ב)) והלינאריות, $mB_n1\le B_nf\le MB_n1$, ולפי
+          למה 4.5.2(ג) $B_n1=1$.
+      - kind: step
+        text: >-
+          (ב) $B_n$ לינארית (למה 4.5.2(א)), ו-$B_nf$ פולינום ולכן ב-$C[0,1]$. עם $M=\|f\|_\infty$ ו-$m=-M$, (א) נותן
+          $|B_nf|\le\|f\|_\infty$, כלומר $\|B_nf\|_\infty\le\|f\|_\infty$ ו-$\|B_n\|_{\mathrm{op}}\le1$. ב-$f=1$:
+          $\|B_n1\|_\infty=1=\|1\|_\infty$, ולכן $\|B_n\|_{\mathrm{op}}=1$.
+      - kind: step
+        text: >-
+          (ג) $B_nf-B_ng=B_n(f-g)$, ולפי (ב) $\|B_n(f-g)\|_\infty\le\|f-g\|_\infty$.
+      - kind: step
+        text: >-
+          יהיו $f\in C[0,1]$ ו-$\varepsilon>0$. לפי הצפיפות (טענה 1.4.14) יש $g\in D$ עם $\|f-g\|_\infty<\frac\varepsilon3$, ולפי
+          ההנחה יש $N$ עם $\|B_ng-g\|_\infty<\frac\varepsilon3$ לכל $n\ge N$. לכל $n\ge N$, באי-שוויון המשולש:
+          $$\begin{aligned}&\|B_nf-f\|_\infty\\&\quad\le\|B_n(f-g)\|_\infty\\&\qquad+\|B_ng-g\|_\infty\\&\qquad+\|g-f\|_\infty\\&\quad<\varepsilon .\end{aligned}$$
+      - kind: check
+        text: >-
+          (ג) נותן דרך שנייה להוכיח את משפט 4.5.4: מספיק להוכיח $B_ng\to g$ לקבוצה צפופה, למשל לקווים השבורים של משפט
+          1.4.18, שהם ליפשיציים, ועליהם טענה 4.5.4א נותנת קצב $\frac L{2\sqrt n}$. המפתח הוא ש-$\|B_n\|_{\mathrm{op}}$ חסום
+          **במשותף** לכל $n$.
+      - kind: result
+        text: >-
+          $\|B_n\|_{\mathrm{op}}=1$, ו-$\|B_nf-B_ng\|_\infty$ לכל היותר $\|f-g\|_\infty$; התכנסות על קבוצה צפופה עוברת לכל $C[0,1]$.
+
+  - id: W-4.5-06
+    level: mid
+    objectives: [OBJ-4.5-3]
+    prompt: >-
+      תהי $f\in C[0,1]$ עם $\int_0^1f(x)x^{2k}\,dx=0$ לכל $k=0,1,2,\dots$ (רק החזקות **הזוגיות**). הוכיחו ש-$f\equiv0$.
+
+      הדרכה: הראו קודם שהפולינומים ב-$x^2$, כלומר $\sum_kc_kx^{2k}$, צפופים ב-$C[0,1]$.
+    answer: >-
+      $g(t)=f(\sqrt t)$ רציפה על $[0,1]$; פולינום $q$ קרוב ל-$g$ נותן $q(x^2)$ קרוב ל-$f$. אז $\int_0^1f\cdot q(x^2)=0$
+      לכל $q$, ובקירוב $\int_0^1f^2=0$.
+    solution:
+      - kind: idea
+        text: >-
+          על $[0,1]$ ההעתקה $x\mapsto x^2$ חד-חד-ערכית ועל, עם הופכית רציפה $\sqrt t$. לכן "פולינום ב-$x^2$" הוא פולינום
+          רגיל במשתנה $t=x^2$, ואת $f$ אפשר לכתוב כפונקציה רציפה של $t$.
+      - kind: step
+        text: >-
+          (הצפיפות.) יהיו $h\in C[0,1]$ ו-$\varepsilon>0$. $g(t)=h(\sqrt t)$ רציפה על $[0,1]$ (הרכבה, טענה 1.6.5(א)). לפי
+          מסקנה 4.5.5 יש פולינום $q$ עם $|g(t)-q(t)|<\varepsilon$ לכל $t\in[0,1]$. לכל $x\in[0,1]$, עם $t=x^2\in[0,1]$:
+          $|h(x)-q(x^2)|$ שווה ל-$|g(x^2)-q(x^2)|<\varepsilon$. ו-$q(x^2)=\sum_kc_kx^{2k}$.
+      - kind: step
+        text: >-
+          לפי ההנחה והלינאריות, $\int_0^1f(x)\,q(x^2)\,dx=0$ לכל פולינום $q$.
+      - kind: step
+        text: >-
+          לפי הצפיפות עם $h=f$ יש לכל $m$ פולינום $q_m$ עם $\|f-q_m(x^2)\|_\infty<\frac1m$. כמו בשלב 3 של מסקנה 4.5.8:
+          $$\begin{aligned}&\Big|\int_0^1f^2\Big|\\&\quad=\Big|\int_0^1f\,\big(f-q_m(x^2)\big)\Big|\\&\quad\le\|f\|_\infty\cdot\frac1m\to0 .\end{aligned}$$
+      - kind: step
+        text: >-
+          לכן $\int_0^1f^2=0$, ו-$f^2$ רציפה ואי-שלילית, ולכן $f^2\equiv0$ (אינפי 1), כלומר $f\equiv0$.
+      - kind: check
+        text: >-
+          איפה השתמשנו ב-$[0,1]$: ההופכית $\sqrt t$ מוגדרת ורציפה כי $x\ge0$. על $[-1,1]$ הטענה נכשלת: $f(x)=x$ אי-זוגית,
+          ולכן $\int_{-1}^1x\cdot x^{2k}\,dx=0$ לכל $k$, ו-$f\ne0$.
+      - kind: result
+        text: >-
+          $f\equiv0$. החזקות הזוגיות מספיקות על $[0,1]$, ואינן מספיקות על $[-1,1]$.
+
+  - id: W-4.5-07
+    level: mid
+    qualitative: true
+    objectives: [OBJ-4.5-3]
+    prompt: >-
+      לכל אחת מהקבוצות הבאות ב-$C[0,1]$ (נורמת הסופרמום) קבעו אם היא בת מנייה ואם היא צפופה, ונמקו.
+
+      (א) הפולינומים שכל המקדמים שלהם ב-$\{0,1\}$.
+
+      (ב) הפולינומים $\sum_{k=0}^mr_kx^k$ עם $r_k\in\mathbb{Q}$ ו-$m\le10$.
+
+      (ג) הפולינומים עם מקדמים רציונליים ו-$r_0=0$.
+
+      (ד) הפולינומים עם מקדמים רציונליים שמעלתם זוגית או שהם קבועים.
+    answer: >-
+      כולן בנות מנייה. צפופה רק (ד). (א) $\|p-\frac12\|_\infty\ge\frac12$; (ב) מוכלת במרחב סגור ממימד $11$; (ג) מוכלת ב-$Z_0$
+      הסגורה.
+    solution:
+      - kind: step
+        text: >-
+          בנות מנייה: כל ארבע מוכלות ב-$\mathcal{P}_{\mathbb{Q}}$, שהיא בת מנייה (מסקנה 4.5.7(א)), ותת-קבוצה של קבוצה בת
+          מנייה בת מנייה או סופית. ואף אחת אינה סופית: ב-(א) יש את $x^m$ לכל $m$, ב-(ב) ו-(ד) את הקבועים הרציונליים, וב-(ג)
+          את $rx$ לכל $r\in\mathbb{Q}$.
+      - kind: step
+        text: >-
+          (א) לא צפופה: לכל $p$ כזה $p(0)\in\{0,1\}$, ולכן $\|p-\frac12\|_\infty\ge|p(0)-\frac12|=\frac12$: הכדור
+          $B(\frac12,\frac12)$ אינו פוגש את הקבוצה.
+      - kind: step
+        text: >-
+          (ב) לא צפופה: היא מוכלת ב-$V_{10}$, הפולינומים ממעלה $\le10$, תת-מרחב ממימד סופי ולכן סגור (מסקנה 3.5.6(ג)). לכן
+          הסגור שלה מוכל ב-$V_{10}\ne C[0,1]$ ($e^x\notin V_{10}$, טענה 4.5.6(ב1), שלב 5).
+      - kind: step
+        text: >-
+          (ג) לא צפופה: היא מוכלת ב-$Z_0=\{g: g(0)=0\}$, סגורה (טענה 4.1.7(א)), ו-$\|1-g\|_\infty\ge|1-g(0)|=1$ לכל $g\in Z_0$.
+          (בתוך $Z_0$ היא צפופה: דוגמה 6 בשיעור.)
+      - kind: step
+        text: >-
+          (ד) צפופה: יהי $q=\sum_{k=0}^mr_kx^k\in\mathcal{P}_{\mathbb{Q}}$ ממעלה אי-זוגית $m$, ו-$\varepsilon>0$. נבחר
+          $r\in\mathbb{Q}$ עם $0<r<\varepsilon$; אז $q+rx^{m+1}$ ממעלה זוגית $m+1$, ו-$\|rx^{m+1}\|_\infty=r<\varepsilon$. לכן
+          כל איבר של $\mathcal{P}_{\mathbb{Q}}$ נמצא בסגור של (ד), ו-$\mathcal{P}_{\mathbb{Q}}$ צפופה (מסקנה 4.5.7(ב)); סגור
+          של סגור הוא אותו סגור, ולכן (ד) צפופה.
+      - kind: result
+        text: >-
+          (א), (ב), (ג) בנות מנייה ואינן צפופות; (ד) בת מנייה וצפופה. "בת מנייה" לבדה אינה מספיקה: צריך לקרב **כל** מקדם
+          ממשי, בכל מעלה.
+
+  - id: W-4.5-08
+    level: exam
+    qualitative: true
+    objectives: [OBJ-4.5-2]
+    prompt: >-
+      (א) תהי $f:[0,1]\to\mathbb{R}$ חסומה, ונניח ש-$f$ רציפה **בנקודה** $x_0\in[0,1]$. הוכיחו ש-$(B_nf)(x_0)\to f(x_0)$.
+
+      (ב) תהי $f=\chi_{[1/2,1]}$. הוכיחו ש-$(B_nf)(\frac12)=\frac12$ לכל $n$ אי-זוגי, והסיקו ש-$(B_nf)(\frac12)\not\to f(\frac12)$.
+
+      (ג) הסבירו בעזרת (א) ו-(ב) מה ההבדל בין "רציפה בנקודה" ל"רציפה במידה שווה" בהוכחת משפט 4.5.4.
+    answer: >-
+      (א) ההוכחה של משפט 4.5.4 בנקודה אחת, עם $\delta$ של הרציפות ב-$x_0$. (ב) סימטריה $k\leftrightarrow n-k$ של המשקלות
+      ב-$\frac12$. (ג) $\delta$ בנקודה נותן $N(x_0)$; $\delta$ משותף נותן $N$ משותף.
+    solution:
+      - kind: step
+        text: >-
+          (א) $M=\sup|f|<\infty$. יהי $\varepsilon>0$, ולפי הרציפות ב-$x_0$ יש $\delta>0$ עם $|f(y)-f(x_0)|<\varepsilon$ לכל
+          $y\in[0,1]$ עם $|y-x_0|<\delta$.
+      - kind: step
+        text: >-
+          כמו בשלבים 2–5 של משפט 4.5.4, עם $x=x_0$ בלבד: $|(B_nf)(x_0)-f(x_0)|$ לכל היותר סכום על ה-$k$ הקרובים (כל מחובר
+          קטן מ-$\varepsilon$ כפול משקלו, ובסך הכול לכל היותר $\varepsilon$) ועל הרחוקים (כל הפרש לכל היותר $2M$, משקל כולל
+          לכל היותר $\frac1{4n\delta^2}$ לפי למה 4.5.3(ב)). לכן
+          $$\begin{aligned}&|(B_nf)(x_0)-f(x_0)|\\&\quad\le\varepsilon+\frac{M}{2n\delta^2},\end{aligned}$$
+          ולכל $n>\frac M{\varepsilon\delta^2}$ זה פחות מ-$2\varepsilon$.
+      - kind: step
+        text: >-
+          (ב) ב-$x=\frac12$: $b_{n,k}(\frac12)=\binom nk2^{-n}$, ו-$\binom nk=\binom n{n-k}$. ל-$n$ אי-זוגי אין $k$ עם
+          $k=\frac n2$, והקבוצות $\{k:\frac kn>\frac12\}$ ו-$\{k:\frac kn<\frac12\}$ מתחלפות ב-$k\mapsto n-k$. לכן לשתיהן אותו
+          משקל, וסכומם $1$ (למה 4.5.2(ג)): כל אחת $\frac12$.
+      - kind: step
+        text: >-
+          $f(\frac kn)=1$ בדיוק כש-$\frac kn\ge\frac12$, כלומר (ל-$n$ אי-זוגי) כש-$\frac kn>\frac12$. לכן
+          $$\begin{aligned}(B_nf)(\tfrac12)&=\sum_{k/n>1/2}b_{n,k}(\tfrac12)\\&=\frac12,\end{aligned}$$
+          בעוד $f(\frac12)=1$. תת-הסדרה של ה-$n$ האי-זוגיים קבועה
+          $\frac12$, ולכן הסדרה אינה מתכנסת ל-$1$. כאן $f$ חסומה ואינה רציפה ב-$\frac12$: ההנחה של (א) נכשלת.
+      - kind: step
+        text: >-
+          (ג) ב-(א) ה-$N$ שמתקבל, $N>\frac M{\varepsilon\delta^2}$, תלוי ב-$\delta=\delta(x_0)$. אם $f$ רציפה בכל נקודה אבל
+          $\inf_x\delta(x)=0$, אין $N$ אחד לכל $x$: מקבלים רק התכנסות נקודתית. רציפות במידה שווה (על $[0,1]$: משפט קנטור)
+          נותנת $\delta$ אחד, ואיתו $N$ אחד, וזו התכנסות במידה שווה.
+      - kind: check
+        text: >-
+          בחישוב מדויק: $(B_nf)(\frac12)=\frac12$ ל-$n=1,3,5,7,9$, ול-$n$ זוגי $\frac34,\frac{11}{16},\frac{319}{512}$
+          ($n=2,4,10$): הערך המרכזי $k=\frac n2$ נספר כ-$f=1$, והוא קטן עם $n$. ב-(ב) אין סתירה למשפט: $f\notin C[0,1]$.
+      - kind: result
+        text: >-
+          רציפות בנקודה נותנת התכנסות בנקודה; בנקודת אי-רציפות ההתכנסות יכולה להיכשל; ורק $\delta$ משותף נותן התכנסות במידה
+          שווה.
+
+  - id: W-4.5-09
+    level: exam
+    objectives: [OBJ-4.5-1]
+    prompt: >-
+      תהי $f\in C^1[0,1]$ (גזירה ברציפות). הוכיחו שיש פולינומים $p_n$ עם
+      $$\|p_n-f\|_\infty+\|p_n'-f'\|_\infty\to0 .$$
+      והסבירו למה זה אינו סותר את טענה 4.5.6(ג).
+    answer: >-
+      מקרבים את $f'$ בפולינומים $q_n$ (מסקנה 4.5.5) ומגדירים $p_n(x)=f(0)+\int_0^xq_n$.
+    solution:
+      - kind: idea
+        text: >-
+          אינטגרציה משמרת קרבה במידה שווה (גזירה לא). לכן מקרבים את **הנגזרת**, ומשחזרים את $f$ באינטגרל.
+      - kind: step
+        text: >-
+          $f'\in C[0,1]$. לפי מסקנה 4.5.5 יש פולינומים $q_n$ עם $\|q_n-f'\|_\infty<\frac1n$.
+      - kind: step
+        text: >-
+          נגדיר $p_n(x)=f(0)+\int_0^xq_n(t)\,dt$: פולינום (אינטגרל של פולינום), ולפי המשפט היסודי $p_n'=q_n$. לכן
+          $\|p_n'-f'\|_\infty<\frac1n$.
+      - kind: computation
+        text: >-
+          לפי המשפט היסודי, $f(x)=f(0)+\int_0^xf'$. לכל $x\in[0,1]$:
+          $$\begin{aligned}&|p_n(x)-f(x)|\\&\quad=\Big|\int_0^x(q_n-f')\Big|\\&\quad\le x\,\|q_n-f'\|_\infty<\frac1n .\end{aligned}$$
+      - kind: step
+        text: >-
+          לכן $\|p_n-f\|_\infty+\|p_n'-f'\|_\infty$ קטן מ-$\frac2n$, ששואף ל-$0$.
+      - kind: check
+        text: >-
+          טענה 4.5.6(ג) אומרת ש**לא כל** סדרת פולינומים שמתכנסת ל-$f$ במידה שווה מקיימת $p_n'\to f'$; כאן בנינו סדרה
+          **מסוימת** שכן. ההנחה $f\in C^1$ נחוצה: $|x-\frac12|$ אינה גזירה, ואין לה נגזרת לקרב.
+      - kind: result
+        text: >-
+          הפולינומים צפופים ב-$C^1[0,1]$ גם בנורמה $\|f\|_\infty+\|f'\|_\infty$.
+
+  - id: W-4.5-10
+    level: exam
+    objectives: [OBJ-4.5-1]
+    prompt: >-
+      (א) הוכיחו ש-$e^{-x}$ אינה גבול במידה שווה של פולינומים על $[0,\infty)$.
+
+      (ב) תהי $f:[0,\infty)\to\mathbb{R}$ רציפה עם גבול סופי $L=\lim_{x\to\infty}f(x)$. הוכיחו שלכל $\varepsilon>0$ יש
+      פולינום $p$ עם $|f(x)-p(e^{-x})|<\varepsilon$ לכל $x\ge0$.
+    answer: >-
+      (א) הנימוק של טענה 4.5.6(ב1): הגבול היה פולינום, ופולינום שאינו קבוע אינו חסום, וקבוע אינו $e^{-x}$. (ב) $g(t)=f(-\ln t)$,
+      $g(0)=L$, רציפה על $[0,1]$; מקרבים את $g$.
+    solution:
+      - kind: step
+        text: >-
+          (א) נניח $\sup_{[0,\infty)}|p_n-e^{-x}|\to0$. כמו בשלבים 2–4 של טענה 4.5.6(ב1) (שלב 1 שם משתמש רק ב-$x\to+\infty$),
+          $e^{-x}=p_N(x)+c$ על $[0,\infty)$ לפולינום $p_N$ וקבוע $c$, כלומר $e^{-x}$ פולינום על $[0,\infty)$. הוא חסום
+          ($0<e^{-x}\le1$), ולכן לפי שלב 1 שם קבוע. אבל $e^{-0}=1\ne e^{-1}$. סתירה.
+      - kind: step
+        text: >-
+          (ב) נגדיר $g:[0,1]\to\mathbb{R}$: $g(t)=f(-\ln t)$ ל-$t\in(0,1]$ ו-$g(0)=L$. ל-$t\in(0,1]$, $-\ln t\in[0,\infty)$,
+          ו-$g$ רציפה ב-$t$ (הרכבה, טענה 1.6.5(א)).
+      - kind: step
+        text: >-
+          רציפות ב-$0$: יהי $\varepsilon>0$. לפי הגבול יש $R$ עם $|f(x)-L|<\varepsilon$ לכל $x>R$. אם $0<t<e^{-R}$ אז
+          $-\ln t>R$, ולכן $|g(t)-g(0)|$ שווה ל-$|f(-\ln t)-L|<\varepsilon$. לכן $g\in C[0,1]$.
+      - kind: step
+        text: >-
+          לפי מסקנה 4.5.5 יש פולינום $p$ עם $|g(t)-p(t)|<\varepsilon$ לכל $t\in[0,1]$. לכל $x\ge0$, $t=e^{-x}\in(0,1]$
+          ו-$g(e^{-x})=f(x)$, ולכן $|f(x)-p(e^{-x})|<\varepsilon$.
+      - kind: check
+        text: >-
+          ההנחה "יש גבול באינסוף" נחוצה: $\sin x$ רציפה על $[0,\infty)$, וכל $p(e^{-x})$ שואף ל-$p(0)$ כש-$x\to\infty$; לכן
+          $|\sin x-p(e^{-x})|<\frac12$ לכל $x$ היה נותן, עם $x=\frac\pi2+2\pi m$ ו-$x=\frac{3\pi}2+2\pi m$ ו-$m\to\infty$,
+          $|1-p(0)|\le\frac12$ ו-$|-1-p(0)|\le\frac12$, בלתי אפשרי. ההחלפה $t=e^{-x}$ "דוחסת" את $[0,\infty)$ לקטע הקומפקטי
+          $[0,1]$, והגבול באינסוף הוא בדיוק הרציפות ב-$t=0$.
+      - kind: result
+        text: >-
+          (א) $e^{-x}$ אינה גבול כזה; (ב) כל פונקציה רציפה עם גבול באינסוף מקורבת במידה שווה על $[0,\infty)$ בפולינומים
+          ב-$e^{-x}$.
+
+challenge:
+  - id: W-4.5-c1
+    stars: 1
+    objectives: [OBJ-4.5-1]
+    prompt: >-
+      (א) תהי $f\in C[-1,1]$ **אי-זוגית** ($f(-x)=-f(x)$). הוכיחו שיש פולינומים אי-זוגיים (רק חזקות אי-זוגיות של $x$)
+      שמתכנסים ל-$f$ במידה שווה על $[-1,1]$.
+
+      (ב) נסחו והוכיחו את הטענה המקבילה לפונקציה זוגית.
+    answer: >-
+      (א) אם $p_n\to f$, אז $q_n(x)=\frac{p_n(x)-p_n(-x)}2$ אי-זוגיים ו-$\|q_n-f\|_\infty\le\|p_n-f\|_\infty$. (ב) עם
+      $\frac{p_n(x)+p_n(-x)}2$.
+    solution:
+      - kind: idea
+        text: >-
+          "החלק האי-זוגי" של פונקציה, $g\mapsto\frac{g(x)-g(-x)}2$, לינארי, אינו מגדיל נורמת סופרמום, שולח פולינום לפולינום
+          אי-זוגי, ומשאיר פונקציה אי-זוגית במקומה.
+      - kind: step
+        text: >-
+          (א) לפי מסקנה 4.5.5 יש פולינומים $p_n$ עם $\|p_n-f\|_\infty\to0$ על $[-1,1]$. נגדיר
+          $q_n(x)=\frac{p_n(x)-p_n(-x)}2$. אם $p_n=\sum_ka_kx^k$, אז $p_n(-x)=\sum_k(-1)^ka_kx^k$, ולכן
+          המקדם של $x^k$ ב-$q_n$ הוא $\frac{a_k-(-1)^ka_k}2$: $a_k$ כש-$k$ אי-זוגי, ו-$0$ כש-$k$ זוגי. כלומר $q_n$ פולינום
+          אי-זוגי.
+      - kind: computation
+        text: >-
+          $f$ אי-זוגית, ולכן $f(x)=\frac{f(x)-f(-x)}2$. לכל $x\in[-1,1]$ (וגם $-x\in[-1,1]$):
+          $$\begin{aligned}&|q_n(x)-f(x)|\\&\quad\le\tfrac12|p_n(x)-f(x)|\\&\qquad+\tfrac12|p_n(-x)-f(-x)|\\&\quad\le\|p_n-f\|_\infty .\end{aligned}$$
+          לכן $\|q_n-f\|_\infty\le\|p_n-f\|_\infty$, ששואף ל-$0$.
+      - kind: step
+        text: >-
+          (ב) הטענה: אם $f\in C[-1,1]$ זוגית, יש פולינומים זוגיים (רק חזקות זוגיות) שמתכנסים אליה במידה שווה. ההוכחה זהה עם
+          $r_n(x)=\frac{p_n(x)+p_n(-x)}2$, שבו נשארים רק המקדמים של החזקות הזוגיות, ו-$f(x)=\frac{f(x)+f(-x)}2$.
+      - kind: check
+        text: >-
+          הזוגיות של $f$ נחוצה: פולינומים אי-זוגיים מתאפסים ב-$0$, ולכן כל גבול שלהם מתאפס ב-$0$; $f(x)=1+x$ אינה גבול כזה.
+          ו-$f(x)=x$ אינה גבול של פולינומים זוגיים: אילו $\|r-x\|_\infty<1$ עם $r$ זוגי, אז $r(1)>0$ ו-$r(-1)<0$, אבל
+          $r(1)=r(-1)$.
+      - kind: result
+        text: >-
+          פונקציה רציפה אי-זוגית (זוגית) על $[-1,1]$ היא גבול במידה שווה של פולינומים אי-זוגיים (זוגיים).
+    source:
+      name: MIT OpenCourseWare, 18.100C Real Analysis (Fall 2012), Problem Set 9 Solutions
+      year: 2012
+      problem: Problem 3 (odd continuous functions on [-1,1] and odd polynomials)
+      url: https://www.ocw.mit.edu/courses/18-100c-real-analysis-fall-2012/b2cb3e93b2359c893d94248a540dc231_MIT18_100CF12_Prob_Set_9.pdf
+      verified: '2026-11-12'
+      adapted: true
+
+  - id: W-4.5-c2
+    stars: 1
+    objectives: [OBJ-4.5-1]
+    prompt: >-
+      יהיו $a<b$, $f\in C[a,b]$, ונקודות שונות $x_1,\dots,x_m\in[a,b]$. הוכיחו שיש פולינומים $p_n$ עם $p_n\to f$ במידה
+      שווה על $[a,b]$ **ו**-$p_n(x_j)=f(x_j)$ לכל $n$ ולכל $j=1,\dots,m$.
+    answer: >-
+      $q_n\to f$ לפי ויירשטראס; מתקנים בפולינומי לגרנז':
+      $$\begin{aligned}p_n&=q_n+\sum_ja_j\ell_j,\\a_j&=f(x_j)-q_n(x_j),\end{aligned}$$
+      ועם $C=\sum_j\|\ell_j\|_\infty$ מקבלים ש-$\|p_n-f\|_\infty$ לכל היותר $(1+C)\|q_n-f\|_\infty$.
+    solution:
+      - kind: idea
+        text: >-
+          מקרבים בלי התנאים, ואז מתקנים את השגיאות בנקודות בפולינום אינטרפולציה. השגיאות בנקודות קטנות, ולכן גם התיקון קטן
+          במידה שווה.
+      - kind: step
+        text: >-
+          לכל $j$ יהי $\ell_j(x)=\prod_{i\ne j}\frac{x-x_i}{x_j-x_i}$ (כמו בטענה 4.5.5א(א)): $\ell_j(x_j)=1$ ו-$\ell_j(x_i)=0$
+          ל-$i\ne j$. נסמן $C=\sum_{j=1}^m\|\ell_j\|_\infty$, מספר סופי שאינו תלוי ב-$n$ (כל $\ell_j$ רציף על $[a,b]$).
+      - kind: step
+        text: >-
+          לפי מסקנה 4.5.5 יש פולינומים $q_n$ עם $\|q_n-f\|_\infty\to0$. נגדיר
+          $$\begin{aligned}p_n&=q_n+\sum_{j=1}^ma_j\ell_j ,\\a_j&=f(x_j)-q_n(x_j),\end{aligned}$$
+          פולינום. ב-$x_i$ רק המחובר עם $j=i$ אינו מתאפס, ולכן
+          $$\begin{aligned}p_n(x_i)&=q_n(x_i)+a_i\cdot1\\&=f(x_i).\end{aligned}$$
+      - kind: computation
+        text: >-
+          $|a_j|=|f(x_j)-q_n(x_j)|$ לכל היותר $\|f-q_n\|_\infty$, ולכן
+          $$\begin{aligned}&\|p_n-f\|_\infty\\&\quad\le\|q_n-f\|_\infty\\&\qquad+\sum_j|a_j|\,\|\ell_j\|_\infty\\&\quad\le\|q_n-f\|_\infty\\&\qquad+C\,\|q_n-f\|_\infty\\&\quad=(1+C)\,\|q_n-f\|_\infty\\&\quad\to0 .\end{aligned}$$
+      - kind: check
+        text: >-
+          עם נקודה אחת, $x_1=0$, $\ell_1\equiv1$ ו-$p_n=q_n+f(0)-q_n(0)$: זו בדיוק ההוכחה של מסקנה 4.5.9 ושל דוגמה 6(א).
+          ההנחה שהנקודות **סופיות במספר** נחוצה: אם $p_n=f$ על קבוצה אינסופית וגם $f$ אינה פולינום, למשל $f=e^x$ ו-$p_n=f$
+          על אינסוף נקודות, אז $p_n-p_1$ מתאפס באינסוף נקודות ולכן $p_n=p_1$ לכל $n$, ו-$p_1\to e^x$ במידה שווה, כלומר
+          $e^x=p_1$, סתירה.
+      - kind: result
+        text: >-
+          אפשר לקרב במידה שווה ובו בזמן להסכים עם $f$ במספר סופי כלשהו של נקודות.
+    source:
+      name: 'Jiří Lebl, Basic Analysis II: Introduction to Real Analysis, Volume II (version 6.3), section 11.7'
+      year: 2026
+      problem: Exercise 11.7.14
+      url: https://www.jirka.org/ra/html/sec_stoneweier.html
+      verified: '2026-11-12'
+      adapted: true

@@ -3,7 +3,7 @@
 #   OBJ-4.6-1  define a subalgebra that separates points and state the real Stone–Weierstrass theorem
 #   OBJ-4.6-2  deduce that trigonometric polynomials are dense in the continuous periodic functions
 #   OBJ-4.6-3  check the hypotheses for given algebras and find an algebra that is not dense because one fails
-# A trigonometric polynomial here is a finite sum c + Σ (a_k cos kx + b_k sin kx); chapter 5 takes them up again.
+# A trigonometric polynomial here is a finite sum c + Σ (a_k cos kx + b_k sin kx) (הגדרה 4.6.1א); no Fourier series.
 chapter: 4
 questions:
   - id: Q-4.6-statement
@@ -55,7 +55,7 @@ questions:
         misconception: MC-c4-separation-definition
       - text: 'לכל $x\in K$ יש $f\in\mathcal{A}$ עם $f(x)\ne0$'
         feedback: >-
-          זה התנאי "לא מתאפסת בשום נקודה", שמחליף בגרסאות מסוימות את דרישת הקבועים. הוא לא מדבר על זוגות נקודות.
+          זה התנאי "לכל נקודה יש פונקציה שאינה מתאפסת בה": תנאי על נקודה אחת, לא על זוגות נקודות. למשל הפולינומים $p$ עם $p(0)=p(1)$ מקיימים אותו (הקבוע 1 ביניהם) ואינם מפרידים בין 0 ל-1.
         misconception: MC-c4-separation-definition
       - text: 'לכל $x\ne y$ ב-$K$ ולכל $f\in\mathcal{A}$: $f(x)\ne f(y)$'
         feedback: >-
@@ -81,7 +81,7 @@ questions:
       - text: הפונקציות הליפשיציות על $[0,1]$
         correct: true
         feedback: >-
-          נכון. למכפלה: $|fg(x)-fg(y)|\le\|f\|_\infty|g(x)-g(y)|+\|g\|_\infty|f(x)-f(y)|$, וכל פונקציה ליפשיצית על $[0,1]$
+          נכון. למכפלה: $|fg(x)-fg(y)|$ הוא לכל היותר $\|f\|_\infty|g(x)-g(y)|$ ועוד $\|g\|_\infty|f(x)-f(y)|$, וכל פונקציה ליפשיצית על $[0,1]$
           חסומה.
       - text: הפולינומים ממעלה 3 לכל היותר
         feedback: >-
@@ -101,18 +101,19 @@ questions:
     answer: 0.5
     tolerance: 0.001
     correctFeedback: >-
-      נכון: $\cos a\cos b=\frac12\big(\cos(a-b)+\cos(a+b)\big)$, ולכן $\cos2x\cos3x=\frac12\cos x+\frac12\cos5x$. כך כל
+      נכון: $\cos a\cos b$ שווה ל-$\frac12\big(\cos(a-b)+\cos(a+b)\big)$, ולכן $\cos2x\cos3x=\frac12\cos x+\frac12\cos5x$. כך כל
       מכפלה של פולינומים טריגונומטריים היא שוב פולינום טריגונומטרי: הם תת-אלגברה.
     wrongFeedback: >-
-      השתמשו בנוסחת המכפלה לסכום $\cos a\cos b=\frac12\big(\cos(a-b)+\cos(a+b)\big)$.
+      השתמשו בנוסחת המכפלה לסכום: $\cos a\cos b$ שווה ל-$\frac12\big(\cos(a-b)+\cos(a+b)\big)$.
     commonWrong:
       - value: 1
         feedback: >-
           $\cos2x\cos3x\ne\cos5x$: ב-$x=\frac\pi4$ השמאלי $\cos\frac\pi2\cos\frac{3\pi}4=0$, והימני
           $\cos\frac{5\pi}4\ne0$. המכפלה היא $\frac12\cos x+\frac12\cos5x$, שמתאפסת שם כמו שצריך.
-      - value: 6
+      - value: 0
         feedback: >-
-          מכפלה של קוסינוסים אינה מכפילה את התדירויות: היא נותנת את הסכום $5$ וההפרש $1$, כל אחד עם מקדם $\frac12$.
+          $\cos2x\cdot\cos3x\ne\cos6x$: ב-$x=\frac\pi6$ השמאלי $\cos\frac\pi3\cos\frac\pi2=0$ והימני $\cos\pi=-1$. מכפלה של
+          קוסינוסים אינה מכפילה את התדירויות: היא נותנת את הסכום $5$ וההפרש $1$, כל אחד עם מקדם $\frac12$.
 
   - id: Q-4.6-vanish
     type: numeric
@@ -150,7 +151,7 @@ questions:
           זו תת-אלגברה עם הקבועים, אבל היא לא מפרידה בין $x$ ל-$(-x)$. ראו את החישוב בנימוק הנכון.
         misconception: MC-c4-sw-separation-forgotten
     reasons:
-      - text: 'לכל $g$ זוגית: $|1-g(1)|+|-1-g(-1)|=|1-g(1)|+|1+g(1)|\ge2$, ולכן $\|x-g\|_\infty\ge1$'
+      - text: 'לכל $g$ זוגית, $|1-g(1)|+|-1-g(-1)|$ שווה ל-$|1-g(1)|+|1+g(1)|$, וזה לפחות 2; ולכן $\|x-g\|_\infty\ge1$'
         correct: true
         feedback: >-
           בדיוק. $x$ במרחק 1 לפחות מכל פונקציה זוגית, בפרט מכל פולינום ב-$x^2$. ההנחה שנכשלת היא הפרדת הנקודות $1$ ו-$(-1)$.
@@ -226,7 +227,7 @@ questions:
       - text: 'רואים בהם פונקציות על המעגל $\{(\cos t,\sin t)\}$, שהוא קומפקטי; הם תת-אלגברה עם הקבועים, ו-$\cos t,\sin t$ יחד מפרידים כל שתי נקודות של המעגל'
         correct: true
         feedback: >-
-          נכון. מכפלה של פולינומים טריגונומטריים היא פולינום טריגונומטרי (למשל $\cos kx\cos mx=\frac12(\cos(k-m)x+\cos(k+m)x)$),
+          נכון. מכפלה של פולינומים טריגונומטריים היא פולינום טריגונומטרי (למשל $\cos kx\cos mx$ הוא $\frac12(\cos(k-m)x+\cos(k+m)x)$),
           ופונקציה רציפה מחזורית היא בדיוק פונקציה רציפה על המעגל.
       - text: 'מפעילים את המשפט ישירות על הקטע $[-\pi,\pi]$'
         feedback: >-
@@ -286,7 +287,7 @@ questions:
       - text: 'הפולינומים $p$ עם $p''(0)=0$'
         correct: true
         feedback: >-
-          נכון. זו תת-אלגברה ($(pq)'(0)=p'(0)q(0)+p(0)q'(0)=0$), עם הקבועים, ומכילה את $x^2$ שמפרידה נקודות על $[0,1]$.
+          נכון. זו תת-אלגברה ($(pq)'(0)$ שווה ל-$p'(0)q(0)+p(0)q'(0)=0$), עם הקבועים, ומכילה את $x^2$ שמפרידה נקודות על $[0,1]$.
           תנאי על הנגזרת לא נשמר בגבול במידה שווה, ולכן הוא לא מונע צפיפות.
       - text: 'הפולינומים ב-$x^3$'
         correct: true
@@ -381,5 +382,6 @@ questions:
         misconception: MC-c4-continuous-is-lipschitz
       - text: 'יש פונקציה ליפשיצית חד-חד-ערכית על כל $K$, והיא מפרידה נקודות'
         feedback: >-
-          לא צריך פונקציה אחת שמפרידה את כולן, ולא ברור שיש כזו. ההגדרה מבקשת פונקציה לכל זוג, ו-$d(\cdot,x)$ עושה זאת.
+          הטענה עצמה שגויה: על הריבוע $[0,1]^2$ אין אף פונקציה רציפה חד-חד-ערכית לממשיים (ההוכחה משתמשת בקשירות, שיעור
+          3.6). וממילא ההגדרה אינה דורשת פונקציה כזו: היא מבקשת פונקציה לכל זוג, ו-$d(\cdot,x)$ עושה זאת.
         misconception: MC-c4-separation-definition

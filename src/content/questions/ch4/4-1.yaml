@@ -11,7 +11,7 @@ questions:
     qualitative: true
     level: basic
     prompt: >-
-      יהי $K$ מרחב מטרי קומפקטי ו-$f\in C(K)$. למה $\|f\|_\infty=\sup_{x\in K}|f(x)|$ הוא מספר סופי, ולמה מותר לכתוב
+      יהי $K$ מרחב מטרי קומפקטי לא ריק ו-$f\in C(K)$. למה $\|f\|_\infty=\sup_{x\in K}|f(x)|$ הוא מספר סופי, ולמה מותר לכתוב
       $\max$ במקום $\sup$?
     choices:
       - text: '$|f|$ רציפה על המרחב הקומפקטי $K$, ולכן חסומה ומקבלת מקסימום'
@@ -57,7 +57,8 @@ questions:
         misconception: MC-c4-continuity-needs-interval
       - text: אינו מוגדר, כי $K$ אינו קטע
         feedback: >-
-          $C(K)$ מוגדר לכל מרחב מטרי קומפקטי $K$. כאן הוא אחד משלושת מרחבי הבדיקה: המרחב האוקלידי.
+          $C(K)$ מוגדר לכל מרחב מטרי קומפקטי $K$. כאן הוא אחד משלושת מרחבי הבדיקה: $\mathbb{R}^n$ עם נורמת המקסימום
+          $\|\cdot\|_\infty$.
         misconception: MC-c4-continuity-needs-interval
 
   - id: Q-4.1-dist
@@ -203,15 +204,15 @@ questions:
     help: סדרו את שלבי ההוכחה מהראשון לאחרון.
     items:
       - id: pointwise
-        label: 'לכל $x\in K$: $|f_n(x)-f_m(x)|\le\|f_n-f_m\|_\infty$, ולכן $(f_n(x))$ סדרת קושי בישר'
+        label: 'לכל $x\in K$ ההפרש $|f_n(x)-f_m(x)|$ קטן מ-$\|f_n-f_m\|_\infty$ או שווה לו, ולכן $(f_n(x))$ סדרת קושי בישר'
       - id: limit
         label: 'הישר שלם, ולכן $f(x)=\lim f_n(x)$ קיים לכל $x$: זה המועמד לגבול'
       - id: uniform
-        label: 'בחרו $N$ כך ש-$|f_n(x)-f_m(x)|<\varepsilon$ לכל $n,m>N$ ולכל $x$; השאיפה $m\to\infty$ נותנת $|f_n(x)-f(x)|\le\varepsilon$ לכל $x$'
+        label: 'בחרו $N$ כך שלכל $n,m>N$ ולכל $x$ ההפרש $|f_n(x)-f_m(x)|$ קטן מ-$\varepsilon$; השאיפה $m\to\infty$ נותנת שלכל $x$ ההפרש $|f_n(x)-f(x)|$ קטן מ-$\varepsilon$ או שווה לו'
       - id: continuous
         label: 'לכן $f_n\to f$ במידה שווה, וגבול במידה שווה של פונקציות רציפות רציף: $f\in C(K)$'
       - id: done
-        label: 'ומהשלב הקודם $\|f_n-f\|_\infty\le\varepsilon$ לכל $n>N$: $f_n\to f$ במרחב $C(K)$'
+        label: 'עכשיו $f_n-f\in C(K)$, והמקסימום של $|f_n-f|$ מתקבל; כיוון ש-$|f_n(x)-f(x)|$ קטן מ-$\varepsilon$ או שווה לו לכל $x$, גם $\|f_n-f\|_\infty\le\varepsilon$ לכל $n>N$: $f_n\to f$ במרחב $C(K)$'
     order: [pointwise, limit, uniform, continuous, done]
     correctFeedback: >-
       נכון. שלושה שלבים: מועמד נקודתי, הערכה במידה שווה (השאיפה $m\to\infty$ באי-שוויון חלש), ורציפות של הגבול.
@@ -254,15 +255,15 @@ questions:
     qualitative: true
     level: mid
     prompt: >-
-      האם הקבוצה $U=\{f\in C[0,1]:\ f(x)>0\ \forall x\in[0,1]\}$ פתוחה ב-$C[0,1]$?
+      תהי $U$ קבוצת הפונקציות $f\in C[0,1]$ עם $f(x)>0$ לכל $x\in[0,1]$. האם $U$ פתוחה ב-$C[0,1]$?
     choices:
       - text: כן
         correct: true
         feedback: 'נכון. סביב כל $f\in U$ יש כדור שכולו ב-$U$.'
       - text: לא
         feedback: >-
-          סביב כל $f\in U$ יש כדור שכולו ב-$U$, ברדיוס $\min f$. (בשאלה האחרונה של השיעור תראו שבמרחב פונקציות על
-          תחום לא קומפקטי התשובה באמת יכולה להיות "לא".)
+          סביב כל $f\in U$ יש כדור שכולו ב-$U$, ברדיוס $\min f$. (בטענה 4.1.6(ג) תראו שבמרחב פונקציות על תחום לא
+          קומפקטי התשובה באמת יכולה להיות "לא".)
         misconception: MC-c4-noncompact-domain
     reasons:
       - text: '$m=\min_{[0,1]}f>0$ מתקבל כי $[0,1]$ קומפקטי; אם $\|g-f\|_\infty<m$ אז $g(x)>f(x)-m\ge0$ לכל $x$'
@@ -344,7 +345,7 @@ questions:
           זה היינה-בורל, שהוא משפט על המרחב האוקלידי בלבד. ב-$C[0,1]$ יש בכדור סדרה בלי תת-סדרה מתכנסת.
         misconception: MC-c4-closed-bounded-compact
     reasons:
-      - text: 'אוהלים $g_k$ בגובה 1 עם תומכים זרים בקטעים $[\frac1{k+1},\frac1k]$: $\|g_k-g_j\|_\infty=1$ לכל $k\ne j$, ולכן אין תת-סדרה קושי'
+      - text: 'אוהלים $g_k$ בגובה 1 על הקטעים $[\frac1{k+1},\frac1k]$, שנפגשים לכל היותר בקצה: $\|g_k-g_j\|_\infty=1$ לכל $k\ne j$, ולכן אין תת-סדרה קושי'
         correct: true
         feedback: >-
           בדיוק. בנקודת השיא של $g_k$ הפונקציה $g_j$ מתאפסת, ולכן המרחק 1. תת-סדרה מתכנסת הייתה סדרת קושי, והמרחקים
@@ -388,3 +389,63 @@ questions:
         feedback: >-
           $\frac1{1+x^2}$ רציפה וחסומה, ה-$\inf$ שלה 0 ואינו מתקבל. בלי קומפקטיות אין מינימום מובטח.
         misconception: MC-c4-noncompact-domain
+
+  - id: Q-4.1-geometric
+    type: twotier
+    objectives: [OBJ-4.1-2]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $(f_n)$ סדרה ב-$C[0,1]$ עם $\|f_{n+1}-f_n\|_\infty\le2^{-n}$ לכל $n$. האם $(f_n)$ מתכנסת במרחב $C[0,1]$?
+    choices:
+      - text: כן
+        correct: true
+        feedback: 'נכון. הצעדים קטנים מספיק מהר כדי שהסדרה תהיה סדרת קושי, והמרחב שלם.'
+      - text: לא בהכרח
+        feedback: >-
+          $C[0,1]$ שלם (משפט 4.1.4), ולכן מספיק לבדוק שהסדרה היא סדרת קושי בנורמה. כאן היא כזו: סכמו את הצעדים.
+        misconception: MC-c4-ck-not-complete
+    reasons:
+      - text: 'ל-$m>n$: $\|f_m-f_n\|_\infty\le\sum_{k=n}^{m-1}2^{-k}$, וזה קטן מ-$2^{1-n}$; לכן הסדרה קושי, ו-$C[0,1]$ שלם'
+        correct: true
+        feedback: >-
+          בדיוק. אי-שוויון המשולש לאורך השרשרת $f_n,f_{n+1},\dots,f_m$ חוסם את המרחק בסכום של טור הנדסי, ושלמות
+          $C[0,1]$ נותנת גבול רציף.
+      - text: 'מספיק ש-$\|f_{n+1}-f_n\|_\infty\to0$'
+        feedback: >-
+          זה אינו מספיק: הפונקציות הקבועות $f_n=\sum_{k=1}^n\frac1k$ מקיימות $\|f_{n+1}-f_n\|_\infty=\frac1{n+1}\to0$, ובכל
+          זאת $\|f_n\|_\infty\to\infty$. צריך שהצעדים יהיו סכימים, לא רק קטנים.
+        misconception: MC-c2-consecutive-terms
+      - text: 'כל $f_n(x)$ מתכנסת, וגבול נקודתי של פונקציות רציפות רציף'
+        feedback: >-
+          גבול נקודתי של רציפות אינו חייב להיות רציף ($x^n$), ובכל מקרה התכנסות ב-$C[0,1]$ היא התכנסות במידה שווה,
+          לא נקודתית (טענה 4.1.3).
+        misconception: MC-c4-pointwise-is-ck-convergence
+
+  - id: Q-4.1-polynomials
+    type: mc
+    objectives: [OBJ-4.1-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      קבוצת הפולינומים $\mathcal{P}$, כפונקציות על $[0,1]$, היא תת-מרחב של $C[0,1]$. היא:
+    choices:
+      - text: לא פתוחה ולא סגורה
+        correct: true
+        feedback: >-
+          נכון. פולינומי טיילור $s_n$ של $e^x$ שואפים אליה במידה שווה על $[0,1]$, ו-$e^x$ אינה פולינום: לא סגורה. ולכל
+          פולינום $p$ ו-$r>0$, $p+\frac r{2e}e^x$ במרחק $\frac r2$ ואינה פולינום: לא פתוחה (טענה 4.1.8(א)).
+      - text: סגורה, כי היא תת-מרחב וקטורי
+        feedback: >-
+          תת-מרחב ממימד סופי סגור (מסקנה 3.5.6(ג)), אבל $\mathcal{P}$ ממימד אינסופי. $\|e^x-s_n\|_\infty\le\frac{e}{(n+1)!}\to0$,
+          ו-$e^x\notin\mathcal{P}$.
+        misconception: MC-c3-subspace-always-closed
+      - text: פתוחה, כי היא אינה סגורה
+        feedback: >-
+          "לא סגורה" אינו "פתוחה". תת-מרחב שאינו כל המרחב אינו מכיל אף כדור (טענה 4.1.7(ה)), ולכן אינו פתוח.
+        misconception: MC-c4-not-closed-means-open
+      - text: גם פתוחה וגם סגורה, כי היא צפופה
+        feedback: >-
+          לא הוכחנו בשיעור הזה ש-$\mathcal{P}$ צפופה (זה שיעור 4.5), וגם קבוצה צפופה אינה פתוחה בהכרח: $\mathbb{Q}$ צפופה
+          בישר ואינה פתוחה. ו-$\mathcal{P}$ אינה מכילה אף כדור.
+        misconception: MC-c4-not-closed-means-open

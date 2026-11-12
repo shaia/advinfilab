@@ -1,0 +1,577 @@
+# Workbook of lesson 4.1 — the space C(K) and the sup norm.
+# Objectives (src/course.ts):
+#   OBJ-4.1-1  define C(K) with the sup norm and explain why the sup is attained
+#   OBJ-4.1-2  prove C(K) is complete and that convergence in it is uniform convergence
+#   OBJ-4.1-3  decide whether subsets of C(K) are open, closed or bounded
+# Results cited by the numbers of the chapter-4 spine (4.1.m) and of chapters 1–3. Every number recomputed with
+# npx tsx (sup norms by the derivative and by supDist as a probe; 3^(1/3), sin 1, 1/e, 3e^(-3)).
+lesson: '4.1'
+practice:
+  - id: W-4.1-01
+    level: basic
+    objectives: [OBJ-4.1-1]
+    prompt: >-
+      חשבו את הנורמות, ומצאו איפה המקסימום מתקבל.
+
+      (א) $\|f\|_\infty$ ב-$C[0,3]$, עבור $f(x)=xe^{-x}$.
+
+      (ב) $\|\sin x-x\|_\infty$ ב-$C[0,\pi]$.
+
+      (ג) $\|f-g\|_\infty$ ב-$C(K)$, עבור $K=\{-1,0,1\}\subseteq\mathbb{R}$, $f(x)=x^2$ ו-$g(x)=x$.
+    answer: >-
+      (א) $\frac1e\approx0.3679$, ב-$x=1$. (ב) $\pi$, ב-$x=\pi$. (ג) $2$, ב-$x=-1$.
+    solution:
+      - kind: theorem
+        text: >-
+          בכל אחד מהסעיפים הפונקציה רציפה על מרחב קומפקטי, ולפי טענה 4.1.1א(א) הערך המוחלט שלה מקבל מקסימום: מחפשים אותו.
+          על קטע, המקסימום של פונקציה גזירה הוא בקצה או בנקודה שבה הנגזרת מתאפסת (אינפי 1).
+      - kind: computation
+        text: >-
+          (א) $f\ge0$ על $[0,3]$, ו-$f'(x)=(1-x)e^{-x}$: חיובית על $[0,1)$ ושלילית על $(1,3]$. לכן $f$ עולה עד $x=1$ ויורדת
+          אחריו, והמקסימום $f(1)=\frac1e\approx0.3679$. לעומתו $f(0)=0$ ו-$f(3)=3e^{-3}\approx0.1494$.
+      - kind: computation
+        text: >-
+          (ב) $h(x)=x-\sin x$ מקיימת $h'(x)=1-\cos x\ge0$, ולכן $h$ עולה, $h\ge h(0)=0$, ו-$|\sin x-x|=h(x)\le h(\pi)$, כאשר $h(\pi)=\pi$.
+      - kind: computation
+        text: >-
+          (ג) לפי טענה 4.1.2(א), $C(K)$ הוא $\mathbb{R}^3$ עם $\|\cdot\|_\infty$. הערכים של $f-g$ ב-$-1,0,1$ הם $1-(-1)=2$,
+          $0$ ו-$1-1=0$, ולכן $\|f-g\|_\infty=2$.
+      - kind: check
+        text: >-
+          בסעיף (א) המקסימום בפנים, ובסעיף (ב) בקצה: אין כלל שהמקסימום של $|f|$ תמיד באחד המקומות. ובדיקה מספרית על
+          רשת של 20001 נקודות (בדיקה, לא הוכחה) נותנת $0.36788$ ו-$3.14159$.
+      - kind: result
+        text: >-
+          (א) $\frac1e$, ב-$x=1$; (ב) $\pi$, ב-$x=\pi$; (ג) $2$, ב-$x=-1$.
+
+  - id: W-4.1-02
+    level: basic
+    qualitative: true
+    objectives: [OBJ-4.1-1]
+    prompt: >-
+      $K=\{0\}\cup\{\frac1n:\ n\in\mathbb{N}\}$ עם $|x-y|$. לכל אחת מהסדרות קבעו אם יש ערך ב-0 שהופך את הפונקציה
+      $\frac1n\mapsto a_n$ לאיבר של $C(K)$; אם כן, מצאו אותו ואת הנורמה, ואמרו באיזו נקודה של $K$ הנורמה מתקבלת.
+
+      (א) $a_n=\frac{\sin n}{n}$.
+
+      (ב) $a_n=\cos\frac1n$.
+
+      (ג) $a_n=n^{1/n}$.
+
+      (ד) $a_n=(-1)^n+\frac1n$.
+    answer: >-
+      (א) כן, $0$; הנורמה $\sin1\approx0.8415$, ב-$x=1$. (ב) כן, $1$; הנורמה 1, **רק** ב-$x=0$. (ג) כן, $1$; הנורמה
+      $3^{1/3}\approx1.4422$, ב-$x=\frac13$. (ד) לא: הסדרה אינה מתכנסת.
+    solution:
+      - kind: theorem
+        text: >-
+          לפי טענה 4.1.2(ב), פונקציה על $K$ רציפה אם ורק אם $a_n\to f(0)$. לכן יש ערך מתאים ב-0 אם ורק אם הסדרה
+          מתכנסת, והוא הגבול. והנורמה היא $\max_K|f|$, שמתקבלת בנקודה של $K$, אולי דווקא ב-0.
+      - kind: step
+        text: >-
+          (א) $|a_n|\le\frac1n\to0$, ולכן $f(0)=0$. $|a_1|=\sin1\approx0.8415$, ול-$n\ge2$, $|a_n|\le\frac1n\le\frac12<\sin1$.
+          הנורמה $\sin1$, ב-$x=1$.
+      - kind: step
+        text: >-
+          (ב) $\cos$ רציפה, ולכן $\cos\frac1n\to\cos0=1$, ו-$f(0)=1$. $0<\frac1n\le1<\frac\pi2$, ולכן $0<\cos\frac1n<1$. הנורמה
+          היא 1, והיא מתקבלת רק בנקודת ההצטברות 0. בסדרה עצמה $\sup_n|a_n|=1$ אינו מתקבל: זו הסיבה שב-$C(K)$ צריך את
+          הנקודה 0.
+      - kind: step
+        text: >-
+          (ג) $n^{1/n}=e^{\ln n/n}\to e^0=1$ (אינפי 1), ו-$f(0)=1$. $a_1=1$, $a_2=\sqrt2\approx1.4142$, $a_3=3^{1/3}\approx1.4422$.
+          ל-$n\ge3$ הסדרה יורדת: $a_{n+1}<a_n$ שקול ל-$(n+1)^n<n^{n+1}$, כלומר ל-$(1+\frac1n)^n<n$, ונכון כי
+          $(1+\frac1n)^n<e<3\le n$. לכן הנורמה $3^{1/3}$, ב-$x=\frac13$.
+      - kind: step
+        text: >-
+          (ד) $a_{2k}=1+\frac1{2k}\to1$ ו-$a_{2k-1}=-1+\frac1{2k-1}\to-1$: שני גבולות חלקיים שונים, והסדרה אינה מתכנסת.
+          אין ערך ב-0 שעושה את הפונקציה רציפה.
+      - kind: result
+        text: >-
+          (א) $f(0)=0$, $\|f\|_\infty=\sin1$; (ב) $f(0)=1$, $\|f\|_\infty=1$, רק ב-0; (ג) $f(0)=1$, $\|f\|_\infty=3^{1/3}$;
+          (ד) אין.
+
+  - id: W-4.1-03
+    level: basic
+    objectives: [OBJ-4.1-2]
+    prompt: >-
+      הכריעו אם הסדרות מתכנסות במרחב $C[0,1]$, ולאן.
+
+      (א) $f_n(x)=\sqrt{x+\frac1n}$.
+
+      (ב) $g_n(x)=nxe^{-nx}$.
+
+      (ג) $h_n(x)=\frac{x}{1+nx^2}$.
+    answer: >-
+      (א) כן, ל-$\sqrt x$, במרחק $\frac1{\sqrt n}$. (ב) לא: הגבול הנקודתי 0, ו-$\|g_n\|_\infty=\frac1e$. (ג) כן, ל-0, במרחק
+      $\frac1{2\sqrt n}$.
+    solution:
+      - kind: idea
+        text: >-
+          המתכון שאחרי טענה 4.1.3: גבול נקודתי, ואם הוא רציף, המרחק בנורמת הסופרמום אליו.
+      - kind: computation
+        text: >-
+          (א) הגבול הנקודתי $\sqrt x$ רציף. עם $\eta=\frac1n$, הכפלה בצמוד:
+          $$\begin{aligned}&\sqrt{x+\eta}-\sqrt x\\&\quad=\frac{\eta}{\sqrt{x+\eta}+\sqrt x}\\&\quad\le\frac{\eta}{\sqrt\eta}=\sqrt\eta ,\end{aligned}$$
+          עם שוויון ב-$x=0$. לכן $\|f_n-\sqrt x\|_\infty=\frac1{\sqrt n}\to0$.
+      - kind: computation
+        text: >-
+          (ב) הגבול הנקודתי: $g_n(0)=0$, ול-$x\in(0,1]$, עם $q=e^{-x}\in(0,1)$, $g_n(x)=x\cdot nq^n\to0$ (אינפי 1: $nq^n\to0$
+          ל-$0\le q<1$). המקסימום: $g_n'(x)=ne^{-nx}(1-nx)$, חיובית ל-$x<\frac1n$ ושלילית ל-$x>\frac1n$, ו-$\frac1n\in(0,1]$. לכן
+          $g_n$ עולה עד $\frac1n$ ויורדת אחריו, $g_n\ge0$, והמקסימום $g_n(\frac1n)=e^{-1}$. לכן $\|g_n-\theta\|_\infty=\frac1e$ לכל
+          $n$, ולפי טענה 4.1.3(ב) אין גבול אחר: הסדרה אינה מתכנסת ב-$C[0,1]$.
+      - kind: computation
+        text: >-
+          (ג) הגבול הנקודתי: $h_n(0)=0$, ול-$x>0$, $0\le h_n(x)\le\frac{x}{nx^2}=\frac1{nx}$, ששואף ל-0. הנגזרת
+          $h_n'(x)=\frac{1-nx^2}{(1+nx^2)^2}$ מתאפסת ב-$x=\frac1{\sqrt n}\in(0,1]$, ושם $h_n=\frac{1/\sqrt n}{2}$; בקצוות
+          $h_n(0)=0$ ו-$h_n(1)=\frac1{1+n}\le\frac1{2\sqrt n}$ (כי $(\sqrt n-1)^2\ge0$). לכן $\|h_n\|_\infty=\frac1{2\sqrt n}\to0$.
+      - kind: check
+        text: >-
+          ב-(ג), עם $n=4$: $\frac1{2\sqrt4}=0.25$, ב-$x=\frac12$: $\frac{1/2}{1+4/4}=0.25$. מתאים. ב-(ב) הגבעה נודדת אל 0 ושומרת
+          על גובהה $\frac1e\approx0.3679$, כמו הגבעה של שאלת החיזוי; עם $n=2$, בקצה $g_2(1)=2e^{-2}\approx0.2707$, פחות מ-$\frac1e$.
+      - kind: result
+        text: >-
+          (א) $f_n\to\sqrt x$; (ב) אינה מתכנסת, $\|g_n\|_\infty=\frac1e$; (ג) $h_n\to\theta$.
+
+  - id: W-4.1-04
+    level: mid
+    objectives: [OBJ-4.1-2]
+    prompt: >-
+      יהי $K$ מרחב מטרי קומפקטי לא ריק.
+
+      (א) הוכיחו: אם $f_n\to f$ ב-$C(K)$ ו-$x_n\to x$ ב-$K$, אז $f_n(x_n)\to f(x)$.
+
+      (ב) הראו שההנחה "$f_n\to f$ ב-$C(K)$" אינה ניתנת להחלשה ל"$f_n(y)\to f(y)$ לכל $y$, ו-$f$ רציפה".
+    answer: >-
+      (א) $|f_n(x_n)-f(x)|$ קטן מ-$\|f_n-f\|_\infty+|f(x_n)-f(x)|$ או שווה לו, וזה שואף ל-0. (ב) $f_n(x)=\frac{nx}{1+n^2x^2}$ על $[0,1]$ ו-$x_n=\frac1n$:
+      $f_n(x_n)=\frac12$, והגבול $f(0)=0$.
+    solution:
+      - kind: idea
+        text: >-
+          שני מעברים: מ-$f_n$ ל-$f$ באותה נקודה $x_n$ (כאן צריך מרחק שאינו תלוי בנקודה: הנורמה), ומ-$f(x_n)$ ל-$f(x)$
+          (רציפות של $f$).
+      - kind: step
+        text: >-
+          (א) **1.** לכל $n$, לפי אי-שוויון המשולש ב-$\mathbb{R}$:
+          $$\begin{aligned}&|f_n(x_n)-f(x)|\\&\quad\le|f_n(x_n)-f(x_n)|\\&\qquad+|f(x_n)-f(x)|\\&\quad\le\|f_n-f\|_\infty\\&\qquad+|f(x_n)-f(x)| .\end{aligned}$$
+      - kind: step
+        text: >-
+          **2.** $\|f_n-f\|_\infty\to0$ לפי ההנחה. $f\in C(K)$ רציפה ב-$x$, ולפי משפט 1.6.3, $f(x_n)\to f(x)$. לפי כלל הסנדוויץ'
+          (אינפי 1), $|f_n(x_n)-f(x)|\to0$.
+      - kind: step
+        text: >-
+          (ב) $f_n(x)=\frac{nx}{1+n^2x^2}$ שואפת בכל נקודה לפונקציית האפס, שהיא רציפה (התשובה לשאלת החיזוי של השיעור).
+          $x_n=\frac1n\to0$, ו-$f_n(\frac1n)=\frac{1}{1+1}=\frac12$ לכל $n$, בעוד $f(0)=0$.
+      - kind: check
+        text: >-
+          ב-(ב) ההוכחה של (א) נשברת בדיוק בשלב 2: $|f_n(x_n)-f(x_n)|=\frac12$ אינו קטן, כי $\|f_n-f\|_\infty=\frac12$.
+      - kind: result
+        text: >-
+          (א) $f_n(x_n)\to f(x)$; (ב) התכנסות נקודתית, גם לגבול רציף, אינה מספיקה.
+
+  - id: W-4.1-05
+    level: mid
+    qualitative: true
+    objectives: [OBJ-4.1-3]
+    prompt: >-
+      לכל קבוצה ב-$C[0,1]$ קבעו אם היא פתוחה ואם היא סגורה, והוכיחו.
+
+      (א) $A=\{f:\ f(x)\le x^2\ \ \forall x\}$.
+
+      (ב) $B=\{f:\ f(0)<f(1)\}$.
+
+      (ג) $M$, קבוצת הפונקציות הלא יורדות: $f(x)\le f(y)$ לכל $x\le y$.
+
+      (ד) $E$, קבוצת הפונקציות שיש להן לפחות ערך אי-שלילי אחד: יש $x\in[0,1]$ עם $f(x)\ge0$.
+    answer: >-
+      (א) סגורה, לא פתוחה. (ב) פתוחה, לא סגורה. (ג) סגורה, לא פתוחה. (ד) סגורה, לא פתוחה.
+    solution:
+      - kind: theorem
+        text: >-
+          לפי טענה 4.1.7(א) ההצבה $\operatorname{ev}_x$ ליפשיצית עם קבוע 1, ולכן גם $\operatorname{ev}_y-\operatorname{ev}_x$
+          ליפשיצית (עם קבוע 2). מקור של סגורה סגור ומקור של פתוחה פתוח (משפט 1.6.4), וחיתוך של כל משפחה של סגורות סגור
+          (מסקנה 1.3.8(ב)).
+      - kind: step
+        text: >-
+          (א) $A=\bigcap_x\operatorname{ev}_x^{-1}((-\infty,x^2])$: סגורה. לא פתוחה: $x^2\in A$, ולכל $r>0$, $x^2+\frac r2\notin A$
+          ובמרחק $\frac r2$ ממנה.
+      - kind: step
+        text: >-
+          (ב) $B$ היא $(\operatorname{ev}_1-\operatorname{ev}_0)^{-1}((0,\infty))$: פתוחה. לא סגורה: $\frac xn\in B$ ו-$\frac xn\to\theta\notin B$
+          (מסקנה 1.5.8(ב)).
+      - kind: step
+        text: >-
+          (ג) $M$ היא החיתוך, על כל $x\le y$, של $(\operatorname{ev}_y-\operatorname{ev}_x)^{-1}([0,\infty))$: סגורה. לא פתוחה: $\theta\in M$, ולכל $r>0$
+          הפונקציה $-\frac r2x$ יורדת ממש, ובמרחק $\frac r2$ מ-$\theta$.
+      - kind: step
+        text: >-
+          (ד) **1.** לכל $f$, $\mu(f)=\max_{[0,1]}f$ מתקבל (טענה 4.1.1א, עם $f$ במקום $|f|$: מסקנה 3.4.3). לכן "יש $x$ עם
+          $f(x)\ge0$" שקול ל-$\mu(f)\ge0$: אם המקסימום אי-שלילי, הוא ערך של $f$ בנקודה.
+      - kind: step
+        text: >-
+          **2.** $\mu$ ליפשיצית עם קבוע 1: לכל $x$, $$\begin{aligned}f(x)&\le g(x)+\|f-g\|_\infty\\&\le\mu(g)+\|f-g\|_\infty ,\end{aligned}$$ ולכן
+          $\mu(f)\le\mu(g)+\|f-g\|_\infty$; ובהחלפת התפקידים, $|\mu(f)-\mu(g)|\le\|f-g\|_\infty$. לכן $E=\mu^{-1}([0,\infty))$
+          סגורה. לא פתוחה: $\theta\in E$, ו-$-\frac r2\mathbf 1\notin E$.
+      - kind: check
+        text: >-
+          ב-(ד) הקומפקטיות נכנסה דרך המקסימום שמתקבל. ב-$C_b((0,1])$ הקבוצה המקבילה, הפונקציות שיש להן ערך אי-שלילי,
+          **אינה** סגורה: $f_n(x)=\frac1n-x$ שייכת אליה (ב-$x=\frac1n$ הערך 0), $\|f_n-(-x)\|_\infty=\frac1n\to0$, ו-$-x<0$ בכל
+          $(0,1]$.
+      - kind: result
+        text: >-
+          (א), (ג), (ד) סגורות ולא פתוחות; (ב) פתוחה ולא סגורה.
+
+  - id: W-4.1-06
+    level: mid
+    objectives: [OBJ-4.1-3]
+    prompt: >-
+      יהי $K$ מרחב מטרי קומפקטי, $D\subseteq K$ לא ריקה, ו-$$\begin{aligned}Z_D=\{f\in C(K):\ &f(x)=0\\ &\forall x\in D\}.\end{aligned}$$
+
+      (א) הוכיחו ש-$Z_D$ תת-מרחב וקטורי סגור של $C(K)$.
+
+      (ב) הוכיחו ש-$Z_D=Z_{\overline D}$.
+
+      (ג) ב-$C[0,1]$: מהי $Z_D$ עבור $D=\mathbb{Q}\cap[0,1]$? ועבור $D=\{\frac1n:\ n\in\mathbb{N}\}$, איזו נקודה נוספת חייבת
+      כל $f\in Z_D$ להתאפס בה?
+    answer: >-
+      (א) חיתוך של הגרעינים $Z_p$. (ב) פונקציה רציפה שמתאפסת על $D$ מתאפסת על הסגור. (ג) $Z_D=\{\theta\}$; ב-$x=0$.
+    solution:
+      - kind: step
+        text: >-
+          (א) $Z_D=\bigcap_{p\in D}Z_p$. כל $Z_p$ תת-מרחב סגור (טענה 4.1.7(ד)); חיתוך של תת-מרחבים הוא תת-מרחב (אלגברה
+          לינארית 1), וחיתוך של סגורות סגור (מסקנה 1.3.8(ב)).
+      - kind: step
+        text: >-
+          (ב) $D\subseteq\overline D$, ולכן $Z_{\overline D}\subseteq Z_D$. להפך, תהי $f\in Z_D$ ו-$x\in\overline D$. לפי משפט 1.5.7(א)
+          יש $d_n\in D$ עם $d_n\to x$; $f$ רציפה, ולפי משפט 1.6.3, $f(x)=\lim f(d_n)=\lim0$, כלומר $f(x)=0$. לכן $f\in Z_{\overline D}$.
+      - kind: step
+        text: >-
+          (ג) הסגור של $\mathbb{Q}\cap[0,1]$ ב-$[0,1]$ הוא $[0,1]$: לכל $x\in[0,1]$ ולכל $n$, הקטע
+          $(x-\frac1n,x+\frac1n)\cap[0,1]$ מכיל קטע פתוח לא ריק, ולפי צפיפות $\mathbb{Q}$ (משפט 1.4.15) יש בו רציונלי
+          $q_n$; $q_n\to x$. לכן $Z_D=Z_{[0,1]}=\{\theta\}$.
+      - kind: step
+        text: >-
+          עבור $D=\{\frac1n\}$, $\overline D=D\cup\{0\}$ ($\frac1n\to0$, ו-$D\cup\{0\}$ סגורה כי היא קומפקטית, טענה 3.2.4(ד)
+          ומשפט 3.2.5). לפי (ב), כל $f\in Z_D$ מתאפסת גם ב-0.
+      - kind: check
+        text: >-
+          (ב) הוא טענה 1.4.4(ב) בתחפושת: קבוצת האפסים של $f$ רציפה היא $f^{-1}(\{0\})$, סגורה, ומכילה את $D$; לכן מכילה את
+          $\overline D$. ו-$Z_D\ne C(K)$, ולכן לפי טענה 4.1.7(ה) $Z_D$ בעלת פנים ריק.
+      - kind: result
+        text: >-
+          (א) תת-מרחב סגור; (ב) $Z_D=Z_{\overline D}$; (ג) $\{\theta\}$, ו-$f(0)=0$.
+
+  - id: W-4.1-07
+    level: mid
+    qualitative: true
+    objectives: [OBJ-4.1-1, OBJ-4.1-3]
+    prompt: >-
+      $K=\{x_1,\dots,x_n\}\subseteq\mathbb{R}$, $n$ נקודות שונות, עם $|x-y|$. בעזרת טענה 4.1.2(א), קבעו מה מהבאות נכון
+      ב-$C(K)$, בניגוד ל-$C[0,1]$ או כמוהו, והוכיחו.
+
+      (א) כדור היחידה הסגור קומפקטי.
+
+      (ב) כל תת-מרחב וקטורי סגור. ובנוסף: קבוצת הצמצומים של הפולינומים ל-$K$ היא כל $C(K)$.
+
+      (ג) הפונקציות החיוביות פתוחות, ו-$Z_{x_1}$ סגורה עם פנים ריק.
+    answer: >-
+      כל השלושה נכונים. (א) ו-(ב) בניגוד ל-$C[0,1]$ (טענות 4.1.9(א), 4.1.8(א)); (ג) כמו ב-$C[0,1]$.
+    solution:
+      - kind: idea
+        text: >-
+          $\Phi$ של טענה 4.1.2(א) מזהה את $C(K)$ עם $(\mathbb{R}^n,\|\cdot\|_\infty)$ ושומרת מרחקים, ולכן גם כדורים, סדרות
+          מתכנסות, קבוצות סגורות וקומפקטיות. ב-$\mathbb{R}^n$ יש היינה-בורל ומימד סופי.
+      - kind: step
+        text: >-
+          (א) $\Phi$ מעבירה את $B[\theta,1]$ של $C(K)$ על $B[0,1]$ של $(\mathbb{R}^n,d_\infty)$, שהוא סגור וחסום ולכן קומפקטי
+          (משפט 3.2.11). $\Phi^{-1}$ שומרת מרחקים ולכן רציפה, ולפי משפט 3.4.1 הכדור ב-$C(K)$ קומפקטי. ב-$C[0,1]$ הוא לא
+          (טענה 4.1.9(א)).
+      - kind: step
+        text: >-
+          (ב) $C(K)$ ממימד $n$ (כי $\Phi$ איזומורפיזם לינארי), ולכן כל תת-מרחב שלו ממימד סופי, וסגור לפי מסקנה 3.5.6(ג).
+          פולינומי לגרנז' $L_i(x)=\prod_{j\ne i}\frac{x-x_j}{x_i-x_j}$ מקיימים $L_i(x_j)=1$ אם $j=i$ ו-0 אחרת, ולכן לכל
+          $f\in C(K)$, $f=\sum_if(x_i)L_i$ על $K$: כל פונקציה על $K$ היא צמצום של פולינום.
+      - kind: step
+        text: >-
+          (ג) טענות 4.1.6(א) ו-4.1.7(ד) נוכחו לכל $K$ קומפקטי, ובפרט כאן. בשפת $\mathbb{R}^n$: $P$ היא הרביע הפתוח
+          $\{v:\ v_i>0\ \forall i\}$, ו-$Z_{x_1}$ היא העל-מישור $\{v_1=0\}$.
+      - kind: check
+        text: >-
+          ההבדל ב-(א)–(ב) הוא המימד: $C[0,1]$ ממימד אינסופי (משפט 3.5.10), ו-$C(K)$ ממימד $n$. ב-(ב) עם $n=2$,
+          $K=\{0,1\}$: הפונקציה $f(0)=a$, $f(1)=b$ היא הצמצום של $a+(b-a)x$.
+      - kind: result
+        text: >-
+          (א) קומפקטי; (ב) כל תת-מרחב סגור, והפולינומים נותנים את כל $C(K)$; (ג) כמו ב-$C[0,1]$.
+
+  - id: W-4.1-08
+    level: exam
+    objectives: [OBJ-4.1-2, OBJ-4.1-3]
+    prompt: >-
+      $\operatorname{Lip}[0,1]$ היא קבוצת הפונקציות הליפשיציות $f:[0,1]\to\mathbb{R}$. ל-$f$ כזו נסמן ב-$L(f)$ את הסופרמום
+      של המנות $\frac{|f(x)-f(y)|}{|x-y|}$ על $x\ne y$ (קבוע הליפשיץ הקטן ביותר), ונגדיר $\|f\|_L=\|f\|_\infty+L(f)$.
+
+      (א) הוכיחו ש-$\operatorname{Lip}[0,1]$ מרחב וקטורי ו-$\|\cdot\|_L$ נורמה עליו.
+
+      (ב) הוכיחו ש-$(\operatorname{Lip}[0,1],\|\cdot\|_L)$ שלם.
+
+      (ג) הוכיחו ש-$\operatorname{Lip}[0,1]$ אינה סגורה ב-$(C[0,1],\|\cdot\|_\infty)$, ולכן $(\operatorname{Lip}[0,1],\|\cdot\|_\infty)$
+      אינו שלם.
+    answer: >-
+      (א) $L$ תת-אדיטיבית והומוגנית. (ב) קושי ב-$\|\cdot\|_L$ גורר קושי ב-$\|\cdot\|_\infty$; הגבול במידה שווה ליפשיצי,
+      ובגבול של אי-שוויון חלש גם $L(f_n-f)\to0$. (ג) $\sqrt{x+\frac1n}\to\sqrt x$, ו-$\sqrt x$ אינה ליפשיצית.
+    solution:
+      - kind: step
+        text: >-
+          (א) **1.** פונקציה ליפשיצית רציפה (טענה 1.6.9), ולכן $\operatorname{Lip}[0,1]\subseteq C[0,1]$ ו-$\|f\|_\infty$ סופי. לכל
+          $x\ne y$: $$\begin{aligned}&|(f+g)(x)-(f+g)(y)|\\&\quad\le(L(f)+L(g))|x-y| ,\end{aligned}$$ ולכן $f+g$ ליפשיצית ו-$L(f+g)\le L(f)+L(g)$; ו-$L(\lambda f)=|\lambda|L(f)$.
+      - kind: step
+        text: >-
+          **2.** (N1) $\|f\|_L\ge\|f\|_\infty\ge0$, ו-$\|f\|_L=0$ גורר $\|f\|_\infty=0$, כלומר $f=\theta$. (N2)–(N3) נובעות מ-(N2)–(N3)
+          של $\|\cdot\|_\infty$ ומשלב 1, בחיבור.
+      - kind: step
+        text: >-
+          (ב) **3.** תהי $(f_n)$ סדרת קושי ב-$\|\cdot\|_L$. כי $\|\cdot\|_\infty\le\|\cdot\|_L$, היא קושי ב-$C[0,1]$, ולפי משפט 4.1.4
+          יש $f\in C[0,1]$ עם $\|f_n-f\|_\infty\to0$.
+      - kind: step
+        text: >-
+          **4.** יהי $\varepsilon>0$ ו-$N$ כך ש-$\|f_n-f_m\|_L<\varepsilon$ לכל $n,m>N$. נקבע $n>N$ ו-$x\ne y$. לכל $m>N$:
+          $$\begin{aligned}&\big|(f_n-f_m)(x)\\&\qquad-(f_n-f_m)(y)\big|\\&\quad\le\varepsilon|x-y| .\end{aligned}$$
+          כש-$m\to\infty$, $f_m(x)\to f(x)$ ו-$f_m(y)\to f(y)$ (טענה 4.1.3(ב)), ואי-שוויון חלש עובר לגבול:
+          $$\begin{aligned}&|(f_n-f)(x)-(f_n-f)(y)|\\&\quad\le\varepsilon|x-y| .\end{aligned}$$
+      - kind: step
+        text: >-
+          **5.** לכן $f_n-f$ ליפשיצית עם $L(f_n-f)\le\varepsilon$, וגם $f=f_n-(f_n-f)$ שייכת ל-$\operatorname{Lip}[0,1]$ (שלב 1). ובנורמת
+          הסופרמום: לכל $m>N$ ולכל $x$, $$\begin{aligned}&|f_n(x)-f_m(x)|\\&\quad\le\|f_n-f_m\|_\infty\\&\quad\le\|f_n-f_m\|_L<\varepsilon ;\end{aligned}$$ כש-$m\to\infty$,
+          $f_m(x)\to f(x)$, ואי-שוויון חלש עובר לגבול: $|f_n(x)-f(x)|\le\varepsilon$ לכל $x$. לכן $\|f_n-f\|_L\le2\varepsilon$ לכל $n>N$: $f_n\to f$ ב-$\|\cdot\|_L$.
+      - kind: step
+        text: >-
+          (ג) **6.** $g_n(x)=\sqrt{x+\frac1n}$ גזירה עם $g_n'(x)=\frac1{2\sqrt{x+1/n}}>0$ ו-$g_n'(x)\le\frac{\sqrt n}2$, ולפי משפט הערך הממוצע
+          (אינפי 1) ליפשיצית עם קבוע $\frac{\sqrt n}2$. לפי תרגיל 3(א), $\|g_n-\sqrt x\|_\infty=\frac1{\sqrt n}\to0$.
+      - kind: step
+        text: >-
+          **7.** $\sqrt x$ אינה ליפשיצית: $\frac{|\sqrt x-\sqrt0|}{|x-0|}=\frac1{\sqrt x}$, שאינו חסום כש-$x\to0^+$. לכן
+          $\sqrt x\in\overline{\operatorname{Lip}[0,1]}\setminus\operatorname{Lip}[0,1]$, ולפי משפט 2.2.1(ב) הקבוצה עם $\|\cdot\|_\infty$ אינה
+          שלמה.
+      - kind: check
+        text: >-
+          ב-(ג), $L(g_n)=\frac{\sqrt n}{2}$: לפי שלב 6, $L(g_n)\le\frac{\sqrt n}2$, ולהפך, המנה בין $0$ ל-$y$ שואפת
+          ל-$g_n'(0)=\frac{\sqrt n}2$ כש-$y\to0^+$ (הגדרת הנגזרת), ולכן הסופרמום של המנות לפחות $\frac{\sqrt n}2$. לכן
+          $L(g_n)\to\infty$: הסדרה אינה חסומה ב-$\|\cdot\|_L$, ולכן אינה סותרת את (ב). ואילו
+          $L(g_n)$ היו חסומים, הגבול היה ליפשיצי לפי טענה 4.1.7(ג).
+      - kind: result
+        text: >-
+          (א) נורמה; (ב) שלם; (ג) לא סגורה ב-$C[0,1]$, ובנורמת הסופרמום לא שלמה.
+
+  - id: W-4.1-09
+    level: exam
+    objectives: [OBJ-4.1-1, OBJ-4.1-2, OBJ-4.1-3]
+    prompt: >-
+      $K=\{0\}\cup\{\frac1n:\ n\in\mathbb{N}\}$, $c$ מרחב הסדרות המתכנסות עם $\|\cdot\|_\infty$, ו-$\Psi:C(K)\to c$ האיזומטריה של
+      טענה 4.1.2(ב). נסמן $c_0=\{a\in c:\ a_n\to0\}$, ו-$c_{00}$ את הסדרות שמתאפסות החל ממקום מסוים.
+
+      (א) הוכיחו ש-$\Psi(Z_0)=c_0$, והסיקו ש-$c_0$ סגור ב-$c$ ושלם.
+
+      (ב) הוכיחו ש-$c_{00}$ תת-מרחב של $c_0$ שאינו סגור, ושהסגור שלו הוא $c_0$.
+
+      (ג) האם $c_0$ פתוח ב-$c$?
+    answer: >-
+      (א) $f(0)=\lim f(\frac1n)$, ולכן $f(0)=0$ אם ורק אם $\Psi(f)\in c_0$. (ב) הקיטועים של $a\in c_0$ שואפים אליה.
+      (ג) לא.
+    solution:
+      - kind: step
+        text: >-
+          (א) **1.** לפי טענה 4.1.2(ב), $f(0)=\lim_nf(\frac1n)$. לכן $f\in Z_0$ אם ורק אם $\Psi(f)\in c_0$; ו-$\Psi$ על, ולכן
+          $\Psi(Z_0)=c_0$.
+      - kind: step
+        text: >-
+          **2.** סגור: יהיו $a^{(k)}\in c_0$ עם $a^{(k)}\to a$ ב-$c$, ו-$f_k=\Psi^{-1}(a^{(k)})\in Z_0$, $f=\Psi^{-1}(a)$. $\Psi$ שומרת
+          נורמה, ולכן $\|f_k-f\|_\infty=\|a^{(k)}-a\|_\infty$, ששואף ל-0. $Z_0$ סגורה (טענה 4.1.7(א)), ולכן $f\in Z_0$ ו-$a\in c_0$
+          (מסקנה 1.5.8(ב)).
+      - kind: step
+        text: >-
+          **3.** שלם: $c$ שלם (הדוגמה "מרחב הסדרות המתכנסות שלם" בשיעור) ו-$c_0\ne\emptyset$ סגור בו, ולפי משפט 2.2.1(א) $c_0$ שלם.
+      - kind: step
+        text: >-
+          (ב) **4.** סדרה שמתאפסת מאיזה מקום שואפת ל-0, וסכום וכפולה בסקלר של סדרות כאלה הם כאלה: $c_{00}$ תת-מרחב של $c_0$.
+          $a=(\frac1n)_n\in c_0\setminus c_{00}$.
+      - kind: step
+        text: >-
+          **5.** תהי $a\in c_0$, ו-$a^{(k)}=(a_1,\dots,a_k,0,0,\dots)$, איבר של $c_{00}$. אז $\|a-a^{(k)}\|_\infty=\sup_{n>k}|a_n|$. יהי
+          $\varepsilon>0$; יש $N$ עם $|a_n|<\frac\varepsilon2$ לכל $n>N$, ולכן לכל $k\ge N$, $\|a-a^{(k)}\|_\infty\le\frac\varepsilon2<\varepsilon$.
+          לכן $a^{(k)}\to a$, ו-$c_0\subseteq\overline{c_{00}}$ (משפט 1.5.7(א)).
+      - kind: step
+        text: >-
+          **6.** $c_{00}\subseteq c_0$ ו-$c_0$ סגור, ולכן $\overline{c_{00}}\subseteq c_0$ (טענה 1.4.4(ב)). יחד: $\overline{c_{00}}=c_0$.
+          ו-$c_{00}$ אינו סגור: $(\frac1n)\in\overline{c_{00}}\setminus c_{00}$.
+      - kind: step
+        text: >-
+          (ג) **7.** לא. $\theta\in c_0$, ולכל $r>0$ הסדרה הקבועה $\frac r2(1,1,1,\dots)\in c\setminus c_0$, במרחק $\frac r2$ מ-$\theta$.
+      - kind: check
+        text: >-
+          בשפת $C(K)$: $c_{00}$ הן הפונקציות שמתאפסות בסביבה של 0, ו-(ב) אומר שהן צפופות ב-$Z_0$. ו-(ג) הוא טענה 4.1.7(ד)
+          מועבר דרך $\Psi$.
+      - kind: result
+        text: >-
+          (א) $\Psi(Z_0)=c_0$, סגור ושלם; (ב) $\overline{c_{00}}=c_0$; (ג) $c_0$ אינו פתוח.
+
+  - id: W-4.1-10
+    level: exam
+    qualitative: true
+    objectives: [OBJ-4.1-3]
+    prompt: >-
+      תהי $E$ קבוצת הפונקציות $f\in C[0,1]$ עם $f(x)>0$ לכל $x\in(0,1]$: פונקציות חיוביות, חוץ אולי מהנקודה 0.
+
+      (א) האם $E$ פתוחה? האם היא סגורה?
+
+      (ב) מצאו את הפנים של $E$ ואת הסגור שלה, והוכיחו.
+    answer: >-
+      (א) לא פתוחה ולא סגורה. (ב) הפנים הוא $P$, הפונקציות החיוביות בכל $[0,1]$; הסגור הוא $\{f:\ f\ge0\}$.
+    solution:
+      - kind: idea
+        text: >-
+          ההבדל בין $E$ ל-$P$ (טענה 4.1.6) הוא הנקודה 0. פונקציה של $E$ עם $f(0)=0$ היא כמו $x$ על $(0,1]$ בטענה 4.1.6(ג):
+          כל הזזה מטה, קטנה ככל שתהיה, חוצה את הציר ליד 0.
+      - kind: step
+        text: >-
+          **1.** אם $f\in E$, אז $f(0)=\lim f(\frac1n)\ge0$ (משפט 1.6.3, ואי-שוויון חלש בגבול). לכן $P\subseteq E\subseteq\{f\ge0\}$.
+      - kind: step
+        text: >-
+          **2. (הפנים מכיל את $P$.)** $P$ פתוחה (טענה 4.1.6(א)) ומוכלת ב-$E$, ולכן $P\subseteq E^\circ$ (טענה 1.4.2: הפנים
+          הוא הפתוחה הגדולה ביותר שמוכלת בקבוצה).
+      - kind: step
+        text: >-
+          **3. (ואין בו יותר.)** תהי $f\in E\setminus P$; לפי שלב 1, $f(0)=0$. יהי $r>0$ ו-$g=f-\frac r2\mathbf 1$, במרחק
+          $\frac r2<r$ מ-$f$. $f$ רציפה ב-0, ולכן יש $\delta\in(0,1]$ עם $f(x)<\frac r2$ לכל $x\in[0,\delta)$. ב-$x=\frac\delta2\in(0,1]$:
+          $g(x)<0$, כלומר $g\notin E$. לכן אין כדור סביב $f$ בתוך $E$, ו-$E^\circ=P$.
+      - kind: step
+        text: >-
+          **4. (הסגור.)** $\{f\ge0\}$ סגורה (טענה 4.1.7(א)) ומכילה את $E$ (שלב 1), ולכן $\overline E\subseteq\{f\ge0\}$. להפך, אם
+          $f\ge0$, אז $f+\frac1n\mathbf 1\in P\subseteq E$ ושואפות ל-$f$; לכן $f\in\overline E$.
+      - kind: step
+        text: >-
+          (א) **5.** $x\in E\setminus P=E\setminus E^\circ$, ולכן $E$ אינה פתוחה. $\theta\in\overline E\setminus E$, ולכן אינה סגורה.
+      - kind: check
+        text: >-
+          בשלב 3 בחרנו את $\delta$ אחרי $r$ ואחרי $f$, והנקודה $\frac\delta2$ תלויה בשניהם. עם $f(x)=x$ ו-$r=0.1$: $g=x-0.05$
+          שלילית על $[0,0.05)$.
+      - kind: result
+        text: >-
+          $E$ אינה פתוחה ואינה סגורה; $E^\circ=P$ ו-$\overline E=\{f\in C[0,1]:\ f\ge0\}$.
+
+challenge:
+  - id: W-4.1-c1
+    stars: 1
+    objectives: [OBJ-4.1-2]
+    prompt: >-
+      (משפט דיני.) יהי $K$ מרחב מטרי קומפקטי, ותהיינה $f_n\in C(K)$ עם $f_n(x)\le f_{n+1}(x)$ לכל $x$ ולכל $n$, כך ש-$f_n(x)\to f(x)$
+      לכל $x$, ו-$f\in C(K)$.
+
+      (א) הוכיחו ש-$f_n\to f$ ב-$C(K)$.
+
+      (ב) הראו בדוגמאות שכל אחת מההנחות נחוצה: הרציפות של הגבול, הקומפקטיות של $K$, והמונוטוניות.
+    answer: >-
+      (א) הקבוצות $V_n$ של הנקודות $x$ עם $f(x)-f_n(x)<\varepsilon$ פתוחות, עולות ומכסות את $K$; מספר סופי מהן מכסה, ולכן אחת מהן היא $K$.
+      (ב) $-x^n$ על $[0,1]$; $-x^n$ על $[0,1)$; הגבעה $\frac{nx}{1+n^2x^2}$.
+    solution:
+      - kind: idea
+        text: >-
+          לכל נקודה $x$ יש $n$ שממנו $f_n(x)$ קרובה ל-$f(x)$, והמונוטוניות אומרת שהיא נשארת קרובה. הקבוצה שבה $f_n$ כבר
+          קרובה פתוחה (רציפות) וגדלה עם $n$; קומפקטיות הופכת "לכל $x$ יש $n$" ל"$n$ אחד לכל $x$".
+      - kind: step
+        text: >-
+          (א) **1.** נסמן $g_n=f-f_n$. $g_n$ רציפה, $g_n\ge0$ (כי $f_n(x)\le f_m(x)$ לכל $m>n$, ובגבול $f_n(x)\le f(x)$),
+          $g_{n+1}\le g_n$, ו-$g_n(x)\to0$ לכל $x$.
+      - kind: step
+        text: >-
+          **2.** יהי $\varepsilon>0$ ו-$$\begin{aligned}V_n&=\{x\in K:\ g_n(x)<\varepsilon\}\\&=g_n^{-1}\big((-\infty,\varepsilon)\big),\end{aligned}$$ פתוחה (מסקנה 1.6.7(א)).
+          $g_{n+1}\le g_n$ נותן $V_n\subseteq V_{n+1}$. ולכל $x$, $g_n(x)\to0$, ולכן $x\in V_n$ לאיזה $n$: $\{V_n\}$ כיסוי פתוח
+          של $K$.
+      - kind: step
+        text: >-
+          **3.** $K$ קומפקטי: יש $n_1<\dots<n_k$ עם $K=V_{n_1}\cup\dots\cup V_{n_k}=V_{n_k}$ (הקבוצות עולות). נסמן $N=n_k$.
+      - kind: step
+        text: >-
+          **4.** לכל $n\ge N$ ולכל $x$: $0\le g_n(x)\le g_N(x)<\varepsilon$. המקסימום של $g_n$ מתקבל (טענה 4.1.1א), ולכן
+          $\|f-f_n\|_\infty<\varepsilon$ לכל $n\ge N$: $f_n\to f$ ב-$C(K)$.
+      - kind: step
+        text: >-
+          (ב) **5.** הרציפות של $f$: $f_n(x)=-x^n$ על $[0,1]$ עולות ב-$n$ (כי $x^{n+1}\le x^n$) ושואפות ל-$0$ על $[0,1)$ ול-$-1$ ב-1:
+          גבול לא רציף, ולפי טענה 4.1.3(ג) אין התכנסות ב-$C[0,1]$.
+      - kind: step
+        text: >-
+          **6.** הקומפקטיות: אותן $f_n=-x^n$ על $[0,1)$ (לא קומפקטי: $1-\frac1k\to1\notin[0,1)$, ולכן $[0,1)$ אינה סגורה
+          ב-$\mathbb{R}$ (מסקנה 1.5.8(ב)), ולפי משפט 3.2.5 אינה קומפקטית), חסומות ורציפות, עולות, והגבול $0$ רציף.
+          אבל $\sup_{[0,1)}|f_n|=1$ לכל $n$ (כי $(1-\frac1k)^n\to1$ כש-$k\to\infty$): אין התכנסות במידה שווה.
+      - kind: step
+        text: >-
+          **7.** המונוטוניות: הגבעה $f_n(x)=\frac{nx}{1+n^2x^2}$ על $[0,1]$ קומפקטי, הגבול $0$ רציף, ו-$\|f_n\|_\infty=\frac12$
+          (שאלת החיזוי). היא אינה מונוטונית ב-$n$: ב-$x=\frac12$, $f_1=0.4$, $f_2=0.5$, $f_3\approx0.4615$.
+      - kind: check
+        text: >-
+          איפה נכנסה כל הנחה בהוכחה: רציפות $f$ (ושל $f_n$) בשלב 2, כדי ש-$V_n$ תהיה פתוחה; המונוטוניות בשלב 2
+          ($V_n$ עולות) ובשלב 4 ($g_n\le g_N$); הקומפקטיות בשלב 3.
+      - kind: result
+        text: >-
+          (א) $f_n\to f$ ב-$C(K)$; (ב) $-x^n$ על $[0,1]$, $-x^n$ על $[0,1)$, והגבעה הנודדת.
+    source:
+      name: 'Math 131B-2, Homework 6 (due May 12, 2014), course page at sites.math.rutgers.edu/~kh754'
+      year: 2014
+      problem: "Problem 3 (Dini's Theorem)"
+      url: 'https://sites.math.rutgers.edu/~kh754/Math131BS/Math%20131B%20Homework%206.pdf'
+      verified: '2026-11-12'
+      adapted: true
+
+  - id: W-4.1-c2
+    stars: 1
+    objectives: [OBJ-4.1-2, OBJ-4.1-3]
+    prompt: >-
+      יהי $(X,d)$ מרחב מטרי, ותהיינה $f_n:X\to\mathbb{R}$ רציפות במידה שווה, עם $f_n\to f$ במידה שווה על $X$.
+
+      (א) הוכיחו ש-$f$ רציפה במידה שווה.
+
+      (ב) נסמן ב-$U_b(X)$ את הפונקציות החסומות שרציפות במידה שווה על $X$. הוכיחו ש-$U_b(X)$ תת-מרחב סגור של $C_b(X)$,
+      ולכן שלם.
+
+      (ג) הראו ש-$U_b(K)=C(K)$ כש-$K$ קומפקטי, ושב-$X=(0,1]$ ההכלה $U_b(X)\subseteq C_b(X)$ ממשית.
+    answer: >-
+      (א) $\frac\varepsilon3$: $N$ אחד מההתכנסות, ו-$\delta$ של $f_N$. (ב) לפי (א) ומסקנה 2.2.6(ב) עם משפט 2.2.1(א).
+      (ג) משפט קנטור; $\sin\frac1x$.
+    solution:
+      - kind: idea
+        text: >-
+          כמו שלב 3 במשפט 4.1.4, אבל עם $\delta$ שאינו תלוי בנקודה: $f_N$ אחת קרובה ל-$f$ בכל מקום, וה-$\delta$ שלה מתאים לכל
+          זוג נקודות.
+      - kind: step
+        text: >-
+          (א) **1.** יהי $\varepsilon>0$. מההתכנסות במידה שווה יש $N$ עם $|f_N(x)-f(x)|<\frac\varepsilon3$ לכל $x\in X$. $f_N$ רציפה
+          במידה שווה: יש $\delta>0$ כך ש-$d(x,y)<\delta$ גורר $|f_N(x)-f_N(y)|<\frac\varepsilon3$.
+      - kind: step
+        text: >-
+          **2.** לכל $x,y$ עם $d(x,y)<\delta$:
+          $$\begin{aligned}&|f(x)-f(y)|\\&\quad\le|f(x)-f_N(x)|\\&\qquad+|f_N(x)-f_N(y)|\\&\qquad+|f_N(y)-f(y)|\\&\quad<\varepsilon .\end{aligned}$$
+          ה-$\delta$ תלוי רק ב-$\varepsilon$ (דרך $N$), ולכן $f$ רציפה במידה שווה.
+      - kind: step
+        text: >-
+          (ב) **3.** $U_b(X)\subseteq C_b(X)$ (טענה 1.6.9). סכום של שתי פונקציות רציפות במידה שווה רציף במידה שווה ($\frac\varepsilon2$
+          לכל אחת, והקטן מבין שני ה-$\delta$), וכך גם כפולה בסקלר: $U_b(X)$ תת-מרחב.
+      - kind: step
+        text: >-
+          **4.** אם $f_n\in U_b(X)$ ו-$f_n\to f$ ב-$C_b(X)$, ההתכנסות במידה שווה (משפט 1.5.10(א)), ולפי (א) $f$ רציפה במידה שווה;
+          היא חסומה כי $f\in C_b(X)$. לכן $U_b(X)$ סגורה (מסקנה 1.5.8(ב)), ולפי מסקנה 2.2.6(ב) ומשפט 2.2.1(א) שלמה.
+      - kind: step
+        text: >-
+          (ג) **5.** לפי משפט קנטור (משפט 3.4.6) כל $f\in C(K)$ רציפה במידה שווה, והיא חסומה (טענה 4.1.1א): $U_b(K)=C(K)$.
+          ב-$(0,1]$, $\sin\frac1x$ רציפה וחסומה ואינה רציפה במידה שווה (טענה 3.4.7(ג)).
+      - kind: check
+        text: >-
+          ב-(ב) עם $K$ קומפקטי, $U_b(K)=C(K)$, והטענה היא משפט 4.1.4 שוב. ההנחה "במידה שווה" על $f_n$ ב-(א) נחוצה:
+          $\sin\frac1x$ על $(0,1]$ היא גבול במידה שווה של עצמה, והרציפות לבדה אינה עוברת לרציפות במידה שווה.
+      - kind: result
+        text: >-
+          (א) $f$ רציפה במידה שווה; (ב) $U_b(X)$ סגורה ב-$C_b(X)$ ושלמה; (ג) שוויון על קומפקטי, הכלה ממשית על $(0,1]$.
+    source:
+      name: 'MATH S4062, Homework 1 (due July 8, 2022), course page of Dr. Peyam at sites.brown.edu/drpeyam'
+      year: 2022
+      problem: 'Additional Problem 2'
+      url: 'https://sites.brown.edu/drpeyam/files/2023/01/Homework-1.pdf'
+      verified: '2026-11-12'
+      adapted: true

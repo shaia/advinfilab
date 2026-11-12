@@ -1,0 +1,533 @@
+# Workbook of lesson 4.6 — the Stone–Weierstrass theorem (enrichment).
+# Objectives (src/course.ts):
+#   OBJ-4.6-1  define a subalgebra that separates points and state the real Stone–Weierstrass theorem
+#   OBJ-4.6-2  deduce that trigonometric polynomials are dense in the continuous periodic functions
+#   OBJ-4.6-3  check the hypotheses for given algebras and find an algebra that is not dense because one fails
+# Results cited by the numbers of the chapter-4 spine. Every identity and number recomputed with python/npx tsx
+# (W-02 at three points, the distances of W-03 and W-08, the rate 2/(n+1) of c1 against the iteration up to n = 40).
+lesson: '4.6'
+practice:
+  - id: W-4.6-01
+    level: basic
+    qualitative: true
+    objectives: [OBJ-4.6-1]
+    prompt: >-
+      $K=\{1,2,3\}$ (עם מטריקה כלשהי), כך ש-$C(K)$ הוא $\mathbb{R}^3$ עם כפל לפי רכיבים. לכל אחת מהקבוצות קבעו אם היא
+      תת-אלגברה, אם היא מכילה את הקבועים ואם היא מפרידה נקודות.
+
+      (א) $\{(a,a,b): a,b\in\mathbb{R}\}$.
+
+      (ב) $\{(a,b,0): a,b\in\mathbb{R}\}$.
+
+      (ג) $\{(a,b,c): a+b=2c\}$.
+
+      (ד) איזו מהן צפופה ב-$C(K)$?
+    answer: >-
+      (א) תת-אלגברה עם הקבועים, לא מפרידה בין 1 ל-2. (ב) תת-אלגברה שמפרידה, בלי הקבועים. (ג) תת-מרחב עם הקבועים
+      שמפריד, לא סגור לכפל. (ד) אף אחת.
+    solution:
+      - kind: definition
+        text: >-
+          הגדרה 4.6.1: תת-אלגברה היא תת-מרחב שסגור לכפל; מכילה את הקבועים אם $(1,1,1)$ בה; מפרידה נקודות אם לכל
+          $i\ne j$ יש בה וקטור עם רכיבים שונים במקומות $i$ ו-$j$.
+      - kind: step
+        text: >-
+          (א) תת-מרחב (סכום וכפולה שומרים על "רכיב ראשון = רכיב שני"), והמכפלה של $(a,a,b)$ ו-$(a',a',b')$ היא
+          $(aa',aa',bb')$. $(1,1,1)$ בה. כל איבריה שווים במקומות 1 ו-2: אינה מפרידה בין $1$ ל-$2$.
+      - kind: step
+        text: >-
+          (ב) תת-מרחב, והמכפלה $(aa',bb',0)$ בה. $(1,1,1)$ אינו בה (רכיב שלישי 1). $(1,0,0)$ מפרידה את 1 מ-2 ומ-3, ו-$(0,1,0)$
+          מפרידה בין 2 ל-3: היא מפרידה נקודות.
+      - kind: step
+        text: >-
+          (ג) תת-מרחב (גרעין של ההעתקה הלינארית $(a,b,c)\mapsto a+b-2c$). $(1,1,1)$ בה ($1+1=2\cdot1$): היא מכילה את
+          הקבועים. $(2,0,1)$ בה ($2+0=2\cdot1$), ורכיביו $2,0,1$ שונים זה מזה: הוא לבדו מפריד כל שתי נקודות. אבל הריבוע
+          שלו $(4,0,1)$ אינו בה ($4+0\ne2\cdot1$): אינה סגורה לכפל.
+      - kind: theorem
+        text: >-
+          (ד) ב-$\mathbb{R}^3$ כל תת-מרחב סגור (מסקנה 3.5.6(ג)), ולכן תת-מרחב צפוף הוא כל $\mathbb{R}^3$. אף אחת משלוש
+          הקבוצות אינה כל $\mathbb{R}^3$: ב-(א) חסר $(1,0,0)$, ב-(ב) חסר $(1,1,1)$, וב-(ג) חסר $(1,0,0)$ ($1+0\ne0$).
+      - kind: check
+        text: >-
+          בכל אחת נכשלת בדיוק הנחה אחרת של משפט 4.6.6: הפרדה, קבועים, כפל. ובמרחב מבחן סופי ראינו בשיעור שאם שלושתן
+          מתקיימות, תת-האלגברה היא כל $C(K)$ (המכפלות $e_i=\prod_{j\ne i}h_{ij}$).
+      - kind: result
+        text: >-
+          (א) עם קבועים, בלי הפרדה; (ב) בלי קבועים; (ג) עם קבועים ומפרידה, אבל לא סגורה לכפל; אף אחת אינה צפופה.
+
+  - id: W-4.6-02
+    level: basic
+    objectives: [OBJ-4.6-2]
+    prompt: >-
+      (א) כתבו כפולינומים טריגונומטריים: $\sin^3t$ ו-$\cos^2t\sin^2t$, וקבעו את המעלה של כל אחד.
+
+      (ב) מצאו פולינום $P(x,y)$ עם $\sin2t=P(\cos t,\sin t)$, ופולינום $Q(x,y)$ עם $\cos t\sin2t=Q(\cos t,\sin t)$,
+      וכתבו גם את $\cos t\sin2t$ כפולינום טריגונומטרי.
+    answer: >-
+      (א) $\sin^3t=\frac34\sin t-\frac14\sin3t$ (מעלה 3); $\cos^2t\sin^2t=\frac18-\frac18\cos4t$ (מעלה 4). (ב) $P=2xy$,
+      $Q=2x^2y$, ו-$\cos t\sin2t=\frac12\sin t+\frac12\sin3t$.
+    solution:
+      - kind: idea
+        text: >-
+          כל מכפלה הופכים לסכום בנוסחאות המכפלה (טענה 4.6.2(ג)), מחזקה נמוכה לגבוהה.
+      - kind: computation
+        text: >-
+          (א) $\sin^2t=\frac12(\cos0-\cos2t)$, כלומר $\sin^2t=\frac12-\frac12\cos2t$. לכן
+          $$\begin{aligned}\sin^3t&=\tfrac12\sin t\\&\quad-\tfrac12\sin t\cos2t\\&=\tfrac12\sin t\\&\quad-\tfrac14(\sin3t-\sin t)\\&=\tfrac34\sin t-\tfrac14\sin3t .\end{aligned}$$
+          (השתמשנו ב-$\sin t\cos2t$, שהוא $\frac12(\sin3t+\sin(-t))$.)
+      - kind: computation
+        text: >-
+          $\cos t\sin t=\frac12\sin2t$, ולכן
+          $$\begin{aligned}\cos^2t\sin^2t&=\tfrac14\sin^22t\\&=\tfrac18(1-\cos4t) .\end{aligned}$$
+          המעלה 4: המקדם של $\cos4t$ הוא $-\frac18\ne0$.
+      - kind: computation
+        text: >-
+          (ב) $\sin2t=2\sin t\cos t$, כלומר $P(x,y)=2xy$ (זה $S_2$ מההוכחה של למה 4.6.7א(ב)). לכן
+          $\cos t\sin2t=2\cos^2t\sin t$, כלומר $Q(x,y)=2x^2y$. וכפולינום טריגונומטרי: $\sin a\cos b$ שווה ל-
+          $\frac12(\sin(a+b)+\sin(a-b))$, ועם $a=2t$, $b=t$:
+          $$\begin{aligned}\cos t\sin2t&=\tfrac12\sin3t\\&\quad+\tfrac12\sin t .\end{aligned}$$
+      - kind: check
+        text: >-
+          בשלוש נקודות ($t=0.3,1.1,2.5$) ההפרשים בין שני הצדדים של כל זהות קטנים מ-$10^{-15}$ (בדיקה מספרית). ובדיקה
+          מבנית: ב-(א) $\sin^3$ אי-זוגית, ובאמת יצאו רק סינוסים; $\cos^2t\sin^2t$ זוגית, ויצאו רק קוסינוסים.
+      - kind: result
+        text: >-
+          $\sin^3t=\frac34\sin t-\frac14\sin3t$; $\cos^2t\sin^2t=\frac18-\frac18\cos4t$; $P=2xy$, $Q=2x^2y$,
+          $\cos t\sin2t=\frac12\sin t+\frac12\sin3t$.
+
+  - id: W-4.6-03
+    level: basic
+    objectives: [OBJ-4.6-3]
+    prompt: >-
+      תהי $\mathcal{A}\subseteq C[0,2]$ קבוצת הפונקציות $q\big((x-1)^2\big)$, כאשר $q$ פולינום.
+
+      (א) בדקו את שלוש ההנחות של משפט 4.6.6.
+
+      (ב) מצאו את המרחק $\inf_{f\in\mathcal{A}}\|x-f\|_\infty$ של הפונקציה $x$ מ-$\mathcal{A}$.
+    answer: >-
+      (א) תת-אלגברה עם הקבועים, שאינה מפרידה בין $1-s$ ל-$1+s$. (ב) המרחק הוא 1.
+    solution:
+      - kind: step
+        text: >-
+          (א) $q_1(u)q_2(u)=(q_1q_2)(u)$ עם $u=(x-1)^2$, וכך גם סכומים וכפולות; $q=1$ נותן את הקבוע. אבל
+          $u(1-s)=s^2=u(1+s)$, ולכן לכל $s\in(0,1]$ הנקודות $1-s\ne1+s$ אינן מופרדות.
+      - kind: theorem
+        text: >-
+          (ב) לפי למה 4.6.9א(א) עם $x=0$, $y=2$ (שאינן מופרדות, $s=1$) ו-$g(x)=x$: לכל $f$ בסגור
+          $$\|x-f\|_\infty\ge\tfrac12|0-2|=1 .$$
+      - kind: computation
+        text: >-
+          החסם מתקבל: הקבוע $1\in\mathcal{A}$, ו-$\max_{[0,2]}|x-1|=1$.
+      - kind: check
+        text: >-
+          הנקודות $0$ ו-$2$ הן הזוג הגרוע: לזוג $1\pm s$ החסם הוא $\frac12\cdot2s=s\le1$.
+      - kind: result
+        text: >-
+          המרחק הוא 1; $\mathcal{A}$ אינה צפופה כי היא אינה מפרידה נקודות.
+
+  - id: W-4.6-04
+    level: mid
+    qualitative: true
+    objectives: [OBJ-4.6-1, OBJ-4.6-3]
+    prompt: >-
+      תהי $K\subseteq\mathbb{R}^2$ קומפקטית ולא ריקה (עם $d_2$), ותהי $\mathcal{A}\subseteq C(K)$ קבוצת הפונקציות
+      $q(x^2+y^2)$, כאשר $q$ פולינום. הוכיחו: $\mathcal{A}$ צפופה ב-$C(K)$ אם ורק אם אין ב-$K$ שתי נקודות שונות באותו
+      מרחק מהראשית. הכריעו בעזרת זה: $K=[0,1]\times\{0\}$; $K$ עיגול היחידה הסגור.
+    answer: >-
+      ($\Leftarrow$) $r=x^2+y^2$ מפרידה נקודות, ומשפט 4.6.6. ($\Rightarrow$) שתי נקודות עם אותו $r$ אינן מופרדות, ולמה
+      4.6.9א. צפופה על הקטע, לא על העיגול.
+    solution:
+      - kind: idea
+        text: >-
+          $\mathcal{A}$ היא תמיד תת-אלגברה עם הקבועים, כי היא הרכבות של פולינומים בפונקציה אחת $r=x^2+y^2$. מה שנשאר
+          הוא ההפרדה, והיא מתקיימת בדיוק כש-$r$ חד-חד-ערכית על $K$.
+      - kind: step
+        text: >-
+          **1.** $q_1(r)q_2(r)=(q_1q_2)(r)$, וכך גם סכומים וכפולות; $q=1$ נותן את הקבוע; $q(r)$ רציפה (טענה 1.6.5(ג)).
+          לכן $\mathcal{A}$ תת-אלגברה של $C(K)$ שמכילה את הקבועים. $K$ קומפקטי ולא ריק (טענה 3.2.3).
+      - kind: step
+        text: >-
+          **2. ($\Leftarrow$)** אם אין שתי נקודות שונות עם אותו מרחק מהראשית, אז $\sqrt{r}$, ולכן $r$, חד-חד-ערכית על $K$:
+          $q(t)=t$ נותן $r\in\mathcal{A}$, שמפרידה כל שתי נקודות. לפי משפט 4.6.6, $\mathcal{A}$ צפופה.
+      - kind: step
+        text: >-
+          **3. ($\Rightarrow$)** נניח שיש $P\ne P'$ ב-$K$ עם $r(P)=r(P')$. אז $q(r(P))=q(r(P'))$ לכל $q$. הן נבדלות
+          בקואורדינטה אחת לפחות; נניח $x(P)\ne x(P')$ (אחרת אותו דבר עם $y$). הפונקציה $g(x,y)=x$ רציפה, ולפי למה
+          4.6.9א(א) לכל $f$ בסגור $\|g-f\|_\infty\ge\frac12|x(P)-x(P')|$, וזה חיובי. לכן $g\notin\overline{\mathcal{A}}$ ו-$\mathcal{A}$
+          אינה צפופה.
+      - kind: step
+        text: >-
+          **4.** על $[0,1]\times\{0\}$: $r(t,0)=t^2$ עולה ממש ב-$t\in[0,1]$, ולכן אין שתי נקודות באותו מרחק: צפופה. בעיגול:
+          $(1,0)$ ו-$(0,1)$ שונות ושתיהן במרחק 1: לא צפופה; למשל $\|x-f\|_\infty\ge\frac12$ לכל $f$ בסגור.
+      - kind: check
+        text: >-
+          זו אותה תמונה כמו הפולינומים ב-$x^2$ על $[-1,1]$ ועל $[0,1]$ (טענה 4.6.10(ב)): האלגברה זהה, ומה שמשתנה הוא אם
+          ב-$K$ יש זוגות ש-$r$ אינה מבחינה ביניהם.
+      - kind: result
+        text: >-
+          צפופה אם ורק אם $x^2+y^2$ חד-חד-ערכית על $K$; על הקטע כן, בעיגול לא.
+
+  - id: W-4.6-05
+    level: exam
+    objectives: [OBJ-4.6-1, OBJ-4.6-3]
+    prompt: >-
+      יהי $K$ מרחב מטרי קומפקטי לא ריק, ותהי $\mathcal{A}\subseteq C(K)$ תת-אלגברה שמפרידה נקודות. נניח שיש $x_0\in K$
+      עם $f(x_0)=0$ לכל $f\in\mathcal{A}$. הוכיחו:
+      $$\begin{aligned}\overline{\mathcal{A}}&=Z_{x_0}\\&=\{f\in C(K):\ f(x_0)=0\}.\end{aligned}$$
+      הסיקו את הסגור של קבוצת הפולינומים $p$ עם $p(\frac12)=0$ ב-$C[0,1]$.
+    answer: >-
+      $\subseteq$: $Z_{x_0}$ סגורה. $\supseteq$: $\mathcal{A}+\mathbb{R}$ צפופה לפי משפט 4.6.6, והמחובר הקבוע קטן כי
+      שני הצדדים מתאפסים ב-$x_0$. הסגור הוא $\{f: f(\frac12)=0\}$.
+    solution:
+      - kind: idea
+        text: >-
+          מוסיפים ל-$\mathcal{A}$ את הקבועים ומקבלים אלגברה צפופה. קירוב של $f\in Z_{x_0}$ באיבר $a+c$ שלה מכריח את הקבוע
+          $c$ להיות קטן: בנקודה $x_0$ גם $f$ וגם $a$ מתאפסות.
+      - kind: step
+        text: >-
+          **1. ($\subseteq$)** $Z_{x_0}$ סגורה (טענה 4.1.7(א)) ומכילה את $\mathcal{A}$, ולכן גם את $\overline{\mathcal{A}}$
+          (טענה 1.4.4(ב)).
+      - kind: step
+        text: >-
+          **2.** תהי $\mathcal{A}'$ קבוצת הפונקציות $a+c\cdot1$, עם $a\in\mathcal{A}$ ו-$c\in\mathbb{R}$. היא תת-מרחב, ו-
+          $$\begin{aligned}(a+c)(b+c')&=ab+c'a\\&\quad+cb+cc'\end{aligned}$$
+          עם $ab+c'a+cb\in\mathcal{A}$: תת-אלגברה. היא מכילה את הקבועים, ומפרידה נקודות כי $\mathcal{A}\subseteq\mathcal{A}'$.
+          לפי משפט 4.6.6, $\mathcal{A}'$ צפופה ב-$C(K)$.
+      - kind: step
+        text: >-
+          **3. ($\supseteq$)** תהי $f\in Z_{x_0}$ ו-$\varepsilon>0$. לפי שלב 2 יש $a\in\mathcal{A}$ ו-$c\in\mathbb{R}$ עם
+          $\|f-a-c\|_\infty<\frac\varepsilon2$. בנקודה $x_0$:
+          $$\begin{aligned}&|f(x_0)-a(x_0)-c|\\&\quad=|0-0-c|=|c|<\tfrac\varepsilon2 .\end{aligned}$$
+      - kind: step
+        text: >-
+          **4.** לכן
+          $$\begin{aligned}\|f-a\|_\infty&\le\|f-a-c\|_\infty\\&\quad+|c|\\&<\varepsilon ,\end{aligned}$$
+          ו-$a\in\mathcal{A}$. כלומר $f\in\overline{\mathcal{A}}$.
+      - kind: step
+        text: >-
+          **5.** הפולינומים $p$ עם $p(\frac12)=0$ הם תת-אלגברה של $C[0,1]$ (מכפלה וסכום של מתאפסים מתאפסים), כולם
+          מתאפסים ב-$x_0=\frac12$, והם מפרידים נקודות: $x-\frac12$ ביניהם וחד-חד-ערכית. לכן הסגור שלהם הוא
+          $\{f\in C[0,1]: f(\frac12)=0\}$.
+      - kind: check
+        text: >-
+          זו טענה 4.6.10(א) בכלליות: שם $x_0=0$ והוכחנו את $\supseteq$ במשפט ויירשטראס ובהזזה בקבוע; כאן ההזזה היא $c$.
+          ההפרדה נכנסה בשלב 2 בלבד: בלעדיה $\mathcal{A}'$ אינה בהכרח צפופה.
+      - kind: result
+        text: >-
+          $\overline{\mathcal{A}}=Z_{x_0}$; בדוגמה, הסגור הוא הפונקציות הרציפות על $[0,1]$ שמתאפסות ב-$\frac12$.
+
+  - id: W-4.6-06
+    level: mid
+    objectives: [OBJ-4.6-2]
+    prompt: >-
+      פולינום סינוסים הוא $\sum_{k=1}^Nb_k\sin kx$. הוכיחו: כל $f:\mathbb{R}\to\mathbb{R}$ רציפה, אי-זוגית
+      ($f(-x)=-f(x)$) ומחזורית במחזור $2\pi$ היא גבול במידה שווה על $\mathbb{R}$ של פולינומי סינוסים.
+    answer: >-
+      מקרבים את $f$ בפולינום טריגונומטרי $T$ (מסקנה 4.6.8), ולוקחים את החלק האי-זוגי $\frac12(T(x)-T(-x))$: זה פולינום
+      סינוסים, באותו מרחק לכל היותר.
+    solution:
+      - kind: idea
+        text: >-
+          פולינומי הסינוסים אינם תת-אלגברה ($\sin x\cdot\sin x$ זוגי), ולכן אין להפעיל עליהם את משפט 4.6.6 ישירות. במקום
+          זה מקרבים בכל הפולינומים הטריגונומטריים, ו"מסמטרים": החלק האי-זוגי של קירוב טוב הוא קירוב טוב של פונקציה
+          אי-זוגית.
+      - kind: theorem
+        text: >-
+          **1.** יהי $\varepsilon>0$. לפי מסקנה 4.6.8 יש פולינום טריגונומטרי
+          $$\begin{aligned}T(x)&=c+\sum_{k=1}^N(a_k\cos kx\\&\qquad+b_k\sin kx)\end{aligned}$$
+          עם $|f(x)-T(x)|<\varepsilon$ לכל $x\in\mathbb{R}$.
+      - kind: computation
+        text: >-
+          **2.** $\cos(-kx)=\cos kx$ ו-$\sin(-kx)=-\sin kx$, ולכן
+          $$\begin{aligned}S(x)&=\tfrac12\big(T(x)-T(-x)\big)\\&=\sum_{k=1}^Nb_k\sin kx ,\end{aligned}$$
+          פולינום סינוסים.
+      - kind: step
+        text: >-
+          **3.** $f$ אי-זוגית, ולכן $f(x)=\frac12\big(f(x)-f(-x)\big)$. לכל $x$:
+          $$\begin{aligned}&|f(x)-S(x)|\\&\quad\le\tfrac12|f(x)-T(x)|\\&\qquad+\tfrac12|f(-x)-T(-x)|\\&\quad<\varepsilon .\end{aligned}$$
+      - kind: check
+        text: >-
+          אותו תרגיל עם החלק הזוגי $\frac12(T(x)+T(-x))$ נותן את דוגמה 6 של השיעור (פולינומי קוסינוסים לפונקציות זוגיות),
+          בלי $\arccos$. ופולינומי סינוסים לבדם אינם צפופים בכל הפונקציות המחזוריות: כל פולינום סינוסים $S$ מקיים
+          $S(0)=0$, ולכן $\sup_x|1-S(x)|$ לפחות $|1-S(0)|=1$.
+      - kind: result
+        text: >-
+          לכל $\varepsilon$, $S=\frac12(T(x)-T(-x))$ הוא פולינום סינוסים עם $|f-S|<\varepsilon$ על $\mathbb{R}$.
+
+  - id: W-4.6-07
+    level: mid
+    objectives: [OBJ-4.6-1]
+    prompt: >-
+      $K=\{0\}\cup\{\frac1n: n\in\mathbb{N}\}$, ו-$\mathcal{A}\subseteq C(K)$ הצמצומים של הפולינומים ל-$K$.
+
+      (א) הוכיחו ש-$\mathcal{A}$ צפופה ב-$C(K)$. נסחו את המסקנה במונחי סדרות: לכל סדרה מתכנסת $(a_n)$ עם גבול $L$
+      ולכל $\varepsilon>0$ יש פולינום $p$ עם...
+
+      (ב) הוכיחו ש-$\mathcal{A}\ne C(K)$: מצאו סדרה מתכנסת $(a_n)$ שאין פולינום $p$ עם $p(\frac1n)=a_n$ לכל $n$.
+    answer: >-
+      (א) מסקנה 4.6.7: $|a_n-p(\frac1n)|<\varepsilon$ לכל $n$ ו-$|L-p(0)|<\varepsilon$. (ב) $a_n=\frac{(-1)^n}n$.
+    solution:
+      - kind: step
+        text: >-
+          (א) **1.** $K$ קומפקטית לפי טענה 3.2.4(ד), ולא ריקה. לפי מסקנה 4.6.7 עם $n=1$, הפולינומים צפופים ב-$C(K)$.
+      - kind: step
+        text: >-
+          **2.** לפי טענה 4.1.2(ב), $f\mapsto(f(\frac1n))_n$ היא איזומטריה של $C(K)$ על מרחב הסדרות המתכנסות, עם
+          $f(0)=\lim_nf(\frac1n)$. לכן: לכל סדרה מתכנסת $(a_n)$ עם גבול $L$ ולכל $\varepsilon>0$ יש פולינום $p$ עם
+          $|a_n-p(\frac1n)|<\varepsilon$ לכל $n$ ו-$|L-p(0)|<\varepsilon$.
+      - kind: step
+        text: >-
+          (ב) **3.** $a_n=\frac{(-1)^n}n\to0$, כלומר זו פונקציה ב-$C(K)$. נניח שיש פולינום $p$ עם $p(\frac1n)=a_n$ לכל
+          $n$. ל-$n$ זוגי $p(\frac1n)=\frac1n$, כלומר לפולינום $p(t)-t$ יש אינסוף שורשים $\frac1{2m}$, ולכן $p(t)=t$
+          (אלגברה לינארית 1). אבל אז $p(1)=1\ne-1=a_1$. סתירה.
+      - kind: check
+        text: >-
+          (א) ו-(ב) יחד: $\mathcal{A}$ צפופה ואינה סגורה, כמו $\mathcal{P}$ ב-$C[0,1]$ (טענה 4.1.8(א)). לסדרה $\frac{(-1)^n}n$ יש
+          קירובים פולינומיאליים בכל דיוק, אבל כל אחד מהם טועה במשהו.
+      - kind: result
+        text: >-
+          (א) הפולינומים צפופים ב-$C(K)$; (ב) $\frac{(-1)^n}n$ אינה צמצום של פולינום.
+
+  - id: W-4.6-08
+    level: exam
+    objectives: [OBJ-4.6-3]
+    prompt: >-
+      $Q=[0,1]^2$ עם $d_2$. פולינום $P(x,y)$ **סימטרי** אם $P(x,y)=P(y,x)$. תהי $\mathcal{S}\subseteq C(Q)$ קבוצת
+      הצמצומים של הפולינומים הסימטריים.
+
+      (א) הוכיחו ש-$\mathcal{S}$ תת-אלגברה שמכילה את הקבועים, ומצאו זוג נקודות שהיא אינה מפרידה.
+
+      (ב) הוכיחו שהסגור של $\mathcal{S}$ הוא קבוצת הפונקציות הסימטריות
+      $$\begin{gathered}\Sigma=\{F\in C(Q):\\ F(x,y)=F(y,x)\\ \forall(x,y)\in Q\}.\end{gathered}$$
+
+      (ג) מצאו את המרחק של $g(x,y)=x$ מ-$\mathcal{S}$.
+    answer: >-
+      (א) $(x,y)$ ו-$(y,x)$ עם $x\ne y$. (ב) $\Sigma$ סגורה; ולכל $F\in\Sigma$ מסמטרים קירוב פולינומיאלי. (ג) $\frac12$.
+    solution:
+      - kind: step
+        text: >-
+          (א) **1.** אם $P,P'$ סימטריים, גם $P+P'$, $cP$ ו-$PP'$ (לכל $(x,y)$, $PP'(y,x)=P(y,x)P'(y,x)$, וזה $P(x,y)P'(x,y)=PP'(x,y)$).
+          הקבועים סימטריים. ו-$(1,0)\ne(0,1)$ אינן מופרדות: $P(1,0)=P(0,1)$ לכל $P$ סימטרי.
+      - kind: step
+        text: >-
+          (ב) **2. ($\subseteq$)** לכל $(x,y)\in Q$, הקבוצה $\{F: F(x,y)=F(y,x)\}$ סגורה (למה 4.6.9א(א)), ו-$\Sigma$ החיתוך
+          שלהן, סגור. $\mathcal{S}\subseteq\Sigma$, ולכן $\overline{\mathcal{S}}\subseteq\Sigma$.
+      - kind: step
+        text: >-
+          **3. ($\supseteq$)** תהי $F\in\Sigma$ ו-$\varepsilon>0$. $Q$ קומפקטי (משפט 3.2.11), ולפי מסקנה 4.6.7 יש פולינום $P$
+          עם $|F-P|<\varepsilon$ על $Q$. נגדיר
+          $$\begin{aligned}P^s(x,y)&=\tfrac12\big(P(x,y)\\&\qquad+P(y,x)\big),\end{aligned}$$
+          פולינום סימטרי.
+      - kind: step
+        text: >-
+          **4.** $(y,x)\in Q$ כש-$(x,y)\in Q$, ו-$F(x,y)$ שווה ל-$\frac12\big(F(x,y)+F(y,x)\big)$ כי $F\in\Sigma$. לכן
+          $$\begin{aligned}&|F-P^s|(x,y)\\&\quad\le\tfrac12|F(x,y)-P(x,y)|\\&\qquad+\tfrac12|F(y,x)-P(y,x)|\\&\quad<\varepsilon .\end{aligned}$$
+          כלומר $F\in\overline{\mathcal{S}}$.
+      - kind: computation
+        text: >-
+          (ג) **5.** לפי למה 4.6.9א(א) עם הזוג $(1,0)$, $(0,1)$: $\|x-f\|_\infty\ge\frac12|1-0|=\frac12$ לכל $f$ בסגור.
+          והחסם מתקבל: $f=\frac{x+y}2\in\mathcal{S}$ ו-$|x-\frac{x+y}2|=\frac{|x-y|}2\le\frac12$ על $Q$.
+      - kind: check
+        text: >-
+          (ב) הוא סטון-ויירשטראס "על המרחב המקופל": פונקציה סימטרית היא פונקציה על המשולש $\{x\le y\}$. ההוכחה כאן לא
+          צריכה את הקיפול, רק את הסימטריזציה $P\mapsto P^s$, שאינה מגדילה מרחק מפונקציה סימטרית.
+      - kind: result
+        text: >-
+          (א) $(1,0)$ ו-$(0,1)$ אינן מופרדות; (ב) $\overline{\mathcal{S}}=\Sigma$; (ג) המרחק $\frac12$.
+
+  - id: W-4.6-09
+    level: exam
+    qualitative: true
+    objectives: [OBJ-4.6-2, OBJ-4.6-3]
+    prompt: >-
+      (א) הוכיחו: לכל $f\in C[0,\pi]$ עם $f(0)=f(\pi)=0$ ולכל $\varepsilon>0$ יש פולינום סינוסים $S(x)=\sum_{k=1}^Nb_k\sin kx$
+      עם $|f-S|<\varepsilon$ על $[0,\pi]$.
+
+      (ב) הוכיחו או הפריכו: פולינומי הסינוסים צפופים ב-$C[0,\pi]$.
+    answer: >-
+      (א) ממשיכים את $f$ לפונקציה אי-זוגית ומחזורית ורציפה, ומשתמשים בתרגיל 6. (ב) לא: כולם מתאפסים ב-0, והקבוע 1
+      במרחק 1 לפחות; הסגור הוא בדיוק $\{f(0)=f(\pi)=0\}$.
+    solution:
+      - kind: idea
+        text: >-
+          הקטע $[0,\pi]$ הוא "חצי" מחזור. ההמשכה האי-זוגית $f(-x)=-f(x)$ ממלאת את $[-\pi,0]$, וההמשכה המחזורית את השאר.
+          התנאים $f(0)=f(\pi)=0$ הם בדיוק מה שצריך כדי שההדבקות ב-0 וב-$\pm\pi$ יהיו רציפות.
+      - kind: step
+        text: >-
+          (א) **1.** נגדיר $h(x)=f(x)$ ל-$x\in[0,\pi]$ ו-$h(x)=-f(-x)$ ל-$x\in[-\pi,0)$. ב-0 שני הצדדים נותנים
+          $f(0)=0=-f(0)$, ולכן $h$ רציפה על $[-\pi,\pi]$ (רציפה על כל אחד משני הקטעים הסגורים, ומתלכדת ב-0). ו-$h(-\pi)=-f(\pi)=0=h(\pi)$.
+      - kind: step
+        text: >-
+          **2.** כמו בשלב 3 של ההוכחה של טענה 4.6.8א, ההמשכה המחזורית $\tilde h$ של $h$ רציפה על $\mathbb{R}$ (כי
+          $h(-\pi)=h(\pi)$), מחזורית, ואי-זוגית: ל-$x\in(-\pi,\pi)$ ישירות מההגדרה, ולשאר לפי המחזוריות (וב-$\pm\pi$:
+          $\tilde h(\pm\pi)=0$).
+      - kind: theorem
+        text: >-
+          **3.** לפי תרגיל W-4.6-06 יש פולינום סינוסים $S$ עם $|\tilde h-S|<\varepsilon$ על $\mathbb{R}$, ובפרט
+          $|f-S|<\varepsilon$ על $[0,\pi]$.
+      - kind: step
+        text: >-
+          (ב) **4.** לא נכון. כל פולינום סינוסים מתאפס ב-0 (וב-$\pi$). לפי למה 4.6.9א(ב), לכל $g$ בסגור מתקיים $\|1-g\|_\infty\ge1$.
+          יותר מזה: לפי (א) ולפי למה 4.6.9א(ב) בשתי הנקודות 0 ו-$\pi$, הסגור הוא בדיוק קבוצת הפונקציות $f\in C[0,\pi]$ עם $f(0)=f(\pi)=0$.
+      - kind: check
+        text: >-
+          בלי $f(0)=0$ ההמשכה האי-זוגית קופצת ב-0 (מ-$-f(0)$ ל-$f(0)$), ובלי $f(\pi)=0$ ההמשכה המחזורית קופצת ב-$\pi$. שני
+          התנאים הם התנאים שנשמרים בגבול (למה 4.6.9א(ב)), וזה לא מקרה.
+      - kind: result
+        text: >-
+          (א) כן; (ב) לא: הסגור של פולינומי הסינוסים ב-$C[0,\pi]$ הוא $\{f: f(0)=f(\pi)=0\}$.
+
+  - id: W-4.6-10
+    level: mid
+    qualitative: true
+    objectives: [OBJ-4.6-1]
+    prompt: >-
+      נכון או לא נכון? הוכיחו או הפריכו בדוגמה. $K$ מרחב מטרי קומפקטי לא ריק.
+
+      (א) כל תת-אלגברה צפופה של $C(K)$ מפרידה נקודות.
+
+      (ב) כל תת-אלגברה צפופה של $C(K)$ מכילה את הקבועים.
+
+      (ג) כל תת-אלגברה של $C(K)$ שמכילה את הקבועים ומפרידה נקודות סגורה.
+    answer: >-
+      (א) נכון. (ב) לא נכון: הפולינומים $p$ עם $p(2)=0$, בצמצום ל-$[0,1]$. (ג) לא נכון: הפולינומים ב-$C[0,1]$.
+    solution:
+      - kind: step
+        text: >-
+          (א) **נכון.** נניח ש-$\mathcal{A}$ אינה מפרידה בין $x\ne y$. $g(z)=d(z,x)$ רציפה עם $|g(x)-g(y)|=d(x,y)>0$, ולפי
+          למה 4.6.9א(א) $\|g-f\|_\infty\ge\frac12d(x,y)$ לכל $f\in\overline{\mathcal{A}}$. לכן $\mathcal{A}$ אינה צפופה.
+      - kind: step
+        text: >-
+          (ב) **לא נכון.** תהי $\mathcal{A}$ קבוצת הצמצומים ל-$[0,1]$ של הפולינומים $p$ עם $p(2)=0$. זו תת-אלגברה
+          (מתאפסים ב-2 נשארים מתאפסים בסכום ובמכפלה). הקבוע 1 אינו בה: פולינום ששווה ל-1 על $[0,1]$ הוא 1 (אינסוף שורשים
+          ל-$p-1$), ו-$1(2)\ne0$.
+      - kind: computation
+        text: >-
+          והיא צפופה: $p_n(x)=1-(\frac x2)^n$ מקיים $p_n(2)=0$, ועל $[0,1]$ מתקיים $|1-p_n(x)|=(\frac x2)^n$, וזה לכל היותר $2^{-n}\to0$. לכן
+          $1\in\overline{\mathcal{A}}$. לפי למה 4.6.3, $\overline{\mathcal{A}}$ תת-אלגברה, והיא מכילה את הקבועים ומפרידה
+          נקודות ($x-2\in\mathcal{A}$ חד-חד-ערכית). לפי משפט 4.6.6 הסגור של $\overline{\mathcal{A}}$, שהוא $\overline{\mathcal{A}}$
+          עצמו, הוא $C[0,1]$.
+      - kind: step
+        text: >-
+          (ג) **לא נכון.** הפולינומים ב-$C[0,1]$ מקיימים את שלוש ההנחות, צפופים (מסקנה 4.5.5), ושונים מ-$C[0,1]$ ($e^x$
+          אינה פולינום, טענה 4.1.8(א)); לכן אינם סגורים. כך גם הליפשיציות (טענה 4.6.2(ד)).
+      - kind: check
+        text: >-
+          (ב) אינו סותר את טענה 4.6.10(א): שם כל האיברים מתאפסים בנקודה **של** $K$, וכאן בנקודה 2 שמחוץ ל-$[0,1]$. ההנחה
+          "מכילה את הקבועים" מספיקה ואינה הכרחית; מה שהכרחי, לפי (א) ולפי למה 4.6.9א(ב), הוא הפרדה ושאין נקודה של $K$
+          שבה כולם מתאפסים.
+      - kind: result
+        text: >-
+          (א) נכון; (ב) לא נכון; (ג) לא נכון.
+
+challenge:
+  - id: W-4.6-c1
+    stars: 1
+    objectives: [OBJ-4.6-1]
+    prompt: >-
+      נגדיר $P_0=0$, ולכל $n\ge0$:
+      $$\begin{aligned}P_{n+1}(x)&=P_n(x)\\&\quad+\frac{x^2-P_n(x)^2}2 .\end{aligned}$$
+
+      (א) הוכיחו ש-$P_n\to|x|$ במידה שווה על $[-1,1]$. הדרכה: הראו ש-
+      $$\begin{aligned}|x|-P_{n+1}&=\big(|x|-P_n\big)\\&\quad\cdot\Big(1-\frac{|x|+P_n}2\Big),\end{aligned}$$
+      ש-$0\le P_n\le P_{n+1}\le|x|$ על $[-1,1]$, ושהשגיאה לכל היותר $|x|(1-\frac{|x|}2)^n\le\frac2{n+1}$.
+
+      (ב) הסיקו, בלי פולינומי ברנשטיין, את מסקנה 4.5.9: לכל $M,\varepsilon>0$ יש פולינום $p$ עם $p(0)=0$ ו-$||t|-p(t)|<\varepsilon$
+      על $[-M,M]$.
+    answer: >-
+      (א) הזהות נובעת מהפירוק של $x^2-P_n^2$ ל-$(|x|-P_n)(|x|+P_n)$; באינדוקציה $0\le P_n\le|x|$, ולכן הגורם השני ב-$[0,1-\frac{|x|}2]$;
+      ו-$y(1-\frac y2)^n\le\frac2{n+1}$ לכל $y\in[0,1]$. (ב) $p(t)=MP_n(\frac tM)$ עם $\frac{2M}{n+1}<\varepsilon$.
+    solution:
+      - kind: idea
+        text: >-
+          זו איטרציה בנוסח שיטת ניוטון ל"שורש של $x^2$": כל צעד מתקן את $P_n$ בחצי מההפרש בין הריבועים. השגיאה מוכפלת בכל צעד בגורם
+          שקטן מ-1, אבל קרוב ל-1 כש-$|x|$ קטן; לכן הקצב אחיד רק כמו $\frac1n$.
+      - kind: computation
+        text: >-
+          (א) **1.** $x^2=|x|^2$, ולכן $x^2-P_n^2$ מתפרק ל-$(|x|-P_n)(|x|+P_n)$. נסמן $c_n=\frac12(|x|+P_n)$; אז
+          $$\begin{aligned}&|x|-P_{n+1}\\&\quad=(|x|-P_n)-c_n(|x|-P_n)\\&\quad=(|x|-P_n)(1-c_n).\end{aligned}$$
+      - kind: step
+        text: >-
+          **2.** באינדוקציה על $n$, לכל $x\in[-1,1]$: $0\le P_n(x)\le|x|$. ל-$n=0$: $P_0=0\le|x|$. אם זה נכון ל-$n$, אז
+          $0\le\frac{|x|+P_n}2\le|x|\le1$, ולכן הגורם $1-\frac{|x|+P_n}2$ ב-$[0,1]$, ולפי שלב 1
+          $0\le|x|-P_{n+1}\le|x|-P_n$. כלומר $P_n\le P_{n+1}\le|x|$, ובפרט $P_{n+1}\ge0$.
+      - kind: step
+        text: >-
+          **3.** לפי שלב 2, $P_n\ge0$, ולכן הגורם בשלב 1 לכל היותר $1-\frac{|x|}2$. באינדוקציה, עם $|x|-P_0=|x|$:
+          $$\begin{aligned}0&\le|x|-P_n(x)\\&\le|x|\Big(1-\frac{|x|}2\Big)^n .\end{aligned}$$
+      - kind: computation
+        text: >-
+          **4.** נסמן $h(y)=y(1-\frac y2)^n$ ל-$y\in[0,1]$, $n\ge1$. הנגזרת
+          $$\begin{aligned}h'(y)&=(1-\tfrac y2)^{n-1}\\&\quad\cdot\big(1-\tfrac y2-\tfrac{ny}2\big)\end{aligned}$$
+          חיובית ל-$y<\frac2{n+1}$ ושלילית אחריו. לכן
+          $$\begin{aligned}\max_{[0,1]}h&\le h\Big(\frac2{n+1}\Big)\\&=\frac2{n+1}\Big(1-\frac1{n+1}\Big)^n\\&\le\frac2{n+1}.\end{aligned}$$
+          כלומר $\||x|-P_n\|_\infty\le\frac2{n+1}\to0$ ב-$C[-1,1]$.
+      - kind: step
+        text: >-
+          **5.** כל $P_n$ פולינום, ו-$P_n(0)=0$ (באינדוקציה: $P_{n+1}(0)=0+\frac{0-0}2$).
+      - kind: step
+        text: >-
+          (ב) **6.** יהיו $M,\varepsilon>0$ ו-$n$ עם $\frac{2M}{n+1}<\varepsilon$ (ארכימדס). $p(t)=MP_n(\frac tM)$ הוא
+          פולינום עם $p(0)=0$, ולכל $t\in[-M,M]$ ($\frac tM\in[-1,1]$):
+          $$\begin{aligned}&\big||t|-p(t)\big|\\&\quad=M\Big|\Big|\frac tM\Big|-P_n\Big(\frac tM\Big)\Big|\\&\quad\le\frac{2M}{n+1}<\varepsilon .\end{aligned}$$
+      - kind: check
+        text: >-
+          בחישוב (בדיקה מספרית על 10001 נקודות): $\||x|-P_n\|_\infty\approx0.108$, $0.0547$, $0.0276$ ב-$n=5,10,20$, מתחת
+          לחסם $\frac2{n+1}\approx0.333$, $0.182$, $0.095$. ומשמעות (ב): עם הקירוב הזה במקום מסקנה 4.5.9, ההוכחה של למה
+          4.6.4 ושל משפט 4.6.6 אינה תלויה במשפט ויירשטראס, ומסקנה 4.6.7 נותנת אותו מחדש.
+      - kind: result
+        text: >-
+          (א) $\||x|-P_n\|_\infty\le\frac2{n+1}$; (ב) $p(t)=MP_n(\frac tM)$.
+    source:
+      name: 'Kent State University, Introduction to Analysis 2 (42001/52001), HW7 (Prof. Artem Zvavitch)'
+      year: 2012
+      problem: 'Problem 3'
+      url: 'https://www.math.kent.edu/~zvavitch/hw_IA_7_2012.pdf'
+      verified: '2026-11-12'
+      adapted: true
+
+  - id: W-4.6-c2
+    stars: 1
+    objectives: [OBJ-4.6-1, OBJ-4.6-3]
+    prompt: >-
+      (א) הוכיחו שהפולינומים עם מקדמים **רציונליים** צפופים ב-$C[0,1]$.
+
+      (ב) הוכיחו שהפולינומים עם מקדמים **שלמים** אינם צפופים ב-$C[0,1]$: מצאו את המרחק של הקבוע $\frac12$ מהם.
+
+      (ג) האם הפולינומים עם מקדמים שלמים הם תת-אלגברה של $C[0,1]$? איזו הנחה של משפט 4.6.6 נכשלת?
+    answer: >-
+      (א) ויירשטראס, ואז מקדמים רציונליים קרובים. (ב) $p(0)\in\mathbb{Z}$, ולכן המרחק של $\frac12$ הוא $\frac12$ בדיוק.
+      (ג) לא: הם סגורים לחיבור ולכפל, אבל לא לכפל בסקלר ($\frac12\cdot1$).
+    solution:
+      - kind: theorem
+        text: >-
+          (א) **1.** יהיו $f\in C[0,1]$ ו-$\varepsilon>0$. לפי מסקנה 4.5.5 יש $q(x)=\sum_{k=0}^Na_kx^k$ עם
+          $\|f-q\|_\infty<\frac\varepsilon2$.
+      - kind: computation
+        text: >-
+          **2.** לפי הצפיפות של $\mathbb{Q}$ נבחר $r_k\in\mathbb{Q}$ עם $|a_k-r_k|<\frac{\varepsilon}{2(N+1)}$. על $[0,1]$,
+          $|x^k|\le1$, ולכן עבור $r(x)=\sum_kr_kx^k$:
+          $$\begin{aligned}\|q-r\|_\infty&\le\sum_{k=0}^N|a_k-r_k|\\&<\frac\varepsilon2 ,\end{aligned}$$
+          ו-$\|f-r\|_\infty<\varepsilon$.
+      - kind: step
+        text: >-
+          (ב) **3.** לכל $p$ עם מקדמים שלמים, $p(0)$ הוא המקדם החופשי, מספר שלם, ולכן $|\frac12-p(0)|\ge\frac12$, כלומר
+          $\|\frac12-p\|_\infty\ge\frac12$. $p=0$ נותן בדיוק $\frac12$. המרחק $\frac12$, ובפרט הם אינם צפופים.
+      - kind: step
+        text: >-
+          (ג) **4.** סכום ומכפלה של פולינומים עם מקדמים שלמים הם כאלה, והקבוע 1 ביניהם, ו-$x$ מפרידה נקודות. אבל הם אינם
+          תת-מרחב: $1$ שם, ו-$\frac12\cdot1$ לא. ההנחה שנכשלת היא "תת-אלגברה" (הגדרה 4.6.1(א)), בחלק של כפל בסקלר.
+      - kind: check
+        text: >-
+          (א) הוא מסקנה 4.5.7, ו-(ב) מראה שאין בו מקום ל"הרבה פחות": $\mathbb{Z}$ אינה צפופה ב-$\mathbb{R}$, ו-(ב) הוא
+          בדיוק הבעיה הזו ב-$x=0$. אותו טיעון עובד בכל נקודה שבה כל איברי הקבוצה מקבלים ערכים שלמים.
+      - kind: result
+        text: >-
+          (א) צפופים; (ב) המרחק של $\frac12$ הוא $\frac12$; (ג) אינם תת-מרחב, ולכן אינם תת-אלגברה.
+    source:
+      name: 'Math 5310 (Intro to Real Analysis), Final Exam, Fall 2014 (course page of M. Ershov)'
+      year: 2014
+      problem: 'Problem 5(c),(d)'
+      url: 'https://m-ershov.github.io/4310_Fall2018/final_fall14.pdf'
+      verified: '2026-11-12'
+      adapted: true

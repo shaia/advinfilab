@@ -13,5 +13,21 @@
   symbol: '\|f_n-f\|_\infty\to0'
   definition: >-
     $f_n\to f$ במרחב $C(K)$ אם $\|f_n-f\|_\infty=\max_{x\in K}|f_n(x)-f(x)|\to0$. זו בדיוק התכנסות במידה שווה
-    על $K$, והיא חזקה יותר מהתכנסות נקודתית.
+    על $K$, והיא חזקה יותר מהתכנסות נקודתית (טענה 4.1.3).
+  lesson: '4.1'
+- id: point-evaluation
+  term: הערך בנקודה (הצבה)
+  en: point evaluation
+  symbol: '\operatorname{ev}_p'
+  definition: >-
+    לנקודה $p\in K$, ההעתקה $\operatorname{ev}_p:C(K)\to\mathbb{R}$, $\operatorname{ev}_p(f)=f(p)$. היא לינארית ומקיימת
+    $|f(p)-g(p)|\le\|f-g\|_\infty$, ולכן רציפה; לכן $Z_p=\{f:\ f(p)=0\}$ סגורה (טענה 4.1.7).
+  lesson: '4.1'
+- id: convergent-sequence-space
+  term: מרחב הסדרות המתכנסות
+  en: the space c of convergent sequences
+  symbol: 'c'
+  definition: >-
+    הסדרות הממשיות המתכנסות, עם $\|a\|_\infty=\sup_n|a_n|$. דרך $f\mapsto\big(f(\frac1n)\big)_n$ הוא "אותו מרחב" כמו
+    $C(K)$ עבור $K=\{0\}\cup\{\frac1n:\ n\in\mathbb{N}\}$ (טענה 4.1.2(ב)), ולכן שלם.
   lesson: '4.1'

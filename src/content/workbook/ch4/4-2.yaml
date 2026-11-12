@@ -1,0 +1,506 @@
+# Workbook of lesson 4.2 — equicontinuity (רציפות במידה אחידה) of a family of functions.
+# Objectives (src/course.ts):
+#   OBJ-4.2-1  define an equicontinuous family and tell it apart from a family of uniformly continuous functions
+#   OBJ-4.2-2  a common Lipschitz constant or a common derivative bound gives equicontinuity
+#   OBJ-4.2-3  families like sin(nx) or x^n are not equicontinuous
+# Results cited by the numbers of the chapter-4 spine (4.k.m) and of lessons 1–3. Numbers recomputed with npx tsx
+# (W-03: C_b = 27/16, δ = 8/135, the probe 0.0916; W-07: h_n < 0.296; W-10: n^n/(n+1)^{n+1}).
+lesson: '4.2'
+practice:
+  - id: W-4.2-01
+    level: basic
+    objectives: [OBJ-4.2-2]
+    prompt: >-
+      $\mathcal{F}=\{f_a:\ |a|\le2\}$, כאשר $f_a(x)=ax^2$.
+
+      (א) הוכיחו ש-$\mathcal{F}$ רציפה במידה אחידה על $[-1,1]$, ומצאו $\delta$ שמתאים ל-$\varepsilon=0.1$.
+
+      (ב) האם $\mathcal{F}$ רציפה במידה אחידה על $\mathbb{R}$?
+    answer: >-
+      (א) כן, $\delta=\frac\varepsilon4$, ול-$\varepsilon=0.1$: $\delta=0.025$. (ב) לא: כבר האיבר $x^2$ אינו רציף במידה
+      שווה על $\mathbb{R}$.
+    solution:
+      - kind: idea
+        text: >-
+          חסם על הנגזרת שאינו תלוי ב-$a$ (טענה 4.2.5(ב)). על $\mathbb{R}$ הנגזרת $2ax$ אינה חסומה, ואז מספיק איבר אחד
+          שנכשל.
+      - kind: computation
+        text: >-
+          (א) $f_a'(x)=2ax$, ול-$x\in[-1,1]$ ו-$|a|\le2$: $|f_a'(x)|\le2\cdot2\cdot1=4$. חסם משותף $M=4$.
+      - kind: theorem
+        text: >-
+          לפי טענה 4.2.5(ב) כל איבר ליפשיצי על $[-1,1]$ עם הקבוע $4$, ולפי טענה 4.2.5(א) $\delta=\frac\varepsilon4$
+          מתאים לכולם. ל-$\varepsilon=0.1$: $\delta=0.025$.
+      - kind: step
+        text: >-
+          (ב) $f_1(x)=x^2$ שייכת ל-$\mathcal{F}$ ואינה רציפה במידה שווה על $\mathbb{R}$ (טענה 3.4.7(ב)). לפי טענה
+          4.2.3(א), $\mathcal{F}$ אינה רציפה במידה אחידה על $\mathbb{R}$.
+      - kind: check
+        text: >-
+          החסם 4 מתקבל: $f_2'(1)=4$. ליד $x=1$ ההפרש $f_2(1)-f_2(1-\delta)$ שווה ל-$4\delta-2\delta^2$, ול-$\delta$ גדול מעט
+          מ-$0.025$ הוא כבר קרוב ל-$0.1$: ה-$\delta$ כמעט הטוב ביותר.
+      - kind: result
+        text: >-
+          (א) רציפה במידה אחידה על $[-1,1]$ עם $\delta=\frac\varepsilon4=0.025$; (ב) לא על $\mathbb{R}$.
+
+  - id: W-4.2-02
+    level: basic
+    qualitative: true
+    objectives: [OBJ-4.2-1, OBJ-4.2-2]
+    prompt: >-
+      אילו מהמשפחות הבאות רציפות במידה אחידה על $[0,1]$? נמקו כל תשובה.
+
+      (א) הפונקציות הקבועות $\{x\mapsto c:\ c\in\mathbb{R}\}$.
+
+      (ב) $\{x\mapsto|x-c|:\ c\in\mathbb{R}\}$.
+
+      (ג) $\{x\mapsto e^{nx}:\ n\in\mathbb{N}\}$.
+
+      (ד) $\{x\mapsto\cos\frac xn:\ n\in\mathbb{N}\}$.
+    answer: >-
+      (א) כן; (ב) כן; (ג) לא, נכשלת ב-0; (ד) כן.
+    solution:
+      - kind: idea
+        text: >-
+          לכל משפחה: קבוע ליפשיץ משותף (טענה 4.2.5(א)) או עדים לכישלון (למה 4.2.6(א)). חסימות אינה הקריטריון.
+      - kind: step
+        text: >-
+          (א) $|c-c|=0$ לכל $x,y$: קבוע ליפשיץ $0$, וכל $\delta$ מתאים. המשפחה אינה חסומה, וזה לא משנה.
+      - kind: step
+        text: >-
+          (ב) לפי אי-שוויון המשולש ההפוך, $\big||x-c|-|y-c|\big|$ קטן או שווה ל-$|x-y|$ לכל $c$: קבוע ליפשיץ משותף 1, ו-$\delta=\varepsilon$.
+      - kind: step
+        text: >-
+          (ג) $x_n=\frac1n\to0$ ו-$e^{nx_n}-e^{0}=e-1>1$. לפי למה 4.2.6(א) עם $\varepsilon=1$, המשפחה אינה רציפה במידה
+          אחידה ב-0, ולפי טענה 4.2.3(א) אינה רציפה במידה אחידה.
+      - kind: step
+        text: >-
+          (ד) $\big|\frac{d}{dx}\cos\frac xn\big|=\frac1n\big|\sin\frac xn\big|\le1$: לפי טענה 4.2.5(ב) עם $M=1$, $\delta=\varepsilon$.
+      - kind: check
+        text: >-
+          כל איבר ב-(ג) רציף במידה שווה על $[0,1]$ (משפט 3.4.6): הכישלון הוא של המשפחה, לא של איבר. $e-1\approx1.718$.
+      - kind: result
+        text: >-
+          (א), (ב), (ד) רציפות במידה אחידה; (ג) לא.
+
+  - id: W-4.2-03
+    level: basic
+    objectives: [OBJ-4.2-3]
+    prompt: >-
+      המשפחה $\{x^n:\ n\in\mathbb{N}\}$ על $[0,1]$ ו-$\varepsilon=0.1$.
+
+      (א) לפי ההוכחה של טענה 4.2.7(ב) בנקודה $a=\frac12$: חשבו את $b$, את $C_b=\sup_nnb^{n-1}$ ואת ה-$\delta$ שההוכחה
+      נותנת. (הדרכה: בדקו מתי היחס בין שני איברים עוקבים של $nb^{n-1}$ גדול מ-1 או שווה לו.)
+
+      (ב) הראו שבנקודה $a=1$ אין $\delta$ שמתאים ל-$\varepsilon=0.1$ לכל איברי המשפחה.
+    answer: >-
+      (א) $b=\frac34$, $C_b=\frac{27}{16}$, $\delta=\min(\frac14,\frac{8}{135})$, כלומר $\delta=\frac{8}{135}\approx0.0593$. (ב) לכל
+      $\delta$ יש $n$ עם $1-0.9^{1/n}<\delta$, ואז $x=0.9^{1/n}$ מפר.
+    solution:
+      - kind: idea
+        text: >-
+          (א) חישוב לפי שלבים 3–5 בהוכחת טענה 4.2.7(ב): $b$ באמצע בין $a$ ל-1, $C_b$ הוא הסופרמום של סדרה שעולה ואחר
+          כך יורדת, ו-$\delta=\min\big(b-a,\frac{\varepsilon}{C_b}\big)$. (ב) עדים כמו בלמה 4.2.6(א): נקודה $x$ קרובה ל-1
+          שבה $x^n$ כבר ירדה ל-$0.9$.
+      - kind: computation
+        text: >-
+          (א) $b=\frac{1+a}2=\frac34$. היחס בין איברים עוקבים של $nb^{n-1}$ הוא $\frac{(n+1)b^n}{nb^{n-1}}=\frac{3(n+1)}{4n}$,
+          והוא לפחות 1 בדיוק כש-$n\le3$. לכן הסדרה עולה עד $n=3$, שווה ב-$n=3,4$ ($3\cdot\frac9{16}=4\cdot\frac{27}{64}=\frac{27}{16}$),
+          ויורדת אחר כך: $C_b=\frac{27}{16}$.
+      - kind: computation
+        text: >-
+          $$\begin{aligned}\delta&=\min\big(b-a,\tfrac{\varepsilon}{C_b}\big)\\&=\min\big(\tfrac14,\tfrac{0.1\cdot16}{27}\big)\\&=\tfrac{8}{135}\approx0.0593 .\end{aligned}$$
+      - kind: step
+        text: >-
+          (ב) יהי $\delta>0$. $0.9^{1/n}\to1$ (אינפי 1), ולכן יש $n$ עם $1-0.9^{1/n}<\delta$. עם $x=0.9^{1/n}$:
+          $|x-1|<\delta$ ו-$|x^n-1^n|=0.1\ge\varepsilon$. לכן אף $\delta$ אינו מתאים ב-1.
+      - kind: check
+        text: >-
+          בבדיקה מספרית (עדות, לא הוכחה) ה-$\delta$ הגדול ביותר שמתאים ב-$\frac12$ לכל $n\le400$ הוא בערך $0.0916$, והוא
+          נקבע ב-$n=2$. ההוכחה נותנת $\delta$ קטן יותר, וזה בסדר: אם $\delta$ מתאים, כל מספר חיובי קטן ממנו מתאים גם הוא.
+      - kind: result
+        text: >-
+          (א) $\delta=\frac8{135}$; (ב) ב-$a=1$ אין $\delta$.
+
+  - id: W-4.2-04
+    level: mid
+    objectives: [OBJ-4.2-2]
+    prompt: >-
+      ל-$g\in C[0,1]$ נגדיר $G_g(x)=\int_0^1\cos(xt)\,g(t)\,dt$ ל-$x\in\mathbb{R}$. הוכיחו שהמשפחה
+      של כל $G_g$ עם $g\in C[0,1]$ ו-$\int_0^1|g|\le1$ רציפה במידה אחידה על $\mathbb{R}$. השוו לדוגמה 4 בשיעור ("איזו נורמה על הנגזרת נותנת רציפות במידה אחידה?"), שבה אותו חסם
+      על $\int|g|$ לא הספיק.
+    answer: >-
+      $|G_g(x)-G_g(y)|\le|x-y|$ לכל $g$ במשפחה: קבוע ליפשיץ משותף 1, ו-$\delta=\varepsilon$.
+    solution:
+      - kind: idea
+        text: >-
+          כאן $x$ נמצא בתוך פונקציה ליפשיצית של $t$, ולא בגבול האינטגרציה: השינוי ב-$x$ משנה את האינטגרנד מעט בכל
+          נקודה, ולכן $\int|g|$ מספיק.
+      - kind: step
+        text: >-
+          נסמן $k(t)=\cos(xt)-\cos(yt)$. לכל $t\in[0,1]$: $\cos$ ליפשיצית עם קבוע 1 (משפט לגרנז',
+          $|\cos'|=|\sin|\le1$), ולכן
+          $$\begin{aligned}&|k(t)|\le|xt-yt|\\&\quad=t|x-y|\\&\quad\le|x-y| .\end{aligned}$$
+      - kind: step
+        text: >-
+          לפי המונוטוניות של האינטגרל ו-$|\int h|\le\int|h|$ (אינפי 1):
+          $$\begin{aligned}&|G_g(x)-G_g(y)|\\&\quad\le\int_0^1|k(t)|\,|g(t)|\,dt\\&\quad\le|x-y|\int_0^1|g|\\&\quad\le|x-y| .\end{aligned}$$
+      - kind: theorem
+        text: >-
+          לפי טענה 4.2.5(א) עם $L=1$, המשפחה רציפה במידה אחידה עם $\delta=\varepsilon$.
+      - kind: check
+        text: >-
+          בדוגמה 4 ההפרש היה $\int_y^xg$, ופונקציה $g$ עם $\int|g|=1$ יכולה לשים את כל המסה שלה בקטע קצר. כאן אין
+          קטע קצר כזה: כל $t$ תורם לכל היותר $|x-y|\,|g(t)|$.
+      - kind: result
+        text: >-
+          המשפחה רציפה במידה אחידה על $\mathbb{R}$, עם $\delta=\varepsilon$.
+
+  - id: W-4.2-05
+    level: mid
+    qualitative: true
+    objectives: [OBJ-4.2-1]
+    prompt: >-
+      $(X,d)$ מרחב מטרי, ו-$\mathcal{F}$ משפחה של פונקציות $X\to\mathbb{R}$. נכון או לא נכון? הוכיחו או הפריכו.
+
+      (א) אם $\mathcal{F}$ רציפה במידה אחידה, גם $\{f+g:\ f,g\in\mathcal{F}\}$ רציפה במידה אחידה.
+
+      (ב) איחוד של סדרה $\mathcal{F}_1,\mathcal{F}_2,\dots$ של משפחות רציפות במידה אחידה רציף במידה אחידה.
+
+      (ג) אם $\mathcal{F}$ רציפה במידה אחידה, גם $\{fg:\ f,g\in\mathcal{F}\}$ רציפה במידה אחידה.
+    answer: >-
+      (א) נכון; (ב) לא נכון ($\{x^n\}$ היא איחוד של משפחות בנות איבר אחד); (ג) לא נכון ($\{x+c\}$ על $[0,1]$).
+    solution:
+      - kind: step
+        text: >-
+          (א) **נכון.** יהי $\varepsilon>0$ ו-$\delta$ מהגדרה 4.2.1 עם $\frac\varepsilon2$. אם $d(x,y)<\delta$, אז לכל
+          $f,g\in\mathcal{F}$:
+          $$\begin{aligned}&|(f+g)(x)-(f+g)(y)|\\&\quad\le|f(x)-f(y)|\\&\qquad+|g(x)-g(y)|<\varepsilon .\end{aligned}$$
+      - kind: step
+        text: >-
+          (ב) **לא נכון.** על $[0,1]$, $\mathcal{F}_n=\{x^n\}$: משפחה בת איבר אחד, רציף במידה שווה (משפט 3.4.6), ולכן
+          רציפה במידה אחידה (טענה 4.2.3(ב)). האיחוד הוא $\{x^n:\ n\in\mathbb{N}\}$, שאינה רציפה במידה אחידה בנקודה 1 (טענה
+          4.2.7(ב)), ולכן, לפי טענה 4.2.3(א), אינה רציפה במידה אחידה. טענה 4.2.3(ג) נותנת איחודים **סופיים** בלבד: מינימום של אינסוף דלתות יכול להיות 0.
+      - kind: step
+        text: >-
+          (ג) **לא נכון.** על $[0,1]$, $\mathcal{F}=\{x+c:\ c\in\mathbb{R}\}$ רציפה במידה אחידה (קבוע ליפשיץ 1). המכפלות
+          כוללות את $(x+n)^2$. עם $\varepsilon=1$: לכל $\delta>0$ ניקח $n>\frac1\delta$, $x=\frac\delta2$ ו-$y=0$ (ב-$[0,1]$
+          כש-$\delta\le2$; ל-$\delta>2$ מספיק הזוג שנמצא ל-$\delta=2$); אז $|x-y|<\delta$ ו-$(\frac\delta2+n)^2-n^2=n\delta+\frac{\delta^2}4$, וזה גדול מ-1.
+      - kind: check
+        text: >-
+          ב-(ג) המשפחה אינה חסומה, וזה מה ששובר: אם כל $f\in\mathcal{F}$ חסומה ב-$M$ (אותו $M$), אז
+          $$\begin{aligned}&|fg(x)-fg(y)|\\&\quad\le M|f(x)-f(y)|\\&\qquad+M|g(x)-g(y)| ,\end{aligned}$$
+          ו-$\delta$ עם $\frac{\varepsilon}{2M}$ מתאים.
+      - kind: result
+        text: >-
+          (א) נכון; (ב) ו-(ג) לא נכונים.
+
+  - id: W-4.2-06
+    level: mid
+    qualitative: true
+    objectives: [OBJ-4.2-1, OBJ-4.2-2]
+    prompt: >-
+      (א) האם $\{\sin\frac xn:\ n\in\mathbb{N}\}$ רציפה במידה אחידה על $\mathbb{R}$?
+
+      (ב) $g_n(x)=\frac{\sin(nx)}{\sqrt n}$ על $[0,\pi]$. הראו שהנגזרות $g_n'$ אינן חסומות במשותף, והוכיחו בכל זאת
+      ש-$\{g_n\}$ רציפה במידה אחידה.
+    answer: >-
+      (א) כן, קבוע ליפשיץ משותף 1. (ב) $g_n'(0)=\sqrt n$; ובכל זאת $\|g_n\|_\infty\le\frac1{\sqrt n}\to0$, ולפי משפט
+      4.2.8(א) המשפחה רציפה במידה אחידה.
+    solution:
+      - kind: step
+        text: >-
+          (א) $\big|\frac{d}{dx}\sin\frac xn\big|=\frac1n\big|\cos\frac xn\big|\le1$, ולפי טענה 4.2.5(ב) עם $M=1$ המשפחה
+          רציפה במידה אחידה על $\mathbb{R}$, $\delta=\varepsilon$.
+      - kind: computation
+        text: >-
+          (ב) $g_n'(x)=\sqrt n\cos(nx)$, ו-$g_n'(0)=\sqrt n$: אין חסם משותף, וטענה 4.2.5(ב) אינה חלה.
+      - kind: step
+        text: >-
+          $|g_n(x)|\le\frac1{\sqrt n}$ לכל $x$, ולכן $\|g_n-0\|_\infty\le\frac1{\sqrt n}\to0$: $g_n\to0$ ב-$C[0,\pi]$.
+      - kind: theorem
+        text: >-
+          $[0,\pi]$ קומפקטי (משפט 3.2.11), $g_n$ ו-$0$ ב-$C[0,\pi]$, ולפי משפט 4.2.8(א) $\{g_n\}$ רציפה במידה אחידה.
+      - kind: check
+        text: >-
+          השוו ל-$\sin(nx)$: אותן תנודות מהירות, אבל בגובה 1; שם המשפחה נכשלת ב-0 (טענה 4.2.7(א)). כאן הגובה
+          $\frac1{\sqrt n}$ דועך, ולכן הקפיצה בקטע הקצר $[0,\frac{\pi}{2n}]$ היא רק $\frac1{\sqrt n}$.
+      - kind: result
+        text: >-
+          (א) כן; (ב) רציפה במידה אחידה, אף שאין חסם משותף לנגזרות.
+
+  - id: W-4.2-07
+    level: mid
+    objectives: [OBJ-4.2-3]
+    prompt: >-
+      $\mathcal{F}=\{g_c:\ c\in\mathbb{R}\}$ על $[0,1]$, כאשר $g_c(x)=\sin\big((x+c)^2\big)$. כל איבר רציף במידה שווה על
+      $[0,1]$. הוכיחו ש-$\mathcal{F}$ אינה רציפה במידה אחידה באף נקודה $a\in[0,1]$.
+    answer: >-
+      לכל $a$: הזזות $c_n$ שמציבות את $a$ ליד $\sqrt{2\pi n}$, ונקודות $x_n=a\pm h_n$ עם
+      $h_n=\sqrt{2\pi n+\frac\pi2}-\sqrt{2\pi n}$, ששואפת ל-0, נותנות הפרש 1.
+    solution:
+      - kind: idea
+        text: >-
+          הזזה ב-$c$ גדול מביאה את החלון $[0,1]$ לאזור שבו $\sin(t^2)$ מתנודדת מהר: שם, במרחק קטן, הפונקציה עוברת מ-0
+          ל-1. נשתמש בלמה 4.2.6(א).
+      - kind: computation
+        text: >-
+          נגדיר
+          $$\begin{aligned}&h_n=\sqrt{2\pi n+\tfrac\pi2}-\sqrt{2\pi n}\\&=\frac{\pi/2}{\sqrt{2\pi n+\tfrac\pi2}+\sqrt{2\pi n}} .\end{aligned}$$
+          היא יורדת ב-$n$ ושואפת ל-0, ו-$h_1\approx0.296<\frac12$.
+      - kind: step
+        text: >-
+          **מקרה $a\le\frac12$.** $c_n=\sqrt{2\pi n}-a$ ו-$x_n=a+h_n\in[0,1]$. אז $a+c_n=\sqrt{2\pi n}$ ו-$x_n+c_n=\sqrt{2\pi n+\frac\pi2}$,
+          ולכן $g_{c_n}(a)=\sin(2\pi n)=0$ ו-$g_{c_n}(x_n)$ שווה ל-$\sin(2\pi n+\frac\pi2)=1$.
+      - kind: step
+        text: >-
+          **מקרה $a>\frac12$.** $c_n=\sqrt{2\pi n+\frac\pi2}-a$ ו-$x_n=a-h_n\in[0,1]$. אז $g_{c_n}(a)=1$ ו-$g_{c_n}(x_n)=\sin(2\pi n)=0$.
+      - kind: theorem
+        text: >-
+          בשני המקרים $x_n\to a$ (כי $h_n\to0$) ו-$|g_{c_n}(x_n)-g_{c_n}(a)|=1$. לפי למה 4.2.6(א) עם $\varepsilon=1$,
+          $\mathcal{F}$ אינה רציפה במידה אחידה ב-$a$.
+      - kind: check
+        text: >-
+          כל $g_c$ רציפה על $[0,1]$ ולכן רציפה במידה שווה (משפט 3.4.6): המשפחה נכשלת בכל נקודה אף שכל איבר בסדר.
+          השוו לטענה 4.2.7: שם הכישלון היה בנקודה אחת.
+      - kind: result
+        text: >-
+          $\mathcal{F}$ אינה רציפה במידה אחידה באף נקודה של $[0,1]$.
+
+  - id: W-4.2-08
+    level: exam
+    objectives: [OBJ-4.2-1]
+    prompt: >-
+      $(X,d)$ מרחב מטרי, $f_n:X\to\mathbb{R}$, המשפחה $\{f_n:\ n\in\mathbb{N}\}$ רציפה במידה אחידה, ו-$f_n(x)\to f(x)$
+      לכל $x\in X$.
+
+      (א) הוכיחו ש-$f$ רציפה במידה שווה.
+
+      (ב) הוכיחו: לכל $x\in X$ ולכל סדרה $x_n\to x$, $f_n(x_n)\to f(x)$.
+
+      (ג) הראו ש-(ב) נכשל בלי רציפות במידה אחידה.
+    answer: >-
+      (א) טענה 4.2.3(ד). (ב) $|f_n(x_n)-f(x)|$ חסום על ידי הסכום של $|f_n(x_n)-f_n(x)|$ ו-$|f_n(x)-f(x)|$. (ג) $x^n$ ו-$x_n=2^{-1/n}$:
+      $f_n(x_n)=\frac12\not\to1=f(1)$.
+    solution:
+      - kind: theorem
+        text: >-
+          (א) $f$ גבול נקודתי של סדרה במשפחה, ולפי טענה 4.2.3(ד) המשפחה $\{f_n\}\cup\{f\}$ רציפה במידה אחידה; לפי טענה
+          4.2.3(א) $f$ רציפה במידה שווה.
+      - kind: step
+        text: >-
+          (ב) יהי $\varepsilon>0$. לפי הגדרה 4.2.1 יש $\delta>0$ עם $|f_n(y)-f_n(z)|<\frac\varepsilon2$ לכל $n$ כש-$d(y,z)<\delta$.
+      - kind: step
+        text: >-
+          $x_n\to x$: יש $N_1$ עם $d(x_n,x)<\delta$ לכל $n>N_1$. $f_n(x)\to f(x)$: יש $N_2$ עם $|f_n(x)-f(x)|<\frac\varepsilon2$
+          לכל $n>N_2$.
+      - kind: step
+        text: >-
+          ל-$n>\max(N_1,N_2)$:
+          $$\begin{aligned}&|f_n(x_n)-f(x)|\\&\quad\le|f_n(x_n)-f_n(x)|\\&\qquad+|f_n(x)-f(x)|\\&\quad<\varepsilon .\end{aligned}$$
+          שימו לב: ה-$\delta$ של שלב קודם מתאים ל-$f_n$ **עם אותו $n$** של $x_n$, כי הוא משותף לכל המשפחה; זה המקום
+          שבו ההנחה נכנסת.
+      - kind: step
+        text: >-
+          (ג) $f_n(x)=x^n$ על $[0,1]$: מתכנסת נקודתית ל-$f$ עם $f(1)=1$ ו-$f=0$ ב-$[0,1)$. עם $x_n=2^{-1/n}\to1$:
+          $f_n(x_n)=\frac12$ לכל $n$, ואינו שואף ל-$f(1)=1$. בהתאם, $\{x^n\}$ אינה רציפה במידה אחידה ב-1 (טענה 4.2.7(ב)).
+      - kind: check
+        text: >-
+          ב-(ג) גם (א) נכשל: הגבול הנקודתי של $x^n$ אינו רציף ב-1.
+      - kind: result
+        text: >-
+          (א) $f$ רציפה במידה שווה; (ב) $f_n(x_n)\to f(x)$; (ג) $x^n$ עם $2^{-1/n}$.
+
+  - id: W-4.2-09
+    level: exam
+    objectives: [OBJ-4.2-2, OBJ-4.2-3]
+    prompt: >-
+      ל-$m\in\mathbb{N}$ תהי $\mathcal{P}_m$ קבוצת הפולינומים $p(x)=\sum_{k=0}^ma_kx^k$ עם $\sum_{k=0}^m|a_k|\le1$, על
+      $[-1,1]$, ו-$\mathcal{P}=\bigcup_m\mathcal{P}_m$.
+
+      (א) הוכיחו ש-$\mathcal{P}_m$ רציפה במידה אחידה, ומצאו $\delta$ ל-$\varepsilon=0.1$ ו-$m=5$.
+
+      (ב) הוכיחו ש-$\mathcal{P}$ אינה רציפה במידה אחידה, אף שכל איבריה חסומים ב-1.
+    answer: >-
+      (א) $|p'|\le m$ על $[-1,1]$, ולכן $\delta=\frac\varepsilon m$; ל-$m=5$, $\delta=0.02$. (ב) $x^n\in\mathcal{P}$ לכל
+      $n$, וזו נכשלת ב-1.
+    solution:
+      - kind: computation
+        text: >-
+          (א) ל-$p\in\mathcal{P}_m$ ו-$|x|\le1$:
+          $$\begin{aligned}|p'(x)|&=\Big|\sum_{k=1}^mka_kx^{k-1}\Big|\\&\le m\sum_{k=1}^m|a_k|\le m .\end{aligned}$$
+      - kind: theorem
+        text: >-
+          לפי טענה 4.2.5(ב) עם $M=m$ על הקטע $[-1,1]$, $\mathcal{P}_m$ רציפה במידה אחידה עם $\delta=\frac\varepsilon m$; ל-$m=5$
+          ו-$\varepsilon=0.1$: $\delta=0.02$.
+      - kind: step
+        text: >-
+          (ב) לכל $p\in\mathcal{P}$ ו-$|x|\le1$: $|p(x)|\le\sum|a_k|\le1$. ו-$x^n\in\mathcal{P}_n\subseteq\mathcal{P}$ ($a_n=1$,
+          השאר 0).
+      - kind: step
+        text: >-
+          $x_n=2^{-1/n}\in[-1,1]$, $x_n\to1$, ו-$|x_n^n-1^n|=\frac12$, כאשר $f_n=x^n\in\mathcal{P}$. לפי למה 4.2.6(א) עם
+          $\varepsilon=\frac12$, $\mathcal{P}$ אינה רציפה במידה אחידה בנקודה 1, ולכן, לפי טענה 4.2.3(א), אינה רציפה במידה
+          אחידה.
+      - kind: check
+        text: >-
+          החסם $m$ ב-(א) הדוק: $p=x^m$ נותן $p'(1)=m$. כש-$m$ גדל ה-$\delta$ יורד ל-0, וזה בדיוק מה ש-(ב) מנצל.
+          ו-$\mathcal{P}$ חסומה ב-1, אותו חסם לכל איבריה ולכל $x$, ואינה רציפה במידה אחידה: שתי התכונות נפרדות.
+      - kind: result
+        text: >-
+          (א) $\delta=\frac\varepsilon m$, ו-$0.02$ ל-$m=5$; (ב) $\mathcal{P}$ אינה רציפה במידה אחידה.
+
+  - id: W-4.2-10
+    level: exam
+    qualitative: true
+    objectives: [OBJ-4.2-1, OBJ-4.2-3]
+    prompt: >-
+      $f_n(x)=x^n(1-x)$ על $[0,1]$.
+
+      (א) הוכיחו ש-$\{f_n\}$ רציפה במידה אחידה, אף ש-$\{x^n\}$ אינה.
+
+      (ב) הסבירו למה העדים של טענה 4.2.7(ב) אינם עובדים כאן.
+
+      (ג) האם $\{f_n\}\cup\{x^n\}$ רציפה במידה אחידה?
+    answer: >-
+      (א) $\|f_n\|_\infty=\frac{n^n}{(n+1)^{n+1}}$, וזה לכל היותר $\frac1{n+1}$, ששואף ל-0; ולפי משפט 4.2.8(א). (ב) $f_n(2^{-1/n})=\frac{1-2^{-1/n}}2\to0$.
+      (ג) לא: תת-משפחה שאינה רציפה במידה אחידה.
+    solution:
+      - kind: idea
+        text: >-
+          סדרה שמתכנסת ב-$C[0,1]$ היא משפחה רציפה במידה אחידה (משפט 4.2.8(א)). הגורם $1-x$ מכבה את $x^n$ ליד 1, שם
+          הייתה הבעיה.
+      - kind: computation
+        text: >-
+          (א) הנגזרת $f_n'(x)$, השווה ל-$x^{n-1}\big(n-(n+1)x\big)$, מתאפסת ב-$(0,1)$ רק ב-$x^*=\frac{n}{n+1}$; $f_n\ge0$, $f_n(0)=f_n(1)=0$,
+          ולכן המקסימום, שקיים לפי מסקנה 3.4.3, מתקבל בנקודה פנימית שבה הנגזרת מתאפסת (משפט פרמה, אינפי 1), כלומר ב-$x^*$:
+          $$\begin{aligned}\|f_n\|_\infty&=\Big(\frac n{n+1}\Big)^n\frac1{n+1}\\&\le\frac1{n+1}.\end{aligned}$$
+      - kind: theorem
+        text: >-
+          לכן $f_n\to0$ ב-$C[0,1]$, ולפי משפט 4.2.8(א) $\{f_n\}$ רציפה במידה אחידה.
+      - kind: step
+        text: >-
+          (ב) $f_n(2^{-1/n})=\frac12\big(1-2^{-1/n}\big)$, ששואף ל-0: ליד 1 הערכים של $f_n$ קטנים, ולכן הקפיצה מ-$f_n(1)=0$
+          קטנה. בעדים של $x^n$ ההפרש היה $\frac12$.
+      - kind: step
+        text: >-
+          (ג) לא. $\{x^n\}$ תת-משפחה שלה, ואינה רציפה במידה אחידה בנקודה 1 (טענה 4.2.7(ב)), ולכן, לפי טענה 4.2.3(א),
+          אינה רציפה במידה אחידה. אילו האיחוד היה רציף במידה אחידה, לפי טענה 4.2.3(ג) גם תת-המשפחה $\{x^n\}$ הייתה
+          רציפה במידה אחידה; לכן האיחוד אינו רציף במידה אחידה.
+      - kind: check
+        text: >-
+          $\|f_1\|_\infty=\frac14$, $\|f_2\|_\infty=\frac4{27}\approx0.148$, $\|f_{10}\|_\infty\approx0.035$ (חושב). ובבדיקה
+          מספרית (עדות): $\max|f_n'|=1$ ל-$n=1,2,5,10,100,1000$, בנקודה $x=1$. לא הוכחנו חסם משותף על הנגזרת, וההוכחה ב-(א)
+          אינה צריכה אותו.
+      - kind: result
+        text: >-
+          (א) רציפה במידה אחידה; (ב) הערכים ליד 1 שואפים ל-0; (ג) האיחוד אינו רציף במידה אחידה.
+
+challenge:
+  - id: W-4.2-c1
+    stars: 1
+    objectives: [OBJ-4.2-1]
+    prompt: >-
+      נאמר שמרחב מטרי $(X,d)$ מקיים את התכונה (P) אם כל משפחה של פונקציות $X\to\mathbb{R}$ שרציפה במידה אחידה נקודתית
+      היא גם רציפה במידה אחידה. לפי משפט 4.2.4, כל מרחב קומפקטי מקיים את (P).
+
+      (א) הוכיחו או הפריכו: כל מרחב מטרי שמקיים את (P) הוא קומפקטי.
+
+      (ב) הוכיחו: אם $X\subseteq\mathbb{R}$ **חסומה** (עם $|x-y|$) ומקיימת את (P), אז $X$ קומפקטית.
+    answer: >-
+      (א) לא: $\mathbb{N}\subseteq\mathbb{R}$ מקיימת את (P) ואינה קומפקטית. (ב) אם $p\in\overline X\setminus X$,
+      הפונקציה $\frac1{|x-p|}$ רציפה על $X$ ואינה רציפה במידה שווה; לכן $X$ סגורה, וחסומה, ולפי היינה-בורל קומפקטית.
+    solution:
+      - kind: idea
+        text: >-
+          (P) נכשלת אם יש פונקציה **אחת** רציפה שאינה רציפה במידה שווה (משפחה בת איבר אחד). ב-$\mathbb{N}$ אין כזו, כי
+          נקודות קרובות מספיק הן אותה נקודה. בקבוצה חסומה של $\mathbb{R}$ שאינה סגורה יש כזו: פונקציה שמתפוצצת ליד נקודה
+          חסרה.
+      - kind: step
+        text: >-
+          (א) **לא.** ב-$\mathbb{N}$ עם $|x-y|$: ל-$\varepsilon>0$ נבחר $\delta=\frac12$; אם $|m-n|<\frac12$, אז $m=n$
+          ו-$|f(m)-f(n)|=0$ לכל $f$. לכן **כל** משפחה של פונקציות על $\mathbb{N}$ רציפה במידה אחידה, ו-(P) מתקיימת. אבל
+          $\mathbb{N}$ אינה חסומה, ולכן אינה קומפקטית סדרתית (משפט 3.1.5), ולפי משפט 3.2.10 אינה קומפקטית.
+      - kind: step
+        text: >-
+          (ב) **1.** אם $X=\emptyset$ אין מה להוכיח. אחרת נניח בשלילה ש-$X$ אינה סגורה: יש $p\in\overline X\setminus X$
+          (טענה 1.4.4(ג)). לפי הגדרה 1.4.3, לכל $n$ הכדור $B(p,\frac1n)$ פוגש את $X$; נבחר (אקסיומת הבחירה הבת מנייה)
+          $x_n\in X$ עם $|x_n-p|<\frac1n$.
+      - kind: step
+        text: >-
+          **2.** $f(x)=\frac1{|x-p|}$ מוגדרת ורציפה על $X$ ($p\notin X$, טענה 1.6.5). המשפחה $\{f\}$ רציפה במידה אחידה
+          בכל נקודה (עם איבר אחד, הגדרה 4.2.2 היא רציפות בנקודה).
+      - kind: step
+        text: >-
+          **3.** $f$ אינה רציפה במידה שווה: יהי $\delta>0$, ו-$n$ עם $\frac2n<\delta$ (ארכימדס). לפי ארכימדס יש מספר טבעי
+          $m\ge n$ עם $m>f(x_n)+1$. אז $f(x_m)>m>f(x_n)+1$, ו-$|x_n-x_m|<\frac1n+\frac1m$, וזה לכל היותר $\frac2n<\delta$. עם
+          $\varepsilon=1$ אף $\delta$ אינו מתאים.
+      - kind: step
+        text: >-
+          **4.** לפי טענה 4.2.3(א), $\{f\}$ אינה רציפה במידה אחידה, בסתירה ל-(P). לכן $X$ סגורה; היא חסומה, ולפי משפט
+          היינה-בורל (משפט 3.2.11) קומפקטית.
+      - kind: check
+        text: >-
+          ב-(ב) החסימות נחוצה: $\mathbb{N}$ של (א) סגורה ב-$\mathbb{R}$, מקיימת (P) ואינה קומפקטית; שם הכשל הוא חסימות, לא
+          סגירות. ו-$X=(0,1]$ אינה מקיימת (P): $\frac1x$ היא בדיוק הפונקציה של שלב 2 עם $p=0$.
+      - kind: result
+        text: >-
+          (א) לא נכון ($\mathbb{N}$); (ב) קבוצה חסומה ב-$\mathbb{R}$ שמקיימת (P) קומפקטית.
+    source:
+      name: 'West Virginia University, course 452 (community.wvu.edu/~bal0018), Homework 6'
+      year: 2026
+      problem: 'Problem 2(c)'
+      url: 'https://community.wvu.edu/~bal0018/452HW6S26.pdf'
+      verified: '2026-11-12'
+      adapted: true
+
+  - id: W-4.2-c2
+    stars: 1
+    objectives: [OBJ-4.2-1]
+    prompt: >-
+      $I=[a,b]$ קטע סגור וחסום, $f_n\in C(I)$, ולכל $x\in I$: $f_1(x)\le f_2(x)\le\dots$ ו-$f_n(x)\to f(x)$. הוכיחו
+      ש-$\{f_n:\ n\in\mathbb{N}\}$ רציפה במידה אחידה על $I$ אם ורק אם $f$ רציפה על $I$.
+    answer: >-
+      ($\Rightarrow$) טענה 4.2.3(ד): גבול נקודתי של איברי משפחה רציפה במידה אחידה רציף. ($\Leftarrow$) $h_n=f-f_n\ge0$
+      רציפות ויורדות ל-0; הקבוצות $\{h_n<\varepsilon\}$ פתוחות, עולות ומכסות את $I$, ומהקומפקטיות אחת מהן היא $I$: התכנסות
+      במידה שווה, ואז משפט 4.2.8(א).
+    solution:
+      - kind: idea
+        text: >-
+          כיוון אחד הוא "גבול נקודתי של משפחה רציפה במידה אחידה רציף". בכיוון השני המונוטוניות והקומפקטיות הופכות
+          התכנסות נקודתית להתכנסות במידה שווה (זה משפט דיני), ומשם משפט 4.2.8.
+      - kind: step
+        text: >-
+          ($\Rightarrow$) $f$ גבול נקודתי של סדרה במשפחה, ולפי טענה 4.2.3(ד),(א) $f$ רציפה במידה שווה, ובפרט רציפה.
+      - kind: step
+        text: >-
+          ($\Leftarrow$) **1.** נניח ש-$f$ רציפה, ונגדיר $h_n=f-f_n$: רציפות (טענה 1.6.5), $h_n\ge0$ (גבול של סדרה עולה
+          גדול מכל איבריה), $h_{n+1}\le h_n$, ו-$h_n(x)\to0$ לכל $x$.
+      - kind: step
+        text: >-
+          **2.** יהי $\varepsilon>0$, ו-$U_n=\{x\in I:\ h_n(x)<\varepsilon\}$. $U_n$ פתוחה ב-$I$ (מקור של קבוצה פתוחה,
+          משפט 1.6.4), $U_n\subseteq U_{n+1}$ (כי $h_{n+1}\le h_n$), ו-$\bigcup_nU_n=I$ (כי $h_n(x)\to0$).
+      - kind: step
+        text: >-
+          **3.** $I$ קומפקטי (משפט 3.2.11; כמרחב, טענה 3.2.3): יש $U_{n_1},\dots,U_{n_k}$ שמכסות את $I$, ועם
+          $N=\max_jn_j$ הקבוצות עולות ולכן $U_N=I$. לכל $n\ge N$ ולכל $x$: $0\le h_n(x)\le h_N(x)<\varepsilon$. כלומר
+          $f_n\to f$ במידה שווה.
+      - kind: theorem
+        text: >-
+          **4.** לפי משפט 4.2.8(א) (עם $f_n,f\in C(I)$ ו-$\|f_n-f\|_\infty\to0$, טענה 4.1.3), $\{f_n\}$ רציפה במידה אחידה.
+      - kind: check
+        text: >-
+          המונוטוניות נחוצה ב-($\Leftarrow$): האוהלים $t_n$ מתכנסים נקודתית לגבול הרציף $0$, והמשפחה אינה רציפה במידה
+          אחידה (טענה 4.2.7(ג)); הם אינם סדרה עולה. וב-($\Rightarrow$) המונוטוניות אינה נחוצה כלל, וגם לא הכיוון שלה:
+          ההוכחה של ($\Rightarrow$) לא השתמשה בה. למשל $x^n$ היא סדרה **יורדת**, לא עולה כמו בשאלה; הגבול שלה אינו רציף,
+          ובהתאם ל-($\Rightarrow$) המשפחה $\{x^n\}$ אינה רציפה במידה אחידה.
+      - kind: result
+        text: >-
+          המשפחה רציפה במידה אחידה בדיוק כשהגבול $f$ רציף.
+    source:
+      name: 'Purdue University, MA 544 Qualifying Examination'
+      year: 1995
+      problem: 'Problem 1'
+      url: 'https://www.math.purdue.edu/files/academic/grad/qualexams/MA54400/MA54400_1995_JAN.pdf'
+      verified: '2026-11-12'
+      adapted: false

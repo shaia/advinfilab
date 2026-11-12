@@ -1,0 +1,26 @@
+- id: v-4-3-proof
+  youtubeId: 2-gB6K2lo2w
+  title: The Arzela-Ascoli Theorem
+  channel: Mike, the Mathematician
+  lang: en
+  captions: []
+  start: 0
+  minutes: 12
+  why: >-
+    לפי תיאור הסרטון: הוכחה של משפט ארצלה-אסקולי בגרסה של קטע סגור: לסדרה של פונקציות שרציפה במידה אחידה וחסומה
+    נקודתית יש תת-סדרה מתכנסת במידה שווה. זו מסקנה 4.3.8. חפשו בהוכחה את שני החלקים שלנו: האלכסון על קבוצה צפופה בת
+    מנייה (למה 4.3.6) והמעבר מהקבוצה הצפופה לכל הקטע (למה 4.2.10).
+  verified: '2026-11-12'
+- id: v-4-3-tb
+  youtubeId: ykfEjipjEDM
+  title: 'Topics In Analysis (Lecture 19): Arzela-Ascoli Theorem Part 1'
+  channel: Arkady Etkin
+  lang: en
+  captions: []
+  start: 0
+  minutes: 46
+  why: >-
+    לפי תיאור הסרטון: הגדרת חסימות במידה שווה ורציפות במידה אחידה, וההוכחה שקבוצה חסומה כליל של פונקציות רציפות על
+    מרחב קומפקטי חסומה במידה שווה ורציפה במידה אחידה. זה הכיוון (i)$\Rightarrow$(ii) של משפט 4.3.7, דרך רשת סופית
+    ומשפט קנטור.
+  verified: '2026-11-12'

@@ -22,6 +22,16 @@
  *                preset must keep that property or change the scan.
  *
  * Drives the figure of lessons 1.5, 2.2 and 2.4 (FunctionBall): the tube B(f, ε) around the limit and the graph of fₙ.
+ *
+ * SET MODE (lesson 4.1, the second half of this file). System: a fixed centre f in C(K) (K = [a, b], or (a, b] for the
+ * one preset that shows what compactness buys), a set S ⊆ C(K) (the positive functions P, or Z_p = {g : g(p) = 0}),
+ * the open ball B(f, r) in the sup norm, and one probe g = f − c (a vertical shift by the constant c). Then
+ * ‖g − f‖∞ = |c| exactly, so g ∈ B(f, r) iff |c| < r; g ∈ P iff inf f − c > 0 when the infimum of f is attained (a
+ * minimum) and iff inf f − c ≥ 0 when it is not (f > inf f everywhere); g ∈ Z_p iff c = 0, since g(p) = f(p) − c = −c.
+ * The largest r with B(f, r) ⊆ S is min f for P with an attained minimum (lesson 4.1, טענה 4.1.6(א)) and none at all
+ * otherwise (Z_p has empty interior, 4.1.7(ד); in C_b((0, 1]) the ball around x leaves P, 4.1.6(ג)). Every value is a
+ * closed formula; nothing is sampled. A constant shift is one probe among all g in the ball, so the figure shows
+ * that a ball leaves S, and the lesson proves that a ball stays inside.
  */
 
 export interface FnSeq {
@@ -228,3 +238,95 @@ export const EPS_FINE = [...EPS, 0.01, 0.005] as const;
 
 /** presets of lessons 2.2 and 2.4 offer EPS_FINE; the presets of lesson 1.5 keep EPS */
 export const FINE_SEQS: readonly SeqId[] = ['ramp', 'smooth-abs', 'cos-series', 'exp-series'];
+
+/* ------------------------------------------------------------------ set mode (lesson 4.1) */
+
+export interface SetCase {
+  /** Hebrew name for the picker */
+  name: string;
+  /** the centre, LTR, for readouts */
+  formula: string;
+  a: number;
+  b: number;
+  /** the domain is (a, b] rather than [a, b]: C_b((a, b]) instead of C[a, b] */
+  openLeft?: boolean;
+  /** the centre f */
+  f: (x: number) => number;
+  /** which set: the positive functions P, or Z_p */
+  set: 'pos' | 'zero';
+  /** the point of Z_p */
+  p?: number;
+  /** the exact infimum of f over the domain (pos presets) */
+  inf: number;
+  /** where the infimum is attained, or null when it is not a minimum */
+  argInf: number | null;
+  /** the y-window of the plot */
+  y: [number, number];
+}
+
+const SET_TABLE = {
+  // x² − x + ½ = (x − ½)² + ¼ ≥ ¼, equality only at x = ½: min ¼ at ½
+  pos: {
+    name: 'P: פונקציה חיובית',
+    formula: 'f(x) = x² − x + 1/2',
+    a: 0,
+    b: 1,
+    f: (x) => x * x - x + 0.5,
+    set: 'pos',
+    inf: 0.25,
+    argInf: 0.5,
+    y: [-0.45, 1.05],
+  },
+  // f(x) = x on (0, 1]: inf 0, not attained (0 is not in the domain)
+  'pos-open': {
+    name: 'P′ על (0, 1]',
+    formula: 'f(x) = x, 0 < x ≤ 1',
+    a: 0,
+    b: 1,
+    openLeft: true,
+    f: (x) => x,
+    set: 'pos',
+    inf: 0,
+    argInf: null,
+    y: [-0.45, 1.15],
+  },
+  // ½ sin(2πx) vanishes at p = ½ (sin π = 0); the readout uses the exact value f(p) = 0, never Math.sin(Math.PI)
+  zero: {
+    name: 'Zₚ עם p = 1/2',
+    formula: 'f(x) = sin(2πx)/2',
+    a: 0,
+    b: 1,
+    f: (x) => Math.sin(2 * Math.PI * x) / 2,
+    set: 'zero',
+    p: 0.5,
+    inf: -0.5,
+    argInf: 0.75,
+    y: [-0.85, 0.85],
+  },
+} satisfies Record<string, SetCase>;
+export type SetId = keyof typeof SET_TABLE;
+export const SET_CASES: Record<SetId, SetCase> = SET_TABLE;
+
+/** the radii the set mode offers */
+export const RADII = [0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5] as const;
+
+/** ‖(f − c) − f‖∞ = |c|: the shift is in the open ball B(f, r) iff |c| < r */
+export const shiftInBall = (c: number, r: number): boolean => Math.abs(c) < r;
+
+/** the value of g = f − c at p for Z_p (exactly −c, since f(p) = 0), or its infimum for P (exactly inf f − c) */
+export const shiftKeyValue = (s: SetCase, c: number): number => (s.set === 'zero' ? -c : s.inf - c);
+
+/** g = f − c belongs to the set: Z_p iff c = 0; P iff inf f − c > 0 (minimum attained) or ≥ 0 (not attained) */
+export function shiftInSet(s: SetCase, c: number): boolean {
+  if (s.set === 'zero') return c === 0;
+  return s.argInf === null ? c <= s.inf : c < s.inf;
+}
+
+/** the largest r with B(f, r) ⊆ S, or null when no ball around f lies in S */
+export const largestBall = (s: SetCase): number | null => (s.set === 'pos' && s.argInf !== null && s.inf > 0 ? s.inf : null);
+
+/** the whole ball B(f, r) lies in S (proved in lesson 4.1; the shift is the witness when it does not) */
+export function ballInSet(s: SetCase, r: number): boolean {
+  const R = largestBall(s);
+  return R !== null && r <= R;
+}

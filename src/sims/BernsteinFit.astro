@@ -1,0 +1,7 @@
+---
+/** Lesson 4.5 figure: <Spread figure={BernsteinFit} figureProps={{ fn, fns, n, x, delta, tasks }}>. */
+import BernsteinFit, { type BernsteinFitProps } from './BernsteinFit';
+type Props = BernsteinFitProps;
+---
+
+<BernsteinFit client:visible {...Astro.props} />

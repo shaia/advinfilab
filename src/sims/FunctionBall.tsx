@@ -8,10 +8,29 @@
  *
  * Every number comes from src/math/funcseq.ts, exact formulas per preset. The figure shows n ≤ 60 only, so "from this
  * n on" is checked on a window (for these presets the sup decreases in n, which the lesson proves where it matters).
+ *
+ * mode: 'set' (lesson 4.1, SetBall at the end of this file): one ball B(f, r) of C(K) against a set (the positive
+ * functions P, or Z_p), probed by the shift g = f − c.
  */
 
+import { Fragment } from 'preact';
 import { useEffect, useRef, useState } from 'preact/hooks';
-import { EPS, EPS_FINE, FINE_SEQS, SEQS, firstInTube, inTube, type SeqId } from '~/math/funcseq';
+import {
+  EPS,
+  EPS_FINE,
+  FINE_SEQS,
+  RADII,
+  SEQS,
+  SET_CASES,
+  firstInTube,
+  inTube,
+  largestBall,
+  shiftInBall,
+  shiftInSet,
+  shiftKeyValue,
+  type SeqId,
+  type SetId,
+} from '~/math/funcseq';
 import { markTask } from '~/progress/store';
 import { subscribeSteps } from '~/ui/steps';
 import { useFigureCanvas, type FrameInfo } from './core/canvas';
@@ -26,7 +45,37 @@ const TASK_LABEL: Record<string, string> = {
   'm-test': 'בטור הקוסינוסים, עם ⁦ε ≤ 0.01⁩, הזיזו את n אל ה-n הראשון שממנו הסכום החלקי בתוך הצינור.',
   'smooth-corner': 'בערך המוחלט המוחלק, עם ⁦ε ≤ 0.05⁩, הזיזו את n אל ה-n הראשון שממנו fₙ בתוך הצינור.',
   bump: 'בגבעה הנודדת, עם ⁦ε ≤ 0.3⁩, הגדילו את n עד 30 לפחות. מה קורה לרוחב הגבעה ולגובה שלה? האם fₙ נכנסת לצינור?',
+  taylor: 'בטור החזקות של eˣ, עם ⁦ε ≤ 0.01⁩, הזיזו את n אל ה-n הראשון שממנו פולינום טיילור בתוך הצינור סביב eˣ.',
+  // set mode (lesson 4.1)
+  'largest-ball': 'ב-P, עם הפונקציה החיובית, בחרו את הרדיוס r הגדול ביותר שעבורו כל הכדור B(f, r) נשאר בתוך P.',
+  'leave-pos': 'ב-P, הגדילו את r מעבר לרדיוס הזה, והזיזו את c עד שהפונקציה g = f − c בתוך הכדור ומחוץ ל-P.',
+  'open-fails': 'ב-P′ על ⁦(0, 1]⁩, עם ⁦r ≤ 0.1⁩, מצאו c שעבורו g = f − c בתוך הכדור ומחוץ ל-P′.',
+  'leave-zero': 'ב-Zₚ, עם ⁦r ≤ 0.1⁩, מצאו c שעבורו g = f − c בתוך הכדור ומחוץ ל-Zₚ.',
 };
+
+/**
+ * A picker name that mixes Hebrew words and math ("P′ על (0, 1]"). One LTR isolate around the whole name reversed the
+ * Hebrew word against the math and broke the brackets on a phone; here the name reads RTL and each math run is its own
+ * LTR island. Only elements are added: the text content, and so the button's accessible name, is the name itself.
+ */
+function MixedLabel({ text }: { text: string }) {
+  const runs = text.split(/([֐-׿](?:[֐-׿\s]*[֐-׿])?)/);
+  return (
+    <bdi dir="rtl">
+      {runs.map((run, i) => {
+        if (i % 2 === 1 || !run.trim()) return run;
+        const [, lead, body, trail] = /^(\s*)([\s\S]*?)(\s*)$/.exec(run) as RegExpExecArray;
+        return (
+          <Fragment key={i}>
+            {lead}
+            <bdi dir="ltr">{body}</bdi>
+            {trail}
+          </Fragment>
+        );
+      })}
+    </bdi>
+  );
+}
 
 const N_MAX = 60;
 const fmt = (v: number) => sci(Math.round(v * 1e9) / 1e9, 3).replace(/^-/, '−');
@@ -42,6 +91,13 @@ interface State {
 
 export interface FunctionBallProps {
   id: string;
+  /** 'tube' (default): a sequence and the tube around its limit; 'set': a ball around f against a set of C(K) (lesson 4.1) */
+  mode?: 'tube' | 'set';
+  /** set mode: the preset, the presets offered, the radius r and the shift c */
+  setCase?: SetId;
+  setCases?: SetId[];
+  r?: number;
+  c?: number;
   seq?: SeqId;
   seqs?: SeqId[];
   n?: number;
@@ -62,6 +118,10 @@ function fresh(p: FunctionBallProps): State {
 }
 
 export default function FunctionBall(props: FunctionBallProps) {
+  return props.mode === 'set' ? <SetBall {...props} /> : <TubeBall {...props} />;
+}
+
+function TubeBall(props: FunctionBallProps) {
   const [s, setS] = useState<State>(() => fresh(props));
   const [live, setLive] = useState('');
   const tasks: TaskDef[] = (props.tasks ?? []).map((id) => ({ id, label: TASK_LABEL[id] ?? id }));
@@ -89,6 +149,7 @@ export default function FunctionBall(props: FunctionBallProps) {
     const own = moved || patch.showArea !== undefined;
     if (has('ramp-area') && own && next.seq === 'ramp' && next.showArea && next.n >= 20) markTask(`${props.id}:ramp-area`);
     if (has('m-test') && moved && next.seq === 'cos-series' && e <= 0.01 && next.n === firstInTube(sq, e, N_MAX)) markTask(`${props.id}:m-test`);
+    if (has('taylor') && moved && next.seq === 'exp-series' && e <= 0.01 && next.n === firstInTube(sq, e, N_MAX)) markTask(`${props.id}:taylor`);
     if (has('smooth-corner') && moved && next.seq === 'smooth-abs' && e <= 0.05 && next.n === firstInTube(sq, e, N_MAX)) markTask(`${props.id}:smooth-corner`);
   };
 
@@ -365,7 +426,7 @@ export default function FunctionBall(props: FunctionBallProps) {
           {offered.length > 1 && (
             <div class="group" role="group" aria-label="הסדרה">
               {offered.map((id) => (
-                <Toggle key={id} label={<bdi dir="ltr">{SEQS[id].name}</bdi>} on={s.seq === id} onChange={() => userSet({ seq: id, n: 1 })} />
+                <Toggle key={id} label={<MixedLabel text={SEQS[id].name} />} on={s.seq === id} onChange={() => userSet({ seq: id, n: 1 })} />
               ))}
             </div>
           )}
@@ -383,6 +444,278 @@ export default function FunctionBall(props: FunctionBallProps) {
             <Toggle label="מאיזה n והלאה בצינור?" on={s.showFirst} onChange={(on) => userSet({ showFirst: on })} />
             {seq.l1 && <Toggle label="השטח בין fₙ לגבול" on={s.showArea} onChange={(on) => userSet({ showArea: on })} />}
           </div>
+        </>
+      }
+    />
+  );
+}
+
+/* ------------------------------------------------------------------ set mode (lesson 4.1) */
+
+interface SetState {
+  sc: SetId;
+  /** index into RADII */
+  ri: number;
+  /** the shift: g = f − c */
+  c: number;
+}
+
+const C_MAX = 0.5;
+const nearestR = (r: number) => RADII.reduce((best, v, i) => (Math.abs(v - r) < Math.abs(RADII[best] - r) ? i : best), 0);
+const clampC = (c: number) => Math.max(-C_MAX, Math.min(C_MAX, Math.round(c * 100) / 100));
+
+function freshSet(p: FunctionBallProps): SetState {
+  return { sc: p.setCase ?? 'pos', ri: nearestR(p.r ?? 0.1), c: clampC(p.c ?? 0) };
+}
+
+/**
+ * The set mode: a centre f ∈ C(K) in green, the open ball B(f, r) of the sup norm as the tube around it, and one
+ * function of the ball, g = f − c, in ink. The set is P (the positive functions; the shaded half-plane below the axis
+ * is outside it) or Z_p (the functions vanishing at p; the dashed vertical line). The key point (the minimum of g for
+ * P, the value g(p) for Z_p) is a filled point when g is in the set and a hollow ringed point when it is not. Every
+ * number comes from src/math/funcseq.ts (set mode), exact formulas.
+ */
+function SetBall(props: FunctionBallProps) {
+  const [s, setS] = useState<SetState>(() => freshSet(props));
+  const [live, setLive] = useState('');
+  const tasks: TaskDef[] = (props.tasks ?? []).map((id) => ({ id, label: TASK_LABEL[id] ?? id }));
+  const sc = SET_CASES[s.sc];
+  const r = RADII[s.ri];
+  const inBall = shiftInBall(s.c, r);
+  const inSet = shiftInSet(sc, s.c);
+  // P on the compact [0, 1]; P′ (claim 4.1.6(ג)) on (0, 1]; Z_p
+  const setName = sc.set === 'pos' ? (sc.openLeft ? 'P′' : 'P') : 'Zₚ';
+  const key = shiftKeyValue(sc, s.c);
+
+  /** The student's own change: a text step sets state through subscribeSteps and never ticks a task. */
+  const userSet = (patch: Partial<SetState>) => {
+    const next = { ...s, ...patch };
+    setS(next);
+    const has = (t: string) => props.tasks?.includes(t);
+    const moved = patch.ri !== undefined || patch.c !== undefined;
+    if (!moved) return;
+    const cs = SET_CASES[next.sc];
+    const rr = RADII[next.ri];
+    const outside = shiftInBall(next.c, rr) && !shiftInSet(cs, next.c);
+    const R = largestBall(cs);
+    if (has('largest-ball') && patch.ri !== undefined && next.sc === 'pos' && R !== null && rr === R) markTask(`${props.id}:largest-ball`);
+    if (has('leave-pos') && next.sc === 'pos' && R !== null && rr > R && outside) markTask(`${props.id}:leave-pos`);
+    if (has('open-fails') && next.sc === 'pos-open' && rr <= 0.1 && outside) markTask(`${props.id}:open-fails`);
+    if (has('leave-zero') && next.sc === 'zero' && rr <= 0.1 && outside) markTask(`${props.id}:leave-zero`);
+  };
+
+  useEffect(
+    () =>
+      subscribeSteps(props.id, (st) => {
+        setS((prev) => {
+          const next = { ...prev };
+          if (typeof st.setCase === 'string' && st.setCase in SET_CASES) next.sc = st.setCase as SetId;
+          if (typeof st.r === 'number') next.ri = nearestR(st.r);
+          if (typeof st.c === 'number') next.c = clampC(st.c);
+          return next;
+        });
+      }),
+    [props.id],
+  );
+
+  const infText =
+    sc.set === 'pos'
+      ? sc.argInf === null
+        ? `inf f = ${fmt(sc.inf)} (לא מתקבל)`
+        : `min f = ${fmt(sc.inf)}, ב-x = ${fmt(sc.argInf)}`
+      : `f(p) = 0, p = ${fmt(sc.p as number)}`;
+  const keyText = sc.set === 'pos' ? (sc.argInf === null ? `inf g = ${fmt(key)}` : `min g = ${fmt(key)}`) : `g(p) = ${fmt(key)}`;
+  const describe = () =>
+    [
+      `${sc.formula}. ${infText}.`,
+      `g = f − c עם c = ${fmt(s.c)}: המרחק ‖g − f‖∞ = ${fmt(Math.abs(s.c))}, ולכן g ${inBall ? 'בתוך הכדור' : 'מחוץ לכדור'} B(f, r) עם r = ${fmt(r)}.`,
+      `${keyText}, ולכן g ${inSet ? 'שייכת' : 'אינה שייכת'} ל-${setName}.`,
+    ].join(' ');
+
+  useEffect(() => {
+    const t = setTimeout(() => setLive(describe()), 300);
+    return () => clearTimeout(t);
+  }, [s]);
+
+  const draw = ({ ctx, view, palette: p }: FrameInfo) => {
+    const narrow = view.w < 420;
+    const box = insetBox({ x: 0, y: 0, w: view.w, h: view.h }, { l: narrow ? 40 : 50, r: 16, t: 44, b: 40 });
+    const plot = makePlot(box, { min: sc.a, max: sc.b, label: 'x' }, { min: sc.y[0], max: sc.y[1], label: 'y' });
+    // the open left end of (a, b] is drawn from a hair to its right
+    const lo = sc.openLeft ? sc.a + 1e-9 : sc.a;
+    const sub = makePlot({ ...box, x: plot.px(lo), w: box.x + box.w - plot.px(lo) }, { ...plot.x, min: lo }, plot.y);
+    const g = (x: number) => sc.f(x) - s.c;
+
+    // outside P: the half-plane y ≤ 0, shaded; the graph of a function of P stays above it
+    if (sc.set === 'pos') {
+      ctx.save();
+      ctx.fillStyle = p.paper2;
+      const y0 = plot.py(0);
+      ctx.fillRect(box.x, y0, box.w, box.y + box.h - y0);
+      ctx.restore();
+    }
+    // the ball B(f, r): the open tube f ± r, dashed edges
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(box.x, box.y, box.w, box.h);
+    ctx.clip();
+    const N = 240;
+    const xs = Array.from({ length: N + 1 }, (_, i) => lo + ((sc.b - lo) * i) / N);
+    ctx.beginPath();
+    xs.forEach((x, i) => (i ? ctx.lineTo(plot.px(x), plot.py(sc.f(x) + r)) : ctx.moveTo(plot.px(x), plot.py(sc.f(x) + r))));
+    for (let i = N; i >= 0; i--) ctx.lineTo(plot.px(xs[i]), plot.py(sc.f(xs[i]) - r));
+    ctx.closePath();
+    ctx.fillStyle = p.epsBand;
+    ctx.fill();
+    ctx.restore();
+    drawCurve(ctx, sub, (x) => sc.f(x) + r, { color: p.eps, width: 1.2, dash: [5, 4] });
+    drawCurve(ctx, sub, (x) => sc.f(x) - r, { color: p.eps, width: 1.2, dash: [5, 4] });
+    drawAxes(ctx, plot, p);
+
+    // y = 0 (the edge of P), and for Z_p the vertical line x = p
+    ctx.save();
+    ctx.strokeStyle = p.ink2;
+    ctx.lineWidth = sc.set === 'pos' ? 2 : 1.2;
+    ctx.beginPath();
+    ctx.moveTo(box.x, plot.py(0));
+    ctx.lineTo(box.x + box.w, plot.py(0));
+    ctx.stroke();
+    if (sc.set === 'zero') {
+      const xp = plot.px(sc.p as number);
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      ctx.moveTo(xp, box.y);
+      ctx.lineTo(xp, box.y + box.h);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+    ctx.restore();
+
+    // the centre f (green) and the probe g = f − c (ink)
+    drawCurve(ctx, sub, sc.f, { color: p.limit, width: 2.4 });
+    drawCurve(ctx, sub, g, { color: p.curve, width: 2.2, samples: 300 });
+    if (sc.openLeft) {
+      // the open end at x = a: hollow points (the value there is not taken)
+      ctx.save();
+      ctx.fillStyle = p.paper;
+      ctx.lineWidth = 2;
+      const ends: [number, string][] = [
+        [sc.f(sc.a), p.limit],
+        [g(sc.a), p.curve],
+      ];
+      for (const [y, col] of ends) {
+        ctx.strokeStyle = col;
+        ctx.beginPath();
+        ctx.arc(plot.px(sc.a), plot.py(y), 4.5, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    // the key point: the lowest point of g (P), or g(p) (Z_p); on (0, 1] with c > 0, a point where g < 0
+    const xk = sc.set === 'zero' ? (sc.p as number) : (sc.argInf ?? (s.c > 0 ? Math.min(s.c / 2, sc.b) : null));
+    if (xk !== null) {
+      const yk = sc.set === 'zero' ? key : g(xk);
+      const sx = plot.px(xk);
+      const sy = plot.py(yk);
+      ctx.save();
+      if (inSet) {
+        ctx.fillStyle = p.pointIn;
+        ctx.beginPath();
+        ctx.arc(sx, sy, 5.5, 0, 2 * Math.PI);
+        ctx.fill();
+      } else {
+        ctx.fillStyle = p.paper;
+        ctx.strokeStyle = p.pointOut;
+        ctx.lineWidth = 2.4;
+        ctx.beginPath();
+        ctx.arc(sx, sy, 5.5, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.stroke();
+        ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        ctx.arc(sx, sy, 10, 0, 2 * Math.PI);
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+    // labels f, g, x = p: LTR math names
+    ctx.save();
+    ctx.font = `600 ${narrow ? 12 : 13}px ${p.fontUi}`;
+    ctx.direction = 'ltr';
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'middle';
+    ctx.lineJoin = 'round';
+    const label = (t: string, x: number, y: number, col: string) => {
+      ctx.strokeStyle = p.paper;
+      ctx.lineWidth = 4;
+      ctx.strokeText(t, x, y);
+      ctx.fillStyle = col;
+      ctx.fillText(t, x, y);
+    };
+    const xl = sc.b - (sc.b - sc.a) * 0.06;
+    const fAbove = sc.f(xl) >= g(xl);
+    label('f', plot.px(xl) - 4, plot.py(sc.f(xl)) + (fAbove ? -12 : 12), p.limit);
+    label('g', plot.px(xl) - 4, plot.py(g(xl)) + (fAbove ? 12 : -12), p.curve);
+    if (sc.set === 'zero') label('x = p', plot.px(sc.p as number) + 6, box.y + 12, p.ink2);
+    ctx.restore();
+  };
+
+  const { canvasRef, invalidate } = useFigureCanvas(draw, { worldWidth: 1.5, worldHeight: 1, animate: false });
+  useEffect(invalidate, [s]);
+
+  const onKeyDown = (e: KeyboardEvent) => {
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+      e.preventDefault();
+      userSet({ c: clampC(s.c + (e.key === 'ArrowRight' ? 0.01 : -0.01)) });
+    } else if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      userSet({ ri: Math.max(0, Math.min(RADII.length - 1, s.ri + (e.key === 'ArrowUp' ? 1 : -1))) });
+    }
+  };
+
+  const offered = props.setCases ?? [];
+  return (
+    <SimShell
+      fig={props.id}
+      label={`איור חי: פונקציה f במרחב הפונקציות הרציפות, בירוק, הכדור B(f, r) בנורמת הסופרמום כצינור סביבה, ופונקציה g = f − c מהכדור. במקלדת: חץ ימינה ושמאלה משנה את c, חץ למעלה ולמטה משנה את r. ${describe()}`}
+      canvasRef={canvasRef}
+      aspect={1.5}
+      live={live}
+      tasks={tasks}
+      onKeyDown={onKeyDown}
+      onReset={() => {
+        setS(freshSet(props));
+        setLive('האיור אופס.');
+      }}
+      readout={
+        <>
+          <span data-readout="inf">
+            <b class="q">{infText}</b>
+          </span>
+          <span data-readout="dist">
+            המרחק: <b class="q">‖g − f‖∞ = {fmt(Math.abs(s.c))}</b>
+          </span>
+          <span data-readout="ball">
+            {inBall ? 'g בתוך הכדור' : 'g מחוץ לכדור'} <b class="q">B(f, {fmt(r)})</b>.
+          </span>
+          <span data-readout="set">
+            <b class="q">{keyText}</b>, ולכן <b class="q">{inSet ? `g ∈ ${setName}` : `g ∉ ${setName}`}</b>.
+          </span>
+        </>
+      }
+      controls={
+        <>
+          {offered.length > 1 && (
+            <div class="group" role="group" aria-label="הקבוצה">
+              {offered.map((id) => (
+                <Toggle key={id} label={<MixedLabel text={SET_CASES[id].name} />} on={s.sc === id} onChange={() => userSet({ sc: id, c: 0 })} />
+              ))}
+            </div>
+          )}
+          <Slider label="r: רדיוס הכדור" value={s.ri} min={0} max={RADII.length - 1} step={1} format={(v) => fmt(RADII[Math.round(v)])} onChange={(v) => userSet({ ri: Math.round(v) })} />
+          <Slider label="c: ההזזה, g = f − c" value={s.c} min={-C_MAX} max={C_MAX} step={0.01} format={(v) => fmt(v)} onChange={(v) => userSet({ c: clampC(v) })} />
         </>
       }
     />

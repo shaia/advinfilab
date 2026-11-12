@@ -1,0 +1,7 @@
+---
+/** Lesson 4.6 figure: <Spread figure={AlgebraFit} figureProps={{ algebra, algebras, interval, intervals, target, targets, n, tasks }}>. */
+import AlgebraFit, { type AlgebraFitProps } from './AlgebraFit';
+type Props = AlgebraFitProps;
+---
+
+<AlgebraFit client:visible {...Astro.props} />

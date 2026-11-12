@@ -11,24 +11,24 @@ questions:
     qualitative: true
     level: basic
     prompt: >-
-      $\mathcal{F}$ משפחה של פונקציות על מרחב מטרי $(K,d)$. איזה ניסוח הוא ההגדרה של "$\mathcal{F}$ **רציפה במידה
-      אחידה**"?
+      $\mathcal{F}$ משפחה של פונקציות על מרחב מטרי $(K,d)$; בכל הניסוחים $x$ ו-$y$ הן נקודות של $K$. איזה ניסוח
+      הוא ההגדרה של "$\mathcal{F}$ **רציפה במידה אחידה**"?
     choices:
-      - text: '$\forall\varepsilon>0\ \exists\delta>0\ \forall f\in\mathcal{F}\ \forall x,y\in K:\ d(x,y)<\delta\Rightarrow|f(x)-f(y)|<\varepsilon$'
+      - text: '$\forall\varepsilon>0\ \exists\delta>0\ \forall f\in\mathcal{F}\ \forall x,y$: אם $d(x,y)<\delta$ אז $|f(x)-f(y)|<\varepsilon$'
         correct: true
         feedback: >-
           נכון. $\delta$ נבחר אחרי $\varepsilon$ ולפני $f$, $x$ ו-$y$: אחד לכל הפונקציות ולכל הנקודות.
-      - text: '$\forall f\in\mathcal{F}\ \forall\varepsilon>0\ \exists\delta>0\ \forall x,y\in K:\ d(x,y)<\delta\Rightarrow|f(x)-f(y)|<\varepsilon$'
+      - text: '$\forall f\in\mathcal{F}\ \forall\varepsilon>0\ \exists\delta>0\ \forall x,y$: אם $d(x,y)<\delta$ אז $|f(x)-f(y)|<\varepsilon$'
         feedback: >-
           כאן $\delta$ נבחר אחרי $f$, ולכן רשאי להיות תלוי בה. זה אומר רק שכל פונקציה במשפחה רציפה במידה שווה. המשפחה
           $\{x^n\}$ על $[0,1]$ מקיימת את זה ואינה רציפה במידה אחידה.
         misconception: MC-c4-equi-vs-uniform
-      - text: '$\exists\delta>0\ \forall\varepsilon>0\ \forall f\in\mathcal{F}\ \forall x,y\in K:\ d(x,y)<\delta\Rightarrow|f(x)-f(y)|<\varepsilon$'
+      - text: '$\exists\delta>0\ \forall\varepsilon>0\ \forall f\in\mathcal{F}\ \forall x,y$: אם $d(x,y)<\delta$ אז $|f(x)-f(y)|<\varepsilon$'
         feedback: >-
           $\delta$ אחד לכל $\varepsilon$: אז $f(x)=f(y)$ כש-$d(x,y)<\delta$, ובקטע זה אומר שכל הפונקציות קבועות. זו טענה
           חזקה מדי.
         misconception: MC-c4-equi-quantifier-order
-      - text: '$\forall\varepsilon>0\ \forall f\in\mathcal{F}\ \forall x\in K\ \exists\delta>0\ \forall y:\ d(x,y)<\delta\Rightarrow|f(x)-f(y)|<\varepsilon$'
+      - text: '$\forall\varepsilon>0\ \forall f\in\mathcal{F}\ \forall x\ \exists\delta>0\ \forall y$: אם $d(x,y)<\delta$ אז $|f(x)-f(y)|<\varepsilon$'
         feedback: >-
           כאן $\delta$ תלוי גם ב-$f$ וגם ב-$x$: זו רציפות של כל פונקציה בכל נקודה, ותו לא.
         misconception: MC-c4-equi-quantifier-order
@@ -57,7 +57,8 @@ questions:
         misconception: MC-c4-equi-vs-uniform
       - text: 'במידה אחידה: כל הפונקציות במשפחה חסומות על ידי אותו קבוע'
         feedback: >-
-          זה "חסומה במידה שווה", תכונה אחרת. $\{\sin(nx)\}$ חסומה ב-1 ואינה רציפה במידה אחידה.
+          זו חסימות של המשפחה ("חסומה במידה שווה": יש $M$ אחד עם $|f(x)|\le M$ לכל $f$ ולכל $x$; נגדיר זאת בשיעור
+          4.3), תכונה אחרת. $\{\sin(nx)\}$ חסומה ב-1 ואינה רציפה במידה אחידה.
         misconception: MC-c4-bounded-family-equicontinuous
 
   - id: Q-4.2-neg
@@ -133,11 +134,12 @@ questions:
           משפחה ב-$C[0,1]$ הייתה רציפה במידה אחידה.
         misconception: MC-c4-equi-vs-uniform
     reasons:
-      - text: '$\{x^n\}$: כל אחת רציפה במידה שווה, אבל עם $\varepsilon=\frac12$, לכל $\delta$ יש $n$ עם $1-(1-\frac\delta2)^n\ge\frac12$'
+      - text: '$\{x^n\}$: כל אחת רציפה במידה שווה, אבל עם $\varepsilon=\frac12$, לכל $0<\delta\le1$ יש $n$ עם $1-(1-\frac\delta2)^n\ge\frac12$'
         correct: true
         feedback: >-
           בדיוק. הנקודות $1$ ו-$1-\frac\delta2$ במרחק קטן מ-$\delta$, ו-$(1-\frac\delta2)^n\to0$, ולכן ההפרש מגיע ל-$\frac12$
-          כש-$n$ גדול.
+          כש-$n$ גדול. די לבדוק $\delta\le1$ (כך ש-$1-\frac\delta2\in[0,1]$): אם $\delta$ מתאים, גם כל מספר חיובי קטן
+          ממנו מתאים.
       - text: 'משפט קנטור נותן $\delta$ לכל הפונקציות יחד'
         feedback: >-
           קנטור נותן $\delta$ **לכל פונקציה בנפרד**, והוא תלוי בפונקציה. על משפחה הוא לא אומר דבר.
@@ -161,7 +163,7 @@ questions:
       - text: לא בהכרח
         feedback: >-
           הדוגמאות הנגדיות כמו $\{x^n\}$ הן משפחות **אינסופיות**. במשפחה סופית אפשר לקחת את הקטן שבמספר סופי של דלתות.
-        misconception: MC-c4-equi-needs-derivative-bound
+        misconception: MC-c4-equi-vs-uniform
     reasons:
       - text: 'לכל $i$ משפט קנטור נותן $\delta_i$ ל-$f_i$, ו-$\delta=\min(\delta_1,\dots,\delta_m)>0$ מתאים לכולן'
         correct: true
@@ -184,8 +186,8 @@ questions:
     objectives: [OBJ-4.2-2]
     level: mid
     prompt: >-
-      סדרו את שלבי ההוכחה שהמשפחה $\mathcal{F}=\{f\in C^1[0,1]:\ |f'(t)|\le M\ \forall t\}$ (עם $M>0$) רציפה במידה
-      אחידה.
+      סדרו את שלבי ההוכחה שהמשפחה $\mathcal{F}$ של כל הפונקציות $f\in C^1[0,1]$ עם $|f'(t)|\le M$ לכל $t$ (כאן
+      $M>0$ קבוע) רציפה במידה אחידה.
     help: סדרו את שלבי ההוכחה מהראשון לאחרון.
     items:
       - id: eps
@@ -193,9 +195,9 @@ questions:
       - id: take
         label: 'תהיינה $f\in\mathcal{F}$ ו-$x,y\in[0,1]$ עם $|x-y|<\delta$'
       - id: mvt
-        label: 'לפי משפט הערך הממוצע יש $c$ בין $x$ ל-$y$ עם $f(x)-f(y)=f''(c)(x-y)$'
+        label: 'לפי משפט הערך הממוצע יש $c$ בין $x$ ל-$y$ שבו $f(x)-f(y)$ שווה ל-$f''(c)(x-y)$'
       - id: bound
-        label: 'לכן $|f(x)-f(y)|\le M|x-y|<M\delta=\varepsilon$'
+        label: 'לכן $|f(x)-f(y)|$ קטן או שווה ל-$M|x-y|$, וזה קטן מ-$M\delta=\varepsilon$'
       - id: concl
         label: '$\delta$ נקבע לפני ש-$f$, $x$ ו-$y$ נבחרו, ולכן הוא משותף לכולם: $\mathcal{F}$ רציפה במידה אחידה'
     order: [eps, take, mvt, bound, concl]
@@ -226,14 +228,14 @@ questions:
       - text: 'לכל $a,b\ge0$: $|\sqrt a-\sqrt b|\le\sqrt{|a-b|}$, ולכן $|f_n(x)-f_n(y)|\le\sqrt{|x-y|}$, ו-$\delta=\varepsilon^2$ מתאים לכל $n$'
         correct: true
         feedback: >-
-          בדיוק. אם $a\ge b$ אז $(\sqrt a-\sqrt b)^2\le(\sqrt a-\sqrt b)(\sqrt a+\sqrt b)=a-b$. ההפרש $(x+\frac1n)-(y+\frac1n)$
-          לא תלוי ב-$n$.
+          בדיוק. אם $a\ge b$ אז $(\sqrt a-\sqrt b)^2$ קטן או שווה ל-$(\sqrt a-\sqrt b)(\sqrt a+\sqrt b)$, שהוא $a-b$.
+          ההפרש $(x+\frac1n)-(y+\frac1n)$ לא תלוי ב-$n$.
       - text: 'כל $f_n$ ליפשיצית (עם קבוע $\frac{\sqrt n}{2}$), ולכן המשפחה רציפה במידה אחידה'
         feedback: >-
           הקבועים $\frac{\sqrt n}2$ אינם חסומים, ולכן הם לא נותנים $\delta$ משותף. "כל פונקציה ליפשיצית" נותן רק שכל
           אחת רציפה במידה שווה.
         misconception: MC-c4-equi-vs-uniform
-      - text: 'המשפחה חסומה במידה שווה ($0\le f_n\le\sqrt2$), ולכן רציפה במידה אחידה'
+      - text: 'כל הפונקציות במשפחה חסומות באותו קבוע ($0\le f_n\le\sqrt2$ לכל $n$), ולכן המשפחה רציפה במידה אחידה'
         feedback: >-
           חסימות אינה גוררת רציפות במידה אחידה: $\{\sin(nx)\}$ חסומה ב-1 ואינה רציפה במידה אחידה.
         misconception: MC-c4-bounded-family-equicontinuous
@@ -301,7 +303,7 @@ questions:
     answer: 158
     tolerance: 0.001
     correctFeedback: >-
-      נכון. $\frac{\pi}{2n}<0.01\iff n>50\pi\approx157.08$, ולכן $n=158$. עבורו $\sin(158\cdot\frac{\pi}{316})=1$, ההפרש
+      נכון. $\frac{\pi}{2n}<0.01$ אם ורק אם $n>50\pi\approx157.08$, ולכן $n=158$. עבורו $\sin(158\cdot\frac{\pi}{316})=1$, ההפרש
       1, והמרחק $\approx0.00994<\delta$.
     wrongFeedback: >-
       פתרו $\frac{\pi}{2n}<0.01$, כלומר $n>\frac{\pi}{0.02}=50\pi$. אם קיבלתם 157: $\frac{\pi}{314}\approx0.010005$
@@ -336,15 +338,23 @@ questions:
         feedback: 'נכון. $|f_n''|=|\cos(nx)|\le1$: קבוע ליפשיץ משותף 1.'
       - text: '$\{x^n:\ n\in\mathbb{N}\}$ על $[0,1]$'
         feedback: >-
-          ליד $x=1$: הנקודות $1$ ו-$1-\frac\delta2$ נותנות הפרש $1-(1-\frac\delta2)^n\to1$ כש-$n\to\infty$.
+          ליד $x=1$: לכל $0<\delta\le1$ הנקודות $1$ ו-$1-\frac\delta2$ נותנות הפרש $1-(1-\frac\delta2)^n\to1$ כש-$n\to\infty$
+          (די לבדוק $\delta\le1$: אם $\delta$ מתאים, גם כל מספר חיובי קטן ממנו מתאים). כל $x^n$ רציפה במידה שווה, אבל
+          אין $\delta$ אחד לכולן.
+        misconception: MC-c4-equi-vs-uniform
+      - text: '$\{x^n:\ n\in\mathbb{N}\}$ על $[\frac12,1]$'
+        feedback: >-
+          לא. מה שקובע אינו אורך הקטע אלא אם הוא מכיל את נקודת הכישלון $1$. $x_n=2^{-1/n}$ נמצאות ב-$[\frac12,1]$,
+          שואפות ל-1, ו-$|x_n^n-1^n|=\frac12$: לפי למה 4.2.6(א) המשפחה אינה רציפה במידה אחידה ב-1, ולכן אינה רציפה
+          במידה אחידה על $[\frac12,1]$ (טענה 4.2.3(א)).
         misconception: MC-c4-domain-irrelevant
       - text: '$\{nx:\ n\in\mathbb{N}\}$ על $[0,1]$'
         feedback: >-
-          $|nx-ny|=n|x-y|$: עם $\varepsilon=1$, לכל $\delta$ קחו $n>\frac2\delta$, $x=\frac\delta2$, $y=0$, וההפרש
+          $|nx-ny|=n|x-y|$: עם $\varepsilon=1$, לכל $0<\delta\le1$ קחו $n>\frac2\delta$, $x=\frac\delta2$, $y=0$, וההפרש
           $\frac{n\delta}{2}>1$. כל אחת ליפשיצית, אבל בלי קבוע משותף.
         misconception: MC-c4-equi-vs-uniform
     explanation: >-
-      שתי מלכודות: התחום משנה ($x^n$ על $[0,\frac12]$ לעומת $[0,1]$), וחסימות אינה קשורה ($x+n$ אינה חסומה ורציפה
+      שתי מלכודות: התחום משנה ($x^n$ על $[0,\frac12]$ לעומת $[0,1]$ ו-$[\frac12,1]$, שמכילים את נקודת הכישלון 1), וחסימות אינה קשורה ($x+n$ אינה חסומה ורציפה
       במידה אחידה, $\sin(nx)$ חסומה ואינה).
     hints:
       - 'לכל משפחה חפשו קבוע ליפשיץ משותף; אם אין, חפשו $\varepsilon$ ונקודות קרובות שההפרש בהן לא קטן.'
@@ -355,8 +365,8 @@ questions:
     qualitative: true
     level: exam
     prompt: >-
-      טענה: משפחה $\mathcal{F}\subseteq C[0,1]$ שאינה חסומה במידה שווה אינה יכולה להיות רציפה במידה אחידה. נכון או לא
-      נכון?
+      טענה: משפחה $\mathcal{F}\subseteq C[0,1]$ שאינה חסומה במידה שווה (כלומר אין $M$ אחד עם $|f(x)|\le M$ לכל
+      $f\in\mathcal{F}$ ולכל $x$) אינה יכולה להיות רציפה במידה אחידה. נכון או לא נכון?
     choices:
       - text: לא נכון
         correct: true
@@ -379,3 +389,95 @@ questions:
         feedback: >-
           הדוגמה הזו מראה שחסימות אינה גוררת רציפות במידה אחידה; היא לא אומרת דבר על הכיוון ההפוך, והכיוון ההפוך שגוי.
         misconception: MC-c4-bounded-family-equicontinuous
+
+  - id: Q-4.2-pointwise-compact
+    type: twotier
+    objectives: [OBJ-4.2-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      המשפחה $\{x^n:\ n\in\mathbb{N}\}$ על הקטע $[0,1)$ רציפה במידה אחידה בכל נקודה $a\in[0,1)$. האם היא רציפה במידה
+      אחידה על $[0,1)$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. ההשוואה בין נקודתית לאחידה (משפט 4.2.4) דורשת מרחב קומפקטי, ו-$[0,1)$ אינו קומפקטי.'
+      - text: כן
+        feedback: >-
+          רציפות במידה אחידה בכל נקודה גוררת רציפות במידה אחידה רק על מרחב קומפקטי. כאן ה-$\delta$ בנקודה $a$ קטן
+          כש-$a\to1$, ואין $\delta$ אחד לכל הנקודות.
+        misconception: MC-c4-pointwise-equi-enough
+    reasons:
+      - text: 'עם $x_n=2^{-1/n}$ ו-$y_n=4^{-1/n}$ ב-$[0,1)$: $|x_n-y_n|\to0$ ו-$x_n^n-y_n^n=\frac12-\frac14=\frac14$'
+        correct: true
+        feedback: >-
+          בדיוק: למה 4.2.6(ב) עם $\varepsilon=\frac14$. שתי הסדרות שואפות ל-1, הנקודה שחסרה בקטע.
+      - text: 'לפי משפט 4.2.4, רציפות במידה אחידה בכל נקודה שקולה לרציפות במידה אחידה'
+        feedback: >-
+          משפט 4.2.4 מניח שהמרחב קומפקטי; בלי זה הוא אינו אומר דבר, ו-$[0,1)$ מראה שהשקילות נכשלת.
+        misconception: MC-c4-pointwise-equi-enough
+      - text: 'יש $n$ שעבורו $x^n$ אינה רציפה במידה שווה על $[0,1)$'
+        feedback: >-
+          כל $x^n$ ליפשיצית על $[0,1)$ עם קבוע $n$, ולכן רציפה במידה שווה. הבעיה היא ה-$\delta$ המשותף.
+        misconception: MC-c4-equi-vs-uniform
+
+  - id: Q-4.2-no-subseq
+    type: twotier
+    objectives: [OBJ-4.2-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      טענה: לאף תת-סדרה של $(\sin(nx))_{n\in\mathbb{N}}$ אין התכנסות במידה שווה על $[0,\pi]$. נכון או לא נכון?
+    choices:
+      - text: נכון
+        correct: true
+        feedback: 'נכון. זו מסקנה 4.2.9.'
+      - text: לא נכון
+        feedback: >-
+          המשפחה חסומה ב-1, אבל בולצאנו-ויירשטראס של $\mathbb{R}$ אינו עובר ל-$C[0,\pi]$: חסימות אינה מספיקה, צריך גם
+          רציפות במידה אחידה, ו-$\{\sin(nx)\}$ אינה כזו.
+        misconception: MC-c4-bounded-family-equicontinuous
+    reasons:
+      - text: 'תת-סדרה מתכנסת במידה שווה הייתה משפחה רציפה במידה אחידה (משפט 4.2.8), אבל $x_k=\frac{\pi}{2n_k}\to0$ ו-$|\sin(n_kx_k)-\sin0|=1$'
+        correct: true
+        feedback: >-
+          בדיוק. העדים של טענה 4.2.7(א) עוברים לכל תת-סדרה, ולפי למה 4.2.6(א) תת-הסדרה אינה רציפה במידה אחידה ב-0.
+      - text: 'הנגזרות $n\cos(nx)$ אינן חסומות במשותף, ולכן לאף תת-סדרה אין התכנסות במידה שווה'
+        feedback: >-
+          חסם משותף לנגזרות הוא תנאי מספיק לרציפות במידה אחידה, לא הכרחי, וכשהוא חסר אין מכך מסקנה. צריך להראות
+          כישלון ישירות, בעדים.
+        misconception: MC-c4-equi-needs-derivative-bound
+      - text: 'כל $\sin(nx)$ רציפה במידה שווה, ולכן הסדרה אינה יכולה להתכנס במידה שווה'
+        feedback: >-
+          רציפות במידה שווה של כל איבר דווקא מתיישבת עם התכנסות במידה שווה (למשל $\frac{\sin(nx)}{n}\to0$). מה שחסר
+          הוא $\delta$ משותף.
+        misconception: MC-c4-equi-vs-uniform
+
+  - id: Q-4.2-dense
+    type: mc
+    objectives: [OBJ-4.2-1]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $(f_n)$ סדרה ב-$C[0,1]$, המשפחה $\{f_n\}$ רציפה במידה אחידה, ו-$(f_n(q))_n$ מתכנסת לכל רציונלי $q\in[0,1]$. מה
+      נובע?
+    choices:
+      - text: '$(f_n)$ מתכנסת במידה שווה על $[0,1]$ לפונקציה רציפה'
+        correct: true
+        feedback: >-
+          נכון: למה 4.2.10. הרציונליים צפופים, $[0,1]$ קומפקטי, והמשפחה רציפה במידה אחידה; לכן $(f_n)$ סדרת קושי
+          ב-$C[0,1]$, והמרחב שלם (משפט 4.1.4).
+      - text: 'רק שהיא מתכנסת בנקודות הרציונליות; על שאר הנקודות אין מידע'
+        feedback: >-
+          בלי רציפות במידה אחידה זה היה נכון. איתה, בכדור ברדיוס $\delta$ כל ה-$f_n$ כמעט קבועות, ולכן ההתכנסות
+          במרכזי מספר סופי של כדורים כאלה קובעת את ההתכנסות בכל נקודה.
+        misconception: MC-c4-dense-convergence-local
+      - text: 'שהיא מתכנסת בכל נקודה, אבל לא בהכרח במידה שווה, כמו $x^n$'
+        feedback: >-
+          $\{x^n\}$ אינה רציפה במידה אחידה (טענה 4.2.7(ב)), ולכן אינה דוגמה כאן. עם רציפות במידה אחידה על קומפקטי,
+          ההתכנסות במידה שווה.
+        misconception: MC-c4-dense-convergence-local
+      - text: 'שום דבר: הרציונליים הם קבוצה בת מנייה, ואין לה השפעה על נקודות אי-רציונליות'
+        feedback: >-
+          גודל הקבוצה אינו העניין, אלא צפיפות: כל כדור פוגש רציונלי (טענה 1.4.14). זה מה שמחבר אותם לכל נקודה.
+        misconception: MC-c4-dense-convergence-local

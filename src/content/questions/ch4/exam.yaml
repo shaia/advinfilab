@@ -1,12 +1,13 @@
 # Chapter 4 exam questions — original, in the style of an 80315 final (not taken from a real exam).
 # Each is worth 25 points in lettered parts, with at least one open part graded against a model solution and a rubric.
+# 1 and 4 are core (lesson 4.1), 3 is core (lesson 4.5), 2 is enrichment (lessons 4.2–4.3, Arzelà–Ascoli).
 chapter: 4
 questions:
   - id: Q-4-exam-1
     type: exam
     title: הפונקציות החיוביות במרחב C[0,1]
     prompt: >-
-      נסמן $U=\{f\in C[0,1]:\ f(x)>0\ \forall x\in[0,1]\}$, עם נורמת הסופרמום.
+      נסמן ב-$U$ את קבוצת הפונקציות $f\in C[0,1]$ עם $f(x)>0$ לכל $x\in[0,1]$, עם נורמת הסופרמום.
     parts:
       - label: א
         points: 9
@@ -20,17 +21,17 @@ questions:
           - kind: idea
             text: >-
               הרדיוס הוא "המרווח" של $f$ מעל הציר, $\min f$. הוא חיובי רק כי המינימום **מתקבל**: על קטע סגור
-              $f$ רציפה מקבלת מינימום (שיעור 3.4). אינפימום של מספרים חיוביים יכול להיות 0.
+              $f$ רציפה מקבלת מינימום (מסקנה 3.4.3). אינפימום של מספרים חיוביים יכול להיות 0.
           - kind: step
             text: >-
-              תהי $f\in U$. $[0,1]$ קומפקטי ו-$f$ רציפה, ולכן יש $x_0$ עם $f(x_0)=\min_{[0,1]}f=:m$. כי $f(x_0)>0$,
-              מתקבל $m>0$.
+              תהי $f\in U$. $[0,1]$ קומפקטי ו-$f$ רציפה, ולכן לפי מסקנה 3.4.3 יש $x_0$ עם $f(x_0)=\min_{[0,1]}f=:m$. כי
+              $f(x_0)>0$, מתקבל $m>0$.
           - kind: step
             text: 'נבחר $r=m$, ותהי $g\in B(f,m)$, כלומר $\|g-f\|_\infty<m$.'
           - kind: computation
-            text: 'לכל $x$: $g(x)\ge f(x)-|g(x)-f(x)|>f(x)-m\ge m-m=0$.'
+            text: 'לכל $x$: $$\begin{aligned}g(x)&\ge f(x)-|g(x)-f(x)|\\&>f(x)-m\\&\ge m-m=0 .\end{aligned}$$'
           - kind: result
-            text: 'לכן $g\in U$, כלומר $B(f,m)\subseteq U$, ו-$U$ פתוחה.'
+            text: 'לכן $g\in U$, כלומר $B(f,m)\subseteq U$, ו-$U$ פתוחה (טענה 4.1.6(א)).'
         rubric:
           - text: 'ניסוח נכון של מה שצריך להוכיח: לכל $f\in U$ כדור סביבה שכולו ב-$U$'
             weight: 1
@@ -50,8 +51,8 @@ questions:
         answer: 0.08333333333333333
         tolerance: 0.001
         correctFeedback: >-
-          נכון: $\min_{[0,1]}f=f(\frac12)=\frac14-\frac12+\frac13=\frac1{12}$. לכל $r>\frac1{12}$ הפונקציה
-          $f-\frac1{12}$ (שמתאפסת ב-$\frac12$) ב-$B(f,r)$ ואינה ב-$U$.
+          נכון: $\min_{[0,1]}f=f(\frac12)$, ו-$f(\frac12)=\frac14-\frac12+\frac13=\frac1{12}$. הכדור $B(f,\frac1{12})$ מוכל ב-$U$ לפי סעיף א,
+          ולכל $r>\frac1{12}$ הפונקציה $f-\frac1{12}$ (שמתאפסת ב-$\frac12$) ב-$B(f,r)$ ואינה ב-$U$.
         wrongFeedback: >-
           הרדיוס הגדול ביותר הוא המינימום של $f$ על הקטע. מצאו את הנקודה הקריטית.
         commonWrong:
@@ -71,7 +72,7 @@ questions:
         qualitative: true
         prompt: >-
           $C_b((0,1])$ הוא מרחב הפונקציות הרציפות והחסומות על $(0,1]$, עם $\|f\|_\infty=\sup_{(0,1]}|f|$. האם הקבוצה
-          $V=\{f\in C_b((0,1]):\ f(x)>0\ \forall x\in(0,1]\}$ פתוחה בו?
+          $V$ של הפונקציות $f\in C_b((0,1])$ עם $f(x)>0$ לכל $x\in(0,1]$ פתוחה בו?
         choices:
           - text: לא
             correct: true
@@ -84,7 +85,7 @@ questions:
           - text: '$f(x)=x\in V$, ולכל $r>0$ הפונקציה $x-\frac r2$ נמצאת ב-$B(f,r)$ ושלילית ליד 0'
             correct: true
             feedback: >-
-              בדיוק. $\inf_{(0,1]}x=0$ אינו מתקבל, ולכן כל הזזה מטה, קטנה ככל שתהיה, יוצאת מ-$V$.
+              בדיוק (טענה 4.1.6(ג)). $\inf_{(0,1]}x=0$ אינו מתקבל, ולכן כל הזזה מטה, קטנה ככל שתהיה, יוצאת מ-$V$.
           - text: 'לכל $x$ הקבוצה $\{f:\ f(x)>0\}$ פתוחה, ו-$V$ היא החיתוך שלהן'
             feedback: >-
               חיתוך אינסופי של פתוחות אינו בהכרח פתוח, וכאן הוא באמת לא: $f(x)=x$ היא נקודה של $V$ בלי כדור סביבה.
@@ -104,7 +105,7 @@ questions:
           - text: '$\{f:\ f(x)\ge0\ \forall x\}$'
             correct: true
             feedback: >-
-              נכון. הקבוצה הזו סגורה ומכילה את $U$, ולכן מכילה את $\overline U$. ולהפך: אם $f\ge0$ אז
+              נכון. הקבוצה הזו סגורה (טענה 4.1.7(א)) ומכילה את $U$, ולכן מכילה את $\overline U$. ולהפך: אם $f\ge0$ אז
               $f+\frac1n\in U$ ו-$f+\frac1n\to f$.
           - text: '$U$ עצמה'
             feedback: >-
@@ -121,7 +122,7 @@ questions:
     title: משפחה עם אנרגיה חסומה
     prompt: >-
       נתונה המשפחה
-      $$\mathcal{F}=\Big\{f\in C^1[0,1]:\ f(0)=0,\ \int_0^1 f'(t)^2\,dt\le1\Big\}.$$
+      $$\begin{aligned}&\mathcal{F}=\Big\{f\in C^1[0,1]:\\ &\qquad f(0)=0,\\ &\qquad\int_0^1 f'(t)^2\,dt\le1\Big\}.\end{aligned}$$
     parts:
       - label: א
         points: 10
@@ -140,12 +141,15 @@ questions:
               כותבים את ההפרש כאינטגרל של הנגזרת (המשפט היסודי), ומעריכים אותו באי-שוויון קושי-שוורץ למכפלה הפנימית
               $\int gh$: הגורם $1$ נותן את $\sqrt{|x-y|}$, והגורם $f'$ נותן את החסם על האנרגיה.
           - kind: step
-            text: 'נניח $y\le x$. לפי המשפט היסודי $f(x)-f(y)=\int_y^x f''(t)\cdot1\,dt$.'
+            text: 'אם $x=y$ אין מה להוכיח. אחרת נניח $y<x$. לפי המשפט היסודי של החשבון $f(x)-f(y)=\int_y^x f''(t)\cdot1\,dt$.'
           - kind: theorem
-            text: 'קושי-שוורץ על $[y,x]$: $\left|\int_y^x gh\right|\le\left(\int_y^x g^2\right)^{1/2}\left(\int_y^x h^2\right)^{1/2}$.'
+            text: >-
+              קושי-שוורץ על $C[y,x]$ (טענה 1.2.22), עם $f'$ ו-$1$ הרציפות שם:
+              $$\begin{aligned}&\left|\int_y^x f'\cdot1\right|\\&\quad\le\left(\int_y^x (f')^2\right)^{1/2}\left(\int_y^x 1\right)^{1/2} .\end{aligned}$$
           - kind: computation
             text: >-
-              $|f(x)-f(y)|\le\left(\int_y^x (f')^2\right)^{1/2}(x-y)^{1/2}\le\left(\int_0^1 (f')^2\right)^{1/2}\sqrt{x-y}\le\sqrt{x-y}$.
+              $$\begin{aligned}&|f(x)-f(y)|\\&\quad\le\left(\int_y^x (f')^2\right)^{1/2}(x-y)^{1/2}\\&\quad\le\left(\int_0^1 (f')^2\right)^{1/2}\sqrt{x-y}\\&\quad\le\sqrt{x-y} ,\end{aligned}$$
+              כי $(f')^2\ge0$ והאינטגרל על $[y,x]$ קטן או שווה לאינטגרל על $[0,1]$.
           - kind: step
             text: 'חסימות: עם $y=0$ ו-$f(0)=0$, $|f(x)|\le\sqrt x\le1$, ולכן $\|f\|_\infty\le1$ לכל $f\in\mathcal{F}$.'
           - kind: step
@@ -153,7 +157,7 @@ questions:
               רציפות במידה אחידה: יהי $\varepsilon>0$ ו-$\delta=\varepsilon^2$. אם $|x-y|<\delta$ אז
               $|f(x)-f(y)|\le\sqrt{|x-y|}<\varepsilon$ לכל $f\in\mathcal{F}$; $\delta$ אינו תלוי ב-$f$.
           - kind: result
-            text: '$\mathcal{F}$ חסומה ב-1 ורציפה במידה אחידה, עם $\delta=\varepsilon^2$.'
+            text: '$\mathcal{F}$ חסומה במידה שווה ב-1 ורציפה במידה אחידה, עם $\delta=\varepsilon^2$.'
         rubric:
           - text: 'כתיבת $f(x)-f(y)$ כאינטגרל של $f''$ (המשפט היסודי)'
             weight: 2
@@ -175,7 +179,7 @@ questions:
         answer: 0.01
         tolerance: 0.001
         correctFeedback: >-
-          נכון: $\sqrt{|x-y|}<0.1\iff|x-y|<0.01$, ולכן $\delta=\varepsilon^2=0.01$. שימו לב שהוא קטן בהרבה מ-$\varepsilon$:
+          נכון: $\sqrt{|x-y|}<0.1$ אם ורק אם $|x-y|<0.01$, ולכן $\delta=\varepsilon^2=0.01$. שימו לב שהוא קטן בהרבה מ-$\varepsilon$:
           המשפחה אינה ליפשיצית במשותף.
         wrongFeedback: >-
           פתרו $\sqrt{\delta}\le0.1$.
@@ -199,12 +203,13 @@ questions:
           - text: 'לכל סדרה ב-$\mathcal{F}$ יש תת-סדרה שמתכנסת במידה שווה על $[0,1]$ לפונקציה רציפה'
             correct: true
             feedback: >-
-              נכון. $\mathcal{F}$ חסומה ורציפה במידה אחידה, ולכן קומפקטית יחסית ב-$C[0,1]$. הגבול נמצא ב-$\overline{\mathcal{F}}$,
-              ואין הבטחה שהוא גזיר.
+              נכון. $\mathcal{F}$ חסומה ורציפה במידה אחידה, ולכן קומפקטית יחסית ב-$C[0,1]$ (משפט 4.3.7). הגבול נמצא
+              ב-$\overline{\mathcal{F}}$, ואין הבטחה שהוא גזיר.
           - text: 'לכל סדרה ב-$\mathcal{F}$ יש תת-סדרה שמתכנסת במידה שווה לפונקציה ב-$\mathcal{F}$'
             feedback: >-
-              המשפט נותן קומפקטיות של הסגור, לא של $\mathcal{F}$. גבול במידה שווה של פונקציות גזירות ברציפות לא חייב להיות
-              גזיר.
+              המשפט נותן קומפקטיות של הסגור, לא של $\mathcal{F}$. למשל
+              $$\begin{aligned}g_n(x)&=\sqrt{(x-\tfrac12)^2+\tfrac1{n^2}}\\&\quad-\sqrt{\tfrac14+\tfrac1{n^2}}\end{aligned}$$ נמצאות ב-$\mathcal{F}$ (כי $|g_n'|<1$)
+              ושואפות במידה שווה ל-$|x-\frac12|-\frac12$, שאינה גזירה ב-$\frac12$.
             misconception: MC-c4-relatively-compact-is-compact
           - text: 'כל סדרה ב-$\mathcal{F}$ מתכנסת במידה שווה'
             feedback: >-
@@ -212,8 +217,8 @@ questions:
             misconception: MC-c4-aa-whole-sequence
           - text: 'לכל סדרה ב-$\mathcal{F}$ יש תת-סדרה שגם הנגזרות שלה מתכנסות במידה שווה'
             feedback: >-
-              ארצלה-אסקולי מדבר על הפונקציות, לא על הנגזרות, ועל הנגזרות יש כאן רק חסם אינטגרלי. התכנסות במידה שווה לא
-              שולטת בנגזרות.
+              ארצלה-אסקולי מדבר על הפונקציות, לא על הנגזרות, ועל הנגזרות יש כאן רק חסם אינטגרלי. בדוגמה $g_n$ שלמעלה
+              הנגזרות שואפות לפונקציית מדרגה, ולכן אינן מתכנסות במידה שווה לשום פונקציה רציפה.
             misconception: MC-c4-derivative-condition-closed
 
       - label: ד
@@ -235,7 +240,7 @@ questions:
           - text: 'הקבועים $f_n\equiv n$ במשפחה החדשה ($f_n''=0$), ו-$\|f_n-f_m\|_\infty\ge1$: אין תת-סדרה מתכנסת'
             correct: true
             feedback: >-
-              בדיוק. התנאי $f(0)=0$ היה מה שחסם את המשפחה: יחד עם רציפות במידה אחידה הוא נתן $|f|\le1$.
+              בדיוק. התנאי $f(0)=0$ היה מה שחסם את המשפחה: יחד עם ההערכה של סעיף א הוא נתן $|f|\le1$.
           - text: 'המשפחה עדיין רציפה במידה אחידה, וזה מספיק לארצלה-אסקולי'
             feedback: >-
               ארצלה-אסקולי דורש גם חסימות. $f_n\equiv n$ רציפות במידה אחידה ואין להן תת-סדרה מתכנסת.
@@ -269,15 +274,15 @@ questions:
           - kind: step
             text: 'מליניאריות האינטגרל: $\int_0^1 fp=0$ לכל פולינום $p$.'
           - kind: theorem
-            text: 'משפט הקירוב של ויירשטראס: יש פולינומים $p_k$ עם $\|p_k-f\|_\infty\to0$.'
+            text: 'משפט הקירוב של ויירשטראס (משפט 4.5.4): יש פולינומים $p_k$ עם $\|p_k-f\|_\infty\to0$.'
           - kind: computation
             text: >-
-              $\left|\int_0^1 f^2-\int_0^1 fp_k\right|=\left|\int_0^1 f(f-p_k)\right|\le\|f\|_\infty\|f-p_k\|_\infty\to0$,
+              $$\begin{aligned}&\left|\int_0^1 f^2-\int_0^1 fp_k\right|\\&\quad=\left|\int_0^1 f(f-p_k)\right|\\&\quad\le\|f\|_\infty\|f-p_k\|_\infty\to0 ,\end{aligned}$$
               ולכן $\int_0^1 f^2=\lim_k\int_0^1 fp_k=0$.
           - kind: step
             text: >-
-              $f^2\ge0$ רציפה. אילו $f(x_0)\ne0$, אז $f^2>\frac{f(x_0)^2}{2}$ בקטע סביב $x_0$, והאינטגרל היה חיובי. לכן
-              $f^2\equiv0$.
+              $f^2\ge0$ רציפה. אילו $f(x_0)\ne0$, אז מרציפות $f^2>\frac{f(x_0)^2}{2}$ בקטע סביב $x_0$ (חיתוך עם $[0,1]$,
+              באורך חיובי), והאינטגרל היה חיובי. לכן $f^2\equiv0$.
           - kind: result
             text: '$f\equiv0$ על $[0,1]$.'
         rubric:
@@ -288,7 +293,7 @@ questions:
           - text: 'הצדקת המעבר לגבול באינטגרל בעזרת החסם $\|f\|_\infty\|f-p_k\|_\infty$'
             weight: 3
           - text: 'המסקנה מ-$\int f^2=0$ ל-$f\equiv0$, עם שימוש ברציפות'
-            weight: 2
+            weight: 3
 
       - label: ב
         points: 6
@@ -346,13 +351,12 @@ questions:
         type: mc
         objectives: [OBJ-4.5-3]
         prompt: >-
-          איזו קבוצה בת מנייה צפופה ב-$C[0,1]$, ובכך מראה שהוא ספרבילי?
+          איזו קבוצה בת מנייה צפופה ב-$C[0,1]$, ובכך מראה שיש בו קבוצה צפופה בת מנייה?
         choices:
           - text: הפולינומים עם מקדמים רציונליים
             correct: true
             feedback: >-
-              נכון. בני מנייה ($\bigcup_n\mathbb{Q}^{n+1}$), וכל פולינום קרוב לאחד מהם: $\|\sum(a_k-r_k)x^k\|_\infty\le\sum|a_k-r_k|$.
-              יחד עם ויירשטראס הם צפופים.
+              נכון. בני מנייה ($\bigcup_n\mathbb{Q}^{n+1}$), וכל פולינום קרוב לאחד מהם: על $[0,1]$, $\|\sum(a_k-r_k)x^k\|_\infty$ קטן מ-$\sum|a_k-r_k|$ או שווה לו. יחד עם ויירשטראס הם צפופים (מסקנה 4.5.7).
           - text: הפולינומים עם מקדמים שלמים
             feedback: >-
               בני מנייה, אבל $p(0)\in\mathbb{Z}$, ולכן הקבוע $\frac12$ במרחק $\frac12$ לפחות מכולם.
@@ -360,8 +364,157 @@ questions:
           - text: החזקות $\{x^n:\ n\ge0\}$
             feedback: >-
               בנות מנייה, אבל לא צפופות: הקבוע 2 במרחק 1 לפחות מכל אחת מהן (כולן בין 0 ל-1). צריך את הצירופים הלינאריים.
-            misconception: MC-c4-algebra-definition
+            misconception: MC-c4-integer-polys-dense
           - text: כל הפולינומים
             feedback: >-
               צפופים, אבל לא בני מנייה: כבר הקבועים הממשיים אינם בני מנייה.
             misconception: MC-c4-separable-countable
+
+  - id: Q-4-exam-4
+    type: exam
+    title: השלמות של C(K)
+    prompt: >-
+      $(K,d)$ מרחב מטרי קומפקטי ולא ריק, ו-$C(K)$ מרחב הפונקציות הרציפות $f:K\to\mathbb{R}$ עם
+      $\|f\|_\infty=\max_{x\in K}|f(x)|$.
+    parts:
+      - label: א
+        points: 12
+        type: open
+        objectives: [OBJ-4.1-2, OBJ-2.1-3]
+        prompt: >-
+          הגדירו סדרת קושי ב-$C(K)$ ומרחב שלם, והוכיחו ש-$C(K)$ שלם. אין להשתמש בשלמות של $B(X)$ או של $C_b(X)$.
+        solution:
+          - kind: definition
+            text: >-
+              $(f_n)$ היא סדרת קושי ב-$C(K)$ אם לכל $\varepsilon>0$ יש $N$ כך ש-$\|f_n-f_m\|_\infty<\varepsilon$ לכל
+              $n,m>N$. מרחב מטרי שלם אם כל סדרת קושי בו מתכנסת לנקודה שלו.
+          - kind: given
+            text: '$(f_n)$ סדרת קושי ב-$C(K)$.'
+          - kind: goal
+            text: 'יש $f\in C(K)$ עם $\|f_n-f\|_\infty\to0$.'
+          - kind: idea
+            text: >-
+              בונים את הגבול נקודה-נקודה מהשלמות של $\mathbb{R}$. תנאי קושי **בנורמה** משמש פעמיים: הוא נותן $N$ שאינו
+              תלוי ב-$x$, וממנו התכנסות במידה שווה, וזו מצדה נותנת שהגבול רציף.
+          - kind: step
+            text: >-
+              גבול נקודתי. לכל $x\in K$: $|f_n(x)-f_m(x)|\le\|f_n-f_m\|_\infty$, ולכן $(f_n(x))_n$ סדרת קושי
+              ב-$\mathbb{R}$. לפי קריטריון קושי (אינפי 1) היא מתכנסת; נגדיר $f(x)=\lim_n f_n(x)$.
+          - kind: step
+            text: >-
+              התכנסות במידה שווה. יהי $\varepsilon>0$ ו-$N$ מתנאי קושי: $|f_n(x)-f_m(x)|<\varepsilon$ לכל $n,m>N$
+              ולכל $x\in K$. נקבע $n>N$ ו-$x$ ונשאיף $m\to\infty$; אי-שוויון חלש נשמר בגבול, ולכן
+              $|f_n(x)-f(x)|\le\varepsilon$ לכל $n>N$ ולכל $x\in K$. $N$ נבחר לפני $x$ ואינו תלוי בו.
+          - kind: step
+            text: >-
+              רציפות של $f$. יהיו $a\in K$ ו-$\varepsilon>0$. לפי הצעד הקודם (עם $\frac\varepsilon3$) נבחר $n$ אחד עם
+              $|f_n(x)-f(x)|\le\frac\varepsilon3$ לכל $x\in K$. $f_n$ רציפה ב-$a$, ולכן יש $\delta>0$ עם
+              $|f_n(x)-f_n(a)|<\frac\varepsilon3$ לכל $x$ עם $d(x,a)<\delta$.
+          - kind: computation
+            text: >-
+              לכל $x$ עם $d(x,a)<\delta$:
+              $$\begin{aligned}&|f(x)-f(a)|\\&\quad\le|f(x)-f_n(x)|\\&\qquad+|f_n(x)-f_n(a)|\\&\qquad+|f_n(a)-f(a)|\\&\quad<\tfrac\varepsilon3+\tfrac\varepsilon3+\tfrac\varepsilon3=\varepsilon .\end{aligned}$$
+          - kind: step
+            text: >-
+              לכן $f\in C(K)$, וגם $f_n-f\in C(K)$. מצעד ההתכנסות, לכל $n>N$:
+              $$\begin{aligned}&\|f_n-f\|_\infty\\&\quad=\max_{x\in K}|f_n(x)-f(x)|\le\varepsilon .\end{aligned}$$ כלומר $\|f_n-f\|_\infty\to0$.
+          - kind: result
+            text: 'כל סדרת קושי ב-$C(K)$ מתכנסת בנורמת הסופרמום לאיבר של $C(K)$: המרחב $C(K)$ שלם (משפט 4.1.4).'
+        rubric:
+          - text: 'הגדרות מדויקות: סדרת קושי בנורמת הסופרמום, ומרחב שלם'
+            weight: 2
+          - text: 'גבול נקודתי: $(f_n(x))$ סדרת קושי ב-$\mathbb{R}$, ושימוש בשלמות של $\mathbb{R}$'
+            weight: 2
+          - text: 'התכנסות במידה שווה: $m\to\infty$ באי-שוויון **חלש**, עם $N$ שאינו תלוי ב-$x$'
+            weight: 4
+          - text: 'רציפות הגבול בטיעון $\frac\varepsilon3$, עם $n$ שנבחר לפני $\delta$'
+            weight: 3
+          - text: 'סיכום: $f\in C(K)$ ו-$\|f_n-f\|_\infty\to0$, לא רק גבול נקודתי'
+            weight: 1
+
+      - label: ב
+        points: 4
+        type: numeric
+        objectives: [OBJ-4.1-2, OBJ-2.4-2]
+        prompt: >-
+          ב-$C[0,1]$ נתונה $f_n(x)=\sum_{k=1}^{n}\left(\frac x2\right)^k$. לכל $m>n$:
+          $\|f_m-f_n\|_\infty=\sum_{k=n+1}^{m}2^{-k}$, וזה קטן מ-$2^{-n}$; לכן זו סדרת קושי, ומשלמות $C[0,1]$ יש לה גבול $f\in C[0,1]$.
+          חשבו את $\|f-f_3\|_\infty$ (שבר מותר).
+        answer: 0.125
+        tolerance: 0.001
+        correctFeedback: >-
+          נכון. $f(x)-f_3(x)=\sum_{k\ge4}(\frac x2)^k$, סכום של איברים אי-שליליים שעולים ב-$x$, ולכן המקסימום ב-$x=1$:
+          $\sum_{k\ge4}2^{-k}=\frac18$. (ובמפורש $f(x)=\frac{x}{2-x}$.)
+        wrongFeedback: >-
+          כתבו את $f-f_3$ כזנב של טור הנדסי, ומצאו איפה בקטע הוא גדול ביותר.
+        commonWrong:
+          - value: 0.0625
+            feedback: >-
+              $\frac1{16}=2^{-4}$ הוא רק האיבר הראשון שהושמט. הזנב הוא כל הטור $\sum_{k\ge4}2^{-k}=2\cdot2^{-4}$.
+          - value: 0
+            feedback: >-
+              ההפרש מתאפס ב-$x=0$, אבל הנורמה היא מקסימום על כל הקטע, והוא מתקבל ב-$x=1$.
+            misconception: MC-c4-max-at-endpoints
+
+      - label: ג
+        points: 5
+        type: twotier
+        standalone: false
+        objectives: [OBJ-4.1-2, OBJ-2.2-3]
+        qualitative: true
+        prompt: >-
+          על $C[0,1]$ נתונה נורמת האינטגרל $\|f\|_1=\int_0^1|f|$. אם מחליפים בהוכחה של סעיף א את $\|\cdot\|_\infty$
+          ב-$\|\cdot\|_1$, האם מקבלים ש-$(C[0,1],\|\cdot\|_1)$ שלם?
+        choices:
+          - text: 'לא: ההוכחה נשברת, והמרחב באמת אינו שלם'
+            correct: true
+            feedback: >-
+              נכון. הצעד הראשון כבר נופל: מ-$\|f_n-f_m\|_1$ קטן אי אפשר להסיק ש-$|f_n(x)-f_m(x)|$ קטן בנקודה.
+          - text: 'כן: אותה הוכחה עובדת בכל נורמה'
+            feedback: >-
+              ההוכחה השתמשה ב-$|f_n(x)-f_m(x)|\le\|f_n-f_m\|_\infty$, שאין לו מקבילה ב-$\|\cdot\|_1$: אוהל צר בגובה 1 קטן
+              ב-$\|\cdot\|_1$ וגדול בנקודה.
+            misconception: MC-c2-norm-irrelevant
+        reasons:
+          - text: 'אין חסם $|g(x)|\le C\|g\|_1$, ולכן קושי ב-$\|\cdot\|_1$ לא נותן גבול נקודתי; והרמפות של טענה 2.2.7 הן סדרת קושי ב-$\|\cdot\|_1$ שאין לה גבול ב-$C[0,1]$'
+            correct: true
+            feedback: >-
+              בדיוק. הרמפות $\min(1,\max(0,n(x-\frac12)))$ מקיימות $\|f_n-f_m\|_1=\frac1{2n}-\frac1{2m}$, ואין
+              $g\in C[0,1]$ עם $\|f_n-g\|_1\to0$ (טענה 2.2.7(ב)).
+          - text: '$x^n$ היא סדרת קושי ב-$\|\cdot\|_1$ שהגבול הנקודתי שלה אינו רציף'
+            feedback: >-
+              $\|x^n\|_1=\frac1{n+1}\to0$: $x^n$ מתכנסת ב-$\|\cdot\|_1$ לפונקציית האפס, שהיא רציפה. היא אינה דוגמה
+              לאי-שלמות.
+            misconception: MC-c2-xn-counterexample-L1
+          - text: 'קושי ב-$\|\cdot\|_1$ גורר קושי ב-$\|\cdot\|_\infty$, כי $\|g\|_1\le\|g\|_\infty$'
+            feedback: >-
+              האי-שוויון הולך בכיוון ההפוך: $\|g\|_1\le\|g\|_\infty$ אומר שקושי ב-$\|\cdot\|_\infty$ גורר קושי
+              ב-$\|\cdot\|_1$, לא להפך.
+            misconception: MC-c3-one-sided-bound
+
+      - label: ד
+        points: 4
+        type: mc
+        standalone: false
+        objectives: [OBJ-4.1-1, OBJ-4.1-2]
+        prompt: >-
+          איפה בהוכחה של סעיף א נדרשה הקומפקטיות של $K$?
+        choices:
+          - text: 'רק כדי ש-$\|f\|_\infty$ יהיה מקסימום סופי לכל $f\in C(K)$, כלומר שהנורמה מוגדרת'
+            correct: true
+            feedback: >-
+              נכון. אף צעד בהוכחה לא השתמש בכיסויים או בתת-סדרות: השלמות באה מהשלמות של $\mathbb{R}$ ומהנורמה. בלי
+              קומפקטיות מחליפים את $C(K)$ ב-$C_b(X)$, ואותה הוכחה, עם בדיקה שהגבול חסום, מראה שהוא שלם (מסקנה 2.2.6(ב)).
+          - text: 'כדי לבחור $N$ שאינו תלוי ב-$x$, כמו במשפט קנטור'
+            feedback: >-
+              $N$ בא מתנאי קושי **בנורמה**, שהוא כבר אחיד ב-$x$. הקומפקטיות לא נדרשה כאן.
+            misconception: MC-c4-compactness-makes-complete
+          - text: 'כדי להוכיח שהגבול $f$ רציף'
+            feedback: >-
+              טיעון $\frac\varepsilon3$ עובד בכל מרחב מטרי (למה 2.2.5): הוא צריך רק התכנסות במידה שווה ורציפות של $f_n$
+              בנקודה.
+            misconception: MC-c4-compactness-makes-complete
+          - text: 'בלי קומפקטיות המסקנה נכשלת: מרחב הפונקציות הרציפות והחסומות על $(0,1]$ אינו שלם'
+            feedback: >-
+              $C_b((0,1])$ שלם (מסקנה 2.2.6(ב)). אם הוכחה משתמשת בהנחה, זה לא אומר שבלעדיה המסקנה נכשלת.
+            misconception: MC-c3-theorem-converse

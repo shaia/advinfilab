@@ -4,7 +4,7 @@
 
 import { describe, expect, it } from 'vitest';
 import { relativeError } from '~/math/analysis';
-import { EPS, EPS_FINE, SEQS, firstInTube, inTube, type SeqId } from '~/math/funcseq';
+import { EPS, EPS_FINE, RADII, SEQS, SET_CASES, ballInSet, firstInTube, inTube, largestBall, shiftInBall, shiftInSet, shiftKeyValue, type SeqId } from '~/math/funcseq';
 import { simpson, supDist } from '~/math/multivar';
 
 const IDS = Object.keys(SEQS) as SeqId[];
@@ -164,5 +164,61 @@ describe('first n in the tube (the tasks of lessons 2.2 and 2.4)', () => {
   });
   it('ramp never enters a tube of radius ≤ 1 (EPS_FINE)', () => {
     for (const e of EPS_FINE) expect(firstInTube(SEQS.ramp, e, 60)).toBeNull();
+  });
+});
+
+describe('lesson 4.1: Taylor polynomials of eˣ (the polynomials are not closed)', () => {
+  it('exp-series with ε = 0.01 enters at n = 4 (tail Σ_{k≥4} 1/k! = 0.0516, Σ_{k≥5} 1/k! = 0.00995) and stays', () => {
+    const s = SEQS['exp-series'];
+    expect(relativeError(s.sup(3), Math.E - (1 + 1 + 1 / 2 + 1 / 6))).toBeLessThan(1e-12);
+    expect(relativeError(s.sup(4), Math.E - (1 + 1 + 1 / 2 + 1 / 6 + 1 / 24))).toBeLessThan(1e-12);
+    expect(s.sup(3)).toBeGreaterThan(0.01);
+    expect(s.sup(4)).toBeLessThan(0.01);
+    expect(firstInTube(s, 0.01, 60)).toBe(4);
+  });
+  it('the Lagrange bound e/(n+1)! dominates the exact sup (it is the bound the lesson proves)', () => {
+    const s = SEQS['exp-series'];
+    let fact = 1;
+    for (let n = 1; n <= 15; n++) {
+      fact *= n + 1;
+      expect(s.sup(n)).toBeLessThanOrEqual(Math.E / fact);
+    }
+  });
+});
+
+describe('set mode (lesson 4.1): exact membership of the shift g = f − c', () => {
+  it('pos: min of x² − x + ½ is ¼ at ½ (exact), and the sampled min agrees (a probe)', () => {
+    const s = SET_CASES.pos;
+    expect(s.f(0.5)).toBe(0.25);
+    let m = Infinity;
+    for (let i = 0; i <= 20000; i++) m = Math.min(m, s.f(i / 20000));
+    expect(relativeError(m, s.inf)).toBeLessThan(1e-12);
+  });
+  it('pos: the largest ball inside P has radius min f = ¼; B(f, 0.3) contains the shift by ¼, which leaves P', () => {
+    const s = SET_CASES.pos;
+    expect(largestBall(s)).toBe(0.25);
+    expect(ballInSet(s, 0.25)).toBe(true);
+    expect(ballInSet(s, 0.3)).toBe(false);
+    expect(shiftInBall(0.25, 0.3)).toBe(true);
+    expect(shiftInSet(s, 0.25)).toBe(false);
+    expect(shiftInSet(s, 0.24)).toBe(true);
+    expect(shiftInBall(0.25, 0.25)).toBe(false);
+  });
+  it('pos-open: inf x on (0, 1] is 0 and not attained: no ball, and every positive shift leaves P', () => {
+    const s = SET_CASES['pos-open'];
+    expect(largestBall(s)).toBeNull();
+    for (const r of RADII) expect(ballInSet(s, r)).toBe(false);
+    expect(shiftInSet(s, 0)).toBe(true);
+    expect(shiftInSet(s, 0.01)).toBe(false);
+    expect(shiftInSet(s, -0.3)).toBe(true);
+  });
+  it('zero: f(½) = 0 up to rounding of sin π (absolute 1e-16), Z_p has no ball, and only c = 0 stays in it', () => {
+    const s = SET_CASES.zero;
+    // absolute bound: the exact value is 0, and Math.sin(Math.PI) is 1.22e-16
+    expect(Math.abs(s.f(s.p as number))).toBeLessThan(1e-15);
+    expect(largestBall(s)).toBeNull();
+    expect(shiftInSet(s, 0)).toBe(true);
+    expect(shiftInSet(s, 0.01)).toBe(false);
+    expect(shiftKeyValue(s, 0.03)).toBe(-0.03);
   });
 });

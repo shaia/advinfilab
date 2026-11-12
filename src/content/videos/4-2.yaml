@@ -1,0 +1,26 @@
+- id: v-4-2-intro
+  youtubeId: CWyuo0g2QfU
+  title: 'Equicontinuity: An Introduction'
+  channel: Mike, the Mathematician
+  lang: en
+  captions: []
+  start: 0
+  minutes: 9
+  why: >-
+    לפי תיאור הסרטון: הגדרה של משפחה רציפה במידה אחידה, דוגמה למשפחה שאינה כזו, והוכחה שסדרה של פונקציות רציפות
+    שמתכנסת במידה שווה על קבוצה קומפקטית היא משפחה רציפה במידה אחידה. זה משפט 4.2.8(א): השוו איך שם מטפלים
+    באיברים הראשונים של הסדרה, שאינם קרובים לגבול.
+  verified: '2026-11-12'
+- id: v-4-2-speicher
+  youtubeId: n6FE1-1mGJc
+  title: 'Arzela-Ascoli: motivation for notion of equicontinuity'
+  channel: Roland Speicher
+  lang: en
+  captions: []
+  start: 0
+  minutes: 19
+  why: >-
+    לפי תיאור הסרטון: החלק השני מתוך שמונה בהרצאה של רולנד שפייכר (אוניברסיטת זארלנד) על משפט ארצלה-אסקולי, ובו
+    המושג של רציפות במידה אחידה מוצג דרך התבוננות בסדרה מתכנסת. זו התנועה של משפט 4.2.8; כדאי לחזור לשאר
+    ההרצאה אחרי שיעור 4.3.
+  verified: '2026-11-12'

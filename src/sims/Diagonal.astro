@@ -1,0 +1,7 @@
+---
+/** Lesson 4.3 figure: <Spread figure={Diagonal} figureProps={{ fam, rows, sel, x, tasks }}>. */
+import Diagonal, { type DiagonalProps } from './Diagonal';
+type Props = DiagonalProps;
+---
+
+<Diagonal client:visible {...Astro.props} />

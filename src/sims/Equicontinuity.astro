@@ -1,0 +1,7 @@
+---
+/** Lesson 4.2 figure: <Spread figure={Equicontinuity} figureProps={{ family, families, m, a, eps, delta, tasks }}>. */
+import Equicontinuity, { type EquicontinuityProps } from './Equicontinuity';
+type Props = EquicontinuityProps;
+---
+
+<Equicontinuity client:visible {...Astro.props} />

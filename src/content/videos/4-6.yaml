@@ -1,0 +1,25 @@
+- id: v-4-6-proof-1
+  youtubeId: EzauaIKRjhc
+  title: 'Stone-Weierstrass: proof, part 1'
+  channel: Roland Speicher
+  lang: en
+  captions: []
+  start: 0
+  minutes: 20
+  why: >-
+    לפי תיאור הסרטון: הסרטון השישי בסדרה של שמונה (רולנד שפייכר, אוניברסיטת זארלנד), שבו מתחילה ההוכחה של משפט
+    סטון-ויירשטראס: קירוב של פונקציה ב-$C(K)$ באיבר של התת-אלגברה בשני שלבים, וכאן השלב הראשון, הקירוב מצד אחד.
+    השוו לשלבים 1–4 של ההוכחה של משפט 4.6.6, ושימו לב איפה נכנסת הקומפקטיות.
+  verified: '2026-11-12'
+- id: v-4-6-proof-2
+  youtubeId: 3QLxNT4KP1k
+  title: 'Stone-Weierstrass: proof, part 2'
+  channel: Roland Speicher
+  lang: en
+  captions: []
+  start: 0
+  minutes: 12
+  why: >-
+    לפי תיאור הסרטון: הסרטון השביעי בסדרה, שבו מסתיימת ההוכחה: הקירוב מהשלב הראשון משופר כך שיהיה קרוב גם מהצד
+    השני. השוו לשלבים 5–8 של ההוכחה של משפט 4.6.6.
+  verified: '2026-11-12'

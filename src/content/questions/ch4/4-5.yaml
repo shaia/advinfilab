@@ -94,7 +94,7 @@ questions:
     answer: 25
     tolerance: 0.001
     correctFeedback: >-
-      נכון. $\|B_n(x^2)-x^2\|_\infty=\frac1{4n}\le0.01\iff n\ge25$. ב-$n=25$ השגיאה בדיוק $0.01$.
+      נכון. $\|B_n(x^2)-x^2\|_\infty=\frac1{4n}$, ו-$\frac1{4n}\le0.01$ אם ורק אם $n\ge25$. ב-$n=25$ השגיאה בדיוק $0.01$.
     wrongFeedback: >-
       השגיאה הגדולה ביותר היא $\frac{1}{4n}$ (ב-$x=\frac12$). פתרו $\frac1{4n}\le0.01$.
     commonWrong:
@@ -151,7 +151,8 @@ questions:
         correct: true
         feedback: >-
           בדיוק. האיברים הקרובים תורמים פחות מ-$\varepsilon$ בזכות $\delta$, והרחוקים לכל היותר $\frac{2\|f\|_\infty}{4n\delta^2}$
-          לפי $\sum(\frac kn-x)^2\binom nk x^k(1-x)^{n-k}=\frac{x(1-x)}n\le\frac1{4n}$. שני החסמים לא תלויים ב-$x$.
+          לפי למה 4.5.3: עם $b_{n,k}(x)=\binom nk x^k(1-x)^{n-k}$, הסכום $\sum_k(\frac kn-x)^2b_{n,k}(x)$ שווה
+          ל-$\frac{x(1-x)}n$, שהוא לכל היותר $\frac1{4n}$. שני החסמים לא תלויים ב-$x$.
       - text: 'בכל נקודה הרציפות נותנת $\delta(x)$, וכל $\delta(x)$ חיובי, ולכן אפשר לקחת את המינימום'
         feedback: >-
           יש אינסוף נקודות, ו-$\inf_x\delta(x)$ יכול להיות 0. מה שמבטיח $\delta$ חיובי משותף הוא רציפות במידה שווה.
@@ -159,7 +160,7 @@ questions:
       - text: 'כי $f$ ליפשיצית על הקטע הסגור, ו-$\delta=\frac\varepsilon L$'
         feedback: >-
           פונקציה רציפה על קטע סגור אינה בהכרח ליפשיצית ($\sqrt x$). המשפט נכון לכל $f$ רציפה, בזכות קנטור.
-        misconception: MC-c4-continuous-is-lipschitz
+        misconception: MC-c4-weierstrass-needs-lipschitz
 
   - id: Q-4.5-taylor
     type: twotier
@@ -215,7 +216,7 @@ questions:
       - text: גם פתוחה וגם סגורה, כי היא צפופה
         feedback: >-
           צפופה פירושו שהסגור הוא כל המרחב. קבוצה צפופה וסגורה הייתה שווה למרחב כולו, ו-$e^x\notin\mathcal{P}$.
-        misconception: MC-c4-poly-limit-poly
+        misconception: MC-c4-dense-means-closed
 
   - id: Q-4.5-moments-rank
     type: rank
@@ -226,11 +227,11 @@ questions:
     help: סדרו את שלבי ההוכחה מהראשון לאחרון.
     items:
       - id: linear
-        label: 'מליניאריות האינטגרל: $\int_0^1 fp=0$ לכל פולינום $p$'
+        label: 'מלינאריות האינטגרל: $\int_0^1 fp=0$ לכל פולינום $p$'
       - id: approx
-        label: 'לפי ויירשטראס יש פולינומים $p_k$ עם $\|p_k-f\|_\infty\to0$'
+        label: 'לפי ויירשטראס יש פולינומים $p_k$ עם $\|p_k-f\|_\infty\to0$, ולפי הצעד הקודם $\int_0^1fp_k=0$ לכל $k$'
       - id: limit
-        label: '$|\int_0^1 f^2-\int_0^1 fp_k|\le\|f\|_\infty\|f-p_k\|_\infty\to0$, ולכן $\int_0^1f^2=\lim\int_0^1 fp_k=0$'
+        label: 'ההפרש $|\int_0^1 f^2-\int_0^1 fp_k|$ חסום ב-$\|f\|_\infty\|f-p_k\|_\infty$, ששואף ל-$0$; ולכן $\int_0^1f^2$ הוא הגבול של $\int_0^1 fp_k$, כלומר $0$'
       - id: zero
         label: '$f^2\ge0$ רציפה עם אינטגרל 0, ולכן $f^2\equiv0$, כלומר $f\equiv0$'
     order: [linear, approx, limit, zero]
@@ -249,7 +250,7 @@ questions:
     prompt: >-
       איך משפט ויירשטראס מראה ש-$C[0,1]$ ספרבילי?
     choices:
-      - text: 'הפולינומים עם מקדמים רציונליים בני מנייה, וכל פולינום $\sum_{k\le n}a_kx^k$ קרוב לאחד מהם: $\|\sum(a_k-r_k)x^k\|_\infty\le\sum|a_k-r_k|$'
+      - text: 'הפולינומים עם מקדמים רציונליים בני מנייה, וכל פולינום $\sum_{k\le n}a_kx^k$ קרוב לאחד מהם: הנורמה של $\sum(a_k-r_k)x^k$ היא לכל היותר $\sum|a_k-r_k|$'
         correct: true
         feedback: >-
           נכון. הקבוצה היא $\bigcup_n\mathbb{Q}^{n+1}$, איחוד בן מנייה של בנות מנייה. בוחרים $|a_k-r_k|<\frac{\varepsilon}{n+1}$,
@@ -257,15 +258,17 @@ questions:
       - text: הפולינומים עצמם הם קבוצה בת מנייה וצפופה
         feedback: >-
           הפולינומים אינם בני מנייה: כבר הקבועים $c\in\mathbb{R}$ אינם בני מנייה. צריך להגביל את המקדמים לרציונליים.
-        misconception: MC-c4-separable-countable
+        misconception: MC-c4-all-polys-countable
       - text: הפולינומים עם מקדמים שלמים בני מנייה וצפופים
         feedback: >-
           בני מנייה כן, צפופים לא: $p(0)\in\mathbb{Z}$, ולכן $\|p-\frac12\|_\infty\ge\frac12$ לכל פולינום כזה.
         misconception: MC-c4-integer-polys-dense
       - text: '$C[0,1]$ הוא תת-מרחב של $B([0,1])$'
         feedback: >-
-          $B([0,1])$ אינו ספרבילי, ולכן זה לא מוכיח דבר. ספרביליות עוברת מהמרחב הגדול לתת-מרחביו, ורק כשהגדול ספרבילי.
-        misconception: MC-c4-superset-separable
+          להיות חלק של מרחב גדול לא נותן קבוצה צפופה בת מנייה, ו-$B([0,1])$ עצמו אין בו כזו: הפונקציות $\chi_{[0,t]}$,
+          $t\in[0,1]$, הן קבוצה לא בת מנייה של פונקציות שהמרחק בין כל שתיים מהן $1$, וכל כדור ברדיוס $\frac12$ מכיל לכל
+          היותר אחת מהן. ההוכחה צריכה קבוצה מפורשת בתוך $C[0,1]$: הפולינומים הרציונליים (מסקנה 4.5.7).
+        misconception: MC-c4-superset-gives-dense
 
   - id: Q-4.5-real-line
     type: twotier
@@ -294,7 +297,7 @@ questions:
         misconception: MC-c4-weierstrass-noncompact
       - text: 'טור טיילור של $\sin x$ מתכנס בכל נקודה של $\mathbb{R}$, ולכן במידה שווה'
         feedback: >-
-          התכנסות בכל נקודה אינה במידה שווה: $\sup_{\mathbb{R}}|\sin x-T_n(x)|=\infty$ לכל $n$, כי $T_n$ פולינום לא קבוע.
+          התכנסות בכל נקודה אינה במידה שווה: $\sup_{\mathbb{R}}|\sin x-T_n(x)|=\infty$ לכל $n\ge1$, כי אז $T_n$ פולינום לא קבוע ולכן לא חסום (ו-$T_0=0$ רחוק מ-$\sin$ בדיוק $1$).
         misconception: MC-c4-taylor-approximates
 
   - id: Q-4.5-two-moments
@@ -317,7 +320,7 @@ questions:
       - text: '$f(x)=6x^2-6x+1$: $\int_0^1f=2-3+1=0$ ו-$\int_0^1xf=\frac32-2+\frac12=0$, ו-$f\not\equiv0$'
         correct: true
         feedback: >-
-          בדיוק. (ובאמת $\int_0^1x^2f=\frac65-\frac32+\frac13=\frac1{30}\ne0$.) לכל $N$ יש פולינום לא אפס ממעלה $N+1$
+          בדיוק. (ובאמת $\int_0^1x^2f=\frac65-\frac32+\frac13$, כלומר $\frac1{30}\ne0$.) לכל $N$ יש פולינום לא אפס ממעלה $N+1$
           שמאונך ל-$1,x,\dots,x^N$.
       - text: 'מספיק שהאינטגרל עם הפולינומים ממעלה עד 1 מתאפס, כי כל פונקציה רציפה קרובה לקו ישר'
         feedback: >-

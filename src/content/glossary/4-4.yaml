@@ -3,7 +3,29 @@
   term: מרחב ספרבילי
   en: separable space
   definition: >-
-    מרחב מטרי שיש בו תת-קבוצה בת מנייה צפופה. דוגמאות: $\mathbb{R}^n$ (עם $\mathbb{Q}^n$), כל מרחב מטרי קומפקטי,
-    $C[a,b]$. דוגמה נגדית: $B([0,1])$ ו-$\ell^\infty$ עם נורמת הסופרמום.
+    מרחב מטרי שיש בו תת-קבוצה צפופה שהיא לכל היותר בת מנייה (במרחב אינסופי: בת מנייה). דוגמאות: $\mathbb{R}^n$ (עם
+    $\mathbb{Q}^n$), כל מרחב מטרי קומפקטי, $C[a,b]$. דוגמה נגדית: $B([0,1])$ ו-$\ell^\infty$ עם נורמת הסופרמום.
   reject: [מרחב פריד]
+  lesson: '4.4'
+- id: countable-base
+  term: בסיס בן מנייה
+  en: countable base
+  definition: >-
+    משפחה $\mathcal B$ של קבוצות פתוחות במרחב מטרי, לכל היותר בת מנייה, כך שכל קבוצה פתוחה היא איחוד של איברים של
+    $\mathcal B$. מרחב מטרי ספרבילי אם ורק אם יש לו בסיס בן מנייה (טענה 4.4.6): הכדורים $B(q_k,\frac1m)$ סביב נקודות
+    של קבוצה צפופה $\{q_k\}$.
+  lesson: '4.4'
+- id: dyadic-number
+  term: מספר דיאדי
+  en: dyadic rational
+  definition: >-
+    מספר מהצורה $\frac k{2^j}$ עם $k\in\mathbb{Z}$ ו-$j\in\mathbb{N}$. קבוצת המספרים הדיאדיים בת מנייה וצפופה
+    ב-$\mathbb{R}$ (דוגמה 1 של שיעור 4.4).
+  lesson: '4.4'
+- id: strict-local-maximum
+  term: מקסימום מקומי ממש
+  en: strict local maximum
+  definition: >-
+    נקודה $x$ של מרחב מטרי $X$ היא נקודת מקסימום מקומי ממש של $f:X\to\mathbb{R}$ אם יש $r>0$ כך ש-$f(y)<f(x)$
+    לכל $y\in B(x,r)$ עם $y\ne x$.
   lesson: '4.4'
