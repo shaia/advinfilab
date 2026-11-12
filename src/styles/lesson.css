@@ -315,6 +315,9 @@
 .term-def {
   display: block;
   margin-top: 2px;
+  /* definitions carry KaTeX (rendered by tex()); inline math never wraps, so a long one scrolls inside the card */
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 /* ---------- worked solutions ---------- */
