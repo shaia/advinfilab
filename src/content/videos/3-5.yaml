@@ -1,0 +1,27 @@
+# Videos of lesson 3.5 (equivalence of norms). Every id verified by oEmbed on 2026-11-11 (200, title and channel as
+# below); the length and the description were read from the watch page. No Hebrew lecture on the theorem was found
+# (YouTube search in Hebrew for שקילות נורמות returned only linear-algebra and machine-learning videos on norms).
+- id: v-3-5-peyam
+  youtubeId: h7zmVMWMawo
+  title: Norms are equivalent
+  channel: Dr Peyam
+  lang: en
+  captions: []
+  start: 0
+  minutes: 12
+  why: >-
+    לפי התיאור, הסרטון מוכיח שתי עובדות בהוכחה כמעט זהה: כל העתקה לינארית ממרחב ממימד סופי לעצמו חסומה, וכל שתי
+    נורמות על מרחב ממימד סופי שקולות. השוו למסקנה 3.5.7 ולמשפט 3.5.5, וחפשו איפה נכנסת הקומפקטיות.
+  verified: 2026-11-11
+- id: v-3-5-riesz
+  youtubeId: _VxKOJfd8vY
+  title: Lecture 24 - Completions, quotients and Riesz's Lemma
+  channel: University of Nottingham
+  lang: en
+  captions: []
+  start: 0
+  minutes: 41
+  why: >-
+    הרצאה מלאה של ג'ואל פיינשטיין מקורס אנליזה פונקציונלית באוניברסיטת נוטינגהאם, על השלמה, מרחבי מנה והלמה של ריס.
+    החלק על הלמה של ריס מקביל ללמה 3.5.9; החלקים על השלמה ומרחבי מנה הם מעבר לשיעור.
+  verified: 2026-11-11

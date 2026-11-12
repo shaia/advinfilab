@@ -1,0 +1,7 @@
+---
+/** Lesson 3.1 figure: <Spread figure={BolzanoBox} figureProps={{ seq, seqs, N, depth, discrete, zoom, tasks }}>. */
+import BolzanoBox, { type BolzanoBoxProps } from './BolzanoBox';
+type Props = BolzanoBoxProps;
+---
+
+<BolzanoBox client:visible {...Astro.props} />

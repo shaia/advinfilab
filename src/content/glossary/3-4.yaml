@@ -1,0 +1,32 @@
+# Terms first defined in lesson 3.4 (continuous functions on compact sets).
+- id: extreme-value-theorem
+  term: משפט ויירשטראס (על מקסימום ומינימום)
+  en: extreme value theorem
+  definition: >-
+    פונקציה ממשית רציפה על מרחב מטרי קומפקטי לא ריק חסומה, ומקבלת בו מקסימום ומינימום (מסקנה 3.4.3). ההוכחה: התמונה
+    קומפקטית, ולכן סגורה וחסומה ב-$\mathbb{R}$, והסופרמום שלה שייך לה. באינפי 1 זה הוכח ל-$[a,b]$; בלי קומפקטיות זה
+    נכשל, גם על קבוצה סגורה וחסומה (כדור היחידה הסגור של $C[0,1]$).
+  lesson: '3.4'
+- id: cantor-uniform-continuity
+  term: משפט קנטור (על רציפות במידה שווה)
+  en: Cantor's theorem (Heine–Cantor theorem)
+  definition: >-
+    פונקציה רציפה ממרחב מטרי קומפקטי למרחב מטרי כלשהו רציפה במידה שווה (משפט 3.4.6). לא לבלבל עם משפט החיתוך של
+    קנטור (2.5.2) ועם האלכסון של קנטור: שלושה משפטים שונים שנקראים על שם אותו מתמטיקאי.
+  lesson: '3.4'
+- id: closed-map
+  term: העתקה סגורה
+  en: closed map
+  definition: >-
+    $f:X\to Y$ היא העתקה סגורה אם לכל $F$ סגורה ב-$X$ התמונה $f(F)$ סגורה ב-$Y$. רציפות אינה גוררת זאת
+    ($\arctan(\mathbb{R})$ אינה סגורה), אבל העתקה רציפה על מרחב קומפקטי סגורה (למה 3.4.8א).
+  lesson: '3.4'
+- id: distance-between-sets
+  term: מרחק בין קבוצות
+  en: distance between two sets
+  symbol: '\operatorname{dist}(A,B)'
+  definition: >-
+    עבור $A,B$ לא ריקות במרחב מטרי: $\operatorname{dist}(A,B)=\inf\{d(a,b): a\in A,\ b\in B\}$. זה אינו מטריקה על
+    קבוצות: שתי קבוצות סגורות וזרות יכולות להיות במרחק 0. אם אחת קומפקטית, השנייה סגורה, והן זרות, המרחק חיובי
+    (טענה 3.4.10).
+  lesson: '3.4'

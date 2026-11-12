@@ -14,11 +14,11 @@ questions:
         type: open
         objectives: [OBJ-3.1-1]
         prompt: >-
-          הגדירו מתי קבוצה $K\subseteq X$ היא קומפקטית (סדרתית), והוכיחו שקבוצה קומפקטית היא סגורה וחסומה.
+          הגדירו מתי קבוצה $K\subseteq X$ היא קומפקטית סדרתית, והוכיחו שקבוצה קומפקטית סדרתית היא סגורה וחסומה.
         solution:
           - kind: definition
             text: >-
-              $K$ קומפקטית אם לכל סדרה $(x_n)$ של נקודות של $K$ יש תת-סדרה $(x_{n_k})$ שמתכנסת לנקודה של $K$.
+              $K$ קומפקטית סדרתית אם לכל סדרה $(x_n)$ של נקודות של $K$ יש תת-סדרה $(x_{n_k})$ שמתכנסת לנקודה **של $K$**.
           - kind: goal
             text: '$K$ סגורה, ו-$K$ מוכלת בכדור כלשהו.'
           - kind: idea
@@ -26,20 +26,23 @@ questions:
               בשני החלקים מניחים את ההפך ובונים סדרה ב-$K$ שאין לה תת-סדרה עם גבול ב-$K$.
           - kind: step
             text: >-
-              סגירות: יהי $x\in\overline K$, ותהי $x_n\in K$ עם $x_n\to x$. לפי הקומפקטיות יש $x_{n_k}\to y\in K$. גם
-              $x_{n_k}\to x$, כתת-סדרה של סדרה מתכנסת, ומיחידות הגבול $x=y\in K$. לכן $\overline K\subseteq K$.
+              סגירות: יהי $x\in\overline K$. לפי משפט 1.5.7 יש סדרה $x_n\in K$ עם $x_n\to x$. לפי הקומפקטיות הסדרתית יש
+              תת-סדרה $x_{n_k}\to y\in K$. גם $x_{n_k}\to x$, כתת-סדרה של סדרה מתכנסת, ומיחידות הגבול (משפט 1.5.2)
+              $x=y\in K$. לכן $\overline K\subseteq K$, כלומר $K$ סגורה.
           - kind: step
             text: >-
-              חסימות: נניח ש-$K$ אינה חסומה ונקבע $p\in X$. לכל $n$ יש $x_n\in K$ עם $d(x_n,p)>n$. לכל תת-סדרה
-              $d(x_{n_k},p)>n_k\ge k$, כלומר היא אינה חסומה, ולכן אינה מתכנסת (סדרה מתכנסת חסומה). זו סתירה לקומפקטיות.
+              חסימות: נניח ש-$K$ אינה חסומה ונקבע $p\in X$. לפי הגדרה וטענה 1.5.3(ב), לכל $n$ הקבוצה $K$ אינה מוכלת
+              ב-$B(p,n)$, ולכן לכל $n$ אפשר לבחור $x_n\in K$ עם $d(x_n,p)\ge n$. בכל תת-סדרה $d(x_{n_k},p)\ge n_k\ge k$,
+              ולכן היא אינה מוכלת באף כדור $B(p,R)$ (ארכימדס), כלומר אינה חסומה, ולכן אינה מתכנסת (סדרה מתכנסת חסומה,
+              1.5.3(ג)). זו סתירה לקומפקטיות הסדרתית.
           - kind: result
-            text: 'קבוצה קומפקטית במרחב מטרי היא סגורה וחסומה.'
+            text: 'קבוצה קומפקטית סדרתית במרחב מטרי היא סגורה וחסומה.'
         rubric:
           - text: 'הגדרה מדויקת: תת-סדרה, והגבול שלה **ב-$K$**'
             weight: 2
           - text: 'סגירות: סדרה ב-$K$ שמתכנסת לנקודה של הסגור, תת-סדרה עם גבול ב-$K$, ויחידות הגבול'
             weight: 3
-          - text: 'חסימות: בניית $x_n$ עם $d(x_n,p)>n$, והנימוק שלאף תת-סדרה אין גבול'
+          - text: 'חסימות: בחירת $x_n$ עם $d(x_n,p)\ge n$, והנימוק שלאף תת-סדרה אין גבול'
             weight: 3
 
       - label: ב
@@ -85,7 +88,7 @@ questions:
               של פונקציות רציפות רציף).
           - kind: step
             text: >-
-              $B$ חסומה (מוכלת ב-$B(0,2)$) וסגורה: אם $\|h_m\|_\infty\le1$ ו-$h_m\to h$, אז $|h(x)|=\lim|h_m(x)|\le1$ לכל $x$.
+              $B$ חסומה (מוכלת ב-$B(\theta,2)$, כאשר $\theta$ פונקציית האפס) וסגורה: אם $\|h_m\|_\infty\le1$ ו-$h_m\to h$, אז $|h(x)|=\lim|h_m(x)|\le1$ לכל $x$.
               וכל $f_n\in B$.
           - kind: result
             text: >-
@@ -152,15 +155,16 @@ questions:
               ושם הרציפות של $f$ ב-$p$ נותנת סתירה.
           - kind: step
             text: >-
-              נניח בשלילה שיש $\varepsilon>0$ כך שלכל $\delta>0$ יש $x,y$ עם $d(x,y)<\delta$ ו-$|f(x)-f(y)|\ge\varepsilon$.
-              עם $\delta=\frac1n$ מקבלים $x_n,y_n\in K$ עם $d(x_n,y_n)<\frac1n$ ו-$|f(x_n)-f(y_n)|\ge\varepsilon$.
+              נניח בשלילה שיש $\varepsilon>0$ כך שלכל $\delta>0$ יש $x,y\in K$ עם $d(x,y)<\delta$ ו-$|f(x)-f(y)|\ge\varepsilon$.
+              לכל $n\in\mathbb{N}$ נבחר, עם $\delta=\frac1n$, נקודות $x_n,y_n\in K$ עם $d(x_n,y_n)<\frac1n$ ו-$|f(x_n)-f(y_n)|\ge\varepsilon$.
           - kind: theorem
-            text: 'מקומפקטיות $K$ יש תת-סדרה $x_{n_k}\to p$ עם $p\in K$.'
+            text: 'מקומפקטיות $K$ (קומפקטי שקול לקומפקטי סדרתית, משפט 3.2.10) יש תת-סדרה $x_{n_k}\to p$ עם $p\in K$.'
           - kind: computation
             text: '$d(y_{n_k},p)\le d(y_{n_k},x_{n_k})+d(x_{n_k},p)<\frac1{n_k}+d(x_{n_k},p)\to0$, ולכן $y_{n_k}\to p$.'
           - kind: step
             text: >-
-              $f$ רציפה ב-$p$, ולכן $f(x_{n_k})\to f(p)$ ו-$f(y_{n_k})\to f(p)$, כלומר $|f(x_{n_k})-f(y_{n_k})|\to0$. זה סותר את
+              $f$ רציפה ב-$p$, ולכן לפי הרציפות הסדרתית (משפט 1.6.3) $f(x_{n_k})\to f(p)$ ו-$f(y_{n_k})\to f(p)$, כלומר
+              $|f(x_{n_k})-f(y_{n_k})|\to0$. זה סותר את
               $|f(x_{n_k})-f(y_{n_k})|\ge\varepsilon$ לכל $k$.
           - kind: result
             text: '$f$ רציפה במידה שווה על $K$.'
@@ -239,7 +243,7 @@ questions:
           $D=[0,1)\cup[2,3]$, ו-$\varphi:D\to[0,2]$ מוגדרת $\varphi(t)=t$ עבור $t\in[0,1)$ ו-$\varphi(t)=t-1$ עבור
           $t\in[2,3]$. $\varphi$ רציפה, חד-חד-ערכית ועל. מה נכון?
         choices:
-          - text: '$\varphi$ אינה הומיאומורפיזם: $1-\frac1n\to1=\varphi(2)$, אבל $\varphi^{-1}(1-\frac1n)=1-\frac1n\to1\ne2$; המשפט לא חל כי $D$ אינה קומפקטית'
+          - text: '$\varphi$ אינה הומיאומורפיזם: $1-\frac1n\to1=\varphi(2)$, אבל $$\begin{aligned}\varphi^{-1}(1-\tfrac1n)&=1-\tfrac1n\\&\to1\ne2 ;\end{aligned}$$ המשפט לא חל כי $D$ אינה קומפקטית'
             correct: true
             feedback: >-
               נכון. $D$ אינה סגורה ($1-\frac1n\to1\notin D$), ולכן לא קומפקטית, ו-$\varphi^{-1}$ "קופצת" בנקודה 1.
@@ -250,7 +254,7 @@ questions:
           - text: '$\varphi$ אינה רציפה, כי יש "חור" בתחום בין 1 ל-2'
             feedback: >-
               $\varphi$ רציפה: כל אחד משני החלקים פתוח ב-$D$, ועל כל אחד $\varphi$ היא הזזה. החור פוגע ברציפות ההופכית, לא של $\varphi$.
-            misconception: MC-c3-connected-by-picture
+            misconception: MC-c3-bijection-homeo
           - text: '$\varphi$ הומיאומורפיזם, כי היא רציפה, חד-חד-ערכית ועל'
             feedback: >-
               זה לא מספיק בלי תחום קומפקטי, וזו בדיוק הדוגמה.
@@ -297,16 +301,19 @@ questions:
               חיובי; הומוגניות מעבירה אותו לכל $x$.
           - kind: computation
             text: >-
-              עם $M=\max_iN(e_i)$: $N(x)=N(\sum x_ie_i)\le\sum|x_i|N(e_i)\le M\|x\|_1\le M\sqrt n\,\|x\|_2$ (קושי-שוורץ). נגדיר
-              $C=M\sqrt n$.
+              עם $K=\max_iN(e_i)$: $N(x)=N(\sum x_ie_i)\le\sum|x_i|N(e_i)\le K\|x\|_1\le K\sqrt n\,\|x\|_2$ (קושי-שוורץ, משפט 1.7.3). נגדיר
+              $C=K\sqrt n$.
           - kind: step
             text: >-
               $|N(x)-N(y)|\le N(x-y)\le C\|x-y\|_2$, ולכן $N$ רציפה (ליפשיצית) על $(\mathbb{R}^n,\|\cdot\|_2)$.
           - kind: theorem
-            text: '$S$ סגורה (מקור של $\{1\}$ תחת $\|\cdot\|_2$) וחסומה, ולכן קומפקטית לפי היינה-בורל.'
+            text: >-
+              $S$ סגורה (מקור של $\{1\}$ תחת הפונקציה הרציפה $\|\cdot\|_2$, מסקנה 1.6.7) וחסומה, ולכן קומפקטית לפי
+              היינה-בורל (משפט 3.2.11). היא לא ריקה: $e_1\in S$.
           - kind: step
             text: >-
-              לפי משפט ויירשטראס $N$ מקבלת על $S$ מינימום $c=N(x_0)$ עם $x_0\in S$. כי $x_0\ne0$ ו-$N$ נורמה, $c>0$.
+              לפי משפט ויירשטראס (מסקנה 3.4.3) $N$, רציפה על הקבוצה הקומפקטית הלא ריקה $S$, מקבלת עליה מינימום $c=N(x_0)$
+              עם $x_0\in S$. כי $\|x_0\|_2=1$, $x_0\ne0$, ו-$N$ נורמה, ולכן $c>0$.
           - kind: step
             text: >-
               לכל $x\ne0$: $\frac{x}{\|x\|_2}\in S$, ולכן $N(\frac{x}{\|x\|_2})\ge c$, כלומר $N(x)\ge c\|x\|_2$; עבור $x=0$
@@ -348,7 +355,7 @@ questions:
       - label: ד
         points: 5
         type: twotier
-        objectives: [OBJ-3.5-3]
+        objectives: [OBJ-3.5-3, OBJ-3.5-1]
         qualitative: true
         prompt: >-
           על $C[0,1]$ נגדיר $N_0(f)=\|f\|_1+|f(0)|$ (זו נורמה). האם $N_0$ ו-$\|\cdot\|_1$ שקולות?
@@ -374,3 +381,158 @@ questions:
             feedback: >-
               סעיף ב עוסק ב-$\mathbb{R}^n$, וההוכחה משתמשת בקומפקטיות של הספרה. ב-$C[0,1]$ הספרה אינה קומפקטית.
             misconception: MC-c3-all-norms-infinite-dim
+
+  - id: Q-3-exam-4
+    type: exam
+    title: כיסויים פתוחים, תכונת החיתוך הסופי ומספר לבג
+    prompt: >-
+      $(X,d)$ מרחב מטרי. קבוצה $K\subseteq X$ **קומפקטית** אם לכל כיסוי פתוח שלה יש תת-כיסוי סופי. בסעיפים א ו-ב
+      אין להשתמש בשקילות לקומפקטיות סדרתית: עבדו עם כיסויים.
+    parts:
+      - label: א
+        points: 8
+        type: open
+        objectives: [OBJ-3.2-1, OBJ-3.2-3]
+        prompt: >-
+          הגדירו כיסוי פתוח ותת-כיסוי סופי, והוכיחו ישירות מההגדרה בכיסויים שקבוצה קומפקטית $K\subseteq X$ היא חסומה
+          וסגורה.
+        solution:
+          - kind: definition
+            text: >-
+              כיסוי פתוח של $K$ הוא משפחה $\{U_\alpha\}_{\alpha\in I}$ של קבוצות פתוחות ב-$X$ עם
+              $K\subseteq\bigcup_{\alpha\in I}U_\alpha$; תת-כיסוי סופי הוא $U_{\alpha_1},\dots,U_{\alpha_m}$ מתוכה שעדיין
+              מכסות את $K$.
+          - kind: idea
+            text: >-
+              בשני החלקים מכסים את $K$ בסדרה **עולה** של קבוצות פתוחות. תת-כיסוי סופי של סדרה עולה הוא קבוצה אחת
+              שלה, האחרונה, ולכן $K$ כולה בתוך קבוצה אחת: כדור גדול סביב $p$, או המשלים של כדור קטן סביב $q$.
+          - kind: step
+            text: >-
+              אם $K=\emptyset$ היא סגורה וחסומה ואין מה להוכיח; נניח ש-$K\ne\emptyset$. חסימות: נקבע $p\in X$ ונגדיר $U_n=\{x\in X: d(x,p)<n\}$, $n\in\mathbb{N}$.
+              $U_n$ פתוחה (מסקנה 1.6.7(א), כי $x\mapsto d(x,p)$ רציפה לפי טענה 1.6.6), ו-$\bigcup_nU_n=X\supseteq K$
+              (ארכימדס: לכל $x$ יש $n>d(x,p)$).
+          - kind: step
+            text: >-
+              מהקומפקטיות יש $n_1,\dots,n_m$ עם $K\subseteq U_{n_1}\cup\dots\cup U_{n_m}$. כי $U_1\subseteq U_2\subseteq\cdots$,
+              האיחוד הוא $U_N$ עם $N=\max_in_i$, כלומר $K\subseteq B(p,N)$, ו-$K$ חסומה (הגדרה וטענה 1.5.3).
+          - kind: step
+            text: >-
+              סגירות: נוכיח ש-$X\setminus K$ פתוחה. תהי $q\in X\setminus K$, ונגדיר $V_n=\{x\in X: d(x,q)>\frac1n\}$. כל
+              $V_n$ פתוחה (מסקנה 1.6.7(א)), ו-$\bigcup_nV_n=X\setminus\{q\}\supseteq K$, כי $q\notin K$.
+          - kind: step
+            text: >-
+              מהקומפקטיות $K\subseteq V_{n_1}\cup\dots\cup V_{n_m}=V_N$ עם $N=\max_in_i$, כי $V_1\subseteq V_2\subseteq\cdots$.
+              לכן כל $x$ עם $d(x,q)<\frac1N$ אינו ב-$V_N$, ולכן אינו ב-$K$: $B(q,\frac1N)\subseteq X\setminus K$.
+          - kind: result
+            text: >-
+              $X\setminus K$ פתוחה, ולכן $K$ סגורה; ו-$K$ חסומה. קבוצה קומפקטית בכל מרחב מטרי היא סגורה וחסומה.
+        rubric:
+          - text: 'הגדרה מדויקת של כיסוי פתוח (קבוצות פתוחות ב-$X$ שהאיחוד שלהן מכיל את $K$) ושל תת-כיסוי סופי'
+            weight: 2
+          - text: 'חסימות: הכיסוי בכדורים $B(p,n)$, הנימוק שהוא מכסה, ומעבר מתת-כיסוי סופי לכדור אחד'
+            weight: 3
+          - text: 'סגירות: הכיסוי של $X\setminus\{q\}$ בקבוצות הפתוחות $\{d(x,q)>\frac1n\}$, ומעבר לכדור סביב $q$ הזר ל-$K$'
+            weight: 3
+
+      - label: ב
+        points: 9
+        type: open
+        objectives: [OBJ-3.2-4]
+        prompt: >-
+          נניח ש-$X$ קומפקטי. הוכיחו שלכל משפחה לא ריקה $\{F_\alpha\}_{\alpha\in I}$ של קבוצות סגורות ב-$X$ עם תכונת
+          החיתוך הסופי יש חיתוך לא ריק, והסיקו: אם $F_1\supseteq F_2\supseteq\cdots$ קבוצות סגורות ולא ריקות ב-$X$, אז
+          $\bigcap_nF_n\ne\emptyset$.
+        solution:
+          - kind: given
+            text: >-
+              $X$ קומפקטי; כל $F_\alpha$ סגורה; לכל $\alpha_1,\dots,\alpha_m\in I$,
+              $F_{\alpha_1}\cap\dots\cap F_{\alpha_m}\ne\emptyset$.
+          - kind: idea
+            text: >-
+              משלימים הופכים "חיתוך ריק" ל"כיסוי": המשלימים של קבוצות סגורות הם קבוצות פתוחות, ו"החיתוך ריק" אומר
+              שהמשלימים מכסים את $X$.
+          - kind: step
+            text: >-
+              נניח בשלילה ש-$\bigcap_{\alpha\in I}F_\alpha=\emptyset$, ונגדיר $U_\alpha=X\setminus F_\alpha$, פתוחה כמשלים
+              של סגורה. לפי דה מורגן $\bigcup_\alpha U_\alpha=X\setminus\bigcap_\alpha F_\alpha=X$, כלומר $\{U_\alpha\}$ כיסוי
+              פתוח של $X$.
+          - kind: theorem
+            text: 'מהקומפקטיות של $X$ יש $\alpha_1,\dots,\alpha_m$ עם $X=U_{\alpha_1}\cup\dots\cup U_{\alpha_m}$.'
+          - kind: step
+            text: >-
+              שוב לפי דה מורגן $F_{\alpha_1}\cap\dots\cap F_{\alpha_m}=X\setminus(U_{\alpha_1}\cup\dots\cup U_{\alpha_m})=\emptyset$,
+              בסתירה לתכונת החיתוך הסופי. לכן $\bigcap_\alpha F_\alpha\ne\emptyset$.
+          - kind: step
+            text: >-
+              המסקנה: לסדרה יורדת $F_1\supseteq F_2\supseteq\cdots$ של סגורות לא ריקות יש תכונת החיתוך הסופי, כי
+              $F_{n_1}\cap\dots\cap F_{n_m}=F_N$ עם $N=\max_in_i$, ו-$F_N\ne\emptyset$. לפי מה שהוכח,
+              $\bigcap_nF_n\ne\emptyset$.
+          - kind: result
+            text: >-
+              במרחב קומפקטי לכל משפחה של סגורות עם תכונת החיתוך הסופי יש חיתוך לא ריק, ובפרט לכל סדרה יורדת של סגורות
+              לא ריקות (בלי שום תנאי על הקטרים).
+        rubric:
+          - text: 'המעבר למשלימים: הם פתוחים, ולפי דה מורגן חיתוך ריק פירושו שהם מכסים את $X$'
+            weight: 3
+          - text: 'תת-כיסוי סופי מהקומפקטיות, וחזרה בדה מורגן לחיתוך סופי ריק, כלומר סתירה'
+            weight: 3
+          - text: 'הוכחה שלסדרה יורדת של סגורות לא ריקות יש תכונת החיתוך הסופי (החיתוך הסופי הוא האיבר האחרון)'
+            weight: 2
+          - text: 'ניסוח המסקנה במפורש'
+            weight: 1
+
+      - label: ג
+        points: 4
+        type: mc
+        objectives: [OBJ-3.2-4, OBJ-3.1-3]
+        prompt: >-
+          ב-$(C[0,1],\|\cdot\|_\infty)$ יהי $B$ כדור היחידה הסגור, ו-$t_n$ פונקציות האוהל: $t_n$ מתאפסת מחוץ לקטע
+          $[2^{-n},2^{-n+1}]$, שווה 1 באמצעו, ולינארית בכל אחד משני חצאיו; לכן $\|t_n-t_m\|_\infty=1$ לכל $n\ne m$. נגדיר
+          $F_n=\{t_k: k\ge n\}$. מה נכון?
+        choices:
+          - text: 'כל $F_n$ סגורה ולא ריקה, הן יורדות, והחיתוך שלהן ריק; לפי סעיף ב, $B$ אינה קומפקטית, אף שהיא סגורה, חסומה ושלמה'
+            correct: true
+            feedback: >-
+              נכון. $F_n$ סגורה: סדרה מתכנסת ב-$F_n$ היא סדרת קושי, ולכן מאינדקס מסוים המרחקים בה קטנים מ-1, כלומר היא קבועה
+              מאינדקס מסוים, והגבול שלה ב-$F_n$. $t_k\notin F_{k+1}$, ולכן החיתוך ריק. אילו $B$ הייתה קומפקטית, סעיף ב
+              (על המרחב $B$, טענה 3.2.3) היה נותן חיתוך לא ריק.
+          - text: 'הדוגמה סותרת את משפט החיתוך של קנטור (משפט 2.5.2), כי $C[0,1]$ שלם'
+            feedback: >-
+              אין סתירה: משפט 2.5.2 דורש גם שהקוטר ישאף ל-0, ו-$\operatorname{diam}F_n=1$ לכל $n$.
+            misconception: MC-c2-cantor-no-diameter
+          - text: '$F_n$ אינן סגורות: $t_k\to0$ נקודתית, ו-$0\notin F_n$'
+            feedback: >-
+              התכנסות נקודתית אינה התכנסות בנורמת הסופרמום: $\|t_k-0\|_\infty=1$ לכל $k$, ולכן $0$ אינו גבול של
+              $(t_k)$ במרחב הזה.
+            misconception: MC-c3-pointwise-is-enough
+          - text: 'הדוגמה מראה ש-$C[0,1]$ אינו שלם'
+            feedback: >-
+              $C[0,1]$ עם נורמת הסופרמום שלם (שיעור 2.2). מה שנכשל הוא הקומפקטיות: $B$ שלמה וחסומה, אבל אינה חסומה כליל.
+            misconception: MC-c3-complete-bounded-compact
+
+      - label: ד
+        points: 4
+        type: numeric
+        objectives: [OBJ-3.2-2]
+        prompt: >-
+          במרחב $X=[0,3]$ עם $d(x,y)=|x-y|$ נתון הכיסוי הפתוח $\{[0,\ 1.2),\ (0.8,\ 2.1),\ (1.9,\ 3]\}$. מהו מספר לבג
+          **הגדול ביותר** שלו, כלומר ה-$\delta$ הגדול ביותר כך שלכל $x\in X$ הכדור $B(x,\delta)$ (ב-$X$) מוכל באחת
+          משלוש הקבוצות?
+        answer: 0.1
+        tolerance: 0.001
+        correctFeedback: >-
+          נכון. בכל חפיפה הנקודה הקשה היא האמצע: ב-$x=1$ צריך $\delta\le0.2$, וב-$x=2$ צריך $\delta\le0.1$
+          ($B(2,\delta)\subseteq(0.8,2.1)$ אם ורק אם $\delta\le0.1$, ו-$B(2,\delta)\subseteq(1.9,3]$ אם ורק אם $\delta\le0.1$).
+          עם $\delta=0.1$: כל $x\le1.1$ מסתדר בראשונה, כל $x\in[0.9,2]$ בשנייה, וכל $x\ge2$ בשלישית.
+        wrongFeedback: >-
+          מספר לבג הוא רדיוס, והוא צריך לעבוד בכל נקודה. בדקו את הכדורים שמרכזם באמצע כל אחת משתי החפיפות.
+        commonWrong:
+          - value: 0.2
+            feedback: >-
+              $0.2$ מתאים לחפיפה הראשונה בלבד (חצי מאורכה $0.4$), או שזה אורך החפיפה השנייה. ב-$x=2$ הכדור
+              $B(2,0.2)=(1.8,2.2)$ לא מוכל באף אחת מהקבוצות.
+            misconception: MC-c3-lebesgue-overlap
+          - value: 0.4
+            feedback: >-
+              $0.4$ הוא אורך החפיפה $(0.8,1.2)$. מספר לבג אינו אורך של חפיפה: $B(1,0.4)=(0.6,1.4)$ לא מוכל באף קבוצה.
+            misconception: MC-c3-lebesgue-overlap

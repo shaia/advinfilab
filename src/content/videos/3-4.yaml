@@ -1,0 +1,26 @@
+- id: v-3-4-lebesgue
+  youtubeId: C_3dxTSuvUQ
+  title: mod08lec46 - Lebesgue Number Lemma and the Uniform Continuity theorem
+  channel: NPTEL-NOC IITM
+  lang: en
+  captions: []
+  start: 0
+  minutes: 28
+  why: >-
+    לפי תיאור הסרטון: ניסוח והוכחה של הלמה של לבג (מספר לבג של כיסוי פתוח), ואחר כך שימוש בה כדי להוכיח שכל
+    פונקציה רציפה על מרחב מטרי קומפקטי רציפה במידה שווה, הכללה של המשפט מאינפי 1. זו בדיוק ההוכחה השנייה של משפט
+    3.4.6: השוו מהו הכיסוי שבו משתמשים, ואיך מספר הלבג שלו נעשה ה-$\delta$.
+  verified: '2026-11-11'
+- id: v-3-4-kumaresan
+  youtubeId: CHGc6ePLSqA
+  title: Uniform Continuity on Compact Metric Spaces
+  channel: S Kumaresan
+  lang: en
+  captions: []
+  start: 0
+  minutes: 22
+  why: >-
+    לפי תיאור הסרטון: הוכחה שפונקציה רציפה ממרחב מטרי קומפקטי למרחב מטרי אחר רציפה במידה שווה, שמתחילה ברעיון
+    פשוט ומושך שנכשל, ומראה איך לתקן אותו להוכחה נכונה. כדאי לצפות אחרי שקראתם את משפט 3.4.6, ולשאול: איפה בדיוק
+    נכשל הרעיון הפשוט, ואיזה שלב בהוכחות שלנו מתקן אותו?
+  verified: '2026-11-11'

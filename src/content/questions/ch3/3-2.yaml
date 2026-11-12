@@ -3,6 +3,7 @@
 #   OBJ-3.2-1  define an open cover and a finite subcover; show with an explicit cover that an open interval is not compact
 #   OBJ-3.2-2  state the equivalence of cover compactness and sequential compactness in a metric space; use the Lebesgue number
 #   OBJ-3.2-3  state and apply the Heine–Borel theorem in Euclidean space
+#   OBJ-3.2-4  finite intersection property; compact ⇔ every closed family with the FIP has nonempty intersection
 chapter: 3
 questions:
   - id: Q-3.2-def
@@ -136,7 +137,7 @@ questions:
       - text: 'כשכל הקבוצות במשפחה לא ריקות'
         feedback: >-
           זה מעט מדי: $[0,1]$ ו-$[2,3]$ לא ריקות וזרות. התכונה עוסקת בחיתוכים של כמה קבוצות יחד.
-        misconception: MC-c3-fip-pairwise
+        misconception: MC-c3-fip-nonempty
 
   - id: Q-3.2-which-covers
     type: multi
@@ -180,7 +181,8 @@ questions:
       - text: 'הכדורים $B(p,r_p)$ הם כיסוי פתוח; בתת-כיסוי סופי כל כדור מכיל $x_n$ רק למספר סופי של $n$, ולכן יחד הם מכילים את $x_n$ רק למספר סופי של $n$; אבל הם מכסים את $X$, שמכיל את $x_n$ לכל $n$'
         correct: true
         feedback: >-
-          נכון. סופי כפול סופי הוא סופי, ואילו האינדקסים $n\in\mathbb{N}$ הם אינסוף. זו ההוכחה כולה.
+          נכון. איחוד סופי של קבוצות סופיות הוא קבוצה סופית, ואילו האינדקסים $n\in\mathbb{N}$ הם אינסוף. זו ההוכחה
+          כולה.
       - text: 'במרחב קומפקטי כל סדרה מתכנסת, ולכן $(x_n)$ מתכנסת'
         feedback: >-
           זו לא עובדה: $(-1)^n$ ב-$[-1,1]$ אינה מתכנסת. גם בכיסויים, הקומפקטיות מבטיחה רק תת-סדרה מתכנסת.
@@ -348,7 +350,7 @@ questions:
       - id: pick
         label: 'לכל $i$ בוחרים $\alpha_i$ עם $B(x_i,\delta)\subseteq U_{\alpha_i}$, לפי ההגדרה של מספר לבג.'
       - id: done
-        label: 'לכן $X=\bigcup_i B(x_i,\delta)\subseteq U_{\alpha_1}\cup\dots\cup U_{\alpha_m}$: תת-כיסוי סופי.'
+        label: 'לכן $$\begin{aligned}X&=\bigcup_i B(x_i,\delta)\\&\subseteq U_{\alpha_1}\cup\dots\cup U_{\alpha_m}\end{aligned}$$ וזה תת-כיסוי סופי.'
     order: [cover, net, pick, done]
     correctFeedback: >-
       נכון. שתי העובדות שהקומפקטיות הסדרתית נותנת הן מספר לבג ומספר סופי של כדורים ברדיוס $\delta$; ביחד הן
@@ -361,23 +363,26 @@ questions:
     type: twotier
     objectives: [OBJ-3.2-3]
     qualitative: true
-    level: exam
+    level: mid
     prompt: >-
       במרחב $(C[0,1],\|\cdot\|_\infty)$: האם כל קבוצה סגורה וחסומה קומפקטית?
     choices:
       - text: לא
         correct: true
         feedback: >-
-          נכון. משפט היינה-בורל הוא משפט על $\mathbb{R}^n$; במרחב הזה הוא נכשל כבר בכדור היחידה הסגור.
+          נכון. משפט היינה-בורל הוא משפט על $\mathbb{R}^n$; במרחב הזה הוא נכשל כבר בכדור היחידה הסגור $B[\theta,1]$,
+          כאשר $\theta$ פונקציית האפס.
       - text: כן
         feedback: >-
-          היינה-בורל לא עובר למרחב ממימד אינסופי: $x^n$ בכדור היחידה הסגור, ואין לה תת-סדרה מתכנסת במידה שווה.
+          היינה-בורל לא עובר למרחב הזה: האוהלים $t_n$ נמצאים בכדור היחידה הסגור, והמרחק בין כל שניים מהם $1$, ולכן
+          לכיסוי בכדורים ברדיוס $\frac12$ אין תת-כיסוי סופי (טענה 3.2.4(ה)).
         misconception: MC-c3-closed-bounded-compact
     reasons:
-      - text: 'ההוכחה ב-$\mathbb{R}^n$ מפעילה את בולצאנו-ויירשטראס על $n$ קואורדינטות, מספר סופי של פעמים; לפונקציה יש אינסוף "קואורדינטות", ואכן ל-$x^n$ אין תת-סדרה מתכנסת'
+      - text: 'כדור היחידה הסגור סגור וחסום, ומכיל את האוהלים $t_n$ עם $\|t_n-t_m\|_\infty=1$ לכל $n\ne m$; כדור ברדיוס $\frac12$ מכיל לכל היותר אוהל אחד, ולכן לכיסוי של הכדור בכדורים $B(f,\frac12)$ אין תת-כיסוי סופי'
         correct: true
         feedback: >-
-          בדיוק. הגבול הנקודתי של כל תת-סדרה של $x^n$ אינו רציף, ולכן אין גבול במידה שווה.
+          בדיוק, זו ההוכחה של טענה 3.2.4(ה): אילו $t_n,t_m\in B(f,\frac12)$ עם $n\ne m$, אי-שוויון המשולש היה נותן
+          $1=\|t_n-t_m\|_\infty<\frac12+\frac12$. מספר סופי של כדורים תופס מספר סופי של אוהלים.
       - text: 'המרחב $(C[0,1],\|\cdot\|_\infty)$ אינו שלם'
         feedback: >-
           הוא שלם (שיעור 2.2), ובכל זאת כדור היחידה בו אינו קומפקטי. שלמות וחסימות יחד לא מספיקות.
@@ -431,9 +436,9 @@ questions:
       - id: neg
         label: 'נניח בשלילה ש-$\bigcap_\alpha F_\alpha=\emptyset$.'
       - id: cover
-        label: 'אז $\bigcup_\alpha(X\setminus F_\alpha)=X\setminus\bigcap_\alpha F_\alpha=X$, והקבוצות $X\setminus F_\alpha$ פתוחות: זה כיסוי פתוח של $X$.'
+        label: 'אז $$\begin{aligned}&\bigcup_\alpha(X\setminus F_\alpha)\\&=X\setminus\bigcap_\alpha F_\alpha=X ,\end{aligned}$$ והקבוצות $X\setminus F_\alpha$ פתוחות: זה כיסוי פתוח של $X$.'
       - id: sub
-        label: 'מקומפקטיות יש תת-כיסוי סופי: $X=(X\setminus F_{\alpha_1})\cup\dots\cup(X\setminus F_{\alpha_m})$.'
+        label: 'מקומפקטיות יש תת-כיסוי סופי: $$\begin{aligned}X&=(X\setminus F_{\alpha_1})\cup\dots\\&\quad\cup(X\setminus F_{\alpha_m}) .\end{aligned}$$'
       - id: contra
         label: 'במעבר למשלימים, $F_{\alpha_1}\cap\dots\cap F_{\alpha_m}=\emptyset$, בסתירה לתכונת החיתוך הסופי.'
     order: [neg, cover, sub, contra]
@@ -442,3 +447,113 @@ questions:
       אותה הוכחה בכיוון ההפוך נותנת את ה"אם ורק אם".
     wrongFeedback: >-
       מתחילים מהנחת השלילה, עוברים למשלימים כדי לקבל כיסוי פתוח, מפעילים קומפקטיות, וחוזרים למשלימים לסתירה.
+
+  - id: Q-3.2-lebesgue-all
+    type: twotier
+    objectives: [OBJ-3.2-2]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $(X,d)$ מרחב מטרי שבו **לכל** כיסוי פתוח של $X$ יש מספר לבג. נכון או לא נכון: $X$ קומפקטי.
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: >-
+          נכון. בהוכחה של משפט 3.2.10 מספר לבג הוא רק אחד משני מרכיבים; השני, מספר סופי של כדורים ברדיוס $\delta$
+          שמכסים את $X$ (למה 3.2.9), דורש בעצמו קומפקטיות סדרתית.
+      - text: נכון
+        feedback: >-
+          במרחב בדיד אינסופי $\delta=\frac12$ הוא מספר לבג של כל כיסוי פתוח, כי $B(x,\frac12)=\{x\}$; והמרחב אינו
+          קומפקטי: לכיסוי ביחידונים אין תת-כיסוי סופי.
+        misconception: MC-c3-lebesgue-converse
+    reasons:
+      - text: 'במרחב בדיד אינסופי $\delta=\frac12$ מתאים לכל כיסוי, כי $B(x,\frac12)=\{x\}$ מוכל בכל קבוצה שמכילה את $x$; אבל לכיסוי ביחידונים אין תת-כיסוי סופי'
+        correct: true
+        feedback: >-
+          בדיוק. מה שחסר שם הוא מספר סופי של כדורים ברדיוס $\frac12$ שמכסים את המרחב: כל כדור כזה הוא נקודה אחת.
+      - text: 'מספר לבג $\delta$ ומספר סופי של כדורים ברדיוס $\delta$ נותנים תת-כיסוי סופי, ולכן מספר לבג לבדו מספיק'
+        feedback: >-
+          המשפט "מספר לבג לבדו מספיק" הוא בדיוק הטעות: את המספר הסופי של כדורים ברדיוס $\delta$ אין במרחב בדיד אינסופי,
+          כי כל כדור כזה הוא יחידון.
+        misconception: MC-c3-lebesgue-converse
+      - text: '$\mathbb{R}$ הוא דוגמה נגדית: לכל כיסוי פתוח של $\mathbb{R}$ יש מספר לבג, ו-$\mathbb{R}$ אינו קומפקטי'
+        feedback: >-
+          המסקנה נכונה, אבל הדוגמה לא: ל-$\mathbb{R}$ יש כיסוי פתוח בלי מספר לבג. הקטעים $(n-\frac1n,\ n+\frac1n)$,
+          $n\ge2$, יחד עם $\mathbb{R}\setminus\{2,3,4,\dots\}$ מכסים את $\mathbb{R}$, ולכל $\delta>0$ הכדור $B(n,\delta)$
+          עם $\frac1n<\delta$ אינו מוכל באף אחד מהם.
+        misconception: MC-c3-lebesgue-noncompact
+
+  - id: Q-3.2-rationals-cover
+    type: multi
+    objectives: [OBJ-3.2-1]
+    level: exam
+    prompt: >-
+      המרחב $Y=\mathbb{Q}\cap[0,2]$ עם $d(x,y)=|x-y|$. כדי להוכיח מההגדרה ש-$Y$ אינו קומפקטי צריך כיסוי של $Y$
+      בקבוצות **פתוחות ב-$Y$** שאין לו תת-כיסוי סופי. אילו מהמשפחות הבאות הן כיסוי כזה? סמנו את כולן, ובדקו בכל
+      אחת שלושה דברים: שהקבוצות פתוחות ב-$Y$, שהן מכסות את $Y$, ושאף תת-משפחה סופית אינה מכסה. (מותר להשתמש בכך
+      ש-$\sqrt2\notin\mathbb{Q}$, ושבכל קטע פתוח לא ריק יש מספר רציונלי.)
+    choices:
+      - text: '$V_n=\{q\in Y:\ |q-\sqrt2|>\frac1n\}$, $n\in\mathbb{N}$'
+        correct: true
+        feedback: >-
+          נכון. $V_n=Y\cap\big(\mathbb{R}\setminus[\sqrt2-\frac1n,\sqrt2+\frac1n]\big)$, חיתוך של $Y$ עם קבוצה פתוחה
+          של $\mathbb{R}$, ולכן פתוחה ב-$Y$ (משפט 1.3.11). כל $q\in Y$ שונה מ-$\sqrt2$, ולפי ארכימדס יש $n$ עם
+          $\frac1n<|q-\sqrt2|$: זה כיסוי. הקבוצות עולות, ולכן איחוד סופי הוא $V_N$ עם $N$ הגדול ביותר; בקטע
+          $(\sqrt2-\frac1N,\sqrt2)\subseteq[0,2]$ יש רציונלי, והוא ב-$Y$ ולא ב-$V_N$.
+      - text: '$U_0=\{q\in Y:\ q>\sqrt2\}$ ועוד $U_n=\{q\in Y:\ q<\sqrt2-\frac1n\}$, $n\in\mathbb{N}$'
+        correct: true
+        feedback: >-
+          נכון. כל אחת היא חיתוך של $Y$ עם קרן פתוחה, ולכן פתוחה ב-$Y$. רציונלי גדול מ-$\sqrt2$ נמצא ב-$U_0$, ורציונלי
+          $q<\sqrt2$ נמצא ב-$U_n$ כש-$\frac1n<\sqrt2-q$. איחוד סופי מוכל ב-$U_0\cup U_N$ עם $N$ הגדול ביותר, ומחמיץ את
+          הרציונליים שבקטע $(\sqrt2-\frac1N,\sqrt2)$, שמוכל ב-$[0,2]$ כי $\sqrt2-1>0$.
+      - text: 'שתי הקבוצות $\{q\in Y:\ q<\sqrt2\}$ ו-$\{q\in Y:\ q>\sqrt2\}$'
+        feedback: >-
+          זה כיסוי פתוח של $Y$, אבל הוא **סופי**, ולכן הוא תת-כיסוי סופי של עצמו. הוא מראה ש-$Y$ "נחתך" בחור
+          שב-$\sqrt2$, לא ש-$Y$ אינו קומפקטי. כדי להפריך קומפקטיות צריך כיסוי שאף בחירה סופית ממנו אינה מכסה.
+        misconception: MC-c3-one-cover-enough
+      - text: '$Y\cap(r-\frac12,\ r+\frac12)$, $r\in Y$'
+        feedback: >-
+          זה כיסוי פתוח (כל $q$ נמצא בקבוצה של $r=q$), ויש לו תת-כיסוי סופי: עם $r=0,\frac12,1,\frac32,2$ האיחוד הוא
+          $Y\cap(-\frac12,\frac52)=Y$. כיסוי אינסופי אינו בהכרח כיסוי בלי תת-כיסוי סופי.
+        misconception: MC-c3-infinite-cover
+      - text: 'היחידונים $\{q\}$, $q\in Y$'
+        feedback: >-
+          זה כיסוי בלי תת-כיסוי סופי, אבל הוא אינו **פתוח**: כל כדור $B_Y(q,r)$ מכיל רציונליים אחרים, ולכן $\{q\}$
+          אינה פתוחה ב-$Y$. כיסוי ביחידונים קיים לכל קבוצה אינסופית, גם ל-$[0,1]$ הקומפקטי.
+        misconception: MC-c3-closed-cover
+
+  - id: Q-3.2-compact-margin
+    type: twotier
+    objectives: [OBJ-3.2-1, OBJ-3.2-2]
+    qualitative: true
+    level: exam
+    prompt: >-
+      יהי $(X,d)$ מרחב מטרי, $K\subseteq X$ קומפקטית ולא ריקה, ו-$F\subseteq X$ סגורה ולא ריקה, עם $K\cap F=\emptyset$.
+      נכון או לא נכון: יש $\delta>0$ כך ש-$d(k,f)\ge\delta$ לכל $k\in K$ ולכל $f\in F$?
+    choices:
+      - text: נכון
+        correct: true
+        feedback: >-
+          נכון. זו דוגמה 3.2-5 עם $U=X\setminus F$: יש $\varepsilon>0$ עם $B(k,\varepsilon)\subseteq X\setminus F$ לכל
+          $k\in K$, כלומר $d(k,f)\ge\varepsilon$ לכל $f\in F$.
+      - text: לא נכון
+        feedback: >-
+          ב-$\mathbb{R}^2$ ציר ה-$x$ וההיפרבולה $xy=1$ סגורים וזרים, והמרחק בין $(n,0)$ ל-$(n,\frac1n)$ הוא
+          $\frac1n\to0$; אבל אף אחד מהם אינו קומפקטי. כש-$K$ קומפקטית, תת-כיסוי סופי נותן מרווח אחיד.
+        misconception: MC-c3-compact-margin
+    reasons:
+      - text: 'לכל $k\in K$ יש $r_k>0$ עם $B(k,2r_k)\cap F=\emptyset$, כי $X\setminus F$ פתוחה. הכדורים $B(k,r_k)$ מכסים את $K$; בוחרים מהם מספר סופי, $B(k_i,r_{k_i})$, ו-$\delta=\min_ir_{k_i}$. אם $k\in B(k_i,r_{k_i})$ ו-$d(k,f)<\delta$, אז $d(f,k_i)<\delta+r_{k_i}\le2r_{k_i}$: סתירה'
+        correct: true
+        feedback: >-
+          בדיוק. הקומפקטיות נכנסת רק בבחירה הסופית, כדי שהמינימום יהיה על מספר סופי של רדיוסים חיוביים; וחצי
+          הרדיוס הוא מה שמאפשר לנקודה $k$ שקרובה ל-$k_i$ ליהנות מהכדור הגדול סביב $k_i$.
+      - text: 'לכל $k\in K$, $k\notin F$ ו-$F$ סגורה, ולכן $\operatorname{dist}(k,F)>0$; לכן $\delta=\inf_{k\in K}\operatorname{dist}(k,F)$ חיובי'
+        feedback: >-
+          אינפימום של מספרים חיוביים יכול להיות $0$: בדוגמה של ציר ה-$x$ וההיפרבולה, לכל נקודה של הציר המרחק להיפרבולה
+          חיובי, והאינפימום $0$. בדיוק כאן צריך את הקומפקטיות, דרך תת-כיסוי סופי.
+        misconception: MC-c3-lebesgue-noncompact
+      - text: 'כל שתי קבוצות סגורות וזרות במרחב מטרי רחוקות זו מזו מרחק חיובי'
+        feedback: >-
+          לא נכון: ציר ה-$x$ וההיפרבולה $xy=1$ ב-$\mathbb{R}^2$ סגורים וזרים, והמרחק ביניהם $0$. הקומפקטיות של $K$
+          היא שמבטיחה מרווח אחיד.
+        misconception: MC-c3-lebesgue-noncompact

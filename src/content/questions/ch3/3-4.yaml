@@ -118,7 +118,7 @@ questions:
       - text: לא נכון
         correct: true
         feedback: >-
-          נכון. רציפות מעבירה קבוצות סגורות לסגורות רק בכיוון המקור. לתמונה עוברת קומפקטיות.
+          צדקתם. רציפות מעבירה קבוצות סגורות לסגורות רק בכיוון המקור. לתמונה עוברת קומפקטיות.
       - text: נכון
         feedback: >-
           $F=\mathbb{R}$ סגורה ו-$\arctan(\mathbb{R})=(-\frac\pi2,\frac\pi2)$ אינה סגורה.
@@ -167,7 +167,7 @@ questions:
     type: twotier
     objectives: [OBJ-3.4-2]
     qualitative: true
-    level: mid
+    level: basic
     prompt: >-
       האם $g(x)=\sin\frac1x$ רציפה במידה שווה על $(0,1]$?
     choices:
@@ -197,7 +197,7 @@ questions:
     type: twotier
     objectives: [OBJ-3.4-3]
     qualitative: true
-    level: mid
+    level: basic
     prompt: >-
       $\varphi:[0,2\pi)\to S^1$, $\varphi(t)=(\cos t,\sin t)$, רציפה, חד-חד-ערכית ועל המעגל $S^1$. האם $\varphi$
       הומיאומורפיזם?
@@ -257,7 +257,7 @@ questions:
   - id: Q-3.4-cantor-rank
     type: rank
     objectives: [OBJ-3.4-2]
-    level: exam
+    level: mid
     help: 'סדרו את שלבי ההוכחה לפי הסדר הנכון.'
     prompt: >-
       ההוכחה של משפט קנטור ($f:K\to\mathbb{R}$ רציפה ו-$K$ קומפקטי גורר $f$ רציפה במידה שווה) התפרקה לשלבים. סדרו
@@ -268,7 +268,7 @@ questions:
       - id: sub
         label: 'כי $K$ קומפקטי, יש תת-סדרה $x_{n_k}\to p$ עם $p\in K$.'
       - id: both
-        label: '$d(y_{n_k},p)\le d(y_{n_k},x_{n_k})+d(x_{n_k},p)\to0$, ולכן גם $y_{n_k}\to p$.'
+        label: '$$\begin{aligned}&d(y_{n_k},p)\\&\le d(y_{n_k},x_{n_k})\\&\quad+d(x_{n_k},p)\to0 ,\end{aligned}$$ ולכן גם $y_{n_k}\to p$.'
       - id: contra
         label: 'מרציפות $f$ ב-$p$: $f(x_{n_k})\to f(p)$ ו-$f(y_{n_k})\to f(p)$, ולכן $|f(x_{n_k})-f(y_{n_k})|\to0$, בסתירה ל-$\ge\varepsilon$.'
     order: [neg, sub, both, contra]
@@ -282,7 +282,7 @@ questions:
     type: twotier
     objectives: [OBJ-3.4-3]
     qualitative: true
-    level: exam
+    level: mid
     prompt: >-
       במרחב $B(\mathbb{N})$ של הסדרות החסומות עם נורמת הסופרמום, $e_n$ הוא הסדרה שבמקום ה-$n$ שלה 1 ובשאר המקומות 0,
       ו-$A=\{(1+\frac1n)e_n: n\in\mathbb{N}\}$. האם יש $a\in A$ עם $\|a\|_\infty=d(0,A)$?
@@ -307,7 +307,7 @@ questions:
         misconception: MC-c3-closed-distance-attained
       - text: '$A$ אינה סגורה, ולכן המרחק לא מתקבל'
         feedback: >-
-          $A$ סגורה: אין בה סדרות קושי לא קבועות. הבעיה היא חוסר קומפקטיות, לא חוסר סגירות.
+          $A$ סגורה: כל סדרת קושי בה קבועה החל ממקום מסוים. הבעיה היא חוסר קומפקטיות, לא חוסר סגירות.
         misconception: MC-c3-closed-distance-attained
     explanation: >-
       גם במרחב לא שלם זה קורה: ב-$\mathbb{Q}$ הקבוצה $A=\{q\in\mathbb{Q}: q\ge\sqrt2\}$ סגורה, המרחק שלה מ-0 הוא
@@ -316,10 +316,10 @@ questions:
   - id: Q-3.4-homeo-discrete
     type: mc
     objectives: [OBJ-3.4-3]
-    level: exam
+    level: mid
     prompt: >-
-      $\iota:(\mathbb{R},d_{\mathrm{disc}})\to(\mathbb{R},|\cdot|)$ היא פונקציית הזהות, מ-$\mathbb{R}$ עם המטריקה
-      הבדידה ל-$\mathbb{R}$ עם המטריקה הרגילה. היא רציפה, חד-חד-ערכית ועל. מה נכון?
+      $\iota:(\mathbb{R},d_0)\to(\mathbb{R},|\cdot|)$ היא פונקציית הזהות, מ-$\mathbb{R}$ עם המטריקה הבדידה $d_0$
+      ל-$\mathbb{R}$ עם המטריקה הרגילה. היא רציפה, חד-חד-ערכית ועל. מה נכון?
     choices:
       - text: 'היא אינה הומיאומורפיזם; המשפט לא חל כי התחום אינו קומפקטי (לסדרה $1,2,3,\dots$ אין בו תת-סדרה מתכנסת)'
         correct: true
@@ -338,3 +338,105 @@ questions:
         feedback: >-
           המשפט דורש רק תחום קומפקטי (ואז גם הטווח, שהוא התמונה, קומפקטי). מה שנכשל כאן הוא התחום.
         misconception: MC-c3-bijection-homeo
+
+  - id: Q-3.4-periodic
+    type: twotier
+    objectives: [OBJ-3.4-2, OBJ-3.4-1]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $f:\mathbb{R}\to\mathbb{R}$ רציפה ומחזורית עם מחזור 1: $f(x+1)=f(x)$ לכל $x$. נכון או לא נכון: $f$ רציפה במידה
+      שווה על $\mathbb{R}$, ומקבלת מקסימום על $\mathbb{R}$.
+    choices:
+      - text: נכון
+        correct: true
+        feedback: >-
+          נכון. $\mathbb{R}$ אינו קומפקטי, אבל המחזוריות מעבירה כל שאלה על $f$ לקטע קומפקטי.
+      - text: לא נכון
+        feedback: >-
+          $\mathbb{R}$ אינו קומפקטי, ולכן משפט קנטור ומשפט ויירשטראס אינם חלים עליו ישירות; אבל כשהנחה של משפט
+          נכשלת, המשפט פשוט לא אומר דבר. כאן $f(\mathbb{R})=f([0,1])$, ו-$f$ על $\mathbb{R}$ נקבעת על ידי $f$ על קטע.
+        misconception: MC-c3-theorem-converse
+    reasons:
+      - text: 'קנטור על $[-1,2]$ נותן $\delta_1$; עם $\delta=\min(\delta_1,1)$ מזיזים את $x,y$ באותו שלם, כך ש-$x$ נוחתת ב-$[0,1]$ ו-$y$ ב-$[-1,2]$. והמקסימום על $[0,1]$ (ויירשטראס) הוא מקסימום על $\mathbb{R}$'
+        correct: true
+        feedback: >-
+          בדיוק. הקטע $[-1,2]$, ולא $[0,1]$, כי $y$ יכול לצאת מ-$[0,1]$ כש-$x$ ליד הקצה; ה-$\delta\le1$ מבטיח
+          ש-$y+k$ נשאר ב-$[-1,2]$.
+      - text: '$f$ רציפה, ולפי המחזוריות היא חסומה על $\mathbb{R}$; כל פונקציה רציפה וחסומה רציפה במידה שווה, ופונקציה חסומה מקבלת מקסימום'
+        feedback: >-
+          המסקנה נכונה והנימוק לא: $\sin\frac1x$ חסומה ורציפה על $(0,1]$ ואינה רציפה בו במידה שווה, ו-$\arctan$
+          חסומה ואינה מקבלת מקסימום. כאן מה שעובד הוא המחזוריות יחד עם קנטור וויירשטראס על קטע קומפקטי.
+        misconception: MC-c3-uniform-without-compact
+      - text: 'קנטור על $[0,1]$ נותן $\delta_1$; אם $|x-y|<\delta_1$, מזיזים את שתיהן באותו שלם לתוך $[0,1]$. והמקסימום של $f$ על $[0,1]$ (ויירשטראס) הוא מקסימום על $\mathbb{R}$'
+        feedback: >-
+          לא תמיד אפשר: עם $x=0.999$ ו-$y=1.001$ אין שלם $k$ ששולח את שתיהן לתוך $[0,1]$. לכן צריך קטע רחב יותר,
+          כמו $[-1,2]$, או טיעון נפרד ליד נקודות שלמות.
+        misconception: MC-c3-delta-depends-on-point
+    explanation: >-
+      אותו טיעון מראה שכל פונקציה רציפה ומחזורית על $\mathbb{R}$ חסומה, מקבלת מקסימום ומינימום, ורציפה במידה שווה:
+      למשל $\sin x$ ו-$\cos(2\pi x)+\sin(4\pi x)$.
+
+  - id: Q-3.4-homeo-rank
+    type: rank
+    objectives: [OBJ-3.4-3]
+    level: exam
+    help: 'סדרו את שלבי ההוכחה לפי הסדר הנכון.'
+    prompt: >-
+      $X$ מרחב מטרי קומפקטי, $Y$ מרחב מטרי, ו-$f:X\to Y$ רציפה, חד-חד-ערכית ועל. ההוכחה ש-$f$ הומיאומורפיזם, דרך
+      הטענה ש-$f$ מעבירה קבוצות סגורות לסגורות, התפרקה לארבעה שלבים. סדרו אותם.
+    items:
+      - id: inverse
+        label: '$f$ חד-חד-ערכית ועל, ולכן יש לה הופכית $g:Y\to X$; צריך להוכיח ש-$g$ רציפה.'
+      - id: preimage
+        label: 'תהי $F\subseteq X$ סגורה. המקור שלה תחת $g$ הוא $$\begin{aligned}&\{y: g(y)\in F\}\\&\quad=f(F) ,\end{aligned}$$ ולכן (רציפות דרך מקורות של סגורות) מספיק להראות ש-$f(F)$ סגורה ב-$Y$.'
+      - id: compact
+        label: '$F$ סגורה בתוך המרחב הקומפקטי $X$, ולכן $F$ קומפקטית.'
+      - id: closed
+        label: 'התמונה הרציפה $f(F)$ של הקבוצה הקומפקטית $F$ קומפקטית, ולכן סגורה ב-$Y$; לכן $g$ רציפה, ו-$f$ הומיאומורפיזם.'
+    order: [inverse, preimage, compact, closed]
+    correctFeedback: >-
+      נכון. כל שלב משתמש בשלב שלפניו: $g$ מוגדרת לפני שמדברים על מקורות תחתיה; $F$ מוגדרת בשלב השני; והקומפקטיות של
+      $F$ נדרשת כדי שהתמונה שלה תהיה קומפקטית. זו ההוכחה של משפט 3.4.8 דרך למה 3.4.8א.
+    wrongFeedback: >-
+      שאלו את עצמכם על כל שלב: באיזה עצם הוא משתמש, ואיפה העצם הזה הוגדר? $g$ צריכה להיות קיימת כדי לדבר על מקור
+      תחתיה, $F$ צריכה להיות מוגדרת לפני שאומרים שהיא קומפקטית, ורק קבוצה קומפקטית נשלחת לקבוצה קומפקטית.
+
+  - id: Q-3.4-neighbourhood
+    type: twotier
+    objectives: [OBJ-3.4-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      יהי $(X,d)$ מרחב מטרי, $U\subseteq X$ פתוחה, ו-$K\subseteq U$ קומפקטית ולא ריקה. נכון או לא נכון: יש $r>0$ כך
+      שכל $x\in X$ עם $\operatorname{dist}(x,K)<r$ שייכת ל-$U$.
+    choices:
+      - text: נכון
+        correct: true
+        feedback: >-
+          צדקתם. ל-$U$ יש "שוליים" בעובי אחיד סביב $K$: המרחק מ-$K$ אל המשלים של $U$ חיובי, כי $K$ קומפקטית.
+      - text: לא נכון
+        feedback: >-
+          לכל $k\in K$ יש כדור $B(k,r_k)\subseteq U$, וה-$r_k$ יכולים להיות קטנים יותר ויותר; אבל הפונקציה
+          $k\mapsto\operatorname{dist}(k,X\setminus U)$ רציפה וחיובית על $K$ הקומפקטית, ולכן המינימום שלה חיובי.
+        misconception: MC-c3-inf-positive
+    reasons:
+      - text: 'אם $U\ne X$, הקבוצה $F=X\setminus U$ סגורה, לא ריקה וזרה ל-$K$, ולפי טענה 3.4.10(ג) $r=\operatorname{dist}(K,F)>0$; נקודה $x$ עם $\operatorname{dist}(x,K)<r$ אינה יכולה להיות ב-$F$ (ואם $U=X$ כל $r$ מתאים)'
+        correct: true
+        feedback: >-
+          בדיוק. אם $\operatorname{dist}(x,K)<r$, יש $k\in K$ עם $d(x,k)<r=\operatorname{dist}(K,F)$, ולכן $x\notin F$, כלומר
+          $x\in U$.
+      - text: '$K$ ו-$X\setminus U$ סגורות וזרות, ושתי קבוצות סגורות, לא ריקות וזרות נמצאות תמיד במרחק חיובי זו מזו, וזה ה-$r$'
+        feedback: >-
+          המסקנה נכונה והנימוק לא: ב-$\mathbb{R}^2$ הענף $\{xy=1,\ x>0\}$ וציר ה-$x$ סגורים, זרים ובמרחק 0 זה מזה. מה
+          שנותן מרחק חיובי הוא הקומפקטיות של אחת מהן.
+        misconception: MC-c3-disjoint-closed-distance
+      - text: 'לכל $k\in K$ יש $r_k>0$ עם $B(k,r_k)\subseteq U$, ולכן $r=\inf_{k\in K}r_k$ חיובי, כי כל אחד מה-$r_k$ חיובי'
+        feedback: >-
+          אינפימום של מספרים חיוביים יכול להיות 0: עם $K=(0,1]$ ו-$U=(0,2)$ ב-$\mathbb{R}$ חייבים $r_k\le k$. כאן $K$
+          קומפקטית, אבל הנימוק לא משתמש בזה, ולכן אינו יכול להיות נכון.
+        misconception: MC-c3-inf-positive
+    explanation: >-
+      בלי קומפקטיות זה נכשל גם כש-$K$ סגורה: ב-$\mathbb{R}^2$ עם $d_2$, $K$ ציר ה-$x$ ו-$U=\{(x,y): |y|(1+x^2)<1\}$, שהיא
+      פתוחה ומכילה את $K$. לכל $r>0$, הנקודה $(x,\frac r2)$ עם $x^2\ge\frac2r$ נמצאת במרחק $\frac r2$ מ-$K$ ומחוץ
+      ל-$U$, כי $\frac r2(1+x^2)\ge\frac r2\cdot\frac2r=1$.

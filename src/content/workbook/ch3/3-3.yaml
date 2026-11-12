@@ -1,0 +1,579 @@
+# Workbook of lesson 3.3 — total boundedness.
+# Objectives (src/course.ts):
+#   OBJ-3.3-1  define a totally bounded set and tell it apart from a bounded set
+#   OBJ-3.3-2  prove that a metric space is compact iff it is complete and totally bounded
+#   OBJ-3.3-3  decide whether sets in spaces of functions are totally bounded
+# Results cited by the numbers of the formal spine (3.3.k; 3.1.k and 3.2.k by the chapter-3 spine). Numbers
+# recomputed with npx tsx (minNetSegment, the 1.5-net of {0,…,10}, the lattice count of W-10, the 1/2-Hölder bound).
+lesson: '3.3'
+practice:
+  - id: W-3.3-01
+    level: basic
+    objectives: [OBJ-3.3-1]
+    prompt: >-
+      (א) מהו המספר הקטן ביותר של נקודות ב-$0.4$-רשת של הקטע $[0,3]$ (עם $|x-y|$)?
+
+
+      (ב) מהו המספר הקטן ביותר של נקודות ב-$1.5$-רשת של הקבוצה $A=\{0,1,2,\dots,10\}\subseteq\mathbb{R}$? הוכיחו
+      שפחות לא מספיקות.
+    answer: >-
+      (א) $4$. (ב) $4$, למשל $\{1,4,7,10\}$; הקבוצה $\{0,3,6,9\}$ היא $3$-מופרדת, ולכן פחות מ-$4$ לא מספיקות.
+    solution:
+      - kind: theorem
+        text: >-
+          טענה 3.3.3ב: לקטע $[0,\ell]$ הרשת הקטנה ביותר בת $\lfloor\frac{\ell}{2\varepsilon}\rfloor+1$ נקודות. למה
+          3.3.3א(א): קבוצה $2\varepsilon$-מופרדת בתוך $A$ חוסמת מלמטה את מספר הנקודות בכל $\varepsilon$-רשת.
+      - kind: computation
+        text: >-
+          (א) $\frac{3}{2\cdot0.4}=3.75$, ולכן $\lfloor3.75\rfloor+1=4$. למשל $s=\frac34$ והנקודות
+          $\frac38,\frac98,\frac{15}8,\frac{21}8$: כל נקודה של $[0,3]$ במרחק לכל היותר $\frac38<0.4$ מאחת מהן.
+      - kind: step
+        text: >-
+          (ב) כדור $B(y,1.5)$ סביב שלם $y$ מכיל את השלמים $y-1,y,y+1$ בלבד מ-$A$. לכן $\{1,4,7,10\}\subseteq A$ מכסה:
+          $\{0,1,2\}$, $\{3,4,5\}$, $\{6,7,8\}$, $\{9,10\}$.
+      - kind: step
+        text: >-
+          החסם התחתון: $S=\{0,3,6,9\}\subseteq A$, והמרחק בין כל שתיים לפחות $3=2\cdot1.5$. לפי למה 3.3.3א(א) כל
+          $1.5$-רשת של $A$ מכילה לפחות $4$ נקודות.
+      - kind: check
+        text: >-
+          ב-(ב) השלמים צמודים זה לזה, וכל כדור "תופס" שלושה. $11$ נקודות לחלק לשלשות: $\lceil\frac{11}3\rceil=4$, בהתאמה.
+      - kind: result
+        text: '(א) $4$ נקודות; (ב) $4$ נקודות.'
+
+  - id: W-3.3-02
+    level: basic
+    qualitative: true
+    objectives: [OBJ-3.3-1]
+    prompt: >-
+      נכון או לא נכון? נמקו.
+
+
+      (א) קבוצה חסומה כליל היא סופית.
+
+
+      (ב) לכל קבוצה לא ריקה וחסומה ב-$(\mathbb{R}^3,d_1)$ ולכל $\varepsilon>0$ יש $\varepsilon$-רשת.
+
+
+      (ג) הקטע $[0,1]$, כתת-קבוצה של $\mathbb{R}$ עם המטריקה הבדידה, חסום כליל.
+
+
+      (ד) אם $F$ היא $\varepsilon$-רשת של $A$ ו-$\varepsilon<\varepsilon'$, אז $F$ היא גם $\varepsilon'$-רשת של $A$.
+    answer: >-
+      (א) לא נכון; (ב) נכון; (ג) לא נכון; (ד) נכון.
+    solution:
+      - kind: step
+        text: >-
+          (א) לא נכון. $[0,1]$ אינסופי וחסום כליל (טענה 3.3.2א(א)). מה שסופי הוא **כל רשת**, לא הקבוצה.
+      - kind: theorem
+        text: >-
+          (ב) נכון: לפי משפט 3.3.6 עם $p=1$ ו-$k=3$, קבוצה חסומה ב-$d_1$ חסומה כליל, כלומר יש לה $\varepsilon$-רשת לכל
+          $\varepsilon>0$ (הגדרה 3.3.2 עם קבוצה לא ריקה).
+      - kind: step
+        text: >-
+          (ג) לא נכון. במטריקה הבדידה $B(y,\frac12)=\{y\}$, ולכן $\frac12$-רשת של $[0,1]$ היא כל $[0,1]$, שאינו סופי
+          (טענה 3.3.2א(ב)). חסימות כליל תלויה במטריקה, לא רק בקבוצה.
+      - kind: step
+        text: >-
+          (ד) נכון. $B(y,\varepsilon)\subseteq B(y,\varepsilon')$, ולכן אם הכדורים הקטנים מכסים את $A$, גם הגדולים.
+      - kind: result
+        text: '(א) לא; (ב) כן; (ג) לא; (ד) כן.'
+
+  - id: W-3.3-03
+    level: basic
+    objectives: [OBJ-3.3-1]
+    prompt: >-
+      הוכיחו ישירות מההגדרה, בלי משפט 3.3.6, שהקבוצה $A=\left\{\frac{n}{n+1}:\ n\in\mathbb{N}\right\}\subseteq\mathbb{R}$
+      חסומה כליל: לכל $\varepsilon>0$ מצאו $\varepsilon$-רשת מפורשת. כמה נקודות יש ברשת שלכם עבור $\varepsilon=0.01$?
+    answer: >-
+      $F=\{a_1,\dots,a_N\}$ עם $a_n=\frac n{n+1}$ ו-$N\ge\frac1\varepsilon-1$; עבור $\varepsilon=0.01$, $N=99$ נקודות
+      (ההוכחה צריכה $\frac1{N+1}\le\varepsilon$).
+    solution:
+      - kind: idea
+        text: >-
+          כל האיברים המאוחרים צפופים ליד $1$, ולכן איבר מאוחר אחד מכסה את כולם; את המוקדמים לוקחים כולם.
+      - kind: step
+        text: >-
+          נסמן $a_n=\frac n{n+1}=1-\frac1{n+1}$; הסדרה עולה. יהי $\varepsilon>0$, ולפי ארכימדס יהי $N\in\mathbb{N}$ עם
+          $\frac1{N+1}\le\varepsilon$. נגדיר $F=\{a_1,\dots,a_N\}\subseteq A$.
+      - kind: step
+        text: >-
+          ל-$n\le N$: $a_n\in F$. ל-$n>N$:
+          $$\begin{aligned}0<a_n-a_N&=\tfrac1{N+1}-\tfrac1{n+1}\\&<\tfrac1{N+1}\le\varepsilon ,\end{aligned}$$
+          ולכן
+          $a_n\in B(a_N,\varepsilon)$. לכן $F$ היא $\varepsilon$-רשת.
+      - kind: computation
+        text: >-
+          עבור $\varepsilon=0.01$: $\frac1{N+1}\le0.01$ פירושו $N\ge99$, ולכן $99$ נקודות.
+      - kind: check
+        text: >-
+          זו לא הרשת הקטנה ביותר: $A\subseteq[\frac12,1]$, ולפי טענה 3.3.3ב (אחרי הזזה ב-$\frac12$) הקטע $[\frac12,1]$
+          מתכסה ב-$\lfloor\frac{0.5}{0.01}\rfloor+1=51$ כדורים ברדיוס $0.005$. הטריק של $\frac\varepsilon2$ (שלב 2
+          בהוכחה של טענה 3.3.3) מחליף כל מרכז שהכדור שלו פוגש את $A$ בנקודה של $A$, ונותן $0.01$-רשת של $A$ עם לכל היותר
+          $51$ נקודות. ההגדרה דורשת רשת סופית, לא קטנה.
+      - kind: result
+        text: >-
+          $\{a_1,\dots,a_N\}$ עם $\frac1{N+1}\le\varepsilon$ היא $\varepsilon$-רשת; עבור $\varepsilon=0.01$ זו רשת בת
+          $99$ נקודות.
+
+  - id: W-3.3-04
+    level: mid
+    objectives: [OBJ-3.3-1]
+    prompt: >-
+      יהי $(X,d)$ מרחב מטרי חסום כליל. הוכיחו שיש ב-$X$ קבוצה $D$, בת מנייה או סופית, שהיא צפופה ב-$X$ (הגדרה
+      1.4.13: $\overline D=X$).
+    answer: >-
+      $D=\bigcup_{k\in\mathbb{N}}F_k$, כאשר $F_k$ היא $\frac1k$-רשת: איחוד בן מנייה של קבוצות סופיות, ולכן סופי או בן
+      מנייה, וכל כדור פוגש אותו.
+    solution:
+      - kind: idea
+        text: >-
+          רשת עבור $\frac1k$ מתקרבת לכל נקודה עד $\frac1k$. מאחדים את הרשתות של כל קני המידה: מספר בן מנייה של קבוצות
+          סופיות.
+      - kind: step
+        text: >-
+          לכל $k\in\mathbb{N}$ תהי $F_k$ $\frac1k$-רשת של $X$ (הגדרה 3.3.2; $X\ne\emptyset$ כמרחב מטרי). נגדיר
+          $D=\bigcup_kF_k$. איחוד בן מנייה של קבוצות סופיות הוא סופי או בן מנייה (שיעור 0.4; אינפי 1): מונים את
+          איברי $F_1$, אחריהם את איברי $F_2$ שעוד לא נמנו, וכן הלאה.
+      - kind: step
+        text: >-
+          יהיו $x\in X$ ו-$r>0$. לפי ארכימדס יש $k$ עם $\frac1k<r$. יש $y\in F_k$ עם $d(x,y)<\frac1k<r$, כלומר
+          $y\in B(x,r)\cap D$.
+      - kind: definition
+        text: >-
+          לפי הגדרה 1.4.3, $x\in\overline D$. כיוון ש-$x$ כלשהי, $\overline D=X$.
+      - kind: check
+        text: >-
+          בשלושת מרחבי המבחן: ב-$[0,1]$ מתקבלת קבוצה של שברים; במרחב בדיד חסום כליל, כלומר סופי, $D=X$; ובקבוצה $L$
+          של טענה 3.3.10(א) מתקבלים כל הזיגזגים, לכל $m$. ההפך אינו נכון: $\mathbb{R}$ אינו חסום כליל, ו-$\mathbb{Q}$ צפופה בו.
+      - kind: result
+        text: >-
+          $D=\bigcup_kF_k$ סופית או בת מנייה, וצפופה ב-$X$.
+
+  - id: W-3.3-05
+    level: mid
+    objectives: [OBJ-3.3-2]
+    prompt: >-
+      יהי $(X,d)$ מרחב מטרי קומפקטי ו-$F\subseteq X$ סגורה ולא ריקה. הוכיחו ש-$F$ קומפקטית בעזרת משפט 3.3.8, בלי
+      טענה 3.2.6 ובלי טענה 3.1.6.
+    answer: >-
+      $F$ חסומה כליל (תת-קבוצה של $X$, טענה 3.3.5(א)) ושלמה (סגורה במרחב השלם $X$, משפט 2.2.1(א)); לפי משפט 3.3.8
+      היא קומפקטית.
+    solution:
+      - kind: idea
+        text: >-
+          משפט 3.3.8 מפרק קומפקטיות לשתי תכונות. כל אחת מהן עוברת ל-$F$ מסיבה אחרת: חסימות כליל לכל תת-קבוצה, שלמות
+          לכל תת-קבוצה **סגורה**.
+      - kind: theorem
+        text: >-
+          לפי משפט 3.3.8 ($\Rightarrow$), $X$ שלם וחסום כליל.
+      - kind: step
+        text: >-
+          חסימות כליל: $F\subseteq X$, ולפי טענה 3.3.5(א) $F$ חסומה כליל; לפי טענה 3.3.2ב גם המרחב $(F,d)$ חסום כליל.
+      - kind: step
+        text: >-
+          שלמות: $F$ סגורה ב-$X$ השלם, ולפי משפט 2.2.1(א) $(F,d)$ שלם.
+      - kind: theorem
+        text: >-
+          לפי משפט 3.3.8 ($\Leftarrow$) המרחב $(F,d)$ קומפקטי, ולפי טענה 3.2.3 $F$ קומפקטית כתת-קבוצה של $X$.
+      - kind: check
+        text: >-
+          איפה נכנסה הסגירות: רק בשלמות. בלעדיה הטענה נופלת: $(0,1]\subseteq[0,1]$ חסומה כליל ואינה שלמה.
+      - kind: result
+        text: '$F$ קומפקטית.'
+
+  - id: W-3.3-06
+    level: mid
+    qualitative: true
+    objectives: [OBJ-3.3-2]
+    prompt: >-
+      אף אחד מהמרחבים הבאים אינו קומפקטי. לכל אחד קבעו איזה חצי של משפט 3.3.8 נכשל (שלמות, חסימות כליל, או שניהם),
+      והוכיחו.
+
+
+      (א) $[0,1)\cup(1,2]$ עם $|x-y|$.
+
+
+      (ב) $\mathbb{N}$ עם $\delta(m,n)=\frac{|m-n|}{1+|m-n|}$.
+
+
+      (ג) ספרת היחידה $\{f\in C[0,1]:\ \|f\|_\infty=1\}$ עם $d_\infty$.
+
+
+      (ד) $G=\{(x,\sin\frac1x):\ 0<x\le1\}\subseteq\mathbb{R}^2$ עם $d_2$.
+    answer: >-
+      (א) חסום כליל, לא שלם. (ב) שלם, לא חסום כליל. (ג) שלם, לא חסום כליל. (ד) חסום כליל, לא שלם.
+    solution:
+      - kind: step
+        text: >-
+          (א) חסום ב-$\mathbb{R}$, ולכן חסום כליל (משפט 3.3.6). לא שלם: $1-\frac1{n+1}$ בקבוצה ושואפת ל-$1$ שאינה בה,
+          ולכן הקבוצה אינה סגורה ב-$\mathbb{R}$ השלם, ולפי מסקנה 2.2.2 אינה שלמה.
+      - kind: step
+        text: >-
+          (ב) $\delta$ מטריקה (מסקנה 1.1.12, עם $t\mapsto\frac t{1+t}$). ל-$m\ne n$, $|m-n|\ge1$, ולכן
+          $\delta(m,n)\ge\frac12$ ($\frac t{1+t}$ עולה). $\mathbb{N}$ היא קבוצה $\frac12$-מופרדת ואינסופית, ולפי למה
+          3.3.3א(ג) אינה חסומה כליל. שלמה: בסדרת קושי, עם $\varepsilon=\frac12$, יש $N$ עם $x_m=x_n$ לכל $m,n>N$, ולכן
+          היא קבועה מ-$N+1$ ומתכנסת.
+      - kind: step
+        text: >-
+          (ג) סגורה: אם $\|f_n\|_\infty=1$ ו-$f_n\to f$, אז לפי טענה 1.6.6(ב)
+          $$\begin{aligned}\big|\|f_n\|_\infty-\|f\|_\infty\big|&\le\|f_n-f\|_\infty\\&\to0 ,\end{aligned}$$
+          ולכן $\|f\|_\infty=1$ (מסקנה 1.5.8(ב)). סגורה במרחב השלם $C[0,1]$ (מסקנה 2.2.6(ג)), ולפי משפט 2.2.1(א) שלמה. האוהלים $t_n$ שייכים לה ורחוקים $1$ זה מזה: לפי למה
+          3.3.3א(ג) אינה חסומה כליל.
+      - kind: step
+        text: >-
+          (ד) $G\subseteq[0,1]\times[-1,1]$ חסומה ב-$d_2$, ולפי משפט 3.3.6 חסומה כליל. לא שלמה: עם $x_k=\frac1{k\pi}$,
+          $(x_k,\sin(k\pi))=(\frac1{k\pi},0)\in G$ ושואפת ל-$(0,0)\notin G$ (משפט 1.5.9); לכן $G$ אינה סגורה ב-$\mathbb{R}^2$
+          השלם (משפט 2.1.11), ולפי מסקנה 2.2.2 אינה שלמה.
+      - kind: check
+        text: >-
+          (ב) ו-(ג) הם "שלם וחסום, לא חסום כליל" ($\delta<1$ ו-$\|f\|_\infty=1$); (א) ו-(ד) הם "חסום כליל, לא שלם". ב-(ד)
+          הסגור של $G$ ב-$\mathbb{R}^2$ קומפקטי לפי מסקנה 3.3.9(ב).
+      - kind: result
+        text: '(א) שלמות; (ב) חסימות כליל; (ג) חסימות כליל; (ד) שלמות.'
+
+  - id: W-3.3-07
+    level: mid
+    qualitative: true
+    objectives: [OBJ-3.3-3]
+    prompt: >-
+      ב-$(C[0,1],d_\infty)$, קבעו אם כל קבוצה חסומה כליל, והוכיחו.
+
+
+      (א) הקבוצה $P$ של הפונקציות $f\in C[0,1]$ עם $\|f\|_\infty\le1$ ו-$f(x)=0$ לכל $x\ge\frac12$.
+
+
+      (ב) הקבוצה $L_2$ של הפונקציות $f\in C[0,1]$ עם $f(0)=0$ ו-$|f(x)-f(y)|\le2|x-y|$ לכל $x,y\in[0,1]$.
+
+
+      (ג) $\{f\in L:\ f(1)=1\}$, עם $L$ של טענה 3.3.10(א).
+    answer: >-
+      (א) לא: האוהלים $t_n$, $n\ge2$. (ב) כן: $L_2=2L$. (ג) כן: זו הקבוצה $\{x\}$, נקודה אחת.
+    solution:
+      - kind: step
+        text: >-
+          (א) ל-$n\ge2$, $t_n$ מתאפס מחוץ ל-$[2^{-n},2^{-n+1}]\subseteq[0,\frac12]$, ו-$\|t_n\|_\infty=1$: $t_n\in P$.
+          $\|t_n-t_m\|_\infty=1$ ל-$n\ne m$ (טענה 3.1.9(ב)). קבוצה $1$-מופרדת ואינסופית, ולפי למה 3.3.3א(ג) $P$ אינה
+          חסומה כליל.
+      - kind: step
+        text: >-
+          (ב) $f\in L_2$ אם ורק אם $\frac f2\in L$. ההעתקה $u\mapsto2u$ ליפשיצית עם קבוע $2$ על $C[0,1]$, ולכן רציפה
+          במידה שווה (טענה 1.6.9), ו-$L_2$ היא התמונה של $L$. לפי טענה 3.3.10(א) וטענה 3.3.5(ד), $L_2$ חסומה כליל.
+      - kind: step
+        text: >-
+          (ג) תהי $f\in L$ עם $f(1)=1$. לכל $x$: $f(x)\le f(0)+x=x$, ו-$f(x)\ge f(1)-(1-x)=x$. לכן $f(x)=x$, והקבוצה היא
+          היחידון $\{x\mapsto x\}$, סופית, ולכן חסומה כליל.
+      - kind: check
+        text: >-
+          (א) חסומה (בכדור היחידה) ואינה חסומה כליל: החסם על השיפוע הוא שחסר בה. ב-(ב) החסם קיים, $2$ במקום $1$, וזה
+          מספיק. ב-(ג) התנאי $f(1)=1$ "דוחק" את $f$ לשיפוע המקסימלי בכל נקודה.
+      - kind: result
+        text: '(א) לא חסומה כליל; (ב) חסומה כליל; (ג) חסומה כליל (נקודה אחת).'
+
+  - id: W-3.3-08
+    level: exam
+    objectives: [OBJ-3.3-2, OBJ-3.3-1]
+    prompt: >-
+      יהי $(X,d)$ מרחב מטרי ו-$(Y,\iota)$ השלמה שלו (הגדרה וטענה 2.6.1(ד): $Y$ שלם, $\iota:X\to Y$ שיכון איזומטרי
+      ו-$\iota(X)$ צפופה ב-$Y$). הוכיחו: $X$ חסום כליל אם ורק אם $Y$ קומפקטי.
+    answer: >-
+      ($\Rightarrow$) $\iota(X)$ חסומה כליל, ולכן גם $\overline{\iota(X)}=Y$; $Y$ שלם, ולפי משפט 3.3.8 קומפקטי.
+      ($\Leftarrow$) $Y$ חסום כליל, ולכן $\iota(X)$, ולכן $X$.
+    solution:
+      - kind: idea
+        text: >-
+          איזומטריה מעבירה רשתות לרשתות בשני הכיוונים. $Y$ הוא הסגור של עותק של $X$, וחסימות כליל עוברת לסגור; את
+          השלמות $Y$ מביא בעצמו.
+      - kind: step
+        text: >-
+          ($\Rightarrow$) $\iota$ ליפשיצית עם קבוע $1$, ולכן רציפה במידה שווה (טענה 1.6.9). לפי טענה 3.3.5(ד),
+          $\iota(X)$ חסומה כליל ב-$Y$.
+      - kind: step
+        text: >-
+          לפי טענה 3.3.5(ב) גם $\overline{\iota(X)}$ חסומה כליל, ו-$\overline{\iota(X)}=Y$ כי $\iota(X)$ צפופה. לכן
+          $Y$ חסום כליל.
+      - kind: theorem
+        text: >-
+          $Y$ שלם וחסום כליל, ולפי משפט 3.3.8 ($\Leftarrow$) קומפקטי.
+      - kind: step
+        text: >-
+          ($\Leftarrow$) $Y$ קומפקטי, ולפי משפט 3.3.8 ($\Rightarrow$) חסום כליל; לפי טענה 3.3.5(א) גם $\iota(X)$ חסומה
+          כליל, ולפי טענה 3.3.2ב גם תת-המרחב $(\iota(X),d_Y)$.
+      - kind: step
+        text: >-
+          ההעתקה ההפכית $\iota^{-1}:\iota(X)\to X$ היא איזומטריה (הגדרה וטענה 2.6.1(ב)), ולכן רציפה במידה שווה, ולפי טענה
+          3.3.5(ד) $X=\iota^{-1}(\iota(X))$ חסום כליל.
+      - kind: check
+        text: >-
+          $X=(0,1)$: חסום כליל, וההשלמה $[0,1]$ קומפקטית. $X=\mathbb{R}$ עם $\rho=|\arctan x-\arctan y|$: חסום כליל
+          (טענה 3.3.5(ה)), וההשלמה שלו איזומטרית ל-$[-\frac\pi2,\frac\pi2]$. $X=\mathbb{N}$ במטריקה הבדידה: שלם, ההשלמה
+          היא $X$ עצמו, והוא אינו קומפקטי ואינו חסום כליל.
+      - kind: result
+        text: >-
+          $X$ חסום כליל אם ורק אם ההשלמה שלו קומפקטית.
+
+  - id: W-3.3-09
+    level: exam
+    objectives: [OBJ-3.3-1, OBJ-3.3-2]
+    prompt: >-
+      יהי $(X,d)$ מרחב מטרי ו-$A\subseteq X$. נניח שלכל $\varepsilon>0$ יש קבוצה קומפקטית $K_\varepsilon\subseteq X$ כך
+      שכל נקודה של $A$ במרחק קטן מ-$\varepsilon$ מנקודה של $K_\varepsilon$.
+
+
+      (א) הוכיחו ש-$A$ חסומה כליל.
+
+
+      (ב) הוכיחו שאם $X$ שלם, אז $\overline A$ קומפקטית.
+
+
+      (ג) הראו שבלי שלמות $X$ המסקנה של (ב) עלולה להיכשל.
+    answer: >-
+      (א) $\frac\varepsilon2$-רשת של $K_{\varepsilon/2}$ מכסה את $A$ בכדורים ברדיוס $\varepsilon$, ומשם טענה 3.3.3.
+      (ב) מסקנה 3.3.9(ב). (ג) $X=\mathbb{Q}$, $A=\mathbb{Q}\cap[0,1]$, $K_\varepsilon$ $\varepsilon$-רשת סופית.
+    solution:
+      - kind: idea
+        text: >-
+          כל $K_\varepsilon$ חסומה כליל, ו-$A$ "צמודה" אליה עד $\varepsilon$. רשת של $K$ ברדיוס קטן היא רשת של $A$ ברדיוס
+          כפול; הנקודות שלה אולי לא ב-$A$, ולכן מסיימים בטענה 3.3.3.
+      - kind: step
+        text: >-
+          (א) אם $A=\emptyset$, אין מה להוכיח. יהי $\varepsilon>0$, ו-$K=K_{\varepsilon/2}$; $K\ne\emptyset$ כי $A\ne\emptyset$.
+          לפי משפט 3.3.8 ($\Rightarrow$) בניסוח לתת-קבוצות, $K$ חסומה כליל; תהי $P$ $\frac\varepsilon2$-רשת שלה.
+      - kind: step
+        text: >-
+          יהי $a\in A$. יש $k\in K$ עם $d(a,k)<\frac\varepsilon2$ ו-$p\in P$ עם $d(k,p)<\frac\varepsilon2$, ולכן
+          $d(a,p)<\varepsilon$. כלומר $A\subseteq\bigcup_{p\in P}B(p,\varepsilon)$ עם $P\subseteq X$ סופית.
+      - kind: theorem
+        text: >-
+          זה תנאי (ii) של טענה 3.3.3 לכל $\varepsilon$, ולכן $A$ חסומה כליל.
+      - kind: step
+        text: >-
+          (ב) לפי (א) ומסקנה 3.3.9(ב), $\overline A$ קומפקטית.
+      - kind: step
+        text: >-
+          (ג) $X=\mathbb{Q}$ עם $|x-y|$, $A=\mathbb{Q}\cap[0,1]$. לכל $\varepsilon$, $A$ חסומה כליל (תת-קבוצה של $[0,1]$),
+          ו-$K_\varepsilon$ $\varepsilon$-רשת שלה, קבוצה סופית ולכן קומפקטית (טענה 3.2.4(א)). ההנחה מתקיימת, אבל
+          $\overline A=A$ (סגורה ב-$\mathbb{Q}$, מסקנה 1.3.12) אינה שלמה (טענה 2.1.14(א), הקירובים העשרוניים $q_n$ של $\sqrt2$, סדרת קושי בלי גבול ב-$\mathbb{Q}$; כאן עם $\frac{q_n}2$), ולפי משפט 3.3.8
+          אינה קומפקטית.
+      - kind: check
+        text: >-
+          מקרה פרטי: $K_\varepsilon=K$ קבוצה קומפקטית אחת ו-$A\subseteq K$ נותן את טענה 3.3.5(א) לקבוצות קומפקטיות. ההנחה
+          מאפשרת ל-$K_\varepsilon$ להשתנות עם $\varepsilon$, והיא השימושית: כך מוכיחים חסימות כליל של קבוצת פונקציות
+          ש"כמעט" נמצאת במרחב סופי-ממדי.
+      - kind: result
+        text: >-
+          (א) $A$ חסומה כליל; (ב) $\overline A$ קומפקטית כש-$X$ שלם; (ג) ב-$\mathbb{Q}$ זה נכשל.
+
+  - id: W-3.3-10
+    level: exam
+    objectives: [OBJ-3.3-3]
+    prompt: >-
+      ב-$(C[0,1],d_\infty)$ נתבונן ב-
+
+      $$
+      \begin{aligned}H=\Big\{&f\in C[0,1]:\ f(0)=0,\\&|f(x)-f(y)|\le\sqrt{|x-y|}\\&\forall x,y\in[0,1]\Big\}.\end{aligned}
+      $$
+
+
+      (א) הוכיחו ש-$H$ חסומה כליל, בעזרת תנאי (iii) של טענה 3.3.3: לכל $\varepsilon>0$ חלקו את $H$ למספר סופי של
+      קבוצות בקוטר קטן מ-$\varepsilon$, לפי הערכים של $f$ בנקודות $\frac jm$.
+
+
+      (ב) הוכיחו ש-$H$ קומפקטית.
+    answer: >-
+      (א) עם $\frac1{\sqrt m}<\frac\varepsilon4$, מסווגים $f$ לפי $\big(\lfloor\frac{3f(j/m)}{\varepsilon}\rfloor\big)_{j=0}^m$;
+      בכל מחלקה $\|f-g\|_\infty\le\frac{2}{\sqrt m}+\frac\varepsilon3<\varepsilon$. (ב) $H$ סגורה במרחב השלם, ומסקנה 3.3.9(א).
+    solution:
+      - kind: idea
+        text: >-
+          זיגזגים לא מתאימים כאן: שיפוע לא חסום ליד כל נקודה. במקומם מקבצים את הפונקציות לפי הערכים שלהן במספר סופי של
+          נקודות, מעוגלים לסריג. שתי פונקציות באותה מחלקה קרובות בנקודות הסריג, וחסם ההלדר $\sqrt{|x-y|}$ מעביר את
+          הקרבה לכל הקטע.
+      - kind: step
+        text: >-
+          יהי $\varepsilon>0$, ו-$m\in\mathbb{N}$ עם $\frac1{\sqrt m}<\frac\varepsilon4$ (ארכימדס, $m>\frac{16}{\varepsilon^2}$).
+          לכל $f\in H$ ולכל $x$:
+          $$\begin{aligned}|f(x)|&=|f(x)-f(0)|\\&\le\sqrt x\le1 .\end{aligned}$$
+      - kind: step
+        text: >-
+          לכל $f\in H$ נגדיר $\kappa(f)=(\kappa_0,\dots,\kappa_m)$ עם $\kappa_j=\lfloor\frac{3f(j/m)}{\varepsilon}\rfloor$.
+          כיוון ש-$|f(j/m)|\le1$, כל $\kappa_j$ שלם בין $-\frac3\varepsilon-1$ ל-$\frac3\varepsilon$: מספר סופי של
+          ערכים אפשריים, ולכן $\kappa$ מקבלת מספר סופי של ערכים. $H$ היא האיחוד של המחלקות הלא ריקות
+          $H_\kappa=\{f:\ \kappa(f)=\kappa\}$.
+      - kind: step
+        text: >-
+          יהיו $f,g$ באותה מחלקה. לכל $j$, $f(\frac jm)$ ו-$g(\frac jm)$ באותו קטע $[\frac{\kappa_j\varepsilon}3,\frac{(\kappa_j+1)\varepsilon}3)$,
+          ולכן $|f(\frac jm)-g(\frac jm)|<\frac\varepsilon3$.
+      - kind: computation
+        text: >-
+          יהי $x\in[0,1]$ ו-$j$ עם $|x-\frac jm|\le\frac1m$. לפי אי-שוויון המשולש וחסם ההלדר של $f$ ושל $g$:
+
+          $$
+          \begin{aligned}
+          &|f(x)-g(x)|\\
+          &\ \le|f(x)-f(\tfrac jm)|\\
+          &\qquad+|f(\tfrac jm)-g(\tfrac jm)|\\
+          &\qquad+|g(\tfrac jm)-g(x)|\\
+          &\ <\tfrac2{\sqrt m}+\tfrac\varepsilon3<\tfrac\varepsilon2+\tfrac\varepsilon3 .
+          \end{aligned}
+          $$
+      - kind: step
+        text: >-
+          לכן $d_\infty(f,g)\le\frac{5\varepsilon}6$ לכל $f,g\in H_\kappa$, ו-$\operatorname{diam}H_\kappa\le\frac{5\varepsilon}6<\varepsilon$.
+          לפי טענה 3.3.3 ((iii)$\Rightarrow$(i)) $H$ חסומה כליל.
+      - kind: step
+        text: >-
+          (ב) $H$ סגורה: אם $f_n\in H$ ו-$f_n\to f$ ב-$d_\infty$, אז $f(0)=\lim f_n(0)=0$ ומתקיים
+          $$\begin{aligned}&|f(x)-f(y)|\\&\quad=\lim|f_n(x)-f_n(y)|\\&\quad\le\sqrt{|x-y|}\end{aligned}$$
+          (כמו בשלב 6 של טענה 3.3.10(א)). $(C[0,1],d_\infty)$ שלם (מסקנה 2.2.6(ג)), ולפי מסקנה 3.3.9(א) $H$ קומפקטית.
+      - kind: check
+        text: >-
+          $H\supseteq L$, כי $|x-y|\le\sqrt{|x-y|}$ על $[0,1]$, ו-$\sqrt x\in H\setminus L$ (כי $\sqrt x-\sqrt y\le\sqrt{x-y}$
+          ל-$x\ge y$, אבל השיפוע ב-$0$ אינסופי). עם $\varepsilon=0.5$: $m>64$, כלומר $m=65$ ו-$66$ נקודות סריג $\frac j{65}$, $j=0,\dots,65$. השיטה עובדת לכל
+          "מודולוס" משותף, וזו בדיוק ההוכחה של משפט ארצלה-אסקולי (שיעור 4.3).
+      - kind: result
+        text: '$H$ חסומה כליל וקומפקטית.'
+
+challenge:
+  - id: W-3.3-c1
+    stars: 1
+    objectives: [OBJ-3.3-2, OBJ-3.3-1]
+    prompt: >-
+      יהי $(X,d)$ מרחב מטרי קומפקטי ו-$f:X\to X$ איזומטריה: $d(f(x),f(y))=d(x,y)$ לכל $x,y$.
+
+
+      (א) הוכיחו ש-$f(X)$ סגורה ב-$X$.
+
+
+      (ב) הוכיחו ש-$f$ על. רמז: אם $a\notin f(X)$, התבוננו בסדרה $a,f(a),f(f(a)),\dots$ והשתמשו בחסימות כליל.
+
+
+      (ג) הסיקו ש-$f$ הומיאומורפיזם, והראו שבלי קומפקטיות $f$ אינה חייבת להיות על, גם כש-$X$ שלם וחסום.
+    answer: >-
+      (א) $f(X)$ שלמה, ולכן סגורה. (ב) הסדרה $f^n(a)$ היא $\varepsilon$-מופרדת, בסתירה לחסימות כליל. (ג) $f^{-1}$
+      איזומטריה; $n\mapsto n+1$ על $\mathbb{N}$ הבדיד.
+    solution:
+      - kind: idea
+        text: >-
+          איזומטריה שומרת על כל מרחק, ולכן נקודה שנשארה "בחוץ", במרחק $\varepsilon$ מהתמונה, מולידה מסלול שבו כל שתי
+          נקודות רחוקות $\varepsilon$ לפחות. במרחב חסום כליל אין מסלול כזה.
+      - kind: step
+        text: >-
+          (א) $X$ שלם (משפט 3.3.8). תהי $(f(x_n))$ סדרת קושי ב-$f(X)$. $d(x_n,x_m)=d(f(x_n),f(x_m))$, ולכן $(x_n)$ סדרת
+          קושי, $x_n\to x\in X$, ו-$d(f(x_n),f(x))=d(x_n,x)\to0$. לכן $f(X)$ שלמה, ולפי משפט 2.2.1(ב) סגורה ב-$X$.
+      - kind: step
+        text: >-
+          (ב) נניח בשלילה $a\notin f(X)$. $X\setminus f(X)$ פתוחה, ולכן יש $\varepsilon>0$ עם
+          $B(a,\varepsilon)\cap f(X)=\emptyset$. נגדיר $x_n=f^n(a)$ ל-$n\ge0$ ($f^0(a)=a$).
+      - kind: computation
+        text: >-
+          ל-$0\le m<n$, הפעלת האיזומטריה $m$ פעמים שומרת על המרחק, ו-$f^{n-m}(a)\in f(X)$:
+
+          $$
+          \begin{aligned}
+          &d(x_m,x_n)\\
+          &\quad=d\big(f^m(a),f^m(f^{n-m}(a))\big)\\
+          &\quad=d\big(a,f^{n-m}(a)\big)\ge\varepsilon .
+          \end{aligned}
+          $$
+      - kind: step
+        text: >-
+          לכן $\{x_n:\ n\ge0\}$ היא קבוצה $\varepsilon$-מופרדת ואינסופית (האיברים שונים, כי המרחקים חיוביים). אבל $X$
+          חסום כליל (משפט 3.3.8), ולפי למה 3.3.3א(ג) אין בו קבוצה כזו. סתירה, ו-$f$ על.
+      - kind: step
+        text: >-
+          (ג) $f$ חד-חד-ערכית ורציפה (הגדרה וטענה 2.6.1(ב)) ועל, ו-$f^{-1}$ היא שוב איזומטריה, ולכן רציפה. לפי הגדרה
+          1.6.8(ג) $f$ הומיאומורפיזם.
+      - kind: check
+        text: >-
+          בלי קומפקטיות: $\mathbb{N}$ עם המטריקה הבדידה שלם (טענה 2.1.13) וחסום, ו-$f(n)=n+1$ איזומטריה שאינה על ($1\notin f(\mathbb{N})$).
+          בדיוק חסימות כליל חסרה שם, והמסלול $1,2,3,\dots$ הוא הקבוצה המופרדת. ($x\mapsto x+1$ על $[0,\infty)$ היא איזומטריה שאינה על במרחב שלם אבל לא חסום.)
+      - kind: result
+        text: >-
+          איזומטריה של מרחב מטרי קומפקטי לתוך עצמו היא על, ולכן הומיאומורפיזם.
+    source:
+      name: 'J. R. Munkres, Topology (2nd ed.); reproduced in the MAT4500 exercise session 10, University of Oslo'
+      year: 2000
+      problem: '§28, Exercise 6'
+      url: 'https://www.uio.no/studier/emner/matnat/math/MAT4500/oppgaver/exercise_session_10.pdf'
+      verified: '2026-11-11'
+      adapted: true
+
+  - id: W-3.3-c2
+    stars: 1
+    objectives: [OBJ-3.3-3, OBJ-3.3-2]
+    prompt: >-
+      במרחב $(B(\mathbb{N}),d_\infty)$ של הסדרות הממשיות החסומות $x=(x_1,x_2,\dots)$ (המרחב $B(X)$ של הגדרה 1.1.7 עם
+      $X=\mathbb{N}$, כמו בטענה 3.1.9(ו); $B(\mathbb{N})$ הוא שם של מרחב, לא כדור), עם
+      $d_\infty(x,y)=\sup_n|x_n-y_n|$, תהי $(a_n)$ סדרה חסומה של מספרים אי-שליליים, ונגדיר
+      $H_a=\{x\in B(\mathbb{N}):\ |x_n|\le a_n\ \forall n\}$.
+
+
+      (א) הוכיחו: אם $a_n\to0$, אז $H_a$ קומפקטית. בפרט "קוביית הילברט" $\{x:\ |x_n|\le\frac1n\}$ קומפקטית.
+
+
+      (ב) הוכיחו: אם $a_n\not\to0$, אז $H_a$ אינה חסומה כליל.
+
+
+      (ג) הסיקו שכדור היחידה הסגור של $B(\mathbb{N})$ אינו קומפקטי.
+    answer: >-
+      (א) קיצוץ אחרי $N$ קואורדינטות ורשת בקובייה סופית-ממדית נותנים חסימות כליל; $H_a$ סגורה במרחב השלם $B(\mathbb{N})$.
+      (ב) $\delta e_n$ ל-$n$ עם $a_n\ge\delta$ הן קבוצה $\delta$-מופרדת אינסופית. (ג) $a_n=1$.
+    solution:
+      - kind: idea
+        text: >-
+          הזנב של איבר של $H_a$ קטן במידה שווה כש-$a_n\to0$, ולכן כל איבר קרוב ל"קיצוץ" שלו, שחי במרחב סופי-ממדי, ושם
+          חסום פירושו חסום כליל. כש-$a_n\not\to0$, יש אינסוף כיוונים שבהם אפשר לזוז מרחק קבוע.
+      - kind: step
+        text: >-
+          (א) $H_a\ne\emptyset$: סדרת האפס $\theta$ שייכת לה. יהי $\varepsilon>0$. כיוון ש-$a_n\to0$ יש $N$ עם
+          $a_n<\frac\varepsilon2$ לכל $n>N$. הקובייה $Q=\prod_{n\le N}[-a_n,a_n]\subseteq\mathbb{R}^N$ לא ריקה וחסומה
+          ב-$d_\infty$, ולפי משפט 3.3.6 (עם $p=\infty$ ו-$k=N$) יש לה $\frac\varepsilon2$-רשת סופית $P$. לפי הגדרה 3.3.1
+          נקודות הרשת הן נקודות של הקבוצה: $P\subseteq Q$, כלומר $|p_n|\le a_n$ לכל $p\in P$ ו-$n\le N$.
+      - kind: step
+        text: >-
+          לכל $p\in P$ נגדיר סדרה $\tilde p$: $\tilde p_n=p_n$ ל-$n\le N$ ו-$\tilde p_n=0$ ל-$n>N$. כיוון ש-$P\subseteq Q$,
+          $|\tilde p_n|\le a_n$ לכל $n$, ולכן $\tilde p\in H_a$. יהי $x\in H_a$;
+          $(x_1,\dots,x_N)\in Q$, ויש $p\in P$ עם $\max_{n\le N}|x_n-p_n|<\frac\varepsilon2$. ול-$n>N$:
+          $|x_n-\tilde p_n|=|x_n|\le a_n<\frac\varepsilon2$, ולכן $\sup_{n>N}|x_n|\le\frac\varepsilon2$.
+      - kind: computation
+        text: >-
+          לכן
+
+          $$
+          \begin{aligned}
+          &d_\infty(x,\tilde p)\\
+          &\ \le\max\Big(\max_{n\le N}|x_n-p_n|,\\
+          &\qquad\qquad\sup_{n>N}|x_n|\Big)\\
+          &\ \le\tfrac\varepsilon2<\varepsilon .
+          \end{aligned}
+          $$
+
+          לכן $\{\tilde p:\ p\in P\}\subseteq H_a$ היא $\varepsilon$-רשת, ו-$H_a$ חסומה כליל.
+      - kind: step
+        text: >-
+          סגירות: אם $x^{(k)}\in H_a$ ו-$d_\infty(x^{(k)},x)\to0$, אז לכל $n$, $|x^{(k)}_n-x_n|\le d_\infty(x^{(k)},x)\to0$,
+          ו-$|x_n|=\lim_k|x^{(k)}_n|\le a_n$. לפי מסקנה 1.5.8(ב) $H_a$ סגורה; $B(\mathbb{N})$ שלם (משפט 2.2.4), ולפי מסקנה
+          3.3.9(א) $H_a$ קומפקטית.
+      - kind: step
+        text: >-
+          (ב) $a_n\not\to0$ ו-$a_n\ge0$: יש $\delta>0$ וקבוצה אינסופית $I\subseteq\mathbb{N}$ עם $a_n\ge\delta$ לכל $n\in I$.
+          ל-$n\in I$ תהי $u^{(n)}$ הסדרה עם $\delta$ במקום ה-$n$ ו-$0$ בשאר; $u^{(n)}\in H_a$, ו-$d_\infty(u^{(n)},u^{(m)})=\delta$
+          ל-$n\ne m$. לפי למה 3.3.3א(ג) $H_a$ אינה חסומה כליל, ולכן (משפט 3.3.8) אינה קומפקטית.
+      - kind: step
+        text: >-
+          (ג) עם $a_n=1$, $H_a$ הוא כדור היחידה הסגור, ו-$a_n\not\to0$.
+      - kind: check
+        text: >-
+          המקור עוסק בקוביית הילברט במרחב $\ell_2$; במטריקת הסופרמום ההוכחה פשוטה יותר, כי הזנב נשלט ב-$\sup_{n>N}a_n$ ולא
+          בסכום $\sum_{n>N}a_n^2$. עם $a_n=\frac1n$ ו-$\varepsilon=0.1$: $N=20$, כי $\frac1{21}<0.05\le\frac1{20}$.
+      - kind: result
+        text: >-
+          $H_a$ קומפקטית אם ורק אם $a_n\to0$; קוביית הילברט קומפקטית, כדור היחידה של $B(\mathbb{N})$ לא.
+    source:
+      name: 'B. S. Thomson, J. B. Bruckner, A. M. Bruckner, Elementary Real Analysis (Prentice Hall)'
+      year: 2001
+      problem: 'Chapter 13, Problem 7 (the Hilbert cube is a compact subset of ℓ₂)'
+      url: 'https://www.vaia.com/en-us/textbooks/math/elementary-real-analysis-1-edition/chapter-13/problem-7-show-that-the-hilbert-cube-is-a-compact-subset-of-'
+      verified: '2026-11-11'
+      adapted: true

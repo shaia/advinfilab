@@ -1,0 +1,7 @@
+---
+/** Lesson 3.2 figure: <Spread figure={CoverGame} figureProps={{ preset, presets, n, v0, picks, x, delta, showProbe, showL, probe, … }}>. */
+import CoverGame, { type CoverGameProps } from './CoverGame';
+type Props = CoverGameProps;
+---
+
+<CoverGame client:visible {...Astro.props} />

@@ -1,0 +1,7 @@
+---
+/** Lesson 3.3 figure: <Spread figure={EpsNet} figureProps={{ mode, set, sets, metric, eps, showSep, fn, fns, m, tasks }}>. */
+import EpsNet, { type EpsNetProps } from './EpsNet';
+type Props = EpsNetProps;
+---
+
+<EpsNet client:visible {...Astro.props} />

@@ -1,0 +1,7 @@
+---
+/** Lesson 3.6 figure: <Spread figure={Connect} figureProps={{ mode, modes, region, regions, path, u, y, k, showApproach, tasks }}>. */
+import Connect, { type ConnectProps } from './Connect';
+type Props = ConnectProps;
+---
+
+<Connect client:visible {...Astro.props} />
