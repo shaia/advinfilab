@@ -1,0 +1,486 @@
+# Lesson 7.7 — functional dependence (enrichment).
+# Objectives (src/course.ts):
+#   OBJ-7.7-1  define functional dependence; prove that dependent functions have rank J_f < k at every point
+#   OBJ-7.7-2  constant rank r near a point: locally r of the functions determine the rest (inverse function theorem)
+#   OBJ-7.7-3  test dependence in examples, find the relation, and show what fails without constant rank
+# The definition used throughout: f_1,…,f_k ∈ C¹(U), U ⊆ ℝⁿ open, are functionally dependent on U if there are an
+# open W ⊆ ℝᵏ with f(U) ⊆ W and F ∈ C¹(W) with ∇F(w) ≠ 0 for every w ∈ W such that F(f_1(x),…,f_k(x)) = 0 on U.
+chapter: 7
+questions:
+  - id: Q-7.7-definition
+    type: mc
+    objectives: [OBJ-7.7-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $U\subseteq\mathbb{R}^n$ פתוחה, $f_1,\dots,f_k:U\to\mathbb{R}$ גזירות ברציפות, ו-$f=(f_1,\dots,f_k)$. מהי ההגדרה
+      של "$f_1,\dots,f_k$ תלויות פונקציונלית על $U$"?
+    choices:
+      - text: >-
+          יש קבוצה פתוחה $W\subseteq\mathbb{R}^k$ שמכילה את $f(U)$ ופונקציה גזירה ברציפות $F:W\to\mathbb{R}$ עם
+          $\nabla F(w)\neq0$ לכל $w\in W$, כך ש-$F(f_1(x),\dots,f_k(x))=0$ לכל $x\in U$
+        correct: true
+        feedback: >-
+          נכון. הדרישה $\nabla F\neq0$ היא שהופכת את המשוואה $F=0$ לקשר של ממש: ליד כל נקודה של $W$ אפשר לפי משפט
+          הפונקציה הסתומה לבטא בעזרתה אחד המשתנים $w_i$ באמצעות האחרים.
+      - text: >-
+          יש פונקציה גזירה ברציפות $F:\mathbb{R}^k\to\mathbb{R}$ שאינה זהותית אפס, כך ש-$F(f_1(x),\dots,f_k(x))=0$
+          לכל $x\in U$
+        feedback: >-
+          בהגדרה כזו גם משפחות "חופשיות" לגמרי היו תלויות. על עיגול היחידה הפתוח קחו $f=(x,y)$ ו-$F(u,v)=\left(\max\{0,\,u^2+v^2-1\}\right)^2$:
+          היא גזירה ברציפות, $F(2,0)=9$, והיא מתאפסת על כל העיגול. אבל $J_f=I$ מדרגה 2, ואין שום קשר בין $x$
+          ל-$y$.
+        misconception: MC-c7-dependence-F-nonzero
+      - text: >-
+          יש קבועים $c_1,\dots,c_k$, לא כולם 0, כך ש-$c_1f_1+\dots+c_kf_k=0$ בכל נקודה של $U$
+        feedback: >-
+          זו תלות **לינארית**, המקרה הפרטי שבו $F$ לינארית. $x+y$ ו-$e^{x+y}$ תלויות פונקציונלית על $\mathbb{R}^2$,
+          עם $F(u,v)=v-e^u$ ו-$\nabla F=(-e^u,1)\neq0$, אבל אינן תלויות לינארית.
+        misconception: MC-c7-functional-is-linear
+      - text: >-
+          הדרגה של $J_f(x)$ קטנה מ-$k$ לכל $x\in U$
+        feedback: >-
+          זה תנאי **הכרחי** לתלות (מוכיחים אותו בשיעור), לא ההגדרה, והוא אינו מספיק: ל-$f(t)=(t^3,|t|^3)$ על
+          $(-1,1)$ הדרגה קטנה מ-2 בכל נקודה, ובכל זאת הן אינן תלויות שם.
+        misconception: MC-c7-rank-implies-dependence
+
+  - id: Q-7.7-symmetric-relation
+    type: numeric
+    objectives: [OBJ-7.7-3]
+    level: basic
+    prompt: >-
+      $u=x+y$, $v=xy$, $w=x^2+y^2$ על $\mathbb{R}^2$. יש קבוע $c$ כך ש-$w=u^2+cv$ בכל נקודה. מצאו את $c$.
+    answer: -2
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $u^2=x^2+2xy+y^2=w+2v$, ולכן $w=u^2-2v$. הפונקציה $F(u,v,w)=w-u^2+2v$ גזירה ברציפות על
+      $\mathbb{R}^3$ ו-$\partial_wF=1$, ולכן $\nabla F\neq0$ בכל מקום: שלוש הפונקציות תלויות פונקציונלית על כל
+      $\mathbb{R}^2$.
+    wrongFeedback: >-
+      פתחו את $(x+y)^2$ והשוו ל-$x^2+y^2$.
+    commonWrong:
+      - value: 2
+        feedback: >-
+          טעות סימן: $u^2=w+2v$, ולכן $w=u^2-2v$. בדיקה בנקודה $(1,1)$: $u=2$, $v=1$, $w=2=4-2\cdot1$.
+
+  - id: Q-7.7-rank-at-point
+    type: numeric
+    objectives: [OBJ-7.7-1]
+    level: basic
+    prompt: >-
+      $f=(f_1,f_2,f_3)$ עם $f_1=x+y+z$, $f_2=x^2+y^2+z^2$, $f_3=xy+yz+zx$ על $\mathbb{R}^3$. מהי הדרגה של
+      $J_f(1,2,3)$?
+    answer: 2
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. השורות הן $\nabla f_1=(1,1,1)$, $\nabla f_2=(2,4,6)$, $\nabla f_3=(y+z,\,x+z,\,x+y)=(5,4,3)$. שתי
+      הראשונות בלתי תלויות, ו-$(5,4,3)=6(1,1,1)-\frac12(2,4,6)$. זה מתאים למשפט: $f_2=f_1^2-2f_3$, הפונקציות
+      תלויות, ולכן הדרגה קטנה מ-3 בכל נקודה.
+    wrongFeedback: >-
+      כתבו את שלוש השורות $\nabla f_1$, $\nabla f_2=2(x,y,z)$, $\nabla f_3=(y+z,x+z,x+y)$ בנקודה, ובדקו אם השלישית
+      צירוף לינארי של שתי הראשונות.
+    commonWrong:
+      - value: 3
+        feedback: >-
+          שלוש פונקציות שנראות שונות אינן בהכרח בלתי תלויות: $(5,4,3)=6(1,1,1)-\frac12(2,4,6)$, ולכן
+          $\det J_f(1,2,3)=0$.
+      - value: 1
+        feedback: >-
+          הדרגה 1 רק על הישר $x=y=z$, שם $(x,y,z)$ מקביל ל-$(1,1,1)$. ב-$(1,2,3)$ השורות $(1,1,1)$ ו-$(2,4,6)$ אינן
+          מקבילות.
+
+  - id: Q-7.7-statement
+    type: mc
+    objectives: [OBJ-7.7-2]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $U\subseteq\mathbb{R}^n$ פתוחה, $f=(f_1,\dots,f_k):U\to\mathbb{R}^k$ גזירה ברציפות, $a\in U$, והדרגה של
+      $J_f(x)$ שווה ל-$r<k$ לכל $x$ בסביבה של $a$. נניח ש-$\nabla f_1(a),\dots,\nabla f_r(a)$ בלתי תלויים לינארית.
+      מה נותן המשפט על דרגה קבועה?
+    choices:
+      - text: >-
+          סביבה $V\ni a$, קבוצה פתוחה $O\subseteq\mathbb{R}^r$ ופונקציות גזירות ברציפות $G_{r+1},\dots,G_k:O\to\mathbb{R}$,
+          כך ש-$f_j(x)=G_j(f_1(x),\dots,f_r(x))$ לכל $x\in V$ ולכל $j>r$
+        correct: true
+        feedback: >-
+          נכון. המסקנה מקומית, והפונקציות שקובעות את השאר הן אלה שהשורות שלהן בלתי תלויות ב-$a$.
+      - text: >-
+          פונקציות גזירות ברציפות $G_j$ כך ש-$f_j=G_j(f_1,\dots,f_r)$ על **כל** $U$, לכל $j>r$
+        feedback: >-
+          המשפט מקומי. ל-$f=(\sin t,\ \sin t\cos t)$ על $\mathbb{R}$ הדרגה 1 בכל נקודה, אבל ב-$t=\frac{\pi}{6}$
+          וב-$t=\frac{5\pi}{6}$ הערך של $f_1$ הוא $\frac12$ בשתיהן, ו-$f_2$ שווה ל-$\frac{\sqrt3}{4}$ ול-$-\frac{\sqrt3}{4}$:
+          אין פונקציה $G$ אחת עם $f_2=G(f_1)$ על כל $\mathbb{R}$.
+        misconception: MC-c7-constant-rank-global
+      - text: >-
+          סביבה $V\ni a$ שבה **כל** $r$ מהפונקציות קובעות את השאר כפונקציות גזירות ברציפות שלהן
+        feedback: >-
+          רק $r$ פונקציות שהשורות שלהן בלתי תלויות. ל-$f_1=x+y$, $f_2=z$, $f_3=x+y+z^2$ הדרגה 2 בכל מקום, אבל
+          באף סביבה של הראשית $f_1$ ו-$f_3$ אינן קובעות את $f_2$: בנקודות $(0,0,s)$ ו-$(0,0,-s)$ הערכים של $f_1$ ו-$f_3$
+          שווים (0 ו-$s^2$), ו-$f_2=\pm s$.
+        misconception: MC-c7-any-r-functions
+      - text: >-
+          אותה מסקנה, וההנחה על הדרגה בכל הסביבה מיותרת: די שהדרגה של $J_f(a)$ היא $r$
+        feedback: >-
+          ל-$f_1=x$, $f_2=xy$ בראשית $J_f(0,0)=\begin{pmatrix}1&0\\0&0\end{pmatrix}$ מדרגה 1, אבל בכל סביבה של הראשית
+          יש נקודות $(\varepsilon,1)$ ו-$(\varepsilon,2)$ עם אותו $f_1$ וערכים שונים של $f_2$. שם $x\neq0$ והדרגה 2.
+        misconception: MC-c7-rank-at-point-enough
+
+  - id: Q-7.7-which-dependent
+    type: multi
+    objectives: [OBJ-7.7-1, OBJ-7.7-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      אילו מהזוגות תלויים פונקציונלית על $\mathbb{R}^2$? סמנו את כולם.
+    choices:
+      - text: '$f_1=x+y$, $f_2=e^{x+y}$'
+        correct: true
+        feedback: >-
+          נכון: $F(u,v)=v-e^u$ על $W=\mathbb{R}^2$, עם $\nabla F=(-e^u,1)\neq0$. הן אינן תלויות לינארית, ובכל זאת
+          תלויות פונקציונלית.
+      - text: '$f_1=\sin(x+y)$, $f_2=\cos(x+y)$'
+        correct: true
+        feedback: >-
+          נכון: התמונה היא מעגל היחידה. $F(u,v)=u^2+v^2-1$ על $W=\mathbb{R}^2\setminus\{0\}$, שהיא פתוחה ומכילה את
+          המעגל, ו-$\nabla F=2(u,v)\neq0$ על $W$. לכן ההגדרה דורשת $W$ שמכילה את התמונה, לא את כל $\mathbb{R}^k$.
+      - text: '$f_1=xy$, $f_2=x^2y^2+1$'
+        correct: true
+        feedback: >-
+          נכון: $f_2=f_1^2+1$, ו-$F(u,v)=v-u^2-1$ עם $\partial_vF=1$.
+      - text: '$f_1=x$, $f_2=xy$'
+        feedback: >-
+          $J_f=\begin{pmatrix}1&0\\y&x\end{pmatrix}$, עם $\det J_f=x$. הדרגה יורדת ל-1 רק על הציר $x=0$; ב-$(1,0)$
+          היא 2, ותלות הייתה מחייבת דרגה קטנה מ-2 **בכל** נקודה.
+        misconception: MC-c7-rank-at-point-enough
+      - text: '$f_1=x^2+y^2$, $f_2=x^2-y^2$'
+        feedback: >-
+          $\det J_f=\det\begin{pmatrix}2x&2y\\2x&-2y\end{pmatrix}=-8xy$, ששונה מאפס ב-$(1,1)$. הדרגה יורדת רק על
+          הצירים, וזה לא מספיק לתלות.
+        misconception: MC-c7-rank-at-point-enough
+
+  - id: Q-7.7-proof-rank
+    type: rank
+    objectives: [OBJ-7.7-1]
+    level: mid
+    prompt: >-
+      הוכיחו: אם $f_1,\dots,f_k$ תלויות פונקציונלית על $U$ (עם $W$ ו-$F$ כמו בהגדרה), אז הדרגה של $J_f(x)$ קטנה
+      מ-$k$ לכל $x\in U$.
+    help: סדרו את שלבי ההוכחה, מהראשון לאחרון.
+    items:
+      - id: fix
+        label: 'קובעים $x\in U$. הפונקציה $F\circ f$ מתאפסת על הקבוצה הפתוחה $U$, ולכן $D(F\circ f)(x)=0$.'
+      - id: chain
+        label: 'לפי כלל השרשרת $D(F\circ f)(x)=DF(f(x))\,Df(x)$, כלומר $\sum_{i=1}^k\partial_iF(f(x))\,\nabla f_i(x)=0$.'
+      - id: coeff
+        label: 'מקדמי הצירוף הזה הם הרכיבים של $\nabla F(f(x))$, והם לא כולם 0, כי $f(x)\in W$ ו-$\nabla F\neq0$ על $W$.'
+      - id: dep
+        label: 'לכן השורות $\nabla f_1(x),\dots,\nabla f_k(x)$ של $J_f(x)$ תלויות לינארית.'
+      - id: rank
+        label: 'הדרגה היא המספר המרבי של שורות בלתי תלויות, ולכן היא קטנה מ-$k$.'
+    order: [fix, chain, coeff, dep, rank]
+    correctFeedback: >-
+      נכון. הרעיון: הקשר $F=0$ הוא זהות על $U$, ולכן גם הנגזרת שלו מתאפסת; כלל השרשרת הופך את זה לצירוף לינארי של
+      השורות, ו-$\nabla F\neq0$ מבטיח שהצירוף אינו טריוויאלי.
+    wrongFeedback: >-
+      קודם גוזרים את הזהות $F\circ f=0$, אחר כך פותחים את הנגזרת בכלל השרשרת, ורק אז משתמשים ב-$\nabla F\neq0$ כדי
+      שהצירוף לא יהיה טריוויאלי.
+
+  - id: Q-7.7-why-grad-nonzero
+    type: twotier
+    objectives: [OBJ-7.7-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      נחליש את ההגדרה ונדרוש רק פונקציה גזירה ברציפות $F:\mathbb{R}^k\to\mathbb{R}$ שאינה זהותית אפס, עם
+      $F(f_1,\dots,f_k)=0$ בכל נקודה של $U$. האם עדיין נכון שלמשפחה "תלויה" במובן הזה הדרגה של $J_f(x)$ קטנה מ-$k$
+      בכל נקודה?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. בלי $\nabla F\neq0$ על התמונה ההוכחה נשברת, ויש דוגמה נגדית.
+      - text: כן
+        feedback: >-
+          ראו את הדוגמה בנימוק הנכון: המשפחה $(x,y)$ על עיגול היחידה "תלויה" במובן המוחלש, והדרגה שלה 2.
+        misconception: MC-c7-dependence-F-nonzero
+    reasons:
+      - text: >-
+          $f=(x,y)$ על עיגול היחידה הפתוח ו-$F(u,v)=\left(\max\{0,\,u^2+v^2-1\}\right)^2$: היא גזירה ברציפות,
+          $F(2,0)=9$, ו-$F\circ f=0$ על העיגול, אבל $J_f=I$ מדרגה 2
+        correct: true
+        feedback: >-
+          בדיוק. $F=\varphi(u^2+v^2-1)$ עם $\varphi(s)=\max\{0,s\}^2$, ו-$\varphi'(s)=2\max\{0,s\}$ רציפה. על העיגול
+          הסגור $\nabla F=0$, ולכן בכלל השרשרת כל המקדמים 0 והצירוף טריוויאלי.
+      - text: >-
+          ההוכחה משתמשת רק ב-$F\circ f=0$ ובכלל השרשרת, ולכן היא עוברת גם כאן
+        feedback: >-
+          כלל השרשרת נותן $\sum_i\partial_iF(f(x))\nabla f_i(x)=0$. זו תלות לינארית בין השורות רק אם המקדמים
+          $\partial_iF(f(x))$ אינם כולם 0, וזה בדיוק $\nabla F(f(x))\neq0$.
+        misconception: MC-c7-dependence-F-nonzero
+      - text: >-
+          אם $F$ אינה זהותית אפס, הגרדיאנט שלה שונה מאפס באיזו נקודה של $f(U)$
+        feedback: >-
+          $F$ יכולה להתאפס יחד עם הגרדיאנט שלה על כל התמונה ולהיות שונה מאפס רק מחוץ לה, כמו בדוגמה עם העיגול.
+        misconception: MC-c7-dependence-F-nonzero
+
+  - id: Q-7.7-diagonal
+    type: twotier
+    objectives: [OBJ-7.7-1, OBJ-7.7-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $f_1=x+y+z$, $f_2=x^2+y^2+z^2$, $f_3=xy+yz+zx$ על $\mathbb{R}^3$. הדרגה של $J_f$ היא 2 מחוץ לישר
+      $x=y=z$ ו-1 עליו, ולכן אינה קבועה באף סביבה של $(1,1,1)$. האם $f_1,f_2,f_3$ תלויות פונקציונלית בסביבה של
+      $(1,1,1)$?
+    choices:
+      - text: כן
+        correct: true
+        feedback: >-
+          נכון, ואפילו על כל $\mathbb{R}^3$.
+      - text: לא
+        feedback: >-
+          ראו את הקשר המפורש בנימוק הנכון. כשהנחת המשפט על דרגה קבועה נכשלת, המשפט שותק; הוא לא אומר שאין קשר.
+        misconception: MC-c7-rank-drop-independent
+    reasons:
+      - text: >-
+          $F(u,v,w)=v-u^2+2w$ מקיימת $F\circ f=0$ על $\mathbb{R}^3$, ו-$\nabla F=(-2u,1,2)\neq0$ בכל מקום
+        correct: true
+        feedback: >-
+          בדיוק: $(x+y+z)^2=f_2+2f_3$. דרגה קבועה היא תנאי **מספיק** לקשר מקומי, לא הכרחי.
+      - text: >-
+          המשפט על דרגה קבועה אינו חל ליד $(1,1,1)$, ולכן אין שם קשר
+        feedback: >-
+          זו הטעות של היפוך כיוון: המשפט נותן קשר כשהדרגה קבועה, ולא טוען דבר כשהיא אינה קבועה. כאן הקשר
+          $f_2=f_1^2-2f_3$ מתקיים בכל מקום.
+        misconception: MC-c7-rank-drop-independent
+      - text: >-
+          הדרגה קטנה מ-3 בכל נקודה, וזה כבר גורר תלות
+        feedback: >-
+          המסקנה נכונה כאן, אבל הנימוק לא: דרגה קטנה מ-$k$ בכל נקודה אינה גוררת תלות. ל-$(t^3,|t|^3)$ על $(-1,1)$
+          הדרגה קטנה מ-2 בכל נקודה, ואין שם קשר $F$ עם $\nabla F\neq0$.
+        misconception: MC-c7-rank-implies-dependence
+
+  - id: Q-7.7-G-derivative
+    type: numeric
+    objectives: [OBJ-7.7-2]
+    level: mid
+    prompt: >-
+      $u=\arctan x+\arctan y$ ו-$v=\frac{x+y}{1-xy}$ על $U=\{(x,y):xy<1\}$. בדקו ש-$\det J=0$ בכל $U$; כיוון ש-$\nabla u\neq0$,
+      הדרגה 1 בכל מקום, ולפי המשפט על דרגה קבועה יש ליד $(1,0)$ פונקציה גזירה ברציפות $G$ עם $v=G(u)$. בלי למצוא
+      את $G$, חשבו את $G'\left(\frac{\pi}{4}\right)$ (שימו לב ש-$u(1,0)=\frac{\pi}{4}$).
+    answer: 2
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. גוזרים את $v(x,y)=G(u(x,y))$ בכלל השרשרת: $\nabla v=G'(u)\,\nabla u$. ב-$(1,0)$:
+      $\nabla u=\left(\frac{1}{1+x^2},\frac{1}{1+y^2}\right)=\left(\frac12,1\right)$ ו-
+      $\nabla v=\left(\frac{1+y^2}{(1-xy)^2},\frac{1+x^2}{(1-xy)^2}\right)=(1,2)$, ולכן $G'\left(\frac{\pi}{4}\right)=2$.
+      ואכן $G=\tan$, ו-$\tan'\left(\frac{\pi}{4}\right)=\frac{1}{\cos^2(\pi/4)}=2$.
+    wrongFeedback: >-
+      גזרו את הזהות $v=G(u)$ לפי $x$ (או לפי $y$) בכלל השרשרת, והציבו $(1,0)$.
+    commonWrong:
+      - value: 0.5
+        feedback: >-
+          $\frac12=\frac{\partial_xu}{\partial_xv}$: הפכתם את המנה. זו הנגזרת של $u$ כפונקציה של $v$, כלומר
+          $\arctan'(1)$. מ-$\nabla v=G'(u)\nabla u$ יוצא $G'=\frac{\partial_xv}{\partial_xu}$.
+        misconception: MC-c7-implicit-inverted-ratio
+      - value: 1
+        feedback: >-
+          1 הוא $G'(0)$, הנגזרת בנקודה $u(0,0)=0$. הנקודה כאן היא $u(1,0)=\frac{\pi}{4}$, ושם השיפוע 2.
+
+  - id: Q-7.7-which-pair
+    type: multi
+    objectives: [OBJ-7.7-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $f_1=x+y$, $f_2=z$, $f_3=x+y+z^2$ על $\mathbb{R}^3$, והדרגה של $J_f$ היא 2 בכל נקודה. אילו מהטענות נכונות?
+      סמנו את כולן.
+    choices:
+      - text: 'יש סביבה של הראשית ופונקציה גזירה ברציפות $G$ עם $f_3=G(f_1,f_2)$ שם'
+        correct: true
+        feedback: >-
+          נכון: $f_3=f_1+f_2^2$. ב-$(0,0,0)$ השורות $(1,1,0)$ ו-$(0,0,1)$ בלתי תלויות, כמו שהמשפט דורש.
+      - text: 'יש סביבה של הראשית ופונקציה גזירה ברציפות $G$ עם $f_1=G(f_2,f_3)$ שם'
+        correct: true
+        feedback: >-
+          נכון: $f_1=f_3-f_2^2$. גם השורות $(0,0,1)$ ו-$(1,1,2z)$ בלתי תלויות בכל נקודה.
+      - text: 'יש סביבה של הראשית ופונקציה $G$ עם $f_2=G(f_1,f_3)$ שם'
+        feedback: >-
+          לא, אפילו לא פונקציה לא רציפה: בכל סביבה יש $(0,0,s)$ ו-$(0,0,-s)$, עם $f_1=0$ ו-$f_3=s^2$ בשתיהן,
+          אבל $f_2=\pm s$. בראשית השורות של $f_1$ ושל $f_3$ שוות, $(1,1,0)$, ולכן שתיהן לא יכולות לשמש כ-$r=2$
+          הפונקציות של המשפט.
+        misconception: MC-c7-any-r-functions
+      - text: '$f_1,f_2,f_3$ תלויות פונקציונלית על כל $\mathbb{R}^3$'
+        correct: true
+        feedback: >-
+          נכון: $F(u,v,w)=w-u-v^2$ עם $\partial_wF=1\neq0$.
+
+  - id: Q-7.7-arctan-branch
+    type: numeric
+    objectives: [OBJ-7.7-3]
+    level: mid
+    prompt: >-
+      $u=\arctan x+\arctan y$ ו-$v=\frac{x+y}{1-xy}$ מוגדרות על $\{xy\neq1\}$, ושם $\nabla u=\frac{\nabla v}{1+v^2}$
+      (בדקו בעזרת הזהות $(1-xy)^2+(x+y)^2=(1+x^2)(1+y^2)$). לכן $h=u-\arctan v$ מקיימת $\nabla h=0$, והיא קבועה
+      על הקבוצה הקמורה $D=\{(x,y):x>0,\ xy>1\}$. מצאו את הקבוע.
+    answer: 3.14159265
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון, $h=\pi$ על $D$. למשל ב-$(1,2)$: $u=\frac{\pi}{4}+\arctan2\approx1.8925$, $v=\frac{3}{1-2}=-3$,
+      $\arctan(-3)\approx-1.2490$, וההפרש $\pi$. על $D$ מתקיים $u>\arctan x+\arctan\frac1x=\frac{\pi}{2}$, בעוד
+      $\arctan v<\frac{\pi}{2}$. לכן הקשר $u=\arctan v$ נכון רק על $\{xy<1\}$, ועל $D$ הקשר הוא $u=\arctan v+\pi$.
+    wrongFeedback: >-
+      הקבוע הוא הערך של $h$ בנקודה כלשהי של $D$: הציבו נקודה נוחה כמו $(1,2)$.
+    commonWrong:
+      - value: 0
+        feedback: >-
+          $h=0$ על $\{xy<1\}$, ליד הראשית. אבל $\{xy\neq1\}$ אינה קשירה: $\nabla h=0$ נותן קבוע **בכל רכיב בנפרד**,
+          וב-$D$ הקבוע $\pi$.
+        misconception: MC-c5-zero-derivative-disconnected
+      - value: -3.14159265
+        feedback: >-
+          $-\pi$ הוא הקבוע ברכיב השלישי $\{x<0,\ xy>1\}$, למשל ב-$(-2,-2)$. ב-$D$ הרכיבים חיוביים, $u>\frac{\pi}{2}$,
+          והקבוע $\pi$.
+        misconception: MC-c5-zero-derivative-disconnected
+
+  - id: Q-7.7-constant-rank-proof
+    type: rank
+    objectives: [OBJ-7.7-2]
+    level: exam
+    prompt: >-
+      הוכיחו: $U\subseteq\mathbb{R}^n$ פתוחה, $f=(f_1,\dots,f_k):U\to\mathbb{R}^k$ גזירה ברציפות, הדרגה של $J_f(x)$
+      שווה ל-$r<k$ לכל $x$ בסביבה של $a$, והמטריצה $\left(\partial_jf_i(a)\right)_{i,j\le r}$ הפיכה. אז יש סביבה
+      $V\ni a$ ופונקציות גזירות ברציפות $G_j$ כך ש-$f_j=G_j(f_1,\dots,f_r)$ על $V$ לכל $j>r$.
+    help: סדרו את שלבי ההוכחה, מהראשון לאחרון.
+    items:
+      - id: defPhi
+        label: 'מגדירים $\Phi(x)=(f_1(x),\dots,f_r(x),x_{r+1},\dots,x_n)$. היא גזירה ברציפות, $J_\Phi(a)$ משולשית בבלוקים, ו-$\det J_\Phi(a)=\det\left(\partial_jf_i(a)\right)_{i,j\le r}\neq0$.'
+      - id: invPhi
+        label: 'לפי משפט הפונקציה ההפוכה יש סביבה $V\ni a$ שבה הדרגה של $J_f$ היא $r$, ו-$\Phi$ מעתיקה אותה באופן חח"ע על תיבה פתוחה $Q\ni\Phi(a)$ עם הופכית גזירה ברציפות $\Psi:Q\to V$.'
+      - id: form
+        label: 'כיוון ש-$\Phi\circ\Psi=\mathrm{id}$, מתקיים $f\circ\Psi(y)=(y_1,\dots,y_r,h_{r+1}(y),\dots,h_k(y))$ עם $h_j=f_j\circ\Psi$.'
+      - id: rankcomp
+        label: 'לפי כלל השרשרת $J_{f\circ\Psi}(y)=J_f(\Psi(y))\,J_\Psi(y)$, ו-$J_\Psi(y)$ הפיכה, ולכן הדרגה של $J_{f\circ\Psi}(y)$ היא $r$ לכל $y\in Q$.'
+      - id: zero
+        label: 'ב-$r$ השורות הראשונות של $J_{f\circ\Psi}(y)$ עומדת המטריצה $(I_r\ 0)$, והן כבר מדרגה $r$. לכן כל שורה אחרת היא צירוף שלהן, והרכיבים שלה בעמודות $s>r$ מתאפסים: $\partial_sh_j=0$ על $Q$.'
+      - id: defG
+        label: '$Q$ קמורה, ולכן $h_j$ אינה תלויה ב-$y_{r+1},\dots,y_n$ (שיעור 5.6). מגדירים $G_j(z)=h_j(z,a_{r+1},\dots,a_n)$, ואז $f_j=h_j\circ\Phi=G_j(f_1,\dots,f_r)$ על $V$.'
+    order: [defPhi, invPhi, form, rankcomp, zero, defG]
+    correctFeedback: >-
+      נכון. הרעיון: משלימים את $f_1,\dots,f_r$ לקואורדינטות חדשות $\Phi$ בעזרת המשתנים החופשיים. בקואורדינטות
+      האלה $r$ הפונקציות הראשונות הן פשוט $y_1,\dots,y_r$, והדרגה הקבועה מכריחה את כל השאר לא לזוז בכיוונים
+      $y_{r+1},\dots,y_n$.
+    wrongFeedback: >-
+      קודם בונים את $\Phi$ ובודקים שמשפט הפונקציה ההפוכה חל עליה, אחר כך עוברים לקואורדינטות $y=\Phi(x)$, משתמשים
+      בדרגה הקבועה כדי לאפס נגזרות, ורק בסוף מגדירים את $G_j$.
+
+  - id: Q-7.7-why-constant
+    type: mc
+    objectives: [OBJ-7.7-2]
+    qualitative: true
+    level: exam
+    prompt: >-
+      בהוכחה של המשפט על דרגה קבועה (עם $\Phi(x)=(f_1(x),\dots,f_r(x),x_{r+1},\dots,x_n)$ וההופכית $\Psi$), איפה
+      משתמשים בכך שהדרגה של $J_f(x)$ היא $r$ **בכל** נקודה ליד $a$, ולא רק ב-$a$?
+    choices:
+      - text: >-
+          כדי לקבל $\partial_sh_j=0$ לכל $s>r$ בכל נקודה של התיבה $Q$, ולא רק ב-$\Phi(a)$
+        correct: true
+        feedback: >-
+          נכון. נגזרת שמתאפסת בנקודה אחת לא הופכת את $h_j$ לבלתי תלויה ב-$y_s$; כדי להסיק ש-$h_j$ קבועה בכיוונים
+          האלה צריך $\partial_sh_j=0$ על כל $Q$, ושם הדרגה בכל נקודה נכנסת.
+      - text: >-
+          כדי להפעיל את משפט הפונקציה ההפוכה על $\Phi$
+        feedback: >-
+          משפט הפונקציה ההפוכה דורש רק $\det J_\Phi(a)\neq0$, תנאי בנקודה $a$ בלבד, וזה נובע מההפיכות של המינור
+          $\left(\partial_jf_i(a)\right)_{i,j\le r}$.
+        misconception: MC-c7-rank-at-point-enough
+      - text: >-
+          אין בזה צורך: מספיק שהדרגה של $J_f(a)$ היא $r$, וההנחה נכתבת רק לנוחות
+        feedback: >-
+          ההנחה הכרחית: ל-$f_1=x$, $f_2=xy$ הדרגה בראשית 1, אבל אין סביבה של הראשית שבה $f_2=G(f_1)$, כי
+          $(\varepsilon,1)$ ו-$(\varepsilon,2)$ נותנות אותו $f_1$ וערכים שונים של $f_2$.
+        misconception: MC-c7-rank-at-point-enough
+
+  - id: Q-7.7-v-shape
+    type: twotier
+    objectives: [OBJ-7.7-3, OBJ-7.7-1]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $f_1(t)=t^3$ ו-$f_2(t)=|t|^3$ על $U=(-1,1)$. שתיהן גזירות ברציפות ($f_2'(t)=3t|t|$), ו-$J_f(t)$ היא עמודה
+      אחת $\begin{pmatrix}3t^2\\3t|t|\end{pmatrix}$, ולכן הדרגה קטנה מ-2 בכל נקודה: 1 כש-$t\neq0$ ו-0 ב-$t=0$. האם
+      $f_1,f_2$ תלויות פונקציונלית על $U$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. על $(0,1)$ ועל $(-1,0)$ בנפרד הן תלויות ($f_2=f_1$ ו-$f_2=-f_1$), אבל אין קשר אחד עם $\nabla F\neq0$
+          שעובר דרך $t=0$.
+      - text: כן
+        feedback: >-
+          דרגה קטנה מ-$k$ היא תנאי הכרחי לתלות, לא מספיק. ראו את הנימוק הנכון.
+        misconception: MC-c7-rank-implies-dependence
+    reasons:
+      - text: >-
+          אם $F$ ו-$W$ כמו בהגדרה, אז $F(s,s)=0$ ל-$s\in[0,1)$ ו-$F(s,-s)=0$ ל-$s\in(-1,0]$. הנגזרות החד-צדדיות
+          ב-$s=0$ נותנות $\nabla F(0,0)\cdot(1,1)=0$ ו-$\nabla F(0,0)\cdot(1,-1)=0$, כלומר $\nabla F(0,0)=0$, בסתירה
+        correct: true
+        feedback: >-
+          בדיוק. $F$ דיפרנציאבילית ב-$(0,0)=f(0)\in W$, ולכן $\varphi(s)=F(s,s)$ גזירה ב-0 עם
+          $\varphi'(0)=\nabla F(0,0)\cdot(1,1)$; כיוון ש-$\varphi=0$ על $[0,1)$, הנגזרת מימין 0. התמונה היא הצורה
+          $v=|u|$, עם "פינה" בראשית, וקבוצת אפסים של $F$ עם $\nabla F\neq0$ היא ליד כל נקודה גרף גזיר (שיעור 7.3).
+      - text: >-
+          $f_2=|f_1|$, ולכן $F(u,v)=v-|u|$ מראה שהן תלויות
+        feedback: >-
+          ההגדרה דורשת $F$ גזירה ברציפות על קבוצה פתוחה שמכילה את התמונה, ו-$v-|u|$ אינה גזירה ב-$(0,0)=f(0)$.
+          קשר כלשהו אינו מספיק.
+        misconception: MC-c7-dependence-nonsmooth-F
+      - text: >-
+          הדרגה קטנה מ-2 בכל נקודה, ולכן לפי המשפט יש קשר
+        feedback: >-
+          המשפט שהוכח הוא בכיוון ההפוך (תלות גוררת דרגה קטנה), והמשפט על דרגה קבועה דורש דרגה **קבועה** בסביבה.
+          ב-$t=0$ הדרגה קופצת מ-1 ל-0.
+        misconception: MC-c7-rank-implies-dependence
+
+  - id: Q-7.7-lemniscate
+    type: twotier
+    objectives: [OBJ-7.7-3, OBJ-7.7-2]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $f_1(t)=\sin t$ ו-$f_2(t)=\sin t\cos t$ על $\mathbb{R}$. הנגזרת $f'(t)=(\cos t,\ \cos2t)$ אינה מתאפסת לעולם (אם
+      $\cos t=0$ אז $\cos2t=-1$), ולכן הדרגה של $J_f$ היא 1 בכל נקודה, ולפי המשפט על דרגה קבועה ליד כל $t_0$ אחת
+      הפונקציות קובעת את השנייה. האם $f_1,f_2$ תלויות פונקציונלית על כל $\mathbb{R}$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: >-
+          נכון. התלות מקומית בלבד: ליד $t=0$ מתקיים $f_2=f_1\sqrt{1-f_1^2}$, וליד $t=\pi$ מתקיים
+          $f_2=-f_1\sqrt{1-f_1^2}$, ושני הענפים עוברים דרך הראשית בכיוונים שונים.
+      - text: כן
+        feedback: >-
+          דרגה קבועה נותנת קשר **ליד כל נקודה**, לא קשר אחד על כל התחום. ראו את הנימוק הנכון.
+        misconception: MC-c7-constant-rank-global
+    reasons:
+      - text: >-
+          $f(0)=f(\pi)=(0,0)$, עם $f'(0)=(1,1)$ ו-$f'(\pi)=(-1,1)$. אם $F(f(t))=0$ לכל $t$, גזירה נותנת
+          $\nabla F(f(t))\cdot f'(t)=0$, וב-$t=0$ וב-$t=\pi$ יוצא ש-$\nabla F(0,0)$ ניצב לשני וקטורים בלתי תלויים,
+          כלומר $\nabla F(0,0)=0$
+        correct: true
+        feedback: >-
+          בדיוק. העקום (הלמניסקטה של ג'רונו) חוצה את עצמו בראשית בשני כיוונים, וקבוצת אפסים של $F$ עם
+          $\nabla F\neq0$ אינה יכולה להכיל שני ענפים כאלה.
+      - text: >-
+          התמונה מקיימת $y^2=x^2(1-x^2)$, ולכן $F(x,y)=y^2-x^2+x^4$ מראה תלות
+        feedback: >-
+          $F\circ f=0$ אכן, אבל $\nabla F=(-2x+4x^3,\ 2y)$ מתאפס ב-$(0,0)$, שהיא נקודה של התמונה. ההגדרה דורשת
+          $\nabla F\neq0$ על קבוצה פתוחה שמכילה את כל התמונה.
+        misconception: MC-c7-dependence-F-nonzero
+      - text: >-
+          הדרגה היא 1 בכל $\mathbb{R}$, ולכן הקשר המקומי מתפשט לקשר אחד על כל $\mathbb{R}$
+        feedback: >-
+          המשפט מקומי, והקשרים המקומיים שונים: ב-$t=\frac{\pi}{6}$ וב-$t=\frac{5\pi}{6}$ הערך של $f_1$ הוא
+          $\frac12$, ו-$f_2$ שווה ל-$\pm\frac{\sqrt3}{4}$.
+        misconception: MC-c7-constant-rank-global

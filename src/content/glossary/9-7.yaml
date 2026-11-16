@@ -1,0 +1,48 @@
+# Terms first defined in lesson 9.7 (Sard's theorem and partitions of unity).
+- id: critical-value
+  term: ערך קריטי
+  en: critical value
+  definition: >-
+    ל-$f:U\to\mathbb{R}^n$ גזירה ברציפות, $U\subseteq\mathbb{R}^n$ פתוחה: נקודה $x\in U$ קריטית אם
+    $\det J_f(x)=0$, ו-$y\in\mathbb{R}^n$ ערך קריטי אם $y=f(x)$ לנקודה קריטית $x$ אחת לפחות. ערך שאינו קריטי הוא
+    ערך רגולרי, גם כשאינו בתמונה של $f$.
+  lesson: '9.7'
+- id: sard-theorem
+  term: משפט סארד
+  en: Sard's theorem
+  definition: >-
+    אם $U\subseteq\mathbb{R}^n$ פתוחה ו-$f:U\to\mathbb{R}^n$ גזירה ברציפות, קבוצת הערכים הקריטיים של $f$ ממידה אפס.
+    המשפט מדבר על הערכים, לא על הנקודות: להעתקה קבועה כל נקודה קריטית, ויש לה ערך קריטי אחד.
+  reject: [משפט סרד]
+  lesson: '9.7'
+- id: support
+  term: תומך
+  en: support
+  symbol: '\operatorname{supp}h'
+  definition: >-
+    התומך של $h:\mathbb{R}^n\to\mathbb{R}$ הוא הסגור $\overline{\{x: h(x)\neq0\}}$. הוא סגור תמיד, ויכול להיות גדול
+    מהקבוצה שבה $h\neq0$: התומך של $\max(0,t)$ הוא $[0,\infty)$.
+  lesson: '9.7'
+- id: bump-function
+  term: פונקציית בליטה
+  en: bump function
+  definition: >-
+    פונקציה גזירה אינסוף פעמים, אי-שלילית, שחיובית בדיוק בקבוצה פתוחה נתונה ומתאפסת מחוצה לה. לתיבה פתוחה
+    $R=(a_1,b_1)\times\dots\times(a_n,b_n)$: $\psi_R(x)=\prod_{i=1}^n\varphi(x_i-a_i)\varphi(b_i-x_i)$, כש-$\varphi(t)=e^{-1/t}$
+    ל-$t>0$ ו-$\varphi(t)=0$ ל-$t\le0$.
+  lesson: '9.7'
+- id: locally-finite-family
+  term: משפחה סופית מקומית
+  en: locally finite family
+  definition: >-
+    משפחה של פונקציות $\{\eta_i\}$ על $\mathbb{R}^n$ שלכל נקודה יש סביבה שבה רק מספר סופי מהן אינן אפס. אז
+    $\sum_i\eta_i$ הוא ליד כל נקודה סכום סופי. סופי בכל נקודה אינו מספיק: בליטות על הקטעים $(\frac1{k+1},\frac1k)$.
+  lesson: '9.7'
+- id: partition-of-unity
+  term: חלוקת יחידה
+  en: partition of unity
+  definition: >-
+    חלוקת יחידה גזירה אינסוף פעמים הכפופה לכיסוי פתוח $\{O_\alpha\}$ של $\mathbb{R}^n$: משפחה סופית מקומית $\{\eta_i\}$
+    של פונקציות גזירות אינסוף פעמים, $\eta_i\ge0$, שהתומך של כל אחת מוכל באחת הקבוצות $O_\alpha$, ו-$\sum_i\eta_i=1$.
+    לכל כיסוי פתוח של $\mathbb{R}^n$ יש חלוקת יחידה כזו.
+  lesson: '9.7'

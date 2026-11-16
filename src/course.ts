@@ -7,13 +7,20 @@
  * THE syllabus is the one the user gave (2026-11-06): the course page of R. Lawrence-Naimark, winter
  * 2000/01 (ma.huji.ac.il/~ruthel/courses/infima00), with its end-of-course summary and sample exam:
  * (1) metric and normed spaces: definition, examples, compactness, completeness and its use in
- * approximation theory (Lindenstrauss part A) = chapters 1–4; (2) functions ℝᵐ → ℝⁿ: differentiability,
- * chain rule, inverse and implicit function theorems, Lagrange multipliers = chapters 5–7; (3) line
- * integrals: bounded variation, curves and arc length, conservative fields, homotopy, winding number =
- * chapter 8; (4) integration in several variables: Riemann integral on boxes, measure zero, Lebesgue's
- * criterion, Fubini, change of variables (Spivak, Calculus on Manifolds) = chapter 9.
+ * approximation theory = chapters 1–4; (2) functions ℝᵐ → ℝⁿ: differentiability, chain rule, inverse and
+ * implicit function theorems, Lagrange multipliers = chapters 5–7; (3) line integrals: bounded variation,
+ * curves and arc length, conservative fields, homotopy, winding number = chapter 8; (4) integration in
+ * several variables: Riemann integral on boxes, measure zero, Lebesgue's criterion, Fubini, change of
+ * variables (Spivak, Calculus on Manifolds) = chapter 9.
  *
- * The current shnaton syllabus (2026) adds Arzelà–Ascoli and separability (4.2–4.4, enrichment here),
+ * The book is Lindenstrauss, חשבון אינפיניטסימלי מתקדם. The user fixed its chapters on 2026-11-15:
+ * IV (metric spaces, compactness, C(K), Arzelà–Ascoli) = chapters 1, 3, 4 with 4.2–4.4 in the core;
+ * XI (completeness, contraction, Baire) = chapter 2, XI §3 (G_δ sets, nowhere differentiable functions)
+ * = 2.7; X §1–2 = chapters 5–7, X §3 (Sard, partitions of unity, functional dependence) = 7.7 and 9.7;
+ * XII = chapter 9. Line integrals (III §1, V, IX) stay in the core: the end-of-course summary and the
+ * sample exam have them. Chapters VII–VIII, listed on the 2000/01 syllabus page, are out.
+ *
+ * The current shnaton syllabus (2026) adds Arzelà–Ascoli and separability (4.2–4.4),
  * Taylor and the Hessian (chapter 6, kept in the core because it frames Lagrange's extrema), Fourier
  * analysis and ODE existence/uniqueness. The user moved Fourier and ODEs to the sibling course
  * advinfi2lab (Advanced Calculus 2) on 2026-11-06. Chapter 0 gathers what the course assumes from Infi 1–2
@@ -174,6 +181,11 @@ export const chapters: Chapter[] = [
         'לתאר את בניית ההשלמה ממחלקות שקילות של סדרות קושי ולבדוק שהמטריקה עליה מוגדרת היטב',
         'להוכיח שההשלמה יחידה עד כדי איזומטריה, ושההשלמה של תת-מרחב של מרחב שלם היא הסגור שלו',
       ]),
+      L('2.7', 'קבוצות Gδ ופונקציות שאינן גזירות באף נקודה', [
+        'להגדיר קבוצת ⁦Gδ⁩ ואת התנודה של פונקציה בנקודה, ולהוכיח שקבוצת נקודות הרציפות של כל פונקציה היא קבוצת ⁦Gδ⁩',
+        'להוכיח שהגבול הנקודתי של סדרת פונקציות רציפות על מרחב מטרי שלם רציף בכל הנקודות של קבוצת ⁦Gδ⁩ צפופה',
+        'להוכיח בעזרת משפט בייר שהפונקציות הרציפות בקטע שאינן גזירות באף נקודה הן קבוצה צפופה במרחב הפונקציות הרציפות עם נורמת הסופרמום, ובפרט שקיימת פונקציה כזאת',
+      ], { enrichment: true }),
     ],
   },
   {
@@ -228,17 +240,17 @@ export const chapters: Chapter[] = [
         'להגדיר משפחה רציפה במידה אחידה ולהבחין בינה לבין משפחה של פונקציות שכל אחת מהן רציפה במידה שווה',
         'להוכיח שמשפחה של פונקציות ליפשיציות עם אותו קבוע, או עם נגזרות חסומות במשותף, רציפה במידה אחידה',
         'להראות שמשפחות כמו סינוס של nx או x בחזקת n אינן רציפות במידה אחידה',
-     ], { enrichment: true }),
+      ]),
       L('4.3', 'משפט ארצלה-אסקולי', [
         'לנסח את משפט ארצלה-אסקולי: לתת-קבוצה של המרחב יש סגור קומפקטי אם ורק אם היא חסומה ורציפה במידה אחידה',
         'לבנות את התת-סדרה בהוכחה בשיטת האלכסון על קבוצה צפופה בת מנייה, ולהסביר את תפקיד כל הנחה',
         'להפעיל את המשפט כדי להוכיח קיום של תת-סדרה מתכנסת במידה שווה, ולהראות שבלי אחת ההנחות המסקנה נכשלת',
-     ], { enrichment: true }),
+      ]),
       L('4.4', 'ספרביליות', [
         'להגדיר מרחב ספרבילי ולהוכיח שהמרחב האוקלידי ספרבילי',
         'להוכיח שתת-מרחב של מרחב מטרי ספרבילי ספרבילי, ושמרחב קומפקטי ספרבילי',
         'להוכיח שמרחב הפונקציות החסומות עם נורמת הסופרמום אינו ספרבילי, בעזרת קבוצה לא בת מנייה של נקודות רחוקות זו מזו',
-     ], { enrichment: true }),
+      ]),
       L('4.5', 'משפט הקירוב של ויירשטראס', [
         'לנסח את משפט הקירוב של ויירשטראס: הפולינומים צפופים בפונקציות הרציפות בקטע סגור בנורמת הסופרמום',
         'להוכיח את המשפט בעזרת פולינומי ברנשטיין או גרעין מקרב, ולהסביר את תפקיד הרציפות במידה שווה',
@@ -361,6 +373,11 @@ export const chapters: Chapter[] = [
         'להוכיח בעזרת כופלי לגרנז\' שהמקסימום של תבנית ריבועית על ספרת היחידה הוא הערך העצמי הגדול ביותר',
         'להוכיח אי-שוויונות קלאסיים, כמו אי-שוויון הממוצעים, כבעיות קיצון עם אילוץ',
       ]),
+      L('7.7', 'תלות פונקציונלית', [
+        'להגדיר תלות פונקציונלית של משפחת פונקציות גזירות ברציפות על קבוצה פתוחה, ולהוכיח שאם הן תלויות אז דרגת מטריצת הנגזרות החלקיות קטנה ממספרן בכל נקודה',
+        'להוכיח בעזרת משפט הפונקציה הסתומה שאם דרגת המטריצה קבועה בסביבה של נקודה, אז בסביבה קטנה יותר חלק מהפונקציות קובעות את כל השאר',
+        'לבדוק תלות פונקציונלית בדוגמאות ולמצוא את הקשר המפורש, ולהראות שבלי הנחת הדרגה הקבועה המסקנה יכולה להיכשל',
+      ], { enrichment: true }),
     ],
   },
   {
@@ -435,6 +452,11 @@ export const chapters: Chapter[] = [
         'לחשב אינטגרלים בקואורדינטות קוטביות, גליליות וכדוריות',
         'להשתמש בהחלפת משתנים כדי לחשב נפחים, כמו נפח כדור, חרוט ופרבולואיד',
       ]),
+      L('9.7', 'משפט סארד וחלוקת יחידה', [
+        'להגדיר נקודה קריטית וערך קריטי של העתקה גזירה ברציפות מקבוצה פתוחה במרחב האוקלידי אל מרחב מאותו ממד, ולהוכיח את משפט סארד במקרה זה: קבוצת הערכים הקריטיים ממידה אפס',
+        'לבנות פונקציה גזירה אינסוף פעמים שחיובית בתוך תיבה פתוחה ומתאפסת מחוצה לה, ולהוכיח שלכל כיסוי פתוח של המרחב האוקלידי יש חלוקת יחידה גזירה אינסוף פעמים הכפופה לו',
+        'להוכיח שלכל קבוצה סגורה במרחב האוקלידי יש פונקציה גזירה אינסוף פעמים שמתאפסת בדיוק עליה',
+      ], { enrichment: true }),
     ],
   },
 ];

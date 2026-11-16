@@ -1,0 +1,20 @@
+# Terms first defined in lesson 7.7 (functional dependence).
+- id: functional-dependence
+  term: תלות פונקציונלית
+  en: functional dependence
+  definition: >-
+    פונקציות גזירות ברציפות $f_1,\dots,f_k$ על קבוצה פתוחה $U\subseteq\mathbb{R}^n$ תלויות פונקציונלית על $U$ אם יש
+    קבוצה פתוחה $W\subseteq\mathbb{R}^k$ שמכילה את $f(U)$, עם $f=(f_1,\dots,f_k)$, ופונקציה גזירה ברציפות
+    $F:W\to\mathbb{R}$ עם $\nabla F(w)\neq0$ לכל $w\in W$, כך ש-$F(f_1(x),\dots,f_k(x))=0$ לכל $x\in U$. למשל
+    $x+y$, $xy$ ו-$x^2+y^2$ תלויות על $\mathbb{R}^2$, עם $F(u,v,w)=w-u^2+2v$. אם הן תלויות, הדרגה של $J_f(x)$
+    קטנה מ-$k$ בכל $x\in U$.
+  reject: [תלות פונקציונאלית]
+  lesson: '7.7'
+- id: jacobian-rank
+  term: דרגה של מטריצת יעקובי
+  en: rank of the Jacobian
+  definition: >-
+    הדרגה של $J_f(x)$ ל-$f:U\to\mathbb{R}^k$ גזירה ב-$x$: המספר המרבי של שורות בלתי תלויות לינארית, כלומר
+    המימד של הפרישה של $\nabla f_1(x),\dots,\nabla f_k(x)$, וגם המימד של התמונה של $Df(x)$. היא לכל היותר
+    $\min\{k,n\}$. "דרגה קבועה ליד $a$" פירושו שהדרגה של $J_f(x)$ שווה למספר אחד $r$ לכל $x$ בסביבה של $a$.
+  lesson: '7.7'

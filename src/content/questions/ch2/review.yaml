@@ -1,4 +1,4 @@
-# Chapter 2 review — completeness (lessons 2.1–2.6), easy to hard.
+# Chapter 2 review — completeness (lessons 2.1–2.7), easy to hard.
 # Every lesson is touched; most questions combine two or more lessons. Each hint names the lesson to go back to.
 chapter: 2
 questions:
@@ -529,3 +529,76 @@ questions:
         misconception: MC-c2-cauchy-always-converges
     hints:
       - 'חזרו לשיעור 2.5: משפט 2.5.9 והדוגמה הנגדית שאחריו.'
+
+  - id: Q-2-review-19
+    type: twotier
+    objectives: [OBJ-2.7-1, OBJ-2.5-2, OBJ-2.5-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $(X,d)$ מרחב מטרי שלם, לא ריק, שאין בו נקודות מבודדות, ו-$G\subseteq X$ קבוצת $G_\delta$ צפופה ב-$X$. האם בהכרח
+      $G$ אינה בת מנייה?
+    choices:
+      - text: 'כן'
+        correct: true
+        feedback: >-
+          נכון: משפט 2.7.4(ב), הכללה של משפט 2.5.9 (המקרה $G=X$), באותו רעיון: נקודות הן קבוצות דלילות, ובייר אוסר על סדרה שלהן
+          "לאכול" קבוצה צפופה מסוג $G_\delta$.
+      - text: 'לא: $\mathbb{Q}$ צפופה ב-$\mathbb{R}$ ובת מנייה'
+        feedback: >-
+          $\mathbb{Q}$ צפופה ובת מנייה, אבל היא **אינה** $G_\delta$ ב-$\mathbb{R}$, ובדיוק מהסיבה שבנימוק הנכון.
+        misconception: MC-c2-dense-gdelta-like-dense
+    reasons:
+      - text: 'אילו $G=\{g_1,g_2,\dots\}$ ו-$G=\bigcap_nU_n$ עם $U_n$ פתוחות: כל $U_n\supseteq G$ צפופה, וכל $X\setminus\{g_k\}$ פתוחה וצפופה (היחידון דליל לפי טענה 2.5.7(א), והמשלים שלו צפוף לפי טענה 2.5.6(ב)); החיתוך של כל הסדרה הזו הוא $G\setminus G=\emptyset$, בסתירה למשפט 2.5.8(א)'
+        correct: true
+        feedback: >-
+          בדיוק. שתי סדרות של פתוחות צפופות הן יחד סדרה אחת, ובמרחב שלם ולא ריק החיתוך שלה צפוף, ובפרט לא ריק. "בלי
+          נקודות מבודדות" נכנס בשלב שבו היחידונים דלילים.
+      - text: 'במרחב כזה אף קבוצת $G_\delta$ אינה בת מנייה'
+        feedback: >-
+          לא נכון: $\{x\}=\bigcap_nB(x,\frac1n)$ היא $G_\delta$ בכל מרחב מטרי, והיא סופית. הצפיפות של $G$ נחוצה לטיעון.
+        misconception: MC-c2-gdelta-uncountable
+      - text: '$G$ צפופה, ובמרחב שלם בלי נקודות מבודדות כל קבוצה צפופה אינה בת מנייה'
+        feedback: >-
+          $\mathbb{Q}$ צפופה ב-$\mathbb{R}$ (שלם, בלי נקודות מבודדות) ובת מנייה. צפיפות לבדה אינה מספיקה; צריך גם $G_\delta$.
+        misconception: MC-c1-dense-large
+    hints:
+      - 'חזרו לשיעור 2.5 (טענות 2.5.6 ו-2.5.7, משפט 2.5.8(א) והוכחת משפט 2.5.9) ולשיעור 2.7 (הגדרה 2.7.1, משפט 2.7.4 ומסקנה 2.7.5).'
+
+  - id: Q-2-review-20
+    type: multi
+    objectives: [OBJ-2.7-3, OBJ-2.2-2, OBJ-2.2-3, OBJ-2.5-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      בהוכחה שהפונקציות הרציפות שאינן גזירות באף נקודה צפופות ב-$(C[0,1],\|\cdot\|_\infty)$ מכסים את הפונקציות שגזירות
+      (מימין) בנקודה כלשהי באיחוד $\bigcup_nE_n$. באילו מהעובדות הבאות ההוכחה משתמשת? סמנו את כולן.
+    choices:
+      - text: '$(C[0,1],\|\cdot\|_\infty)$ שלם'
+        correct: true
+        feedback: >-
+          כן: מסקנה 2.2.6(ג). בלי שלמות אין משפט בייר. (נורמת הסופרמום משמשת גם בהוכחה ש-$E_n$ סגורה, דרך התכנסות במידה
+          שווה.)
+      - text: 'כל $E_n$ סגורה'
+        correct: true
+        feedback: >-
+          כן (למה 2.7.19): לפי טענה 2.5.6(ה), לקבוצה סגורה מספיק להראות שאין לה פנים כדי שתהיה דלילה. בלי סגירות היה צריך לבדוק את הפנים
+          של הסגור.
+      - text: 'לכל $E_n$ אין פנים'
+        correct: true
+        feedback: >-
+          כן (למה 2.7.20): זה החלק הקשה (קו שבור ועוד מסור תלול ונמוך). יחד עם הסגירות, $E_n$ דלילה.
+      - text: '$(C[0,1],\|\cdot\|_1)$ שלם'
+        feedback: >-
+          הוא **אינו** שלם (טענה 2.2.7: הרמפות), ולכן משפט בייר אינו חל עליו ישירות. השלמות תלויה בנורמה.
+        misconception: MC-c2-norm-irrelevant
+      - text: 'כל $E_n$ פתוחה'
+        feedback: >-
+          $E_n$ סגורה, לא פתוחה. משפט 2.5.8(ב) צריך קבוצות דלילות; הפתוחות הצפופות של 2.5.8(א) הן המשלימים $C[0,1]\setminus E_n$.
+        misconception: MC-c2-En-open
+      - text: 'איחוד בן מנייה של קבוצות דלילות הוא קבוצה דלילה, ולכן $\bigcup_nE_n$ דלילה'
+        feedback: >-
+          זה לא נכון באופן כללי ($\mathbb{Q}$ ב-$\mathbb{R}$), וגם לא נחוץ: בייר אומר שלאיחוד אין פנים, ולכן המשלים שלו צפוף.
+        misconception: MC-c2-union-nowhere-dense
+    hints:
+      - 'חזרו לשיעור 2.2 (מסקנה 2.2.6 וטענה 2.2.7: באיזו נורמה $C[0,1]$ שלם), לשיעור 2.5 (טענה 2.5.6(ה) ומשפט 2.5.8) ולשיעור 2.7 (הגדרה 2.7.17, למות 2.7.18–2.7.20 ומשפט 2.7.21).'

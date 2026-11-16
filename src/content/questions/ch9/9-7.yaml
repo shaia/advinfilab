@@ -1,0 +1,760 @@
+# Lesson 9.7 — Sard's theorem and partitions of unity (enrichment; Lindenstrauss X §3).
+# Objectives (src/course.ts):
+#   OBJ-9.7-1  critical point / critical value of a C¹ map f: U → ℝⁿ, U ⊆ ℝⁿ open (det J_f(x) = 0), and Sard's
+#               theorem in equal dimension: the set of critical values has measure zero
+#   OBJ-9.7-2  a C^∞ function positive exactly in an open box (from φ(t) = e^{−1/t} for t > 0, 0 otherwise), and a
+#               C^∞ partition of unity subordinate to any open cover of ℝⁿ (locally finite)
+#   OBJ-9.7-3  for every closed S ⊆ ℝⁿ a C^∞ function g ≥ 0 with g^{-1}(0) = S exactly
+# Notation fixed here for the lesson: φ(t) = e^{−1/t} (t > 0), φ(t) = 0 (t ≤ 0); ψ_R the bump of an open box R;
+# a partition of unity is written {η_i}; supp h is the closure of {h ≠ 0}.
+chapter: 9
+questions:
+  # ---------------------------------------------------------------- OBJ-9.7-1: Sard
+  - id: Q-9.7-crit-value-def
+    type: mc
+    objectives: [OBJ-9.7-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $U\subseteq\mathbb{R}^n$ פתוחה ו-$f:U\to\mathbb{R}^n$ גזירה ברציפות. מתי $y\in\mathbb{R}^n$ הוא **ערך קריטי**
+      של $f$?
+    choices:
+      - text: 'כשיש $x\in U$ עם $f(x)=y$ ו-$\det J_f(x)=0$'
+        correct: true
+        feedback: >-
+          נכון. מספיקה נקודה קריטית **אחת** שמעליה. ערך שאינו קריטי נקרא ערך רגולרי: כל המקורות שלו נקודות רגולריות.
+      - text: 'כש-$\det J_f(x)=0$ **לכל** $x\in U$ עם $f(x)=y$'
+        feedback: >-
+          מספיק מקור קריטי אחד. ל-$f(x)=x^3-3x$ על $\mathbb{R}$ הערך $2$ קריטי, כי $f(-1)=2$ ו-$f'(-1)=0$, אף שגם
+          $f(2)=2$ ו-$f'(2)=9\neq0$.
+        misconception: MC-c9-critical-value-every-preimage
+      - text: 'כש-$y\in U$ ו-$\det J_f(y)=0$'
+        feedback: >-
+          זו ההגדרה של נקודה קריטית, שהיא נקודה של התחום. ערך קריטי הוא נקודה של הטווח: התמונה של נקודה קריטית.
+        misconception: MC-c9-sard-points-values
+      - text: 'כש-$y\notin f(U)$, כי אז אין שום מקור רגולרי מעליו'
+        feedback: >-
+          להפך: ל-$y\notin f(U)$ אין מקורות, ולכן אין מעליו נקודה קריטית, והוא ערך **רגולרי** (באופן ריק). ל-$f(x)=x^2$
+          הערך $(-1)$ רגולרי, והערך הקריטי היחיד הוא $0$.
+        misconception: MC-c9-regular-value-in-image
+
+  - id: Q-9.7-count-values
+    type: numeric
+    objectives: [OBJ-9.7-1]
+    level: basic
+    prompt: >-
+      כמה **ערכים קריטיים** יש ל-$f(x)=x^4-2x^2$, כהעתקה $f:\mathbb{R}\to\mathbb{R}$? (במימד 1,
+      $\det J_f(x)=f'(x)$.)
+    answer: 2
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $f'(x)=4x^3-4x=4x(x-1)(x+1)$, ולכן הנקודות הקריטיות הן $0$ ו-$\pm1$. הערכים שלהן $f(0)=0$ ו-$f(\pm1)=-1$:
+      שלוש נקודות קריטיות, אבל רק שני ערכים קריטיים, $\{0,-1\}$.
+    wrongFeedback: >-
+      מצאו את הנקודות שבהן $f'(x)=0$, ואז את **הערכים** $f(x)$ בהן. שתי נקודות קריטיות יכולות לתת אותו ערך.
+    commonWrong:
+      - value: 3
+        feedback: >-
+          $3$ הוא מספר הנקודות הקריטיות. ערך קריטי הוא נקודה של הטווח, ו-$f(1)=f(-1)=-1$ הוא ערך אחד.
+        misconception: MC-c9-sard-points-values
+
+  - id: Q-9.7-fold
+    type: multi
+    objectives: [OBJ-9.7-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $f:\mathbb{R}^2\to\mathbb{R}^2$, $f(x,y)=(x^2,y)$. אילו מהטענות נכונות? סמנו את כולן.
+    choices:
+      - text: 'קבוצת הנקודות הקריטיות היא הישר $\{(0,y): y\in\mathbb{R}\}$'
+        correct: true
+        feedback: >-
+          נכון: $J_f(x,y)=\begin{pmatrix}2x&0\\0&1\end{pmatrix}$, ולכן $\det J_f(x,y)=2x$, שמתאפס בדיוק כש-$x=0$.
+      - text: 'קבוצת הערכים הקריטיים היא הישר $\{(0,v): v\in\mathbb{R}\}$ בטווח'
+        correct: true
+        feedback: >-
+          נכון: $f(0,y)=(0,y)$. זה ישר שלם, קבוצה שאינה בת מנייה.
+      - text: 'קבוצת הערכים הקריטיים ממידה אפס ב-$\mathbb{R}^2$'
+        correct: true
+        feedback: >-
+          נכון, כמו שמשפט סארד מבטיח: ישר במישור הוא איחוד בן מנייה של קטעים, וכל קטע בעל תכולה אפס (שיעור 9.2).
+      - text: 'הערך הקריטי היחיד הוא $(0,0)$, כי לפי משפט סארד יש רק מספר סופי של ערכים קריטיים'
+        feedback: >-
+          משפט סארד אומר "ממידה אפס", לא "סופי" ולא "בן מנייה". כאן כל נקודה $(0,v)$ היא ערך קריטי, התמונה של
+          הנקודה הקריטית $(0,v)$.
+        misconception: MC-c9-measure-zero-countable
+      - text: 'כל נקודה $(u,v)$ עם $u<0$ היא ערך קריטי, כי היא אינה בתמונה של $f$'
+        feedback: >-
+          ל-$(u,v)$ עם $u<0$ אין מקור, ולכן אין מעליה נקודה קריטית: היא ערך רגולרי. משפט סארד אינו אומר ש-$f$ "כמעט
+          על".
+        misconception: MC-c9-regular-value-in-image
+
+  - id: Q-9.7-points-vs-values
+    type: twotier
+    objectives: [OBJ-9.7-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      נכון או לא נכון: לכל $f:\mathbb{R}^n\to\mathbb{R}^n$ גזירה ברציפות, קבוצת **הנקודות** הקריטיות
+      $C=\{x: \det J_f(x)=0\}$ ממידה אפס.
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: 'נכון. משפט סארד מדבר על הקבוצה $f(C)$, לא על $C$.'
+      - text: נכון
+        feedback: >-
+          זה מה שקורה ב"רוב" הדוגמאות, אבל לא תמיד: הנקודות הקריטיות יכולות למלא קבוצה פתוחה.
+        misconception: MC-c9-sard-points-values
+    reasons:
+      - text: 'להעתקה קבועה $f\equiv p$ כל נקודה קריטית, כלומר $C=\mathbb{R}^n$, ו-$f(C)=\{p\}$ ממידה אפס'
+        correct: true
+        feedback: >-
+          בדיוק. הדוגמה הקיצונית מראה ש"מעט ערכים" ו"מעט נקודות" הם דברים שונים: ההעתקה מועכת את $C$ כולה לנקודה.
+      - text: 'זה בדיוק התוכן של משפט סארד'
+        feedback: >-
+          משפט סארד אומר שהקבוצה $f(C)$ של **הערכים** הקריטיים ממידה אפס. על $C$ עצמה הוא אינו אומר דבר, וההעתקה
+          הקבועה מראה ש-$C$ יכולה להיות המרחב כולו.
+        misconception: MC-c9-sard-points-values
+      - text: '$C$ היא קבוצת האפסים של הפונקציה הרציפה $\det J_f$, וקבוצת האפסים של פונקציה רציפה שאינה זהותית אפס ממידה אפס'
+        feedback: >-
+          קבוצת אפסים יכולה להיות "שמנה". ל-$f(x,y)=(h(x),y)$ עם $h(x)=\operatorname{sgn}(x)\max(0,|x|-1)^2$ ($h$ גזירה
+          ברציפות, $h'(x)=2\max(0,|x|-1)$) מתקיים $\det J_f=h'(x)$, שמתאפס על כל הרצועה $|x|\le1$, ו-$f$ אינה קבועה.
+        misconception: MC-c9-zero-set-thin
+
+  - id: Q-9.7-thin-image
+    type: numeric
+    objectives: [OBJ-9.7-1]
+    level: mid
+    prompt: >-
+      $f(x,y)=(x^2,y)$ על $K=[0,1]^2$. מחלקים את $K$ ל-$N^2$ ריבועים סגורים שצלעם $\frac1N$. הריבועים שמכילים
+      נקודה קריטית הם $N$ הריבועים $\left[0,\frac1N\right]\times\left[\frac{j-1}{N},\frac jN\right]$. מהו ה-$N$
+      **הקטן ביותר** שבו סכום השטחים של התמונות של $N$ הריבועים האלה תחת $f$ קטן מ-$0.001$?
+    answer: 32
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. התמונה של $\left[0,s\right]\times\left[a,a+s\right]$ עם $s=\frac1N$ היא המלבן
+      $\left[0,s^2\right]\times\left[a,a+s\right]$, ששטחו $s^3$: הוא "דק" בכיוון $u$. סכום השטחים
+      $N\cdot\frac1{N^3}=\frac1{N^2}$, ו-$\frac1{N^2}<\frac1{1000}$ בדיוק כש-$N\ge32$ (כי $31^2=961$ ו-$32^2=1024$). זו
+      תמצית ההוכחה של משפט סארד: ליד נקודה קריטית התמונה של קובייה בצלע $s$ קטנה בהרבה מ-$s^n$.
+    wrongFeedback: >-
+      חשבו את התמונה של ריבוע אחד: $x$ רץ ב-$[0,\frac1N]$, ולכן $x^2$ רץ ב-$[0,\frac1{N^2}]$. כפלו את השטח שלה
+      במספר הריבועים.
+    commonWrong:
+      - value: 1001
+        feedback: >-
+          $1001$ מתקבל אם מניחים שהתמונה של כל ריבוע שטחה כמו של הריבוע, $\frac1{N^2}$, ולכן סכום $\frac1N$. אבל ליד
+          הנקודות הקריטיות $f$ מועכת: הצלע $[0,\frac1N]$ הופכת לקטע $[0,\frac1{N^2}]$.
+        misconception: MC-c9-sard-image-not-thin
+
+  - id: Q-9.7-why-thin
+    type: mc
+    objectives: [OBJ-9.7-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      בהוכחת משפט סארד, $K\subseteq U$ קובייה סגורה, $S\subseteq K$ קובייה קטנה בצלע $s$, ו-$a\in S$ נקודה
+      קריטית. למה $f(S)$ מוכלת בקבוצה "דקה", שנפחה לכל היותר $c\,\varepsilon s^n$?
+    choices:
+      - text: '$J_f(a)$ מדרגה $\le n-1$, ולכן $Df(a)(x-a)$ נמצא בתת-מרחב $V$ ממימד $\le n-1$; ואי-שוויון הערך הממוצע עם רציפות במידה שווה של $Df$ על $K$ נותן $\|f(x)-f(a)-Df(a)(x-a)\|\le\varepsilon\sqrt n\,s$'
+        correct: true
+        feedback: >-
+          נכון. לכן $f(S)$ נמצאת במרחק לכל היותר $\varepsilon\sqrt n\,s$ מהמישור $f(a)+V$, ובכדור ברדיוס
+          $(M+\varepsilon)\sqrt n\,s$ סביב $f(a)$, כש-$M=\max_K\|Df\|_{\mathrm{op}}$: "פרוסה" בעובי $2\varepsilon\sqrt n\,s$
+          וברוחב של סדר $s$.
+      - text: '$f(S)\subseteq f(a)+Df(a)(\mathbb{R}^n)$, ותת-מרחב אפיני ממימד $\le n-1$ ממידה אפס'
+        feedback: >-
+          $f$ אינה שווה לקירוב הלינארי שלה. ל-$f(x,y)=(x^2,y)$ ו-$a=(0,0)$: $Df(a)(\mathbb{R}^2)=\{(0,v)\}$, אבל
+          $f([0,s]^2)=[0,s^2]\times[0,s]$ אינה מוכלת בישר הזה. השגיאה של הקירוב היא בדיוק עובי הפרוסה.
+        misconception: MC-c9-sard-linear-exact
+      - text: 'רציפות של $Df$ בנקודה $a$ נותנת $\delta_a$ כך שהשגיאה קטנה בכדור $B(a,\delta_a)$, ולכן מספיק לבחור את $S$ בתוך הכדור הזה'
+        feedback: >-
+          $\delta_a$ תלוי ב-$a$, וההוכחה צריכה חלוקה **אחת** של $K$ לקוביות שכולן קטנות מספיק, מכל נקודה קריטית בהן.
+          רק רציפות במידה שווה של $Df$ על הקובייה הקומפקטית $K$ נותנת $\delta$ אחד כזה.
+        misconception: MC-c9-sard-pointwise-delta
+      - text: '$\det J_f=0$ בכל $S$, ולכן $f$ קבועה על $S$'
+        feedback: >-
+          $\det J_f(a)=0$ רק בנקודה $a$, ולא בהכרח בכל $S$. וגם אילו הדטרמיננטה התאפסה בכל $S$, $f$ לא הייתה קבועה:
+          ל-$f(x,y)=(x,0)$ הדטרמיננטה אפס בכל מקום, והתמונה ציר שלם.
+        misconception: MC-c9-sard-points-values
+
+  - id: Q-9.7-dense-regular
+    type: twotier
+    objectives: [OBJ-9.7-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $U\subseteq\mathbb{R}^n$ פתוחה ו-$f:U\to\mathbb{R}^n$ גזירה ברציפות. נכון או לא נכון: הערכים הרגולריים של $f$
+      צפופים ב-$\mathbb{R}^n$, כלומר בכל כדור פתוח יש ערך רגולרי.
+    choices:
+      - text: נכון
+        correct: true
+        feedback: 'נכון. זו מסקנה ישירה של משפט סארד.'
+      - text: לא נכון
+        feedback: >-
+          אם כדור פתוח מכיל רק ערכים קריטיים, קבוצת הערכים הקריטיים מכילה תיבה פתוחה, ותיבה בעלת נפח חיובי אינה
+          ממידה אפס. זה סותר את משפט סארד.
+        misconception: MC-c9-sard-points-values
+    reasons:
+      - text: 'לפי משפט סארד הערכים הקריטיים ממידה אפס, וקבוצה ממידה אפס אינה מכילה תיבה פתוחה (שיעור 9.2); לכן בכל כדור יש נקודה שאינה ערך קריטי'
+        correct: true
+        feedback: >-
+          בדיוק: כל כדור פתוח מכיל תיבה פתוחה, ותיבה אינה ממידה אפס. הנקודה שנמצאה היא ערך רגולרי, אולי כי אין לה
+          מקור כלל.
+      - text: 'יש רק מספר בן מנייה של ערכים קריטיים, וקבוצה בת מנייה אינה מכילה כדור'
+        feedback: >-
+          הערכים הקריטיים אינם בהכרח בני מנייה: ל-$f(x,y)=(x^2,y)$ הם ישר שלם. מה שמשפט סארד נותן הוא מידה אפס.
+        misconception: MC-c9-measure-zero-countable
+      - text: 'קבוצת הנקודות הקריטיות סגורה ב-$U$, ולכן גם קבוצת הערכים הקריטיים סגורה, וקבוצה סגורה שונה מהמרחב משאירה כדור פנוי'
+        feedback: >-
+          גם אילו הייתה סגורה, קבוצה סגורה יכולה להכיל כדור. וקבוצת הערכים הקריטיים אינה בהכרח סגורה: ל-$f(x)=\frac{\sin x}{1+x^2}$
+          הערכים הקריטיים שואפים ל-$0$, אבל $0$ אינו ערך קריטי (שם $\sin x=0$ ולכן $f'(x)=\frac{\cos x}{1+x^2}\neq0$).
+        misconception: MC-c9-critical-values-closed
+
+  - id: Q-9.7-sard-rank
+    type: rank
+    objectives: [OBJ-9.7-1]
+    level: exam
+    help: 'סדרו את שלבי ההוכחה לפי הסדר הנכון.'
+    prompt: >-
+      $U\subseteq\mathbb{R}^n$ פתוחה, $f:U\to\mathbb{R}^n$ גזירה ברציפות ו-$C=\{x\in U: \det J_f(x)=0\}$. ההוכחה
+      שקבוצת הערכים הקריטיים $f(C)$ ממידה אפס התפרקה לשלבים. סדרו אותם.
+    items:
+      - id: reduce
+        label: '$U$ היא איחוד בן מנייה של קוביות סגורות $K\subseteq U$; לפי שיעור 9.2 (איחוד בן מנייה) מספיק להוכיח ש-$f(C\cap K)$ ממידה אפס לקובייה אחת $K$ בצלע $\ell$.'
+      - id: eps
+        label: 'יהי $0<\varepsilon\le1$. $Df$ רציפה על הקומפקטית $K$, ולכן רציפה בה במידה שווה: יש $\delta>0$ עם $\|Df(x)-Df(y)\|_{\mathrm{op}}<\varepsilon$ כש-$\|x-y\|<\delta$; ונסמן $M=\max_K\|Df\|_{\mathrm{op}}$.'
+      - id: grid
+        label: 'מחלקים את $K$ ל-$N^n$ קוביות בצלע $s=\frac{\ell}{N}$, עם $\sqrt n\,s<\delta$.'
+      - id: mvi
+        label: 'אם $a\in S\cap C$, אי-שוויון הערך הממוצע על $f-Df(a)$ בקובייה הקמורה $S$ נותן $\|f(x)-f(a)-Df(a)(x-a)\|\le\varepsilon\sqrt n\,s$ לכל $x\in S$, ו-$Df(a)(x-a)$ נמצא בתת-מרחב $V$ ממימד $\le n-1$.'
+      - id: slab
+        label: 'לכן $f(S)$ מוכלת בתיבה (בצירים של בסיס אורתונורמלי שמתאים ל-$V$) שנפחה לכל היותר $\left(2(M+1)\sqrt n\,s\right)^{n-1}\cdot2\varepsilon\sqrt n\,s=c\,\varepsilon s^n$, עם $c$ שתלוי רק ב-$n$ וב-$M$.'
+      - id: sum
+        label: 'יש לכל היותר $N^n$ קוביות כאלה, ולכן $f(C\cap K)$ מכוסה בסכום נפחים לכל היותר $c\,\varepsilon N^ns^n=c\,\varepsilon\ell^n$; כיוון ש-$\varepsilon$ שרירותי, $f(C\cap K)$ ממידה אפס.'
+    order: [reduce, eps, grid, mvi, slab, sum]
+    correctFeedback: >-
+      נכון. שני רגעים עדינים: $\delta$ אחד לכל $K$ (רציפות במידה שווה על קבוצה קומפקטית), והחשבון שבו המספר $N^n$
+      של הקוביות מתקזז מול $s^n$, ונשאר הגורם $\varepsilon$ שבא מעובי הפרוסה.
+    wrongFeedback: >-
+      הסדר: צמצום לקובייה אחת, $\varepsilon$ ו-$\delta$, חלוקה עדינה מ-$\delta$, הערכה ליד נקודה קריטית, נפח של
+      התמונה של קובייה אחת, ולבסוף סכום.
+
+  - id: Q-9.7-cusp
+    type: mc
+    objectives: [OBJ-9.7-1]
+    level: exam
+    prompt: >-
+      $f:\mathbb{R}^2\to\mathbb{R}^2$, $f(x,y)=(x,\,y^3-3xy)$. מהי קבוצת **הערכים** הקריטיים של $f$?
+    choices:
+      - text: 'העקום $\{(t^2,-2t^3): t\in\mathbb{R}\}$'
+        correct: true
+        feedback: >-
+          נכון. $\det J_f=\det\begin{pmatrix}1&0\\-3y&3y^2-3x\end{pmatrix}=3(y^2-x)$, ולכן הנקודות הקריטיות הן הפרבולה
+          $\{(t^2,t)\}$, ו-$f(t^2,t)=(t^2,t^3-3t^3)=(t^2,-2t^3)$: עקום עם חוד בראשית, ממידה אפס כמו שמשפט סארד מבטיח.
+      - text: 'הפרבולה $\{(x,y): x=y^2\}$'
+        feedback: >-
+          זו קבוצת **הנקודות** הקריטיות, בתחום. הערכים הקריטיים הם התמונות שלהן: הציבו $(t^2,t)$ ב-$f$.
+        misconception: MC-c9-sard-points-values
+      - text: 'הנקודה $(0,0)$ בלבד'
+        feedback: >-
+          $(0,0)$ היא אכן ערך קריטי ($t=0$), אבל לא היחיד: גם $f(1,1)=(1,-2)$ ערך קריטי, כי $\det J_f(1,1)=0$. משפט
+          סארד אינו אומר שיש מעט ערכים קריטיים, רק שהם ממידה אפס.
+        misconception: MC-c9-measure-zero-countable
+
+  - id: Q-9.7-curve-image
+    type: twotier
+    objectives: [OBJ-9.7-1]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $\gamma:\mathbb{R}\to\mathbb{R}^2$ גזירה ברציפות. נכון או לא נכון: התמונה $\gamma(\mathbb{R})$ ממידה אפס
+      ב-$\mathbb{R}^2$.
+    choices:
+      - text: נכון
+        correct: true
+        feedback: 'נכון, ומשפט סארד במימדים שווים מספיק כדי להוכיח את זה.'
+      - text: לא נכון
+        feedback: >-
+          משפט סארד בשיעור הוא על העתקות בין מרחבים מאותו מימד, אבל אפשר "להרחיב" את $\gamma$ להעתקה של המישור למישור.
+        misconception: MC-c9-sard-only-same-dim
+    reasons:
+      - text: '$F(x,y)=\gamma(x)$ גזירה ברציפות מ-$\mathbb{R}^2$ ל-$\mathbb{R}^2$, והעמודה השנייה של $J_F$ אפס; לכן כל נקודה קריטית, ו-$\gamma(\mathbb{R})=F(\mathbb{R}^2)$ כולה ערכים קריטיים'
+        correct: true
+        feedback: >-
+          בדיוק. $\det J_F(x,y)=0$ בכל נקודה, ולכן לפי משפט סארד $F(\mathbb{R}^2)$, שהיא $\gamma(\mathbb{R})$, ממידה
+          אפס. אותו תרגיל נותן: לכל $f:\mathbb{R}^m\to\mathbb{R}^n$ גזירה ברציפות עם $m<n$, התמונה ממידה אפס.
+      - text: 'התמונה של מסילה היא גרף של פונקציה רציפה, וגרף כזה בעל תכולה אפס'
+        feedback: >-
+          התמונה אינה בהכרח גרף: המעגל $\gamma(t)=(\cos t,\sin t)$ אינו גרף של פונקציה של $x$. והתמונה של $\mathbb{R}$
+          יכולה להיות לא חסומה, ואז אין לה תכולה אפס.
+        misconception: MC-c9-content-zero-unbounded
+      - text: 'לתמונה אין נקודות פנים, וקבוצה בלי נקודות פנים ממידה אפס'
+        feedback: >-
+          לקבוצה בלי נקודות פנים יכולה להיות מידה חיובית: $(\mathbb{R}\setminus\mathbb{Q})\times\mathbb{R}$ אין לה נקודות
+          פנים, והיא אינה ממידה אפס, כי אחרת $\mathbb{R}^2$, שהוא האיחוד שלה עם $\mathbb{Q}\times\mathbb{R}$ (ממידה אפס),
+          היה ממידה אפס. וגם הטענה שאין לתמונה נקודות פנים דורשת הוכחה.
+        misconception: MC-c9-empty-interior-measure-zero
+
+  # ------------------------------------------------- OBJ-9.7-2: bump functions, partitions of unity
+  - id: Q-9.7-phi-derivs
+    type: mc
+    objectives: [OBJ-9.7-2]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $\varphi(t)=e^{-1/t}$ כש-$t>0$ ו-$\varphi(t)=0$ כש-$t\le0$. מה נכון לגבי הנגזרות $\varphi^{(k)}(0)$?
+    choices:
+      - text: 'כולן קיימות ושוות ל-$0$, ולכן $\varphi$ גזירה אינסוף פעמים ב-$\mathbb{R}$'
+        correct: true
+        feedback: >-
+          נכון. כש-$t>0$, $\varphi^{(k)}(t)=P_k(\frac1t)e^{-1/t}$ עם $P_k$ פולינום, ו-$u^me^{-u}\to0$ כש-$u\to\infty$.
+          לכן כל נגזרת שואפת ל-$0$ משני הצדדים, ובאינדוקציה $\varphi^{(k+1)}(0)=\lim_{t\to0}\frac{\varphi^{(k)}(t)}{t}=0$.
+      - text: 'רק מספר סופי מהן קיים: ב-$\varphi^{(k)}(t)$ מופיע $\frac{1}{t^{2k}}$, שמתפוצץ כש-$t\to0^+$'
+        feedback: >-
+          $\frac{1}{t^{2k}}$ אכן שואף לאינסוף, אבל הוא מוכפל ב-$e^{-1/t}$, שדועך מהר יותר מכל חזקה: עם $u=\frac1t$,
+          $u^{2k}e^{-u}\to0$.
+        misconception: MC-c9-exp-beats-poly
+      - text: 'הן אינן יכולות להיות כולן $0$: אחרת לפי טיילור $\varphi\equiv0$ בסביבה של $0$, ו-$\varphi(t)>0$ כש-$t>0$'
+        feedback: >-
+          משפט טיילור נותן הערכה של השארית לכל סדר סופי; הוא אינו אומר שפונקציה גזירה אינסוף פעמים שווה לטור טיילור
+          שלה. $\varphi$ היא בדיוק הדוגמה: טור טיילור שלה ב-$0$ הוא אפס, והיא אינה אפס.
+        misconception: MC-c9-smooth-is-analytic
+      - text: 'כולן $0$, ומספיק לבדוק את זה משמאל, כי שם $\varphi\equiv0$'
+        feedback: >-
+          המסקנה נכונה אבל הנימוק לא: נגזרת היא גבול **דו-צדדי**. ל-$\max(0,t)$ כל הנגזרות משמאל ב-$0$ הן $0$, והיא
+          אינה גזירה שם. החלק הקשה הוא הגבול מימין.
+        misconception: MC-c5-one-sided-derivative
+
+  - id: Q-9.7-poly-degree
+    type: numeric
+    objectives: [OBJ-9.7-2]
+    level: mid
+    prompt: >-
+      כש-$t>0$, $\varphi(t)=e^{-1/t}$ ונגזרותיה הן $\varphi^{(k)}(t)=P_k\!\left(\frac1t\right)e^{-1/t}$, עם $P_k$
+      פולינום: $P_1(u)=u^2$, $P_2(u)=u^4-2u^3$. מהי **המעלה** של $P_5$?
+    answer: 10
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. גזירה של $P_k(\frac1t)e^{-1/t}$ נותנת $P_{k+1}(u)=u^2\left(P_k(u)-P_k'(u)\right)$ עם $u=\frac1t$, ולכן כל
+      גזירה מעלה את המעלה ב-2: $\deg P_k=2k$. אכן $P_5(u)=u^{10}-20u^9+120u^8-240u^7+120u^6$. המעלה אינה משנה את הגבול:
+      $u^{10}e^{-u}\to0$.
+    wrongFeedback: >-
+      גזרו את $P(\frac1t)e^{-1/t}$ לפי כלל השרשרת: הגורם $\frac{d}{dt}\frac1t=-\frac1{t^2}$ מופיע בשני המחוברים.
+      רשמו את התוצאה כ-$u^2(\dots)$.
+    commonWrong:
+      - value: 5
+        feedback: >-
+          $5$ מתקבל אם כל גזירה מעלה את המעלה ב-1. אבל הנגזרת של $e^{-1/t}$ היא $\frac1{t^2}e^{-1/t}$: כל גזירה כופלת
+          ב-$u^2$, ומעלה ב-2.
+      - value: 6
+        feedback: >-
+          $6$ מתקבל מ-$\deg P_1=2$ ועוד 1 לכל גזירה נוספת. אבל $\deg P_2=4$ כבר מראה שהקפיצה היא 2: $P_{k+1}=u^2(P_k-P_k')$.
+
+  - id: Q-9.7-taylor
+    type: twotier
+    objectives: [OBJ-9.7-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $\varphi(t)=e^{-1/t}$ כש-$t>0$ ו-$\varphi(t)=0$ כש-$t\le0$. האם יש סביבה של $0$ שבה $\varphi$ שווה לסכום טור
+      טיילור שלה סביב $0$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון: $\varphi$ היא הדוגמה הקלאסית לפונקציה גזירה אינסוף פעמים שאינה שווה לטור טיילור שלה.'
+      - text: כן
+        feedback: >-
+          טור טיילור של $\varphi$ ב-$0$ מתכנס בכל נקודה, אבל לסכום הלא נכון.
+        misconception: MC-c9-smooth-is-analytic
+    reasons:
+      - text: 'כל הנגזרות $\varphi^{(k)}(0)$ הן $0$, ולכן טור טיילור הוא טור האפס, וסכומו $0$; אבל $\varphi(t)>0$ לכל $t>0$'
+        correct: true
+        feedback: >-
+          בדיוק. בכל סביבה של $0$ יש $t>0$, ושם $\varphi(t)=e^{-1/t}\neq0$. זו בדיוק התכונה שמאפשרת לבנות פונקציה
+          גזירה אינסוף פעמים שמתאפסת מחוץ לתיבה וחיובית בתוכה.
+      - text: 'כל פונקציה גזירה אינסוף פעמים שווה לטור טיילור שלה בסביבה של כל נקודה'
+        feedback: >-
+          משפט טיילור נותן שארית לכל סדר **סופי**, ושארית שלא שואפת לאפס אינה סותרת אותו. כאן השארית מסדר $k$ היא
+          $\varphi(t)$ עצמה, לכל $k$.
+        misconception: MC-c9-smooth-is-analytic
+      - text: '$\varphi$ אינה גזירה אינסוף פעמים ב-$0$, ולכן אין לה טור טיילור שם'
+        feedback: >-
+          $\varphi$ גזירה אינסוף פעמים: הנגזרות מימין הן $P_k(\frac1t)e^{-1/t}$, והאקספוננט "מנצח" כל פולינום ב-$\frac1t$.
+        misconception: MC-c9-exp-beats-poly
+
+  - id: Q-9.7-bump-max
+    type: numeric
+    objectives: [OBJ-9.7-2]
+    level: mid
+    prompt: >-
+      $\psi(t)=\varphi(1+t)\,\varphi(1-t)$, כש-$\varphi(t)=e^{-1/t}$ ל-$t>0$ ו-$\varphi(t)=0$ ל-$t\le0$. $\psi$ חיובית
+      בדיוק בקטע $(-1,1)$. מהו הערך המקסימלי של $\psi$? תנו את התשובה בדיוק של ארבע ספרות אחרי הנקודה.
+    answer: 0.1353352832
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון, $e^{-2}\approx0.1353$. ב-$(-1,1)$, $\psi(t)=\exp\left(-\frac1{1+t}-\frac1{1-t}\right)=\exp\left(-\frac{2}{1-t^2}\right)$,
+      והמעריך מקסימלי כש-$1-t^2$ מקסימלי, כלומר ב-$t=0$.
+    wrongFeedback: >-
+      ב-$(-1,1)$ שני הגורמים חיוביים: כתבו את $\psi$ כאקספוננט אחד ופשטו את המעריך.
+    commonWrong:
+      - value: 0.3678794412
+        feedback: >-
+          $e^{-1}=\varphi(1)$ הוא רק אחד משני הגורמים ב-$t=0$. $\psi(0)=\varphi(1)\varphi(1)=e^{-2}$.
+      - value: 0.7357588823
+        feedback: >-
+          $\frac2e=\varphi(1)+\varphi(1)$ הוא הערך של **סכום** הגורמים. סכום כזה אינו מתאפס מחוץ ל-$(-1,1)$: המחובר
+          הראשון חיובי כש-$t>-1$ והשני כש-$t<1$, ולכן הסכום חיובי בכל $\mathbb{R}$. הבליטה היא **מכפלה**.
+        misconception: MC-c9-bump-sum-not-product
+
+  - id: Q-9.7-box-bump
+    type: multi
+    objectives: [OBJ-9.7-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $\varphi(t)=e^{-1/t}$ ל-$t>0$ ו-$\varphi(t)=0$ ל-$t\le0$. אילו מהפונקציות הבאות על $\mathbb{R}^2$ גזירות אינסוף
+      פעמים, אי-שליליות, וחיוביות **בדיוק** בריבוע הפתוח $(-1,1)^2$? סמנו את כולן.
+    choices:
+      - text: '$\varphi(1+x)\varphi(1-x)\varphi(1+y)\varphi(1-y)$'
+        correct: true
+        feedback: >-
+          נכון: מכפלה של פונקציות גזירות אינסוף פעמים, וחיובית בדיוק כשכל ארבעת הגורמים חיוביים, כלומר $|x|<1$
+          ו-$|y|<1$.
+      - text: '$\varphi(1-x^2)\,\varphi(1-y^2)$'
+        correct: true
+        feedback: >-
+          נכון: הרכבה של $\varphi$ עם פולינום גזירה אינסוף פעמים, ו-$\varphi(1-x^2)>0$ בדיוק כש-$|x|<1$.
+      - text: '$\varphi(1-x^2)+\varphi(1-y^2)$'
+        feedback: >-
+          סכום חיובי כשאחד המחוברים חיובי: ב-$(0,5)$ הערך $\varphi(1)=e^{-1}>0$, והנקודה מחוץ לריבוע. כאן חיובי בכל
+          ה"צלב" $\{|x|<1\}\cup\{|y|<1\}$.
+        misconception: MC-c9-bump-sum-not-product
+      - text: '$\varphi(1-x^2-y^2)$'
+        feedback: >-
+          זו בליטה של **העיגול** $x^2+y^2<1$, לא של הריבוע: ב-$(0.9,0.9)$, שבתוך הריבוע, $1-0.81-0.81<0$ והערך $0$.
+        misconception: MC-c9-bump-sum-not-product
+      - text: '$\max(0,1-x^2)\cdot\max(0,1-y^2)$'
+        feedback: >-
+          חיובית בדיוק בריבוע, אבל אינה גזירה: ב-$x=1$ (ו-$y=0$) הנגזרת החלקית לפי $x$ משמאל $(-2)$ ומימין $0$. הדבקה
+          רציפה של שתי פונקציות חלקות אינה חלקה; $\varphi$ נבחרה בדיוק כי כל נגזרותיה מתאפסות בנקודת ההדבקה.
+        misconception: MC-c9-glue-smooth
+
+  - id: Q-9.7-pou-def
+    type: mc
+    objectives: [OBJ-9.7-2]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $\{O_\alpha\}$ כיסוי פתוח של $\mathbb{R}^n$. מהי **חלוקת יחידה גזירה אינסוף פעמים הכפופה לכיסוי**? (התומך
+      $\operatorname{supp}h$ הוא הסגור של $\{x: h(x)\neq0\}$.)
+    choices:
+      - text: 'משפחה $\{\eta_i\}$ של פונקציות גזירות אינסוף פעמים, $\eta_i\ge0$, כך שלכל $i$ יש $\alpha$ עם $\operatorname{supp}\eta_i\subseteq O_\alpha$, לכל נקודה יש סביבה שבה רק מספר סופי של $\eta_i$ אינן אפס, ו-$\sum_i\eta_i=1$'
+        correct: true
+        feedback: >-
+          נכון. הסופיות המקומית הופכת את $\sum_i\eta_i$ לסכום סופי ליד כל נקודה, ולכן לפונקציה גזירה אינסוף פעמים בלי
+          שום שאלה של התכנסות.
+      - text: 'משפחה כזו בלי תנאי הסופיות המקומית: מספיק ש-$\sum_i\eta_i(x)=1$ בכל נקודה'
+        feedback: >-
+          בלי סופיות מקומית סכום של פונקציות חלקות יכול להיות לא רציף, גם כשבכל נקודה רק מחובר אחד שונה מאפס: בליטות
+          בגובה 1 על הקטעים $(\frac1{k+1},\frac1k)$ נותנות סכום שאינו רציף ב-$0$.
+        misconception: MC-c9-pointwise-finite-sum
+      - text: 'משפחה כזו שבה רק נדרש $\{x: \eta_i(x)\neq0\}\subseteq O_\alpha$ (בלי סגור)'
+        feedback: >-
+          התנאי חלש מדי: התומך הוא הסגור. $\eta(t)=\frac{\varphi(t)}{\varphi(t)+\varphi(1-t)}$ שונה מאפס בדיוק
+          ב-$(0,\infty)$, אבל $\operatorname{supp}\eta=[0,\infty)\not\subseteq(0,\infty)$.
+        misconception: MC-c9-support-is-nonzero-set
+
+  - id: Q-9.7-locally-finite
+    type: twotier
+    objectives: [OBJ-9.7-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      לכל $k\in\mathbb{N}$ תהי $\psi_k$ פונקציה גזירה אינסוף פעמים על $\mathbb{R}$, חיובית בדיוק בקטע
+      $(\frac1{k+1},\frac1k)$, אפס מחוצה לו, ועם ערך מקסימלי $1$. בכל נקודה לכל היותר $\psi_k$ אחת שונה מאפס. האם
+      $s=\sum_k\psi_k$ רציפה ב-$0$?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. בכל נקודה הסכום סופי, ובכל זאת אינו רציף.'
+      - text: כן
+        feedback: >-
+          בכל נקודה רק מחובר אחד שונה מאפס, אבל בכל סביבה של $0$ יש אינסוף מחוברים כאלה.
+        misconception: MC-c9-pointwise-finite-sum
+    reasons:
+      - text: 'בנקודות $m_k$ שבהן $\psi_k(m_k)=1$ מתקיים $m_k\to0$ ו-$s(m_k)=1$, אבל $s(0)=0$; המשפחה אינה סופית מקומית ב-$0$'
+        correct: true
+        feedback: >-
+          בדיוק. $m_k\in(\frac1{k+1},\frac1k)$, ולכן $m_k\to0$. בכל נקודה $x\neq0$ יש סביבה שבה רק מספר סופי של
+          $\psi_k$ שונות מאפס, ושם $s$ חלקה; ב-$0$ אין סביבה כזו, ושם הרציפות נשברת.
+      - text: 'ליד כל נקודה $s$ היא סכום של מחובר אחד לכל היותר, ולכן סכום סופי של פונקציות רציפות'
+        feedback: >-
+          "בכל נקודה מחובר אחד" אינו "בסביבה של כל נקודה מספר סופי". כל סביבה של $0$ פוגשת אינסוף מהקטעים
+          $(\frac1{k+1},\frac1k)$.
+        misconception: MC-c9-pointwise-finite-sum
+      - text: 'הטור מתכנס במידה שווה, כי כל איבר שלו חסום ב-$1$'
+        feedback: >-
+          איברים חסומים אינם מספיקים למבחן ה-M: צריך חסמים שהטור **שלהם** מתכנס. כאן הסופרמום של כל זנב הוא $1$,
+          והטור אינו מתכנס במידה שווה.
+        misconception: MC-c0-mtest-bounded-enough
+
+  - id: Q-9.7-two-sets
+    type: mc
+    objectives: [OBJ-9.7-2]
+    level: mid
+    prompt: >-
+      הכיסוי הפתוח של $\mathbb{R}$ הוא $O_1=(-\infty,1)$, $O_2=(0,\infty)$. כאן $\varphi(t)=e^{-1/t}$ ל-$t>0$
+      ו-$\varphi(t)=0$ ל-$t\le0$. איזה זוג $\{\eta_1,\eta_2\}$ הוא חלוקת יחידה גזירה אינסוף פעמים הכפופה לכיסוי, עם
+      $\operatorname{supp}\eta_1\subseteq O_1$ ו-$\operatorname{supp}\eta_2\subseteq O_2$?
+    choices:
+      - text: '$\eta_2(t)=\dfrac{\varphi(t-\frac13)}{\varphi(t-\frac13)+\varphi(\frac23-t)}$ ו-$\eta_1=1-\eta_2$'
+        correct: true
+        feedback: >-
+          נכון. המכנה חיובי בכל $t$ (המחובר הראשון חיובי כש-$t>\frac13$, השני כש-$t<\frac23$), ולכן $\eta_2$ גזירה
+          אינסוף פעמים. $\eta_2=0$ כש-$t\le\frac13$ ו-$\eta_2=1$ כש-$t\ge\frac23$, ולכן
+          $\operatorname{supp}\eta_2=[\frac13,\infty)\subseteq O_2$ ו-$\operatorname{supp}\eta_1=(-\infty,\frac23]\subseteq O_1$.
+      - text: '$\eta_2(t)=\dfrac{\varphi(t)}{\varphi(t)+\varphi(1-t)}$ ו-$\eta_1=1-\eta_2$'
+        feedback: >-
+          $\eta_2$ שונה מאפס בדיוק ב-$(0,\infty)=O_2$, אבל התומך הוא הסגור, $[0,\infty)$, והוא אינו מוכל ב-$O_2$. כך גם
+          $\operatorname{supp}\eta_1=(-\infty,1]\not\subseteq O_1$. צריך "מרווח ביטחון" בתוך כל קבוצה.
+        misconception: MC-c9-support-is-nonzero-set
+      - text: '$\eta_1(t)=\varphi(\frac23-t)$ ו-$\eta_2(t)=\varphi(t-\frac13)$'
+        feedback: >-
+          התומכים נכונים, אבל הסכום אינו 1: ב-$t=\frac12$ הוא $2\varphi(\frac16)=2e^{-6}\approx0.005$. משפחה של בליטות
+          היא חלוקת יחידה רק אחרי חלוקה בסכום שלה.
+        misconception: MC-c9-bumps-are-partition
+
+  - id: Q-9.7-finite-partition
+    type: twotier
+    objectives: [OBJ-9.7-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      הכיסוי הפתוח של $\mathbb{R}^n$ הוא $\{B(0,j): j\in\mathbb{N}\}$. האם יש לו חלוקת יחידה הכפופה לו שמורכבת
+      ממספר **סופי** של פונקציות?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. חלוקת יחידה של כיסוי כזה חייבת להיות אינסופית.'
+      - text: כן
+        feedback: >-
+          לכיסוי הזה אין תת-כיסוי סופי, וכל משפחה סופית של פונקציות שהתומך של כל אחת מהן מוכל באחד הכדורים מתאפסת
+          מחוץ לכדור גדול.
+        misconception: MC-c3-half-heine-borel
+    reasons:
+      - text: 'אם $\operatorname{supp}\eta_i\subseteq B(0,j_i)$ ל-$i=1,\dots,m$, אז $\sum_i\eta_i=0$ מחוץ ל-$B(0,\max_ij_i)$, ולא $1$'
+        correct: true
+        feedback: >-
+          בדיוק. כל תומך מוכל בכדור, ומספר סופי של כדורים כאלה מוכל בגדול שבהם; מחוצה לו כל ה-$\eta_i$ מתאפסות.
+      - text: 'לפי היינה-בורל יש לכיסוי תת-כיסוי סופי, ולחלוקת יחידה הכפופה לתת-כיסוי יש מספר סופי של פונקציות'
+        feedback: >-
+          היינה-בורל דורש קבוצה סגורה **וחסומה**. $\mathbb{R}^n$ סגורה ואינה חסומה, והכיסוי בכדורים $B(0,j)$ הוא בדיוק
+          כיסוי בלי תת-כיסוי סופי.
+        misconception: MC-c3-half-heine-borel
+      - text: 'בחלוקת יחידה יש פונקציה אחת לכל קבוצה של הכיסוי, ולכיסוי הזה יש אינסוף קבוצות'
+        feedback: >-
+          חלוקת יחידה אינה חייבת פונקציה לכל קבוצה: לכיסוי $\{B(0,j)\}\cup\{\mathbb{R}^n\}$ (גם הוא אינסופי) החלוקה
+          $\{1\}$, עם פונקציה אחת, כפופה לו. הסיבה היא שכל קבוצה כאן חסומה.
+        misconception: MC-c9-partition-one-per-set
+
+  - id: Q-9.7-phi-rank
+    type: rank
+    objectives: [OBJ-9.7-2]
+    level: exam
+    help: 'סדרו את שלבי ההוכחה לפי הסדר הנכון. שלבים שאפשר להחליף ביניהם נחשבים שקולים.'
+    prompt: >-
+      ההוכחה ש-$\varphi$ ($\varphi(t)=e^{-1/t}$ ל-$t>0$, $\varphi(t)=0$ ל-$t\le0$) גזירה אינסוף פעמים ב-$\mathbb{R}$
+      התפרקה לשלבים. סדרו אותם.
+    items:
+      - id: off0
+        label: 'בקרן $t<0$ $\varphi\equiv0$, ובקרן $t>0$ היא הרכבה של פונקציות גזירות אינסוף פעמים; לכן הבעיה היחידה היא בנקודה $0$.'
+      - id: formula
+        label: 'באינדוקציה: לכל $k$ יש פולינום $P_k$ עם $\varphi^{(k)}(t)=P_k(\frac1t)e^{-1/t}$ ל-$t>0$, ו-$P_{k+1}(u)=u^2\left(P_k(u)-P_k^{\prime}(u)\right)$.'
+      - id: limit
+        label: 'לכל פולינום $P$, $\lim_{t\to0^+}P(\frac1t)e^{-1/t}=\lim_{u\to\infty}P(u)e^{-u}=0$, כי $u^me^{-u}\to0$ לכל $m$.'
+      - id: induct
+        label: 'באינדוקציה על $k$: אם $\varphi^{(k)}(0)=0$, אז $\frac{\varphi^{(k)}(t)-0}{t}$ הוא $0$ משמאל ו-$uP_k(u)e^{-u}\to0$ מימין, ולכן $\varphi^{(k+1)}(0)=0$.'
+      - id: conclude
+        label: 'לכן לכל $k$ הנגזרת $\varphi^{(k)}$ קיימת בכל $\mathbb{R}$ ורציפה גם ב-$0$ (שוב לפי הגבול), כלומר $\varphi$ גזירה אינסוף פעמים.'
+    order: [off0, [formula, limit], induct, conclude]
+    correctFeedback: >-
+      נכון. הלב הוא שהדעיכה של $e^{-1/t}$ חזקה מכל חזקה של $\frac1t$; האינדוקציה רק מעבירה את העובדה הזו מנגזרת
+      לנגזרת. שימו לב שהגבול מימין בשלב האינדוקציה הוא $\lim uP_k(u)e^{-u}$, שוב פולינום כפול $e^{-u}$.
+    wrongFeedback: >-
+      קודם מבודדים את הבעיה בנקודה $0$, אחר כך צורת הנגזרות והגבול של פולינום כפול $e^{-u}$, ורק אז האינדוקציה
+      שמראה שכל הנגזרות ב-$0$ קיימות ושוות לאפס.
+
+  - id: Q-9.7-pou-rank
+    type: rank
+    objectives: [OBJ-9.7-2]
+    level: exam
+    help: 'סדרו את שלבי ההוכחה לפי הסדר הנכון.'
+    prompt: >-
+      $\{O_\alpha\}$ כיסוי פתוח של $\mathbb{R}^n$. ההוכחה שיש לו חלוקת יחידה גזירה אינסוף פעמים הכפופה לו התפרקה
+      לשלבים. סדרו אותם.
+    items:
+      - id: shells
+        label: 'הקליפות $A_j=\{x: j-1\le\|x\|\le j\}$, $j\in\mathbb{N}$, סגורות וחסומות, ולכן קומפקטיות (היינה-בורל), ואיחודן $\mathbb{R}^n$.'
+      - id: boxes
+        label: 'לכל $x\in A_j$ בוחרים תיבה פתוחה $R\ni x$ שהסגור שלה מוכל באחת $O_\alpha$ ובקליפה הפתוחה $\{j-2<\|x\|<j+1\}$; לפי הקומפקטיות מספר סופי של תיבות כאלה מכסה את $A_j$.'
+      - id: locfin
+        label: 'כל התיבות שנבחרו (משפחה בת מנייה) מכסות את $\mathbb{R}^n$, והן סופיות מקומית: הכדור $B(0,j)$ פוגש רק תיבות של הקליפות $A_1,\dots,A_{j+1}$.'
+      - id: bumps
+        label: 'לכל תיבה $R$ בליטה $\psi_R$, חיובית בדיוק ב-$R$; הסכום $s=\sum_R\psi_R$ הוא ליד כל נקודה סכום סופי, ולכן גזיר אינסוף פעמים, ו-$s>0$ בכל נקודה.'
+      - id: divide
+        label: '$\eta_R=\frac{\psi_R}{s}$: גזירות אינסוף פעמים, $\eta_R\ge0$, $\sum_R\eta_R=1$, והתומך $\overline{R}$ מוכל באחת $O_\alpha$.'
+    order: [shells, boxes, locfin, bumps, divide]
+    correctFeedback: >-
+      נכון. הקליפות הן הדרך להחליף את $\mathbb{R}^n$, שאינו קומפקטי, באינסוף חתיכות קומפקטיות; "מרווח הביטחון" של
+      הקליפה הפתוחה הוא שנותן סופיות מקומית, והסופיות המקומית היא שמאפשרת לסכם בלי שום התכנסות.
+    wrongFeedback: >-
+      הסדר: חתיכות קומפקטיות, כיסוי סופי של כל חתיכה בתיבות קטנות, סופיות מקומית של כל התיבות, בליטות וסכומן, ולבסוף
+      חלוקה בסכום.
+
+  # ------------------------------------------------- OBJ-9.7-3: a C^∞ function vanishing exactly on a closed set
+  - id: Q-9.7-distance
+    type: multi
+    objectives: [OBJ-9.7-3]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $S\subseteq\mathbb{R}^n$ קבוצה לא ריקה ו-$d(x)=\inf_{y\in S}\|x-y\|$, המרחק של $x$ מ-$S$. אילו מהטענות נכונות
+      **לכל** $S$ כזו? סמנו את כולן.
+    choices:
+      - text: '$d$ רציפה, ואפילו $|d(x)-d(z)|\le\|x-z\|$'
+        correct: true
+        feedback: >-
+          נכון: לכל $y\in S$, $d(x)\le\|x-y\|\le\|x-z\|+\|z-y\|$; אינפימום על $y$ נותן $d(x)\le\|x-z\|+d(z)$, ובהחלפת
+          התפקידים מקבלים את אי-השוויון.
+      - text: '$d(x)=0$ אם ורק אם $x\in\overline{S}$'
+        correct: true
+        feedback: >-
+          נכון: $d(x)=0$ פירושו שיש נקודות של $S$ קרובות ל-$x$ כרצוננו, כלומר $x$ נקודת סגור של $S$.
+      - text: '$d^{-1}(0)=S$'
+        feedback: >-
+          רק כש-$S$ סגורה. ל-$S=\mathbb{Q}\subseteq\mathbb{R}$ מתקיים $d\equiv0$, כי $\mathbb{Q}$ צפופה.
+        misconception: MC-c9-zero-set-any-set
+      - text: '$d$ גזירה בכל נקודה של $\mathbb{R}^n$'
+        feedback: >-
+          ל-$S=\{0\}\subseteq\mathbb{R}$, $d(x)=|x|$, שאינה גזירה ב-$0$. לכן פונקציית המרחק פותרת את הבעיה "פונקציה
+          **רציפה** שמתאפסת בדיוק על $S$ הסגורה", ולא את הגרסה הגזירה אינסוף פעמים.
+        misconception: MC-c9-distance-smooth
+      - text: '$d$ גזירה בכל נקודה שמחוץ ל-$S$'
+        feedback: >-
+          גם זה לא: ל-$S=\{-1,1\}\subseteq\mathbb{R}$, ליד $0$ מתקיים $d(x)=1-|x|$, שאינה גזירה ב-$0\notin S$.
+        misconception: MC-c9-distance-smooth
+
+  - id: Q-9.7-zero-set-closed
+    type: twotier
+    objectives: [OBJ-9.7-3]
+    qualitative: true
+    level: basic
+    prompt: >-
+      האם יש פונקציה רציפה $g:\mathbb{R}\to\mathbb{R}$ עם $g^{-1}(0)=(0,1)$ בדיוק?
+    choices:
+      - text: לא
+        correct: true
+        feedback: 'נכון. ולכן במשפט של השיעור ההנחה "$S$ סגורה" הכרחית, גם לפונקציה רציפה בלבד.'
+      - text: כן
+        feedback: >-
+          $d(x)=\operatorname{dist}(x,(0,1))$ מתאפסת על $[0,1]$, לא על $(0,1)$. ואין פונקציה רציפה אחרת שמצליחה.
+        misconception: MC-c9-zero-set-any-set
+    reasons:
+      - text: '$g^{-1}(0)=g^{-1}(\{0\})$ היא מקור של קבוצה סגורה תחת פונקציה רציפה, ולכן סגורה; $(0,1)$ אינה סגורה'
+        correct: true
+        feedback: >-
+          בדיוק: אם $x_k\to x$ ו-$g(x_k)=0$, אז $g(x)=\lim g(x_k)=0$. ב-$(0,1)$ הסדרה $\frac1k$ מתכנסת ל-$0\notin(0,1)$,
+          ולכן $g(0)=0$ לכל $g$ רציפה שמתאפסת על $(0,1)$.
+      - text: 'לפי משפט השיעור, לכל קבוצה יש פונקציה גזירה אינסוף פעמים שמתאפסת בדיוק עליה'
+        feedback: >-
+          המשפט מניח ש-$S$ **סגורה**, וההנחה הכרחית: קבוצת אפסים של פונקציה רציפה תמיד סגורה.
+        misconception: MC-c9-zero-set-any-set
+      - text: '$(0,1)$ פתוחה, ופונקציה רציפה מתאפסת רק על קבוצות ממידה אפס'
+        feedback: >-
+          פונקציה רציפה יכולה להתאפס על קבוצה "שמנה": $\max(0,|x|-1)$ מתאפסת על $[-1,1]$. הבעיה היא סגירות, לא גודל.
+        misconception: MC-c9-zero-set-thin
+
+  - id: Q-9.7-coefficients
+    type: mc
+    objectives: [OBJ-9.7-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      בהוכחה, $\mathbb{R}^n\setminus S=\bigcup_kR_k$ (תיבות פתוחות), $\psi_k$ בליטה של $R_k$, ו-$g=\sum_kc_k\psi_k$
+      עם $c_k=\frac{2^{-k}}{M_k}$, כש-$M_k\ge1$ חוסם את $|\partial^\alpha\psi_k|$ לכל נגזרת חלקית $\partial^\alpha$
+      מסדר $|\alpha|\le k$. למה לא די ב-$c_k=2^{-k}$?
+    choices:
+      - text: 'כדי שלכל נגזרת חלקית $\partial^\alpha$ הטור $\sum_kc_k\partial^\alpha\psi_k$ יתכנס במידה שווה: כש-$k\ge|\alpha|$, $|c_k\partial^\alpha\psi_k|\le2^{-k}$, ומבחן ה-M וגזירה איבר-איבר נותנים $g\in C^\infty$'
+        correct: true
+        feedback: >-
+          נכון. הנגזרות של בליטה על תיבה קטנה יכולות להיות ענקיות, וכל $c_k$ "משלם" על הנגזרות של $\psi_k$ עד סדר $k$.
+          לכל סדר קבוע, רק מספר סופי של איברים ראשונים לא מכוסה, והם אינם משפיעים על ההתכנסות.
+      - text: 'עם $c_k=2^{-k}$ הטור $\sum c_k\psi_k$ מתכנס במידה שווה (כי $0\le\psi_k\le1$), וגבול במידה שווה של פונקציות גזירות אינסוף פעמים גזיר אינסוף פעמים'
+        feedback: >-
+          גבול במידה שווה של פונקציות חלקות אפילו אינו חייב להיות גזיר: $\frac{\sin(kx)}{\sqrt k}\to0$ במידה שווה, והנגזרות
+          ב-$0$ הן $\sqrt k$. כדי לגזור איבר-איבר צריך התכנסות במידה שווה של **טורי הנגזרות**.
+        misconception: MC-c0-uniform-implies-derivatives
+      - text: 'כי $0\le\psi_k\le1$ גורר גם $|\partial^\alpha\psi_k|\le1$, ולכן $c_k=2^{-k}$ דווקא מספיק, ו-$M_k$ מיותר'
+        feedback: >-
+          פונקציה קטנה יכולה להיות תלולה: אם $\psi$ בליטה של $(-1,1)$ ו-$\psi_k(t)=\psi(4^kt)$, אז $\sup|\psi_k|=\sup|\psi|$
+          אבל $\sup|\psi_k'|=4^k\sup|\psi'|$, ו-$2^{-k}\cdot4^k\to\infty$.
+        misconception: MC-c9-small-function-small-derivative
+
+  - id: Q-9.7-zero-set-rank
+    type: rank
+    objectives: [OBJ-9.7-3]
+    level: exam
+    help: 'סדרו את שלבי ההוכחה לפי הסדר הנכון. שלבים שאפשר להחליף ביניהם נחשבים שקולים.'
+    prompt: >-
+      $S\subseteq\mathbb{R}^n$ סגורה ו-$S\neq\mathbb{R}^n$ (אחרת $g\equiv0$). ההוכחה שיש $g$ גזירה אינסוף פעמים עם
+      $g\ge0$ ו-$g^{-1}(0)=S$ התפרקה לשלבים. סדרו אותם.
+    items:
+      - id: cover
+        label: '$U=\mathbb{R}^n\setminus S$ פתוחה, ולכן היא איחוד של התיבות הפתוחות בעלות קודקודים רציונליים שמוכלות בה: סדרה $R_1,R_2,\dots$.'
+      - id: bump
+        label: 'לכל $k$ בליטה $\psi_k$, גזירה אינסוף פעמים, חיובית בדיוק ב-$R_k$; היא מתאפסת מחוץ לקבוצה הקומפקטית $\overline{R_k}$, ולכן $M_k=\max(1,\max_{|\alpha|\le k}\sup|\partial^\alpha\psi_k|)$ סופי.'
+      - id: coeff
+        label: '$c_k=\frac{2^{-k}}{M_k}$ ו-$g=\sum_kc_k\psi_k$. לכל $\alpha$ ולכל $k\ge|\alpha|$, $|c_k\partial^\alpha\psi_k|\le2^{-k}$, ולכן לפי מבחן ה-M הטור $\sum_kc_k\partial^\alpha\psi_k$ מתכנס במידה שווה.'
+      - id: termwise
+        label: 'לפי משפט הגזירה איבר-איבר (משתנה אחד בכל פעם, באינדוקציה על $|\alpha|$), $g$ גזירה אינסוף פעמים ו-$\partial^\alpha g=\sum_kc_k\partial^\alpha\psi_k$.'
+      - id: zeros
+        label: '$g\ge0$, ו-$g(x)>0$ אם ורק אם $\psi_k(x)>0$ לאיזשהו $k$, כלומר $x\in U$; לכן $g^{-1}(0)=S$.'
+    order: [cover, bump, coeff, [termwise, zeros]]
+    correctFeedback: >-
+      נכון. הבחירה של $c_k$ היא הלב: היא מבטיחה שכל טור נגזרות מתכנס במידה שווה. שימו לב שכאן המשפחה אינה סופית
+      מקומית (ליד השפה של $S$ נפגשות אינסוף תיבות), ולכן צריך התכנסות במקום סופיות מקומית.
+    wrongFeedback: >-
+      הסדר: כיסוי בן מנייה של המשלים, בליטות וחסמים לנגזרותיהן, מקדמים שמכריחים התכנסות במידה שווה, ואז גזירות
+      ואפסים.
+
+  - id: Q-9.7-cantor-zero
+    type: twotier
+    objectives: [OBJ-9.7-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $\mathcal{C}\subseteq[0,1]$ קבוצת קנטור. נכון או לא נכון: יש $g:\mathbb{R}\to\mathbb{R}$ גזירה אינסוף פעמים,
+      $g\ge0$, שמתאפסת בדיוק על $\mathcal{C}$.
+    choices:
+      - text: נכון
+        correct: true
+        feedback: 'נכון, אף ש-$\mathcal{C}$ אינה בת מנייה ומכל נקודה שלה יוצאות סדרות של נקודות אחרות שלה.'
+      - text: לא נכון
+        feedback: >-
+          פונקציה גזירה אינסוף פעמים שאינה אפס יכולה להתאפס על קבוצה ענקית, גם על קטע שלם; $\varphi$ מתאפסת
+          על $(-\infty,0]$.
+        misconception: MC-c9-smooth-is-analytic
+    reasons:
+      - text: '$\mathcal{C}$ סגורה, כחיתוך של הקבוצות הסגורות $C_k$ (איחודים סופיים של קטעים סגורים), ולכן המשפט על קבוצות סגורות חל'
+        correct: true
+        feedback: >-
+          בדיוק. ההנחה היחידה של המשפט היא סגירות; לא בנות מנייה ולא גודל.
+      - text: '$\mathcal{C}$ ממידה אפס, ולקבוצה ממידה אפס יש פונקציה כזו'
+        feedback: >-
+          המידה אינה רלוונטית: $\mathbb{Q}$ ממידה אפס ואין שום פונקציה רציפה שמתאפסת בדיוק עליה (קבוצת אפסים סגורה),
+          ו-$[0,1]$ אינה ממידה אפס ויש לה פונקציה כזו.
+        misconception: MC-c9-zero-set-thin
+      - text: '$\mathcal{C}$ אינה מכילה קטע, ופונקציה גזירה אינסוף פעמים מתאפסת רק על קבוצות שאינן מכילות קטע'
+        feedback: >-
+          פונקציה גזירה אינסוף פעמים יכולה להתאפס על קטע: $\varphi\equiv0$ על $(-\infty,0]$ ואינה זהותית אפס.
+        misconception: MC-c9-smooth-is-analytic

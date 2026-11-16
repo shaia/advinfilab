@@ -1,0 +1,547 @@
+# Workbook of lesson 2.7 (enrichment) — G_δ sets, oscillation, pointwise limits of continuous functions, nowhere
+# differentiable functions.
+# Objectives (src/course.ts):
+#   OBJ-2.7-1  G_δ sets, the oscillation; the continuity set of any f is G_δ
+#   OBJ-2.7-2  a pointwise limit of continuous functions on a complete space is continuous on a dense G_δ
+#   OBJ-2.7-3  by Baire, the nowhere differentiable functions are dense in (C[0,1], ‖·‖∞)
+# Numbers recomputed with npx tsx (W-01 oscillations, W-03 memberships in E_n).
+lesson: '2.7'
+practice:
+  - id: W-2.7-01
+    level: basic
+    objectives: [OBJ-2.7-1]
+    prompt: >-
+      תהי $f:\mathbb{R}\to\mathbb{R}$, $f(x)=x$ כש-$x\in\mathbb{Q}$ ו-$f(x)=-x$ כש-$x\notin\mathbb{Q}$. חשבו את $o(f,a)$
+      לכל $a\in\mathbb{R}$, ומצאו את $C_f$.
+    answer: >-
+      $o(f,a)=2|a|$, ולכן $C_f=\{0\}$.
+    solution:
+      - kind: idea
+        text: >-
+          בכל כדור יש רציונליים ואי-רציונליים (טענה 2.5.7(ו)). הרציונליים נותנים ערכים קרובים ל-$a$, והאי-רציונליים ערכים
+          קרובים ל-$-a$; ההפרש בין שני הענפים הוא $2|a|$.
+      - kind: computation
+        text: >-
+          נניח $a\ge0$ ו-$\delta>0$. על $(a-\delta,a+\delta)$, הערכים ברציונליים הם הרציונליים של הקטע, והערכים באי-רציונליים
+          הם מינוס האי-רציונליים של הקטע. שתי הקבוצות צפופות בקטעים שלהן, ולכן $\sup f=a+\delta$ (גדול מ-$-(a-\delta)$
+          כי $a\ge0$) ו-$\inf f=-(a+\delta)$. לפי למה 2.7.9(ב), $\omega(f,a,\delta)=2(a+\delta)$.
+      - kind: step
+        text: >-
+          לפי למה 2.7.9(א), $o(f,a)=\lim_{\delta\to0^+}2(a+\delta)=2a$. כש-$a<0$, $f(-x)=-f(x)$ לכל $x$, ולכן הערכים על
+          $B(a,\delta)$ הם מינוס הערכים על $B(-a,\delta)$, וההפרשים זהים: $o(f,a)=o(f,-a)=2|a|$.
+      - kind: theorem
+        text: >-
+          למה 2.7.9(ג): $f$ רציפה ב-$a$ אם ורק אם $o(f,a)=0$.
+      - kind: check
+        text: >-
+          ב-$a=0$: $|f(x)|=|x|$, ולכן $|f(x)-f(0)|<\varepsilon$ כש-$|x|<\varepsilon$, רציפות ישירה. ו-$\{0\}$ היא $G_\delta$
+          ($\bigcap_k(-\frac1k,\frac1k)$), כמו שמשפט 2.7.11 דורש.
+      - kind: result
+        text: >-
+          $o(f,a)=2|a|$ לכל $a$, ו-$C_f=\{0\}$.
+
+  - id: W-2.7-02
+    level: basic
+    objectives: [OBJ-2.7-1]
+    prompt: >-
+      יהי $(X,d)$ מרחב מטרי ו-$f:X\to\mathbb{R}$ רציפה. הוכיחו בעזרת הקבוצות $\{x:\ |f(x)|<\frac1n\}$ ש-$Z(f)=\{x:\ f(x)=0\}$
+      היא $G_\delta$, וכתבו במפורש את $\{x:\ f(x)\ne0\}$ כאיחוד של סדרה של קבוצות סגורות.
+    answer: >-
+      $Z(f)=\bigcap_n\{|f|<\frac1n\}$, ו-$\{f\ne0\}=\bigcup_n\{|f|\ge\frac1n\}$.
+    solution:
+      - kind: idea
+        text: >-
+          "$f(x)=0$" הוא "$|f(x)|<\frac1n$ לכל $n$": חיתוך של סדרה של תנאים פתוחים. המשלים מתקבל מדה-מורגן.
+      - kind: step
+        text: >-
+          $|f|$ רציפה (טענה 1.6.5(א), הערך המוחלט ליפשיצי), ולכן $U_n=\{x:\ |f(x)|<\frac1n\}$ פתוחה (מסקנה 1.6.7(א)).
+      - kind: step
+        text: >-
+          $x\in\bigcap_nU_n$ אם ורק אם $0\le|f(x)|<\frac1n$ לכל $n$, אם ורק אם $f(x)=0$ (ארכימדס). לכן $Z(f)=\bigcap_nU_n$
+          היא $G_\delta$ (הגדרה 2.7.1).
+      - kind: step
+        text: >-
+          לפי דה-מורגן, $\{f\ne0\}=\bigcup_n(X\setminus U_n)=\bigcup_n\{x:\ |f(x)|\ge\frac1n\}$, וכל קבוצה כזו סגורה (מסקנה
+          1.6.7(א)).
+      - kind: check
+        text: >-
+          עם $f=\operatorname{dist}(\cdot,F)$ ל-$F$ סגורה לא ריקה, $Z(f)=F$ (טענה 1.6.6(ד)), וזו בדיוק ההוכחה של טענה 2.7.2(ג).
+          ב-$C[0,1]$ עם $\Phi(g)=g(0)$: $\{g:\ g(0)=0\}$ היא $G_\delta$.
+      - kind: result
+        text: >-
+          $Z(f)=\bigcap_n\{|f|<\frac1n\}$ היא $G_\delta$, ו-$\{f\ne0\}=\bigcup_n\{|f|\ge\frac1n\}$ היא $F_\sigma$.
+
+  - id: W-2.7-03
+    level: basic
+    qualitative: true
+    objectives: [OBJ-2.7-3]
+    prompt: >-
+      $E_n$ כמו בהגדרה 2.7.17. לכל אחת מהפונקציות קבעו אם היא ב-$E_1$ ואם היא ב-$E_2$:
+
+
+      (א) $f\equiv7$;
+
+
+      (ב) $f(x)=3x$;
+
+
+      (ג) $f(x)=2|x-\frac12|$.
+    answer: >-
+      (א) ב-$E_1$ וב-$E_2$; (ב) לא ב-$E_1$ ולא ב-$E_2$ (היא ב-$E_3$); (ג) ב-$E_2$ ולא ב-$E_1$.
+    solution:
+      - kind: idea
+        text: >-
+          ב-$E_1$ הנקודה היחידה האפשרית היא $x=0$ ו-$h<1$; ב-$E_2$, $x\in[0,\frac12]$ ו-$h<\frac12$. בודקים את אי-השוויון לכל
+          $h$ בטווח, לא רק בגבול.
+      - kind: computation
+        text: >-
+          (א) $|7-7|=0\le nh$ בכל נקודה. לכן $f\in E_1\subseteq E_2$ (למה 2.7.18(ב)).
+      - kind: computation
+        text: >-
+          (ב) בכל $x$: $|3(x+h)-3x|=3h$, ו-$3h\le nh$ אם ורק אם $n\ge3$. לכן $f\notin E_1$, $f\notin E_2$, ו-$f\in E_3$.
+      - kind: computation
+        text: >-
+          (ג) ב-$E_2$ עם $x=0$: ל-$0<h<\frac12$, $f(h)-f(0)=2(\frac12-h)-1=-2h$, ו-$|{-2h}|\le2h$. לכן $f\in E_2$. ב-$E_1$, עם
+          $x=0$ ו-$h=\frac14$: $|f(\frac14)-f(0)|=|\frac12-1|=\frac12>\frac14$. לכן $f\notin E_1$.
+      - kind: check
+        text: >-
+          (ב) מראה ש-$E_n$ אינה "גזירה": $3x$ גזירה בכל נקודה, ונמצאת ב-$E_n$ רק מ-$n=3$. נגזרת ימנית בנקודה מכניסה
+          ל-$E_n$ רק ל-$n$ גדול מספיק (למה 2.7.18(א)). (ג) אינה גזירה ב-$\frac12$, ובכל זאת ב-$E_2$: מספיקה נקודה טובה אחת.
+      - kind: result
+        text: >-
+          (א) $E_1$ ו-$E_2$; (ב) אף אחת מהן (רק מ-$E_3$); (ג) $E_2$ בלבד.
+
+  - id: W-2.7-04
+    level: mid
+    objectives: [OBJ-2.7-1]
+    prompt: >-
+      יהי $(X,d)$ מרחב מטרי, $a\in X$, ויהיו $f,g:X\to\mathbb{R}$ עם $o(f,a)<\infty$ ו-$o(g,a)<\infty$.
+
+
+      (א) הוכיחו: $o(f+g,a)\le o(f,a)+o(g,a)$.
+
+
+      (ב) הסיקו ש-$C_f\cap C_g\subseteq C_{f+g}$.
+
+
+      (ג) תנו דוגמה שבה אי-השוויון ב-(א) חזק, ובה $C_{f+g}\ne C_f\cap C_g$.
+    answer: >-
+      (א)–(ב) הוכחה; (ג) $f=\chi_{\mathbb{Q}}$, $g=-\chi_{\mathbb{Q}}$ על $\mathbb{R}$: $o(f+g,a)=0<2$, ו-$C_{f+g}=\mathbb{R}\ne\emptyset$.
+    solution:
+      - kind: idea
+        text: >-
+          אי-שוויון המשולש בכל זוג נקודות של הכדור, ואחר כך מעבר לגבול ב-$\delta$ (למה 2.7.9(א)).
+      - kind: step
+        text: >-
+          (א) לכל $\delta>0$ ולכל $y,z\in B(a,\delta)$: $|(f+g)(y)-(f+g)(z)|\le|f(y)-f(z)|+|g(y)-g(z)|\le\omega(f,a,\delta)+\omega(g,a,\delta)$.
+          לכן $\omega(f+g,a,\delta)\le\omega(f,a,\delta)+\omega(g,a,\delta)$.
+      - kind: step
+        text: >-
+          לפי ההנחה יש $\delta_0$ שבו שני המחוברים סופיים, ולפי למה 2.7.9(א) הם סופיים לכל $\delta\le\delta_0$. עם
+          $\delta=\frac1k\to0$, ולפי למה 2.7.9(א) ואריתמטיקה של גבולות: $o(f+g,a)\le o(f,a)+o(g,a)$.
+      - kind: step
+        text: >-
+          (ב) אם $a\in C_f\cap C_g$, לפי למה 2.7.9(ג) $o(f,a)=o(g,a)=0$, ולפי (א) $0\le o(f+g,a)\le0$, ולכן $a\in C_{f+g}$.
+      - kind: computation
+        text: >-
+          (ג) $f=\chi_{\mathbb{Q}}$, $g=-\chi_{\mathbb{Q}}$: לפי טענה 2.7.10(ב), $o(f,a)=o(g,a)=1$ בכל $a$, ו-$f+g\equiv0$ רציפה.
+          לכן $o(f+g,a)=0<2$, $C_f\cap C_g=\emptyset$ ו-$C_{f+g}=\mathbb{R}$.
+      - kind: check
+        text: >-
+          (ב) הוא הכלל של אינפי 1 "סכום של רציפות רציף", בנקודה אחת. ההנחה שהתנודות סופיות מאפשרת להשתמש בצעד השני
+          באריתמטיקה של גבולות סופיים; כשאחת מהן אינסופית, אגף ימין של (א) הוא $\infty$ (שתי התנודות אי-שליליות), ואי-השוויון
+          נכון באופן טריוויאלי.
+      - kind: result
+        text: >-
+          $o(f+g,a)\le o(f,a)+o(g,a)$; $C_f\cap C_g\subseteq C_{f+g}$; ההכלה יכולה להיות ממש ($\pm\chi_{\mathbb{Q}}$).
+
+  - id: W-2.7-05
+    level: mid
+    qualitative: true
+    objectives: [OBJ-2.7-1]
+    prompt: >-
+      לכל אחת מהקבוצות $A\subseteq\mathbb{R}$ הבאות, קבעו אם יש $f:\mathbb{R}\to\mathbb{R}$ עם $C_f=A$ בדיוק. אם יש, תנו
+      דוגמה והוכיחו; אם אין, הוכיחו.
+
+
+      (א) $A=\mathbb{Z}$;
+
+
+      (ב) $A=\mathbb{R}\setminus\mathbb{Z}$;
+
+
+      (ג) $A=\mathbb{Q}\cap[0,1]$.
+    answer: >-
+      (א) כן: $f(x)=\operatorname{dist}(x,\mathbb{Z})\,\chi_{\mathbb{Q}}(x)$. (ב) כן: $\chi_{\mathbb{Z}}$. (ג) לא.
+    solution:
+      - kind: idea
+        text: >-
+          (א) כמו $x\chi_{\mathbb{Q}}(x)$, שרציפה רק ב-0, עם גורם שמתאפס בדיוק בשלמים. (ב) טענה 2.7.10(א). (ג) $A$ בת מנייה,
+          וצפופה במרחב השלם $[0,1]$: מפעילים את משפט 2.7.4(ב) שם, ולא ב-$\mathbb{R}$, שבו $A$ אינה צפופה.
+      - kind: step
+        text: >-
+          (א) ב-$n\in\mathbb{Z}$: $|f(x)-f(n)|=|f(x)|\le\operatorname{dist}(x,\mathbb{Z})\le|x-n|$, ולכן $f$ רציפה ב-$n$. ב-$a\notin\mathbb{Z}$:
+          $c=\operatorname{dist}(a,\mathbb{Z})>0$, והפונקציה $\operatorname{dist}(\cdot,\mathbb{Z})$ רציפה (טענה 1.6.6(ג)), ולכן יש $\delta_0$
+          שבו היא גדולה מ-$\frac c2$ על $B(a,\delta_0)$. לכל $\delta\le\delta_0$, בכדור יש רציונלי $y$ ($f(y)>\frac c2$) ואי-רציונלי
+          $z$ ($f(z)=0$), ולכן $\omega(f,a,\delta)\ge\frac c2$ ו-$o(f,a)\ge\frac c2>0$.
+      - kind: step
+        text: >-
+          (ב) $\mathbb{Z}$ סגורה ובלי פנים (טענה 2.5.7(ג)), ולכן $\partial\mathbb{Z}=\mathbb{Z}$, ולפי טענה 2.7.10(א)
+          $C_{\chi_{\mathbb{Z}}}=\mathbb{R}\setminus\mathbb{Z}$.
+      - kind: step
+        text: >-
+          (ג) נניח בשלילה ש-$C_f=A$. לפי משפט 2.7.11, $A=\bigcap_nU_n$ עם $U_n$ פתוחות ב-$\mathbb{R}$. אז
+          $A=\bigcap_n(U_n\cap[0,1])$, וכל $U_n\cap[0,1]$ פתוחה בתת-המרחב $[0,1]$ (משפט 1.3.11): $A$ היא $G_\delta$ ב-$[0,1]$.
+      - kind: step
+        text: >-
+          $[0,1]$ שלם (סגור ב-$\mathbb{R}$, מסקנה 2.2.2), לא ריק, ובלי נקודות מבודדות (צעד 2 בהוכחת מסקנה 2.5.9א). $A$ צפופה
+          ב-$[0,1]$: כל כדור של $[0,1]$ מכיל קטע פתוח לא ריק, ובו רציונלי (משפט 1.4.15). $A$ בת מנייה. לפי משפט 2.7.4(ב), זו
+          סתירה.
+      - kind: check
+        text: >-
+          ב-(ג) לא אפשר להפעיל את מסקנה 2.7.5 ישירות: $A$ אינה צפופה ב-$\mathbb{R}$. העבודה במרחב $[0,1]$ היא הצעד שמסדר
+          את זה. ובכל זאת $A$ היא $F_\sigma$ (בת מנייה, טענה 2.7.2(ה)), והיא קבוצת נקודות **האי-רציפות** של
+          $T\cdot\chi_{[0,1]}$ (פונקציית תומה על $[0,1]$ ואפס מחוצה לו); רק כקבוצת נקודות רציפות היא אסורה.
+      - kind: result
+        text: >-
+          (א) כן, $\operatorname{dist}(x,\mathbb{Z})\chi_{\mathbb{Q}}(x)$; (ב) כן, $\chi_{\mathbb{Z}}$; (ג) לא.
+
+  - id: W-2.7-06
+    level: mid
+    objectives: [OBJ-2.7-2]
+    prompt: >-
+      יהי $(X,d)$ מרחב מטרי שלם ולא ריק, ויהיו $f_n:X\to\mathbb{R}$ רציפות עם $f_n\to\chi_A$ נקודתית, לאיזו $A\subseteq X$.
+
+
+      (א) הוכיחו שכל קבוצה פתוחה לא ריקה $U\subseteq X$ מכילה כדור $B(y,s)$, $s>0$, שמוכל ב-$A$ או זר ל-$A$.
+
+
+      (ב) הסיקו: ל-$A=\mathbb{Q}\cup[0,1]\subseteq\mathbb{R}$ אין סדרה כזו.
+    answer: >-
+      (א) בנקודת רציפות $y\in U$ של $\chi_A$ הפונקציה קבועה בכדור. (ב) בקטע $(1,2)$ אין כדור כזה.
+    solution:
+      - kind: idea
+        text: >-
+          לפי משפט 2.7.14 נקודות הרציפות של $\chi_A$ צפופות; ופונקציה שמקבלת רק 0 ו-1 ורציפה ב-$y$ קבועה ליד $y$.
+      - kind: theorem
+        text: >-
+          משפט 2.7.14: $C_{\chi_A}$ צפופה ב-$X$.
+      - kind: step
+        text: >-
+          (א) $U$ פתוחה ולא ריקה, ולכן יש $y\in U\cap C_{\chi_A}$ (טענה 1.4.14(ב)), ו-$r>0$ עם $B(y,r)\subseteq U$. מרציפות
+          ב-$y$ עם $\varepsilon=\frac12$ יש $s\in(0,r]$ עם $|\chi_A(x)-\chi_A(y)|<\frac12$ על $B(y,s)$. הערכים 0 ו-1, ולכן
+          $\chi_A=\chi_A(y)$ על כל $B(y,s)$: הכדור מוכל ב-$A$ (אם $\chi_A(y)=1$) או זר לה.
+      - kind: step
+        text: >-
+          (ב) $\mathbb{R}$ שלם (משפט 2.1.10). ב-$U=(1,2)$: כל כדור $B(y,s)\subseteq(1,2)$ מכיל רציונלי (משפט 1.4.15), שהוא ב-$A$,
+          ואי-רציונלי (טענה 2.5.7(ו)), שאינו ב-$A$ (כי הוא מחוץ ל-$[0,1]$). לכן אף כדור ב-$(1,2)$ אינו מוכל ב-$A$ ואינו זר
+          לה, בסתירה ל-(א).
+      - kind: check
+        text: >-
+          ב-$(0,1)$ דווקא יש כדורים בתוך $A$; הבעיה רק מחוץ ל-$[0,1]$. השלמות נכנסת רק דרך משפט 2.7.14, ובלעדיה
+          המשפט נכשל (טענה 2.7.16).
+      - kind: result
+        text: >-
+          (א) בכל פתוחה לא ריקה יש כדור שמוכל ב-$A$ או זר לה; (ב) $\chi_{\mathbb{Q}\cup[0,1]}$ אינה גבול נקודתי של רציפות על
+          $\mathbb{R}$.
+
+  - id: W-2.7-07
+    level: mid
+    objectives: [OBJ-2.7-3]
+    prompt: >-
+      תהי $\mathrm{Lip}\subseteq C[0,1]$ קבוצת הפונקציות הליפשיציות על $[0,1]$ (עם קבוע כלשהו). ב-$(C[0,1],d_\infty)$ הוכיחו:
+
+
+      (א) $\mathrm{Lip}$ מקטגוריה ראשונה;
+
+
+      (ב) $\mathrm{Lip}$ צפופה;
+
+
+      (ג) $\mathrm{Lip}$ אינה סגורה.
+    answer: >-
+      (א) $\mathrm{Lip}\subseteq\bigcup_nE_n$; (ב) הקווים השבורים ליפשיציים; (ג) $\sqrt{x+\frac1k}\to\sqrt x\notin\mathrm{Lip}$.
+    solution:
+      - kind: idea
+        text: >-
+          קבוע ליפשיץ $K$ הוא חסם על כל מנות ההפרשים, ובפרט מכניס ל-$E_n$ עם $x=0$ לכל $n\ge K$. משם (א) נובע מלמות
+          2.7.19–2.7.20.
+      - kind: step
+        text: >-
+          (א) תהי $f$ ליפשיצית עם קבוע $K$, ו-$n\in\mathbb{N}$ עם $n\ge K$. עם $x=0\in[0,1-\frac1n]$: $|f(h)-f(0)|\le Kh\le nh$ לכל
+          $0<h<\frac1n$, ולכן $f\in E_n$. לכן $\mathrm{Lip}=\bigcup_n(\mathrm{Lip}\cap E_n)$, וכל $\mathrm{Lip}\cap E_n$ מוכלת
+          בקבוצה הדלילה $E_n$ (למות 2.7.19–2.7.20) ודלילה (טענה 2.5.6(ו)).
+      - kind: step
+        text: >-
+          (ב) קו שבור $p$ עם שיפוע מרבי $M$ מקיים $|p(s)-p(t)|\le M|s-t|$ (צעד 1 בהוכחת למה 2.7.20), ולכן ליפשיצי. הקווים
+          השבורים צפופים (משפט 1.4.18(א)), ולכן גם $\mathrm{Lip}$ (טענה 1.4.4(ד)).
+      - kind: step
+        text: >-
+          (ג) $f_k(x)=\sqrt{x+\frac1k}$ ליפשיצית על $[0,1]$ (נגזרת חסומה ב-$\frac{\sqrt k}2$, משפט הערך הממוצע). ו-$0\le f_k(x)-\sqrt x=\frac{1/k}{\sqrt{x+1/k}+\sqrt x}\le\frac{1/k}{\sqrt{1/k}}=\frac1{\sqrt k}$,
+          ולכן $f_k\to\sqrt x$ ב-$d_\infty$. $\sqrt x$ אינה ליפשיצית: $\frac{\sqrt h-0}{h}=\frac1{\sqrt h}\to\infty$. לפי מסקנה
+          1.5.8(ב), $\mathrm{Lip}$ אינה סגורה.
+      - kind: check
+        text: >-
+          (א) ו-(ב) יחד: קבוצה מקטגוריה ראשונה וצפופה, כמו $\mathbb{Q}$ ב-$\mathbb{R}$. וב-(ג), $\sqrt x\in E_2$ (עם $x=\frac12$),
+          כך ש-$E_2$ מכילה גם פונקציות שאינן ליפשיציות.
+      - kind: result
+        text: >-
+          $\mathrm{Lip}$ מקטגוריה ראשונה, צפופה, ואינה סגורה ב-$(C[0,1],d_\infty)$.
+
+  - id: W-2.7-08
+    level: exam
+    objectives: [OBJ-2.7-1, OBJ-2.7-2]
+    prompt: >-
+      יהי $(X,d)$ מרחב מטרי שלם ולא ריק, ו-$f_n:X\to\mathbb{R}$ רציפות עם $f_n\to f$ נקודתית.
+
+
+      (א) הוכיחו שלכל $\varepsilon>0$ הקבוצה $D_\varepsilon=\{x:\ o(f,x)\ge\varepsilon\}$ סגורה ודלילה, והסיקו שקבוצת נקודות
+      האי-רציפות של $f$ מקטגוריה ראשונה.
+
+
+      (ב) עבור פונקציית תומה $T$ על $\mathbb{R}$ (שהיא גבול כזה, טענה 2.7.16) מצאו את $D_{1/k}$ במפורש, ובדקו ישירות שהיא
+      סגורה ודלילה.
+    answer: >-
+      (א) $D_\varepsilon$ היא המשלים של הפתוחה $\{o<\varepsilon\}$, ואין לה פנים כי $C_f$ צפופה. (ב) $D_{1/k}$ = השברים עם מכנה
+      מצומצם לכל היותר $k$.
+    solution:
+      - kind: idea
+        text: >-
+          הסגירות היא למה 2.7.9(ד) לכל פונקציה; "בלי פנים" בא מכך שנקודות הרציפות צפופות (משפט 2.7.14), ואף אחת מהן אינה
+          ב-$D_\varepsilon$.
+      - kind: step
+        text: >-
+          (א) $X\setminus D_\varepsilon=\{o<\varepsilon\}$ פתוחה (למה 2.7.9(ד)), ולכן $D_\varepsilon$ סגורה. אילו $B(x,r)\subseteq D_\varepsilon$,
+          לפי משפט 2.7.14 יש $y\in B(x,r)\cap C_f$ (טענה 1.4.14(ג)), ו-$o(f,y)=0<\varepsilon$ (למה 2.7.9(ג)), בסתירה ל-$y\in D_\varepsilon$.
+          לפי טענה 2.5.6(ה), $D_\varepsilon$ דלילה.
+      - kind: step
+        text: >-
+          $X\setminus C_f=\{o>0\}=\bigcup_kD_{1/k}$ (ארכימדס), איחוד של סדרה של דלילות: מקטגוריה ראשונה.
+      - kind: computation
+        text: >-
+          (ב) לפי טענה 2.7.12, $o(T,\frac pq)=\frac1q$ ו-$o(T,a)=0$ באי-רציונליים. לכן $D_{1/k}$ היא קבוצת השברים $\frac pq$, מצומצמים, עם $q\le k$.
+      - kind: step
+        text: >-
+          סגורה: בכל קטע חסום יש בה מספר סופי של נקודות (טענה 2.7.12(א)). אם $x\notin D_{1/k}$, ב-$(x-1,x+1)$ יש מספר סופי
+          שלהן, ואף אחת אינה $x$; כדור ברדיוס קטן מהמרחקים אליהן (ומ-1) זר ל-$D_{1/k}$. בלי פנים: היא מוכלת ב-$\mathbb{Q}$,
+          שאין לה פנים (טענות 1.4.2(ד), 2.5.7(ו)).
+      - kind: check
+        text: >-
+          ב-$T$: $\bigcup_kD_{1/k}=\mathbb{Q}$, ואכן $\mathbb{Q}$ מקטגוריה ראשונה (איחוד היחידונים). קבוצת נקודות האי-רציפות
+          יכולה להיות צפופה, אבל לעולם לא שיורית.
+      - kind: result
+        text: >-
+          $D_\varepsilon$ סגורה ודלילה, ונקודות האי-רציפות $\bigcup_kD_{1/k}$ מקטגוריה ראשונה; ל-$T$, $D_{1/k}$ היא השברים עם
+          מכנה מצומצם לכל היותר $k$.
+
+  - id: W-2.7-09
+    level: exam
+    objectives: [OBJ-2.7-3]
+    prompt: >-
+      ב-$(C[0,1],d_\infty)$ תהי $A$ קבוצת הפונקציות שמונוטוניות (לא יורדות או לא עולות) על קטע $[a,b]\subseteq[0,1]$ כלשהו
+      עם $a<b$. לכל $k\in\mathbb{N}$ תהי $M_k^+$ קבוצת הפונקציות שיש להן $a\in[0,1-\frac1k]$ כך שהן לא יורדות על
+      $[a,a+\frac1k]$, ו-$M_k^-$ אותו דבר עם "לא עולות".
+
+
+      (א) הוכיחו ש-$M_k^+$ סגורה.
+
+
+      (ב) הוכיחו של-$M_k^+$ אין פנים (וכך גם ל-$M_k^-$, באותה דרך).
+
+
+      (ג) הסיקו ש-$A$ מקטגוריה ראשונה, ולכן הפונקציות שאינן מונוטוניות באף קטע שיוריות ב-$C[0,1]$.
+    answer: >-
+      (א) כמו למה 2.7.19; (ב) קו שבור ועוד מסור עם $L>M$ ו-$\frac r{4L}<\frac1{3k}$; (ג) $A\subseteq\bigcup_k(M_k^+\cup M_k^-)$.
+    solution:
+      - kind: idea
+        text: >-
+          אותה תבנית כמו $E_n$: הקטע הטוב נודד, ומייצבים אותו בבולצאנו-ויירשטראס; ומסור תלול מספיק יורד ועולה בכל קטע
+          באורך $\frac1k$, כך ש-$p$ לא יכול לתקן אותו.
+      - kind: step
+        text: >-
+          (א) תהי $f_j\in M_k^+$, $f_j\to f$ ב-$d_\infty$, עם $a_j\in[0,1-\frac1k]$ מתאימים. לפי בולצאנו-ויירשטראס, בתת-סדרה
+          $a_j\to a\in[0,1-\frac1k]$. יהיו $s<t$ ב-$[a,a+\frac1k]$, ו-$s_j=a_j+(s-a)$, $t_j=a_j+(t-a)$, שניהם ב-$[a_j,a_j+\frac1k]$.
+          אז $f_j(s_j)\le f_j(t_j)$, ו-$f_j(s_j)\to f(s)$, $f_j(t_j)\to f(t)$ כמו בצעד 3 של למה 2.7.19. לכן $f(s)\le f(t)$: $f$ לא
+          יורדת על $[a,a+\frac1k]$, ו-$f\in M_k^+$ (מסקנה 1.5.8(ב)).
+      - kind: step
+        text: >-
+          (ב) יהיו $f$ ו-$r>0$. לפי משפט 1.4.18(א) יש קו שבור $p$ עם $d_\infty(f,p)<\frac r2$, עם שיפוע מרבי $M$. נבחר $L>M$
+          עם $w=\frac r{4L}<\frac1{3k}$, ומסור $\varphi$ בגובה $\frac r4$ ובשיפוע $\pm L$ על הקטעים $[iw,(i+1)w]$ (כמו בלמה
+          2.7.20). $g=p+\varphi$ במרחק פחות מ-$r$ מ-$f$.
+      - kind: step
+        text: >-
+          יהי $a\in[0,1-\frac1k]$, ו-$i=\lceil\frac aw\rceil$. אז $a\le iw<a+w$ ו-$(i+2)w<a+3w<a+\frac1k$: שני הקטעים
+          $[iw,(i+1)w]$ ו-$[(i+1)w,(i+2)w]$ בתוך $[a,a+\frac1k]$, ועל אחד מהם השיפוע של $\varphi$ הוא $-L$. על הקטע הזה,
+          $[s,t]$: $g(t)-g(s)\le M(t-s)-L(t-s)<0$. לכן $g$ אינה לא-יורדת על $[a,a+\frac1k]$, ו-$g\notin M_k^+$. אותו טיעון
+          עם הקטע שבו השיפוע $+L$ נותן $g\notin M_k^-$.
+      - kind: step
+        text: >-
+          (ג) אם $f$ מונוטונית על $[a,b]$, $a<b$, נבחר $k$ עם $\frac1k\le b-a$; $f$ מונוטונית על $[a,a+\frac1k]$, ולכן $f\in M_k^+\cup M_k^-$.
+          כל $M_k^\pm$ סגורה ובלי פנים, ולכן דלילה (טענה 2.5.6(ה)), ו-$A\subseteq\bigcup_k(M_k^+\cup M_k^-)$ מקטגוריה ראשונה
+          (טענה 2.5.6(ו)). המשלים שיורי (הגדרה 2.7.6).
+      - kind: check
+        text: >-
+          כאן מספיק $L>M$ ולא $L>n+M$: המטרה רק לשנות את סימן ההפרש, לא להעביר אותו סף. והקטע בגודל $3w$ מבטיח שני קטעי מסור
+          שלמים, אחד יורד ואחד עולה, בכל קטע באורך $\frac1k$.
+      - kind: result
+        text: >-
+          $M_k^\pm$ סגורות ודלילות; $A$ מקטגוריה ראשונה; ברוב המובן של בייר, פונקציה רציפה אינה מונוטונית באף קטע.
+
+  - id: W-2.7-10
+    level: exam
+    qualitative: true
+    objectives: [OBJ-2.7-1, OBJ-2.7-2]
+    prompt: >-
+      נכון או לא נכון? נמקו כל סעיף בהוכחה או בדוגמה נגדית.
+
+
+      (א) לכל קבוצת $G_\delta$ צפופה ב-$\mathbb{R}$ יש נקודה פנימית.
+
+
+      (ב) אם $G$ היא $G_\delta$ צפופה ב-$\mathbb{R}$, אז $\mathbb{R}\setminus G$ מקטגוריה ראשונה.
+
+
+      (ג) יש $f:\mathbb{R}\to\mathbb{R}$ שהיא גבול נקודתי של רציפות, ושאינה רציפה בדיוק בנקודות של $\mathbb{Q}$.
+
+
+      (ד) יש $f:\mathbb{R}\to\mathbb{R}$ שהיא גבול נקודתי של רציפות, ושאינה רציפה בדיוק בנקודות של $\mathbb{R}\setminus\mathbb{Q}$.
+
+
+      (ה) כל קבוצת $F_\sigma$ ב-$\mathbb{R}$ שאין לה נקודות פנימיות היא מקטגוריה ראשונה.
+    answer: >-
+      (א) לא נכון; (ב) נכון; (ג) נכון; (ד) לא נכון; (ה) נכון.
+    solution:
+      - kind: idea
+        text: >-
+          כל סעיף הוא אחת התוצאות של השיעור, או דוגמה נגדית מוכרת: $\mathbb{R}\setminus\mathbb{Q}$, פונקציית תומה, ו-$\mathbb{Q}$
+          שאינה $G_\delta$.
+      - kind: step
+        text: >-
+          (א) לא נכון: $\mathbb{R}\setminus\mathbb{Q}$ היא $G_\delta$ צפופה (טענה 2.7.2(ה)) ואין לה פנים (טענה 2.5.7(ו)).
+      - kind: step
+        text: >-
+          (ב) נכון: $G$ שיורית לפי טענה 2.7.7(ב), כלומר המשלים מקטגוריה ראשונה (הגדרה 2.7.6).
+      - kind: step
+        text: >-
+          (ג) נכון: פונקציית תומה $T$ היא גבול נקודתי של רציפות (טענה 2.7.16(א)), ו-$C_T=\mathbb{R}\setminus\mathbb{Q}$ (טענה 2.7.12).
+      - kind: step
+        text: >-
+          (ד) לא נכון, וכבר בלי ההנחה על הגבול: אז $C_f=\mathbb{Q}$, ולפי מסקנה 2.7.13 אין פונקציה כזו.
+      - kind: step
+        text: >-
+          (ה) נכון: $A=\bigcup_nF_n$ עם $F_n$ סגורות. $F_n\subseteq A$ ולכן $F_n^\circ\subseteq A^\circ=\emptyset$ (טענה 1.4.2(ד)), ו-$F_n$
+          דלילה (טענה 2.5.6(ה)). $A$ איחוד של סדרה של דלילות.
+      - kind: check
+        text: >-
+          (ה) אינו נכון בלי "$F_\sigma$": $\mathbb{R}\setminus\mathbb{Q}$ בלי פנים ואינה מקטגוריה ראשונה (אחרת $\mathbb{R}$ היה
+          איחוד של שתי קבוצות מקטגוריה ראשונה, בסתירה למשפט 2.5.8(ב)).
+      - kind: result
+        text: >-
+          (א) לא; (ב) כן; (ג) כן; (ד) לא; (ה) כן.
+
+challenge:
+  - id: W-2.7-c1
+    stars: 1
+    objectives: [OBJ-2.7-2]
+    prompt: >-
+      תהי $f:\mathbb{R}\to\mathbb{R}$ גזירה בכל נקודה.
+
+
+      (א) הוכיחו ש-$f'$ רציפה בקבוצת $G_\delta$ צפופה ב-$\mathbb{R}$.
+
+
+      (ב) הראו שהנגזרת יכולה שלא להיות רציפה: $f(x)=x^2\sin\frac1x$ כש-$x\ne0$, $f(0)=0$.
+
+
+      (ג) הסיקו שאין פונקציה גזירה $f$ עם $f'=\chi_{\mathbb{Q}}$.
+    answer: >-
+      (א) $f'=\lim_nn\big(f(x+\frac1n)-f(x)\big)$, גבול נקודתי של רציפות. (ב) $f'(0)=0$ ו-$f'(\frac1{2\pi k})=-1$. (ג) $\chi_{\mathbb{Q}}$
+      אינה רציפה באף נקודה.
+    solution:
+      - kind: idea
+        text: >-
+          נגזרת היא גבול של מנות הפרשים, וכל מנת הפרשים עם $h$ קבוע היא פונקציה רציפה של $x$. לכן הנגזרת היא גבול נקודתי
+          של סדרה של פונקציות רציפות על המרחב השלם $\mathbb{R}$.
+      - kind: step
+        text: >-
+          (א) $f$ גזירה ולכן רציפה (אינפי 1). לכן $f_n(x)=n\big(f(x+\frac1n)-f(x)\big)$ רציפה (טענה 1.6.5). לכל $x$, $\frac1n\to0^+$,
+          ולפי הגדרת הנגזרת (היינה, אינפי 1) $f_n(x)\to f'(x)$.
+      - kind: theorem
+        text: >-
+          משפט 2.7.14, על $\mathbb{R}$ השלם (משפט 2.1.10): $C_{f'}$ היא $G_\delta$ צפופה.
+      - kind: computation
+        text: >-
+          (ב) $\frac{f(h)-f(0)}h=h\sin\frac1h$, ו-$|h\sin\frac1h|\le|h|\to0$: $f'(0)=0$. ל-$x\ne0$, $f'(x)=2x\sin\frac1x-\cos\frac1x$.
+          ב-$x_k=\frac1{2\pi k}\to0$: $f'(x_k)=0-1=-1\not\to0$. לכן $f'$ אינה רציפה ב-0, ו-$C_{f'}=\mathbb{R}\setminus\{0\}$.
+      - kind: step
+        text: >-
+          (ג) $C_{\chi_{\mathbb{Q}}}=\emptyset$ (טענה 2.7.10(ב)), ואינה צפופה. לפי (א) $\chi_{\mathbb{Q}}$ אינה נגזרת.
+      - kind: check
+        text: >-
+          (ב) מתאים ל-(א): $\mathbb{R}\setminus\{0\}$ פתוחה וצפופה. ו-(ג) הוא גם מקרה פרטי של מסקנה 2.7.15, כי $f'$ היא גבול
+          נקודתי של רציפות.
+      - kind: result
+        text: >-
+          נגזרת של פונקציה גזירה בכל נקודה רציפה בקבוצת $G_\delta$ צפופה; היא יכולה שלא להיות רציפה; ו-$\chi_{\mathbb{Q}}$ אינה
+          נגזרת.
+    source:
+      name: "College of William & Mary, MATH 428 (Spring 2023), homework: Applications of Baire's Theorem"
+      year: 2023
+      problem: 'Problem 2'
+      url: 'https://prclare.people.wm.edu/m428s23/m428s23_hw3.pdf'
+      verified: '2026-11-15'
+      adapted: true
+
+  - id: W-2.7-c2
+    stars: 2
+    objectives: [OBJ-2.7-1]
+    prompt: >-
+      תהי $f:[a,b]\to[a,b]$ רציפה, $p\in[a,b]$, ונגדיר $p_0=p$ ו-$p_{n+1}=f(p_n)$. נניח שהקבוצה $T_p=\{p_n:\ n\ge0\}$ סגורה
+      ב-$\mathbb{R}$. הוכיחו ש-$T_p$ סופית.
+    answer: >-
+      אחרת יש בה תת-קבוצה סגורה, לא ריקה, בת מנייה ובלי נקודות מבודדות, בסתירה למשפט 2.5.9.
+    solution:
+      - kind: idea
+        text: >-
+          אם $T_p$ אינסופית, נקודת הצטברות שלה היא איבר $p_m$, והרציפות מעבירה "הצטברות" מ-$p_m$ ל-$p_{m+1}$, ל-$p_{m+2}$, וכן
+          הלאה. הסגור של הזנב הוא מרחב שלם, בן מנייה ובלי נקודות מבודדות, ומשפט 2.5.9 (בייר) אוסר את זה.
+      - kind: step
+        text: >-
+          אם $p_m=p_n$ ל-$m<n$, אז מ-$m$ והלאה הסדרה מחזורית (באינדוקציה $p_{m+i}=p_{n+i}$), ו-$T_p$ סופית. נניח בשלילה ש-$T_p$
+          אינסופית; אז כל האיברים שונים זה מזה.
+      - kind: step
+        text: >-
+          $(p_n)$ חסומה ב-$[a,b]$, ולפי בולצאנו-ויירשטראס יש תת-סדרה $p_{n_k}\to q$. $T_p$ סגורה, ולכן $q\in T_p$ (מסקנה 1.5.8(ב)):
+          $q=p_m$ לאיזה $m$.
+      - kind: step
+        text: >-
+          טענה: לכל $j\ge m$ יש סדרת אינדקסים עולה ממש $s_k$ עם $p_{s_k}\to p_j$. ל-$j=m$ זו $n_k$. אם זה נכון ל-$j$, אז מרציפות
+          $f$ (משפט 1.6.3), $p_{s_k+1}=f(p_{s_k})\to f(p_j)=p_{j+1}$, והאינדקסים $s_k+1$ עולים ממש.
+      - kind: step
+        text: >-
+          תהי $A=\{p_n:\ n\ge m\}$ ו-$K=\overline A$. $K\subseteq T_p$ (טענה 1.4.4(ב)), ולכן לכל היותר בת מנייה; היא סגורה ב-$\mathbb{R}$
+          ולכן שלמה (מסקנה 2.2.2), ולא ריקה.
+      - kind: step
+        text: >-
+          ב-$K$ אין נקודות מבודדות. אם $x=p_j\in A$, לפי הטענה $p_{s_k}\to p_j$ עם $s_k\to\infty$, ולכל $k$ גדול $s_k\ne j$ ו-$s_k\ge m$:
+          בכל כדור סביב $x$ יש נקודה של $A$ ששונה מ-$x$ (האיברים שונים). אם $x\in K\setminus A$, כל כדור סביבו פוגש את $A$
+          (הגדרה 1.4.3), בנקודה ששונה מ-$x$ כי $x\notin A$.
+      - kind: theorem
+        text: >-
+          משפט 2.5.9: מרחב מטרי שלם, לא ריק ובלי נקודות מבודדות אינו בן מנייה. $K$ סותר אותו, ולכן $T_p$ סופית.
+      - kind: check
+        text: >-
+          הסגירות נחוצה: $f(x)=\frac x2$ על $[0,1]$ עם $p=1$ נותנת $T_p=\{2^{-n}:\ n\ge0\}$, אינסופית ולא סגורה (הגבול 0
+          חסר בה). שם כל $2^{-n}$ מבודדת, ובצעד השני של ההוכחה הגבול של תת-הסדרה, 0, אינו איבר של $T_p$. התרגיל מסווג
+          למטרה הראשונה כי הוא המקרה $G=K$ של משפט 2.7.4(ב): קבוצת $G_\delta$ (כאן קבוצה סגורה, טענה 2.7.2(ג)) צפופה במרחב
+          שלם בלי נקודות מבודדות אינה בת מנייה.
+      - kind: result
+        text: >-
+          $T_p$ סופית.
+    source:
+      name: 'The 9th International Mathematics Competition for University Students (IMC 2002)'
+      year: 2002
+      problem: 'Day 1, Problem 4'
+      url: 'https://www.imc-math.org.uk/archive/problems/2002/IMC_2002_Day_1_Problems_and_Solutions.pdf'
+      verified: '2026-11-15'
+      adapted: true

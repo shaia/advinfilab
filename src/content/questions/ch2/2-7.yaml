@@ -1,0 +1,759 @@
+# Lesson 2.7 (enrichment) — G_δ sets, oscillation, pointwise limits of continuous functions, and continuous
+# functions on [0,1] that are differentiable nowhere (Lindenstrauss XI §3).
+# Objectives (src/course.ts):
+#   OBJ-2.7-1  define a G_δ set and the oscillation o(f,a); prove that the set of continuity points of any f: X → ℝ is G_δ
+#   OBJ-2.7-2  prove that a pointwise limit of continuous functions on a complete space is continuous on a dense G_δ
+#   OBJ-2.7-3  prove by Baire that the nowhere differentiable functions are dense in (C[0,1], ‖·‖∞)
+# Questions cite lessons 1.x, 2.2, 2.5 and the numbered results of lesson 2.7 (written 2026-11-15).
+# Oscillation: o(f,a) = inf over δ > 0 of sup{|f(y) − f(z)| : y, z ∈ B(a,δ)} (possibly ∞); f is continuous at a iff o(f,a) = 0.
+# E_n = {f ∈ C[0,1] : there is x ∈ [0, 1 − 1/n] with |f(x+h) − f(x)| ≤ nh for all 0 < h < 1/n}.
+chapter: 2
+questions:
+  # ------------------------------------------------------------------ basic
+  - id: Q-2.7-gdelta-def
+    type: mc
+    objectives: [OBJ-2.7-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      יהי $(X,d)$ מרחב מטרי. מתי תת-קבוצה $A\subseteq X$ נקראת **קבוצת $G_\delta$**?
+    choices:
+      - text: 'כשיש סדרה $U_1,U_2,\dots$ של קבוצות פתוחות עם $A=\bigcap_{n=1}^\infty U_n$'
+        correct: true
+        feedback: >-
+          נכון. כל קבוצה פתוחה היא $G_\delta$ (בוחרים $U_n=A$ לכל $n$), אבל לא להפך: $\{0\}=\bigcap_n(-\frac1n,\frac1n)$
+          היא $G_\delta$ ב-$\mathbb{R}$ ואינה פתוחה. חיתוך של סדרה של פתוחות יכול לצאת לא פתוח (משפט 1.3.7).
+      - text: 'כשיש סדרה של קבוצות פתוחות שהאיחוד שלהן הוא $A$'
+        feedback: >-
+          איחוד של פתוחות פתוח (משפט 1.3.7), ולכן זו סתם קבוצה פתוחה, ואין צורך בשם חדש. בהגדרה של $G_\delta$ הפעולה היא
+          **חיתוך**.
+        misconception: MC-c2-gdelta-union
+      - text: 'כשיש סדרה של קבוצות סגורות שהאיחוד שלהן הוא $A$'
+        feedback: >-
+          זו קבוצת $F_\sigma$, המושג הדואלי. לפי דה-מורגן, $A$ היא $F_\sigma$ אם ורק אם $X\setminus A$ היא $G_\delta$.
+        misconception: MC-c2-gdelta-union
+      - text: 'כשיש משפחה כלשהי של קבוצות פתוחות שהחיתוך שלהן הוא $A$'
+        feedback: >-
+          בלי המילה "סדרה" ההגדרה לא מבדילה בין קבוצות: **כל** $A\subsetneq X$ היא חיתוך של פתוחות,
+          $A=\bigcap_{y\notin A}(X\setminus\{y\})$, וכל $X\setminus\{y\}$ פתוחה כי יחידון סגור (טענה 1.3.5(ב)). כל התוכן
+          של המושג הוא בכך שהמשפחה בת מנייה.
+        misconception: MC-c2-gdelta-arbitrary-family
+
+  - id: Q-2.7-osc-sign
+    type: numeric
+    objectives: [OBJ-2.7-1]
+    level: basic
+    prompt: >-
+      התנודה של פונקציה $f:X\to\mathbb{R}$ בנקודה $a$ היא
+
+      $$\begin{aligned}o(f,a)=\inf_{\delta>0}\ \sup\{&|f(y)-f(z)|:\\ &y,z\in B(a,\delta)\}.\end{aligned}$$
+
+      תהי $\operatorname{sgn}:\mathbb{R}\to\mathbb{R}$ פונקציית הסימן: $\operatorname{sgn}(x)=1$ כש-$x>0$,
+      $\operatorname{sgn}(x)=-1$ כש-$x<0$, ו-$\operatorname{sgn}(0)=0$. חשבו את $o(\operatorname{sgn},0)$.
+    answer: 2
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. לכל $\delta>0$ יש בקטע $(-\delta,\delta)$ נקודה $z>0$ ונקודה $y<0$, ו-$|\operatorname{sgn}(z)-\operatorname{sgn}(y)|=2$;
+      ואף הפרש לא גדול מ-2, כי כל הערכים בקטע $[-1,1]$. לכן הסופרמום הוא 2 לכל $\delta$, וגם האינפימום.
+    wrongFeedback: >-
+      התנודה משווה **כל שתי נקודות** בכדור, לא רק נקודה לעומת $a$. כתבו את הערכים ש-$\operatorname{sgn}$ מקבלת
+      ב-$(-\delta,\delta)$ וחשבו את ההפרש הגדול ביותר ביניהם.
+    commonWrong:
+      - value: 1
+        feedback: >-
+          1 הוא $\sup_y|\operatorname{sgn}(y)-\operatorname{sgn}(0)|$, המרחק מהערך בנקודה. בהגדרה של התנודה שתי הנקודות
+          חופשיות: $y=-\frac\delta2$ ו-$z=\frac\delta2$ נותנות $|(-1)-1|=2$.
+        misconception: MC-c2-osc-one-sided
+
+  - id: Q-2.7-baire1-statement
+    type: mc
+    objectives: [OBJ-2.7-2]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $(X,d)$ מרחב מטרי **שלם**, $f_n:X\to\mathbb{R}$ פונקציות רציפות, ו-$f_n(x)\to f(x)$ לכל $x\in X$. מה המסקנה
+      החזקה ביותר שאפשר להסיק על $f$ בלי מידע נוסף?
+    choices:
+      - text: 'קבוצת נקודות הרציפות של $f$ היא קבוצת $G_\delta$ צפופה ב-$X$'
+        correct: true
+        feedback: >-
+          נכון (משפט 2.7.14). היא $G_\delta$ כמו קבוצת נקודות הרציפות של כל פונקציה (משפט 2.7.11), וצפופה בזכות משפט בייר. בפרט, אם $X\ne\emptyset$, יש
+          ל-$f$ נקודת רציפות, ואפילו הרבה מאוד כאלה.
+      - text: '$f$ רציפה'
+        feedback: >-
+          לא: $x^n$ על $[0,1]$ (מרחב שלם) רציפות, והגבול הנקודתי שלהן הוא 0 ב-$[0,1)$ ו-1 בנקודה 1, ואינו רציף ב-1.
+          גבול **במידה שווה** של רציפות רציף (למה 2.2.5); גבול נקודתי רק "רציף ברוב המקומות".
+        misconception: MC-c0-pointwise-preserves-continuity
+      - text: '$f$ רציפה בכל הנקודות פרט לקבוצה בת מנייה'
+        feedback: >-
+          לא. במישור עם $d_2$ (שלם, משפט 2.1.11), $f_n(x_1,x_2)=\max(0,1-n|x_2|)$ רציפות ומתכנסות נקודתית לפונקציה
+          המציינת של הישר $x_2=0$; הגבול אינו רציף באף נקודה של הישר, וזו קבוצה שאינה בת מנייה. קבוצת נקודות
+          האי-רציפות היא מקטגוריה ראשונה, לא בהכרח בת מנייה.
+        misconception: MC-c2-baire1-countable-disc
+      - text: '$f$ רציפה בנקודה אחת לפחות, ויותר מזה אי אפשר לומר'
+        feedback: >-
+          המשפט נותן הרבה יותר: קבוצה **צפופה** של נקודות רציפות. לכן $x\chi_{\mathbb{Q}}(x)$, שרציפה רק ב-0, אינה גבול
+          נקודתי של רציפות על $\mathbb{R}$.
+        misconception: MC-c2-baire1-one-point
+
+  - id: Q-2.7-baire1-xn
+    type: mc
+    objectives: [OBJ-2.7-2]
+    level: basic
+    prompt: >-
+      $f_n(x)=x^n$ על $[0,1]$, ו-$f$ הגבול הנקודתי שלהן. מהי קבוצת נקודות הרציפות של $f$?
+    choices:
+      - text: '$[0,1)$'
+        correct: true
+        feedback: >-
+          נכון. $f=0$ על $[0,1)$ ו-$f(1)=1$. הקבוצה $[0,1)$ פתוחה במרחב $[0,1]$ (ולכן $G_\delta$ בו), וצפופה בו, כי
+          $1-\frac1k\to1$. זה בדיוק מה שהמשפט מבטיח, כי $[0,1]$ שלם (מסקנה 2.2.2).
+      - text: '$[0,1]$'
+        feedback: >-
+          ב-1: $f(1)=1$, אבל $f(1-\frac1k)=0$ לכל $k$, ולכן $f$ אינה רציפה שם. גבול נקודתי של רציפות אינו חייב להיות רציף.
+        misconception: MC-c0-pointwise-preserves-continuity
+      - text: '$(0,1)$'
+        feedback: >-
+          ב-0 אין בעיה: $f_n(0)=0$ לכל $n$, ו-$f=0$ על כל הקטע $[0,1)$, ולכן $f$ רציפה ב-0. הבעיה היחידה בקצה השני.
+        misconception: MC-c0-pointwise-limit-wrong
+
+  - id: Q-2.7-residual-meaning
+    type: mc
+    objectives: [OBJ-2.7-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      תהי $\mathcal{N}$ קבוצת הפונקציות $f\in C[0,1]$ שאין להן נגזרת ימנית סופית באף נקודה של $[0,1)$ ואין להן נגזרת
+      שמאלית סופית באף נקודה של $(0,1]$ (הקבוצה של משפט 2.7.21). נניח שהוכחנו: $C[0,1]\setminus\mathcal{N}$ מוכלת באיחוד של
+      סדרה $A_1,A_2,\dots$ של קבוצות סגורות ודלילות ב-$(C[0,1],\|\cdot\|_\infty)$. מה נובע מכך לפי משפט בייר?
+    choices:
+      - text: '$\mathcal{N}$ צפופה ב-$C[0,1]$, ובפרט לא ריקה: יש פונקציה רציפה שאינה גזירה באף נקודה של $[0,1]$'
+        correct: true
+        feedback: >-
+          נכון. $C[0,1]$ שלם (מסקנה 2.2.6(ג)), ולפי משפט 2.5.8(ב) לאיחוד $\bigcup_kA_k$ אין פנים, כלומר המשלים שלו פוגש כל
+          כדור; והמשלים הזה מוכל ב-$\mathcal{N}$. בנקודה פנימית גזירות נותנת נגזרת ימנית סופית, ובקצוות הנגזרת היא
+          חד-צדדית, ולכן פונקציה ב-$\mathcal{N}$ אינה גזירה באף נקודה (משפט 2.7.21).
+      - text: '$\mathcal{N}=C[0,1]$: אף פונקציה רציפה אינה גזירה באף נקודה'
+        feedback: >-
+          ודאי שלא: $x^2\in C[0,1]$ גזירה בכל נקודה, ולכן אינה ב-$\mathcal{N}$. "שיורית" פירושו שהמשלים מקטגוריה ראשונה, לא
+          שהוא ריק.
+        misconception: MC-c2-residual-means-all
+      - text: '$\mathcal{N}$ מכילה כדור פתוח $B(f,r)$ של $C[0,1]$'
+        feedback: >-
+          לא. בכל כדור $B(f,r)$ יש קו שבור (משפט 1.4.18), ולקו שבור יש נגזרת ימנית סופית בכל נקודה של $[0,1)$. גם המשלים
+          של $\mathcal{N}$ צפוף.
+        misconception: MC-c2-residual-means-all
+      - text: 'יש לפחות פונקציה אחת כזו, אבל בייר אינו אומר עוד דבר, ואולי היא יחידה'
+        feedback: >-
+          בייר נותן **צפיפות**, לא רק קיום: יש פונקציה כזו בכל כדור. וגם בלי בייר היא לא יחידה: אם $g\in\mathcal{N}$, אז
+          $g+ct\in\mathcal{N}$ לכל $c\in\mathbb{R}$, כי אילו ל-$g+ct$ הייתה נגזרת חד-צדדית סופית בנקודה, גם ל-$g=(g+ct)-ct$
+          הייתה.
+        misconception: MC-c2-baire-only-nonempty
+
+  - id: Q-2.7-En-range
+    type: mc
+    objectives: [OBJ-2.7-3]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $E_n$ היא קבוצת הפונקציות $f\in C[0,1]$ שיש להן נקודה $x\in[0,1-\frac1n]$ כך ש-$|f(x+h)-f(x)|\le nh$ לכל
+      $0<h<\frac1n$. למה מגבילים את $x$ לקטע $[0,1-\frac1n]$?
+    choices:
+      - text: 'כדי ש-$x+h$ יהיה ב-$[0,1]$ לכל $0<h<\frac1n$, כלומר ש-$f(x+h)$ יהיה מוגדר'
+        correct: true
+        feedback: >-
+          נכון: $x+h<(1-\frac1n)+\frac1n=1$. הקטע הוא גם סגור וחסום, וזה משמש בהוכחה ש-$E_n$ סגורה (למה 2.7.19): מסדרה של נקודות כאלה
+          בוחרים תת-סדרה מתכנסת (בולצאנו-ויירשטראס), והגבול נשאר בקטע.
+      - text: 'כדי שכל פונקציה ב-$E_n$ תהיה גזירה בנקודה $x$'
+        feedback: >-
+          התנאי חוסם את מנות ההפרשים מימין ב-$x$, אבל לא מבטיח שיש להן גבול. $f(x)=x\sin\frac1x$, $f(0)=0$, מקיימת
+          $|f(h)-f(0)|\le h$, ולכן $f\in E_1$ עם $x=0$; אבל $\frac{f(h)-f(0)}h=\sin\frac1h$ אינה מתכנסת.
+        misconception: MC-c2-En-means-differentiable
+      - text: 'כדי ש-$E_n$ תהיה קבוצה פתוחה, כפי שמשפט בייר דורש'
+        feedback: >-
+          משפט 2.5.8(ב) עוסק באיחוד של קבוצות **דלילות**, ואין בו דרישה לפתיחות. $E_n$ דווקא סגורה (למה 2.7.19), ומראים שאין לה פנים
+          (למה 2.7.20, טענה 2.5.6(ה)).
+        misconception: MC-c2-En-open
+
+  # -------------------------------------------------------------------- mid
+  - id: Q-2.7-which-gdelta
+    type: multi
+    objectives: [OBJ-2.7-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      אילו מתת-הקבוצות הבאות של $\mathbb{R}$ (עם המרחק הרגיל) הן קבוצות $G_\delta$? סמנו את כולן.
+    choices:
+      - text: '$(0,1)$'
+        correct: true
+        feedback: 'כן: כל קבוצה פתוחה היא $G_\delta$, עם $U_n=(0,1)$ לכל $n$.'
+      - text: '$[0,1]$'
+        correct: true
+        feedback: >-
+          כן: $[0,1]=\bigcap_n(-\frac1n,1+\frac1n)$. נקודה מחוץ ל-$[0,1]$ רחוקה ממנו מרחק חיובי, ולכן יוצאת מהקטעים מ-$n$
+          מסוים. קבוצה יכולה להיות $G_\delta$ בלי להיות פתוחה.
+      - text: '$\mathbb{R}\setminus\mathbb{Q}$'
+        correct: true
+        feedback: >-
+          כן: אם $q_1,q_2,\dots$ רשימה של הרציונליים, אז $\mathbb{R}\setminus\mathbb{Q}=\bigcap_n(\mathbb{R}\setminus\{q_n\})$,
+          וכל $\mathbb{R}\setminus\{q_n\}$ פתוחה כמשלים של יחידון.
+      - text: '$\mathbb{Q}$'
+        feedback: >-
+          לא. אילו $\mathbb{Q}=\bigcap_nU_n$ עם $U_n$ פתוחות, כל $U_n\supseteq\mathbb{Q}$ הייתה צפופה; גם
+          $V_k=\mathbb{R}\setminus\{q_k\}$ פתוחות וצפופות, ולסדרה $U_1,V_1,U_2,V_2,\dots$ יש חיתוך ריק, בסתירה למשפט
+          2.5.8(א) (מסקנה 2.7.5). הניסיון $U_n=\bigcup_{q\in\mathbb{Q}}(q-\frac1n,q+\frac1n)$ נותן $U_n=\mathbb{R}$ לכל $n$.
+        misconception: MC-c2-gdelta-shrink-neighbourhoods
+      - text: 'הרציונליים הדיאדיים, $D=\{\frac{k}{2^m}:\ k\in\mathbb{Z},\ m\in\mathbb{N}\}$'
+        feedback: >-
+          לא, מאותה סיבה כמו $\mathbb{Q}$: $D$ בת מנייה וצפופה (בכל קטע באורך $\ell$ יש שבר $\frac{k}{2^m}$ כש-$2^{-m}<\ell$).
+          אילו $D=\bigcap_nU_n$, הפתוחות הצפופות $U_n$ ו-$\mathbb{R}\setminus\{d_k\}$ היו נחתכות בקבוצה ריקה, בסתירה
+          למשפט בייר.
+        misconception: MC-c2-gdelta-shrink-neighbourhoods
+
+  - id: Q-2.7-osc-sin
+    type: numeric
+    objectives: [OBJ-2.7-1]
+    level: basic
+    prompt: >-
+      $f:\mathbb{R}\to\mathbb{R}$ מוגדרת על ידי $f(x)=\sin\frac1x$ כש-$x\ne0$, ו-$f(0)=5$. חשבו את התנודה $o(f,0)$, כאשר
+
+      $$\begin{aligned}o(f,a)=\inf_{\delta>0}\ \sup\{&|f(y)-f(z)|:\\ &y,z\in B(a,\delta)\}.\end{aligned}$$
+    answer: 6
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. בכל קטע $(-\delta,\delta)$ יש נקודות שבהן $\sin\frac1x=-1$ (למשל $x=\frac{1}{2\pi k+\frac{3\pi}{2}}$ עם $k$ גדול),
+      והנקודה 0 עצמה בכדור, עם הערך 5. לכן הערכים בכדור הם הקטע $[-1,1]$ ועוד 5, וההפרש הגדול ביותר $5-(-1)=6$.
+    wrongFeedback: >-
+      הכדור $B(0,\delta)$ מכיל את 0 עצמה. כתבו את קבוצת הערכים של $f$ בכדור, כולל $f(0)$, וחשבו את ההפרש בין הגדול לקטן.
+    commonWrong:
+      - value: 2
+        feedback: >-
+          2 היא התנודה של $\sin\frac1x$ בלי הנקודה 0. אבל $0\in B(0,\delta)$, ו-$f(0)=5$ משתתף: $|f(0)-f(y)|=6$ כש-$f(y)=-1$.
+        misconception: MC-c2-osc-ignores-value
+
+  - id: Q-2.7-osc-thomae
+    type: numeric
+    objectives: [OBJ-2.7-1]
+    level: mid
+    prompt: >-
+      פונקציית תומה $T:\mathbb{R}\to\mathbb{R}$ מוגדרת כך: $T(x)=\frac1q$ כש-$x=\frac pq$ שבר מצומצם עם $q\in\mathbb{N}$ (ובפרט
+      $T(0)=1$), ו-$T(x)=0$ כש-$x$ אי-רציונלי. חשבו את $o(T,\frac68)$.
+    answer: 0.25
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $\frac68=\frac34$, ו-$T(\frac34)=\frac14$. בקטע חסום יש רק מספר סופי של שברים שהמכנה המצומצם שלהם לכל היותר 4,
+      ולכן ב-$B(\frac34,\delta)$ עם $\delta$ קטן (למשל $\delta=0.01$) כל רציונלי אחר מקבל ערך קטן מ-$\frac14$; המקסימום
+      הוא $\frac14$, והאינפימום 0 (אי-רציונליים). לכן $o(T,\frac34)=\frac14-0=\frac14$, ו-$T$ אינה רציפה ב-$\frac34$ (טענה 2.7.12(ב)).
+    wrongFeedback: >-
+      צמצמו קודם את השבר. אחר כך: מה הערך הגדול ביותר של $T$ בכדור קטן סביב הנקודה, ומה הקטן ביותר?
+    commonWrong:
+      - value: 0.125
+        feedback: >-
+          $\frac18$ מתקבל מהמכנה 8 בלי לצמצם. $T$ מוגדרת לפי השבר המצומצם: $\frac68=\frac34$, ו-$T(\frac68)=\frac14$.
+      - value: 0
+        feedback: >-
+          נכון ש-$T(y)\to0$ כש-$y\to\frac34$, אבל התנודה כוללת את הערך בנקודה: $T(\frac34)=\frac14\ne0$, ובכל כדור יש
+          אי-רציונליים עם ערך 0. $T$ רציפה באי-רציונליים, לא ברציונליים.
+        misconception: MC-c2-osc-rational-continuous
+      - value: 0.75
+        feedback: >-
+          $\frac34$ הוא המקום, לא הערך. $T(\frac34)=\frac1q$ עם $q=4$ המכנה המצומצם.
+
+  - id: Q-2.7-osc-open
+    type: twotier
+    objectives: [OBJ-2.7-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $(X,d)$ מרחב מטרי, $f:X\to\mathbb{R}$ פונקציה **כלשהי**, ו-$\varepsilon>0$. האם הקבוצה
+      $U_\varepsilon=\{x\in X:\ o(f,x)<\varepsilon\}$ בהכרח פתוחה?
+    choices:
+      - text: 'כן, לכל פונקציה $f$'
+        correct: true
+        feedback: >-
+          נכון (למה 2.7.9(ד)). זה הצעד המרכזי בהוכחה שקבוצת נקודות הרציפות היא $G_\delta$ (משפט 2.7.11): היא $\bigcap_kU_{1/k}$.
+      - text: 'לא בהכרח: רק כש-$f$ רציפה'
+        feedback: >-
+          כש-$f$ רציפה, $U_\varepsilon=X$ ואין מה להוכיח. הטענה חשובה דווקא לפונקציות לא רציפות, ונכונה לכולן: למשל עבור
+          $\operatorname{sgn}$ ו-$\varepsilon=1$ מתקבל $U_1=\mathbb{R}\setminus\{0\}$, קבוצה פתוחה.
+        misconception: MC-c2-osc-set-needs-continuity
+    reasons:
+      - text: 'אם $o(f,x)<\varepsilon$, יש $\delta>0$ עם $\omega(f,x,\delta)<\varepsilon$, כלומר כל ההפרשים $|f(y)-f(z)|$ עם $y,z\in B(x,\delta)$ חסומים במספר אחד שקטן מ-$\varepsilon$; לכל $w\in B(x,\delta)$ הכדור $B(w,\delta-d(x,w))$ מוכל ב-$B(x,\delta)$, ולכן $o(f,w)<\varepsilon$'
+        correct: true
+        feedback: >-
+          בדיוק. התנודה היא אינפימום, ולכן "קטנה מ-$\varepsilon$" נותן $\delta$ אחד שעובד; וכדור סביב נקודה קרובה מוכל
+          בכדור הזה (משפט 1.3.3). כך $B(x,\delta)\subseteq U_\varepsilon$.
+      - text: 'הפונקציה $x\mapsto o(f,x)$ רציפה, ו-$U_\varepsilon$ היא המקור של הקבוצה הפתוחה $(-\infty,\varepsilon)$'
+        feedback: >-
+          $o(f,\cdot)$ אינה רציפה בדרך כלל: עבור $\chi_{\{0\}}$ על $\mathbb{R}$, $o=1$ ב-0 ו-$o=0$ בכל נקודה אחרת. רק כיוון
+          אחד נכון: ליד נקודה, התנודה לא יכולה להיות גדולה בהרבה מהתנודה בנקודה עצמה.
+        misconception: MC-c2-osc-continuous
+      - text: 'בכל נקודה של $U_\varepsilon$ הפונקציה $f$ רציפה, וקבוצת נקודות הרציפות של פונקציה היא תמיד פתוחה'
+        feedback: >-
+          שני החלקים שגויים. $o(f,x)<\varepsilon$ אינו $o(f,x)=0$; וקבוצת נקודות הרציפות אינה חייבת להיות פתוחה: לפונקציית
+          תומה היא $\mathbb{R}\setminus\mathbb{Q}$, שאין לה פנים. היא תמיד $G_\delta$, וזה המקסימום שאפשר לומר.
+        misconception: MC-c2-continuity-set-open
+
+  - id: Q-2.7-cont-set-proof
+    type: rank
+    objectives: [OBJ-2.7-1]
+    level: mid
+    prompt: >-
+      $(X,d)$ מרחב מטרי ו-$f:X\to\mathbb{R}$ פונקציה כלשהי. סדרו את שלבי ההוכחה שקבוצת נקודות הרציפות $C_f$ של $f$ היא
+      קבוצת $G_\delta$. כל שלב משתמש במה שנקבע בשלב שלפניו.
+    help: גררו את השלבים לסדר הנכון, מהשלב הראשון של ההוכחה לאחרון.
+    items:
+      - id: zero
+        label: '$f$ רציפה ב-$x$ אם ורק אם $o(f,x)=0$: זה תנאי $\varepsilon$-$\delta$ של רציפות, כתוב בעזרת התנודה.'
+      - id: inter
+        label: 'מהשלב הקודם, $C_f=\{x:\ o(f,x)=0\}$; ו-$o(f,x)=0$ אם ורק אם $o(f,x)<\frac1k$ לכל $k$. לכן $C_f=\bigcap_{k=1}^\infty U_k$, כאשר $U_k$ היא קבוצת הנקודות $x$ שבהן $o(f,x)<\frac1k$.'
+      - id: open
+        label: 'כל אחת מהקבוצות $U_k$ שבחיתוך הזה פתוחה: אם $o(f,x)<\frac1k$, יש כדור $B(x,\delta)$ שבו כל ההפרשים קטנים מ-$\frac1k$, וכל נקודה בו מקבלת תנודה קטנה מ-$\frac1k$.'
+      - id: end
+        label: 'לכן $C_f$ היא חיתוך של סדרה של קבוצות פתוחות, כלומר קבוצת $G_\delta$.'
+    order: [zero, inter, open, end]
+    correctFeedback: >-
+      נכון (משפט 2.7.11). הרעיון: "רציפה" הוא "תנודה אפס", ו"תנודה אפס" הוא "תנודה קטנה מ-$\frac1k$ לכל $k$", חיתוך בן
+      מנייה. נשאר רק להראות שכל אחת מהקבוצות פתוחה (למה 2.7.9(ד)).
+    wrongFeedback: >-
+      כל שלב מסתמך על הקודם: השלב שכותב את $C_f$ כחיתוך משתמש בתרגום של רציפות לתנודה; השלב על הפתיחות מדבר על הקבוצות
+      $U_k$, שמוגדרות רק בשלב החיתוך; והמסקנה צריכה את שניהם. בהוכחה אפשר גם להוכיח קודם שכל $\{o<\varepsilon\}$ פתוחה, כמו
+      בלמה 2.7.9(ד), אבל כאן השלבים כתובים כך שכל אחד מפנה לקודם.
+
+  - id: Q-2.7-dense-gdelta-meet
+    type: twotier
+    objectives: [OBJ-2.7-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $G,H\subseteq\mathbb{R}$ שתיהן קבוצות $G_\delta$ צפופות. האם בהכרח $G\cap H\ne\emptyset$?
+    choices:
+      - text: 'כן'
+        correct: true
+        feedback: >-
+          נכון, ויותר מזה: $G\cap H$ היא שוב $G_\delta$ צפופה (משפט 2.7.4(א)). קבוצות $G_\delta$ צפופות במרחב שלם "גדולות" במובן של בייר,
+          ושתיים כאלה לא יכולות להתחמק זו מזו.
+      - text: 'לא: $\mathbb{Q}$ ו-$\mathbb{R}\setminus\mathbb{Q}$ צפופות וזרות'
+        feedback: >-
+          הן צפופות וזרות, אבל $\mathbb{Q}$ **אינה** $G_\delta$: אילו הייתה, $\mathbb{Q}$ ו-$\mathbb{R}\setminus\mathbb{Q}$
+          היו שתי קבוצות $G_\delta$ צפופות וזרות, וזה בדיוק מה שהנימוק הנכון שולל. משהו נוסף על צפיפות נחוץ, וזה ה-$G_\delta$.
+        misconception: MC-c2-dense-gdelta-like-dense
+    reasons:
+      - text: '$G=\bigcap_nU_n$ ו-$H=\bigcap_nV_n$ עם $U_n,V_n$ פתוחות; כל אחת מהן מכילה קבוצה צפופה ולכן צפופה; לפי משפט 2.5.8(א) החיתוך של הסדרה $U_1,V_1,U_2,V_2,\dots$, שהוא $G\cap H$, צפוף ב-$\mathbb{R}$ השלם'
+        correct: true
+        feedback: >-
+          בדיוק. שתי סדרות של פתוחות צפופות הן יחד סדרה אחת, ומשפט בייר חל עליה. $\mathbb{R}$ שלם (משפט 2.1.10).
+      - text: 'חיתוך של שתי קבוצות צפופות הוא תמיד צפוף'
+        feedback: >-
+          לא נכון: $\mathbb{Q}$ ו-$\mathbb{R}\setminus\mathbb{Q}$ צפופות, וחיתוכן ריק. לחיתוך של שתי צפופות **פתוחות** זה כן
+          נכון, ובייר מרחיב את זה לסדרה של פתוחות צפופות.
+        misconception: MC-c2-dense-intersection
+      - text: 'קבוצת $G_\delta$ היא פתוחה, וחיתוך של שתי קבוצות פתוחות וצפופות צפוף'
+        feedback: >-
+          קבוצת $G_\delta$ אינה חייבת להיות פתוחה: $\mathbb{R}\setminus\mathbb{Q}$ היא $G_\delta$ ואין לה פנים. חיתוך של
+          **סדרה** של פתוחות אינו פתוח בדרך כלל, ולכן צריך את בייר ולא רק את המקרה של שתי פתוחות.
+        misconception: MC-c1-infinite-intersection
+
+  - id: Q-2.7-chiQ
+    type: twotier
+    objectives: [OBJ-2.7-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $\chi_{\mathbb{Q}}:\mathbb{R}\to\mathbb{R}$ היא הפונקציה המציינת של הרציונליים (1 ברציונליים, 0 באי-רציונליים).
+      האם יש סדרה של פונקציות רציפות $f_n:\mathbb{R}\to\mathbb{R}$ עם $f_n(x)\to\chi_{\mathbb{Q}}(x)$ לכל $x\in\mathbb{R}$?
+    choices:
+      - text: 'לא'
+        correct: true
+        feedback: >-
+          נכון (מסקנה 2.7.15). $\chi_{\mathbb{Q}}$ אינה רציפה באף נקודה, וגבול נקודתי של רציפות על מרחב שלם רציף בקבוצה צפופה (משפט 2.7.14).
+      - text: 'כן: $\chi_{\mathbb{Q}}(x)=\lim_{m\to\infty}\lim_{n\to\infty}\cos(m!\pi x)^{2n}$'
+        feedback: >-
+          הנוסחה נכונה, אבל זה **גבול כפול**. לכל $m$, הגבול הפנימי $g_m=\lim_n\cos(m!\pi x)^{2n}$ הוא 1 כש-$m!x$ שלם ו-0
+          אחרת, וכבר אינו רציף. $\chi_{\mathbb{Q}}$ היא גבול של גבולות של רציפות, ולא גבול של סדרה אחת של רציפות.
+        misconception: MC-c2-double-limit
+    reasons:
+      - text: 'קבוצת נקודות הרציפות של גבול נקודתי של רציפות על $\mathbb{R}$ השלם צפופה, ובפרט לא ריקה; אבל כל קטע מכיל רציונליים ואי-רציונליים, ולכן $o(\chi_{\mathbb{Q}},x)=1$ בכל $x$'
+        correct: true
+        feedback: >-
+          בדיוק. לפי טענה 2.5.7(ו) כל כדור פוגש את $\mathbb{Q}$ ואת המשלים שלה, ולכן התנודה 1 בכל נקודה: קבוצת נקודות
+          הרציפות ריקה, ואינה צפופה.
+      - text: 'גבול נקודתי של פונקציות רציפות הוא תמיד רציף'
+        feedback: >-
+          לא נכון: $x^n$ על $[0,1]$. גבול נקודתי יכול להיות לא רציף, רק לא בכל מקום.
+        misconception: MC-c0-pointwise-preserves-continuity
+      - text: 'לגבול נקודתי של רציפות יש לכל היותר מספר בן מנייה של נקודות אי-רציפות, ול-$\chi_{\mathbb{Q}}$ יש יותר'
+        feedback: >-
+          המסקנה נכונה, אבל הנימוק לא: הגבול של $\max(0,1-n|x_2|)$ במישור אינו רציף לאורך ישר שלם, קבוצה שאינה בת מנייה.
+          מה שנכון הוא שנקודות הרציפות צפופות.
+        misconception: MC-c2-baire1-countable-disc
+
+  - id: Q-2.7-baire1-which
+    type: multi
+    objectives: [OBJ-2.7-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      אילו מהפונקציות $\mathbb{R}\to\mathbb{R}$ הבאות הן גבול נקודתי של סדרה של פונקציות רציפות $\mathbb{R}\to\mathbb{R}$?
+      סמנו את כולן.
+    choices:
+      - text: '$\operatorname{sgn}$'
+        correct: true
+        feedback: >-
+          כן: $\frac2\pi\arctan(nx)\to\operatorname{sgn}(x)$ בכל נקודה. ב-$x>0$ הגבול $\frac2\pi\cdot\frac\pi2=1$, ב-$x<0$ הוא
+          $\frac2\pi\cdot(-\frac\pi2)=-1$, וב-0 כל האיברים 0.
+      - text: '$\chi_{[0,1]}$'
+        correct: true
+        feedback: >-
+          כן: $f_n$ שווה 1 על $[0,1]$, 0 מחוץ ל-$(-\frac1n,1+\frac1n)$, ולינארית בין לבין. כל נקודה מחוץ ל-$[0,1]$ יוצאת
+          מהתחום שבו $f_n\ne0$ מ-$n$ מסוים.
+      - text: '$\chi_{\{0\}}$'
+        correct: true
+        feedback: >-
+          כן: $\max(0,1-n|x|)\to\chi_{\{0\}}(x)$. נקודות הרציפות של הגבול הן $\mathbb{R}\setminus\{0\}$, צפופה כמו שצריך.
+      - text: '$\chi_{\mathbb{Q}}$'
+        feedback: >-
+          לא: היא אינה רציפה באף נקודה. הנוסחה $\lim_m\lim_n\cos(m!\pi x)^{2n}$ היא גבול כפול, לא גבול של סדרה אחת של
+          רציפות.
+        misconception: MC-c2-double-limit
+      - text: '$x\chi_{\mathbb{Q}}(x)$'
+        feedback: >-
+          לא. היא רציפה ב-0 ($|x\chi_{\mathbb{Q}}(x)|\le|x|$), ובכל $a\ne0$ אינה רציפה: סדרה רציונלית ששואפת ל-$a$ נותנת
+          ערכים ששואפים ל-$a$, וסדרה אי-רציונלית נותנת 0. נקודת רציפות אחת לא מספיקה: $\{0\}$ אינה צפופה.
+        misconception: MC-c2-baire1-one-point
+
+  - id: Q-2.7-En-min-n
+    type: numeric
+    objectives: [OBJ-2.7-3]
+    level: mid
+    prompt: >-
+      $E_n$ היא קבוצת הפונקציות $f\in C[0,1]$ שיש להן נקודה $x\in[0,1-\frac1n]$ כך ש-$|f(x+h)-f(x)|\le nh$ לכל
+      $0<h<\frac1n$. מהו ה-$n\in\mathbb{N}$ הקטן ביותר שעבורו $f(x)=12x(1-x)$ שייכת ל-$E_n$?
+    answer: 3
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $f(x+h)-f(x)=12h(1-2x-h)$, ולכן התנאי בנקודה $x$ הוא $|1-2x-h|\le\frac n{12}$ לכל $0<h<\frac1n$: הקטע
+      $(1-2x-\frac1n,\ 1-2x)$ צריך להיות בתוך $[-\frac n{12},\frac n{12}]$. אורכו $\frac1n$, ולכן צריך $\frac1n\le\frac n6$,
+      כלומר $n^2\ge6$. ב-$n=3$ זה עובד עם $x=\frac5{12}$ (אז $1-2x=\frac16$, והקטע $(-\frac16,\frac16)$ בתוך
+      $[-\frac14,\frac14]$), ו-$\frac5{12}\le\frac23$. ב-$n=2$, $\frac12>\frac13$. הנקודה הטובה אינה הקודקוד ואינה 0.
+    wrongFeedback: >-
+      כתבו $f(x+h)-f(x)=12h(1-2x-h)$ וחלקו ב-$h$. התנאי צריך להתקיים לכל $h$ עד $\frac1n$; בחרו את $x$ כך שהביטוי $1-2x-h$
+      יהיה "ממורכז" סביב 0 כש-$h$ נע בטווח.
+    commonWrong:
+      - value: 4
+        feedback: >-
+          זה מה שיוצא בקודקוד $x=\frac12$, שבו $f'=0$: שם $|f(\frac12+h)-f(\frac12)|=12h^2$, ו-$12h\le n$ לכל $h<\frac1n$ דורש
+          $n\ge4$. אבל נקודה אחרת טובה יותר: $x=\frac5{12}$ עובדת כבר ב-$n=3$.
+        misconception: MC-c2-En-n-derivative
+      - value: 12
+        feedback: >-
+          $|f'|\le12$ על $[0,1]$, ולכן אכן $f\in E_{12}$ (למשל עם $x=0$); אבל זה חסם שמספיק, לא ה-$n$ הקטן ביותר.
+        misconception: MC-c2-estimate-is-exact
+      - value: 1
+        feedback: >-
+          ב-$E_1$ הנקודה היחידה היא $x=0$, ו-$|12h(1-h)|\le h$ נכשל לכל $h<\frac{11}{12}$. נגזרת אפס בנקודה אחת לא מספיקה:
+          $E_n$ דורשת חסם לכל $h<\frac1n$.
+        misconception: MC-c2-En-n-derivative
+
+  - id: Q-2.7-En-sqrt
+    type: twotier
+    objectives: [OBJ-2.7-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $f(x)=\sqrt x$ על $[0,1]$. מנת ההפרשים $\frac{\sqrt h-0}{h}=\frac1{\sqrt h}$ שואפת לאינסוף, ולכן ל-$f$ אין נגזרת
+      ימנית סופית ב-0. $E_n$ היא קבוצת הפונקציות $g\in C[0,1]$ שיש להן נקודה $x\in[0,1-\frac1n]$ כך
+      ש-$|g(x+h)-g(x)|\le nh$ לכל $0<h<\frac1n$. האם $f\in\bigcup_nE_n$?
+    choices:
+      - text: 'כן'
+        correct: true
+        feedback: >-
+          נכון. $E_n$ דורשת נקודה **אחת** שבה מנות ההפרשים מימין חסומות ב-$n$, ול-$\sqrt x$ יש הרבה נקודות כאלה.
+      - text: 'לא, כי $f$ אינה גזירה ב-0'
+        feedback: >-
+          $E_n$ אינה "גזירה בכל מקום" וגם אינה "בודקת את 0". מספיקה נקודה טובה אחת ב-$[0,1-\frac1n]$, ונקודה רעה אחת לא
+          מוציאה את $f$ מ-$E_n$.
+        misconception: MC-c2-En-means-differentiable
+    reasons:
+      - text: 'עם $n=2$ ו-$x=\frac12$: $|\sqrt{\frac12+h}-\sqrt{\frac12}|=\frac{h}{\sqrt{\frac12+h}+\sqrt{\frac12}}\le\frac{h}{\sqrt2}<2h$ לכל $0<h<\frac12$'
+        correct: true
+        feedback: >-
+          בדיוק: המכנה לפחות $2\sqrt{\frac12}=\sqrt2$. לכן $\sqrt x\in E_2$. (היא אינה ב-$E_1$: שם הנקודה היחידה האפשרית
+          היא 0.)
+      - text: '$\sqrt x$ גזירה בכל נקודה של $(0,1]$, ולכן היא שייכת לכל $E_n$, גם ל-$E_1$'
+        feedback: >-
+          ב-$E_1$ הקטע $[0,1-\frac11]$ הוא $\{0\}$, ו-$\sqrt h\le h$ נכשל לכל $0<h<1$. גזירות בנקודה מכניסה ל-$E_n$ רק
+          ל-$n$ גדול מספיק.
+        misconception: MC-c2-En-n-derivative
+
+  - id: Q-2.7-En-differentiable
+    type: twotier
+    objectives: [OBJ-2.7-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $E_n$ היא קבוצת הפונקציות $g\in C[0,1]$ שיש להן נקודה $x\in[0,1-\frac1n]$ כך ש-$|g(x+h)-g(x)|\le nh$ לכל
+      $0<h<\frac1n$. ל-$f\in C[0,1]$ יש נגזרת ימנית סופית $f'_+(x_0)$ בנקודה $x_0\in[0,1)$. האם בהכרח $f\in E_n$ עבור
+      $n$ כלשהו?
+    choices:
+      - text: 'כן'
+        correct: true
+        feedback: >-
+          נכון (למה 2.7.18(א)). זה הצעד שמחבר בין $E_n$ לגזירות: הפונקציות שגזירות (מימין) איפשהו ב-$[0,1)$ כולן ב-$\bigcup_nE_n$.
+      - text: 'לא, רק אם $f$ גזירה בכל נקודה של $[0,1]$'
+        feedback: >-
+          $E_n$ מדברת על נקודה אחת. נקודה אחת עם נגזרת ימנית מספיקה, כמו שההוכחה מראה.
+        misconception: MC-c2-En-means-differentiable
+    reasons:
+      - text: 'יש $\delta\in(0,1-x_0)$ עם $|f(x_0+h)-f(x_0)|\le(|f_+^{\prime}(x_0)|+1)h$ כש-$0<h<\delta$, וכש-$h\ge\delta$ החסם $|f(x_0+h)-f(x_0)|\le2\|f\|_\infty\le\frac{2\|f\|_\infty}{\delta}h$; כל $n$ שגדול מ-$|f_+^{\prime}(x_0)|+1$, מ-$\frac{2\|f\|_\infty}\delta$ ומ-$\frac1{1-x_0}$ מתאים'
+        correct: true
+        feedback: >-
+          בדיוק. $h$ קטן מטופל בהגדרת הנגזרת, $h$ גדול בחסימות של $f$, והתנאי $n\ge\frac1{1-x_0}$ מבטיח
+          $x_0\in[0,1-\frac1n]$.
+      - text: 'מספיק לקחת $n$ טבעי כלשהו עם $n\ge|f_+^{\prime}(x_0)|$'
+        feedback: >-
+          הנגזרת שולטת רק ב-$h$ קטן. $f(x)=10x^2$, $x_0=0$: $f'_+(0)=0$, אבל $f\notin E_3$: לכל $x\ge0$,
+          $f(x+h)-f(x)=10h(2x+h)\ge10h^2>3h$ כש-$h\in(\frac3{10},\frac13)$.
+        misconception: MC-c2-En-n-derivative
+
+  - id: Q-2.7-sawtooth
+    type: numeric
+    objectives: [OBJ-2.7-3]
+    level: mid
+    prompt: >-
+      $E_4$ היא קבוצת הפונקציות $g\in C[0,1]$ שיש להן נקודה $x\in[0,\frac34]$ כך ש-$|g(x+h)-g(x)|\le4h$ לכל
+      $0<h<\frac14$. בהוכחה ש-$E_4$ אין לה פנים, מוסיפים לפונקציה $p$ "מסור" $\varphi$: פונקציה לינארית למקוטעין עם
+      שיפועים $\pm L$ לסירוגין ו-$\|\varphi\|_\infty$ קטנה, ומקבלים $g=p+\varphi$. נניח ש-$p(x)=2x^2$. לכל $x\in[0,\frac34]$
+      יש $h\in(0,\frac14)$ קטן כך ש-$\varphi$ לינארית על $[x,x+h]$, ואז $|\varphi(x+h)-\varphi(x)|=Lh$. מהו הסף $L_0$ הקטן ביותר
+      כך שלכל $L>L_0$ אי-שוויון המשולש ההפוך, עם החסם של משפט הערך הממוצע על $|p(x+h)-p(x)|$, מבטיח
+      $|g(x+h)-g(x)|>4h$, כלומר $g\notin E_4$?
+    answer: 8
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון (למה 2.7.20). $|p'|=4x\le4$ על $[0,1]$, ולפי משפט הערך הממוצע $|p(x+h)-p(x)|\le4h$. לכן
+      $|g(x+h)-g(x)|\ge Lh-4h=(L-4)h$, וזה גדול מ-$4h$ בדיוק כש-$L>8$. בכללי: $L>n+M$, כש-$M$ חוסם את מנות ההפרשים של $p$.
+      ו-$\|\varphi\|_\infty$ לא תלויה ב-$L$ בכלל: היא גובה השיניים.
+    wrongFeedback: >-
+      חסמו את $|p(x+h)-p(x)|$ בעזרת $\max|p'|$ על $[0,1]$, הערכו את $|g(x+h)-g(x)|$ מלמטה (מה ש-$\varphi$ תורמת פחות מה ש-$p$
+      יכולה לבטל), ודרשו שזה יהיה גדול מ-$4h$.
+    commonWrong:
+      - value: 4
+        feedback: >-
+          $L>4$ היה מספיק אילו $g$ הייתה המסור בלבד. אבל $p$ יכולה לבטל עד $4h$ מהשינוי של המסור, ולכן צריך $L-4>4$.
+        misconception: MC-c2-sawtooth-slope
+      - value: 6
+        feedback: >-
+          זה לוקח את המקדם 2 של $2x^2$ כחסם על השיפוע של $p$. החסם הוא $\max_{[0,1]}|p'|=\max4x=4$, ולכן $L>4+4=8$.
+        misconception: MC-c2-sawtooth-slope
+
+  - id: Q-2.7-why-pl
+    type: mc
+    objectives: [OBJ-2.7-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      בהוכחה ש-$E_n$ אין לה פנים מתחילים מ-$f\in C[0,1]$ ו-$r>0$. בוחרים קו שבור $p$ עם $\|f-p\|_\infty<\frac r2$ (מרציפות
+      במידה שווה של $f$ על $[0,1]$), ולו, לא ל-$f$, מוסיפים מסור $\varphi$ עם $\|\varphi\|_\infty<\frac r2$ ושיפועים $\pm L$,
+      כש-$L>n+M$ ו-$M$ השיפוע הגדול ביותר בערך מוחלט של $p$. למה לא מוסיפים את המסור ישר ל-$f$?
+    choices:
+      - text: 'כי למנות ההפרשים של $f$ אין חסם, והשינוי של $f$ עלול לבטל את השינוי של המסור; ל-$p$ יש חסם $M$, ולכן $|g(x+h)-g(x)|\ge(L-M)h>nh$'
+        correct: true
+        feedback: >-
+          נכון. ההערכה מלמטה צריכה חסם **עליון** על מה שהפונקציה שמתחת למסור עושה. ל-$f$ רציפה כלשהי אין חסם כזה (למשל
+          $\sqrt x$ ליד 0), לקו שבור יש.
+      - text: 'כי מסור עם שיפוע $L$ גדול רחוק מ-0 בנורמת הסופרמום, ו-$p$ מפצה על כך'
+        feedback: >-
+          $\|\varphi\|_\infty$ הוא גובה השיניים, לא השיפוע: מסור בגובה $\frac r4$ עם שיפוע $10^6$ נמצא במרחק $\frac r4$ מ-0.
+          זו בדיוק הסיבה שפונקציות "פראיות" נמצאות בכל כדור.
+        misconception: MC-c2-steep-is-far
+      - text: 'כי $g$ צריכה להיות גזירה, ו-$p$ גזירה'
+        feedback: >-
+          המטרה הפוכה: $g\notin E_n$, כלומר מנות ההפרשים של $g$ גדולות מ-$n$ ליד כל נקודה. וגם $p$ אינה גזירה בפינות שלה.
+        misconception: MC-c2-En-means-differentiable
+
+  # ------------------------------------------------------------------- exam
+  - id: Q-2.7-not-gdelta
+    type: twotier
+    objectives: [OBJ-2.7-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      האם $\mathbb{Q}$ היא קבוצת $G_\delta$ ב-$\mathbb{R}$ (עם המרחק הרגיל)?
+    choices:
+      - text: 'לא'
+        correct: true
+        feedback: >-
+          נכון (מסקנה 2.7.5). לכן $\mathbb{R}\setminus\mathbb{Q}$ אינה $F_\sigma$, אף ש-$\mathbb{Q}$ עצמה $F_\sigma$ (איחוד בן מנייה של
+          יחידונים סגורים).
+      - text: 'כן: $\mathbb{Q}=\bigcap_nU_n$ עם $U_n=\bigcup_{q\in\mathbb{Q}}(q-\frac1n,q+\frac1n)$'
+        feedback: >-
+          כל $U_n$ היא כל $\mathbb{R}$: לכל $x$ יש רציונלי במרחק קטן מ-$\frac1n$ ממנו. החיתוך של סביבות מתכווצות של קבוצה
+          הוא הסגור שלה, לא הקבוצה, ו-$\overline{\mathbb{Q}}=\mathbb{R}$.
+        misconception: MC-c2-gdelta-shrink-neighbourhoods
+    reasons:
+      - text: 'אילו $\mathbb{Q}=\bigcap_nU_n$ עם $U_n$ פתוחות, כל $U_n$ הייתה צפופה; עם $q_1,q_2,\dots$ רשימה של $\mathbb{Q}$, גם $\mathbb{R}\setminus\{q_k\}$ פתוחות וצפופות; לסדרה של כל הקבוצות האלה חיתוך ריק, בסתירה למשפט 2.5.8(א)'
+        correct: true
+        feedback: >-
+          בדיוק. החיתוך הוא $\mathbb{Q}\cap(\mathbb{R}\setminus\mathbb{Q})=\emptyset$, ובייר אומר שחיתוך של סדרה של פתוחות
+          צפופות במרחב שלם צפוף, ובפרט לא ריק. המרכיבים: $\mathbb{R}$ שלם, $\mathbb{Q}$ בת מנייה, וצפופה.
+      - text: '$\mathbb{Q}$ אינה פתוחה, וקבוצת $G_\delta$ היא פתוחה'
+        feedback: >-
+          קבוצת $G_\delta$ אינה חייבת להיות פתוחה: $[0,1]$ ו-$\{0\}$ הן $G_\delta$ ואינן פתוחות. חיתוך של סדרה של פתוחות
+          אינו בהכרח פתוח (משפט 1.3.7).
+        misconception: MC-c1-infinite-intersection
+      - text: '$\mathbb{Q}$ היא $F_\sigma$, וקבוצה אינה יכולה להיות גם $F_\sigma$ וגם $G_\delta$'
+        feedback: >-
+          קבוצה יכולה להיות שתיהן: $[0,1]$ סגורה (ולכן $F_\sigma$) וגם $G_\delta$; $(0,1)=\bigcup_n[\frac1n,1-\frac1n]$
+          פתוחה (ולכן $G_\delta$) וגם $F_\sigma$.
+        misconception: MC-c2-fsigma-gdelta-exclusive
+      - text: '$\mathbb{Q}$ בת מנייה, וכל קבוצת $G_\delta$ אינה בת מנייה'
+        feedback: >-
+          $\{0\}=\bigcap_n(-\frac1n,\frac1n)$ היא $G_\delta$ סופית. מה שנכון: קבוצת $G_\delta$ **צפופה** ב-$\mathbb{R}$
+          אינה בת מנייה. הצפיפות היא חלק מהטיעון.
+        misconception: MC-c2-gdelta-uncountable
+
+  - id: Q-2.7-continuity-sets
+    type: multi
+    objectives: [OBJ-2.7-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      לאילו מהקבוצות הבאות $A\subseteq\mathbb{R}$ יש פונקציה $f:\mathbb{R}\to\mathbb{R}$ שקבוצת נקודות הרציפות שלה היא
+      **בדיוק** $A$? סמנו את כולן.
+    choices:
+      - text: '$\mathbb{R}\setminus\mathbb{Q}$'
+        correct: true
+        feedback: >-
+          כן: פונקציית תומה $T$ (טענה 2.7.12). ב-$\frac pq$ (מצומצם) $o(T,\frac pq)=\frac1q>0$. באי-רציונלי $a$: לכל $M$ יש רק מספר סופי
+          של שברים עם מכנה עד $M$ בקטע $(a-1,a+1)$, ואף אחד מהם אינו $a$; בכדור קטן מספיק אין אף אחד מהם, ולכן
+          $0\le T<\frac1M$ שם, ו-$o(T,a)\le\frac1M$ לכל $M$.
+      - text: '$\emptyset$'
+        correct: true
+        feedback: >-
+          כן: $\chi_{\mathbb{Q}}$, שהתנודה שלה 1 בכל נקודה. הקבוצה הריקה היא $G_\delta$ (היא פתוחה).
+      - text: '$\{0\}$'
+        correct: true
+        feedback: >-
+          כן: $f(x)=x\chi_{\mathbb{Q}}(x)$. ב-0: $|f(x)|\le|x|$; ב-$a\ne0$ סדרות רציונליות ואי-רציונליות נותנות גבולות
+          $a$ ו-0.
+      - text: '$\mathbb{Q}$'
+        feedback: >-
+          לא (מסקנה 2.7.13). קבוצת נקודות הרציפות של כל פונקציה היא $G_\delta$ (משפט 2.7.11), ו-$\mathbb{Q}$ אינה $G_\delta$ (מסקנה 2.7.5). אין
+          "פונקציית תומה הפוכה".
+        misconception: MC-c2-continuity-set-any
+      - text: 'הרציונליים הדיאדיים $\{\frac{k}{2^m}:\ k\in\mathbb{Z},\ m\in\mathbb{N}\}$'
+        feedback: >-
+          לא: גם זו קבוצה בת מנייה וצפופה, ולכן אינה $G_\delta$, מאותו טיעון של בייר כמו $\mathbb{Q}$ (מוסיפים לסדרה את
+          המשלימים של היחידונים שלה).
+        misconception: MC-c2-continuity-set-any
+
+  - id: Q-2.7-baire1-proof
+    type: rank
+    objectives: [OBJ-2.7-2]
+    level: exam
+    prompt: >-
+      $X$ מרחב מטרי שלם ולא ריק, $f_n:X\to\mathbb{R}$ רציפות, ו-$f_n\to f$ נקודתית. סדרו את שלבי ההוכחה שנקודות הרציפות
+      של $f$ צפופות.
+    help: גררו את השלבים לסדר הנכון, מהשלב הראשון של ההוכחה לאחרון.
+    items:
+      - id: closed
+        label: 'נקבע $\varepsilon>0$. לכל $m$ תהי $F_m$ קבוצת הנקודות $x$ שבהן $|f_i(x)-f_j(x)|\le\varepsilon$ לכל $i,j\ge m$; היא סגורה, כחיתוך של הקבוצות הסגורות $\{x:\ |f_i(x)-f_j(x)|\le\varepsilon\}$.'
+      - id: cover
+        label: '$\bigcup_mF_m=X$: בכל $x$ הסדרה $(f_n(x))$ מתכנסת, ולכן היא סדרת קושי.'
+      - id: dense
+        label: 'כל $F_m\setminus F_m^\circ$ סגורה ובלי פנים, ולכן דלילה; לפי משפט 2.5.8(ב) לאיחוד שלהן אין פנים, ולכן הקבוצה הפתוחה $V_\varepsilon=\bigcup_mF_m^\circ$, שמכילה את המשלים של האיחוד הזה, צפופה.'
+      - id: osc
+        label: 'אם $x\in V_\varepsilon$, כלומר $x\in F_m^\circ$ לאיזה $m$, אז השאפת $i\to\infty$ נותנת $|f-f_m|\le\varepsilon$ בכדור סביב $x$, ועם רציפות $f_m$ ב-$x$ מתקבל $o(f,x)\le4\varepsilon$.'
+      - id: baire
+        label: 'לכן $\bigcap_kV_{1/k}$ מוכלת בקבוצת נקודות הרציפות של $f$, והיא צפופה לפי משפט 2.5.8(א), כחיתוך של סדרה של פתוחות צפופות.'
+    order: [closed, cover, dense, osc, baire]
+    correctFeedback: >-
+      נכון. הרעיון: בכל מקום במרחב יש כדור שבו הסדרה "קושי במידה שווה עד $\varepsilon$" (בייר, כי הקבוצות $F_m$ הסגורות
+      מכסות את המרחב השלם), ובכדור כזה $f$ קרובה לפונקציה רציפה, ולכן התנודה שלה קטנה. בייר בפעם השנייה מחבר את כל ה-$\varepsilon$.
+    wrongFeedback: >-
+      קודם מגדירים את $F_m$ ומראים שהן סגורות ומכסות את $X$; רק אז אפשר להפעיל את בייר ולקבל את $V_\varepsilon$; אחר כך
+      מעריכים את התנודה בנקודות של $V_\varepsilon$; ולבסוף לוקחים חיתוך על פני $\varepsilon=\frac1k$.
+
+  - id: Q-2.7-baire1-complete
+    type: twotier
+    objectives: [OBJ-2.7-2]
+    qualitative: true
+    level: exam
+    prompt: >-
+      האם יש מרחב מטרי $X$ (לא שלם) וסדרה של פונקציות רציפות $f_n:X\to\mathbb{R}$ שמתכנסת נקודתית לפונקציה $f$ שאינה
+      רציפה **באף** נקודה של $X$?
+    choices:
+      - text: 'כן'
+        correct: true
+        feedback: >-
+          נכון (טענה 2.7.16). בלי שלמות המשפט נכשל לגמרי: ההוכחה של משפט 2.7.14 משתמשת בבייר פעמיים.
+      - text: 'לא: גבול נקודתי של רציפות רציף בקבוצה צפופה בכל מרחב מטרי'
+        feedback: >-
+          המשפט דורש מרחב שלם. ב-$\mathbb{Q}$, שאינו שלם, יש דוגמה נגדית (ראו את הנימוק הנכון).
+        misconception: MC-c2-baire1-no-completeness
+    reasons:
+      - text: '$X=\mathbb{Q}$, $f=T$ (פונקציית תומה על $\mathbb{Q}$), ו-$f_n$ הצמצום ל-$\mathbb{Q}$ של הקו השבור שעובר בנקודות $(q_k,T(q_k))$, $k\le n$, וקבוע מחוץ להן, עבור רשימה $q_1,q_2,\dots$ של $\mathbb{Q}$'
+        correct: true
+        feedback: >-
+          בדיוק. כל $f_n$ רציפה על $\mathbb{R}$ ולכן על $\mathbb{Q}$, ו-$f_n(q_k)=T(q_k)$ לכל $n\ge k$, כך ש-$f_n\to T$ בכל נקודה
+          של $\mathbb{Q}$. אבל $T$ אינה רציפה באף נקודה של $\mathbb{Q}$: $T(\frac pq)=\frac1q>0$, ובכל כדור סביב $\frac pq$
+          יש רציונליים עם מכנה גדול כרצוננו, שבהם $T$ קטנה.
+      - text: '$X=\mathbb{R}$ ו-$f=\chi_{\mathbb{Q}}=\lim_m\lim_n\cos(m!\pi x)^{2n}$'
+        feedback: >-
+          $\mathbb{R}$ שלם, ולכן לפי המשפט $\chi_{\mathbb{Q}}$ **אינה** גבול נקודתי של רציפות; הנוסחה היא גבול כפול.
+        misconception: MC-c2-double-limit
+
+  - id: Q-2.7-En-closed
+    type: rank
+    objectives: [OBJ-2.7-3]
+    level: exam
+    prompt: >-
+      סדרו את שלבי ההוכחה ש-$E_n$ סגורה ב-$(C[0,1],\|\cdot\|_\infty)$, כאשר $E_n$ היא קבוצת הפונקציות שיש להן נקודה
+      $x\in[0,1-\frac1n]$ עם $|f(x+h)-f(x)|\le nh$ לכל $0<h<\frac1n$.
+    help: גררו את השלבים לסדר הנכון, מהשלב הראשון של ההוכחה לאחרון.
+    items:
+      - id: seq
+        label: 'תהי $f_k\in E_n$ עם $\|f_k-f\|_\infty\to0$, ולכל $k$ נבחר $x_k\in[0,1-\frac1n]$ עם $|f_k(x_k+h)-f_k(x_k)|\le nh$ לכל $0<h<\frac1n$.'
+      - id: bw
+        label: 'לפי בולצאנו-ויירשטראס יש תת-סדרה $x_{k_j}\to x$, ו-$x\in[0,1-\frac1n]$ כי הקטע סגור.'
+      - id: conv
+        label: 'נקבע $h\in(0,\frac1n)$. מ-$|f_k(y_k)-f(y)|\le\|f_k-f\|_\infty+|f(y_k)-f(y)|$ ומרציפות $f$: $f_{k_j}(x_{k_j}+h)\to f(x+h)$ ו-$f_{k_j}(x_{k_j})\to f(x)$.'
+      - id: limit
+        label: 'השאפת $j\to\infty$ באי-השוויון של $f_{k_j}$ נותנת $|f(x+h)-f(x)|\le nh$; זה לכל $h$, ולכן $f\in E_n$, ו-$E_n$ סגורה.'
+    order: [seq, bw, conv, limit]
+    correctFeedback: >-
+      נכון. הרעיון: הנקודות הטובות $x_k$ יכולות לנדוד, ולכן קודם מייצבים אותן בתת-סדרה מתכנסת, ורק אז עוברים לגבול
+      באי-השוויון. אי-שוויון חלש ($\le$) נשמר בגבול, ולכן ההגדרה כתובה עם $\le$.
+    wrongFeedback: >-
+      קודם בוחרים נקודה טובה לכל $f_k$, אחר כך תת-סדרה מתכנסת של הנקודות, אחר כך התכנסות הערכים (כאן משתמשים בנורמת
+      הסופרמום וברציפות של $f$), ולבסוף מעבר לגבול באי-השוויון.
+
+  - id: Q-2.7-residual-no-ball
+    type: twotier
+    objectives: [OBJ-2.7-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $\mathcal{N}$ היא קבוצת הפונקציות ב-$C[0,1]$ שאין להן נגזרת ימנית סופית באף נקודה של $[0,1)$ ואין להן נגזרת שמאלית
+      סופית באף נקודה של $(0,1]$. ראינו שהיא צפופה ב-$(C[0,1],\|\cdot\|_\infty)$ ושהמשלים שלה מוכל באיחוד בן מנייה של
+      קבוצות דלילות. האם $\mathcal{N}$ מכילה כדור פתוח $B(f,r)$, עם $r>0$?
+    choices:
+      - text: 'לא'
+        correct: true
+        feedback: >-
+          נכון (משפט 2.7.21(ג)). גם $\mathcal{N}$ וגם המשלים שלה צפופים. ההבדל ביניהם אינו בצפיפות אלא בקטגוריה: המשלים מקטגוריה ראשונה, ו-$\mathcal{N}$ לא.
+      - text: 'כן: $\mathcal{N}$ שיורית, ולכן מכילה קבוצה פתוחה וצפופה'
+        feedback: >-
+          קבוצה שיורית מכילה חיתוך של **סדרה** של פתוחות צפופות (המשלימים של הסגורים של הקבוצות הדלילות), ולא בהכרח קבוצה
+          פתוחה וצפופה אחת. $\mathbb{R}\setminus\mathbb{Q}$ שיורית ב-$\mathbb{R}$ ואין לה פנים.
+        misconception: MC-c2-residual-means-all
+    reasons:
+      - text: 'בכל כדור $B(f,r)$ יש קו שבור $p$ (מרציפות במידה שווה של $f$ על $[0,1]$: מחלקים לקטעים קצרים ומחברים את ערכי $f$ בקצוות), ו-$p$ יש נגזרת ימנית סופית בכל נקודה של $[0,1)$, ולכן $p\notin\mathcal{N}$'
+        correct: true
+        feedback: >-
+          בדיוק. אם $|f(s)-f(t)|<\frac r2$ כש-$|s-t|<\delta$, וחלוקה עם קטעים קצרים מ-$\delta$, אז על כל קטע $p$ היא ממוצע
+          משוקלל של שני ערכים של $f$ שכל אחד מהם במרחק פחות מ-$\frac r2$ מ-$f(x)$, ולכן $\|f-p\|_\infty\le\frac r2<r$.
+      - text: 'קבוצה צפופה תמיד מכילה כדור, ולכן התשובה היא דווקא כן'
+        feedback: >-
+          $\mathbb{Q}$ צפופה ב-$\mathbb{R}$ ואינה מכילה אף קטע. צפיפות פירושה שהקבוצה פוגשת כל כדור, לא שהיא ממלאת אחד.
+        misconception: MC-c1-dense-large

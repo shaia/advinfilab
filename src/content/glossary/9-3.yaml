@@ -4,9 +4,10 @@
   en: oscillation
   symbol: 'o(f,a)'
   definition: >-
-    לפונקציה חסומה $f$ על $Q$ ול-$a\in Q$:
-    $o(f,a)=\lim_{\delta\to0^+}\bigl(\sup_{B(a,\delta)\cap Q}f-\inf_{B(a,\delta)\cap Q}f\bigr)$. $f$ רציפה ב-$a$ אם
-    ורק אם $o(f,a)=0$.
+    לפונקציה $f:X\to\mathbb{R}$ על מרחב מטרי $(X,d)$ ול-$a\in X$: $o(f,a)=\inf_{\delta>0}\omega(f,a,\delta)$, כאשר
+    $\omega(f,a,\delta)$ הוא הסופרמום של $|f(y)-f(z)|$ על $y,z\in B(a,\delta)$; הערך יכול להיות $\infty$ (שיעור 2.7, הגדרה
+    2.7.8). $f$ רציפה ב-$a$ אם ורק אם $o(f,a)=0$. לפונקציה חסומה $f$ על תיבה $Q$ ול-$a\in Q$ זה
+    $o(f,a)=\lim_{\delta\to0^+}\bigl(\sup_{B(a,\delta)\cap Q}f-\inf_{B(a,\delta)\cap Q}f\bigr)$ (שיעור 9.3).
   lesson: '9.3'
 - id: lebesgue-criterion
   term: משפט לבג על אינטגרביליות

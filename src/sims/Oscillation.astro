@@ -1,0 +1,7 @@
+---
+/** Lesson 2.7 figures: mode 'osc' {{ osc, oscs, delta, tasks }} (fig-2-7a) and mode 'cone' {{ base, bases, m, L, n, x, tasks }} (fig-2-7b). */
+import Oscillation, { type OscillationProps } from './Oscillation';
+type Props = OscillationProps;
+---
+
+<Oscillation client:visible {...Astro.props} />

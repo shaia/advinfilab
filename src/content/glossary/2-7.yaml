@@ -1,0 +1,41 @@
+# Terms first defined in lesson 2.7 (enrichment). The oscillation o(f,a) is used here too; its entry is `oscillation`
+# in 9-3.yaml (one entry per term), and lesson 2.7 defines it for any f: X → ℝ on a metric space.
+- id: gdelta-set
+  term: קבוצת Gδ
+  en: G-delta set
+  symbol: 'G_\delta'
+  definition: >-
+    תת-קבוצה של מרחב מטרי שהיא חיתוך של **סדרה** של קבוצות פתוחות: $A=\bigcap_{n=1}^\infty U_n$. כל קבוצה פתוחה וכל
+    קבוצה סגורה היא $G_\delta$; גם $\mathbb{R}\setminus\mathbb{Q}$. $\mathbb{Q}$ אינה $G_\delta$ ב-$\mathbb{R}$ (משפט בייר).
+    קבוצת נקודות הרציפות של כל פונקציה $f:X\to\mathbb{R}$ היא $G_\delta$.
+  lesson: '2.7'
+- id: fsigma-set
+  term: קבוצת Fσ
+  en: F-sigma set
+  symbol: 'F_\sigma'
+  definition: >-
+    תת-קבוצה של מרחב מטרי שהיא איחוד של **סדרה** של קבוצות סגורות: $A=\bigcup_{n=1}^\infty F_n$. $A$ היא $F_\sigma$ אם ורק
+    אם המשלים שלה הוא $G_\delta$. למשל $\mathbb{Q}=\bigcup_n\{q_n\}$; קבוצה יכולה להיות גם $F_\sigma$ וגם $G_\delta$.
+  lesson: '2.7'
+- id: residual-set
+  term: קבוצה שיורית
+  en: residual (comeagre) set
+  definition: >-
+    קבוצה שהמשלים שלה מקטגוריה ראשונה, כלומר מוכל באיחוד בן מנייה של קבוצות דלילות; שקול: היא מכילה חיתוך של סדרה של
+    קבוצות פתוחות וצפופות. במרחב שלם ולא ריק קבוצה שיורית צפופה (משפט 2.5.8), אבל אינה חייבת להכיל כדור:
+    $\mathbb{R}\setminus\mathbb{Q}$ שיורית ב-$\mathbb{R}$.
+  lesson: '2.7'
+- id: thomae-function
+  term: פונקציית תומה
+  en: Thomae's function
+  definition: >-
+    $T:\mathbb{R}\to\mathbb{R}$, $T(\frac pq)=\frac1q$ כש-$\frac pq$ שבר מצומצם עם $q\in\mathbb{N}$, ו-$T(x)=0$ כש-$x$
+    אי-רציונלי. היא רציפה בדיוק באי-רציונליים, ו-$o(T,\frac pq)=\frac1q$.
+  lesson: '2.7'
+- id: nowhere-differentiable
+  term: פונקציה שאינה גזירה באף נקודה
+  en: nowhere differentiable function
+  definition: >-
+    פונקציה רציפה $f:[a,b]\to\mathbb{R}$ שאין לה נגזרת באף נקודה. לפי משפט בייר, הפונקציות האלה הן קבוצה שיורית, ובפרט
+    צפופה, במרחב $(C[0,1],\|\cdot\|_\infty)$: בכל כדור שלו יש פונקציה כזו.
+  lesson: '2.7'
