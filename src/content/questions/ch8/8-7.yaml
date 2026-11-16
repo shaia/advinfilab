@@ -1,0 +1,487 @@
+# Lesson 8.7 — the continuous angle and the fundamental theorem of algebra (Lindenstrauss IX §3).
+# Objectives (src/course.ts):
+#   OBJ-8.7-1  a continuous angle function along a continuous path avoiding p exists, unique up to 2πk; Ind of a continuous
+#              closed path from it, agreeing with 8.6's line-integral definition for piecewise smooth paths
+#   OBJ-8.7-2  Ind is invariant under homotopy of continuous closed paths in ℝ²∖{p}, and under moving the path by less than
+#              its distance from p (the leash lemma)
+#   OBJ-8.7-3  the fundamental theorem of algebra via winding numbers
+# θ is a continuous angle function: γ(t) − p = ‖γ(t) − p‖(cos θ(t), sin θ(t)); Ind(γ,p) = (θ(b) − θ(a))/2π for closed γ.
+# ℝ² is identified with ℂ; γ_R(t) = R(cos t, sin t) = Re^{it}, t ∈ [0,2π]; polynomials are named q (p is a point).
+# No connectedness (3.6), no 8.8, no complex analysis beyond ℂ ≅ ℝ² and polynomial arithmetic.
+chapter: 8
+questions:
+  - id: Q-8.7-angle-def
+    type: mc
+    objectives: [OBJ-8.7-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $\gamma:[a,b]\to\mathbb{R}^2$ מסילה רציפה ו-$p\notin\gamma([a,b])$. מהי **פונקציית זווית רציפה** של $\gamma$ סביב
+      $p$?
+    choices:
+      - text: 'פונקציה רציפה $\theta:[a,b]\to\mathbb{R}$ עם $\gamma(t)-p=\|\gamma(t)-p\|(\cos\theta(t),\sin\theta(t))$ לכל $t\in[a,b]$'
+        correct: true
+        feedback: >-
+          נכון. בכל $t$ הזווית נקבעת רק עד כדי כפולה של $2\pi$; הרציפות היא שבוחרת ביניהן באופן עקבי לאורך המסילה, וכך
+          $\theta$ "סופרת" סיבובים.
+      - text: '$\theta(t)$ היא הזווית של $\gamma(t)-p$ בתחום $(-\pi,\pi]$'
+        feedback: >-
+          הזווית הראשית קופצת: למעגל $(\cos t,\sin t)$ סביב הראשית היא עוברת מ-$\pi$ ל-$(-\pi)$ ב-$t=\pi$. היא אינה רציפה,
+          ולכן אינה פונקציית זווית רציפה.
+        misconception: MC-c8-angle-principal-value
+      - text: '$\theta(t)=\arctan\frac{y(t)-p_2}{x(t)-p_1}$, כאשר $\gamma=(x,y)$'
+        feedback: >-
+          הביטוי אינו מוגדר כש-$x(t)=p_1$, ובחצי המישור $x<p_1$ הוא שונה מהזווית ב-$\pm\pi$. למעגל היחידה סביב הראשית
+          הוא אינו מוגדר כבר ב-$t=\frac\pi2$.
+        misconception: MC-c8-arctan-potential
+      - text: 'כל פונקציה $\theta:[a,b]\to\mathbb{R}$, לא בהכרח רציפה, עם $\gamma(t)-p=\|\gamma(t)-p\|(\cos\theta(t),\sin\theta(t))$'
+        feedback: >-
+          בלי רציפות אפשר להוסיף $2\pi k(t)$ שונה בכל נקודה, ואז $\theta(b)-\theta(a)$ יכול להיות כל כפולה של $2\pi$: הוא
+          לא היה מודד כלום.
+        misconception: MC-c8-angle-lift-uniqueness
+
+  - id: Q-8.7-angle-square
+    type: numeric
+    objectives: [OBJ-8.7-1]
+    level: basic
+    prompt: >-
+      $\gamma(t)=(\cos t^2,\sin t^2)$, $t\in[0,\sqrt{6\pi}]$, מסילה סגורה. מצאו פונקציית זווית רציפה שלה סביב הראשית,
+      וחשבו בעזרתה את $\operatorname{Ind}(\gamma,(0,0))$.
+    answer: 3
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $\theta(t)=t^2$ רציפה ומקיימת $\gamma(t)=(\cos\theta(t),\sin\theta(t))$, ולכן
+      $\operatorname{Ind}=\frac{\theta(\sqrt{6\pi})-\theta(0)}{2\pi}=\frac{6\pi}{2\pi}$.
+    wrongFeedback: >-
+      הזווית של $\gamma(t)$ היא $t^2$, והיא רציפה ב-$t$. מספר הליפוף הוא השינוי הכולל שלה חלקי $2\pi$.
+    commonWrong:
+      - value: 1
+        feedback: >-
+          התמונה היא מעגל היחידה, אבל המסילה עוברת עליו שלוש פעמים: $t^2$ עולה מ-0 ל-$6\pi$.
+        misconception: MC-c8-curve-is-image
+      - value: 18.849556
+        feedback: >-
+          $6\pi$ הוא השינוי של הזווית. מספר הליפוף הוא השינוי חלקי $2\pi$.
+        misconception: MC-c8-winding-normalisation
+      - value: 0
+        feedback: >-
+          הזווית הראשית של נקודת הסיום ושל נקודת ההתחלה שתיהן 0, אבל ההפרש ביניהן אינו מספר הליפוף: צריך פונקציית זווית
+          **רציפה** לאורך כל המסילה.
+        misconception: MC-c8-angle-principal-value
+
+  - id: Q-8.7-leash-statement
+    type: mc
+    objectives: [OBJ-8.7-2]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $\gamma,\sigma:[a,b]\to\mathbb{R}^2$ מסילות סגורות רציפות ו-$p\notin\gamma([a,b])$. איזה תנאי הוא ההנחה של **למת
+      הרצועה**, שמבטיחה ש-$\sigma$ אינה עוברת ב-$p$ ו-$\operatorname{Ind}(\sigma,p)=\operatorname{Ind}(\gamma,p)$?
+    choices:
+      - text: '$\|\sigma(t)-\gamma(t)\|<\|\gamma(t)-p\|$ לכל $t\in[a,b]$'
+        correct: true
+        feedback: >-
+          נכון. הרצועה ($\sigma(t)-\gamma(t)$) קצרה בכל רגע מהמרחק של האדם ($\gamma(t)$) מהעמוד ($p$), ולכן הכלב אינו
+          יכול "לעקוף" את העמוד מהצד השני.
+      - text: '$\max_t\|\sigma(t)-\gamma(t)\|<\max_t\|\gamma(t)-p\|$'
+        feedback: >-
+          ההשוואה צריכה להיות באותו $t$. ל-$\gamma(t)=(3\cos t,\sin t)$, $\sigma(t)=(3\cos t,2+\sin t)$ ו-$p=(0,0)$:
+          $\|\sigma-\gamma\|=2<3=\max\|\gamma\|$, אבל $\sigma$ נמצאת כולה בחצי המישור $y\ge1$, ולכן
+          $\operatorname{Ind}(\sigma,p)=0\ne1$.
+        misconception: MC-c8-leash-any-closeness
+      - text: '$\|\sigma(t)-\gamma(t)\|<\|\gamma(t)-p\|$ לפחות ב-$t$ אחד'
+        feedback: >-
+          תנאי בנקודה אחת אינו אומר דבר על שאר המסילה. $\sigma(t)=(\cos t,|\sin t|)$ שווה למעגל היחידה ב-$[0,\pi]$,
+          אבל חוזרת בחצי העליון ומספר הליפוף שלה סביב הראשית 0.
+        misconception: MC-c8-leash-any-closeness
+      - text: '$\sigma([a,b])=\gamma([a,b])$'
+        feedback: >-
+          אותה תמונה אינה מספיקה: המעגל פעם אחת ופעמיים, מספרי ליפוף 1 ו-2.
+        misconception: MC-c8-homotopy-by-image
+
+  - id: Q-8.7-large-circle
+    type: numeric
+    objectives: [OBJ-8.7-3]
+    level: mid
+    prompt: >-
+      $q(z)=z^2+3z+1$ ו-$\gamma_5(t)=5e^{it}$, $t\in[0,2\pi]$. חשבו את $\operatorname{Ind}(q\circ\gamma_5,0)$.
+    answer: 2
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. על $|z|=5$: $|q(z)-z^2|=|3z+1|\le16<25=|z^2|$. לפי למת הרצועה, עם $z^2\circ\gamma_5$ בתפקיד האדם, מספר הליפוף
+      כמו של $25e^{2it}$, שפונקציית הזווית שלה $2t$: כלומר 2.
+    wrongFeedback: >-
+      השוו את $q$ לאיבר המוביל $z^2$ על המעגל: האם $|q(z)-z^2|<|z^2|$ שם? אם כן, למת הרצועה מעבירה את מספר הליפוף.
+    commonWrong:
+      - value: 1
+        feedback: >-
+          $\gamma_5$ מקיפה את 0 פעם אחת, אבל $q\circ\gamma_5$ היא מסילה אחרת: האיבר $z^2$ מכפיל את הזווית.
+        misconception: MC-c8-winding-any-circle
+      - value: 12.566371
+        feedback: '$4\pi$ הוא השינוי של הזווית. מספר הליפוף הוא השינוי חלקי $2\pi$.'
+        misconception: MC-c8-winding-normalisation
+
+  - id: Q-8.7-angle-unique
+    type: twotier
+    objectives: [OBJ-8.7-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $\theta_1,\theta_2$ שתי פונקציות זווית רציפות של אותה מסילה $\gamma:[a,b]\to\mathbb{R}^2\setminus\{p\}$. נכון או לא
+      נכון: יש $k\in\mathbb{Z}$ כך ש-$\theta_2(t)=\theta_1(t)+2\pi k$ לכל $t\in[a,b]$.
+    choices:
+      - text: נכון
+        correct: true
+        feedback: 'נכון. לכן $\theta(b)-\theta(a)$ אינו תלוי בבחירה, ומספר הליפוף מוגדר היטב.'
+      - text: לא נכון
+        feedback: >-
+          בכל $t$ לחוד ההפרש כפולה של $2\pi$; הרציפות מכריחה את הכפולה להיות אותה כפולה לכל $t$. ראו את הנימוק.
+        misconception: MC-c8-angle-lift-uniqueness
+    reasons:
+      - text: 'לכל $t$ הקוסינוסים והסינוסים של $\theta_1(t)$ ו-$\theta_2(t)$ שווים, ולכן $\theta_2(t)-\theta_1(t)\in2\pi\mathbb{Z}$; ההפרש רציף על $[a,b]$ ומקבל רק ערכים ב-$2\pi\mathbb{Z}$, ולפי משפט ערך הביניים הוא קבוע'
+        correct: true
+        feedback: >-
+          בדיוק. פונקציה רציפה שמקבלת שני ערכים שונים ב-$2\pi\mathbb{Z}$ הייתה מקבלת גם את כל מה שביניהם, כולל ערכים מחוץ
+          ל-$2\pi\mathbb{Z}$.
+      - text: 'פונקציית זווית רציפה יחידה, כי $\theta(a)$ נקבעת על ידי הנקודה $\gamma(a)$'
+        feedback: >-
+          $\gamma(a)$ קובעת את $\theta(a)$ רק עד כדי $2\pi k$: גם $\theta+2\pi$ היא פונקציית זווית רציפה. היחידות היא עד
+          כדי קבוע כזה.
+        misconception: MC-c8-angle-lift-uniqueness
+      - text: '$\theta_1$ ו-$\theta_2$ שתיהן שוות לזווית הראשית של $\gamma(t)-p$ ועוד קבוע'
+        feedback: >-
+          הזווית הראשית אינה רציפה כשהמסילה חוצה את חצי הציר השלילי סביב $p$, ולכן "זווית ראשית ועוד קבוע" אינה פונקציית
+          זווית רציפה בדרך כלל.
+        misconception: MC-c8-angle-principal-value
+
+  - id: Q-8.7-angle-agrees
+    type: twotier
+    objectives: [OBJ-8.7-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $\gamma:[a,b]\to\mathbb{R}^2\setminus\{p\}$ מסילה סגורה חלקה למקוטעין ו-$\theta$ פונקציית זווית רציפה שלה סביב
+      $p$. נכון או לא נכון: $\frac{1}{2\pi}\int_\gamma\omega_p\cdot ds=\frac{\theta(b)-\theta(a)}{2\pi}$, כלומר שתי
+      ההגדרות של מספר הליפוף (שיעור 8.6 ושיעור זה) מתלכדות.
+    choices:
+      - text: נכון
+        correct: true
+        feedback: 'נכון. לכן מספר הליפוף של מסילה רציפה הוא הרחבה של זה של שיעור 8.6, לא מושג חדש.'
+      - text: לא נכון
+        feedback: >-
+          שתי ההגדרות סופרות את אותו דבר. ראו את הנימוק: מפצלים את המסילה לקטעים שבכל אחד מהם יש ל-$\omega_p$ פוטנציאל.
+        misconception: MC-c8-angle-lift-uniqueness
+    reasons:
+      - text: 'מחלקים את $[a,b]$ כך שכל $\gamma([t_{j-1},t_j])$ בעיגול שאינו מכיל את $p$; שם $\omega_p=\nabla\varphi_j$ עם $\varphi_j$ ענף של הזווית, ו-$\theta-\varphi_j\circ\gamma$ רציפה עם ערכים ב-$2\pi\mathbb{Z}$, ולכן קבועה; האינטגרל על הקטע הוא $\theta(t_j)-\theta(t_{j-1})$, והסכום טלסקופי'
+        correct: true
+        feedback: >-
+          בדיוק. על כל קטע האינטגרל של שדה עם פוטנציאל הוא הפרש ערכי הפוטנציאל (שיעור 8.4), ו-$\theta$ שווה לפוטנציאל עד
+          כדי קבוע.
+      - text: 'ל-$\omega_p$ יש פוטנציאל $\theta$ בכל $\mathbb{R}^2\setminus\{p\}$, ולכן האינטגרל הוא הפרש ערכי הפוטנציאל'
+        feedback: >-
+          ל-$\omega_p$ אין פוטנציאל ב-$\mathbb{R}^2\setminus\{p\}$ (על מעגל סביב $p$ האינטגרל $2\pi\ne0$). $\theta$ היא
+          פונקציה של $t$, לא של נקודה במישור: אותה נקודה מקבלת ערכים שונים בסיבובים שונים.
+        misconception: MC-c8-local-means-global
+      - text: 'האינטגרל הוא $\arctan\frac{y-p_2}{x-p_1}$ בנקודת הסיום פחות בנקודת ההתחלה'
+        feedback: >-
+          למסילה סגורה זה תמיד 0, ומעגל סביב $p$ נותן $2\pi$. $\arctan\frac{y}{x}$ אינו פוטנציאל לאורך מסילה שחוצה את
+          הישר $x=p_1$.
+        misconception: MC-c8-arctan-potential
+
+  - id: Q-8.7-epicycle
+    type: numeric
+    objectives: [OBJ-8.7-2]
+    level: mid
+    prompt: >-
+      $\sigma(t)=\left(2\cos t+\frac12\cos5t,\ \sin t+\frac12\sin5t\right)$, $t\in[0,2\pi]$: נקודה שמסתובבת 5 פעמים על
+      מעגל קטן, שמרכזו נע פעם אחת על אליפסה. חשבו את $\operatorname{Ind}(\sigma,(0,0))$.
+    answer: 1
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. עם $\gamma(t)=(2\cos t,\sin t)$: $\|\sigma(t)-\gamma(t)\|=\frac12$, ו-$\|\gamma(t)\|^2=1+3\cos^2t\ge1$, ולכן
+      $\|\sigma-\gamma\|<\|\gamma\|$ לכל $t$. לפי למת הרצועה $\operatorname{Ind}(\sigma,0)=\operatorname{Ind}(\gamma,0)=1$
+      (האליפסה הומוטופית למעגל היחידה ב-$\mathbb{R}^2\setminus\{0\}$ דרך $((2-s)\cos t,\sin t)$).
+    wrongFeedback: >-
+      מצאו "אדם" $\gamma$ שה"כלב" $\sigma$ קשור אליו ברצועה באורך $\frac12$, ובדקו ש-$\gamma$ רחוקה מהראשית יותר
+      מ-$\frac12$ בכל רגע.
+    commonWrong:
+      - value: 6
+        feedback: >-
+          מספרי ליפוף אינם מתחברים כשמחברים מסילות. המעגל הקטן ברדיוס $\frac12$ קטן מדי כדי להקיף את הראשית: הוא רק
+          "מקשקש" ליד האליפסה.
+        misconception: MC-c8-winding-of-sum
+      - value: 5
+        feedback: >-
+          5 הוא מספר הסיבובים של הנקודה סביב **מרכז** המעגל הקטן, לא סביב הראשית.
+        misconception: MC-c8-winding-independent-of-p
+
+  - id: Q-8.7-leash-conditions
+    type: multi
+    objectives: [OBJ-8.7-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $\gamma,\sigma:[a,b]\to\mathbb{R}^2$ מסילות סגורות רציפות ו-$p\notin\gamma([a,b])$. אילו מהתנאים מבטיחים ש-$\sigma$
+      אינה עוברת ב-$p$ ו-$\operatorname{Ind}(\sigma,p)=\operatorname{Ind}(\gamma,p)$? סמנו את כולם.
+    choices:
+      - text: '$\|\sigma(t)-\gamma(t)\|<\|\gamma(t)-p\|$ לכל $t$'
+        correct: true
+        feedback: 'נכון: זו למת הרצועה.'
+      - text: '$\|\sigma(t)-\gamma(t)\|<\|\sigma(t)-p\|$ לכל $t$'
+        correct: true
+        feedback: >-
+          נכון. כאן $\|\sigma(t)-p\|>0$, כך ש-$\sigma$ אינה עוברת ב-$p$, ומפעילים את הלמה עם התפקידים מוחלפים: $\sigma$
+          האדם ו-$\gamma$ הכלב.
+      - text: '$\max_t\|\sigma(t)-\gamma(t)\|<\min_t\|\gamma(t)-p\|$'
+        correct: true
+        feedback: >-
+          נכון. לכל $t$: $\|\sigma(t)-\gamma(t)\|\le\max\|\sigma-\gamma\|<\min\|\gamma-p\|\le\|\gamma(t)-p\|$, וזה התנאי
+          של הלמה.
+      - text: '$\|\sigma(t)-\gamma(t)\|<2\|\gamma(t)-p\|$ לכל $t$'
+        feedback: >-
+          רצועה ארוכה פי 2 מאפשרת לכלב לעבור לצד השני של העמוד. $\gamma$ מעגל היחידה, $p=(0,0)$, $\sigma\equiv(\frac12,0)$:
+          $\|\sigma-\gamma(t)\|\le\frac32<2$, אבל $\operatorname{Ind}(\sigma,p)=0\ne1$.
+        misconception: MC-c8-leash-any-closeness
+      - text: '$\max_t\|\sigma(t)-\gamma(t)\|<\max_t\|\gamma(t)-p\|$'
+        feedback: >-
+          $\gamma(t)=(3\cos t,\sin t)$, $\sigma(t)=(3\cos t,2+\sin t)$, $p=(0,0)$: המרחק 2 קטן מ-3, אבל $\sigma$ נמצאת
+          בחצי המישור $y\ge1$ ומספר הליפוף שלה 0, לא 1.
+        misconception: MC-c8-leash-any-closeness
+      - text: '$\sigma([a,b])=\gamma([a,b])$'
+        feedback: >-
+          המעגל פעם אחת ופעמיים: אותה תמונה, מספרי ליפוף 1 ו-2.
+        misconception: MC-c8-homotopy-by-image
+
+  - id: Q-8.7-small-circle
+    type: twotier
+    objectives: [OBJ-8.7-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      נכון או לא נכון: לכל פולינום $q$ ממעלה $n\ge1$ ולכל $R>0$ שאין ל-$q$ שורש על המעגל $|z|=R$,
+      $\operatorname{Ind}(q\circ\gamma_R,0)=n$, כאשר $\gamma_R(t)=Re^{it}$, $t\in[0,2\pi]$.
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: 'נכון. על מעגל קטן האיבר המוביל אינו שולט.'
+      - text: נכון
+        feedback: >-
+          ההוכחה של המשפט היסודי מראה זאת רק ל-$R$ גדול מספיק. ראו את הדוגמה הנגדית בנימוק.
+        misconception: MC-c8-fta-every-radius
+    reasons:
+      - text: '$q(z)=z-2$ ו-$R=1$: $q\circ\gamma_1(t)=(\cos t-2,\sin t)$ נמצאת בחצי המישור $x\le-1$, שבו יש ענף רציף של הזווית, ולכן מספר הליפוף 0 ולא 1'
+        correct: true
+        feedback: >-
+          בדיוק. ענף רציף $\varphi$ של הזווית בחצי המישור נותן פונקציית זווית רציפה $\varphi\circ q\circ\gamma_1$, שחוזרת
+          לערכה ההתחלתי. הלמה מול $z^n$ דורשת $|q(z)-z^n|<|z|^n$, וכאן $|-2|>1$.
+      - text: '$H(s,t)=s\,q(Re^{it})+(1-s)R^ne^{int}$ היא הומוטופיה מ-$z^n\circ\gamma_R$ ל-$q\circ\gamma_R$, ולכן הטענה נכונה'
+        feedback: >-
+          ההומוטופיה הזו יכולה לעבור ב-0. ל-$q(z)=z-2$, $R=1$: $H(s,t)=e^{it}-2s$, ו-$H(\frac12,0)=0$.
+        misconception: MC-c8-homotopy-leaves-domain
+      - text: 'הטענה נכונה רק כש-$R<1$, כי אז החזקות של $z$ קטנות'
+        feedback: >-
+          זה הפוך: כש-$R$ **גדול** האיבר $z^n$ שולט על השאר. על מעגל קטן שולט דווקא האיבר בעל החזקה הנמוכה ביותר.
+        misconception: MC-c8-fta-every-radius
+
+  - id: Q-8.7-three-radii
+    type: multi
+    objectives: [OBJ-8.7-3, OBJ-8.7-2]
+    level: mid
+    prompt: >-
+      $q(z)=z^3-2z$ ו-$\gamma_R(t)=Re^{it}$, $t\in[0,2\pi]$. אילו מהטענות נכונות? סמנו את כולן.
+    choices:
+      - text: '$\operatorname{Ind}(q\circ\gamma_{1/2},0)=1$'
+        correct: true
+        feedback: >-
+          נכון. על $|z|=\frac12$: $|q(z)-(-2z)|=|z|^3=\frac18<1=|-2z|$, ו-$(-2z)\circ\gamma_{1/2}(t)=e^{i(t+\pi)}$ מקיפה את
+          0 פעם אחת.
+      - text: '$\operatorname{Ind}(q\circ\gamma_1,0)=1$'
+        correct: true
+        feedback: 'נכון. על $|z|=1$: $|z^3|=1<2=|-2z|$, ושוב שולט $(-2z)$.'
+      - text: '$\operatorname{Ind}(q\circ\gamma_2,0)=3$'
+        correct: true
+        feedback: 'נכון. על $|z|=2$: $|-2z|=4<8=|z^3|$, ושולט $z^3$, שמקיף את 0 שלוש פעמים.'
+      - text: '$\operatorname{Ind}(q\circ\gamma_1,0)=3$'
+        feedback: >-
+          המעלה קובעת את מספר הליפוף רק על מעגלים גדולים. על $|z|=1$ האיבר $(-2z)$ גדול מ-$z^3$.
+        misconception: MC-c8-fta-every-radius
+      - text: '$\operatorname{Ind}(q\circ\gamma_{\sqrt2},0)=2$'
+        feedback: >-
+          $q(\sqrt2)=2\sqrt2-2\sqrt2=0$: המסילה $q\circ\gamma_{\sqrt2}$ עוברת ב-0, ומספר הליפוף סביב 0 אינו מוגדר.
+        misconception: MC-c8-winding-on-curve
+    explanation: >-
+      בכל מעגל מחפשים את האיבר ששולט: אם $|q(z)-cz^k|<|cz^k|$ על כל המעגל, למת הרצועה נותנת $\operatorname{Ind}=k$. כש-$R$
+      חוצה את $\sqrt2$, הערך המוחלט של שורש של $q$, מספר הליפוף קופץ מ-1 ל-3.
+
+  - id: Q-8.7-degree-role
+    type: mc
+    objectives: [OBJ-8.7-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      בהוכחת המשפט היסודי של האלגברה בעזרת מספר הליפוף, $q(z)=z^n+a_{n-1}z^{n-1}+\dots+a_0$. באיזה מקום משתמשים בהנחה
+      $n\ge1$?
+    choices:
+      - text: 'רק בסוף: על מעגל גדול מספר הליפוף $n$, ובהנחה שאין שורש הוא 0; זו סתירה רק כי $n\ne0$'
+        correct: true
+        feedback: >-
+          נכון. לפולינום הקבוע $q\equiv1$ ($n=0$) שני החישובים עובדים ונותנים 0, ואין סתירה; ואכן אין לו שורש.
+      - text: 'כדי למצוא $R$ עם $|q(z)-z^n|<|z|^n$ על המעגל $|z|=R$'
+        feedback: >-
+          ל-$n=0$, $q\equiv1$ ו-$q(z)-z^0=0<1$: האי-שוויון נכון גם שם. ההערכה אינה צריכה את $n\ge1$.
+        misconception: MC-c8-fta-proof-roles
+      - text: 'כדי ש-$H(s,t)=q(sRe^{it})$ לא תעבור ב-0'
+        feedback: >-
+          את זה נותנת ההנחה (בשלילה) שאין ל-$q$ שורש, לא המעלה.
+        misconception: MC-c8-fta-proof-roles
+      - text: 'כדי ש-$q\circ\gamma_R$ תהיה מסילה סגורה'
+        feedback: >-
+          $q\circ\gamma_R$ סגורה לכל פולינום, כי $\gamma_R(0)=\gamma_R(2\pi)$.
+        misconception: MC-c8-fta-proof-roles
+
+  - id: Q-8.7-angle-proof
+    type: rank
+    objectives: [OBJ-8.7-1]
+    level: exam
+    prompt: >-
+      $\gamma:[a,b]\to\mathbb{R}^2$ רציפה ו-$p\notin\gamma([a,b])$. סדרו את שלבי ההוכחה שיש ל-$\gamma$ פונקציית זווית רציפה
+      סביב $p$.
+    help: סדרו את שלבי ההוכחה מהראשון לאחרון.
+    items:
+      - id: a
+        label: 'הפונקציה $t\mapsto\|\gamma(t)-p\|$ רציפה וחיובית על הקטע הקומפקטי $[a,b]$, ולכן מקבלת מינימום $m>0$.'
+      - id: b
+        label: '$\gamma$ רציפה במידה שווה על $[a,b]$: יש חלוקה $a=t_0<\dots<t_k=b$ כך ש-$\|\gamma(t)-\gamma(t_{j-1})\|<m$ לכל $t\in[t_{j-1},t_j]$.'
+      - id: c
+        label: 'לכן $\gamma([t_{j-1},t_j])$ מוכלת בעיגול $D_j=B(\gamma(t_{j-1}),m)$, שאינו מכיל את $p$ ולכן זר לאחת הקרניים מ-$p$; במישור בלי הקרן הזו יש ענף רציף $\varphi_j$ של הזווית סביב $p$.'
+      - id: d
+        label: 'מגדירים $\theta=\varphi_1\circ\gamma$ על $[t_0,t_1]$, ובאינדוקציה $\theta=\varphi_j\circ\gamma+2\pi k_j$ על $[t_{j-1},t_j]$, עם $k_j\in\mathbb{Z}$ שנבחר כך ששתי ההגדרות מסכימות ב-$t_{j-1}$ (שתיהן זוויות של אותה נקודה).'
+      - id: e
+        label: '$\theta$ רציפה בכל קטע ומסכימה בנקודות החיבור, ולכן רציפה על $[a,b]$, ו-$\gamma(t)-p=\|\gamma(t)-p\|(\cos\theta(t),\sin\theta(t))$.'
+    order: [a, b, c, d, e]
+    correctFeedback: >-
+      נכון. הקומפקטיות נכנסת פעמיים: למינימום החיובי $m$ ולרציפות במידה שווה. הקרן הנכונה ב-ג היא
+      $\{p-\lambda(\gamma(t_{j-1})-p):\lambda\ge0\}$: נקודה $w$ עליה מקיימת $\|w-\gamma(t_{j-1})\|\ge\|\gamma(t_{j-1})-p\|\ge m$.
+    wrongFeedback: >-
+      קודם מרחק חיובי מ-$p$, אחר כך חלוקה עדינה מספיק (רציפות במידה שווה), אחר כך ענף של הזווית בכל קטע, ובסוף
+      ההדבקה בקבועים $2\pi k_j$.
+
+  - id: Q-8.7-leash-nonstrict
+    type: twotier
+    objectives: [OBJ-8.7-2]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $\gamma,\sigma:[a,b]\to\mathbb{R}^2$ מסילות סגורות רציפות ו-$p\notin\gamma([a,b])$. נכון או לא נכון: אם
+      $\|\sigma(t)-\gamma(t)\|\le\|\gamma(t)-p\|$ לכל $t$, אז $\operatorname{Ind}(\sigma,p)=\operatorname{Ind}(\gamma,p)$.
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: 'נכון: המסקנה יכולה להיות חסרת משמעות. אבל שימו לב מה בדיוק משתבש.'
+      - text: נכון
+        feedback: >-
+          עם $\le$ אין ערובה ש-$\sigma$ אינה עוברת ב-$p$, ואז מספר הליפוף שלה אינו מוגדר. ראו את הנימוק.
+        misconception: MC-c8-leash-strict-role
+    reasons:
+      - text: 'המסילה הקבועה $\sigma\equiv p$ מקיימת את התנאי בשוויון ועוברת ב-$p$, ולכן $\operatorname{Ind}(\sigma,p)$ אינו מוגדר; אם מניחים בנוסף ש-$\sigma$ אינה עוברת ב-$p$, המסקנה נכונה'
+        correct: true
+        feedback: >-
+          בדיוק. בזיהוי עם $\mathbb{C}$: $\frac{\sigma(t)-p}{\gamma(t)-p}=1+w(t)$ עם $|w(t)|\le1$, כלומר בעיגול הסגור
+          $B[1,1]$; בלי 0 העיגול הזה מוכל בחצי המישור $\operatorname{Re}>0$, שבו יש ענף רציף של הזווית, וזו בדיוק ההוכחה של
+          הלמה.
+      - text: 'כשיש שוויון באיזשהו $t$, הכלב יכול לעבור מהצד השני של העמוד, ולכן יש $\sigma$ שאינה עוברת ב-$p$ עם מספר ליפוף אחר'
+        feedback: >-
+          אין כזו: כש-$\sigma(t)\ne p$, המנה $\frac{\sigma(t)-p}{\gamma(t)-p}$ נשארת בחצי המישור הימני, והזווית של $\sigma$
+          לא יכולה להתרחק מזו של $\gamma$ ביותר מ-$\frac\pi2$. הבעיה היחידה היא מעבר ב-$p$ עצמה.
+        misconception: MC-c8-leash-strict-role
+      - text: 'האי-שוויון החזק בלמה הוא נוחות טכנית בלבד, והטענה נכונה כפי שהיא'
+        feedback: >-
+          החזקות היא שמבטיחה $\sigma(t)\ne p$. בלעדיה $\sigma\equiv p$ מקיימת את התנאי, ו-$\operatorname{Ind}(\sigma,p)$ לא
+          מוגדר.
+        misconception: MC-c8-leash-strict-role
+
+  - id: Q-8.7-homotopy-proof
+    type: rank
+    objectives: [OBJ-8.7-2]
+    level: exam
+    prompt: >-
+      $H:[0,1]\times[a,b]\to\mathbb{R}^2\setminus\{p\}$ רציפה, עם $H(s,a)=H(s,b)$ לכל $s$, היא הומוטופיה בין המסילות
+      הסגורות הרציפות $\gamma_0=H(0,\cdot)$ ו-$\gamma_1=H(1,\cdot)$. סדרו את שלבי ההוכחה ש-$\operatorname{Ind}(\gamma_0,p)=\operatorname{Ind}(\gamma_1,p)$.
+    help: סדרו את שלבי ההוכחה מהראשון לאחרון.
+    items:
+      - id: a
+        label: 'התמונה $H([0,1]\times[a,b])$ קומפקטית ואינה מכילה את $p$, ולכן $m=\min_{s,t}\|H(s,t)-p\|>0$.'
+      - id: b
+        label: '$H$ רציפה במידה שווה על הקבוצה הקומפקטית $[0,1]\times[a,b]$: יש $\delta>0$ כך ש-$|s-s^{\prime}|<\delta$ גורר $\|H(s,t)-H(s^{\prime},t)\|<m$ לכל $t$.'
+      - id: c
+        label: 'בוחרים $0=s_0<s_1<\dots<s_k=1$ עם $s_i-s_{i-1}<\delta$; כל $\gamma^{(i)}=H(s_i,\cdot)$ מסילה סגורה רציפה שאינה עוברת ב-$p$.'
+      - id: d
+        label: 'לכל $i$ ולכל $t$: $\|\gamma^{(i)}(t)-\gamma^{(i-1)}(t)\|<m\le\|\gamma^{(i-1)}(t)-p\|$, ולכן לפי למת הרצועה $\operatorname{Ind}(\gamma^{(i)},p)=\operatorname{Ind}(\gamma^{(i-1)},p)$.'
+      - id: e
+        label: 'בשרשרת: $\operatorname{Ind}(\gamma_0,p)=\operatorname{Ind}(\gamma^{(1)},p)=\dots=\operatorname{Ind}(\gamma^{(k)},p)=\operatorname{Ind}(\gamma_1,p)$.'
+    order: [a, b, c, d, e]
+    correctFeedback: >-
+      נכון. ההומוטופיה מפורקת למספר סופי של צעדים קטנים, וכל צעד קצר מ"הרצועה" המותרת. אין כאן שום אינטגרל: הטענה נכונה
+      גם למסילות שהן רציפות בלבד, ו-$H(s,a)=H(s,b)$ נחוץ כדי שכל $\gamma^{(i)}$ תהיה סגורה ומספר הליפוף שלה מוגדר.
+    wrongFeedback: >-
+      קודם קומפקטיות (מרחק חיובי מ-$p$, רציפות במידה שווה), אחר כך חלוקה של $[0,1]$, אחר כך למת הרצועה בין שכנות, ובסוף
+      השרשרת.
+
+  - id: Q-8.7-fta-homotopy
+    type: twotier
+    objectives: [OBJ-8.7-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $q$ פולינום, $R>0$, ו-$q(z)\ne0$ לכל $|z|\le R$. נכון או לא נכון: $\operatorname{Ind}(q\circ\gamma_R,0)=0$, כאשר
+      $\gamma_R(t)=Re^{it}$, $t\in[0,2\pi]$.
+    choices:
+      - text: נכון
+        correct: true
+        feedback: 'נכון. זה חצי מהוכחת המשפט היסודי, וגם כלי: מספר ליפוף שונה מ-0 על $|z|=R$ מבטיח שורש בעיגול.'
+      - text: לא נכון
+        feedback: >-
+          המעלה קובעת את מספר הליפוף רק על מעגלים גדולים, ושם כבר יש שורשים בפנים. כשאין שורש בעיגול כולו, אפשר לכווץ.
+        misconception: MC-c8-fta-every-radius
+    reasons:
+      - text: '$H(s,t)=q(sRe^{it})$ רציפה על $[0,1]\times[0,2\pi]$, $H(s,0)=H(s,2\pi)$, ו-$H(s,t)\ne0$ כי $|sRe^{it}|\le R$; זו הומוטופיה ב-$\mathbb{C}\setminus\{0\}$ מהמסילה הקבועה $q(0)$, שמספר הליפוף שלה 0, ל-$q\circ\gamma_R$'
+        correct: true
+        feedback: >-
+          בדיוק: שלושת התנאים של הומוטופיה, וההנחה על השורשים נכנסת רק בתנאי השלישי. מספר הליפוף נשמר בהומוטופיה של
+          מסילות רציפות.
+      - text: '$H(s,t)=(1-s)\,q(Re^{it})$ מכווצת את המסילה לנקודה'
+        feedback: >-
+          ב-$s=1$ כל המסילה היא 0, הנקודה שסביבה סופרים: ההומוטופיה יוצאת מ-$\mathbb{C}\setminus\{0\}$. כך אפשר "לכווץ"
+          כל מסילה, גם את $e^{it}$.
+        misconception: MC-c8-homotopy-leaves-domain
+      - text: '$\mathbb{C}\setminus\{0\}$ קשירה מסילתית, ולכן כל מסילה סגורה בה הומוטופית לנקודה'
+        feedback: >-
+          קשירה מסילתית אינה פשוטות קשר: $e^{it}$ מקיפה את 0 פעם אחת ואינה הומוטופית לנקודה ב-$\mathbb{C}\setminus\{0\}$.
+        misconception: MC-c8-connected-is-simply-connected
+
+  - id: Q-8.7-fta-proof
+    type: rank
+    objectives: [OBJ-8.7-3]
+    level: exam
+    prompt: >-
+      $q(z)=z^n+a_{n-1}z^{n-1}+\dots+a_0$ עם $n\ge1$, ונניח בשלילה שאין ל-$q$ שורש ב-$\mathbb{C}$. סדרו את שלבי ההוכחה
+      של המשפט היסודי של האלגברה.
+    help: סדרו את שלבי ההוכחה מהראשון לאחרון. קודם המעגל הגדול, אחר כך ההומוטופיה.
+    items:
+      - id: a
+        label: 'בוחרים $R>\max(1,|a_0|+\dots+|a_{n-1}|)$. על $|z|=R$: $|q(z)-z^n|\le\sum_{k<n}|a_k|R^k\le\left(\sum_{k<n}|a_k|\right)R^{n-1}<R^n=|z^n|$.'
+      - id: b
+        label: 'לפי למת הרצועה, עם $z^n\circ\gamma_R(t)=R^ne^{int}$ (פונקציית זווית $nt$) בתפקיד האדם: $\operatorname{Ind}(q\circ\gamma_R,0)=n$.'
+      - id: c
+        label: '$H(s,t)=q(sRe^{it})$, עבור $(s,t)\in[0,1]\times[0,2\pi]$, רציפה, $H(s,0)=H(s,2\pi)$, ו-$H\ne0$ כי אין ל-$q$ שורש: הומוטופיה ב-$\mathbb{C}\setminus\{0\}$ מהמסילה הקבועה $q(0)$ ל-$q\circ\gamma_R$.'
+      - id: d
+        label: 'מספר הליפוף נשמר בהומוטופיה, ולמסילה קבועה הוא 0; לכן $\operatorname{Ind}(q\circ\gamma_R,0)=0$.'
+      - id: e
+        label: 'קיבלנו $n=0$, בסתירה ל-$n\ge1$; לכן יש ל-$q$ שורש.'
+    order: [a, b, c, d, e]
+    correctFeedback: >-
+      נכון. אותה מסילה, $q\circ\gamma_R$, מקיפה את 0 פעם $n$ פעמים (בגלל האיבר המוביל) ופעם 0 פעמים (בגלל ההומוטופיה).
+      הבחירה $R\ge1$ נחוצה ל-$R^k\le R^{n-1}$ כש-$k\le n-1$. (אפשר גם לבנות את ההומוטופיה לפני ההערכה; הסדר כאן הוא
+      המקובל.)
+    wrongFeedback: >-
+      קודם מעגל גדול מספיק כדי ש-$z^n$ ישלוט, ולמת הרצועה; אחר כך ההומוטופיה שמכווצת את אותה מסילה, ובסוף הסתירה.

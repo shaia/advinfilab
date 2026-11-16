@@ -1,0 +1,30 @@
+# Terms first defined in lesson 8.7 (the continuous angle and the fundamental theorem of algebra).
+- id: continuous-angle-function
+  term: פונקציית זווית רציפה
+  en: continuous angle function (lift of the angle)
+  symbol: '\theta'
+  definition: >-
+    למסילה רציפה $\gamma:[a,b]\to\mathbb{R}^2$ ולנקודה $p\notin\gamma([a,b])$: פונקציה **רציפה** $\theta:[a,b]\to\mathbb{R}$
+    עם $\gamma(t)-p=\|\gamma(t)-p\|(\cos\theta(t),\sin\theta(t))$ לכל $t$. היא קיימת תמיד (רציפות במידה שווה ופיצול
+    לקטעים קטנים, שבכל אחד מהם יש ענף רציף של הזווית), ויחידה עד כדי הוספת קבוע $2\pi k$ עם $k\in\mathbb{Z}$. למסילה
+    סגורה, $\operatorname{Ind}(\gamma,p)=\frac{\theta(b)-\theta(a)}{2\pi}$, וזה מתלכד עם ההגדרה באינטגרל קווי כשהמסילה
+    חלקה למקוטעין. למעגל $(\cos t,\sin t)$ סביב הראשית: $\theta(t)=t$.
+  lesson: '8.7'
+- id: leash-lemma
+  term: למת הרצועה
+  en: dog-on-a-leash lemma
+  definition: >-
+    אם $\gamma,\sigma:[a,b]\to\mathbb{R}^2$ מסילות סגורות רציפות, $p\notin\gamma([a,b])$, ו-$\|\sigma(t)-\gamma(t)\|<\|\gamma(t)-p\|$
+    לכל $t$, אז $\sigma$ אינה עוברת ב-$p$ ו-$\operatorname{Ind}(\sigma,p)=\operatorname{Ind}(\gamma,p)$. התמונה: אדם
+    ($\gamma$) מטייל עם כלב ($\sigma$) סביב עמוד ($p$), והרצועה קצרה מהמרחק של האדם מהעמוד; הכלב מקיף את העמוד
+    בדיוק כמו האדם.
+  lesson: '8.7'
+- id: fundamental-theorem-of-algebra
+  term: המשפט היסודי של האלגברה
+  en: fundamental theorem of algebra
+  definition: >-
+    לכל פולינום $q(z)=z^n+a_{n-1}z^{n-1}+\dots+a_0$ עם מקדמים מרוכבים ו-$n\ge1$ יש שורש ב-$\mathbb{C}$. ההוכחה בעזרת
+    מספר הליפוף: על מעגל גדול $|z|=R$ המסילה $q(Re^{it})$ מקיפה את 0 בדיוק $n$ פעמים (למת הרצועה מול $z^n$); אילו
+    ל-$q$ לא היה שורש, ההומוטופיה $q(sRe^{it})$ הייתה מכווצת אותה ב-$\mathbb{C}\setminus\{0\}$ לנקודה, ומספר הליפוף
+    היה 0.
+  lesson: '8.7'

@@ -327,3 +327,129 @@ questions:
             weight: 3
           - text: '(4) הפעלת המשפט "משמר מקומית בתחום פשוט קשר הוא משמר"'
             weight: 2
+
+  - id: Q-8-exam-4
+    type: exam
+    title: המשפט היסודי של האלגברה ומספר הליפוף
+    prompt: >-
+      מזהים את $\mathbb{R}^2$ עם $\mathbb{C}$, ו-$\gamma_R(t)=Re^{it}$, $t\in[0,2\pi]$. למסילה סגורה רציפה $\delta$
+      ב-$\mathbb{C}\setminus\{0\}$, $\operatorname{Ind}(\delta,0)$ מוגדר בעזרת פונקציית זווית רציפה. מותר להשתמש בלי הוכחה
+      בלמת הרצועה ובכך שמספר הליפוף נשמר בהומוטופיה של מסילות סגורות רציפות ב-$\mathbb{C}\setminus\{0\}$.
+    parts:
+      - label: א
+        points: 5
+        type: numeric
+        objectives: [OBJ-8.7-3, OBJ-8.7-2]
+        prompt: >-
+          $q(z)=z^3+4z^2+2$. חשבו את $\operatorname{Ind}(q\circ\gamma_1,0)$.
+        answer: 2
+        tolerance: 0.001
+        correctFeedback: >-
+          נכון. על $|z|=1$: $|q(z)-4z^2|=|z^3+2|\le3<4=|4z^2|$. לפי למת הרצועה, עם $4z^2\circ\gamma_1(t)=4e^{2it}$ (פונקציית
+          זווית $2t$) בתפקיד האדם, מספר הליפוף 2.
+        wrongFeedback: >-
+          איזה איבר של $q$ גדול מסכום האחרים על מעגל היחידה? השוו את $q$ אליו בעזרת למת הרצועה.
+        commonWrong:
+          - value: 3
+            feedback: >-
+              3 היא המעלה, ומספר הליפוף שווה לה רק על מעגל גדול מספיק. על $|z|=1$ שולט $4z^2$: $|z^3+2|\le3<4$.
+            misconception: MC-c8-fta-every-radius
+          - value: 12.566371
+            feedback: '$4\pi$ הוא השינוי של הזווית. מספר הליפוף הוא השינוי חלקי $2\pi$.'
+            misconception: MC-c8-winding-normalisation
+
+      - label: ב
+        points: 6
+        type: twotier
+        standalone: false
+        objectives: [OBJ-8.7-3]
+        qualitative: true
+        prompt: >-
+          ל-$q$ מסעיף א אין שורש ממשי בקטע $[-1,1]$ (שם $q(x)\ge2$). האם יש ל-$q$ שורש $z$ עם $|z|<1$?
+        choices:
+          - text: כן
+            correct: true
+            feedback: 'נכון, ולמעשה יש שם שורש לא ממשי. מספר הליפוף מוצא אותו בלי לחשב אותו.'
+          - text: לא
+            feedback: >-
+              זה שאין שורש על הקטע הממשי אינו אומר דבר על שאר העיגול. מספר הליפוף מסעיף א מכריע. ראו את הנימוק.
+            misconception: MC-c8-fta-proof-roles
+        reasons:
+          - text: 'על $|z|=1$ אין שורש ($|q(z)|\ge4-3$); אילו לא היה שורש גם ב-$|z|<1$, $H(s,t)=q(se^{it})$ הייתה הומוטופיה ב-$\mathbb{C}\setminus\{0\}$ מהמסילה הקבועה $q(0)=2$ ל-$q\circ\gamma_1$, ומספר הליפוף היה 0 ולא 2'
+            correct: true
+            feedback: >-
+              בדיוק: זה החצי השני של הוכחת המשפט היסודי, על מעגל שבחרנו. $H$ רציפה, $H(s,0)=H(s,2\pi)$, ו-$H\ne0$ כי
+              $|se^{it}|\le1$.
+          - text: 'לפי למת הרצועה ל-$q$ ול-$4z^2$ יש אותם שורשים בעיגול, ול-$4z^2$ יש שורש ב-0'
+            feedback: >-
+              הלמה משווה מספרי ליפוף, לא שורשים: $q(0)=2\ne0$. את השורש של $q$ מוצאים בטיעון ההומוטופיה.
+            misconception: MC-c8-fta-proof-roles
+          - text: '$H(s,t)=q(se^{it})$ מכווצת את $q\circ\gamma_1$ לנקודה, ולכן מספר הליפוף של כל פולינום על מעגל היחידה 0'
+            feedback: >-
+              $H$ היא הומוטופיה ב-$\mathbb{C}\setminus\{0\}$ רק אם היא לא מתאפסת, כלומר רק אם אין שורש בעיגול. ל-$z$ עצמו
+              מספר הליפוף על מעגל היחידה 1.
+            misconception: MC-c8-homotopy-leaves-domain
+
+      - label: ג
+        points: 14
+        type: open
+        objectives: [OBJ-8.7-3, OBJ-8.7-2, OBJ-8.7-1]
+        prompt: >-
+          יהי $q(z)=z^n+a_{n-1}z^{n-1}+\dots+a_0$ עם $n\ge1$ ומקדמים מרוכבים. (1) הוכיחו שאם
+          $R>\max(1,|a_0|+\dots+|a_{n-1}|)$ אז $\operatorname{Ind}(q\circ\gamma_R,0)=n$. (2) הוכיחו שאם אין ל-$q$ שורש,
+          אז $\operatorname{Ind}(q\circ\gamma_R,0)=0$ לכל $R>0$. (3) הסיקו את המשפט היסודי של האלגברה.
+        solution:
+          - kind: given
+            text: '$q(z)=z^n+a_{n-1}z^{n-1}+\dots+a_0$, $n\ge1$; $\gamma_R(t)=Re^{it}$ על $[0,2\pi]$; $A=|a_0|+\dots+|a_{n-1}|$.'
+          - kind: goal
+            text: 'מספר הליפוף של $q\circ\gamma_R$ על מעגל גדול הוא $n$; בלי שורשים הוא 0; ומכאן שיש שורש.'
+          - kind: idea
+            text: >-
+              על מעגל גדול האיבר $z^n$ גדול מכל השאר יחד, ולכן $q\circ\gamma_R$ "קשורה ברצועה" ל-$z^n\circ\gamma_R$, שמקיפה
+              את 0 בדיוק $n$ פעמים. מצד שני, בלי שורשים אפשר לכווץ את אותה מסילה דרך המעגלים הקטנים יותר עד לנקודה $q(0)$,
+              בלי לעבור ב-0.
+          - kind: definition
+            text: >-
+              $z^n\circ\gamma_R(t)=R^ne^{int}=R^n(\cos nt,\sin nt)$, ולכן $\theta(t)=nt$ פונקציית זווית רציפה שלה סביב 0,
+              ו-$\operatorname{Ind}(z^n\circ\gamma_R,0)=\frac{2\pi n-0}{2\pi}=n$. למסילה קבועה $\theta$ קבועה, ומספר הליפוף 0.
+          - kind: computation
+            text: >-
+              (1) ל-$|z|=R$, כי $R\ge1$ גורר $R^k\le R^{n-1}$ ל-$k\le n-1$:
+              $|q(z)-z^n|\le\sum_{k=0}^{n-1}|a_k|R^k\le AR^{n-1}<R\cdot R^{n-1}=|z^n|$.
+          - kind: theorem
+            text: >-
+              למת הרצועה: יהיו $\gamma,\sigma:[a,b]\to\mathbb{R}^2$ מסילות סגורות רציפות ו-$p\notin\gamma([a,b])$. אם
+              $\|\sigma(t)-\gamma(t)\|<\|\gamma(t)-p\|$ לכל $t$, אז $\sigma$ אינה עוברת ב-$p$
+              ו-$\operatorname{Ind}(\sigma,p)=\operatorname{Ind}(\gamma,p)$.
+          - kind: step
+            text: >-
+              עם $\gamma=z^n\circ\gamma_R$, $\sigma=q\circ\gamma_R$ ו-$p=0$: שתיהן מסילות סגורות רציפות (הרכבה של פולינום
+              עם $\gamma_R$, ו-$\gamma_R(0)=\gamma_R(2\pi)$), ו-$|R^ne^{int}|=R^n>0$, כלומר $\gamma$ אינה עוברת ב-0. החישוב
+              נותן את תנאי הלמה לכל $t$. לכן
+              $\operatorname{Ind}(q\circ\gamma_R,0)=n$.
+          - kind: step
+            text: >-
+              (2) נניח שאין ל-$q$ שורש, ויהי $R>0$. נגדיר $H(s,t)=q(sRe^{it})$ על $[0,1]\times[0,2\pi]$. $H$ רציפה (הרכבה
+              של פולינום ופונקציות רציפות); $H(s,0)=q(sR)=H(s,2\pi)$, כך שכל $H(s,\cdot)$ סגורה; ו-$H(s,t)\ne0$ כי אין ל-$q$
+              שורש. $H(0,t)=q(0)$ קבועה ו-$H(1,\cdot)=q\circ\gamma_R$.
+          - kind: check
+            text: >-
+              זו הומוטופיה של מסילות סגורות רציפות ב-$\mathbb{C}\setminus\{0\}$, ולכן
+              $\operatorname{Ind}(q\circ\gamma_R,0)=\operatorname{Ind}(q(0),0)=0$.
+          - kind: step
+            text: >-
+              (3) אם אין ל-$q$ שורש, ניקח $R>\max(1,A)$: לפי (1) מספר הליפוף $n$ ולפי (2) הוא 0, ולכן $n=0$, בסתירה
+              ל-$n\ge1$.
+          - kind: result
+            text: 'לכל פולינום מרוכב ממעלה $n\ge1$ יש שורש ב-$\mathbb{C}$.'
+        rubric:
+          - text: '(1) ההערכה $|q(z)-z^n|<|z^n|$ על $|z|=R$, כולל השימוש ב-$R\ge1$ ל-$R^k\le R^{n-1}$'
+            weight: 4
+          - text: '(1) הפעלת למת הרצועה עם $z^n\circ\gamma_R$ בתפקיד האדם, וחישוב מספר הליפוף שלה, $n$, מפונקציית הזווית $nt$'
+            weight: 3
+          - text: '(2) ההומוטופיה $H(s,t)=q(sRe^{it})$ עם שלוש הבדיקות: רציפות, סגירות של כל $H(s,\cdot)$, ו-$H\ne0$ מההנחה שאין שורש'
+            weight: 4
+          - text: '(2) מספר הליפוף של מסילה קבועה הוא 0, והשימוש בשמירה בהומוטופיה'
+            weight: 1
+          - text: '(3) הסתירה נשענת על $n\ge1$, באותו $R$ בשני החלקים'
+            weight: 2

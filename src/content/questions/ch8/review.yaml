@@ -1,4 +1,4 @@
-# Chapter 10 review — line integrals (lessons 8.1–8.6), easy to hard.
+# Chapter 8 review — line integrals (lessons 8.1–8.8), easy to hard.
 # Every lesson is touched; most questions combine two or more lessons. Each hint names the lesson to go back to.
 # ω = (−y, x)/(x²+y²) is the angle field and ω_p(x) = ω(x−p).
 chapter: 8
@@ -375,3 +375,97 @@ questions:
         misconception: MC-c8-bound-chord
     hints:
       - 'חזרו לשיעור 8.3: החסם על אינטגרל קווי; ולשיעור 8.2: אורך הסליל.'
+
+  - id: Q-8-review-15
+    type: numeric
+    objectives: [OBJ-8.7-2, OBJ-8.6-1]
+    level: mid
+    prompt: >-
+      $\sigma(t)=\left(\cos2t+\frac12\cos9t,\ \sin2t-\frac12\sin9t\right)$, $t\in[0,2\pi]$. חשבו את
+      $\int_\sigma\omega\cdot ds$ לשדה הזווית (מקורב לשלוש ספרות אחרי הנקודה).
+    answer: 12.566371
+    tolerance: 0.0002
+    correctFeedback: >-
+      נכון, $4\pi$. האינטגרל הוא $2\pi\operatorname{Ind}(\sigma,0)$. עם $\gamma(t)=(\cos2t,\sin2t)$:
+      $\|\sigma(t)-\gamma(t)\|=\frac12<1=\|\gamma(t)\|$, ולפי למת הרצועה $\operatorname{Ind}(\sigma,0)=\operatorname{Ind}(\gamma,0)=2$.
+      בלי הלמה הייתם צריכים לחשב אינטגרל מסובך.
+    wrongFeedback: >-
+      מצאו מסילה פשוטה ש-$\sigma$ "קשורה" אליה ברצועה קצרה מהמרחק שלה מהראשית, והשתמשו בכך שהאינטגרל של שדה הזווית
+      הוא $2\pi$ כפול מספר הליפוף.
+    commonWrong:
+      - value: 2
+        feedback: '2 הוא מספר הליפוף. האינטגרל של שדה הזווית הוא $2\pi$ כפול מספר הליפוף.'
+        misconception: MC-c8-winding-normalisation
+      - value: -43.982297
+        feedback: >-
+          $(-14\pi)=2\pi(2-9)$ מתקבל כשמחברים את מספר הליפוף של המעגל הגדול (2) ושל המעגל הקטן ($(-9)$, עם כיוון השעון).
+          מספרי ליפוף אינם מתחברים בסכום של מסילות: המעגל הקטן ברדיוס $\frac12$ אינו מגיע לראשית.
+        misconception: MC-c8-winding-of-sum
+      - value: 6.283185
+        feedback: >-
+          המסילה $(\cos2t,\sin2t)$ עוברת על המעגל **פעמיים**, ו-$\sigma$ צמודה אליה: $2\cdot2\pi$, לא $2\pi$.
+        misconception: MC-c8-curve-is-image
+    hints:
+      - 'חזרו לשיעור 8.7: למת הרצועה; ולשיעור 8.6: מספר הליפוף והאינטגרל של שדה הזווית.'
+
+  - id: Q-8-review-16
+    type: multi
+    objectives: [OBJ-8.7-3, OBJ-8.7-2, OBJ-8.5-2]
+    level: exam
+    prompt: >-
+      $q(z)=z^5+5z+1$ ו-$\gamma_R(t)=Re^{it}$, $t\in[0,2\pi]$ (מזהים את $\mathbb{R}^2$ עם $\mathbb{C}$). אילו מהטענות
+      נכונות? סמנו את כולן.
+    choices:
+      - text: '$\operatorname{Ind}(q\circ\gamma_1,0)=1$'
+        correct: true
+        feedback: >-
+          נכון. על $|z|=1$: $|q(z)-5z|=|z^5+1|\le2<5=|5z|$, ולפי למת הרצועה מספר הליפוף כמו של $5e^{it}$.
+      - text: 'יש ל-$q$ שורש $z$ עם $|z|<1$'
+        correct: true
+        feedback: >-
+          נכון. על $|z|=1$ אין שורש ($|q(z)|\ge5-2$). אילו לא היה שורש גם בפנים, $H(s,t)=q(se^{it})$ הייתה הומוטופיה
+          ב-$\mathbb{C}\setminus\{0\}$ מהמסילה הקבועה $q(0)=1$ ל-$q\circ\gamma_1$, ומספר הליפוף היה 0 ולא 1.
+      - text: '$\operatorname{Ind}(q\circ\gamma_2,0)=5$'
+        correct: true
+        feedback: 'נכון. על $|z|=2$: $|5z+1|\le11<32=|z^5|$, ושולט $z^5$.'
+      - text: '$\operatorname{Ind}(q\circ\gamma_1,0)=5$'
+        feedback: >-
+          המעלה קובעת את מספר הליפוף רק על מעגל גדול מספיק כדי ש-$z^5$ ישלוט. על $|z|=1$ שולט $5z$.
+        misconception: MC-c8-fta-every-radius
+      - text: '$q\circ\gamma_1$ ו-$q\circ\gamma_2$ הומוטופיות ב-$\mathbb{C}\setminus\{0\}$, דרך $H(s,t)=q((1+s)e^{it})$'
+        feedback: >-
+          מספרי הליפוף שלהן 1 ו-5, ומספר הליפוף נשמר בהומוטופיה. לכן כל הומוטופיה ביניהן, ובפרט זו, עוברת ב-0: יש ל-$q$
+          שורש בטבעת $1<|z|<2$.
+        misconception: MC-c8-homotopy-leaves-domain
+    explanation: >-
+      בכל מעגל מחפשים את האיבר ששולט, ומספר ליפוף שונה מ-0 על $|z|=R$ מבטיח שורש בעיגול $|z|<R$. מספרי ליפוף שונים על
+      שני מעגלים מבטיחים שורש ביניהם.
+    hints:
+      - 'חזרו לשיעור 8.7: למת הרצועה והוכחת המשפט היסודי של האלגברה; ולשיעור 8.5: ההגדרה של הומוטופיה של מסילות סגורות.'
+
+  - id: Q-8-review-17
+    type: numeric
+    objectives: [OBJ-8.8-2, OBJ-8.2-2]
+    level: mid
+    prompt: >-
+      $\gamma(t)=(1+t,\ t\sin\frac1t)$ ל-$t\in(0,1]$ ו-$\gamma(0)=(1,0)$. המסילה רציפה ואינה ברת-מדידה, ולכן
+      $\int_\gamma\omega\cdot ds$ אינו אינטגרל קווי במובן של שיעור 8.3. חשבו אותו במובן של האינטגרל לאורך מסילה רציפה
+      (מקורב לשלוש ספרות אחרי הנקודה).
+    answer: 0.398253
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון, $\arctan\frac{\sin1}{2}$. המסילה כולה בחצי המישור $x>0$, ושם $\varphi=\arctan\frac yx$ פוטנציאל של $\omega$.
+      אפשר להשתמש בו בכל הקטעים, והסכום טלסקופי: $\varphi(2,\sin1)-\varphi(1,0)$.
+    wrongFeedback: >-
+      האינטגרל מוגדר בעזרת פוטנציאלים מקומיים, ולא צריך אורך. מצאו פוטנציאל של $\omega$ באזור שמכיל את כל המסילה.
+    commonWrong:
+      - value: 0.699522
+        feedback: >-
+          $\arctan(\sin1)$ מציב $x=1$ בנקודת הסיום. ב-$t=1$ הנקודה היא $(2,\sin1)$.
+      - value: 0
+        feedback: >-
+          המסילה אינה ברת-מדידה, אבל האינטגרל של שדה משמר מקומית מוגדר בכל זאת, והוא תלוי רק בפוטנציאלים המקומיים
+          בנקודות החלוקה.
+        misconception: MC-c8-continuous-path-no-integral
+    hints:
+      - 'חזרו לשיעור ההעשרה 8.8: האינטגרל לאורך מסילה רציפה; ולשיעור 8.2: מסילה רציפה שאינה ברת-מדידה.'
