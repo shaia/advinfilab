@@ -7,67 +7,11 @@
 #   OBJ-8.8-3  for a locally conservative field, homotopic continuous closed paths have equal integrals
 # ω = (−y, x)/(x²+y²) is the angle field and ω_p(x) = ω(x−p). "The integral along a continuous path" is the one of OBJ-8.8-2:
 #   ∫_γ F·ds = Σ_j (φ_j(γ(t_j)) − φ_j(γ(t_{j−1}))), with γ([t_{j−1},t_j]) inside a ball B_j ⊆ U where F = ∇φ_j.
+# φ_j (\varphi) is reserved for local potentials; a reparametrisation of an edge is λ.
+# Inline formulas stay short (≤ ~16 glyphs in rank items, ~24 in choices); long chains go to display math.
 # May use 8.7 and everything before it; nothing later.
 chapter: 8
 questions:
-  - id: Q-8.8-what-was-missing
-    type: mc
-    objectives: [OBJ-8.8-3]
-    qualitative: true
-    level: basic
-    prompt: >-
-      בשיעור 8.5 הוכחנו: אם $F$ משמר מקומית ב-$U$, ו-$\gamma_0,\gamma_1$ מסילות סגורות **חלקות למקוטעין** שהומוטופיות
-      ב-$U$, אז $\int_{\gamma_0}F\cdot ds=\int_{\gamma_1}F\cdot ds$. מה בדיוק משלים שיעור 8.8?
-    choices:
-      - text: 'את אותו משפט כש-$\gamma_0,\gamma_1$ רק רציפות, עם האינטגרל המוגדר בעזרת פוטנציאלים מקומיים; מסילות הביניים $H(s,\cdot)$ היו רציפות בלבד כבר בשיעור 8.5'
-        correct: true
-        feedback: >-
-          נכון. ב-8.5 ההומוטופיה הייתה רציפה בלבד, אבל האינטגרל על **הקצוות** $\gamma_0,\gamma_1$ דרש נגזרת. עכשיו גם הקצוות
-          יכולים להיות מסילות רציפות כלשהן, אפילו לא ברות-מדידה.
-      - text: 'ב-8.5 ההומוטופיה $H$ הייתה צריכה להיות גזירה ברציפות, ועכשיו מספיק ש-$H$ רציפה'
-        feedback: >-
-          כבר ב-8.5 $H$ הייתה רציפה בלבד: זו הסיבה שההוכחה עברה דרך קווים שבורים במקום מסילות הביניים עצמן.
-        misconception: MC-c8-continuous-path-no-integral
-      - text: 'הוא מרחיב את המשפט לכל שדה רציף, גם כזה שאינו משמר מקומית'
-        feedback: >-
-          ל-$F=(-y,x)$, שאינו משמר מקומית, המעגלים ברדיוס 1 וברדיוס 2 סביב הראשית הומוטופיים ב-$\mathbb{R}^2$, והאינטגרלים
-          $2\pi$ ו-$8\pi$.
-        misconception: MC-c8-path-independent-always
-      - text: 'הוא מראה ששדה משמר מקומית הוא משמר בכל קבוצה פתוחה'
-        feedback: >-
-          שדה הזווית נשאר משמר מקומית ולא משמר ב-$\mathbb{R}^2\setminus\{0\}$; המשפט עוסק במסילות הומוטופיות, לא בכל
-          המסילות הסגורות.
-        misconception: MC-c8-local-means-global
-
-  - id: Q-8.8-open-margin
-    type: mc
-    objectives: [OBJ-8.8-1]
-    qualitative: true
-    level: basic
-    prompt: >-
-      בהוכחה שמסילה רציפה $\gamma:[a,b]\to U$ אפשר לקרב במסילות גזירות פעמיים ברציפות **בתוך** $U$, איפה משתמשים בכך
-      ש-$U$ פתוחה?
-    choices:
-      - text: 'כדי לקבל $r>0$ אחד עם $B(\gamma(t),r)\subseteq U$ לכל $t$: הקבוצה הקומפקטית $\gamma([a,b])$ זרה לקבוצה הסגורה $\mathbb{R}^n\setminus U$, ולכן נמצאת ממנה במרחק חיובי'
-        correct: true
-        feedback: >-
-          נכון. אחרי זה בוחרים חלוקה שבה כל $\gamma([t_{j-1},t_j])$ בכדור $B(\gamma(t_{j-1}),r)\subseteq U$; הכדור קמור,
-          ולכן גם הקטע מ-$\gamma(t_{j-1})$ ל-$\gamma(t_j)$, וכל מסילה שעוברת עליו, נשארים ב-$U$.
-      - text: 'באופן כללי אין $r$ משותף, כי $\gamma$ יכולה להתקרב כרצוננו לשפה של $U$; לכן עובדים עם $r_t$ שתלוי ב-$t$'
-        feedback: >-
-          התמונה $\gamma([a,b])$ קומפקטית, ולכן רחוקה מהמשלים הסגור של $U$ במרחק חיובי: יש $r$ משותף. בלעדיו לא הייתה חלוקה
-          סופית.
-        misconception: MC-c3-compact-margin
-      - text: 'קבוצה פתוחה קמורה, ולכן הקטע מ-$\gamma(t_{j-1})$ ל-$\gamma(t_j)$ מוכל ב-$U$'
-        feedback: >-
-          $\mathbb{R}^2\setminus\{0\}$ פתוחה ואינה קמורה: הקטע מ-$(1,0)$ ל-$(-1,0)$ עובר בראשית. רק הכדורים הקטנים בתוך
-          $U$ קמורים.
-        misconception: MC-c8-homotopy-leaves-domain
-      - text: 'כדי ש-$\gamma$ תהיה רציפה במידה שווה'
-        feedback: >-
-          הרציפות במידה שווה באה מהקומפקטיות של **התחום** $[a,b]$ (משפט קנטור), בלי קשר ל-$U$.
-        misconception: MC-c3-uniform-without-compact
-
   - id: Q-8.8-def-integral
     type: mc
     objectives: [OBJ-8.8-2]
@@ -77,50 +21,122 @@ questions:
       $F$ משמר מקומית בקבוצה פתוחה $U$, ו-$\gamma:[a,b]\to U$ מסילה רציפה בלבד (אולי בלי נגזרת בשום נקודה). איך מגדירים
       את $\int_\gamma F\cdot ds$?
     choices:
-      - text: 'בוחרים חלוקה $a=t_0<\dots<t_k=b$ וכדורים $B_j\subseteq U$ עם פוטנציאל $\varphi_j$ של $F$ ו-$\gamma([t_{j-1},t_j])\subseteq B_j$, ומגדירים $\sum_j\left(\varphi_j(\gamma(t_j))-\varphi_j(\gamma(t_{j-1}))\right)$'
+      - text: 'בחלוקה עדינה, עם כדורים $B_j\subseteq U$ שמכילים את $\gamma([t_{j-1},t_j])$ ופוטנציאלים $\varphi_j$ של $F$ בהם: סכום ההפרשים של $\varphi_j$ בקצות הקטע ה-$j$'
         correct: true
         feedback: >-
-          נכון. חלוקה כזו קיימת לפי למת המספר של לבג לכיסוי של $\gamma([a,b])$ ורציפות במידה שווה; ההגדרה אינה תלויה בבחירות,
+          נכון:
+          $$\int_\gamma F\cdot ds=\sum_{j=1}^k\left(\varphi_j(\gamma(t_j))-\varphi_j(\gamma(t_{j-1}))\right).$$
+          חלוקה כזו קיימת לפי למת המספר של לבג לכיסוי של $\gamma([a,b])$ ורציפות במידה שווה; ההגדרה אינה תלויה בבחירות,
           ולמסילה חלקה למקוטעין היא האינטגרל הקווי הרגיל.
-      - text: '$\varphi(\gamma(b))-\varphi(\gamma(a))$, כאשר $\varphi$ פוטנציאל של $F$ ב-$U$'
+      - text: '$\varphi(\gamma(b))-\varphi(\gamma(a))$, כאשר $\varphi$ פוטנציאל אחד של $F$ בכל $U$, שקיים תמיד כי $F$ משמר מקומית בקבוצה פתוחה'
         feedback: >-
           לשדה משמר מקומית אין בהכרח פוטנציאל ב-$U$ כולה: לשדה הזווית ב-$\mathbb{R}^2\setminus\{0\}$ אין. לכן עובדים עם
           פוטנציאלים מקומיים, אחד לכל קטע.
         misconception: MC-c8-local-means-global
-      - text: '$\int_a^bF(\gamma(t))\cdot\gamma^{\prime}(t)\,dt$, על קבוצת ה-$t$ שבהן $\gamma^{\prime}(t)$ קיימת'
+      - text: '$\int_a^bF(\gamma(t))\cdot\gamma^{\prime}(t)\,dt$, כשמשלבים רק על קבוצת ה-$t$ שבהן הנגזרת $\gamma^{\prime}(t)$ קיימת, ומתעלמים מהשאר'
         feedback: >-
           ייתכן ש-$\gamma^{\prime}$ אינה קיימת באף נקודה, ואז אין כאן מה לשלב. ההגדרה החדשה אינה משתמשת בנגזרת בכלל, ולכן
           עובדת גם למסילה שאינה ברת-מדידה.
         misconception: MC-c8-continuous-path-no-integral
-      - text: 'כמו בתשובה הראשונה, אבל רק אם בוחרים את $\varphi_j$ כך שהם מתלכדים בחיתוכים $B_j\cap B_{j+1}$'
+      - text: 'בעזרת פוטנציאלים מקומיים $\varphi_j$ בכדורים $B_j$ לאורך המסילה, אבל רק אם בוחרים אותם כך שהם מתלכדים בכל החיתוכים $B_j\cap B_{j+1}$'
         feedback: >-
           אין צורך בכך, ולעיתים זה בלתי אפשרי (שדה הזווית לאורך מעגל). כל $\varphi_j$ משמש רק לקטע שלו, והקבוע החופשי
           מתקזז בהפרש.
         misconception: MC-c8-local-potential-choice
+
+  - id: Q-8.8-what-was-missing
+    type: mc
+    objectives: [OBJ-8.8-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      בשיעור 8.5 הוכחנו: אם $F$ משמר מקומית ב-$U$, ו-$\gamma_0,\gamma_1$ מסילות סגורות **חלקות למקוטעין** שהומוטופיות
+      ב-$U$, אז $\int_{\gamma_0}F\cdot ds=\int_{\gamma_1}F\cdot ds$. מה בדיוק משלים שיעור 8.8?
+    choices:
+      - text: 'את אותו משפט כש-$\gamma_0,\gamma_1$ רציפות בלבד, עם האינטגרל שמוגדר בעזרת פוטנציאלים מקומיים'
+        correct: true
+        feedback: >-
+          נכון. ב-8.5 ההומוטופיה הייתה רציפה בלבד, ומסילות הביניים $H(s,\cdot)$ היו רציפות בלבד כבר שם; אבל האינטגרל על
+          **הקצוות** $\gamma_0,\gamma_1$ דרש נגזרת. עכשיו גם הקצוות יכולים להיות מסילות רציפות כלשהן, אפילו לא ברות-מדידה.
+      - text: 'ב-8.5 ההומוטופיה $H$ הייתה חייבת להיות גזירה ברציפות, ועכשיו מספיק ש-$H$ רציפה בלבד'
+        feedback: >-
+          כבר ב-8.5 $H$ הייתה רציפה בלבד: זו הסיבה שההוכחה עברה דרך קווים שבורים במקום מסילות הביניים עצמן.
+        misconception: MC-c8-continuous-path-no-integral
+      - text: 'הוא מרחיב את המשפט לכל שדה רציף, גם כזה שאינו משמר מקומית, כל עוד המסילות הומוטופיות'
+        feedback: >-
+          ל-$F=(-y,x)$, שאינו משמר מקומית, המעגלים ברדיוס 1 וברדיוס 2 סביב הראשית הומוטופיים ב-$\mathbb{R}^2$, והאינטגרלים
+          $2\pi$ ו-$8\pi$.
+        misconception: MC-c8-path-independent-always
+      - text: 'הוא מראה ששדה משמר מקומית הוא משמר בכל קבוצה פתוחה, ולכן האינטגרל על כל מסילה סגורה 0'
+        feedback: >-
+          שדה הזווית נשאר משמר מקומית ולא משמר ב-$\mathbb{R}^2\setminus\{0\}$; המשפט עוסק במסילות הומוטופיות, לא בכל
+          המסילות הסגורות.
+        misconception: MC-c8-local-means-global
+
+  - id: Q-8.8-open-margin
+    type: mc
+    objectives: [OBJ-8.8-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      בהוכחה שמסילה רציפה $\gamma:[a,b]\to U$ אפשר לקרב במסילות גזירות פעמיים ברציפות **בתוך** $U$, איפה משתמשים בכך
+      ש-$U$ פתוחה?
+    choices:
+      - text: 'כדי שיהיה $r>0$ אחד עם $B(\gamma(t),r)\subseteq U$ לכל $t$, כי התמונה הקומפקטית רחוקה מ-$\mathbb{R}^n\setminus U$'
+        correct: true
+        feedback: >-
+          נכון. הקבוצה הקומפקטית $\gamma([a,b])$ זרה לקבוצה הסגורה $\mathbb{R}^n\setminus U$, ולכן נמצאת ממנה במרחק חיובי
+          $r$. אחרי זה בוחרים חלוקה שבה כל $\gamma([t_{j-1},t_j])$ בכדור $B(\gamma(t_{j-1}),r)\subseteq U$; הכדור קמור,
+          ולכן גם הקטע מ-$\gamma(t_{j-1})$ ל-$\gamma(t_j)$, וכל מסילה שעוברת עליו, נשארים ב-$U$.
+      - text: 'אין $r$ משותף: $\gamma$ יכולה להתקרב כרצוננו לשפה של $U$, ולכן עובדים עם רדיוס $r_t$ שתלוי ב-$t$'
+        feedback: >-
+          התמונה $\gamma([a,b])$ קומפקטית, ולכן רחוקה מהמשלים הסגור של $U$ במרחק חיובי: יש $r$ משותף. בלעדיו לא הייתה חלוקה
+          סופית.
+        misconception: MC-c3-compact-margin
+      - text: 'כדי שהקטע מ-$\gamma(t_{j-1})$ ל-$\gamma(t_j)$ יהיה מוכל ב-$U$, כי כל קבוצה פתוחה ב-$\mathbb{R}^n$ היא קמורה'
+        feedback: >-
+          $\mathbb{R}^2\setminus\{0\}$ פתוחה ואינה קמורה: הקטע מ-$(1,0)$ ל-$(-1,0)$ עובר בראשית. רק הכדורים הקטנים בתוך
+          $U$ קמורים.
+        misconception: MC-c8-homotopy-leaves-domain
+      - text: 'כדי ש-$\gamma$ תהיה רציפה במידה שווה על $[a,b]$, וכך תהיה לה חלוקה עדינה כרצוננו'
+        feedback: >-
+          הרציפות במידה שווה באה מהקומפקטיות של **התחום** $[a,b]$ (משפט קנטור), בלי קשר ל-$U$.
+        misconception: MC-c3-uniform-without-compact
 
   - id: Q-8.8-polygon-pieces
     type: numeric
     objectives: [OBJ-8.8-1]
     level: mid
     prompt: >-
-      $\gamma(t)=(\cos t,\sin t)$, $t\in[0,2\pi]$, ו-$U=\mathbb{R}^2\setminus\{0\}$, כך ש-$r=1$ הוא המרחק של המעגל מ-0.
-      בהוכחת הקירוב מחלקים את $[0,2\pi]$ ל-$k$ קטעים שווים ודורשים $\|\gamma(t)-\gamma(t_{j-1})\|<r$ לכל
-      $t\in[t_{j-1},t_j]$; אז הקו השבור דרך $\gamma(t_0),\dots,\gamma(t_k)$ נשאר בכדורים $B(\gamma(t_{j-1}),1)\subseteq U$.
-      מהו ה-$k$ הקטן ביותר שמקיים את הדרישה?
-    answer: 7
+      $\gamma(t)=(\cos t,\sin t)$, $t\in[0,2\pi]$, ו-$U=\mathbb{R}^2\setminus\{(3,0)\}$. המרחק של המעגל מ-$(3,0)$ הוא
+      $r=2$, ולכן $B(\gamma(t),2)\subseteq U$ לכל $t$. בהוכחת הקירוב מחלקים את $[0,2\pi]$ ל-$k$ קטעים שווים
+      $[t_{j-1},t_j]$ ודורשים $\|\gamma(t)-\gamma(t_{j-1})\|<2$ לכל $t\in[t_{j-1},t_j]$; אז הקו השבור דרך
+      $\gamma(t_0),\dots,\gamma(t_k)$ נשאר בכדורים $B(\gamma(t_{j-1}),2)\subseteq U$. מהו ה-$k$ הקטן ביותר שמקיים את
+      הדרישה?
+    answer: 3
     tolerance: 0.001
     correctFeedback: >-
-      נכון. על קטע באורך $\Delta=\frac{2\pi}{k}$ המרחק $\|\gamma(t)-\gamma(t_{j-1})\|=2\sin\frac{t-t_{j-1}}{2}$ עולה, והמקסימום
-      $2\sin\frac{\pi}{k}$ ב-$t=t_j$ (כש-$k\ge2$, כלומר $\Delta\le\pi$; ל-$k=1$ המרחק מגיע ל-2 באמצע הקטע). הדרישה
-      $2\sin\frac\pi k<1$ שקולה ל-$\frac\pi k<\frac\pi6$, כלומר $k>6$.
+      נכון. המרחק במישור הוא אורך המיתר: $\|\gamma(t)-\gamma(t_{j-1})\|=2\sin\frac{t-t_{j-1}}{2}$, והוא עולה כל עוד
+      $t-t_{j-1}\le\pi$. ל-$k\ge2$ אורך הקטע $\frac{2\pi}{k}\le\pi$, והמקסימום $2\sin\frac\pi k$ מתקבל ב-$t=t_j$. ב-$k=2$
+      הוא $2\sin\frac\pi2=2$, שאינו קטן ממש מ-2; ב-$k=3$ הוא $\sqrt3<2$. ל-$k=1$ המרחק מגיע ל-2 ב-$t=\pi$. (והכדורים
+      אכן ב-$U$: $\|\gamma(t)-(3,0)\|^2=10-6\cos t\ge4$.)
     wrongFeedback: >-
-      חשבו את אורך המיתר בין $\gamma(t_{j-1})$ ל-$\gamma(t_j)$ כפונקציה של $k$, ודרשו שיהיה **קטן ממש** מ-1.
+      חשבו את המרחק הגדול ביותר מ-$\gamma(t_{j-1})$ לנקודות הקטע (אורך מיתר, לא אורך קשת) כפונקציה של $k$, ודרשו שיהיה
+      **קטן ממש** מ-2.
     commonWrong:
-      - value: 6
+      - value: 4
         feedback: >-
-          ב-$k=6$ המיתר $2\sin\frac\pi6=1$ בדיוק: $\gamma(t_j)$ על השפה של $B(\gamma(t_{j-1}),1)$ ולא בתוכו. הדרישה היא
+          זו הדרישה שאורך **הקשת** $\frac{2\pi}{k}$ יהיה קטן מ-2. היא מספיקה, כי המיתר קצר מהקשת, אבל היא חזקה מהדרישה:
+          המרחק במישור הוא אורך המיתר, וכבר ב-$k=3$ הוא $2\sin\frac\pi3=\sqrt3<2$.
+      - value: 2
+        feedback: >-
+          ב-$k=2$ המיתר $2\sin\frac\pi2=2$ בדיוק: $\gamma(t_j)$ על השפה של $B(\gamma(t_{j-1}),2)$ ולא בתוכו. הדרישה היא
           אי-שוויון ממש.
         misconception: MC-c3-endpoint-in-open
+      - value: 1
+        feedback: >-
+          ב-$k=1$ הקטע היחיד הוא כל $[0,2\pi]$, ונקודות הקצה שלו מתלכדות. אבל הדרישה היא לכל $t$ בקטע, לא רק בקצותיו:
+          ב-$t=\pi$ המרחק מ-$\gamma(0)$ הוא 2.
 
   - id: Q-8.8-c2-corners
     type: twotier
@@ -128,9 +144,8 @@ questions:
     qualitative: true
     level: mid
     prompt: >-
-      $\sigma$ עוברת על קו שבור $P_0P_1\dots P_k$, ועל הצלע ה-$j$ היא
-      $P_{j-1}+\phi(u)(P_j-P_{j-1})$, $u\in[0,1]$, עם $\phi(u)=10u^3-15u^4+6u^5$. נכון או לא נכון: $\sigma$ גזירה פעמיים
-      ברציפות, אף שלתמונה שלה יש פינות.
+      $\sigma$ עוברת על קו שבור $P_0P_1\dots P_k$, ועל הצלע ה-$j$ היא $P_{j-1}+\lambda(u)(P_j-P_{j-1})$, $u\in[0,1]$, עם
+      $\lambda(u)=10u^3-15u^4+6u^5$. נכון או לא נכון: $\sigma$ גזירה פעמיים ברציפות, אף שלתמונה שלה יש פינות.
     choices:
       - text: נכון
         correct: true
@@ -140,19 +155,19 @@ questions:
           פינה בתמונה אינה סותרת גזירות, אם המהירות מתאפסת בפינה. ראו את הנימוק.
         misconception: MC-c8-c1-means-smooth-image
     reasons:
-      - text: '$\phi(0)=0$, $\phi(1)=1$, $\phi^{\prime}(u)=30u^2(1-u)^2$ ו-$\phi^{\prime\prime}(u)=60u(1-u)(1-2u)$, ושתיהן מתאפסות ב-$u=0,1$; לכן בכל קודקוד $\sigma^{\prime}=\sigma^{\prime\prime}=0$ משני הצדדים'
+      - text: '$\lambda(0)=0$, $\lambda(1)=1$, $\lambda^{\prime}(u)=30u^2(1-u)^2$ ו-$\lambda^{\prime\prime}(u)=60u(1-u)(1-2u)$, ושתיהן מתאפסות ב-$u=0,1$; לכן בכל קודקוד $\sigma^{\prime}=\sigma^{\prime\prime}=0$ משני הצדדים'
         correct: true
         feedback: >-
-          בדיוק. הנגזרת הראשונה והשנייה רציפות גם בקודקודים, ו-$\phi^{\prime}\ge0$, כך ש-$\sigma$ אינה יוצאת מהצלע. $\sigma$
-          אינה **חלקה**: $\sigma^{\prime}=0$ בקודקודים.
+          בדיוק. הנגזרת הראשונה והשנייה רציפות גם בקודקודים, ו-$\lambda^{\prime}\ge0$, כך ש-$\sigma$ אינה יוצאת מהצלע.
+          $\sigma$ אינה **חלקה**: $\sigma^{\prime}=0$ בקודקודים.
       - text: 'לא נכון: לתמונה של מסילה גזירה ברציפות אין פינות'
         feedback: >-
           $(t^3,|t|^3)$ גזירה ברציפות ויוצרת פינה ב-0. מה שאוסר פינות הוא $\gamma^{\prime}\ne0$, כלומר מסילה חלקה.
         misconception: MC-c8-c1-means-smooth-image
       - text: 'לא נכון: בקודקוד הנגזרת משמאל היא בכיוון $P_j-P_{j-1}$ ומימין בכיוון $P_{j+1}-P_j$'
         feedback: >-
-          כך בפרמטריזציה הלינארית $u\mapsto P_{j-1}+u(P_j-P_{j-1})$. עם $\phi$ שתי הנגזרות החד-צדדיות הן וקטור האפס, ואז הן
-          שוות.
+          כך בפרמטריזציה הלינארית $u\mapsto P_{j-1}+u(P_j-P_{j-1})$. עם $\lambda$ שתי הנגזרות החד-צדדיות הן וקטור האפס,
+          ואז הן שוות.
         misconception: MC-c8-c1-means-smooth-image
 
   - id: Q-8.8-spiral
@@ -166,11 +181,12 @@ questions:
     answer: 7.853982
     tolerance: 0.0002
     correctFeedback: >-
-      נכון, $\frac{5\pi}{2}$. בכל כדור $B_j$ שאינו מכיל את הראשית הפוטנציאל $\varphi_j$ הוא ענף של הזווית, ו-$\theta(t)=t$
-      פונקציית זווית רציפה של $\gamma$; על הקטע ה-$j$, $\varphi_j(\gamma(t))=t+2\pi k_j$, וכל מחובר בסכום הוא
-      $t_j-t_{j-1}$. הסכום הטלסקופי: $\theta(\frac{5\pi}{2})-\theta(0)$.
+      נכון, $\frac{5\pi}{2}$. בכל כדור $B_j$ שאינו מכיל את הראשית הפוטנציאל $\varphi_j$ הוא ענף רציף של הזווית: פונקציה
+      רציפה על $B_j$ שנותנת בכל נקודה $x$ זווית של $x$. $\theta(t)=t$ פונקציית זווית רציפה של $\gamma$; על הקטע ה-$j$,
+      $\varphi_j(\gamma(t))=t+2\pi k_j$, וכל מחובר בסכום הוא $t_j-t_{j-1}$. הסכום הטלסקופי:
+      $\theta(\frac{5\pi}{2})-\theta(0)$.
     wrongFeedback: >-
-      הפוטנציאלים המקומיים של $\omega$ הם ענפים של הזווית. מה פונקציית הזווית הרציפה של $\gamma$, ומה השינוי שלה?
+      הפוטנציאלים המקומיים של $\omega$ הם ענפים רציפים של הזווית. מה פונקציית הזווית הרציפה של $\gamma$, ומה השינוי שלה?
     commonWrong:
       - value: 1.570796
         feedback: >-
@@ -199,7 +215,7 @@ questions:
           הפוטנציאל בכדור נקבע עד כדי קבוע, וקבוע מתקזז בהפרש של שני ערכים. ראו את הנימוק.
         misconception: MC-c8-local-potential-choice
     reasons:
-      - text: 'אם $\varphi_j,\psi_j$ שני פוטנציאלים של $F$ ב-$B_j$, אז $\nabla(\varphi_j-\psi_j)=0$ בכדור, שהוא קמור, ולכן $\varphi_j-\psi_j\equiv c$; ו-$c$ מתקזז ב-$\varphi_j(\gamma(t_j))-\varphi_j(\gamma(t_{j-1}))$'
+      - text: 'אם $\varphi_j,\psi_j$ שני פוטנציאלים של $F$ ב-$B_j$, אז $\nabla(\varphi_j-\psi_j)=0$ בכדור, שהוא קמור, ולכן $\varphi_j-\psi_j\equiv c$; והקבוע $c$ מתקזז בהפרש בין הערכים של $\varphi_j$ בקצות הקטע'
         correct: true
         feedback: >-
           בדיוק: פונקציה גזירה עם גרדיאנט אפס בקבוצה פתוחה קמורה קבועה (משפט הערך הממוצע על קטעים). לכן כל מחובר תלוי רק
@@ -260,14 +276,14 @@ questions:
           המסילות הקרובות יכולות להיות ארוכות מאוד, והחסם על אינטגרל קווי כולל את האורך. ראו את הדוגמה בנימוק.
         misconception: MC-c8-uniform-close-integrals
     reasons:
-      - text: '$F=(-y,x)$, $\gamma(t)=(t,0)$ ו-$\sigma_k(t)=(t+\frac{\cos k^2t-1}{k},\ \frac{\sin k^2t}{k})$, $t\in[0,2\pi]$, $k\ge2$: אותן נקודות קצה, $\|\sigma_k-\gamma\|\le\frac2k$, אבל $\int_{\sigma_k}F\cdot ds=2\pi$ לכל $k$ ו-$\int_\gamma F\cdot ds=0$'
+      - text: '$F=(-y,x)$, $\gamma(t)=(t,0)$, $t\in[0,2\pi]$, ו-$\sigma_k=\gamma+\frac1k v_k$ עם $v_k(t)=(\cos k^2t-1,\ \sin k^2t)$, $k\ge2$: אותן נקודות קצה, $\|\sigma_k-\gamma\|\le\frac2k$, אבל $\int_{\sigma_k}F\cdot ds=2\pi$ לכל $k$, ו-$\int_\gamma F\cdot ds=0$'
         correct: true
         feedback: >-
           בדיוק. האינטגרנד $-y\,x^{\prime}+x\,y^{\prime}$ לאורך $\sigma_k$ הוא
-          $1-\frac{\sin k^2t}{k}+kt\cos k^2t-\cos k^2t$, ועל $[0,2\pi]$ רק האיבר 1 תורם (כי $k^2$ שלם, ובאינטגרציה בחלקים
-          $\int_0^{2\pi}t\cos k^2t\,dt=0$): $2\pi$. האורכים לא חסומים: $\int_0^{2\pi}|y_k^{\prime}|\,dt=4k$. ($F$ אינו משמר
-          מקומית: $\partial_y(-y)=-1\ne1=\partial_x x$.)
-      - text: 'נכון, כי $\left|\int_{\sigma_k}F\cdot ds-\int_\gamma F\cdot ds\right|\le L(\gamma)\cdot\max\|F(\sigma_k)-F(\gamma)\|\to0$'
+          $$1-\frac{\sin k^2t}{k}+kt\cos k^2t-\cos k^2t,$$
+          ועל $[0,2\pi]$ רק האיבר 1 תורם (כי $k^2$ שלם, ובאינטגרציה בחלקים $\int_0^{2\pi}t\cos k^2t\,dt=0$): $2\pi$. האורכים
+          לא חסומים: $\int_0^{2\pi}|y_k^{\prime}|\,dt=4k$. ($F$ אינו משמר מקומית: $\partial_y(-y)=-1\ne1=\partial_x x$.)
+      - text: 'נכון, כי ההפרש בין שני האינטגרלים חסום ב-$L(\gamma)$ כפול $\max\|F(\sigma_k)-F(\gamma)\|$, וזה שואף ל-0'
         feedback: >-
           אי-שוויון כזה אינו נכון: $\sigma_k$ ו-$\gamma$ הן מסילות שונות עם נגזרות שונות, וההפרש כולל את
           $F(\sigma_k)\cdot(\sigma_k^{\prime}-\gamma^{\prime})$, שאינו קטן כשהנגזרות של $\sigma_k$ גדולות.
@@ -313,13 +329,13 @@ questions:
       - id: a
         label: 'לפי למת המספר של לבג ורציפות במידה שווה, יש חלוקה $a=t_0<\dots<t_k=b$ כך שלכל $i\in\{0,1\}$ ולכל $j$, $\gamma_i([t_{j-1},t_j])$ מוכלת בכדור $B_{ij}\subseteq U$ שבו ל-$F$ יש פוטנציאל $\varphi_{ij}$; $\sigma_i$ הוא הקו השבור הסגור דרך $\gamma_i(t_0),\dots,\gamma_i(t_k)$, לינארי על כל $[t_{j-1},t_j]$; צלע באורך 0 היא קטע קבוע, שהאינטגרל עליו 0, ומשמיטים אותה.'
       - id: b
-        label: 'הכדורים קמורים, ולכן $(1-s)\gamma_i(t)+s\sigma_i(t)\in B_{ij}\subseteq U$ ל-$t\in[t_{j-1},t_j]$: זו הומוטופיה ב-$U$ (סגורה, כי שתי המסילות סגורות) בין $\gamma_i$ ל-$\sigma_i$.'
+        label: 'הכדורים קמורים: ל-$t\in[t_{j-1},t_j]$ הקטע בין $\gamma_i(t)$ ל-$\sigma_i(t)$ מוכל ב-$B_{ij}\subseteq U$. לכן ההומוטופיה הלינארית בין $\gamma_i$ ל-$\sigma_i$ נשארת ב-$U$ (וסגורה, כי שתי המסילות סגורות).'
       - id: c
         label: 'משרשרים הומוטופיות, אחת אחרי השנייה בפרמטר $s$: $\sigma_0\simeq\gamma_0\simeq\gamma_1\simeq\sigma_1$, ולכן $\sigma_0$ ו-$\sigma_1$ הומוטופיות ב-$U$.'
       - id: d
         label: 'אחרי השמטת הצלעות באורך 0, $\sigma_0,\sigma_1$ חלקות למקוטעין, ולפי המשפט של שיעור 8.5 $\int_{\sigma_0}F\cdot ds=\int_{\sigma_1}F\cdot ds$.'
       - id: e
-        label: 'על כל קטע, האינטגרל לאורך $\gamma_i$ ולאורך הצלע של $\sigma_i$ שניהם $\varphi_{ij}(\gamma_i(t_j))-\varphi_{ij}(\gamma_i(t_{j-1}))$; לכן $\int_{\gamma_0}=\int_{\sigma_0}=\int_{\sigma_1}=\int_{\gamma_1}$.'
+        label: 'על כל קטע, האינטגרל לאורך $\gamma_i$ ולאורך הצלע של $\sigma_i$ שניהם ההפרש של $\varphi_{ij}$ בין $\gamma_i(t_j)$ ל-$\gamma_i(t_{j-1})$; לכן $\int_{\gamma_0}=\int_{\sigma_0}=\int_{\sigma_1}=\int_{\gamma_1}$.'
     order: [a, b, c, d, e]
     correctFeedback: >-
       נכון. הרעיון: להחליף כל מסילה רציפה בקו שבור קרוב, ש(א) הומוטופי לה ו-(ב) נותן אותו אינטגרל, ואז להפעיל את המשפט

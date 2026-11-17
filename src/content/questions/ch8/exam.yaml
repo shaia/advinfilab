@@ -237,8 +237,9 @@ questions:
         answer: 6.283185
         tolerance: 0.0002
         correctFeedback: >-
-          נכון, $2\pi$. $2\pi\left(\operatorname{Ind}(\gamma_1,(0,0))+2\operatorname{Ind}(\gamma_1,(2,0))\right)=2\pi(1+0)$:
-          $(2,0)$ מחוץ למעגל היחידה.
+          נכון, $2\pi$:
+          $$2\pi\left(\operatorname{Ind}(\gamma_1,(0,0))+2\operatorname{Ind}(\gamma_1,(2,0))\right)=2\pi(1+0),$$
+          כי $(2,0)$ מחוץ למעגל היחידה.
         wrongFeedback: >-
           לפי לינאריות, כל מחובר הוא $2\pi$ כפול מספר הליפוף סביב הנקודה שלו. אילו נקודות בתוך מעגל היחידה?
         commonWrong:
@@ -345,8 +346,8 @@ questions:
         answer: 2
         tolerance: 0.001
         correctFeedback: >-
-          נכון. על $|z|=1$: $|q(z)-4z^2|=|z^3+2|\le3<4=|4z^2|$. לפי למת הרצועה, עם $4z^2\circ\gamma_1(t)=4e^{2it}$ (פונקציית
-          זווית $2t$) בתפקיד האדם, מספר הליפוף 2.
+          נכון. נסמן $g(z)=4z^2$. על $|z|=1$: $|q(z)-g(z)|=|z^3+2|\le3$, וזה קטן מ-$|g(z)|=4$. לפי למת הרצועה, עם
+          $g\circ\gamma_1(t)=4e^{2it}$ (פונקציית זווית $2t$) בתפקיד האדם, מספר הליפוף 2.
         wrongFeedback: >-
           איזה איבר של $q$ גדול מסכום האחרים על מעגל היחידה? השוו את $q$ אליו בעזרת למת הרצועה.
         commonWrong:
@@ -400,22 +401,23 @@ questions:
           אז $\operatorname{Ind}(q\circ\gamma_R,0)=0$ לכל $R>0$. (3) הסיקו את המשפט היסודי של האלגברה.
         solution:
           - kind: given
-            text: '$q(z)=z^n+a_{n-1}z^{n-1}+\dots+a_0$, $n\ge1$; $\gamma_R(t)=Re^{it}$ על $[0,2\pi]$; $A=|a_0|+\dots+|a_{n-1}|$.'
+            text: '$q(z)=z^n+a_{n-1}z^{n-1}+\dots+a_0$, $n\ge1$; $\gamma_R(t)=Re^{it}$ על $[0,2\pi]$; $A=|a_0|+\dots+|a_{n-1}|$; נסמן $g_n(z)=z^n$.'
           - kind: goal
             text: 'מספר הליפוף של $q\circ\gamma_R$ על מעגל גדול הוא $n$; בלי שורשים הוא 0; ומכאן שיש שורש.'
           - kind: idea
             text: >-
-              על מעגל גדול האיבר $z^n$ גדול מכל השאר יחד, ולכן $q\circ\gamma_R$ "קשורה ברצועה" ל-$z^n\circ\gamma_R$, שמקיפה
+              על מעגל גדול האיבר $z^n$ גדול מכל השאר יחד, ולכן $q\circ\gamma_R$ "קשורה ברצועה" ל-$g_n\circ\gamma_R$, שמקיפה
               את 0 בדיוק $n$ פעמים. מצד שני, בלי שורשים אפשר לכווץ את אותה מסילה דרך המעגלים הקטנים יותר עד לנקודה $q(0)$,
               בלי לעבור ב-0.
           - kind: definition
             text: >-
-              $z^n\circ\gamma_R(t)=R^ne^{int}=R^n(\cos nt,\sin nt)$, ולכן $\theta(t)=nt$ פונקציית זווית רציפה שלה סביב 0,
-              ו-$\operatorname{Ind}(z^n\circ\gamma_R,0)=\frac{2\pi n-0}{2\pi}=n$. למסילה קבועה $\theta$ קבועה, ומספר הליפוף 0.
+              $g_n\circ\gamma_R(t)=R^ne^{int}$, כלומר $R^n(\cos nt,\sin nt)$, ולכן $\theta(t)=nt$ פונקציית זווית רציפה שלה
+              סביב 0, ו-$\operatorname{Ind}(g_n\circ\gamma_R,0)$ הוא $\frac{2\pi n-0}{2\pi}=n$. למסילה קבועה $\theta$ קבועה,
+              ומספר הליפוף 0.
           - kind: computation
             text: >-
-              (1) ל-$|z|=R$, כי $R\ge1$ גורר $R^k\le R^{n-1}$ ל-$k\le n-1$:
-              $|q(z)-z^n|\le\sum_{k=0}^{n-1}|a_k|R^k\le AR^{n-1}<R\cdot R^{n-1}=|z^n|$.
+              (1) ל-$|z|=R$, כי $R\ge1$ גורר $R^k\le R^{n-1}$ ל-$k\le n-1$, ו-$A<R$:
+              $$|q(z)-z^n|\le\sum_{k=0}^{n-1}|a_k|R^k\le AR^{n-1}<R\cdot R^{n-1}=|z^n|.$$
           - kind: theorem
             text: >-
               למת הרצועה: יהיו $\gamma,\sigma:[a,b]\to\mathbb{R}^2$ מסילות סגורות רציפות ו-$p\notin\gamma([a,b])$. אם
@@ -423,7 +425,7 @@ questions:
               ו-$\operatorname{Ind}(\sigma,p)=\operatorname{Ind}(\gamma,p)$.
           - kind: step
             text: >-
-              עם $\gamma=z^n\circ\gamma_R$, $\sigma=q\circ\gamma_R$ ו-$p=0$: שתיהן מסילות סגורות רציפות (הרכבה של פולינום
+              עם $\gamma=g_n\circ\gamma_R$, $\sigma=q\circ\gamma_R$ ו-$p=0$: שתיהן מסילות סגורות רציפות (הרכבה של פולינום
               עם $\gamma_R$, ו-$\gamma_R(0)=\gamma_R(2\pi)$), ו-$|R^ne^{int}|=R^n>0$, כלומר $\gamma$ אינה עוברת ב-0. החישוב
               נותן את תנאי הלמה לכל $t$. לכן
               $\operatorname{Ind}(q\circ\gamma_R,0)=n$.
@@ -434,8 +436,8 @@ questions:
               שורש. $H(0,t)=q(0)$ קבועה ו-$H(1,\cdot)=q\circ\gamma_R$.
           - kind: check
             text: >-
-              זו הומוטופיה של מסילות סגורות רציפות ב-$\mathbb{C}\setminus\{0\}$, ולכן
-              $\operatorname{Ind}(q\circ\gamma_R,0)=\operatorname{Ind}(q(0),0)=0$.
+              זו הומוטופיה של מסילות סגורות רציפות ב-$\mathbb{C}\setminus\{0\}$, ולכן מספר הליפוף של $q\circ\gamma_R$ סביב 0
+              שווה לזה של המסילה הקבועה $q(0)$, שהוא 0.
           - kind: step
             text: >-
               (3) אם אין ל-$q$ שורש, ניקח $R>\max(1,A)$: לפי (1) מספר הליפוף $n$ ולפי (2) הוא 0, ולכן $n=0$, בסתירה
@@ -445,7 +447,7 @@ questions:
         rubric:
           - text: '(1) ההערכה $|q(z)-z^n|<|z^n|$ על $|z|=R$, כולל השימוש ב-$R\ge1$ ל-$R^k\le R^{n-1}$'
             weight: 4
-          - text: '(1) הפעלת למת הרצועה עם $z^n\circ\gamma_R$ בתפקיד האדם, וחישוב מספר הליפוף שלה, $n$, מפונקציית הזווית $nt$'
+          - text: '(1) הפעלת למת הרצועה עם $g_n\circ\gamma_R$ בתפקיד האדם, וחישוב מספר הליפוף שלה, $n$, מפונקציית הזווית $nt$'
             weight: 3
           - text: '(2) ההומוטופיה $H(s,t)=q(sRe^{it})$ עם שלוש הבדיקות: רציפות, סגירות של כל $H(s,\cdot)$, ו-$H\ne0$ מההנחה שאין שורש'
             weight: 4

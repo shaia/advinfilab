@@ -48,7 +48,7 @@ practice:
     prompt: >-
       $T:\mathbb{R}^2\to\mathbb{R}^2$, $T(x,y)=(x+y,\ x-y)$.
 
-      (א) הוכיחו ש-$\|T(x,y)\|_2=\sqrt2\,\|(x,y)\|_2$ לכל $(x,y)$, והסיקו ש-$\|T\|_2=\sqrt2$ ושהסופרמום מתקבל בכל
+      (א) הוכיחו שלכל $v=(x,y)$ מתקיים $\|Tv\|_2=\sqrt2\,\|v\|_2$, והסיקו ש-$\|T\|_2=\sqrt2$ ושהסופרמום מתקבל בכל
       וקטור יחידה.
 
       (ב) חשבו את $\|T\|_1$ ואת $\|T\|_\infty$.
@@ -59,8 +59,9 @@ practice:
     solution:
       - kind: computation
         text: >-
-          (א) $(x+y)^2+(x-y)^2=x^2+2xy+y^2+x^2-2xy+y^2=2(x^2+y^2)$. מוציאים שורש חיובי:
-          $\|T(x,y)\|_2=\sqrt2\,\|(x,y)\|_2$.
+          (א) יהי $v=(x,y)$, ואז $Tv=(x+y,\ x-y)$. פותחים סוגריים:
+          $$\begin{aligned}&(x+y)^2+(x-y)^2\\&\quad=x^2+2xy+y^2\\&\qquad+x^2-2xy+y^2\\&\quad=2(x^2+y^2).\end{aligned}$$
+          כלומר $\|Tv\|_2^2=2\|v\|_2^2$. מוציאים שורש חיובי: $\|Tv\|_2=\sqrt2\,\|v\|_2$.
       - kind: step
         text: >-
           לפי טענה 1.8.4(ב), $\|T\|_2=\sup_{v\ne0}\frac{\|Tv\|_2}{\|v\|_2}$, וכאן כל היחסים שווים ל-$\sqrt2$. לכן
@@ -71,8 +72,9 @@ practice:
           ולכן לפי משפטים 1.8.8 ו-1.8.9 $\|T\|_1=\|T\|_\infty=2$.
       - kind: check
         text: >-
-          (ג) $A^TA=\begin{pmatrix}1&1\\1&-1\end{pmatrix}\begin{pmatrix}1&1\\1&-1\end{pmatrix}=\begin{pmatrix}2&0\\0&2\end{pmatrix}$,
-          שהערך העצמי היחיד שלה 2, ולכן לפי משפט 1.8.10 $\|T\|_2=\sqrt2$, וכל וקטור הוא וקטור עצמי: בדיוק מה
+          (ג) מחשבים:
+          $$\begin{aligned}A^TA&=\begin{pmatrix}1&1\\1&-1\end{pmatrix}\begin{pmatrix}1&1\\1&-1\end{pmatrix}\\&=\begin{pmatrix}2&0\\0&2\end{pmatrix}.\end{aligned}$$
+          הערך העצמי היחיד שלה 2, ולכן לפי משפט 1.8.10 $\|T\|_2=\sqrt2$, וכל וקטור הוא וקטור עצמי: בדיוק מה
           שמצאנו ב-(א). ו-$\sqrt2\approx1.414<2$: שלוש הנורמות לא חייבות להיות שוות.
       - kind: result
         text: >-
@@ -101,7 +103,7 @@ practice:
       - kind: step
         text: >-
           (א) **נכון.** יהי $y\in V$ ו-$y_n\to y$. לפי טענה 1.5.6, $x_0+(y_n-y)\to x_0$, ולפי משפט 1.6.3 (הרציפות
-          ב-$x_0$ בניסוח סדרתי) $T(x_0+y_n-y)\to Tx_0$. לפי הלינאריות $T(x_0+y_n-y)-Tx_0=Ty_n-Ty$, ולכן
+          ב-$x_0$ בניסוח סדרתי) $T(x_0+y_n-y)\to Tx_0$. לפי הלינאריות $T(x_0+y_n-y)-Tx_0$ שווה ל-$Ty_n-Ty$, ולכן
           $\|Ty_n-Ty\|\to0$, כלומר $Ty_n\to Ty$. לפי משפט 1.6.3, $T$ רציפה ב-$y$.
       - kind: step
         text: >-
@@ -117,7 +119,7 @@ practice:
         text: >-
           (ג) **לא נכון.** $Sp(x)=p(\tfrac x2)$ ו-$Rp(x)=p(2x)$ מעבירות פולינומים לפולינומים, הן לינאריות, ו-$S(Rp)=p$,
           $R(Sp)=p$; לכן $S$ חד-חד-ערכית ועל, ו-$S^{-1}=R$. $S$ חסומה:
-          $\|Sp\|_\infty=\max_{x\in[0,1]}|p(\tfrac x2)|=\max_{[0,\frac12]}|p|\le\|p\|_\infty$.
+          $$\begin{aligned}\|Sp\|_\infty&=\max_{x\in[0,1]}|p(\tfrac x2)|\\&=\max_{[0,\frac12]}|p|\le\|p\|_\infty .\end{aligned}$$
       - kind: computation
         text: >-
           אבל $R$ אינה חסומה: $\|x^n\|_\infty=1$ ו-$R(x^n)=2^nx^n$, עם $\|R(x^n)\|_\infty=2^n$. אילו
@@ -137,7 +139,7 @@ practice:
     objectives: [OBJ-1.8-4, OBJ-1.8-2]
     prompt: >-
       על $(C[0,1],\|\cdot\|_\infty)$ נגדיר, לכל $k\in\mathbb{N}$, את הפונקציונלים $\varphi_k(f)=\int_0^1x^kf(x)\,dx$
-      ו-$\psi_k(f)=(k+1)\int_0^1x^kf(x)\,dx$, ונסמן $\operatorname{ev}_1(f)=f(1)$.
+      ו-$\psi_k=(k+1)\varphi_k$, ונסמן $\operatorname{ev}_1(f)=f(1)$.
 
       (א) הוכיחו ש-$\|\varphi_k\|=\frac1{k+1}$, והסיקו ש-$\varphi_k\to0$ בנורמת האופרטור.
 
@@ -146,8 +148,8 @@ practice:
       (ג) הוכיחו ש-$\|\psi_k-\operatorname{ev}_1\|=2$ לכל $k$, והסיקו ש-$(\psi_k)$ אינה מתכנסת בנורמת האופרטור לשום
       פונקציונל. (רמז לחסם מלרע: ל-$0<\eta<1$, הפונקציה ששווה 1 על $[0,1-\eta]$, $(-1)$ ב-1, ולינארית ביניהן.)
     answer: >-
-      (א) $|\varphi_k(f)|\le\frac{\|f\|_\infty}{k+1}$, ושוויון ב-$f\equiv1$. (ב) $\psi_k(f)-f(1)=(k+1)\int_0^1x^k\big(f(x)-f(1)\big)\,dx$,
-      ומפצלים את הקטע ליד 1. (ג) חסם מלעיל 2 מאי-שוויון המשולש; הפונקציות מהרמז נותנות לפחות $2(1-\eta)^{k+1}$.
+      (א) $|\varphi_k(f)|\le\frac{\|f\|_\infty}{k+1}$, ושוויון ב-$f\equiv1$. (ב) ההפרש $\psi_k(f)-f(1)$ הוא האינטגרל על
+      $[0,1]$ של $(k+1)x^k\big(f(x)-f(1)\big)$, ומפצלים את הקטע ליד 1. (ג) חסם מלעיל 2 מאי-שוויון המשולש; הפונקציות מהרמז נותנות לפחות $2(1-\eta)^{k+1}$.
       הגבול בנורמה היה חייב להיות הגבול הנקודתי $\operatorname{ev}_1$, והמרחק אליו 2.
     solution:
       - kind: idea
@@ -158,35 +160,44 @@ practice:
       - kind: computation
         text: >-
           (א) $\varphi_k$ לינארי (לינאריות האינטגרל). לפי המונוטוניות של האינטגרל,
-          $|\varphi_k(f)|\le\int_0^1x^k|f(x)|\,dx\le\|f\|_\infty\int_0^1x^k\,dx=\frac{\|f\|_\infty}{k+1}$, ולפי טענה 1.8.4(א)
-          $\|\varphi_k\|\le\frac1{k+1}$. ו-$f\equiv1$ מקיימת $\|f\|_\infty=1$ ו-$\varphi_k(1)=\frac1{k+1}$, ולכן לפי הגדרה
+          $$\begin{aligned}|\varphi_k(f)|&\le\int_0^1x^k|f(x)|\,dx\\&\le\|f\|_\infty\int_0^1x^k\,dx\\&=\frac{\|f\|_\infty}{k+1},\end{aligned}$$
+          ולפי טענה 1.8.4(א) $\|\varphi_k\|\le\frac1{k+1}$. ו-$f\equiv1$ מקיימת $\|f\|_\infty=1$ ו-$\varphi_k(1)=\frac1{k+1}$, ולכן לפי הגדרה
           1.8.3 $\|\varphi_k\|=\frac1{k+1}$. לכן $\|\varphi_k-0\|=\frac1{k+1}\to0$: לפי הגדרה 1.8.13, $\varphi_k\to0$
           ב-$\mathcal{L}(C[0,1],\mathbb{R})$.
       - kind: step
         text: >-
-          (ב) תהי $f\in C[0,1]$. כי $(k+1)\int_0^1x^k\,dx=1$, מתקיים
-          $\psi_k(f)-f(1)=(k+1)\int_0^1x^k\big(f(x)-f(1)\big)\,dx$. יהי $\varepsilon>0$. $f$ רציפה ב-1, ולכן יש
+          (ב) תהי $f\in C[0,1]$. כי $(k+1)\int_0^1x^k\,dx=1$, אפשר לכתוב $f(1)$ כאינטגרל של $(k+1)x^kf(1)$ על
+          $[0,1]$, ולכן ההפרש $\psi_k(f)-f(1)$ הוא האינטגרל על $[0,1]$ של $(k+1)x^k\big(f(x)-f(1)\big)$. יהי $\varepsilon>0$. $f$ רציפה ב-1, ולכן יש
           $\delta_0>0$ כך ש-$|f(x)-f(1)|<\frac\varepsilon2$ לכל $x\in[0,1]$ עם $|x-1|<\delta_0$. נבחר
           $\delta=\min\left(\frac{\delta_0}2,\frac12\right)$. אז $\delta\in(0,1)$, וכל $x\in[1-\delta,1]$ מקיים
           $|x-1|\le\delta<\delta_0$, ולכן $|f(x)-f(1)|<\frac\varepsilon2$ על כל הקטע הסגור $[1-\delta,1]$.
       - kind: computation
         text: >-
           מפצלים את האינטגרל ב-$1-\delta$. על $[1-\delta,1]$ האינטגרנד בערך מוחלט קטן מ-$\frac\varepsilon2(k+1)x^k$,
-          ולכן החלק הזה קטן או שווה ל-$\frac\varepsilon2(k+1)\int_0^1x^k\,dx=\frac\varepsilon2$. על $[0,1-\delta]$,
-          $|f(x)-f(1)|\le2\|f\|_\infty$, ולכן החלק הזה קטן או שווה ל-$2\|f\|_\infty(k+1)\int_0^{1-\delta}x^k\,dx=2\|f\|_\infty(1-\delta)^{k+1}$.
+          ולכן החלק הזה קטן או שווה ל-$\frac\varepsilon2(k+1)\int_{1-\delta}^1x^k\,dx$. כאן **מגדילים בכוונה** את קטע
+          האינטגרציה ל-$[0,1]$: $x^k\ge0$, ולכן $\int_{1-\delta}^1x^k\,dx$ קטן או שווה ל-$\int_0^1x^k\,dx=\frac1{k+1}$.
+          ההגדלה חוסכת את חישוב האינטגרל על הקטע הקצר, ונותנת חסם נקי: החלק הזה קטן או שווה ל-$\frac\varepsilon2$.
+          על $[0,1-\delta]$, $|f(x)-f(1)|\le2\|f\|_\infty$, ולכן החלק הזה לכל היותר
+          $$\begin{aligned}&2\|f\|_\infty(k+1)\int_0^{1-\delta}x^k\,dx\\&\quad=2\|f\|_\infty(1-\delta)^{k+1}.\end{aligned}$$
           כי $0<1-\delta<1$, הביטוי האחרון שואף לאפס (אינפי 1), ולכן יש $K$ כך שלכל $k>K$ הוא קטן מ-$\frac\varepsilon2$.
           לכל $k>K$: $|\psi_k(f)-f(1)|<\varepsilon$.
       - kind: step
         text: >-
           (ג) חסם מלעיל. $\psi_k-\operatorname{ev}_1$ לינארי, ולכל $f$:
-          $|\psi_k(f)-f(1)|\le(k+1)\int_0^1x^k|f(x)|\,dx+|f(1)|\le\|f\|_\infty+\|f\|_\infty$. לפי טענה 1.8.4(א),
+          $$\begin{aligned}&|\psi_k(f)-f(1)|\\&\quad\le(k+1)\int_0^1x^k|f(x)|\,dx\\&\qquad+|f(1)|\\&\quad\le\|f\|_\infty+\|f\|_\infty .\end{aligned}$$
+          לפי טענה 1.8.4(א),
           $\|\psi_k-\operatorname{ev}_1\|\le2$.
       - kind: computation
         text: >-
           חסם מלרע. ל-$0<\eta<1$ תהי $h_\eta$ הפונקציה מהרמז: רציפה, $|h_\eta|\le1$, $h_\eta(1)=-1$, ולכן
-          $\|h_\eta\|_\infty=1$. על $[0,1-\eta]$ היא 1, ועל $[1-\eta,1]$ היא לפחות $(-1)$, ולכן
-          $\psi_k(h_\eta)\ge(k+1)\int_0^{1-\eta}x^k\,dx-(k+1)\int_{1-\eta}^1x^k\,dx=(1-\eta)^{k+1}-\big(1-(1-\eta)^{k+1}\big)$.
-          לכן $\psi_k(h_\eta)-h_\eta(1)\ge2(1-\eta)^{k+1}-1+1=2(1-\eta)^{k+1}$.
+          $\|h_\eta\|_\infty=1$. נסמן $a=(1-\eta)^{k+1}$. אז $(k+1)\int_0^{1-\eta}x^k\,dx=a$,
+          ו-$(k+1)\int_{1-\eta}^1x^k\,dx=1-a$. על $[0,1-\eta]$ הפונקציה $h_\eta$ היא 1, ועל $[1-\eta,1]$ היא לפחות
+          $(-1)$; כי $x^k\ge0$, לפי המונוטוניות של האינטגרל $\psi_k(h_\eta)\ge a-(1-a)$, כלומר $\psi_k(h_\eta)\ge2a-1$.
+      - kind: computation
+        text: >-
+          עכשיו מחסירים את $h_\eta(1)$. כי $h_\eta(1)=-1$, להחסיר אותו פירושו להוסיף 1: ההפרש
+          $\psi_k(h_\eta)-h_\eta(1)$ שווה ל-$\psi_k(h_\eta)+1$. לפי הצעד הקודם הוא לפחות $(2a-1)+1=2a$, כלומר לפחות
+          $2(1-\eta)^{k+1}$.
       - kind: step
         text: >-
           לפי הגדרה 1.8.3, $\|\psi_k-\operatorname{ev}_1\|\ge2(1-\eta)^{k+1}$ לכל $\eta\in(0,1)$. עבור $k$ קבוע,
@@ -225,10 +236,11 @@ practice:
       - kind: computation
         text: >-
           (א) $e_2$ מקיים $\|e_2\|_2=1$ ו-$Ae_2=(0,5)$, ולכן לפי הגדרה 1.8.3 $\|A\|_2\ge5$. ולפי טענה 1.8.10ב,
-          $\|A\|_2\le\|A\|_F=\sqrt{9+0+16+25}=\sqrt{50}\approx7.071$.
+          $\|A\|_2\le\|A\|_F$, ו-$\|A\|_F=\sqrt{9+0+16+25}$, כלומר $\sqrt{50}\approx7.071$.
       - kind: computation
         text: >-
-          (ב) $A^TA=\begin{pmatrix}3&4\\0&5\end{pmatrix}\begin{pmatrix}3&0\\4&5\end{pmatrix}=\begin{pmatrix}25&20\\20&25\end{pmatrix}$.
+          (ב) מחשבים:
+          $$\begin{aligned}A^TA&=\begin{pmatrix}3&4\\0&5\end{pmatrix}\begin{pmatrix}3&0\\4&5\end{pmatrix}\\&=\begin{pmatrix}25&20\\20&25\end{pmatrix}.\end{aligned}$$
           העקבה 50 והדטרמיננטה $625-400=225$, ולכן $\lambda^2-50\lambda+225=0$, $\lambda\in\{5,\ 45\}$. לפי משפט
           1.8.10, $\|A\|_2=\sqrt{45}=3\sqrt5\approx6.708$.
       - kind: step
@@ -238,7 +250,7 @@ practice:
       - kind: step
         text: >-
           (ג) נסמן $B=A^TA$. לפי משפט 1.8.10, $B$ סימטרית וכל הערכים העצמיים שלה $\lambda_i\ge0$. לפי מסקנה 1.8.10א,
-          $\|B\|_2=\max_i|\lambda_i|=\max_i\lambda_i=\lambda_{\max}(B)$, ולפי משפט 1.8.10 שוב,
+          $\|B\|_2=\max_i|\lambda_i|$, וכי $\lambda_i\ge0$ זה $\max_i\lambda_i=\lambda_{\max}(B)$. לפי משפט 1.8.10 שוב,
           $\|A\|_2^2=\lambda_{\max}(B)$. לכן $\|A^TA\|_2=\|A\|_2^2$.
       - kind: check
         text: >-
@@ -357,7 +369,7 @@ practice:
           בת מנייה). בפרט $\varphi(x_n)\ne0$, ונגדיר $y_n=z-\frac{x_n}{\varphi(x_n)}$.
       - kind: computation
         text: >-
-          לפי הלינאריות $\varphi(y_n)=\varphi(z)-\frac{\varphi(x_n)}{\varphi(x_n)}=1-1=0$, כלומר $y_n\in\ker\varphi$.
+          לפי הלינאריות $\varphi(y_n)=\varphi(z)-\frac{\varphi(x_n)}{\varphi(x_n)}$, וזה $1-1=0$, כלומר $y_n\in\ker\varphi$.
           והמרחק: $\|y_n-z\|=\frac{\|x_n\|}{|\varphi(x_n)|}<\frac1n\to0$, כלומר $y_n\to z$.
       - kind: step
         text: >-
@@ -366,8 +378,8 @@ practice:
       - kind: step
         text: >-
           (ג) **לא.** $Dp=0$ אם ורק אם $p$ קבוע, ולכן $\ker D$ היא קבוצת הפולינומים הקבועים. היא סגורה, לפי מסקנה
-          1.5.8: אם קבועים $c_n$ מתכנסים ל-$p$ בנורמת הסופרמום, אז לכל $x\in[0,1]$, $|c_n-p(x)|\le\|c_n-p\|_\infty\to0$,
-          ולכן $p(x)=\lim c_n$ לא תלוי ב-$x$: גם $p$ קבוע. ובכל זאת $D$ אינה חסומה (טענה 1.8.11(א), שגם קובעת שהצמצום
+          1.5.8: אם קבועים $c_n$ מתכנסים ל-$p$ בנורמת הסופרמום, אז לכל $x\in[0,1]$, $|c_n-p(x)|\le\|c_n-p\|_\infty$,
+          והחסם שואף ל-0; לכן $p(x)=\lim c_n$ לא תלוי ב-$x$: גם $p$ קבוע. ובכל זאת $D$ אינה חסומה (טענה 1.8.11(א), שגם קובעת שהצמצום
           ל-$P$ אינו חסום).
       - kind: check
         text: >-
@@ -425,7 +437,7 @@ practice:
           ב-2. לעומת זאת $\frac12$ בתוך הקטע.
       - kind: step
         text: >-
-          (א) לינאריות: $(ap+bq)(2)=ap(2)+bq(2)$. ל-$p_n=x^n$: $\|p_n\|_\infty=\max_{[0,1]}x^n=1$, ואילו $S(p_n)=2^n$.
+          (א) לינאריות: הערך של $ap+bq$ ב-2 הוא $ap(2)+bq(2)$. ל-$p_n=x^n$: $\|p_n\|_\infty=\max_{[0,1]}x^n=1$, ואילו $S(p_n)=2^n$.
           אילו היה $M$ עם $|S(p)|\le M\|p\|_\infty$ לכל $p$, היה $2^n\le M$ לכל $n$. לכן $S$ אינו חסום.
       - kind: step
         text: >-
@@ -433,7 +445,7 @@ practice:
           לפי משפט 1.6.3 זו הפרה ישירה של רציפות ב-0: $q_n\to0$, אבל $S(q_n)\not\to S(0)=0$, כפי שמשפט 1.8.2 מנבא.
       - kind: step
         text: >-
-          (ג) $|E(p)|=|p(\tfrac12)|\le\max_{[0,1]}|p|=\|p\|_\infty$, ולכן לפי טענה 1.8.4(א) $\|E\|\le1$; והפולינום הקבוע
+          (ג) $|E(p)|=|p(\tfrac12)|$, וזה לכל היותר $\max_{[0,1]}|p|=\|p\|_\infty$, ולכן לפי טענה 1.8.4(א) $\|E\|\le1$; והפולינום הקבוע
           1 נותן $E(1)=1$. לכן $\|E\|=1$, והסופרמום מתקבל.
       - kind: step
         text: >-
@@ -470,19 +482,23 @@ practice:
     solution:
       - kind: computation
         text: >-
-          (א) $\varphi$ לינארי (לינאריות האינטגרל), ו-$|\varphi(f)|\le\int_0^1x|f(x)|\,dx\le\int_0^1|f(x)|\,dx=\|f\|_1$, כי
-          $0\le x\le1$ בקטע (מונוטוניות האינטגרל). לפי טענה 1.8.4(א), $\|\varphi\|\le1$.
+          (א) $\varphi$ לינארי (לינאריות האינטגרל), ולכל $f$:
+          $$\begin{aligned}|\varphi(f)|&\le\int_0^1x|f(x)|\,dx\\&\le\int_0^1|f(x)|\,dx=\|f\|_1,\end{aligned}$$
+          כי $0\le x\le1$ בקטע (מונוטוניות האינטגרל). לפי טענה 1.8.4(א), $\|\varphi\|\le1$.
       - kind: idea
         text: >-
           החסם $x\le1$ כמעט הדוק רק ליד $x=1$. לכן ניקח פונקציות שכל המסה שלהן ליד 1.
       - kind: step
         text: >-
           (ב) $f_n(x)=\max(0,\ 1-n(1-x))$: משולש בגובה 1 על $\left[1-\frac1n,1\right]$, רציף, עם $\|f_n\|_1=\frac1{2n}$.
-          בקטע שבו $f_n\ne0$ מתקיים $x\ge1-\frac1n$, ולכן $\varphi(f_n)\ge\left(1-\frac1n\right)\int_0^1f_n=\left(1-\frac1n\right)\|f_n\|_1$.
+          בקטע שבו $f_n\ne0$ מתקיים $x\ge1-\frac1n$, ולכן
+          $$\begin{aligned}\varphi(f_n)&\ge\left(1-\frac1n\right)\int_0^1f_n\\&=\left(1-\frac1n\right)\|f_n\|_1 .\end{aligned}$$
           לפי טענה 1.8.4(ב) $\|\varphi\|\ge1-\frac1n$ לכל $n$, ולכן $\|\varphi\|\ge1$; יחד עם (א) $\|\varphi\|=1$.
       - kind: step
         text: >-
-          (ג) נניח $\|f\|_1\le1$ ו-$|\varphi(f)|=1$. אז $1=|\varphi(f)|\le\int_0^1x|f|\le\int_0^1|f|\le1$, ולכן
+          (ג) נניח $\|f\|_1\le1$ ו-$|\varphi(f)|=1$. אז
+          $$\begin{aligned}1=|\varphi(f)|&\le\int_0^1x|f|\\&\le\int_0^1|f|\le1,\end{aligned}$$
+          ולכן
           $\int_0^1x|f|=\int_0^1|f|$, כלומר $\int_0^1(1-x)|f(x)|\,dx=0$. הפונקציה $(1-x)|f(x)|$ רציפה ואי-שלילית, ולפי
           למה 1.2.19 היא אפס בכל הקטע; לכן $f=0$ על $[0,1)$, ומרציפות גם ב-1. אבל אז $\varphi(f)=0$: סתירה.
       - kind: check
@@ -499,7 +515,9 @@ challenge:
     objectives: [OBJ-1.8-1, OBJ-1.8-2]
     prompt: >-
       תהי $k$ פונקציה רציפה על הריבוע $[0,1]\times[0,1]$ עם $k(x,y)\ge0$ לכל $x,y$, ונגדיר על $(C[0,1],\|\cdot\|_\infty)$
-      את **העתקת האינטגרל** $(Tf)(x)=\int_0^1k(x,y)\,f(y)\,dy$. הניחו (נוכיח את זה בפרק 3) ש-$Tf\in C[0,1]$ לכל
+      את **העתקת האינטגרל**
+      $$(Tf)(x)=\int_0^1k(x,y)\,f(y)\,dy .$$
+      הניחו (נוכיח את זה בפרק 3) ש-$Tf\in C[0,1]$ לכל
       $f\in C[0,1]$, ושהפונקציה $\kappa(x)=\int_0^1k(x,y)\,dy$ רציפה על $[0,1]$.
 
       (א) הוכיחו ש-$T$ לינארית וחסומה, ולכן רציפה, וש-$\|T\|_{\mathrm{op}}=\max_{x\in[0,1]}\kappa(x)$.
@@ -510,7 +528,7 @@ challenge:
       וחשבו אותה.
     answer: >-
       (א) $|Tf(x)|\le \kappa(x)\|f\|_\infty$ נותן $\|T\|_{\mathrm{op}}\le\max\kappa$, ו-$f\equiv1$ נותנת $Tf=\kappa$, ולכן שוויון. (ב)
-      $\kappa(x)=x+\frac12$, $\|T\|_{\mathrm{op}}=\frac32$. (ג) $\int_0^1|x-y|\,dy=\frac{x^2+(1-x)^2}2\le\frac12$, ו-$f\equiv-1$
+      $\kappa(x)=x+\frac12$, $\|T\|_{\mathrm{op}}=\frac32$. (ג) $\int_0^1|x-y|\,dy$ שווה ל-$\frac{x^2+(1-x)^2}2\le\frac12$, ו-$f\equiv-1$
       נותנת $Tf(x)=\frac12-x$ עם $\|Tf\|_\infty=\frac12$; לכן $\|T\|_{\mathrm{op}}=\frac12$.
     solution:
       - kind: given
@@ -527,16 +545,16 @@ challenge:
           באינטגרל "דוחפים באותו כיוון", כלומר $k(x,y)f(y)=|k(x,y)|$. כש-$k\ge0$, הפונקציה הקבועה $1$ עושה את זה.
       - kind: step
         text: >-
-          (א) **לינאריות:** $T(af+bg)(x)=\int_0^1k(x,y)\big(af(y)+bg(y)\big)dy=a(Tf)(x)+b(Tg)(x)$, מהלינאריות של
-          האינטגרל.
+          (א) **לינאריות:** מהלינאריות של האינטגרל,
+          $$\begin{aligned}&T(af+bg)(x)\\&\quad=a\int_0^1k(x,y)\,f(y)\,dy\\&\qquad+b\int_0^1k(x,y)\,g(y)\,dy\\&\quad=a(Tf)(x)+b(Tg)(x).\end{aligned}$$
       - kind: step
         text: >-
           **חסם מלעיל:** לכל $f$ ולכל $x$, מכיוון ש-$k\ge0$,
-          $|(Tf)(x)|\le\int_0^1k(x,y)\,|f(y)|\,dy\le\|f\|_\infty\int_0^1k(x,y)\,dy=\kappa(x)\|f\|_\infty\le M\|f\|_\infty$.
+          $$\begin{aligned}&|(Tf)(x)|\\&\quad\le\int_0^1k(x,y)\,|f(y)|\,dy\\&\quad\le\|f\|_\infty\int_0^1k(x,y)\,dy\\&\quad=\kappa(x)\|f\|_\infty\le M\|f\|_\infty .\end{aligned}$$
           לכן $\|Tf\|_\infty\le M\|f\|_\infty$: $T$ חסומה, לפי משפט 1.8.2 רציפה, ולפי טענה 1.8.4(א) $\|T\|_{\mathrm{op}}\le M$.
       - kind: step
         text: >-
-          **חסם מלרע:** $f\equiv1$ מקיימת $\|f\|_\infty=1$ ו-$(Tf)(x)=\int_0^1k(x,y)\,dy=\kappa(x)$, ולכן
+          **חסם מלרע:** $f\equiv1$ מקיימת $\|f\|_\infty=1$ ו-$(Tf)(x)=\int_0^1k(x,y)\,dy$, כלומר $Tf=\kappa$, ולכן
           $\|Tf\|_\infty=\max|\kappa|=M$ (כי $\kappa\ge0$). לכן $\|T\|_{\mathrm{op}}\ge M$, וביחד $\|T\|_{\mathrm{op}}=M$. הסופרמום
           בהגדרה 1.8.3 מתקבל כאן.
       - kind: computation
@@ -545,17 +563,19 @@ challenge:
           ו-$\|T\|_{\mathrm{op}}=\frac32$.
       - kind: computation
         text: >-
-          (ג) **חסם מלעיל:** אותו חישוב כמו ב-(א), עם $|k|$ במקום $k$: $|(Tf)(x)|\le\|f\|_\infty\int_0^1|x-y|\,dy$.
-          מפצלים ב-$y=x$: $\int_0^x(x-y)\,dy+\int_x^1(y-x)\,dy=\frac{x^2}2+\frac{(1-x)^2}2$. זו פרבולה קמורה ב-$x$,
+          (ג) **חסם מלעיל:** אותו חישוב כמו ב-(א), עם $|k|$ במקום $k$, נותן שלכל $x$ הערך $|(Tf)(x)|$ קטן או שווה
+          ל-$\|f\|_\infty\int_0^1|x-y|\,dy$. מפצלים את האינטגרל ב-$y=x$:
+          $$\begin{aligned}&\int_0^x(x-y)\,dy\\&\quad+\int_x^1(y-x)\,dy\\&=\frac{x^2}2+\frac{(1-x)^2}2 .\end{aligned}$$
+          זו פרבולה קמורה ב-$x$,
           ולכן המקסימום שלה על $[0,1]$ בקצוות: $\frac12$ ב-$x=0$ וב-$x=1$. לכן $\|T\|_{\mathrm{op}}\le\frac12$.
       - kind: step
         text: >-
-          **חסם מלרע:** $f\equiv-1$: $(Tf)(x)=\int_0^1(y-x)\,dy=\frac12-x$, ו-$\|Tf\|_\infty=\max_{[0,1]}|\tfrac12-x|=\frac12$,
+          **חסם מלרע:** $f\equiv-1$: $(Tf)(x)=\int_0^1(y-x)\,dy$, ששווה ל-$\frac12-x$, ו-$\|Tf\|_\infty=\max_{[0,1]}|\tfrac12-x|=\frac12$,
           בנקודה $x=0$. לכן $\|T\|_{\mathrm{op}}=\frac12$.
       - kind: check
         text: >-
           למה פונקציה קבועה הצליחה ב-(ג), אף ש-$k$ מחליף סימן? כי בנקודה שבה $\int|k|$ מקסימלי, $x=0$, הפונקציה
-          $k(0,y)=-y$ אינה מחליפה סימן, ו-$f\equiv-1$ היא בדיוק הסימן שלה. ובמספרים: $\int_0^1|x-y|\,dy=\frac{x^2+(1-x)^2}2$
+          $k(0,y)=-y$ אינה מחליפה סימן, ו-$f\equiv-1$ היא בדיוק הסימן שלה. ובמספרים: $\int_0^1|x-y|\,dy$, כלומר $\frac{x^2+(1-x)^2}2$,
           הוא $\frac12$ בקצוות ו-$\frac14$ ב-$x=\frac12$, ו-$(Tf)(0)=\frac12$ ל-$f\equiv-1$.
       - kind: result
         text: >-
@@ -597,8 +617,11 @@ challenge:
           להתאפס כש-$|\mu|>\|T\|_{\mathrm{op}}$.
       - kind: step
         text: >-
-          (א) **לינאריות:** $T(af+bh)(x)=af(\tfrac x2)+bh(\tfrac x2)=a(Tf)(x)+b(Th)(x)$.
-          **חסם מלעיל:** $\{f(\tfrac x2):\ x\in[0,1]\}=\{f(t):\ t\in[0,\tfrac12]\}\subseteq\{f(t):\ t\in[0,1]\}$, ולכן
+          (א) **לינאריות:**
+          $$\begin{aligned}&T(af+bh)(x)\\&\quad=af(\tfrac x2)+bh(\tfrac x2)\\&\quad=a(Tf)(x)+b(Th)(x).\end{aligned}$$
+          **חסם מלעיל:**
+          $$\begin{aligned}&\{f(\tfrac x2):\ x\in[0,1]\}\\&\quad=\{f(t):\ t\in[0,\tfrac12]\}\\&\quad\subseteq\{f(t):\ t\in[0,1]\},\end{aligned}$$
+          ולכן
           $\|Tf\|_\infty\le\|f\|_\infty$: $T$ חסומה (ולכן רציפה, משפט 1.8.2), ולפי טענה 1.8.4(א) $\|T\|_{\mathrm{op}}\le1$.
       - kind: step
         text: >-
@@ -606,20 +629,25 @@ challenge:
       - kind: step
         text: >-
           (ב) ל-$p\ge0$, $f_p(x)=x^p$ (ו-$f_0\equiv1$) רציפה על $[0,1]$ ואינה אפס,
-          ו-$(Tf_p)(x)=\left(\tfrac x2\right)^p=2^{-p}x^p=2^{-p}f_p(x)$. לכן $2^{-p}$ ערך עצמי. בהינתן $\mu\in(0,1]$,
+          ומתקיים
+          $$\begin{aligned}(Tf_p)(x)&=\left(\tfrac x2\right)^p=2^{-p}x^p\\&=2^{-p}f_p(x).\end{aligned}$$
+          לכן $2^{-p}$ ערך עצמי. בהינתן $\mu\in(0,1]$,
           נבחר $p=\log_2\frac1\mu$; מכיוון ש-$\frac1\mu\ge1$, $p\ge0$, ו-$2^{-p}=\mu$.
       - kind: step
         text: >-
-          (ג) **קיום.** נחפש $f(x)=cx$: $(Tf-\mu f)(x)=\frac{cx}2-\mu cx=c\left(\tfrac12-\mu\right)x$. מכיוון
+          (ג) **קיום.** נחפש $f(x)=cx$:
+          $$\begin{aligned}(Tf-\mu f)(x)&=\frac{cx}2-\mu cx\\&=c\left(\tfrac12-\mu\right)x .\end{aligned}$$
+          מכיוון
           ש-$|\mu|>1$, $\mu\ne\frac12$, ולכן $c=\frac{1}{\frac12-\mu}$ נותן $Tf-\mu f=g$.
       - kind: step
         text: >-
           **יחידות.** אם $f_1,f_2$ שני פתרונות, $h=f_1-f_2$ מקיימת, מהלינאריות, $Th-\mu h=g-g=0$, כלומר $Th=\mu h$.
-          לפי טענה 1.8.4(א), $|\mu|\,\|h\|_\infty=\|\mu h\|_\infty=\|Th\|_\infty\le\|T\|_{\mathrm{op}}\|h\|_\infty=\|h\|_\infty$,
+          לפי טענה 1.8.4(א),
+          $$\begin{aligned}|\mu|\,\|h\|_\infty&=\|\mu h\|_\infty=\|Th\|_\infty\\&\le\|T\|_{\mathrm{op}}\|h\|_\infty=\|h\|_\infty,\end{aligned}$$
           ולכן $(|\mu|-1)\|h\|_\infty\le0$. מכיוון ש-$|\mu|-1>0$, $\|h\|_\infty=0$, כלומר $h=0$ ו-$f_1=f_2$.
       - kind: check
         text: >-
-          $\mu=3$: $f(x)=\frac{x}{\frac12-3}=-0.4x$. ב-$x=0.7$: $f(0.35)-3f(0.7)=-0.14+0.84=0.7=g(0.7)$.
+          $\mu=3$: $f(x)=\frac{x}{\frac12-3}=-0.4x$. ב-$x=0.7$: $f(0.35)=-0.14$ ו-$3f(0.7)=-0.84$, ולכן $(Tf-3f)(0.7)=0.7$, כלומר $g(0.7)$.
           ובניסוח של (ב): היחידות אומרת שאין ערך עצמי $\mu$ עם $|\mu|>1$, כי וקטור עצמי $h\ne0$ היה נותן
           $|\mu|\le\|T\|_{\mathrm{op}}=1$ (כמו בדוגמה 4 של השיעור).
       - kind: result

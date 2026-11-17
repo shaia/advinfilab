@@ -50,8 +50,9 @@
     מעגל שעליו "רוכב" מעגל קטן שמסתובב 5 פעמים מקיף את הראשית 6 פעמים.
   truth: >-
     זוויות מתחברות במכפלה (של מספרים מרוכבים), לא בסכום. בסכום מכריע המחובר הדומיננטי: אם $\|\delta(t)\|<\|\gamma(t)\|$
-    לכל $t$, אז לפי למת הרצועה $\operatorname{Ind}(\gamma+\delta,0)=\operatorname{Ind}(\gamma,0)$. כך
-    $(2\cos t+\frac12\cos5t,\ \sin t+\frac12\sin5t)$ מקיפה את הראשית פעם אחת.
+    לכל $t$, אז לפי למת הרצועה $\operatorname{Ind}(\gamma+\delta,0)=\operatorname{Ind}(\gamma,0)$. כך המסילה
+    $$\left(2\cos t+\tfrac12\cos5t,\ \sin t+\tfrac12\sin5t\right)$$
+    מקיפה את הראשית פעם אחת.
   remedy: { lesson: '8.7', label: 'למת הרצועה' }
 
 - id: MC-c8-fta-every-radius

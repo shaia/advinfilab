@@ -381,8 +381,8 @@ questions:
     objectives: [OBJ-8.7-2, OBJ-8.6-1]
     level: mid
     prompt: >-
-      $\sigma(t)=\left(\cos2t+\frac12\cos9t,\ \sin2t-\frac12\sin9t\right)$, $t\in[0,2\pi]$. חשבו את
-      $\int_\sigma\omega\cdot ds$ לשדה הזווית (מקורב לשלוש ספרות אחרי הנקודה).
+      $$\sigma(t)=\left(\cos2t+\tfrac12\cos9t,\ \sin2t-\tfrac12\sin9t\right),\qquad t\in[0,2\pi].$$
+      חשבו את $\int_\sigma\omega\cdot ds$ לשדה הזווית (מקורב לשלוש ספרות אחרי הנקודה).
     answer: 12.566371
     tolerance: 0.0002
     correctFeedback: >-
@@ -448,7 +448,8 @@ questions:
     objectives: [OBJ-8.8-2, OBJ-8.2-2]
     level: mid
     prompt: >-
-      $\gamma(t)=(1+t,\ t\sin\frac1t)$ ל-$t\in(0,1]$ ו-$\gamma(0)=(1,0)$. המסילה רציפה ואינה ברת-מדידה, ולכן
+      השאלה משתמשת בשיעור ההעשרה 8.8 (האינטגרל לאורך מסילה רציפה). $\gamma(t)=(1+t,\ t\sin\frac1t)$ ל-$t\in(0,1]$
+      ו-$\gamma(0)=(1,0)$. המסילה רציפה ואינה ברת-מדידה, ולכן
       $\int_\gamma\omega\cdot ds$ אינו אינטגרל קווי במובן של שיעור 8.3. חשבו אותו במובן של האינטגרל לאורך מסילה רציפה
       (מקורב לשלוש ספרות אחרי הנקודה).
     answer: 0.398253
