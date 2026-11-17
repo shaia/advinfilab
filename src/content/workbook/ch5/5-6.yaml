@@ -1,0 +1,483 @@
+# Workbook of lesson 5.6 — the mean value theorem in several variables.
+# Objectives (src/course.ts):
+#   OBJ-5.6-1  state and prove the mean value theorem for a real function on a segment in space
+#   OBJ-5.6-2  no mean value equality for vector functions; the mean value inequality with the operator norm
+#   OBJ-5.6-3  Df ≡ 0 on an open connected set ⇒ constant; a bound on Df on a convex set gives a Lipschitz constant
+# Results cited by the numbers of the chapter-5 spine (5.m.k) and of chapters 1–4. Every number recomputed with
+# npx tsx: (√7 − 1)/3, the fixed point of W-08 by iteration and its a priori count, sup‖J‖∞ = 3/4 and 2√2 on grids
+# (probes), 2π − 2 arctan(1/2) for c1.
+lesson: '5.6'
+practice:
+  - id: W-5.6-01
+    level: basic
+    objectives: [OBJ-5.6-1]
+    prompt: >-
+      מצאו את כל ה-$\tau\in(0,1)$ שמקיימים את משפט הערך הממוצע, $f(b)-f(a)=\nabla f(c)\cdot(b-a)$ עם
+      $c=a+\tau(b-a)$.
+
+      (א) $f(x,y)=x^2+y^3$, $a=(0,0)$, $b=(1,1)$.
+
+      (ב) $f(x,y,z)=xy+z^2$, $a=(1,0,0)$, $b=(0,1,1)$.
+    answer: >-
+      (א) $\tau=\frac{\sqrt7-1}3\approx0.5486$ בלבד. (ב) כל $\tau\in(0,1)$.
+    solution:
+      - kind: idea
+        text: >-
+          מצמצמים לקטע: $\varphi(t)=f(a+t(b-a))$, ולפי ההוכחה של משפט 5.6.2 $\varphi'(t)=\nabla f(a+t(b-a))\cdot(b-a)$.
+          לכן מחפשים את ה-$\tau$ עם $\varphi'(\tau)=\varphi(1)-\varphi(0)$.
+      - kind: computation
+        text: >-
+          (א) $\varphi(t)=t^2+t^3$, ו-$\varphi(1)-\varphi(0)=2$. המשוואה $\varphi'(\tau)=2\tau+3\tau^2=2$ היא
+          $3\tau^2+2\tau-2=0$, עם השורשים $\tau=\frac{-1\pm\sqrt7}3$. רק $\frac{\sqrt7-1}3\approx0.5486$ ב-$(0,1)$.
+      - kind: computation
+        text: >-
+          (ב) $a+t(b-a)=(1-t,\ t,\ t)$, ולכן $\varphi(t)=(1-t)t+t^2=t$. $\varphi$ לינארית: $\varphi'\equiv1=\varphi(1)-\varphi(0)$,
+          וכל $\tau$ מתאים.
+      - kind: check
+        text: >-
+          (א) ישירות: $\nabla f=(2x,3y^2)$, ובנקודה $c=(\tau,\tau)$ המכפלה עם $(1,1)$ היא $2\tau+3\tau^2=2=f(1,1)-f(0,0)$.
+          (ב) $\nabla f=(y,x,2z)$, ובנקודה $(1-t,t,t)$ המכפלה עם $b-a=(-1,1,1)$ היא $-t+(1-t)+2t=1$ לכל $t$.
+      - kind: result
+        text: >-
+          (א) $\tau=\frac{\sqrt7-1}3$; (ב) כל $\tau\in(0,1)$.
+
+  - id: W-5.6-02
+    level: basic
+    qualitative: true
+    objectives: [OBJ-5.6-2]
+    prompt: >-
+      $\gamma(t)=(\cos t,\ \sin t,\ t)$, $t\in[0,2\pi]$ (סליל).
+
+      (א) האם יש $c\in(0,2\pi)$ עם $\gamma(2\pi)-\gamma(0)=2\pi\,\gamma'(c)$?
+
+      (ב) בדקו שאי-שוויון הערך הממוצע מתקיים כאן.
+
+      (ג) לאילו $c$ משפט לגרנז' מתקיים לרכיב השלישי לבדו?
+    answer: >-
+      (א) לא. (ב) $2\pi\le2\pi\sqrt2$. (ג) לכל $c\in(0,2\pi)$.
+    solution:
+      - kind: computation
+        text: >-
+          (א) $\gamma(2\pi)-\gamma(0)=(0,0,2\pi)$ ו-$2\pi\gamma'(c)=2\pi(-\sin c,\ \cos c,\ 1)$. שוויון דורש $\sin c=0$ וגם
+          $\cos c=0$, ואין $c$ כזה, כי $\sin^2c+\cos^2c=1$.
+      - kind: theorem
+        text: >-
+          (ב) לפי משפט 5.6.4(א) על $[0,2\pi]$ (תחום במשתנה אחד, $\|D\gamma(c)\|_{\mathrm{op}}=\|\gamma'(c)\|_2$):
+          $\|\gamma(2\pi)-\gamma(0)\|_2\le2\pi\sup\|\gamma'\|_2$.
+      - kind: computation
+        text: >-
+          $\|\gamma'(c)\|_2=\sqrt{\sin^2c+\cos^2c+1}=\sqrt2$ לכל $c$, והאגף השמאלי $\|(0,0,2\pi)\|_2=2\pi$. אכן $2\pi\le2\sqrt2\,\pi$.
+      - kind: step
+        text: >-
+          (ג) הרכיב השלישי הוא $t$, לינארי: $2\pi\cdot1=2\pi-0$ לכל $c$. שני הרכיבים הראשונים הם בדיוק המעגל של טענה
+          5.6.3, ושם הנקודות של שני הרכיבים שונות; לכן אין נקודה משותפת לשלושה.
+      - kind: result
+        text: >-
+          (א) אין $c$ כזה; (ב) $2\pi\le2\pi\sqrt2$; (ג) כל $c$ מתאים לרכיב השלישי, וזה לא מציל את השוויון.
+
+  - id: W-5.6-03
+    level: basic
+    objectives: [OBJ-5.6-3]
+    prompt: >-
+      $f:\mathbb{R}^2\to\mathbb{R}$ דיפרנציאבילית, $\nabla f(x,y)=(2x+y,\ x+2y)$ לכל $(x,y)$, ו-$f(0,0)=1$. מצאו את $f$,
+      וחשבו את $f(1,1)$ ואת $f(1,-2)$.
+    answer: >-
+      $f(x,y)=x^2+xy+y^2+1$; $f(1,1)=4$, $f(1,-2)=4$.
+    solution:
+      - kind: idea
+        text: >-
+          מנחשים $g$ עם אותו גרדיאנט; לפי מסקנה 5.6.10(א) $f-g$ קבועה, כי $\mathbb{R}^2$ פתוחה וקשירה מסילתית (קמורה).
+      - kind: computation
+        text: >-
+          $g(x,y)=x^2+xy+y^2$: $\partial_xg=2x+y$, $\partial_yg=x+2y$. $g$ פולינום, ולכן $C^1$ ודיפרנציאבילית (מסקנה
+          5.4.3), ו-$Dg=Df$ בכל נקודה.
+      - kind: theorem
+        text: >-
+          לפי מסקנה 5.6.10(א) יש $C$ עם $f=g+C$. מ-$f(0,0)=1$: $C=1$.
+      - kind: computation
+        text: >-
+          $f(1,1)=1+1+1+1=4$, ו-$f(1,-2)=1-2+4+1=4$.
+      - kind: check
+        text: >-
+          הנקודות $(1,1)$ ו-$(1,-2)$ על אותו קו גובה $x^2+xy+y^2=3$. ו-$x^2+xy+y^2=(x+\frac y2)^2+\frac34y^2\ge0$, עם שוויון
+          רק בראשית: הראשית היא נקודת המינימום של $f$, עם הערך 1 (ושם אכן $\nabla f(0,0)=(0,0)$).
+      - kind: result
+        text: >-
+          $f(x,y)=x^2+xy+y^2+1$, $f(1,1)=f(1,-2)=4$.
+
+  - id: W-5.6-04
+    level: mid
+    objectives: [OBJ-5.6-2]
+    prompt: >-
+      $P(r,\theta)=(r\cos\theta,\ r\sin\theta)$ על $U=(0,2)\times\mathbb{R}$.
+
+      (א) חשבו את $\|DP(r,\theta)\|_{\mathrm{op}}$.
+
+      (ב) הוכיחו ש-$\|P(p)-P(q)\|_2\le2\|p-q\|_2$ לכל $p,q\in U$.
+
+      (ג) הראו שאין קבוע קטן מ-2 שמתאים ב-(ב).
+    answer: >-
+      (א) $\max(1,r)$. (ב) $U$ קמורה ו-$\max(1,r)<2$. (ג) $\frac{\|P(r,\theta+h)-P(r,\theta)\|_2}{|h|}\to r$, ו-$r$ קרוב ל-2 כרצוננו.
+    solution:
+      - kind: computation
+        text: >-
+          (א) $J_P=\begin{pmatrix}\cos\theta&-r\sin\theta\\ \sin\theta&r\cos\theta\end{pmatrix}$, ו-$J_P^TJ_P=\begin{pmatrix}1&0\\0&r^2\end{pmatrix}$
+          (העמודות ניצבות, באורכים 1 ו-$r$). לפי משפט 1.8.10, $\|DP(r,\theta)\|_{\mathrm{op}}=\max(1,r)$.
+      - kind: step
+        text: >-
+          (ב) $U=(0,2)\times\mathbb{R}$ היא מכפלה של קטע פתוח בישר, ולכן פתוחה וקמורה: אם $r_1,r_2\in(0,2)$, גם כל ממוצע
+          משוקלל שלהם ב-$(0,2)$, והרכיב השני אינו מוגבל.
+          ב-$U$, $\max(1,r)<2$, ולפי מסקנה 5.6.5 $\|P(p)-P(q)\|_2\le2\|p-q\|_2$.
+      - kind: computation
+        text: >-
+          (ג) עם $p=(r,\theta)$ ו-$q=(r,\theta+h)$: $\|p-q\|_2=|h|$, ו-$\|P(q)-P(p)\|_2$ הוא אורך מיתר של מעגל ברדיוס $r$ בזווית
+          $h$, כלומר $2r|\sin\frac h2|$ (אותו חישוב כמו בטענה 5.6.3(א)). המנה $\frac{2r|\sin(h/2)|}{|h|}\to r$ כש-$h\to0$.
+      - kind: step
+        text: >-
+          אילו $L<2$ התאים, היה $r\le L$ לכל $r\in(0,2)$ (מהגבול ב-$h\to0$). אבל $r=\frac{L+2}2\in(L,2)$ סותר זאת.
+      - kind: check
+        text: >-
+          מספרית: $r=1.9$, $h=10^{-3}$ נותנים מנה $\approx1.9$. הסופרמום 2 אינו מתקבל ב-$U$, ובכל זאת הוא הקבוע הטוב ביותר.
+      - kind: result
+        text: >-
+          (א) $\max(1,r)$; (ב) קבוע 2 ממסקנה 5.6.5; (ג) 2 הוא הקבוע הקטן ביותר.
+
+  - id: W-5.6-05
+    level: mid
+    qualitative: true
+    objectives: [OBJ-5.6-1]
+    prompt: >-
+      $f:\mathbb{R}^2\to\mathbb{R}$ דיפרנציאבילית, $a\ne b$ ו-$f(a)=f(b)$. נכון או לא נכון? נמקו.
+
+      (א) יש נקודה פנימית $c$ של הקטע $[a,b]$ עם $\nabla f(c)\perp(b-a)$.
+
+      (ב) יש נקודה $c$ על הקטע $[a,b]$ עם $\nabla f(c)=0$.
+
+      (ג) יש נקודה $c\in\mathbb{R}^2$ עם $\nabla f(c)=0$.
+    answer: >-
+      (א) נכון (משפט 5.6.2). (ב) לא נכון. (ג) לא נכון. דוגמה נגדית לשניהם: $f(x,y)=y$, $a=(0,0)$, $b=(1,0)$.
+    solution:
+      - kind: theorem
+        text: >-
+          (א) לפי משפט 5.6.2 (הקטע ב-$\mathbb{R}^2$) יש $c$ פנימית עם $\nabla f(c)\cdot(b-a)=f(b)-f(a)=0$: הגרדיאנט ניצב
+          לקטע. זה "משפט רול" בכמה משתנים.
+      - kind: step
+        text: >-
+          (ב)–(ג) $f(x,y)=y$, $a=(0,0)$, $b=(1,0)$: $f(a)=f(b)=0$, ו-$\nabla f=(0,1)$ בכל נקודה, כלומר לעולם אינו אפס.
+          ובהתאם ל-(א): $(0,1)\perp(1,0)$.
+      - kind: idea
+        text: >-
+          משפט הערך הממוצע מדבר על **רכיב אחד** של הגרדיאנט: הרכיב בכיוון $b-a$. על הרכיבים האחרים הוא אינו אומר
+          דבר, ולכן המסקנה של רול במשתנה אחד, "הנגזרת מתאפסת", הופכת כאן ל"הגרדיאנט ניצב לקטע".
+      - kind: result
+        text: >-
+          (א) נכון; (ב) ו-(ג) לא נכונים, עם $f(x,y)=y$ על הקטע מ-$(0,0)$ ל-$(1,0)$.
+
+  - id: W-5.6-06
+    level: mid
+    qualitative: true
+    objectives: [OBJ-5.6-3]
+    prompt: >-
+      $U=\{(x,y):\ xy\ne0\}$ (המישור בלי שני הצירים), ו-$f:U\to\mathbb{R}$ דיפרנציאבילית עם $Df=0$ בכל נקודה.
+
+      (א) הוכיחו ש-$f$ מקבלת לכל היותר ארבעה ערכים שונים.
+
+      (ב) תנו דוגמה שבה היא מקבלת בדיוק ארבעה.
+
+      (ג) האם $U$ קשירה מסילתית?
+    answer: >-
+      (א) $f$ קבועה בכל רביע. (ב) $f=\operatorname{sgn}x+2\operatorname{sgn}y$, עם הערכים $3,1,-1,-3$. (ג) לא.
+    solution:
+      - kind: step
+        text: >-
+          (א) $U$ היא האיחוד הזר של ארבעת הרביעים הפתוחים, למשל $Q_1=\{x>0,\ y>0\}$. כל רביע פתוח (חיתוך של שני חצאי
+          מישור פתוחים) וקמור (חיתוך של קבוצות קמורות, טענה 5.6.1א(ב)), ולכן קשיר מסילתית.
+      - kind: theorem
+        text: >-
+          לפי משפט 5.6.8 על כל רביע, הצמצום של $f$ לרביע קבוע. (הצמצום דיפרנציאבילי עם דיפרנציאל 0, כי הרביע פתוח
+          ודיפרנציאביליות בנקודה תלויה רק בכדור סביבה.) ארבעה רביעים: לכל היותר ארבעה ערכים.
+      - kind: computation
+        text: >-
+          (ב) $f=\operatorname{sgn}x+2\operatorname{sgn}y$ קבועה בכל רביע, ולכן (כמו בטענה 5.6.9) דיפרנציאבילית עם $Df=0$. הערכים:
+          $3$ ב-$Q_1$, $1$ ברביע $\{x<0,y>0\}$, $-3$ ברביע $\{x<0,y<0\}$, $-1$ ברביע $\{x>0,y<0\}$. ארבעה ערכים שונים.
+      - kind: step
+        text: >-
+          (ג) לא. מסילה $\gamma$ ב-$U$ מ-$(1,1)$ ל-$(-1,1)$: הרכיב $\gamma_1$ רציף, חיובי ב-0 ושלילי ב-1, ולפי משפט ערך
+          הביניים מתאפס באיזה $t$; אז $\gamma(t)\notin U$. ואילו הייתה קשירה מסילתית, $f$ של (ב) הייתה קבועה.
+      - kind: result
+        text: >-
+          (א) לכל היותר ארבעה ערכים, אחד לכל רביע; (ב) $\operatorname{sgn}x+2\operatorname{sgn}y$; (ג) $U$ אינה קשירה מסילתית.
+
+  - id: W-5.6-07
+    level: mid
+    objectives: [OBJ-5.6-3, OBJ-5.6-1]
+    prompt: >-
+      $f(x,y)=e^x\cos y$.
+
+      (א) הוכיחו ש-$|f(p)-f(q)|\le e\,\|p-q\|_2$ לכל $p,q$ בחצי המישור $H=\{(x,y):\ x<1\}$.
+
+      (ב) הראו שאין קבוע קטן מ-$e$ שמתאים ב-(א).
+
+      (ג) האם $f$ ליפשיצית על כל $\mathbb{R}^2$?
+    answer: >-
+      (א) $\|\nabla f\|_2=e^x<e$ על $H$ הקמור. (ב) על הציר $y=0$ ליד $x=1$ המנה קרובה ל-$e$ כרצוננו. (ג) לא.
+    solution:
+      - kind: computation
+        text: >-
+          (א) $\nabla f=e^x(\cos y,\ -\sin y)$, ולכן $\|\nabla f(x,y)\|_2=e^x$, ועל $H$ זה פחות מ-$e$.
+      - kind: theorem
+        text: >-
+          $H$ פתוחה וקמורה (חצי מישור). לכל $p,q\in H$, לפי משפט 5.6.2 יש $c$ על $[q,p]$ עם $f(p)-f(q)=\nabla f(c)\cdot(p-q)$,
+          ולפי קושי-שוורץ $|f(p)-f(q)|\le e\|p-q\|_2$.
+      - kind: computation
+        text: >-
+          (ב) עם $p=(x+h,0)$ ו-$q=(x,0)$, $x+h<1$: המנה $\frac{e^{x+h}-e^x}{h}\to e^x$ כש-$h\to0^+$ (הנגזרת של $e^x$). אילו
+          $L<e$ התאים, היה $e^x\le L$ לכל $x<1$; אבל $e^x\to e$ כש-$x\to1^-$, ואז $e\le L$: סתירה.
+      - kind: step
+        text: >-
+          (ג) לא: $p=(t+1,0)$, $q=(t,0)$ במרחק 1, ו-$|f(p)-f(q)|=e^t(e-1)\to\infty$ כש-$t\to\infty$. אף קבוע אינו מתאים.
+          הגרדיאנט אינו חסום על $\mathbb{R}^2$.
+      - kind: result
+        text: >-
+          (א) קבוע ליפשיץ $e$ על $H$; (ב) הוא הקטן ביותר; (ג) $f$ אינה ליפשיצית על $\mathbb{R}^2$.
+
+  - id: W-5.6-08
+    level: exam
+    objectives: [OBJ-5.6-2, OBJ-5.6-3]
+    prompt: >-
+      $K=[0,1]\times[0,1]$ ו-$f(x,y)=\big(\tfrac12\sin x+\tfrac14y+\tfrac14,\ \tfrac14xy+\tfrac14\big)$. הנורמה על
+      $\mathbb{R}^2$ היא $\|\cdot\|_\infty$.
+
+      (א) הוכיחו ש-$f(K)\subseteq K$.
+
+      (ב) הוכיחו ש-$\|f(p)-f(q)\|_\infty\le\frac34\|p-q\|_\infty$ לכל $p,q\in K$, ושזה הקבוע שמשפט 5.6.4(ב) נותן.
+
+      (ג) הסיקו שלמערכת $x=\frac12\sin x+\frac14y+\frac14$, $y=\frac14xy+\frac14$ יש פתרון יחיד ב-$K$.
+
+      (ד) מתחילים מ-$p_0=(0,0)$. אחרי כמה צעדים החסם האפריורי של משפט 2.3.4 מבטיח שגיאה (ב-$\|\cdot\|_\infty$) קטנה
+      מ-$10^{-3}$?
+    answer: >-
+      (ב) $\sup_K\|J_f\|_\infty=\frac34$. (ג) משפט בנך על $(K,d_\infty)$ השלם. (ד) 25 צעדים; הפתרון $\approx(0.61032,\ 0.29501)$.
+    solution:
+      - kind: computation
+        text: >-
+          (א) ל-$(x,y)\in K$: $0\le\sin x\le\sin1$, ולכן $\frac14\le f_1\le\frac12\sin1+\frac12\approx0.9207$, ו-$\frac14\le f_2\le\frac12$.
+          שני הרכיבים ב-$[0,1]$.
+      - kind: computation
+        text: >-
+          (ב) $J_f(x,y)=\begin{pmatrix}\frac12\cos x&\frac14\\ \frac14y&\frac14x\end{pmatrix}$. סכומי השורות (משפט 1.8.9):
+          $\frac12|\cos x|+\frac14\le\frac34$, עם שוויון ב-$x=0$, ו-$\frac14(|y|+|x|)\le\frac12$. לכן $\sup_K\|J_f\|_\infty=\frac34$.
+      - kind: theorem
+        text: >-
+          $K$ קמורה (מכפלה של קטעים), ו-$f$ מוגדרת וגזירה ברציפות על $\mathbb{R}^2$ הפתוח. לכל $p,q\in K$ הקטע $[p,q]\subseteq K$,
+          ולפי משפט 5.6.4(ב) $\|f(p)-f(q)\|_\infty\le\frac34\|p-q\|_\infty$.
+      - kind: theorem
+        text: >-
+          (ג) $(\mathbb{R}^2,d_\infty)$ שלם (משפט 2.1.11), ו-$K$ סגורה בו (מכפלה של קטעים סגורים) ולא ריקה, ולכן $(K,d_\infty)$
+          שלם (משפט 2.2.1(א)). לפי (א)–(ב), $f:K\to K$ מכווצת עם מקדם $\frac34$, ולפי משפט 2.3.4 יש לה נקודת שבת יחידה
+          ב-$K$: זה הפתרון היחיד של המערכת ב-$K$.
+      - kind: computation
+        text: >-
+          (ד) $p_1=f(0,0)=(\frac14,\frac14)$, ו-$d_\infty(p_0,p_1)=\frac14$. החסם האפריורי $\frac{(3/4)^k}{1-3/4}\cdot\frac14=(\tfrac34)^k$.
+          $(\frac34)^{24}\approx1.003\cdot10^{-3}$ ו-$(\frac34)^{25}\approx7.53\cdot10^{-4}$: 25 צעדים.
+      - kind: check
+        text: >-
+          האיטרציות מתכנסות ל-$(0.610317,\ 0.295013)$, שמקיים את שתי המשוואות בכל הספרות המוצגות. בפועל השגיאה קטנה
+          מ-$10^{-3}$ כבר אחרי 9 צעדים. בנורמה האוקלידית צריך לחשב את $\|J_f\|_2$, ושם הקבוע אחר.
+      - kind: result
+        text: >-
+          $f$ מכווצת על $K$ עם מקדם $\frac34$ ב-$\|\cdot\|_\infty$; פתרון יחיד ב-$K$, $\approx(0.6103,\ 0.2950)$; החסם האפריורי
+          מבטיח דיוק $10^{-3}$ אחרי 25 צעדים.
+
+  - id: W-5.6-09
+    level: exam
+    qualitative: true
+    objectives: [OBJ-5.6-1, OBJ-5.6-3]
+    prompt: >-
+      $f:B(0,1)\to\mathbb{R}$ דיפרנציאבילית על כדור היחידה הפתוח של $\mathbb{R}^2$, ו-$\|\nabla f(x)\|_2\le\|x\|_2$ לכל $x$.
+
+      (א) הוכיחו ש-$|f(x)-f(0)|\le\frac12\|x\|_2^2$ לכל $x\in B(0,1)$.
+
+      (ב) נכון או לא נכון: $|f(x)-f(y)|\le\|x-y\|_2$ לכל $x,y\in B(0,1)$.
+
+      (ג) הראו שהקבוע $\frac12$ ב-(א) אינו ניתן לשיפור.
+    answer: >-
+      (א) $\varphi(t)=f(tx)$ מקיימת $|\varphi'(t)|\le t\|x\|_2^2$; משווים ל-$\pm\frac12t^2\|x\|_2^2$. (ב) נכון. (ג)
+      $f=\frac12(x^2+y^2)$.
+    solution:
+      - kind: idea
+        text: >-
+          משפט הערך הממוצע עם הסופרמום לאורך הקטע $[0,x]$ נותן רק $\|x\|_2^2$: הוא משתמש בגרוע ביותר, $\|\nabla f\|\le\|x\|$,
+          לכל אורך הקטע. כדי לקבל $\frac12$ צריך לנצל שהחסם קטן ליד 0: משווים את $\varphi$ לפונקציה $\frac12t^2\|x\|^2$, שהנגזרת
+          שלה היא בדיוק החסם.
+      - kind: step
+        text: >-
+          (א) נקבע $x\ne0$ בכדור. הכדור קמור, ו-$\varphi(t)=f(tx)$ מוגדרת על $[0,1]$, רציפה שם וגזירה ב-$(0,1)$ עם
+          $\varphi'(t)=\nabla f(tx)\cdot x$ (כמו בהוכחת משפט 5.6.2). לפי קושי-שוורץ $|\varphi'(t)|\le\|tx\|_2\|x\|_2=t\|x\|_2^2$.
+      - kind: step
+        text: >-
+          נגדיר $g(t)=\varphi(t)-\varphi(0)-\frac12t^2\|x\|_2^2$. אז $g'(t)=\varphi'(t)-t\|x\|_2^2\le0$, ולפי לגרנז' יש $\xi\in(0,1)$
+          עם $g(1)-g(0)=g'(\xi)\le0$. כלומר $f(x)-f(0)\le\frac12\|x\|_2^2$.
+      - kind: step
+        text: >-
+          באותו אופן עם $h(t)=\varphi(t)-\varphi(0)+\frac12t^2\|x\|_2^2$, ש-$h'\ge0$: $f(x)-f(0)\ge-\frac12\|x\|_2^2$. (ל-$x=0$ אין מה
+          להוכיח.)
+      - kind: step
+        text: >-
+          (ב) נכון: בכדור $\|\nabla f(x)\|_2\le\|x\|_2<1$, הכדור קמור, ולפי מסקנה 5.6.5 עם $M=1$: $|f(x)-f(y)|\le\|x-y\|_2$.
+      - kind: computation
+        text: >-
+          (ג) $f(x,y)=\frac12(x^2+y^2)$: $\nabla f=(x,y)$, כלומר $\|\nabla f(x)\|_2=\|x\|_2$, ו-$f(x)-f(0)=\frac12\|x\|_2^2$ בדיוק.
+      - kind: result
+        text: >-
+          (א) $|f(x)-f(0)|\le\frac12\|x\|_2^2$; (ב) נכון, עם קבוע ליפשיץ 1; (ג) $\frac12(x^2+y^2)$ משיגה שוויון.
+
+  - id: W-5.6-10
+    level: exam
+    objectives: [OBJ-5.6-2]
+    prompt: >-
+      ל-$A$ מטריצה $m\times n$ נסמן $\|A\|_{1\to2}=\sup\{\|Ah\|_2:\ \|h\|_1\le1\}$, נורמת האופרטור מ-$(\mathbb{R}^n,\|\cdot\|_1)$
+      ל-$(\mathbb{R}^m,\|\cdot\|_2)$.
+
+      (א) הוכיחו ש-$\|A\|_{1\to2}$ הוא האורך האוקלידי הגדול ביותר של עמודה של $A$.
+
+      (ב) תהי $f:U\to\mathbb{R}^m$ דיפרנציאבילית ו-$[a,b]\subseteq U$. הוכיחו:
+      $\|f(b)-f(a)\|_2\le\sup_{c\in[a,b]}\|J_f(c)\|_{1\to2}\,\|b-a\|_1$.
+
+      (ג) ל-$f(x,y)=(x^2-y^2,\ 2xy)$ על $K=[0,1]^2$, מצאו את הקבוע הקטן ביותר ש-(ב) נותן לחסם
+      $\|f(p)-f(q)\|_2\le L\|p-q\|_1$, $p,q\in K$.
+    answer: >-
+      (א) $\max_j\|A e_j\|_2$. (ב) ההוכחה של משפט 5.6.4(א), עם $\|A\|_{1\to2}$ בצעד האחרון. (ג) $L=2\sqrt2$.
+    solution:
+      - kind: step
+        text: >-
+          (א) נסמן $\mu=\max_j\|Ae_j\|_2$. לכל $h$, $Ah=\sum_jh_jAe_j$, ולפי אי-שוויון המשולש
+          $\|Ah\|_2\le\sum_j|h_j|\,\|Ae_j\|_2\le\mu\|h\|_1$. ולהפך, $\|e_j\|_1=1$ ו-$\|Ae_j\|_2$ מגיע ל-$\mu$ באינדקס המקסימלי.
+          לכן $\|A\|_{1\to2}=\mu$.
+      - kind: idea
+        text: >-
+          (ב) ההוכחה של משפט 5.6.4(א) משתמשת בנורמה של התחום רק בצעד האחרון, $\|Df(c)(b-a)\|_2\le\|Df(c)\|\,\|b-a\|$. הטלה
+          על $u=f(b)-f(a)$ נשארת אוקלידית בטווח, ובתחום מחליפים את נורמת האופרטור.
+      - kind: step
+        text: >-
+          עם $u=f(b)-f(a)\ne0$ ו-$g=u\cdot f$, משפט 5.6.2 נותן $c$ על הקטע עם
+          $$\begin{aligned}\|u\|_2^2&=u\cdot J_f(c)(b-a)\le\|u\|_2\,\|J_f(c)(b-a)\|_2\\&\le\|u\|_2\,\|J_f(c)\|_{1\to2}\|b-a\|_1.\end{aligned}$$
+          מחלקים ב-$\|u\|_2$ ולוקחים סופרמום.
+      - kind: computation
+        text: >-
+          (ג) $J_f=\begin{pmatrix}2x&-2y\\ 2y&2x\end{pmatrix}$: שתי העמודות באורך $2\sqrt{x^2+y^2}$, ולכן
+          $\|J_f(x,y)\|_{1\to2}=2\sqrt{x^2+y^2}$, שהגדול ביותר על $K$ הוא $2\sqrt2$, ב-$(1,1)$. $K$ קמורה, ו-(ב) נותן $L=2\sqrt2\approx2.828$.
+      - kind: check
+        text: >-
+          החסם חד: $f(1+h,1)-f(1,1)=(2h+h^2,\ 2h)$, שאורכו $\approx2\sqrt2|h|$ כש-$h\to0$ (עם $h<0$, כדי להישאר ב-$K$).
+      - kind: result
+        text: >-
+          (א) העמודה הארוכה ביותר; (ב) כמו משפט 5.6.4(א); (ג) $L=2\sqrt2$.
+
+challenge:
+  - id: W-5.6-c1
+    stars: 1
+    objectives: [OBJ-5.6-2, OBJ-5.6-3]
+    prompt: >-
+      תהי $U\subseteq\mathbb{R}^n$ פתוחה (לא בהכרח קמורה), $f:U\to\mathbb{R}^m$ דיפרנציאבילית עם $\|Df(x)\|_{\mathrm{op}}\le M$
+      לכל $x\in U$, ו-$K\subseteq U$ קומפקטית.
+
+      (א) הוכיחו שיש $M'\ge M$ כך ש-$\|f(p)-f(q)\|_2\le M'\|p-q\|_2$ לכל $p,q\in K$.
+
+      (ב) הראו שאי-אפשר תמיד לבחור $M'=M$.
+    answer: >-
+      (א) בשלילה: זוגות $p_k,q_k$ עם מנה גדולה מ-$k$ מתקרבים זה לזה, תת-סדרה מתכנסת לנקודה של $K$, ובכדור סביבה
+      (קמור) המנה לכל היותר $M$. (ב) הזווית של טענה 5.6.6 עם $K=\{(-2,1),(-2,-1)\}$ ו-$M=1$.
+    solution:
+      - kind: idea
+        text: >-
+          מקומית יש קמירות: כל נקודה של $K$ יושבת בכדור בתוך $U$, ושם החסם $M$ עובד. זוג נקודות רחוקות זו מזו מטופל
+          בחסימות של $f$ על $K$. הקומפקטיות מחברת את שני המקרים.
+      - kind: step
+        text: >-
+          (א) **1.** $f$ רציפה על $K$ (משפט 5.3.6), ולכן $\|f\|_2$ מקבלת על $K$ מקסימום $B$ (מסקנה 3.4.3). נניח בשלילה שאין
+          $M'$ כזה. אז לכל $k\in\mathbb{N}$ יש $p_k,q_k\in K$ עם $\|f(p_k)-f(q_k)\|_2>k\|p_k-q_k\|_2$; בפרט $p_k\ne q_k$.
+      - kind: step
+        text: >-
+          **2.** $k\|p_k-q_k\|_2<\|f(p_k)-f(q_k)\|_2\le2B$, ולכן $\|p_k-q_k\|_2<\frac{2B}k\to0$.
+      - kind: step
+        text: >-
+          **3.** $K$ קומפקטית, ולכן קומפקטית סדרתית (משפט 3.2.10): יש תת-סדרה $p_{k_j}\to p\in K$, ולפי שלב 2 גם $q_{k_j}\to p$.
+      - kind: step
+        text: >-
+          **4.** $p\in U$ פתוחה: יש $r>0$ עם $B(p,r)\subseteq U$. לכל $j$ גדול מספיק $p_{k_j},q_{k_j}\in B(p,r)$, הכדור קמור
+          (טענה 5.6.1א), ולפי משפט 5.6.4(א) $\|f(p_{k_j})-f(q_{k_j})\|_2\le M\|p_{k_j}-q_{k_j}\|_2$. עם שלב 1 זה נותן $k_j<M$,
+          וזה נכשל כש-$k_j\to\infty$. סתירה; ואם $M'_0$ מתאים, גם $M'=\max(M'_0,M)$ מתאים.
+      - kind: computation
+        text: >-
+          (ב) $U$ ו-$\theta$ של טענה 5.6.6: $\|D\theta\|_{\mathrm{op}}=\frac1r<1$, כלומר $M=1$ מתאים. עם $K=\{(-2,1),(-2,-1)\}$
+          (קבוצה סופית, קומפקטית, ב-$U$): $|\theta(-2,1)-\theta(-2,-1)|=2\pi-2\arctan\frac12\approx5.356$, והמרחק 2. כל $M'$
+          מתאים מקיים $M'\ge2.678>1=M$.
+      - kind: check
+        text: >-
+          איפה נכנסה כל הנחה: הקומפקטיות בשלבים 1 ו-3, הפתיחות בשלב 4, והחסם על $Df$ בשלב 4 בלבד. בלי קומפקטיות זה נכשל
+          כבר ב-(ב) עם $K$ אינסופית: הזוגות $(-2,\pm\varepsilon)$ של טענה 5.6.6.
+      - kind: result
+        text: >-
+          (א) יש $M'\ge M$ שמתאים לכל זוג נקודות של $K$; (ב) $M'=M$ אינו מתאים תמיד.
+    source:
+      name: 'Jiří Lebl, Basic Analysis II: Introduction to Real Analysis, Volume II (version 6.3), Section 8.4; part (ב) added here'
+      year: 2026
+      problem: 'Exercise 8.4.10'
+      url: 'https://jirka.org/ra/html/sec_svthedercont.html'
+      verified: '2026-11-17'
+      adapted: true
+
+  - id: W-5.6-c2
+    stars: 1
+    objectives: [OBJ-5.6-3]
+    prompt: >-
+      $A=\mathbb{R}^2\setminus\{(x,0):\ x\ge0\}$, המישור בלי הקרן החיובית של ציר $x$ (כולל הראשית).
+
+      (א) תהי $f:A\to\mathbb{R}$ שיש לה $\partial_xf=\partial_yf=0$ בכל נקודה של $A$ (לא נתון ש-$f$ דיפרנציאבילית, ואפילו לא
+      שהיא רציפה). הוכיחו ש-$f$ קבועה.
+
+      (ב) מצאו $f\in C^1(A)$ עם $\partial_yf=0$ בכל $A$, שאינה בלתי תלויה ב-$y$: יש $x,y_1,y_2$ עם $f(x,y_1)\ne f(x,y_2)$.
+    answer: >-
+      (א) כל נקודה מחוברת ל-$(-1,0)$ בקו שבור של קטעים מקבילים לצירים בתוך $A$, ועל כל קטע $f$ קבועה (לגרנז' במשתנה
+      אחד). (ב) $f=x^2$ ב-$\{x>0,y>0\}$, $f=-x^2$ ב-$\{x>0,y<0\}$, ו-$f=0$ ב-$\{x\le0\}$.
+    solution:
+      - kind: idea
+        text: >-
+          נגזרת חלקית רואה רק ישרים מקבילים לצירים. לכן המסילות הנכונות כאן הן קווים שבורים מקבילים לצירים, ועל כל
+          קטע כזה $f$ היא פונקציה של משתנה אחד עם נגזרת אפס. ב-(ב) הקרן שהוצאה מנתקת כל ישר אנכי $x=x_0>0$ לשני חלקים.
+      - kind: step
+        text: >-
+          (א) **1.** על קטע אופקי מ-$(x_1,y)$ ל-$(x_2,y)$ שמוכל ב-$A$, הפונקציה $s\mapsto f(s,y)$ גזירה עם נגזרת
+          $\partial_xf=0$, ולכן קבועה (לגרנז', כמו בלמה 5.2.8). כך גם על קטע אנכי בתוך $A$, עם $\partial_yf$.
+      - kind: step
+        text: >-
+          **2.** תהי $(x,y)\in A$. אם $y\ne0$: הקטע האופקי מ-$(x,y)$ ל-$(-1,y)$ ב-$A$ (כל נקודותיו עם אותו $y\ne0$), והקטע
+          האנכי מ-$(-1,y)$ ל-$(-1,0)$ ב-$A$ (כל נקודותיו עם $x=-1<0$). אם $y=0$, אז $x<0$, והקטע מ-$(x,0)$ ל-$(-1,0)$
+          כולו עם שיעור $x$ שלילי. בכל מקרה, לפי שלב 1, $f(x,y)=f(-1,0)$.
+      - kind: computation
+        text: >-
+          (ב) **3.** נגדיר $f=x^2$ על $\{x>0,y>0\}$, $f=-x^2$ על $\{x>0,y<0\}$, ו-$f=0$ על $\{x\le0\}\cap A$. בכל נקודה של $A$
+          עם $x>0$ (ולכן $y\ne0$) יש סביבה שבה $y$ שומר על סימנו, ושם $f=\pm x^2$: $\partial_yf=0$, $\partial_xf=\pm2x$. בנקודה עם
+          $x<0$, $f=0$ בסביבה.
+      - kind: computation
+        text: >-
+          **4.** בנקודה $(0,y_0)$, $y_0\ne0$: $f(0,y)=0$ ליד $y_0$, ולכן $\partial_yf=0$; ו-$\frac{f(h,y_0)-f(0,y_0)}{h}$ הוא $\pm h$ או
+          $0$, ושואף ל-0. לכן $\partial_xf(0,y_0)=0$, ו-$\partial_xf$, שערכו $\pm2x$ או 0, רציף: $|\partial_xf(x,y)|\le2|x|$. $f\in C^1(A)$.
+      - kind: computation
+        text: >-
+          **5.** $f(1,1)=1$ ו-$f(1,-1)=-1$: $f$ תלויה ב-$y$. השוו למסקנה 5.6.10(ב), עם $y$ במקום $x$: הישר האנכי $x=1$ אינו מוכל ב-$A$.
+      - kind: check
+        text: >-
+          (א) חזק ממשפט 5.6.8 בכיוון אחד (לא נדרשת דיפרנציאביליות) וחלש בכיוון אחר (נדרש מבנה מיוחד של $A$: מסילות
+          מקבילות לצירים). ב-(ב) $A$ פתוחה וקשירה מסילתית, ו-$f\in C^1$: ההנחה של מסקנה 5.6.10(ב) על הקטעים היא שנכשלת.
+      - kind: result
+        text: >-
+          (א) $f$ קבועה על $A$; (ב) $f=\pm x^2$ לפי סימן $y$ כש-$x>0$, ו-0 כש-$x\le0$.
+    source:
+      name: 'Michael Spivak, Calculus on Manifolds (Benjamin, 1965); the statement as quoted in Max Chien, Spivak Notes and Solutions (2024), p. 112'
+      year: 1965
+      problem: 'Problem 2-23'
+      url: 'https://maxlchien.github.io/downloads/Spivak%20Notes%20and%20Solutions.pdf'
+      verified: '2026-11-17'
+      adapted: true

@@ -31,3 +31,12 @@
     $f(a+h,b+k)-f(a+h,b)-f(a,b+k)+f(a,b)$ בשתי הדרכים.
   reject: [שווארץ]
   lesson: '5.7'
+- id: second-difference
+  term: הפרש שני
+  en: second difference
+  symbol: '\Delta(h,k)=f(a+h,b+k)-f(a+h,b)-f(a,b+k)+f(a,b)'
+  definition: >-
+    הסכום עם סימנים מתחלפים של ערכי $f$ בארבעת הקדקודים של המלבן שקדקודיו $(a,b)$ ו-$(a+h,b+k)$. הוא הפרש ב-$x$ של
+    הפרשים ב-$y$, וגם הפרש ב-$y$ של הפרשים ב-$x$. שני הגבולות הנשנים של $\frac{\Delta(h,k)}{hk}$ הם שתי הנגזרות
+    המעורבות ב-$(a,b)$, וזה הכלי של ההוכחה של משפט שוורץ.
+  lesson: '5.7'

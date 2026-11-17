@@ -1,0 +1,7 @@
+---
+/** Lesson 5.3 figure: <Spread figure={TangentPlane} figureProps={{ preset, presets, rho, eps, theta, tasks }}>. */
+import TangentPlane, { type TangentPlaneProps } from './TangentPlane';
+type Props = TangentPlaneProps;
+---
+
+<TangentPlane client:visible {...Astro.props} />

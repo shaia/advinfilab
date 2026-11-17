@@ -254,7 +254,7 @@ questions:
         misconception: MC-c5-partials-imply-differentiable
       - text: '$\frac{\partial f}{\partial x}=\frac{\sqrt{|y|}\operatorname{sgn}x}{2\sqrt{|x|}}$ אינה מוגדרת ב-$x=0$, ולכן הנגזרת החלקית בראשית אינה קיימת'
         feedback: >-
-          הנוסחה נכונה רק כש-$x\ne0$ ו-$y\ne0$. בנקודה עצמה מחשבים מההגדרה: $\frac{f(t,0)-f(0,0)}{t}=0$, ולכן
+          הנוסחה נכונה רק כש-$x\ne0$, שם היא נובעת מכללי הגזירה. על ציר ה-$y$, ובפרט בראשית, מחשבים מההגדרה: $\frac{f(t,0)-f(0,0)}{t}=0$, ולכן
           $\frac{\partial f}{\partial x}(0,0)=0$ קיימת.
         misconception: MC-c5-formula-at-point
 

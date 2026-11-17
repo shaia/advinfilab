@@ -14,14 +14,6 @@
     הדטרמיננטה של מטריצת יעקובי של $g$. הערך המוחלט שלה בנקודה $x$ הוא הפקטור שבו $g$ מכפילה נפחים של תיבות קטנות
     ליד $x$; להעתקה לינארית $T$: $v(T(Q))=|\det T|\,v(Q)$.
   lesson: '9.6'
-- id: polar-coordinates
-  term: קואורדינטות קוטביות
-  en: polar coordinates
-  symbol: 'x=r\cos\theta,\ y=r\sin\theta'
-  definition: >-
-    $(r,\theta)\mapsto(r\cos\theta,r\sin\theta)$ עם $r\ge0$, $\theta\in[0,2\pi]$. היעקוביאן $r$, ולכן $dx\,dy$ הופך
-    ל-$r\,dr\,d\theta$.
-  lesson: '9.6'
 - id: cylindrical-coordinates
   term: קואורדינטות גליליות
   en: cylindrical coordinates

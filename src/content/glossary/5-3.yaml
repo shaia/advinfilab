@@ -24,3 +24,19 @@
     המטריצה $m\times n$ של $Df(a)$ בבסיסים הסטנדרטיים: בשורה $i$ ובעמודה $j$ הנגזרת החלקית
     $\frac{\partial f_i}{\partial x_j}(a)$. שורה $i$ היא הגרדיאנט של הרכיב $f_i$, ו-$Df(a)h=J_f(a)h$.
   lesson: '5.3'
+- id: remainder
+  term: שארית
+  en: remainder (of a linear approximation)
+  symbol: 'r(h)=f(a+h)-f(a)-Th'
+  definition: >-
+    ההפרש בין הערך $f(a+h)$ לבין הקירוב $f(a)+Th$ שנותנת העתקה לינארית $T$. בהגדרת הדיפרנציאביליות דורשים שהשארית
+    תהיה קטנה ביחס לגודל הצעד: $\frac{\|r(h)\|}{\|h\|}\to0$ כש-$h\to0$.
+  lesson: '5.3'
+- id: little-o
+  term: o קטן
+  en: little-o
+  symbol: 'r(h)=o(\|h\|)'
+  definition: >-
+    הכתיב $r(h)=o(\|h\|)$ פירושו $\frac{\|r(h)\|}{\|h\|}\to0$ כש-$h\to0$: השארית שואפת ל-0 מהר יותר מגודל הצעד. זו
+    טענה על ההתנהגות של $r$ ליד 0, ולא מספר.
+  lesson: '5.3'

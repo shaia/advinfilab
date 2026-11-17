@@ -1,0 +1,26 @@
+- id: v-5-5-bazett
+  youtubeId: 9yCtWfI_Vjg
+  title: 'The Multi-Variable Chain Rule: Derivatives of Compositions'
+  channel: Dr. Trefor Bazett
+  lang: en
+  captions: []
+  start: 0
+  minutes: 11
+  why: >-
+    לפי התיאור: הנגזרת של $f(x(t),y(t))$ לפי $t$ בכלל השרשרת, עם דיאגרמות חצים של התלויות בין המשתנים, ובדוגמה שבה
+    שינוי קטן ב-$t$ משנה מעט את $x$ ואת $y$, וזה משנה מעט את $f$. צפו בו אחרי מסקנה 5.5.3: שם הנוסחה
+    $\frac{d}{dt}f(\gamma(t))=\nabla f(\gamma(t))\cdot\gamma'(t)$ היא מקרה פרטי של המכפלה $J_g(f(a))\,J_f(a)$.
+    הסרטון מסביר ומדגים; את ההוכחה, ואת המקום שבו נחוצה הדיפרנציאביליות, תמצאו במשפט 5.5.1.
+  verified: '2026-11-17'
+- id: v-5-5-khan
+  youtubeId: hFvBZf-Jx28
+  title: Multivariable chain rule intuition
+  channel: Khan Academy
+  lang: en
+  captions: []
+  start: 0
+  minutes: 8
+  why: >-
+    לפי התיאור: מה כלל השרשרת אומר, דרך "דחיפות" קטנות במרחב. זו הקריאה הלא-פורמלית של שלב 3
+    בהוכחה של משפט 5.5.1: תזוזה $h$ בקלט יוצרת תזוזה $k\approx Df(a)h$, והיא יוצרת תזוזה $\approx Dg(b)k$ בפלט.
+  verified: '2026-11-17'

@@ -1,0 +1,536 @@
+# Workbook of lesson 5.7 — higher-order derivatives and Schwarz's theorem.
+# Objectives (src/course.ts):
+#   OBJ-5.7-1  define higher-order partial derivatives and the classes C^k
+#   OBJ-5.7-2  state and prove Schwarz's theorem on the equality of mixed partials
+#   OBJ-5.7-3  an example where the mixed partials differ, and the hypothesis that fails
+# Results cited by the numbers of the chapter-5 spine (5.N.m). Every number recomputed with npx tsx (second partials by
+# central differences; the mixed partials of x²y²/(x²+y²) and of the arctan example; Euler's identity at (1.3, −0.7)).
+lesson: '5.7'
+practice:
+  - id: W-5.7-01
+    level: basic
+    objectives: [OBJ-5.7-1]
+    prompt: >-
+      תהי $f(x,y)=x^2\cos y+y\,e^x$. חשבו את ארבע הנגזרות החלקיות מסדר שני, ואת ערכיהן בנקודה $(1,0)$.
+    answer: >-
+      $\frac{\partial^2f}{\partial x^2}=2\cos y+y\,e^x$, $\frac{\partial^2f}{\partial y\,\partial x}=\frac{\partial^2f}{\partial x\,\partial y}=-2x\sin y+e^x$,
+      $\frac{\partial^2f}{\partial y^2}=-x^2\cos y$; ב-$(1,0)$: $2$, $e$, $e$, $-1$.
+    solution:
+      - kind: idea
+        text: >-
+          גוזרים לפי משתנה אחד כשהשני קבוע. $\frac{\partial^2f}{\partial y\,\partial x}$ גוזרת קודם לפי $x$ ואחר כך לפי $y$.
+      - kind: computation
+        text: >-
+          הנגזרות הראשונות: $\partial_xf=2x\cos y+y\,e^x$ ו-$\partial_yf=-x^2\sin y+e^x$.
+      - kind: computation
+        text: >-
+          גוזרים את $\partial_xf$: לפי $x$, $\frac{\partial^2f}{\partial x^2}=2\cos y+y\,e^x$; לפי $y$,
+          $\frac{\partial^2f}{\partial y\,\partial x}=-2x\sin y+e^x$.
+      - kind: computation
+        text: >-
+          גוזרים את $\partial_yf$: לפי $x$, $\frac{\partial^2f}{\partial x\,\partial y}=-2x\sin y+e^x$; לפי $y$,
+          $\frac{\partial^2f}{\partial y^2}=-x^2\cos y$.
+      - kind: computation
+        text: >-
+          ב-$(1,0)$: $\cos0=1$, $\sin0=0$, $e^1=e$. הערכים: $2+0=2$, $0+e=e$ (שתי המעורבות), $-1$.
+      - kind: check
+        text: >-
+          הנגזרות המעורבות יצאו שוות, כמו שמשפט שוורץ מבטיח ל-$f\in C^\infty(\mathbb{R}^2)$. מנות הפרשים מספריות עם צעד
+          $10^{-4}$ (בדיקה, לא הוכחה) נותנות $2.0000$, $2.7183$ ו-$-1.0000$.
+      - kind: result
+        text: >-
+          $2$, $e$, $e$, $-1$.
+
+  - id: W-5.7-02
+    level: basic
+    qualitative: true
+    objectives: [OBJ-5.7-1]
+    prompt: >-
+      לכל פונקציה $F:\mathbb{R}\to\mathbb{R}$ מצאו את ה-$k$ הגדול ביותר שעבורו $F\in C^k(\mathbb{R})$ (כאשר $C^0$ הן הפונקציות
+      הרציפות), ונמקו.
+
+      (א) $F(x)=|x|^3$.
+
+      (ב) $F(x)=x^3\sin\frac1x$ ל-$x\ne0$, ו-$F(0)=0$.
+
+      (ג) $F(x)=e^{-|x|}$.
+    answer: >-
+      (א) $k=2$. (ב) $k=1$. (ג) $k=0$.
+    solution:
+      - kind: idea
+        text: >-
+          מחוץ ל-0 כל הפונקציות $C^\infty$; בנקודה 0 גוזרים מההגדרה, שלב אחר שלב, עד שהנגזרת אינה קיימת או אינה רציפה.
+      - kind: step
+        text: >-
+          (א) מחוץ ל-0, $F'(x)=3x|x|$; ב-0, $\frac{|t|^3}t\to0$. לכן $F'=3x|x|$ בכל $\mathbb{R}$, ולפי טענה 5.7.3(ג) $x|x|\in C^1\setminus C^2$.
+          לכן $F''=6|x|$ קיימת ורציפה, ו-$F'''(0)$ אינה קיימת ($\frac{6|t|}t=\pm6$): $F\in C^2\setminus C^3$.
+      - kind: step
+        text: >-
+          (ב) מחוץ ל-0, $F'(x)=3x^2\sin\frac1x-x\cos\frac1x$; ב-0, $\frac{F(t)}t=t^2\sin\frac1t\to0$. $|F'(x)|\le3x^2+|x|\to0$, ולכן
+          $F'$ רציפה: $F\in C^1$.
+      - kind: step
+        text: >-
+          המנה $\frac{F'(t)-F'(0)}t=3t\sin\frac1t-\cos\frac1t$: האיבר הראשון שואף ל-0, ו-$\cos\frac1t$ אין גבול ב-0 (ב-$t=\frac1{2\pi j}$
+          הוא 1, ב-$t=\frac1{(2j+1)\pi}$ הוא $-1$). לכן $F''(0)$ אינה קיימת ו-$F\notin C^2$.
+      - kind: step
+        text: >-
+          (ג) $F$ רציפה (הרכבה של רציפות). ב-0: $\frac{e^{-|t|}-1}t$ שואפת ל-$-1$ מימין ול-$1$ משמאל, ולכן $F'(0)$ אינה קיימת
+          ו-$F\notin C^1$.
+      - kind: result
+        text: >-
+          (א) $k=2$; (ב) $k=1$; (ג) $k=0$.
+
+  - id: W-5.7-03
+    level: basic
+    objectives: [OBJ-5.7-2]
+    prompt: >-
+      תהי $f(x,y)=x^y=e^{y\ln x}$ על הקבוצה הפתוחה $U=\{(x,y):x>0\}$. חשבו את שתי הנגזרות המעורבות, ובדקו שהן שוות
+      בנקודה $(e,1)$. למה זה לא מקרי?
+    answer: >-
+      שתיהן $x^{y-1}(1+y\ln x)$; ב-$(e,1)$ שתיהן $2$. $f\in C^\infty(U)$, ולכן לפי משפט שוורץ הן שוות בכל $U$.
+    solution:
+      - kind: computation
+        text: >-
+          $\partial_xf=y\,x^{y-1}$ (חזקה עם $y$ קבוע). גזירה לפי $y$, עם $x^{y-1}=e^{(y-1)\ln x}$:
+          $\frac{\partial^2f}{\partial y\,\partial x}=x^{y-1}+y\,x^{y-1}\ln x=x^{y-1}(1+y\ln x)$.
+      - kind: computation
+        text: >-
+          $\partial_yf=x^y\ln x$ (אקספוננט עם $x$ קבוע). גזירה לפי $x$, בכלל המכפלה:
+          $\frac{\partial^2f}{\partial x\,\partial y}=y\,x^{y-1}\ln x+x^y\cdot\frac1x=x^{y-1}(1+y\ln x)$.
+      - kind: computation
+        text: >-
+          ב-$(e,1)$: $x^{y-1}=e^0=1$ ו-$\ln e=1$, ולכן שתיהן $1\cdot(1+1)=2$.
+      - kind: theorem
+        text: >-
+          $f=\exp\circ(y\ln x)$ היא הרכבה של פונקציות $C^\infty$ על $U$, ולכן $f\in C^\infty(U)$ (טענה 5.7.3(ב)); לפי משפט
+          שוורץ הנגזרות המעורבות שוות בכל נקודה של $U$.
+      - kind: result
+        text: >-
+          שתיהן $x^{y-1}(1+y\ln x)$, ו-$2$ ב-$(e,1)$.
+
+  - id: W-5.7-04
+    level: mid
+    objectives: [OBJ-5.7-1, OBJ-5.7-2]
+    prompt: >-
+      נאמר ש-$u$ מקיימת את (*) על קבוצה פתוחה $U\subseteq\mathbb{R}^2$ אם
+      $$\frac{\partial^2u}{\partial x^2}+\frac{\partial^2u}{\partial y^2}=0\quad(*)$$
+      בכל נקודה של $U$.
+
+      (א) הוכיחו ש-$u(x,y)=\ln(x^2+y^2)$ מקיימת את (*) על $\mathbb{R}^2\setminus\{0\}$.
+
+      (ב) הוכיחו: אם $u\in C^3(U)$ מקיימת את (*), אז גם $\partial_xu$ מקיימת את (*). איפה השתמשתם בכך ש-$u\in C^3$?
+    answer: >-
+      (א) $\frac{\partial^2u}{\partial x^2}=\frac{2(y^2-x^2)}{(x^2+y^2)^2}$ ו-$\frac{\partial^2u}{\partial y^2}=\frac{2(x^2-y^2)}{(x^2+y^2)^2}$, וסכומן 0.
+      (ב) לפי מסקנה 5.7.5, $\partial_y\partial_y\partial_xu=\partial_x\partial_y\partial_yu$, ולכן הסכום הוא $\partial_x$ של (*), כלומר 0.
+    solution:
+      - kind: computation
+        text: >-
+          (א) עם $\rho^2=x^2+y^2$: $\partial_xu=\frac{2x}{\rho^2}$, ובכלל המנה
+          $\frac{\partial^2u}{\partial x^2}=\frac{2\rho^2-2x\cdot2x}{\rho^4}=\frac{2(y^2-x^2)}{\rho^4}$.
+      - kind: computation
+        text: >-
+          באותה דרך (החלפת $x$ ו-$y$) $\frac{\partial^2u}{\partial y^2}=\frac{2(x^2-y^2)}{\rho^4}$. הסכום 0 בכל נקודה שאינה הראשית.
+      - kind: idea
+        text: >-
+          (ב) צריך לגזור את $\partial_xu$ פעמיים לפי $y$, ולהחליף את סדר הגזירה כך ש-$\partial_x$ תהיה האחרונה: אז מופיע
+          $\partial_x$ של (*).
+      - kind: step
+        text: >-
+          $u\in C^3$, ולכן $\partial_xu\in C^2$ (למה 5.7.2א), והנגזרות השניות שלה קיימות ורציפות:
+          $\frac{\partial^2(\partial_xu)}{\partial x^2}=\partial_x\partial_x\partial_xu$ ו-$\frac{\partial^2(\partial_xu)}{\partial y^2}=\partial_y\partial_y\partial_xu$.
+      - kind: theorem
+        text: >-
+          לפי מסקנה 5.7.5 ($u\in C^3$, סדר 3): $\partial_y\partial_y\partial_xu=\partial_x\partial_y\partial_yu$. כאן השתמשנו ב-$C^3$:
+          בלי רציפות של הנגזרות מסדר 3 (ושל המעורבות מסדר 2) לא היינו יכולים להצדיק את החלפת הסדר.
+      - kind: step
+        text: >-
+          לכן הסכום הוא $\partial_x\big(\frac{\partial^2u}{\partial x^2}+\frac{\partial^2u}{\partial y^2}\big)=\partial_x0=0$ בכל $U$.
+      - kind: check
+        text: >-
+          עם $u=\ln(x^2+y^2)$ מ-(א), $\partial_xu=\frac{2x}{x^2+y^2}$; גזירה ישירה נותנת
+          $\frac{\partial^2}{\partial x^2}\frac{2x}{\rho^2}=\frac{4x^3-12xy^2}{\rho^6}$ ו-$\frac{\partial^2}{\partial y^2}\frac{2x}{\rho^2}=\frac{12xy^2-4x^3}{\rho^6}$: סכום 0.
+      - kind: result
+        text: >-
+          (א) מתקיים; (ב) $\partial_xu$ מקיימת את (*), בזכות החלפת סדר הגזירה שמסקנה 5.7.5 מתירה ב-$C^3$.
+
+  - id: W-5.7-05
+    level: mid
+    qualitative: true
+    objectives: [OBJ-5.7-3, OBJ-5.7-2]
+    prompt: >-
+      תהי $w(x,y)=\frac{x^2y^2}{x^2+y^2}$ מחוץ לראשית, ו-$w(0,0)=0$.
+
+      (א) חשבו את שתי הנגזרות המעורבות בראשית.
+
+      (ב) הוכיחו ש-$\frac{\partial^2w}{\partial y\,\partial x}$ אינה רציפה בראשית.
+
+      (ג) נכון או לא נכון: "אם הנגזרות המעורבות שוות בנקודה, הן רציפות בה". מה הדוגמה אומרת על ההנחה של משפט שוורץ?
+    answer: >-
+      (א) שתיהן 0. (ב) מחוץ לראשית $\frac{\partial^2w}{\partial y\,\partial x}=\frac{8x^3y^3}{(x^2+y^2)^3}$, ועל הישר $y=x$ הערך 1. (ג) לא
+      נכון: ההנחה של שוורץ מספיקה, ואינה הכרחית.
+    solution:
+      - kind: step
+        text: >-
+          (א) על הציר $x=0$, $y\ne0$: $\frac{w(t,y)-w(0,y)}t=\frac{t\,y^2}{t^2+y^2}\to0$; וב-$y=0$, $w(t,0)=0$. לכן
+          $\partial_xw(0,y)=0$ לכל $y$, ו-$\frac{\partial^2w}{\partial y\,\partial x}(0,0)=0$. מהסימטריה $w(x,y)=w(y,x)$ גם
+          $\partial_yw(x,0)=0$ לכל $x$, ו-$\frac{\partial^2w}{\partial x\,\partial y}(0,0)=0$.
+      - kind: computation
+        text: >-
+          (ב) מחוץ לראשית, בכלל המנה: $\partial_xw=\frac{2xy^2(x^2+y^2)-x^2y^2\cdot2x}{(x^2+y^2)^2}=\frac{2xy^4}{(x^2+y^2)^2}$.
+      - kind: computation
+        text: >-
+          גוזרים לפי $y$:
+          $$\frac{\partial^2w}{\partial y\,\partial x}=2x\cdot\frac{4y^3(x^2+y^2)^2-y^4\cdot4y(x^2+y^2)}{(x^2+y^2)^4}=\frac{8x^3y^3}{(x^2+y^2)^3}.$$
+      - kind: step
+        text: >-
+          על הישר $y=x$, $x\ne0$: $\frac{8x^6}{(2x^2)^3}=1$. לכן לאורך הישר הנגזרת שואפת ל-1, ואילו הערך שלה בראשית 0
+          (מסעיף (א)): היא אינה רציפה בראשית (מסקנה 5.1.7).
+      - kind: step
+        text: >-
+          (ג) לא נכון: ב-$w$ הנגזרות המעורבות שוות בראשית (שתיהן 0), ואינן רציפות שם. משפט שוורץ אומר "רציפות גוררת
+          שוויון"; הכיוון ההפוך אינו נכון, והרציפות היא תנאי מספיק ולא הכרחי. ב-$xy\frac{x^2-y^2}{x^2+y^2}$ (טענה 5.7.6) אין
+          רציפות ואין שוויון; כאן אין רציפות ויש שוויון.
+      - kind: check
+        text: >-
+          מנת הפרשים מספרית של $\partial_xw$ לפי $y$ בנקודה $(0.4,0.9)$ (בדיקה, לא הוכחה) נותנת $0.40896$, וכך גם הנוסחה
+          $\frac{8\cdot0.4^3\cdot0.9^3}{0.97^3}$.
+      - kind: result
+        text: >-
+          (א) שתיהן 0; (ב) על $y=x$ הערך 1; (ג) לא נכון: שוויון בלי רציפות אפשרי.
+
+  - id: W-5.7-06
+    level: mid
+    objectives: [OBJ-5.7-2]
+    prompt: >-
+      מצאו את כל הפונקציות $f\in C^2(\mathbb{R}^2)$ עם $\frac{\partial^2f}{\partial y\,\partial x}=0$ בכל המישור. הסיקו שלכולן
+      גם $\frac{\partial^2f}{\partial x\,\partial y}=0$.
+    answer: >-
+      בדיוק הפונקציות $f(x,y)=\varphi(x)+\psi(y)$ עם $\varphi,\psi\in C^2(\mathbb{R})$. לפי שוורץ גם הנגזרת המעורבת השנייה 0.
+    solution:
+      - kind: idea
+        text: >-
+          $\frac{\partial^2f}{\partial y\,\partial x}=0$ אומר ש-$\partial_xf$ אינה תלויה ב-$y$. אז $\partial_xf$ היא פונקציה של $x$
+          בלבד, ומשחזרים את $f$ באינטגרציה לפי $x$.
+      - kind: step
+        text: >-
+          נסמן $g=\partial_xf$, רציפה. לכל $x$ קבוע, הפונקציה $y\mapsto g(x,y)$ היא בעלת נגזרת 0 על $\mathbb{R}$, ולכן קבועה
+          (אינפי 1): $g(x,y)=g(x,0)=:\alpha(x)$, ו-$\alpha$ רציפה.
+      - kind: step
+        text: >-
+          נגדיר $\varphi(x)=\int_0^x\alpha(s)\,ds$. לפי המשפט היסודי (אינפי 2) $\varphi'=\alpha$. הפונקציה $f(x,y)-\varphi(x)$ היא,
+          לכל $y$ קבוע, בעלת נגזרת $\alpha(x)-\alpha(x)=0$ לפי $x$, ולכן שווה לערכה ב-$x=0$: $f(x,y)=\varphi(x)+f(0,y)$.
+      - kind: step
+        text: >-
+          נסמן $\psi(y)=f(0,y)$. $\psi\in C^2(\mathbb{R})$ כי $f\in C^2$, ו-$\varphi'=\alpha=\partial_xf(\cdot,0)$ היא $C^1$, ולכן
+          $\varphi\in C^2(\mathbb{R})$.
+      - kind: step
+        text: >-
+          להפך, אם $f=\varphi(x)+\psi(y)$, אז $\partial_xf=\varphi'(x)$ אינה תלויה ב-$y$, ו-$\frac{\partial^2f}{\partial y\,\partial x}=0$.
+      - kind: theorem
+        text: >-
+          $f\in C^2$, ולפי משפט שוורץ $\frac{\partial^2f}{\partial x\,\partial y}=\frac{\partial^2f}{\partial y\,\partial x}=0$. (גם
+          ישירות: $\partial_yf=\psi'(y)$ אינה תלויה ב-$x$.)
+      - kind: result
+        text: >-
+          $f(x,y)=\varphi(x)+\psi(y)$ עם $\varphi,\psi\in C^2(\mathbb{R})$.
+
+  - id: W-5.7-07
+    level: mid
+    qualitative: true
+    objectives: [OBJ-5.7-2]
+    prompt: >-
+      יהי $a\in\mathbb{R}$ ו-
+      $$F(x,y,z)=\big(2xy+z^2,\ x^2+az,\ 2xz+y\big).$$
+      (א) הוכיחו שאם יש $f:\mathbb{R}^3\to\mathbb{R}$ עם $\nabla f=F$, אז $a=1$.
+
+      (ב) ל-$a=1$ מצאו את כל ה-$f$ האלה.
+    answer: >-
+      (א) לפי מסקנה 5.7.5, $\partial_z(x^2+az)=\partial_y(2xz+y)$, כלומר $a=1$. (ב) $f=x^2y+xz^2+yz+C$.
+    solution:
+      - kind: idea
+        text: >-
+          זה טענה 5.7.7 בשלושה משתנים: אם $\nabla f=F$ עם $F\in C^1$, אז $f\in C^2$, ולפי מסקנה 5.7.5 לכל זוג משתנים
+          $\partial_jF_i=\partial_iF_j$. יש שלושה זוגות.
+      - kind: step
+        text: >-
+          (א) הרכיבים של $F$ פולינומים, ולכן $C^1$; הנגזרות של $f$ מסדר 2 הן הנגזרות שלהם, ולכן $f\in C^2(\mathbb{R}^3)$.
+      - kind: computation
+        text: >-
+          שלושת התנאים: $\partial_y(2xy+z^2)=2x=\partial_x(x^2+az)$; $\partial_z(2xy+z^2)=2z=\partial_x(2xz+y)$;
+          $\partial_z(x^2+az)=a$ ו-$\partial_y(2xz+y)=1$. לפי מסקנה 5.7.5 צריך $a=1$.
+      - kind: step
+        text: >-
+          (ב) $a=1$. מ-$\partial_xf=2xy+z^2$, לכל $(y,z)$ קבועים (אינפי 1): $f=x^2y+xz^2+c(y,z)$ עם $c(y,z)=f(0,y,z)$, שיש
+          לה נגזרות חלקיות כי ל-$f$ יש.
+      - kind: step
+        text: >-
+          $\partial_yf=x^2+\partial_yc$ צריך להיות $x^2+z$, ולכן $\partial_yc=z$, ו-$c(y,z)=yz+d(z)$ (שוב אינפי 1, לכל $z$ קבוע).
+      - kind: step
+        text: >-
+          $\partial_zf=2xz+y+d'(z)$ צריך להיות $2xz+y$, ולכן $d'=0$ ו-$d$ קבוע.
+      - kind: check
+        text: >-
+          $f=x^2y+xz^2+yz$: $\partial_xf=2xy+z^2$, $\partial_yf=x^2+z$, $\partial_zf=2xz+y$. ול-$a\ne1$, אותו חישוב נתקע בשלב
+          האחרון: $\partial_zf=2xz+ay+d'(z)$ במקום $2xz+y$.
+      - kind: result
+        text: >-
+          (א) $a=1$; (ב) $f=x^2y+xz^2+yz+C$, $C\in\mathbb{R}$.
+
+  - id: W-5.7-08
+    level: exam
+    objectives: [OBJ-5.7-2]
+    prompt: >-
+      תהי $f\in C^2(\mathbb{R}^2)$ ו-$g(r,\theta)=f(r\cos\theta,\ r\sin\theta)$.
+
+      (א) הוכיחו שבכל נקודה
+      $$\frac{\partial^2g}{\partial r^2}=\cos^2\theta\,\frac{\partial^2f}{\partial x^2}+2\sin\theta\cos\theta\,\frac{\partial^2f}{\partial y\,\partial x}+\sin^2\theta\,\frac{\partial^2f}{\partial y^2},$$
+      כשהנגזרות של $f$ מחושבות ב-$(r\cos\theta,r\sin\theta)$.
+
+      (ב) בדקו את הנוסחה על $f(x,y)=xy$.
+
+      (ג) באילו שתי נקודות בהוכחה השתמשתם בכך ש-$f\in C^2$?
+    answer: >-
+      (א) כלל השרשרת לאורך הקרן $r\mapsto(r\cos\theta,r\sin\theta)$, פעמיים, ושוורץ מאחד את שני האיברים המעורבים. (ב) שני
+      האגפים $2\sin\theta\cos\theta$. (ג) כדי ש-$\partial_xf,\partial_yf$ יהיו דיפרנציאביליות (כלל השרשרת בפעם השנייה), וכדי
+      להפעיל את שוורץ.
+    solution:
+      - kind: idea
+        text: >-
+          עם $\theta$ קבוע, $r\mapsto(r\cos\theta,r\sin\theta)$ היא מסילה עם מהירות $(\cos\theta,\sin\theta)$. גוזרים לאורכה פעם
+          אחת, מקבלים צירוף של $\partial_xf$ ו-$\partial_yf$ לאורך אותה מסילה, וגוזרים כל אחת מהן שוב.
+      - kind: step
+        text: >-
+          (א) $f\in C^1$, ולכן דיפרנציאבילית (מסקנה 5.4.3). לפי מסקנה 5.5.3 (או טענה 5.5.4),
+          $\partial_rg=\cos\theta\,\partial_xf+\sin\theta\,\partial_yf$.
+      - kind: step
+        text: >-
+          $\partial_xf$ ו-$\partial_yf$ הן $C^1$ (למה 5.7.2א), ולכן דיפרנציאביליות. שוב לפי מסקנה 5.5.3 לאורך אותה מסילה:
+          $\partial_r\big(\partial_xf\big)=\cos\theta\,\frac{\partial^2f}{\partial x^2}+\sin\theta\,\frac{\partial^2f}{\partial y\,\partial x}$
+          ו-$\partial_r\big(\partial_yf\big)=\cos\theta\,\frac{\partial^2f}{\partial x\,\partial y}+\sin\theta\,\frac{\partial^2f}{\partial y^2}$.
+      - kind: computation
+        text: >-
+          $\theta$ קבוע, ולכן $\frac{\partial^2g}{\partial r^2}=\cos\theta\,\partial_r(\partial_xf)+\sin\theta\,\partial_r(\partial_yf)$, כלומר
+          $\cos^2\theta\,\frac{\partial^2f}{\partial x^2}+\sin\theta\cos\theta\Big(\frac{\partial^2f}{\partial y\,\partial x}+\frac{\partial^2f}{\partial x\,\partial y}\Big)+\sin^2\theta\,\frac{\partial^2f}{\partial y^2}$.
+      - kind: theorem
+        text: >-
+          $f\in C^2$, ולפי משפט שוורץ שתי הנגזרות המעורבות שוות; הסוגריים הם פעמיים $\frac{\partial^2f}{\partial y\,\partial x}$.
+      - kind: check
+        text: >-
+          (ב) $f=xy$: $g=r^2\sin\theta\cos\theta$, ו-$\frac{\partial^2g}{\partial r^2}=2\sin\theta\cos\theta$. בנוסחה:
+          $\frac{\partial^2f}{\partial x^2}=\frac{\partial^2f}{\partial y^2}=0$ ו-$\frac{\partial^2f}{\partial y\,\partial x}=1$, ולכן
+          $2\sin\theta\cos\theta$.
+      - kind: result
+        text: >-
+          (א) הנוסחה; (ב) שני האגפים $2\sin\theta\cos\theta$; (ג) הדיפרנציאביליות של הנגזרות הראשונות (כלל השרשרת בפעם
+          השנייה) ומשפט שוורץ.
+
+  - id: W-5.7-09
+    level: exam
+    objectives: [OBJ-5.7-1, OBJ-5.7-2]
+    prompt: >-
+      תהי $f\in C^2(\mathbb{R}^2\setminus\{0\})$ הומוגנית מדרגה $k$ (הגדרה 5.5.6). הוכיחו שבכל נקודה $(x,y)\ne0$
+      $$x^2\frac{\partial^2f}{\partial x^2}+2xy\,\frac{\partial^2f}{\partial y\,\partial x}+y^2\frac{\partial^2f}{\partial y^2}=k(k-1)\,f,$$
+      ובדקו את הזהות על $f(x,y)=x^3+xy^2$ בנקודה $(1.3,-0.7)$.
+    answer: >-
+      משפט אוילר על $\partial_xf$ ועל $\partial_yf$ (הומוגניות מדרגה $k-1$), כפל ב-$x$ וב-$y$, חיבור, שוב אוילר ושוורץ.
+      בבדיקה שני האגפים $17.004$.
+    solution:
+      - kind: idea
+        text: >-
+          הנגזרות הראשונות הומוגניות מדרגה $k-1$, ולכן משפט אוילר חל עליהן; צירוף מתאים של שתי הזהויות נותן את האגף
+          השמאלי, ובאגף הימני מופיע $x\,\partial_xf+y\,\partial_yf$, שהוא שוב אוילר.
+      - kind: theorem
+        text: >-
+          לפי משפט 5.5.7(ג), $\partial_xf$ ו-$\partial_yf$ הומוגניות מדרגה $k-1$. הן $C^1$ (למה 5.7.2א), ולכן דיפרנציאביליות
+          (מסקנה 5.4.3), ומשפט 5.5.7(א) חל עליהן.
+      - kind: computation
+        text: >-
+          אוילר על $\partial_xf$: $x\frac{\partial^2f}{\partial x^2}+y\frac{\partial^2f}{\partial y\,\partial x}=(k-1)\,\partial_xf$. אוילר על
+          $\partial_yf$: $x\frac{\partial^2f}{\partial x\,\partial y}+y\frac{\partial^2f}{\partial y^2}=(k-1)\,\partial_yf$.
+      - kind: computation
+        text: >-
+          כופלים את הראשונה ב-$x$ ואת השנייה ב-$y$ ומחברים:
+          $x^2\frac{\partial^2f}{\partial x^2}+xy\Big(\frac{\partial^2f}{\partial y\,\partial x}+\frac{\partial^2f}{\partial x\,\partial y}\Big)+y^2\frac{\partial^2f}{\partial y^2}=(k-1)\big(x\,\partial_xf+y\,\partial_yf\big)$.
+      - kind: theorem
+        text: >-
+          לפי משפט שוורץ ($f\in C^2$) הסוגריים באגף שמאל הם $2\frac{\partial^2f}{\partial y\,\partial x}$; לפי משפט 5.5.7(א)
+          $x\,\partial_xf+y\,\partial_yf=kf$. לכן אגף ימין הוא $k(k-1)f$.
+      - kind: check
+        text: >-
+          $f=x^3+xy^2$ הומוגנית מדרגה 3, ו-$\frac{\partial^2f}{\partial x^2}=6x$, $\frac{\partial^2f}{\partial y\,\partial x}=2y$,
+          $\frac{\partial^2f}{\partial y^2}=2x$. אגף שמאל: $6x^3+4xy^2+2xy^2=6(x^3+xy^2)=6f$, ו-$k(k-1)=6$. ב-$(1.3,-0.7)$:
+          $f=2.197+0.637=2.834$, ושני האגפים $17.004$.
+      - kind: result
+        text: >-
+          הזהות מתקיימת; בבדיקה שני האגפים $17.004$.
+
+  - id: W-5.7-10
+    level: exam
+    qualitative: true
+    objectives: [OBJ-5.7-3]
+    prompt: >-
+      תהי $F(x,y)=x^2\arctan\frac yx-y^2\arctan\frac xy$ כש-$xy\ne0$, ו-$F(x,y)=0$ כש-$xy=0$.
+
+      (א) הוכיחו ש-$\partial_xF(0,y)=-y$ ו-$\partial_yF(x,0)=x$ לכל $x,y$.
+
+      (ב) חשבו את שתי הנגזרות המעורבות בראשית.
+
+      (ג) חשבו את $\frac{\partial^2F}{\partial y\,\partial x}$ בנקודות עם $xy\ne0$, והצביעו על ההנחה של משפט שוורץ שנכשלת.
+    answer: >-
+      (ב) $\frac{\partial^2F}{\partial y\,\partial x}(0,0)=-1$ ו-$\frac{\partial^2F}{\partial x\,\partial y}(0,0)=1$. (ג) כש-$xy\ne0$,
+      $\frac{\partial^2F}{\partial y\,\partial x}=\frac{x^2-y^2}{x^2+y^2}$, שהוא 0 על $y=x$: הנגזרת המעורבת אינה רציפה בראשית.
+    solution:
+      - kind: idea
+        text: >-
+          כמו בטענה 5.7.6: על הצירים חוזרים להגדרה, ומחוץ להם גוזרים בנוסחה. האנטי-סימטריה $F(y,x)=-F(x,y)$ חוסכת חצי
+          מהעבודה.
+      - kind: step
+        text: >-
+          (א) יהי $y\ne0$. ל-$t\ne0$, $ty\ne0$ ו-$F(0,y)=0$, ולכן
+          $\frac{F(t,y)-F(0,y)}t=t\arctan\frac yt-y^2\,\frac{\arctan(t/y)}t$.
+      - kind: step
+        text: >-
+          האיבר הראשון קטן מ-$\frac\pi2|t|$ בערכו המוחלט, ושואף ל-0. באיבר השני, $\frac{\arctan(t/y)}t$ היא מנת ההפרשים של
+          $s\mapsto\arctan\frac sy$ ב-0, ולכן שואפת לנגזרת $\frac1y$. לכן הגבול $-y^2\cdot\frac1y=-y$.
+      - kind: step
+        text: >-
+          ב-$y=0$: $F(t,0)=0$ לכל $t$, ולכן $\partial_xF(0,0)=0=-0$. ומהאנטי-סימטריה,
+          $\partial_yF(x,0)=\lim\frac{F(x,t)}t=-\lim\frac{F(t,x)}t=-\partial_xF(0,x)=x$.
+      - kind: step
+        text: >-
+          (ב) $\frac{\partial^2F}{\partial y\,\partial x}(0,0)$ היא הנגזרת של $y\mapsto-y$ ב-0, כלומר $-1$; ו-$\frac{\partial^2F}{\partial x\,\partial y}(0,0)$
+          היא הנגזרת של $x\mapsto x$ ב-0, כלומר $1$.
+      - kind: computation
+        text: >-
+          (ג) כש-$xy\ne0$, עם $(\arctan s)'=\frac1{1+s^2}$:
+          $\partial_xF=2x\arctan\frac yx-\frac{x^2y}{x^2+y^2}-\frac{y^3}{x^2+y^2}=2x\arctan\frac yx-y$.
+      - kind: computation
+        text: >-
+          גוזרים לפי $y$: $\frac{\partial^2F}{\partial y\,\partial x}=\frac{2x\cdot\frac1x}{1+y^2/x^2}-1=\frac{2x^2}{x^2+y^2}-1=\frac{x^2-y^2}{x^2+y^2}$.
+      - kind: step
+        text: >-
+          על הישר $y=x$, $x\ne0$, הערך 0; בראשית הערך $-1$. לכן $\frac{\partial^2F}{\partial y\,\partial x}$ אינה רציפה בראשית
+          (וכך גם השנייה, מהאנטי-סימטריה). זו ההנחה שנכשלת: לו שתי הנגזרות המעורבות היו רציפות בראשית, לפי משפט 5.7.4
+          הן היו שוות שם.
+      - kind: check
+        text: >-
+          מנות הפרשים מספריות (בדיקה, לא הוכחה): ב-$(0.4,-0.9)$, $\partial_xF\approx-0.022058$ כמו הנוסחה, ו-$\frac{\partial^2F}{\partial y\,\partial x}\approx-0.67010=\frac{0.16-0.81}{0.97}$.
+      - kind: result
+        text: >-
+          $-1$ ו-$1$; הנגזרות המעורבות אינן רציפות בראשית.
+
+challenge:
+  - id: W-5.7-c1
+    stars: 1
+    objectives: [OBJ-5.7-2]
+    prompt: >-
+      (ספיבק.) תהיינה $g_1,g_2:\mathbb{R}^2\to\mathbb{R}$ רציפות, ונגדיר
+      $$f(x,y)=\int_0^xg_1(t,0)\,dt+\int_0^yg_2(x,t)\,dt.$$
+      (א) הוכיחו ש-$\partial_yf=g_2$ בכל המישור.
+
+      (ב) איך צריך להגדיר את $f$ כדי שיתקיים $\partial_xf=g_1$?
+
+      (ג) מצאו $f$ עם $\partial_xf=x$ ו-$\partial_yf=y$, ו-$f$ עם $\partial_xf=y$ ו-$\partial_yf=x$.
+
+      (ד) הוכיחו: אם $g_1,g_2\in C^1(\mathbb{R}^2)$ ויש $f$ אחת שמקיימת **גם** $\partial_xf=g_1$ **וגם** $\partial_yf=g_2$, אז
+      $\partial_yg_1=\partial_xg_2$. הסיקו שאין $f$ עם $\partial_xf=y$ ו-$\partial_yf=-x$, אף שלפי (א) ו-(ב) יש $f$ לכל אחד
+      מהתנאים בנפרד.
+    answer: >-
+      (א) המשפט היסודי לפי $y$. (ב) $f(x,y)=\int_0^xg_1(t,y)\,dt+\int_0^yg_2(0,t)\,dt$. (ג) $\frac{x^2+y^2}2$ ו-$xy$. (ד) טענה
+      5.7.7; ל-$(y,-x)$: $1\ne-1$.
+    solution:
+      - kind: idea
+        text: >-
+          כל אחד מהאינטגרלים הוא פונקציה של הגבול העליון שלו, ולכן גוזרים אותו לפי המשפט היסודי. השאלה הקשה היא אם אותה
+          $f$ יכולה לעשות את שתי העבודות, ושם נכנס שוורץ.
+      - kind: step
+        text: >-
+          (א) נקבע $x$. האיבר הראשון אינו תלוי ב-$y$. בשני, $t\mapsto g_2(x,t)$ רציפה, ולפי המשפט היסודי (אינפי 2) הנגזרת
+          לפי $y$ של $\int_0^yg_2(x,t)\,dt$ היא $g_2(x,y)$. לכן $\partial_yf(x,y)=g_2(x,y)$.
+      - kind: step
+        text: >-
+          (ב) מחליפים את התפקידים: $f(x,y)=\int_0^xg_1(t,y)\,dt+\int_0^yg_2(0,t)\,dt$. עם $y$ קבוע, האיבר השני קבוע, ולפי
+          המשפט היסודי $\partial_xf=g_1$.
+      - kind: computation
+        text: >-
+          (ג) עם $g_1=x$, $g_2=y$ בנוסחה של (א): $f=\int_0^xt\,dt+\int_0^yt\,dt=\frac{x^2+y^2}2$, ו-$\partial_xf=x$. עם $g_1=y$,
+          $g_2=x$: $f=\int_0^x0\,dt+\int_0^yx\,dt=xy$, ו-$\partial_xf=y$.
+      - kind: theorem
+        text: >-
+          (ד) $f$ עם $\partial_xf=g_1$, $\partial_yf=g_2$ ו-$g_1,g_2\in C^1$ היא $C^2$, ולפי טענה 5.7.7 (שנובעת ממשפט שוורץ)
+          $\partial_yg_1=\frac{\partial^2f}{\partial y\,\partial x}=\frac{\partial^2f}{\partial x\,\partial y}=\partial_xg_2$.
+      - kind: step
+        text: >-
+          ל-$g_1=y$, $g_2=-x$: $\partial_yg_1=1$ ו-$\partial_xg_2=-1$, ולכן אין $f$ כזו. לעומת זאת, (א) נותן $f=-xy$ עם
+          $\partial_yf=-x$ (אבל $\partial_xf=-y$), ו-(ב) נותן $f=xy$ עם $\partial_xf=y$ (אבל $\partial_yf=x$).
+      - kind: check
+        text: >-
+          ההמשך אצל ספיבק (בעיה 3-34): אם $g_1,g_2\in C^1$ ו-$\partial_yg_1=\partial_xg_2$, ה-$f$ של (א) מקיימת גם
+          $\partial_xf=g_1$. ההוכחה גוזרת מתחת לסימן האינטגרל, שאינו בקורס הזה; בפרק 8 נגיע לאותה מסקנה בדרך אחרת.
+      - kind: result
+        text: >-
+          (ב) $\int_0^xg_1(t,y)\,dt+\int_0^yg_2(0,t)\,dt$; (ג) $\frac{x^2+y^2}2$, $xy$; (ד) התנאי $\partial_yg_1=\partial_xg_2$ הכרחי, ו-$(y,-x)$ אינו
+          מקיים אותו.
+    source:
+      name: 'M. Spivak, Calculus on Manifolds (1965), problem 2-21; statement checked in the quotation of M. Chien, Spivak Solutions (February 2024), not in the book'
+      year: 1965
+      problem: 'Problem 2-21 (a)–(c), quoted verbatim in Chien (Chapter 2 exercises); part (d) is ours (טענה 5.7.7); the check step paraphrases problem 3-34, also as quoted by Chien'
+      url: 'https://maxlchien.github.io/downloads/Spivak%20Solutions%20Only.pdf'
+      verified: '2026-11-17'
+      adapted: true
+
+  - id: W-5.7-c2
+    stars: 2
+    objectives: [OBJ-5.7-2]
+    prompt: >-
+      (פטנאם.) תהי $U=\{(x,y):x>0,\ y>0\}$, $P,Q\in C^1(U)$, ו-$h\in C^1\big((0,\infty)\big)$ עם $h(s)\ne0$ לכל $s$. נניח שיש
+      $\Phi:U\to\mathbb{R}$ עם
+      $$\partial_x\Phi=h(xy)\,P,\qquad\partial_y\Phi=h(xy)\,Q$$
+      בכל $U$ (במילים: $h(xy)$ הוא גורם אינטגרציה של המשוואה $P\,dx+Q\,dy=0$).
+
+      (א) הוכיחו שבכל נקודה של $U$
+      $$h'(xy)\,(yQ-xP)=h(xy)\,\big(\partial_yP-\partial_xQ\big),$$
+      והסיקו שבנקודות שבהן $yQ-xP\ne0$ המנה $\frac{\partial_yP-\partial_xQ}{yQ-xP}$ תלויה רק במכפלה $xy$.
+
+      (ב) ל-$P=y$ ו-$Q=2x$: הראו שאין $\Phi$ עם $\nabla\Phi=(P,Q)$; מצאו $h$ כזו ש-$h(xy)$ גורם אינטגרציה, ומצאו את $\Phi$.
+    answer: >-
+      (א) $\Phi\in C^2$, ושוורץ נותן $\partial_y\big(h(xy)P\big)=\partial_x\big(h(xy)Q\big)$. (ב) $\partial_yP=1\ne2=\partial_xQ$;
+      $h(s)=\frac1s$, $\Phi=\ln x+2\ln y$.
+    solution:
+      - kind: idea
+        text: >-
+          $\Phi$ היא פונקציה שהגרדיאנט שלה נתון, ולכן לפי טענה 5.7.7 שתי הנגזרות המעורבות שלה שוות. כותבים את השוויון
+          בכלל המכפלה ובכלל השרשרת, ומבודדים את $h'$.
+      - kind: step
+        text: >-
+          (א) $s\mapsto h(s)$ היא $C^1$ ו-$(x,y)\mapsto xy$ פולינום, ולכן $(x,y)\mapsto h(xy)$ היא $C^1(U)$ (טענה 5.7.3(ב)); גם
+          $h(xy)P$ ו-$h(xy)Q$ הן $C^1(U)$. לפי טענה 5.7.7, $\Phi\in C^2(U)$ ו-$\partial_y\big(h(xy)P\big)=\partial_x\big(h(xy)Q\big)$.
+      - kind: computation
+        text: >-
+          לפי כלל המכפלה וכלל השרשרת: $\partial_y\big(h(xy)P\big)=x\,h'(xy)\,P+h(xy)\,\partial_yP$, ו-$\partial_x\big(h(xy)Q\big)=y\,h'(xy)\,Q+h(xy)\,\partial_xQ$.
+      - kind: computation
+        text: >-
+          משווים ומעבירים אגפים: $h'(xy)\,(yQ-xP)=h(xy)\,(\partial_yP-\partial_xQ)$. במקום שבו $yQ-xP\ne0$, מחלקים ב-$h(xy)(yQ-xP)$
+          (אינו 0): $\frac{\partial_yP-\partial_xQ}{yQ-xP}=\frac{h'}{h}(xy)$, פונקציה של $xy$ בלבד.
+      - kind: step
+        text: >-
+          (ב) $\partial_yP=1$ ו-$\partial_xQ=2$: לפי טענה 5.7.7 אין $\Phi$ עם $\nabla\Phi=(y,2x)$.
+      - kind: computation
+        text: >-
+          המנה: $\frac{1-2}{2xy-xy}=-\frac1{xy}$. לפי (א) צריך $\frac{h'(s)}{h(s)}=-\frac1s$, ו-$h(s)=\frac1s$ מקיימת זאת. אז
+          $h(xy)P=\frac1x$ ו-$h(xy)Q=\frac2y$, ו-$\Phi=\ln x+2\ln y$ מקיימת $\partial_x\Phi=\frac1x$, $\partial_y\Phi=\frac2y$.
+      - kind: check
+        text: >-
+          הנגזרות המעורבות של $\Phi$ הן 0 ו-0, ו-$\partial_y\frac1x=0=\partial_x\frac2y$: התנאי של טענה 5.7.7 מתקיים אחרי הכפל
+          בגורם. השאלה המקורית מבקשת תנאי הכרחי **ומספיק**; הכיוון "מספיק" דורש לבנות את $\Phi$ מתנאי הסימטריה, ונחזור
+          אליו בפרק 8.
+      - kind: result
+        text: >-
+          (א) הזהות, ולכן המנה היא $\frac{h'}h(xy)$; (ב) $h(s)=\frac1s$, $\Phi=\ln x+2\ln y$.
+    source:
+      name: '11th William Lowell Putnam Competition, 1951 (Kalva Putnam archive)'
+      year: 1951
+      problem: 'B1'
+      url: 'https://prase.cz/kalva/putnam/psoln/psol518.html'
+      verified: '2026-11-17'
+      adapted: true

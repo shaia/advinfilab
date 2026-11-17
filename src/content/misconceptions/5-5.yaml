@@ -6,7 +6,7 @@
   truth: >-
     $J_{g\circ f}(a)=J_g(f(a))\,J_f(a)$: הפונקציה הפנימית פועלת ראשונה, ולכן המטריצה שלה מימין. ל-$f:\mathbb{R}^n\to\mathbb{R}^m$
     ו-$g:\mathbb{R}^m\to\mathbb{R}^k$ זו מכפלה $(k\times m)(m\times n)$, והתוצאה $k\times n$.
-  remedy: { lesson: '5.5', label: 'כלל השרשרת כמכפלת מטריצות' }
+  remedy: { lesson: '5.5', anchor: matrices, label: 'כלל השרשרת כמכפלת מטריצות' }
 
 - id: MC-c5-chain-wrong-point
   title: גוזרים את הפונקציה החיצונית בנקודה הלא נכונה
@@ -15,7 +15,7 @@
   truth: >-
     $D(g\circ f)(a)=Dg(f(a))\circ Df(a)$: את $g$ גוזרים בנקודה $f(a)$, שאליה $f$ שולחת את $a$. לאורך מסילה:
     $\frac{d}{dt}f(\gamma(t))=\nabla f(\gamma(t))\cdot\gamma'(t)$, הגרדיאנט ב-$\gamma(t)$.
-  remedy: { lesson: '5.5', label: 'כלל השרשרת: באיזו נקודה גוזרים' }
+  remedy: { lesson: '5.5', anchor: paths, label: 'כלל השרשרת: באיזו נקודה גוזרים' }
 
 - id: MC-c5-chain-partials-enough
   title: חושבים שכלל השרשרת עובד כשלפונקציה החיצונית יש רק נגזרות חלקיות
@@ -25,16 +25,16 @@
     ההוכחה צריכה ש-$g(b+k)-g(b)-Bk=o(\|k\|)$ לכל $k$ קטן. ל-$g=\frac{x^2y}{x^2+y^2}$ (0 בראשית) ו-$f(t)=(t,t)$:
     $(g\circ f)'(0)=\frac12$, ואילו $\nabla g(0)\cdot f'(0)=0$. כשהנוסחה נכשלת, הפונקציה החיצונית אינה
     דיפרנציאבילית.
-  remedy: { lesson: '5.5', label: 'ההנחות של כלל השרשרת' }
+  remedy: { lesson: '5.5', anchor: hypotheses, label: 'ההנחות של כלל השרשרת' }
 
 - id: MC-c5-polar-rule
   title: טועים בנגזרות בקואורדינטות קוטביות
   belief: >-
-    $\frac{\partial g}{\partial r}=f_x$ ו-$\frac{\partial g}{\partial\theta}=f_y$, או ששוכחים את הגורם $r$ ואת הסימנים.
+    $\frac{\partial g}{\partial r}=\partial_xf$ ו-$\frac{\partial g}{\partial\theta}=\partial_yf$, או ששוכחים את הגורם $r$ ואת הסימנים.
   truth: >-
-    מ-$x=r\cos\theta$, $y=r\sin\theta$ וכלל השרשרת: $g_r=\cos\theta f_x+\sin\theta f_y$ ו-$g_\theta=-r\sin\theta f_x+r\cos\theta f_y$.
-    לכן $f_x^2+f_y^2=g_r^2+\frac{1}{r^2}g_\theta^2$.
-  remedy: { lesson: '5.5', label: 'נגזרות בקואורדינטות קוטביות' }
+    מ-$x=r\cos\theta$, $y=r\sin\theta$ וכלל השרשרת: $\partial_rg=\cos\theta\,\partial_xf+\sin\theta\,\partial_yf$ ו-$\partial_\theta g=-r\sin\theta\,\partial_xf+r\cos\theta\,\partial_yf$.
+    לכן $(\partial_xf)^2+(\partial_yf)^2=(\partial_rg)^2+\frac{1}{r^2}(\partial_\theta g)^2$.
+  remedy: { lesson: '5.5', anchor: polar, label: 'נגזרות בקואורדינטות קוטביות' }
 
 - id: MC-c5-curve-position
   title: כופלים את הגרדיאנט במיקום במקום במהירות
@@ -43,7 +43,7 @@
   truth: >-
     כלל השרשרת כופל בנגזרת של הפונקציה הפנימית: $\frac{d}{dt}f(\gamma(t))=\nabla f(\gamma(t))\cdot\gamma'(t)$, הגרדיאנט
     בנקודה כפול וקטור המהירות.
-  remedy: { lesson: '5.5', label: 'נגזרת לאורך מסילה' }
+  remedy: { lesson: '5.5', anchor: paths, label: 'נגזרת לאורך מסילה' }
 
 - id: MC-c5-euler-any-function
   title: מפעילים את משפט אוילר על כל פונקציה או עם הדרגה הלא נכונה
@@ -52,7 +52,7 @@
   truth: >-
     משפט אוילר הוא על פונקציה הומוגנית מדרגה $k$, $f(tx)=t^kf(x)$ לכל $t>0$, ואז $x\cdot\nabla f(x)=kf(x)$. פונקציה עם
     מחוברים מדרגות שונות ($x^2+y$) אינה הומוגנית, והמקדם תמיד הדרגה עצמה.
-  remedy: { lesson: '5.5', label: 'משפט אוילר לפונקציות הומוגניות' }
+  remedy: { lesson: '5.5', anchor: euler, label: 'משפט אוילר לפונקציות הומוגניות' }
 
 - id: MC-c5-chain-inner-derivative
   title: שוכחים את הנגזרת הפנימית או את הסימן שלה
@@ -61,4 +61,4 @@
   truth: >-
     כלל השרשרת כופל תמיד בנגזרת של הפונקציה הפנימית: $\frac{\partial}{\partial y}\varphi(x-y)=\varphi'(x-y)\cdot\frac{\partial(x-y)}{\partial y}$,
     כלומר $\varphi'(x-y)$ כפול $(-1)$. סימן שגוי בנגזרת הפנימית הופך תוצאות שלמות.
-  remedy: { lesson: '5.5', label: 'כלל השרשרת: הנגזרת הפנימית' }
+  remedy: { lesson: '5.5', anchor: polar, label: 'כלל השרשרת: הנגזרת הפנימית' }

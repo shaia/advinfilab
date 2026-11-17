@@ -1,0 +1,25 @@
+- id: v-5-2-barilan
+  youtubeId: Xa9WrgY8RIQ
+  title: נגזרת כיוונית
+  channel: Physics Department Bar Ilan
+  lang: he
+  captions: []
+  start: 0
+  minutes: 5
+  why: >-
+    לפי הכותרת והתיאור: סרטון קצר בעברית על הנגזרת הכיוונית, מתוך סדרת "מתמטיקה לפיזיקאים 2" של עמנואל מאייר במחלקה
+    לפיזיקה בבר-אילן. בדקו אם הכיוון מנורמל, ואם הנגזרת מחושבת מההגדרה או מנוסחה עם הנגזרות החלקיות, שתקפה רק
+    לפונקציות דיפרנציאביליות (שיעור 5.3).
+  verified: '2026-11-17'
+- id: v-5-2-khan
+  youtubeId: 4RBkIJPG6Yo
+  title: Directional derivative, formal definition
+  channel: Khan Academy
+  lang: en
+  captions: [en]
+  start: 0
+  minutes: 7
+  why: >-
+    לפי תיאור הסרטון: הגדרת הגבול של הנגזרת הכיוונית, "כדי להבהיר מה היא עושה באמת". השוו להגדרה 5.2.2 ולפרוסה
+    $\varphi(t)=f(a+tv)$; אם הווקטור בסרטון אינו מנורמל, התוצאה גדולה פי $\|v\|_2$ (טענה 5.2.2א(ב)).
+  verified: '2026-11-17'

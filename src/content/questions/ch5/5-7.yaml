@@ -68,8 +68,8 @@ questions:
       - text: 'אם $f\in C^2(U)$, אז $\frac{\partial^2f}{\partial y\,\partial x}=\frac{\partial^2f}{\partial x\,\partial y}$ בכל נקודה של $U$'
         correct: true
         feedback: >-
-          נכון. (גרסה חזקה יותר דורשת רק ששתי הנגזרות המעורבות יהיו קיימות בסביבה של $a$ ורציפות ב-$a$.) הרציפות של
-          הנגזרות המעורבות היא ההנחה שעושה את כל העבודה.
+          נכון. (משפט 5.7.4 דורש אפילו פחות: שהנגזרות הראשונות והמעורבות יהיו קיימות בסביבה של הנקודה, והמעורבות
+          רציפות בנקודה עצמה.) הרציפות של הנגזרות המעורבות היא ההנחה שעושה את כל העבודה.
       - text: 'בכל נקודה שבה שתי הנגזרות המעורבות קיימות, הן שוות'
         feedback: >-
           ל-$xy\frac{x^2-y^2}{x^2+y^2}$ (ו-0 בראשית) שתיהן קיימות בראשית, ו-$\frac{\partial^2f}{\partial y\partial x}(0,0)=-1$
@@ -242,13 +242,13 @@ questions:
       - id: c
         label: '$g''(\xi)=\partial_xf(\xi,b+k)-\partial_xf(\xi,b)$, ולגרנז'' במשתנה $y$ נותן $\Delta=hk\,\frac{\partial^2f}{\partial y\partial x}(P)$ לנקודה $P$ במלבן.'
       - id: d
-        label: 'באותה דרך עם $y\mapsto f(a+h,y)-f(a,y)$: $\Delta=hk\,\frac{\partial^2f}{\partial x\partial y}(Q)$ לנקודה $Q$ במלבן.'
+        label: 'באותה דרך עם $y\mapsto f(a+h,y)-f(a,y)$: $\Delta=hk\,\frac{\partial^2f}{\partial x\partial y}(P'')$ לנקודה $P''$ במלבן.'
       - id: e
-        label: 'מחלקים ב-$hk$ ושולחים $(h,k)\to0$: $P,Q\to(a,b)$, ומרציפות הנגזרות המעורבות ב-$(a,b)$ הן שוות שם.'
+        label: 'מחלקים ב-$hk$ ושולחים $(h,k)\to0$: $P,P''\to(a,b)$, ומרציפות הנגזרות המעורבות ב-$(a,b)$ הן שוות שם.'
     order: [a, b, c, d, e]
     correctFeedback: >-
       נכון. הרעיון: ההפרש השני סימטרי ב-$x$ וב-$y$, ולכן אפשר לבטא אותו בשתי הנגזרות המעורבות; הרציפות מאפשרת לעבור
-      מהנקודות $P,Q$ לנקודה $(a,b)$.
+      מהנקודות $P,P'$ לנקודה $(a,b)$.
     wrongFeedback: >-
       ההוכחה מתחילה מאובייקט אחד, ההפרש השני, ומבטאת אותו פעמיים: פעם דרך $x$ ואז $y$, ופעם בסדר ההפוך. הרציפות
       נכנסת רק בסוף, במעבר לגבול.
@@ -275,10 +275,11 @@ questions:
       - text: 'אם $f$ כזו הייתה קיימת, נגזרותיה הראשונות פולינומים ולכן $f\in C^2$; לפי שוורץ $\frac{\partial}{\partial y}(y^2+x)=\frac{\partial}{\partial x}(xy)$, כלומר $2y=y$, סתירה'
         correct: true
         feedback: >-
-          בדיוק. שוורץ נותן תנאי הכרחי לכך ששני שדות $(P,Q)$ יהיו הנגזרות החלקיות של פונקציה אחת: $P_y=Q_x$.
+          בדיוק. שוורץ נותן תנאי הכרחי לכך ששני שדות $(P,Q)$ יהיו הנגזרות החלקיות של פונקציה אחת:
+          $\frac{\partial P}{\partial y}=\frac{\partial Q}{\partial x}$ (טענה 5.7.7).
       - text: 'כן, כי כל זוג פונקציות רציפות הוא הנגזרות החלקיות של פונקציה כלשהי'
         feedback: >-
-          לא: הנגזרות של פונקציה $C^2$ מקיימות את תנאי הסימטריה $P_y=Q_x$, וזוג כללי אינו מקיים אותו.
+          לא: הנגזרות של פונקציה $C^2$ מקיימות את תנאי הסימטריה $\frac{\partial P}{\partial y}=\frac{\partial Q}{\partial x}$, וזוג כללי אינו מקיים אותו.
         misconception: MC-c5-schwarz-unused
       - text: 'לא, כי הנגזרות המעורבות של כל פונקציה חייבות להיות שוות'
         feedback: >-
@@ -313,3 +314,66 @@ questions:
           היא $C^1$: הנגזרות החלקיות הראשונות קיימות בכל מקום ומקיימות $|\partial_xf|,|\partial_yf|\le\sqrt{x^2+y^2}$, ולכן
           רציפות גם בראשית. $C^1$ פשוט אינו מספיק לשוורץ.
         misconception: MC-c5-c1-enough-schwarz
+
+  - id: Q-5.7-iterated
+    type: mc
+    objectives: [OBJ-5.7-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      ל-$f(x,y)=xy\,\frac{x^2-y^2}{x^2+y^2}$ (ו-0 בראשית) מנת ההפרש השני בראשית היא
+      $Q(h,k)=\frac{\Delta(h,k)}{hk}=\frac{h^2-k^2}{h^2+k^2}$. מה נכון?
+    choices:
+      - text: '$\lim_{k\to0}\lim_{h\to0}Q(h,k)=-1$, וזו $\frac{\partial^2f}{\partial y\,\partial x}(0,0)$; הגבול של $Q$ בשני המשתנים אינו קיים'
+        correct: true
+        feedback: >-
+          נכון. ל-$k\ne0$ קבוע, $Q(h,k)\to\frac{-k^2}{k^2}=-1$ כש-$h\to0$. לפי למה 5.7.3א, שליחת $h$ ל-0 קודם נותנת את הנגזרת
+          שגוזרת קודם לפי $x$. בסדר ההפוך יוצא $1$, ועל הישר $h=k$ המנה $0$: אין גבול בשני המשתנים.
+      - text: '$\lim_{k\to0}\lim_{h\to0}Q(h,k)=1$, וזו $\frac{\partial^2f}{\partial y\,\partial x}(0,0)$'
+        feedback: >-
+          $1$ הוא הגבול הנשנה בסדר ההפוך ($k\to0$ קודם), והוא $\frac{\partial^2f}{\partial x\,\partial y}(0,0)$. כש-$h\to0$
+          ו-$k\ne0$ קבוע, נשאר $\frac{-k^2}{k^2}=-1$.
+        misconception: MC-c5-mixed-order-convention
+      - text: 'הגבול של $Q$ בשני המשתנים הוא $0$, כי על הישר $h=k$ המנה $0$; לכן שתי הנגזרות המעורבות $0$'
+        feedback: >-
+          ישר אחד אינו מוכיח גבול: על הצירים (בגבול) המנה קרובה ל-$-1$ ול-$1$. ושתי הנגזרות המעורבות הן הגבולות
+          הנשנים, $-1$ ו-$1$, לא הערך על האלכסון.
+        misconception: MC-c5-iterated-limit
+      - text: 'שני הגבולות הנשנים שווים, כי $Q$ סימטרית: $\Delta(h,k)$ אינו משתנה כשמחליפים את סדר הגזירה'
+        feedback: >-
+          $\Delta(h,k)$ אכן סימטרי בשני הקיבוצים (למה 5.7.3א(א)), אבל $Q(k,h)=-Q(h,k)$ כאן, ושני הגבולות הנשנים הם $-1$ ו-$1$.
+          ההפרש השני אינו "יודע" את סדר הגזירה; הגבולות הנשנים כן.
+        misconception: MC-c5-mixed-always-equal
+
+  - id: Q-5.7-one-continuous
+    type: twotier
+    objectives: [OBJ-5.7-2]
+    qualitative: true
+    level: exam
+    prompt: >-
+      נכון או לא נכון: אם $\partial_xf$ ו-$\partial_yf$ קיימות בכדור סביב $(a,b)$, ו-$\frac{\partial^2f}{\partial y\,\partial x}$
+      קיימת בכדור ורציפה ב-$(a,b)$, אז $\frac{\partial^2f}{\partial x\,\partial y}(a,b)$ קיימת ושווה ל-$\frac{\partial^2f}{\partial y\,\partial x}(a,b)$.
+    choices:
+      - text: 'נכון'
+        correct: true
+        feedback: 'נכון: זה משפט 5.7.4א. מספיקה רציפות של נגזרת מעורבת אחת, והקיום של השנייה הוא מסקנה.'
+      - text: 'לא נכון'
+        feedback: >-
+          זה נכון (משפט 5.7.4א). בדוגמה $xy\frac{x^2-y^2}{x^2+y^2}$ הנגזרות המעורבות שונות כי **אף אחת** מהן אינה רציפה
+          בראשית; כאן אחת רציפה, וזה מספיק.
+        misconception: MC-c5-c1-enough-schwarz
+    reasons:
+      - text: 'לפי לגרנז'' פעמיים, $Q(h,k)=\frac{\partial^2f}{\partial y\,\partial x}(\xi,\eta)$, ולכן $Q$ קרובה ל-$L$ בבת אחת לכל $h,k$ קטנים מספיק; כש-$k\to0$ עם $h$ קבוע, אי-השוויון עובר למנת ההפרשים של $\partial_yf$'
+        correct: true
+        feedback: >-
+          בדיוק. הרציפות של הנגזרת האחת נותנת הערכה $|Q(h,k)-L|<\varepsilon$ לכל $h,k$ קטנים, והגבול הפנימי לפי $k$ הוא
+          $\frac{\partial_yf(a+h,b)-\partial_yf(a,b)}{h}$.
+      - text: 'כי הנגזרות המעורבות שוות בכל נקודה שבה שתיהן קיימות'
+        feedback: >-
+          לא: בדוגמה $xy\frac{x^2-y^2}{x^2+y^2}$ שתיהן קיימות בראשית ושונות. מה שעובד כאן הוא הרציפות של אחת מהן.
+        misconception: MC-c5-mixed-always-equal
+      - text: 'כי $f$ היא בהכרח $C^2$ בכדור'
+        feedback: >-
+          לא נתון שהנגזרות השניות רציפות בכדור, ואפילו לא ש-$\frac{\partial^2f}{\partial x\,\partial y}$ קיימת מחוץ לנקודה.
+          ההוכחה משתמשת רק ברציפות של נגזרת אחת בנקודה אחת.
+        misconception: MC-c5-ck-confusion

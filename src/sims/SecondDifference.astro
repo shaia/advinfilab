@@ -1,0 +1,7 @@
+---
+/** Lesson 5.7 figure: <Spread figure={SecondDifference} figureProps={{ preset, presets, r, u, v, tasks }}>. */
+import SecondDifference, { type SecondDifferenceProps } from './SecondDifference';
+type Props = SecondDifferenceProps;
+---
+
+<SecondDifference client:visible {...Astro.props} />

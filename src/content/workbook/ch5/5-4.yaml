@@ -1,0 +1,515 @@
+# Workbook of lesson 5.4 — a sufficient condition for differentiability, and the gradient.
+# Objectives (src/course.ts):
+#   OBJ-5.4-1  continuous partial derivatives in a neighbourhood ⇒ differentiable; a differentiable function that is not C¹
+#   OBJ-5.4-2  the gradient: direction of steepest ascent, orthogonal to the level curves
+#   OBJ-5.4-3  the tangent plane to a graph and to a level surface
+# Results cited by the numbers of the chapter-5 spine (5.m.k) and of chapters 1–4. Every number recomputed with
+# npx tsx (gradients and Jacobians by finite differences in src/math/multivar.ts as a probe, the tangent planes at a
+# nearby point, the formula of W-5.4-08 against a central difference, the volume of W-5.4-10 at (2, 1/2, 1), and the
+# Putnam identity of c2 on a rotated orthonormal frame with a, b, c = 1, 2, 3).
+lesson: '5.4'
+practice:
+  - id: W-5.4-01
+    level: basic
+    objectives: [OBJ-5.4-1]
+    prompt: >-
+      תהי $F:\mathbb{R}^3\to\mathbb{R}^2$, $F(x,y,z)=\big(xyz,\ e^x\cos z\big)$. הוכיחו ש-$F\in C^1(\mathbb{R}^3)$, וחשבו את
+      $J_F(1,2,0)$ ואת $DF(1,2,0)(h,k,l)$.
+    answer: >-
+      $J_F(1,2,0)=\begin{pmatrix}0&0&2\\ e&0&0\end{pmatrix}$, ו-$DF(1,2,0)(h,k,l)=(2l,\ eh)$.
+    solution:
+      - kind: idea
+        text: >-
+          מחשבים את שש הנגזרות החלקיות לפי כללי הגזירה של משתנה אחד, ורואים שהן רציפות. מסקנה 5.4.3 נותנת דיפרנציאביליות,
+          ומשפט 5.3.7 אומר שהדיפרנציאל הוא מטריצת יעקובי.
+      - kind: computation
+        text: >-
+          לרכיב $F_1=xyz$: $\partial_xF_1=yz$, $\partial_yF_1=xz$, $\partial_zF_1=xy$. לרכיב $F_2=e^x\cos z$:
+          $\partial_xF_2=e^x\cos z$, $\partial_yF_2=0$, $\partial_zF_2=-e^x\sin z$. כל הנוסחאות נכונות בכל נקודה, כשהמשתנים
+          האחרים קבועים.
+      - kind: theorem
+        text: >-
+          כל שש הנגזרות הן מכפלות והרכבות של פולינומים, $e^t$, $\cos t$ ו-$\sin t$, ולכן רציפות על $\mathbb{R}^3$ (טענה
+          5.1.5). לכן $F\in C^1(\mathbb{R}^3)$, ולפי מסקנה 5.4.3 $F$ דיפרנציאבילית בכל נקודה, עם $DF(a)$ שהמטריצה שלה
+          $J_F(a)$ (משפט 5.3.7).
+      - kind: computation
+        text: >-
+          ב-$(1,2,0)$: $yz=0$, $xz=0$, $xy=2$, $e^1\cos0=e$, $0$, $-e\sin0=0$. לכן
+          $$J_F(1,2,0)=\begin{pmatrix}0&0&2\\ e&0&0\end{pmatrix},$$ ו-$DF(1,2,0)(h,k,l)=(2l,\ eh)$.
+      - kind: check
+        text: >-
+          הפרשים סופיים (בדיקה מספרית) נותנים $\begin{pmatrix}0&0&2\\ 2.71828&0&0\end{pmatrix}$. וגם בלי חישוב: ליד
+          $(1,2,0)$, $F_1=xyz$ משתנה בעיקר דרך $z$ (כי $z=0$ מאפס את שתי הנגזרות האחרות), ו-$F_2$ אינה תלויה ב-$y$ בכלל.
+      - kind: result
+        text: >-
+          $F\in C^1(\mathbb{R}^3)$; $J_F(1,2,0)=\begin{pmatrix}0&0&2\\ e&0&0\end{pmatrix}$ ו-$DF(1,2,0)(h,k,l)=(2l,\ eh)$.
+
+  - id: W-5.4-02
+    level: basic
+    objectives: [OBJ-5.4-2]
+    prompt: >-
+      תהי $f(x,y)=\ln(x^2+y^2)$ על $\mathbb{R}^2\setminus\{0\}$, ו-$a=(3,4)$.
+
+      (א) חשבו את $\nabla f(a)$, את הקצב הגדול ביותר של עליית $f$ מ-$a$ ואת הכיוון שבו הוא מתקבל.
+
+      (ב) חשבו את $D_vf(a)$ בכיוון $v=(1,0)$, ומצאו את וקטורי היחידה שבהם $D_vf(a)=0$. מה הקשר שלהם לקו הגובה של
+      $f$ דרך $a$?
+    answer: >-
+      (א) $\nabla f(a)=\left(\frac6{25},\frac8{25}\right)$; הקצב המרבי $\frac25$, בכיוון $\frac15(3,4)$. (ב) $\frac6{25}$;
+      $v=\pm\frac15(4,-3)$, המשיקים למעגל $x^2+y^2=25$, שהוא קו הגובה $f=\ln25$.
+    solution:
+      - kind: theorem
+        text: >-
+          $\ln$ גזירה על $(0,\infty)$, ו-$x^2+y^2>0$ על הקבוצה הפתוחה $\mathbb{R}^2\setminus\{0\}$. הנגזרות החלקיות
+          $\partial_xf=\frac{2x}{x^2+y^2}$ ו-$\partial_yf=\frac{2y}{x^2+y^2}$ רציפות שם, ולכן $f$ דיפרנציאבילית (מסקנה
+          5.4.3), ומשפט 5.4.6 חל.
+      - kind: computation
+        text: >-
+          (א) ב-$(3,4)$: $x^2+y^2=25$, ולכן $\nabla f(a)=\left(\frac6{25},\frac8{25}\right)$. הקצב המרבי
+          $\|\nabla f(a)\|_2=\frac{\sqrt{36+64}}{25}=\frac{10}{25}=\frac25$, בכיוון
+          $\frac{\nabla f(a)}{\|\nabla f(a)\|_2}=\frac1{10}(6,8)=\frac15(3,4)$: הכיוון הרדיאלי, החוצה מהראשית.
+      - kind: computation
+        text: >-
+          (ב) $D_{(1,0)}f(a)=\partial_xf(a)=\frac6{25}$. $D_vf(a)=\frac{6v_1+8v_2}{25}=0$ אם ורק אם $3v_1+4v_2=0$; עם
+          $v_1^2+v_2^2=1$: $v=\pm\frac15(4,-3)$.
+      - kind: step
+        text: >-
+          קו הגובה דרך $a$ הוא $\ln(x^2+y^2)=\ln25$, כלומר המעגל $x^2+y^2=25$. המסילה $\gamma(t)=(5\cos t,5\sin t)$ עליו
+          עוברת ב-$a$ כש-$\cos t=\frac35$, $\sin t=\frac45$, עם המהירות $(-5\sin t,5\cos t)=(-4,3)=-5\cdot\frac15(4,-3)$: מקבילה
+          לווקטורים שמצאנו, כפי שמשפט 5.4.8 מבטיח.
+      - kind: check
+        text: >-
+          כאן קווי הגובה הם מעגלים סביב הראשית, ולכן הגרדיאנט רדיאלי: זה המקרה המיוחד שבו "הרחק מהמרכז" כן נכון. ו-$\frac6{25}\le\frac25$, כמו שקושי-שוורץ דורש.
+      - kind: result
+        text: >-
+          (א) $\nabla f(3,4)=\left(\frac6{25},\frac8{25}\right)$, קצב מרבי $\frac25$ בכיוון $\frac15(3,4)$. (ב) $D_{(1,0)}f=\frac6{25}$;
+          $D_vf=0$ ב-$v=\pm\frac15(4,-3)$, המשיקים למעגל $x^2+y^2=25$.
+
+  - id: W-5.4-03
+    level: basic
+    objectives: [OBJ-5.4-3]
+    prompt: >-
+      כתבו את משוואת המישור המשיק לגרף של $f(x,y)=x^2y-y^3$ בנקודה שמעל $(1,2)$, ומצאו וקטור ניצב למישור.
+    answer: >-
+      $z=4x-11y+12$; וקטור ניצב $(4,-11,-1)$.
+    solution:
+      - kind: computation
+        text: >-
+          $f(1,2)=2-8=-6$. $f$ פולינום, ולכן דיפרנציאבילית (מסקנה 5.4.3). $\nabla f=(2xy,\ x^2-3y^2)$, ו-$\nabla f(1,2)=(4,\ 1-12)=(4,-11)$.
+      - kind: definition
+        text: >-
+          לפי הגדרה 5.4.9 המישור הוא $z=f(a)+\nabla f(a)\cdot(x-a)$, כלומר $z=-6+4(x-1)-11(y-2)$.
+      - kind: computation
+        text: >-
+          פתיחת סוגריים: $z=-6+4x-4-11y+22=4x-11y+12$. לפי (ג) שאחרי הגדרה 5.4.9, $(\nabla f(a),-1)=(4,-11,-1)$ ניצב למישור.
+      - kind: check
+        text: >-
+          המישור עובר בנקודה: $4-22+12=-6$. ב-$(1.01,\ 2.01)$ המישור נותן $-6.07$ והפונקציה $-6.0702$: הפרש מסדר שני.
+      - kind: result
+        text: >-
+          $z=4x-11y+12$, עם וקטור ניצב $(4,-11,-1)$.
+
+  - id: W-5.4-04
+    level: mid
+    qualitative: true
+    objectives: [OBJ-5.4-1]
+    prompt: >-
+      נכון או לא נכון? נמקו כל סעיף: הוכחה, או דוגמה נגדית.
+
+      (א) אם $f\in C^1(U)$, אז לכל וקטור יחידה $v$ הפונקציה $x\mapsto D_vf(x)$ רציפה על $U$.
+
+      (ב) אם $f:\mathbb{R}^2\to\mathbb{R}$ דיפרנציאבילית בכל נקודה, אז $\partial_xf$ רציפה.
+
+      (ג) אם $f$ רציפה ב-$0$ ו-$f\in C^1(\mathbb{R}^2\setminus\{0\})$, אז $f$ דיפרנציאבילית ב-$0$.
+    answer: >-
+      (א) נכון: $D_vf(x)=\nabla f(x)\cdot v$. (ב) לא נכון: $f(x,y)=x^2\sin\frac1x$ (ו-0 כש-$x=0$). (ג) לא נכון:
+      $\|(x,y)\|_2$.
+    solution:
+      - kind: step
+        text: >-
+          (א) **נכון.** לפי מסקנה 5.4.3, $f$ דיפרנציאבילית בכל $x\in U$, ולפי משפט 5.4.6
+          $D_vf(x)=\nabla f(x)\cdot v=\sum_jv_j\,\partial_jf(x)$: צירוף לינארי, עם מקדמים קבועים, של פונקציות רציפות.
+      - kind: step
+        text: >-
+          (ב) **לא נכון.** תהי $f(x,y)=x^2\sin\frac1x$ ל-$x\ne0$ ו-$f(0,y)=0$ (פונקציה של $x$ בלבד). על הקבוצה הפתוחה
+          $\{x\ne0\}$: $\partial_xf=2x\sin\frac1x-\cos\frac1x$ ו-$\partial_yf=0$, רציפות, ולכן $f$ דיפרנציאבילית שם (מסקנה
+          5.4.3).
+      - kind: step
+        text: >-
+          בנקודה $(0,y_0)$: $f(0+h,y_0+k)-f(0,y_0)=h^2\sin\frac1h$ (או 0 כש-$h=0$), שערכו המוחלט לכל היותר
+          $h^2\le\|(h,k)\|_2^2$. עם המועמד $T=0$ המנה חסומה ב-$\|(h,k)\|_2\to0$: $f$ דיפרנציאבילית שם, עם
+          $\partial_xf(0,y_0)=0$.
+      - kind: step
+        text: >-
+          אבל ב-$x_k=\frac1{2\pi k}$: $\partial_xf(x_k,y_0)=0-\cos(2\pi k)=-1$, ו-$(x_k,y_0)\to(0,y_0)$. לכן $\partial_xf$ אינה
+          רציפה באף נקודה של הציר $x=0$ (משפט 1.6.3).
+      - kind: step
+        text: >-
+          (ג) **לא נכון.** $f(x,y)=\|(x,y)\|_2$ רציפה, וב-$\mathbb{R}^2\setminus\{0\}$ הנגזרות החלקיות $\frac x\rho$,
+          $\frac y\rho$ רציפות. אבל לפי טענה 5.2.3(ב) אין לה נגזרת כיוונית בראשית באף כיוון, ולכן היא אינה דיפרנציאבילית
+          שם (משפט 5.3.7).
+      - kind: check
+        text: >-
+          (ב) הוא הגרסה הדו-ממדית "העצלה" של $x^2\sin\frac1x$: בטענה 5.4.4 אותה תופעה מופיעה בנקודה אחת, וכאן על ישר
+          שלם. (ג) מראה שבנקודה שבה הנוסחה משתנה, משפט 5.4.2 אינו אומר דבר, וחוזרים להגדרה.
+      - kind: result
+        text: >-
+          (א) נכון; (ב) לא נכון ($x^2\sin\frac1x$, דיפרנציאבילית בכל מקום, $\partial_xf$ אינה רציפה על הציר $x=0$); (ג)
+          לא נכון ($\|(x,y)\|_2$).
+
+  - id: W-5.4-05
+    level: mid
+    objectives: [OBJ-5.4-1]
+    prompt: >-
+      יהי $\varphi(t)=t^2\sin\frac1t$ ל-$t\ne0$ ו-$\varphi(0)=0$, ותהי $f(x,y)=\varphi(x+y)$. הוכיחו ש-$f$ דיפרנציאבילית בכל
+      נקודה של $\mathbb{R}^2$, ומצאו את הקבוצה שעליה $\partial_xf$ רציפה.
+    answer: >-
+      $f$ דיפרנציאבילית בכל מקום; על הישר $x+y=0$, $Df=0$. $\partial_xf(x,y)=\varphi'(x+y)$ רציפה בדיוק על הקבוצה
+      $\{x+y\ne0\}$.
+    solution:
+      - kind: idea
+        text: >-
+          $f$ תלויה רק ב-$s=x+y$. מחוץ לישר $s=0$ היא גזירה ברציפות; על הישר, $|f|\le s^2\le2\|h\|^2$ נותן דיפרנציאביליות
+          ישירות. הנגזרת החלקית היא $\varphi'(s)$, שאינה רציפה ב-$s=0$.
+      - kind: computation
+        text: >-
+          **1.** לכל $y$ קבוע, $x\mapsto f(x,y)=\varphi(x+y)$, ולפי כלל השרשרת של משתנה אחד (אינפי 1)
+          $\partial_xf(x,y)=\varphi'(x+y)$; כך גם $\partial_yf(x,y)=\varphi'(x+y)$. כאן $\varphi'(t)=2t\sin\frac1t-\cos\frac1t$
+          ל-$t\ne0$, ו-$\varphi'(0)=\lim_{t\to0}t\sin\frac1t=0$.
+      - kind: step
+        text: >-
+          **2.** על הקבוצה הפתוחה $\{x+y\ne0\}$ שתי הנגזרות רציפות (הרכבה של $\varphi'$, רציפה על $t\ne0$, עם $x+y$), ולכן
+          $f$ גזירה ברציפות ודיפרנציאבילית שם (מסקנה 5.4.3).
+      - kind: step
+        text: >-
+          **3.** ב-$(a,-a)$: $f(a+h,-a+k)=\varphi(h+k)$, ו-$|\varphi(h+k)|\le(h+k)^2\le2(h^2+k^2)$. עם $f(a,-a)=0$ והמועמד
+          $T=0$: $\frac{|f(a+h,-a+k)|}{\|(h,k)\|_2}\le2\|(h,k)\|_2\to0$. לכן $f$ דיפרנציאבילית שם, $Df(a,-a)=0$.
+      - kind: step
+        text: >-
+          **4.** $\partial_xf$ אינה רציפה ב-$(a,-a)$: הנקודות $(a+\frac1{2\pi k},-a)$ שואפות אליה, ושם
+          $\partial_xf=\varphi'(\frac1{2\pi k})=-1$, בעוד $\partial_xf(a,-a)=0$.
+      - kind: check
+        text: >-
+          בדיקה מספרית של $\varphi'(\frac1{2\pi k})$ ל-$k=1,3,10$ נותנת $-1$ בכל פעם, והנוסחה של $\varphi'$ מסכימה עם הפרש
+          מרכזי ב-$t=0.3$ ($0.86733$). זו דוגמה לפונקציה דיפרנציאבילית בכל המישור שהנגזרות החלקיות שלה אינן רציפות על ישר
+          שלם.
+      - kind: result
+        text: >-
+          $f$ דיפרנציאבילית בכל $\mathbb{R}^2$ ($Df=0$ על הישר $x+y=0$); $\partial_xf$ רציפה בדיוק על $\{x+y\ne0\}$, ולכן
+          $f$ אינה ב-$C^1(\mathbb{R}^2)$.
+
+  - id: W-5.4-06
+    level: mid
+    objectives: [OBJ-5.4-2]
+    prompt: >-
+      הנקודה $(3,1)$ נמצאת על העקומה $C:\ x^2-xy+y^2=7$.
+
+      (א) מצאו וקטור ניצב ל-$C$ בנקודה $(3,1)$, וכתבו את משוואת הקו המשיק שם.
+
+      (ב) מצאו את כל הנקודות של $C$ שבהן הקו המשיק אופקי.
+    answer: >-
+      (א) $(5,-1)$; הקו $y=5x-14$. (ב) $\pm\left(\sqrt{\tfrac73},\ 2\sqrt{\tfrac73}\right)$.
+    solution:
+      - kind: idea
+        text: >-
+          $C$ היא קו הגובה $F=7$ של $F=x^2-xy+y^2$, ולפי משפט 5.4.8 הגרדיאנט ניצב לכל מסילה בקו הגובה. לכן הקו המשיק
+          הוא הישר דרך הנקודה הניצב לגרדיאנט.
+      - kind: computation
+        text: >-
+          (א) $F(3,1)=9-3+1=7$. $\nabla F=(2x-y,\ 2y-x)$, ו-$\nabla F(3,1)=(5,-1)\ne0$. הקו המשיק:
+          $5(x-3)-(y-1)=0$, כלומר $y=5x-14$, בכיוון $(1,5)$.
+      - kind: step
+        text: >-
+          (ב) הקו המשיק אופקי כשהווקטור הניצב $\nabla F$ אנכי, כלומר $\partial_xF=2x-y=0$ ו-$\partial_yF\ne0$. הצבת $y=2x$
+          ב-$C$: $x^2-2x^2+4x^2=3x^2=7$, ולכן $x=\pm\sqrt{\frac73}$ ו-$y=2x$.
+      - kind: check
+        text: >-
+          ב-$(\sqrt{7/3},2\sqrt{7/3})$, $\partial_yF=4x-x=3x\ne0$, כך שהגרדיאנט באמת אנכי ולא אפס. מספרית
+          $(1.52753,\ 3.05505)$, ו-$F$ שם 7. ב-(א), $(5,-1)\cdot(1,5)=0$.
+      - kind: result
+        text: >-
+          (א) ניצב $(5,-1)$, קו משיק $y=5x-14$. (ב) $\left(\sqrt{\tfrac73},2\sqrt{\tfrac73}\right)$ ו-$\left(-\sqrt{\tfrac73},-2\sqrt{\tfrac73}\right)$.
+
+  - id: W-5.4-07
+    level: mid
+    qualitative: true
+    objectives: [OBJ-5.4-2]
+    prompt: >-
+      נכון או לא נכון? נמקו כל סעיף.
+
+      (א) אם $f$ דיפרנציאבילית ב-$a$ ו-$\nabla f(a)=0$, אז $D_vf(a)=0$ לכל וקטור יחידה $v$.
+
+      (ב) אם לכל וקטור יחידה $v$ הנגזרת $D_vf(a)$ קיימת, ו-$\partial_xf(a)=\partial_yf(a)=0$, אז $D_vf(a)=0$ לכל $v$.
+
+      (ג) אם $f$ דיפרנציאבילית ב-$a$ ו-$|D_vf(a)|\le1$ לכל וקטור יחידה $v$, אז $\|\nabla f(a)\|_2\le1$.
+    answer: >-
+      (א) נכון. (ב) לא נכון: $\frac{x^2y}{x^4+y^2}$ בראשית. (ג) נכון: בוחרים $v$ בכיוון הגרדיאנט.
+    solution:
+      - kind: step
+        text: >-
+          (א) **נכון.** לפי משפט 5.4.6, $D_vf(a)=\nabla f(a)\cdot v=0\cdot v=0$.
+      - kind: step
+        text: >-
+          (ב) **לא נכון.** ל-$g=\frac{x^2y}{x^4+y^2}$ (עם $g(0)=0$), לפי טענה 5.2.5 כל הנגזרות הכיווניות בראשית קיימות,
+          $D_{e_1}g(0)=D_{e_2}g(0)=0$, ו-$D_{(3/5,4/5)}g(0)=\frac9{20}\ne0$. הנוסחה $D_vg=\nabla g\cdot v$ דורשת
+          דיפרנציאביליות, ו-$g$ אינה רציפה בראשית.
+      - kind: step
+        text: >-
+          (ג) **נכון.** אם $\nabla f(a)=0$ אין מה להוכיח. אחרת, עם $v=\frac{\nabla f(a)}{\|\nabla f(a)\|_2}$, משפט 5.4.6 נותן
+          $D_vf(a)=\|\nabla f(a)\|_2$, ולפי ההנחה זה לכל היותר 1.
+      - kind: check
+        text: >-
+          (א) ו-(ג) נשענים על הדיפרנציאביליות; (ב) מראה מה קורה בלעדיה. ההיפוך של (ג) נכון גם הוא, לפי קושי-שוורץ:
+          $\|\nabla f(a)\|_2\le1$ גורר $|D_vf(a)|\le1$ לכל $v$.
+      - kind: result
+        text: >-
+          (א) נכון; (ב) לא נכון ($\frac{x^2y}{x^4+y^2}$ בראשית); (ג) נכון.
+
+  - id: W-5.4-08
+    level: exam
+    objectives: [OBJ-5.4-1, OBJ-5.4-3]
+    prompt: >-
+      תהי $f(x,y)=\frac{x^4+y^4}{x^2+y^2}$ ל-$(x,y)\ne(0,0)$ ו-$f(0,0)=0$.
+
+      (א) הוכיחו ש-$f\in C^1(\mathbb{R}^2)$.
+
+      (ב) כתבו את המישורים המשיקים לגרף של $f$ מעל $(0,0)$ ומעל $(1,1)$.
+    answer: >-
+      (א) $\left|\partial_xf\right|\le2|x|$ מחוץ לראשית, $\partial_xf(0,0)=0$, וכך גם ל-$y$. (ב) $z=0$, ו-$z=x+y-1$.
+    solution:
+      - kind: idea
+        text: >-
+          מחוץ לראשית מחשבים לפי כללי הגזירה; בראשית מחשבים מההגדרה. הרציפות בראשית נובעת מחסם על הנגזרת החלקית שאינו
+          תלוי בזווית (טענה 5.1.9).
+      - kind: computation
+        text: >-
+          **1.** מחוץ לראשית, לפי כלל המנה (אינפי 1), עם $\rho^2=x^2+y^2$:
+          $$\frac{\partial f}{\partial x}=\frac{4x^3\rho^2-2x(x^4+y^4)}{\rho^4}=\frac{2x\,(x^4+2x^2y^2-y^4)}{\rho^4},$$
+          וזו פונקציה רציפה על $\mathbb{R}^2\setminus\{0\}$. מהסימטריה $f(x,y)=f(y,x)$ אותו דבר ל-$\partial_yf$, עם $x$ ו-$y$
+          מוחלפים.
+      - kind: computation
+        text: >-
+          **2.** בראשית: $\frac{f(t,0)-f(0,0)}t=\frac{t^4}{t^2\cdot t}=t\to0$, ולכן $\partial_xf(0,0)=0$; וכך $\partial_yf(0,0)=0$.
+      - kind: step
+        text: >-
+          **3.** $|x^4+2x^2y^2-y^4|\le x^4+2x^2y^2+y^4=\rho^4$, ולכן מחוץ לראשית $\left|\partial_xf\right|\le2|x|\le2\rho$.
+          לפי טענה 5.1.9 $\partial_xf(x,y)\to0=\partial_xf(0,0)$, וכך גם $\partial_yf$. שתי הנגזרות רציפות בכל המישור:
+          $f\in C^1(\mathbb{R}^2)$, ולפי מסקנה 5.4.3 $f$ דיפרנציאבילית בכל מקום.
+      - kind: computation
+        text: >-
+          **4.** (ב) בראשית $f=0$ ו-$\nabla f=0$: המישור $z=0$. ב-$(1,1)$: $f=\frac22=1$, ולפי שלב 1
+          $\partial_xf(1,1)=\frac{2(1+2-1)}4=1$, ומהסימטריה $\partial_yf(1,1)=1$. המישור $z=1+(x-1)+(y-1)=x+y-1$.
+      - kind: check
+        text: >-
+          הפרש מרכזי ב-$(0.3,0.1)$ נותן $0.58800$, כמו הנוסחה של שלב 1, ובנקודה $(1,1)$ נותן $(1,1)$. החסם $\le2\rho$ אינו
+          תלוי בזווית, וזה בדיוק מה שהופך את ההוכחה בקואורדינטות קוטביות לתקפה (טענה 5.1.9(ב); השוו לטענה 5.1.10, שבה
+          החסם תלוי בזווית).
+      - kind: result
+        text: >-
+          (א) $f\in C^1(\mathbb{R}^2)$. (ב) מעל $(0,0)$: $z=0$; מעל $(1,1)$: $z=x+y-1$.
+
+  - id: W-5.4-09
+    level: exam
+    qualitative: true
+    objectives: [OBJ-5.4-2]
+    prompt: >-
+      תהי $f:\mathbb{R}^2\to\mathbb{R}$ דיפרנציאבילית בכל נקודה.
+
+      (א) נניח שבכל נקודה $x\ne0$ הגרדיאנט מקביל ל-$x$, כלומר $\nabla f(x)\cdot(-x_2,x_1)=0$. הוכיחו ש-$f$ קבועה על כל
+      מעגל שמרכזו בראשית.
+
+      (ב) להפך, נניח ש-$f$ קבועה על כל מעגל שמרכזו בראשית. הוכיחו ש-$\nabla f(x)$ מקביל ל-$x$ לכל $x\ne0$.
+
+      (ג) נכון או לא נכון: בתנאי (ב), $\nabla f(0)=0$.
+    answer: >-
+      (א) $\varphi(t)=f(r\cos t,r\sin t)$ מקיימת $\varphi'=0$. (ב) משפט 5.4.8 על המעגל. (ג) נכון: $f(te_1)=f(-te_1)$ נותן
+      $\partial_xf(0)=-\partial_xf(0)$, וכך לכל כיוון.
+    solution:
+      - kind: idea
+        text: >-
+          לגזור את $f$ לאורך המעגל בעזרת למה 5.4.7: המהירות של המעגל ב-$x$ היא $(-x_2,x_1)$, כך שהתנאי "הגרדיאנט ניצב
+          למהירות" הוא בדיוק "הנגזרת לאורך המעגל אפס".
+      - kind: step
+        text: >-
+          (א) **1.** יהי $r>0$ ו-$\gamma(t)=(r\cos t,r\sin t)$. אז $\gamma'(t)=(-r\sin t,r\cos t)=(-\gamma_2(t),\gamma_1(t))$.
+          לפי למה 5.4.7, $\varphi=f\circ\gamma$ גזירה ו-$\varphi'(t)=\nabla f(\gamma(t))\cdot(-\gamma_2(t),\gamma_1(t))=0$.
+      - kind: step
+        text: >-
+          **2.** פונקציה עם נגזרת אפס על קטע קבועה (אינפי 1), ולכן $\varphi$ קבועה על $\mathbb{R}$: $f$ קבועה על המעגל
+          ברדיוס $r$. (ב-$r=0$ המעגל הוא נקודה.)
+      - kind: step
+        text: >-
+          (ב) **3.** יהי $x\ne0$, $r=\|x\|_2$, ו-$t_0$ עם $\gamma(t_0)=x$. $f\circ\gamma$ קבועה, ולפי משפט 5.4.8 (אחרי הזזה
+          של הפרמטר) $\nabla f(x)\cdot\gamma'(t_0)=0$, כלומר $\nabla f(x)\perp(-x_2,x_1)$. ב-$\mathbb{R}^2$ הווקטורים
+          הניצבים ל-$(-x_2,x_1)\ne0$ הם הכפולות של $x$.
+      - kind: step
+        text: >-
+          (ג) **4. נכון.** $te_1$ ו-$-te_1$ על אותו מעגל, ולכן $f(te_1)=f(-te_1)$. לכן
+          $\partial_xf(0)=\lim_{t\to0}\frac{f(te_1)-f(0)}t=\lim_{t\to0}\frac{f(-te_1)-f(0)}t$, ובהצבת $s=-t$ הגבול הימני הוא
+          $-\partial_xf(0)$. לכן $\partial_xf(0)=0$, ובאותו אופן $\partial_yf(0)=0$.
+      - kind: check
+        text: >-
+          דוגמה: $f=x^2+y^2$, $\nabla f=2x$, מקביל ל-$x$, ו-$\nabla f(0)=0$. ב-(ג) לא השתמשנו בדיפרנציאביליות ב-0, רק בקיום
+          הנגזרות החלקיות; ומ-$\|x\|_2$ (קבועה על מעגלים, ללא נגזרות חלקיות ב-0) רואים שההנחה שהן קיימות נחוצה.
+      - kind: result
+        text: >-
+          (א) ו-(ב): $f$ קבועה על מעגלים סביב הראשית אם ורק אם $\nabla f(x)\parallel x$ לכל $x\ne0$. (ג) נכון: $\nabla f(0)=0$.
+
+  - id: W-5.4-10
+    level: exam
+    qualitative: true
+    objectives: [OBJ-5.4-3]
+    prompt: >-
+      (א) כתבו את משוואת המישור המשיק למשטח $xyz=1$ בנקודה $(a,b,c)$ שלו עם $a,b,c>0$.
+
+      (ב) הוכיחו שהמישור הזה חותך מהאוקטנט הראשון ($x,y,z\ge0$) ארבעון שנפחו $\frac92$, לכל נקודה כזו.
+
+      (ג) האם יש לקבוצה $xyz=0$ מישור משיק בראשית? נמקו.
+    answer: >-
+      (א) $bcx+acy+abz=3$. (ב) החיתוכים עם הצירים $3a$, $3b$, $3c$, והנפח $\frac{27abc}6=\frac92$. (ג) לא:
+      $\nabla F(0)=0$, והקבוצה מכילה את שלושת הצירים.
+    solution:
+      - kind: computation
+        text: >-
+          (א) $F=xyz\in C^1(\mathbb{R}^3)$, $\nabla F=(yz,xz,xy)$, ו-$\nabla F(a,b,c)=(bc,ac,ab)\ne0$. לפי הגדרה 5.4.10:
+          $bc(x-a)+ac(y-b)+ab(z-c)=0$, כלומר $bcx+acy+abz=3abc=3$.
+      - kind: computation
+        text: >-
+          (ב) עם $abc=1$: החיתוך עם ציר $x$ ($y=z=0$) הוא $x=\frac3{bc}=3a$, ובאותו אופן $3b$ ו-$3c$, כולם חיוביים. הארבעון
+          עם קודקודים בראשית ובשלוש נקודות החיתוך הוא בעל נפח $\frac16\cdot3a\cdot3b\cdot3c=\frac{27abc}6=\frac92$.
+      - kind: step
+        text: >-
+          (ג) **לא.** **1.** $\nabla F(0)=0$, והמשוואה של הגדרה 5.4.10 היא $0=0$. **2.** הקבוצה $xyz=0$ מכילה את
+          המסילות $te_1$, $te_2$, $te_3$ דרך 0, עם המהירויות $e_1,e_2,e_3$, שהן בלתי תלויות. מישור דרך 0 הוא תת-מרחב
+          ממימד 2 ואינו מכיל שלושה וקטורים בלתי תלויים, בדיוק כמו בטענה 5.4.11.
+      - kind: check
+        text: >-
+          ב-$(2,\frac12,1)$: המישור $\frac12x+2y+z=3$, החיתוכים $6$, $\frac32$ ו-$3$, והנפח $\frac{6\cdot1.5\cdot3}6=4.5$.
+          הנפח אינו תלוי בנקודה, וזו העובדה המפתיעה.
+      - kind: result
+        text: >-
+          (א) $bcx+acy+abz=3$; (ב) נפח $\frac92$ תמיד; (ג) אין מישור משיק: הגרדיאנט מתאפס והקבוצה היא איחוד שלושה מישורים.
+
+challenge:
+  - id: W-5.4-c1
+    stars: 1
+    objectives: [OBJ-5.4-1]
+    prompt: >-
+      (חיזוק של משפט 5.4.2.) תהי $U\subseteq\mathbb{R}^2$ פתוחה, $f:U\to\mathbb{R}$ ו-$a=(a_1,a_2)\in U$. נניח ש-$\partial_xf(a)$
+      קיימת (רק בנקודה $a$), ו-$\partial_yf$ קיימת בכל נקודה של כדור $B(a,r)\subseteq U$ ורציפה ב-$a$.
+
+      (א) הוכיחו ש-$f$ דיפרנציאבילית ב-$a$.
+
+      (ב) הסיקו ש-$f(x,y)=x^2\sin\frac1x+y^2$ (עם $x^2\sin\frac1x$ מוחלף ב-0 כש-$x=0$) דיפרנציאבילית בראשית, אף ש-$\partial_xf$
+      אינה רציפה שם.
+    answer: >-
+      (א) מפרקים: צעד אופקי ב-$y=a_2$ (שם משתמשים בהגדרה של $\partial_xf(a)$), ואחריו צעד אנכי (שם לגרנז' ורציפות
+      $\partial_yf$ ב-$a$). (ב) $\partial_yf=2y$ רציפה, ו-$\partial_xf(0,0)=0$ קיימת.
+    solution:
+      - kind: idea
+        text: >-
+          בהוכחה של משפט 5.4.2 הצעד הראשון של המדרגות יוצא מ-$a$ עצמה, לאורך הציר. בצעד הזה לא צריך לגרנז': ההגדרה של
+          הנגזרת החלקית ב-$a$ נותנת בדיוק "השינוי הוא $h_1\partial_xf(a)$ ועוד שגיאה קטנה". רק הצעד השני יוצא מנקודה אחרת,
+          ושם צריך את הרציפות.
+      - kind: step
+        text: >-
+          (א) **1.** יהי $h=(h_1,h_2)$ עם $0<\|h\|_2<r$. נכתוב
+          $$\begin{aligned}f(a+h)-f(a)&=\big[f(a_1+h_1,a_2)-f(a)\big]\\&\quad+\big[f(a_1+h_1,a_2+h_2)-f(a_1+h_1,a_2)\big].\end{aligned}$$
+      - kind: step
+        text: >-
+          **2.** (הסוגריים הראשונים.) נגדיר $\varepsilon_1(t)=\frac{f(a_1+t,a_2)-f(a)}t-\partial_xf(a)$ ל-$t\ne0$ ו-$\varepsilon_1(0)=0$.
+          לפי הגדרה 5.2.1, $\varepsilon_1(t)\to0$, והסוגריים הראשונים שווים $h_1\partial_xf(a)+h_1\varepsilon_1(h_1)$ (גם כש-$h_1=0$).
+      - kind: step
+        text: >-
+          **3.** (הסוגריים השניים.) הקטע האנכי מ-$(a_1+h_1,a_2)$ ל-$a+h$ נמצא ב-$B(a,r)$ (המרחק של כל נקודה בו מ-$a$ לכל
+          היותר $\|h\|_2$), ו-$\partial_yf$ קיימת עליו. לפי למה 5.2.8 יש $\xi$ על הקטע עם
+          $f(a_1+h_1,a_2+h_2)-f(a_1+h_1,a_2)=h_2\,\partial_yf(\xi)$, ו-$\|\xi-a\|_2\le\|h\|_2$.
+      - kind: step
+        text: >-
+          **4.** עם המועמד $Th=h_1\partial_xf(a)+h_2\partial_yf(a)$:
+          $$r(h)=h_1\varepsilon_1(h_1)+h_2\big(\partial_yf(\xi)-\partial_yf(a)\big),$$
+          ולכן $\frac{|r(h)|}{\|h\|_2}\le|\varepsilon_1(h_1)|+|\partial_yf(\xi)-\partial_yf(a)|$.
+      - kind: step
+        text: >-
+          **5.** כש-$h\to0$: $h_1\to0$, ולכן $\varepsilon_1(h_1)\to0$; ו-$\xi\to a$, ולפי רציפות $\partial_yf$ ב-$a$ המחובר השני
+          שואף ל-0. לכן $f$ דיפרנציאבילית ב-$a$.
+      - kind: step
+        text: >-
+          (ב) **6.** $\partial_yf(x,y)=2y$ בכל נקודה, רציפה. $\partial_xf(0,0)=\lim_{t\to0}\frac{t^2\sin(1/t)}t=\lim t\sin\frac1t=0$.
+          לפי (א), $f$ דיפרנציאבילית בראשית. אבל $\partial_xf(x,y)=2x\sin\frac1x-\cos\frac1x$ ל-$x\ne0$, וב-$x_k=\frac1{2\pi k}$
+          הוא $-1$: אינה רציפה בראשית.
+      - kind: check
+        text: >-
+          איפה השתמשנו במה: קיום $\partial_xf$ **רק ב-$a$** בשלב 2, כי הצעד האופקי יוצא מ-$a$; קיום $\partial_yf$ בכדור
+          בשלב 3; רציפותה ב-$a$ בשלב 5. ב-$n$ משתנים אותו טיעון נותן: מספיק ש-$n-1$ מהנגזרות החלקיות יהיו קיימות בכדור
+          סביב $a$ ורציפות ב-$a$, ושהאחרונה תהיה קיימת ב-$a$ (בה עושים את הצעד הראשון של המדרגות, מ-$a$ עצמה).
+      - kind: result
+        text: >-
+          (א) $f$ דיפרנציאבילית ב-$a$; (ב) $x^2\sin\frac1x+y^2$ דיפרנציאבילית בראשית, עם $\partial_xf$ לא רציפה שם.
+    source:
+      name: 'Spivak, Calculus on Manifolds (1965), as quoted with a solution in M. Chien, Spivak Notes and Solutions (2024)'
+      year: 1965
+      problem: 'Exercise 2-33 (the continuity of D_1 f at a may be eliminated from the hypothesis of Theorem 2-8); strengthened here to the existence of the first partial at a only'
+      url: 'https://maxlchien.github.io/downloads/Spivak%20Notes%20and%20Solutions.pdf'
+      verified: '2026-11-17'
+      adapted: true
+
+  - id: W-5.4-c2
+    stars: 2
+    objectives: [OBJ-5.4-3, OBJ-5.4-2]
+    prompt: >-
+      יהיו $a,b,c>0$, $S$ האליפסואיד $ax^2+by^2+cz^2=1$, ו-$K$ הספרה $x^2+y^2+z^2=\frac1a+\frac1b+\frac1c$. הוכיחו: אם נקודה
+      $P$ נמצאת על שלושה מישורים, ניצבים זה לזה בזוגות, שכל אחד מהם משיק ל-$S$, אז $P\in K$.
+    answer: >-
+      אם מישור $n\cdot x=\lambda$ ($n$ וקטור יחידה) משיק ל-$S$, אז $\lambda^2=\frac{n_1^2}a+\frac{n_2^2}b+\frac{n_3^2}c$. שלושת
+      הנורמלים בסיס אורתונורמלי, ולכן $\|P\|_2^2=\sum_i\lambda_i^2$, וסכום תנאי ההשקה נותן $\frac1a+\frac1b+\frac1c$.
+    solution:
+      - kind: idea
+        text: >-
+          שני מרכיבים. (1) לפי הגדרה 5.4.10 המישור המשיק ל-$S$ בנקודה $q$ ניצב ל-$\nabla F(q)$; מזה יוצא תנאי פשוט על מישור
+          $n\cdot x=\lambda$ כדי שיהיה משיק. (2) שלושה נורמלים ניצבים זה לזה הם שורות של מטריצה אורתוגונלית, ולכן גם
+          העמודות שלה אורתונורמליות: זה מה שמסכם את שלושת התנאים לנוסחה שאינה תלויה במישורים.
+      - kind: step
+        text: >-
+          **1.** $F=ax^2+by^2+cz^2\in C^1(\mathbb{R}^3)$, $\nabla F(q)=2(aq_1,bq_2,cq_3)$, שאינו אפס על $S$ (כי $0\notin S$). המישור
+          המשיק ב-$q\in S$ הוא $\nabla F(q)\cdot(x-q)=0$, כלומר $aq_1x+bq_2y+cq_3z=aq_1^2+bq_2^2+cq_3^2=1$.
+      - kind: step
+        text: >-
+          **2.** נכתוב אותו כ-$n\cdot x=\lambda$ עם $n$ וקטור יחידה: $n=\frac{(aq_1,bq_2,cq_3)}N$ ו-$\lambda=\frac1N$, כאשר
+          $N=\|(aq_1,bq_2,cq_3)\|_2$. אז $q_1=\frac{n_1}{a\lambda}$, $q_2=\frac{n_2}{b\lambda}$, $q_3=\frac{n_3}{c\lambda}$, והצבה
+          ב-$F(q)=1$ נותנת
+          $$\frac{n_1^2}a+\frac{n_2^2}b+\frac{n_3^2}c=\lambda^2 .$$
+          התנאי אינו משתנה כשמחליפים $(n,\lambda)$ ב-$(-n,-\lambda)$, ולכן הוא נכון לכל כתיבה של מישור משיק בצורה
+          $n\cdot x=\lambda$ עם $\|n\|_2=1$.
+      - kind: step
+        text: >-
+          **3.** יהיו שלושת המישורים $n^{(i)}\cdot x=\lambda_i$, $i=1,2,3$, עם $n^{(i)}$ וקטורי יחידה ניצבים בזוגות (הנורמלים של
+          מישורים ניצבים ניצבים זה לזה), ו-$P$ על שלושתם: $\lambda_i=n^{(i)}\cdot P$.
+      - kind: step
+        text: >-
+          **4.** $n^{(1)},n^{(2)},n^{(3)}$ בסיס אורתונורמלי של $\mathbb{R}^3$, ולכן (אלגברה לינארית 2)
+          $\|P\|_2^2=\sum_i(n^{(i)}\cdot P)^2=\sum_i\lambda_i^2$.
+      - kind: step
+        text: >-
+          **5.** המטריצה $Q$ שהשורות שלה $n^{(i)}$ אורתוגונלית: $QQ^T=I$, ולכן גם $Q^TQ=I$, כלומר גם העמודות אורתונורמליות:
+          $\sum_i(n^{(i)}_1)^2=\sum_i(n^{(i)}_2)^2=\sum_i(n^{(i)}_3)^2=1$.
+      - kind: step
+        text: >-
+          **6.** סכום של תנאי שלב 2 על שלושת המישורים, וסידור לפי הקואורדינטות:
+          $$\sum_i\lambda_i^2=\frac{\sum_i(n^{(i)}_1)^2}a+\frac{\sum_i(n^{(i)}_2)^2}b+\frac{\sum_i(n^{(i)}_3)^2}c=\frac1a+\frac1b+\frac1c .$$
+          לפי שלב 4 זה $\|P\|_2^2$, כלומר $P\in K$.
+      - kind: check
+        text: >-
+          מקרה פרטי: הכדור $a=b=c=1$, והמישורים $x=1$, $y=1$, $z=1$ משיקים לו ונפגשים ב-$(1,1,1)$, עם
+          $\|P\|_2^2=3=\frac11+\frac11+\frac11$. ובדיקה מספרית עם $a,b,c=1,2,3$ ומערכת אורתונורמלית מסובבת: $\|P\|_2^2=1.83333$,
+          ו-$1+\frac12+\frac13=1.83333$.
+      - kind: result
+        text: >-
+          $\|P\|_2^2=\frac1a+\frac1b+\frac1c$: כל נקודה ששלושה מישורים משיקים ניצבים זה לזה עוברים בה נמצאת על הספרה $K$.
+    source:
+      name: '3rd Putnam 1940 (solutions page, Kalva archive)'
+      year: 1940
+      problem: 'B4'
+      url: 'https://prase.cz/kalva/putnam/psoln/psol4012.html'
+      verified: '2026-11-17'
+      adapted: true

@@ -26,7 +26,41 @@
   term: גבול לאורך מסילה
   en: limit along a path
   definition: >-
-    לפונקציה $f$ ולמסילה רציפה $\gamma$ עם $\gamma(t)\ne a$ ל-$t>0$ ו-$\gamma(t)\to a$ כש-$t\to0^+$: הגבול
-    $\lim_{t\to0^+}f(\gamma(t))$. אם ל-$f$ יש גבול $L$ ב-$a$, הגבול לאורך כל מסילה כזו הוא $L$; לכן שתי מסילות עם
-    גבולות שונים מוכיחות שאין גבול.
+    לפונקציה $f$ ולמסילה $\gamma:(0,t_0)\to A\setminus\{a\}$ עם $\gamma(t)\to a$ כש-$t\to0^+$: הגבול
+    $\lim_{t\to0^+}f(\gamma(t))$. אם ל-$f$ יש גבול $L$ ב-$a$, הגבול לאורך כל מסילה כזו הוא $L$ (מסקנה 5.1.7); לכן
+    שתי מסילות עם גבולות שונים מוכיחות שאין גבול. ההפך אינו נכון: גבול לאורך כל ישר אינו מספיק.
+  lesson: '5.1'
+- id: limit-of-a-function
+  term: גבול של פונקציה בנקודה
+  en: limit of a function at a point
+  symbol: '\lim_{x\to a}f(x)=L'
+  definition: >-
+    יהיו $X$, $Y$ מרחבים מטריים, $f:A\to Y$ עם $A\subseteq X$, ו-$a$ נקודת הצטברות של $A$. $L$ הוא הגבול של $f$
+    ב-$a$ אם לכל $\varepsilon>0$ יש $\delta>0$ כך שלכל $x\in A$ עם $0<d(x,a)<\delta$ מתקיים $d(f(x),L)<\varepsilon$.
+    הפונקציה לא חייבת להיות מוגדרת ב-$a$, והערך שלה שם (אם יש) אינו משחק תפקיד.
+  lesson: '5.1'
+- id: graph-of-a-function
+  term: גרף של פונקציה
+  en: graph of a function
+  symbol: '\Gamma_f=\{(x,f(x)):\ x\in A\}'
+  definition: >-
+    לפונקציה ממשית $f:A\to\mathbb{R}$ עם $A\subseteq\mathbb{R}^n$: הקבוצה $\{(x,f(x)):\ x\in A\}$, תת-קבוצה של
+    $\mathbb{R}^{n+1}$. לעומתו, קבוצות הגובה של $f$ הן תת-קבוצות של התחום $A\subseteq\mathbb{R}^n$.
+  lesson: '5.1'
+- id: iterated-limit
+  term: גבול נשנה
+  en: iterated limit
+  symbol: '\lim_{x\to a}\lim_{y\to b}f(x,y)'
+  definition: >-
+    גבול של גבול: קודם, לכל $x$ קבוע, הגבול $\varphi(x)=\lim_{y\to b}f(x,y)$ במשתנה אחד, ואחר כך
+    $\lim_{x\to a}\varphi(x)$. שני הגבולות הנשנים יכולים להיות שווים בלי שיהיה גבול בשני משתנים
+    ($\frac{xy}{x^2+y^2}$ בראשית); אם הגבול בשני משתנים קיים והגבולות הפנימיים קיימים, הגבול הנשנה שווה לו.
+  lesson: '5.1'
+- id: separately-continuous
+  term: רציפה בכל משתנה בנפרד
+  en: separately continuous
+  definition: >-
+    $f$ של שני משתנים רציפה בכל משתנה בנפרד ב-$(a,b)$ אם $x\mapsto f(x,b)$ רציפה ב-$a$ ו-$y\mapsto f(a,y)$ רציפה
+    ב-$b$. זה נובע מרציפות, ואינו גורר אותה: $\frac{xy}{x^2+y^2}$ (עם 0 בראשית) רציפה בכל משתנה בנפרד ואינה רציפה
+    בראשית.
   lesson: '5.1'

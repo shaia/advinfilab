@@ -8,7 +8,7 @@
     לפונקציה מחלקה $C^2$ הנגזרות המעורבות שוות, ולכן ב-$\mathbb{R}^n$ יש לכל היותר $\frac{n(n+1)}{2}$ נגזרות שונות מסדר
     שני. ולהפך: אם $P=\frac{\partial f}{\partial x}$ ו-$Q=\frac{\partial f}{\partial y}$ עם $P,Q\in C^1$, אז בהכרח
     $\frac{\partial P}{\partial y}=\frac{\partial Q}{\partial x}$.
-  remedy: { lesson: '5.7', label: 'משפט שוורץ: מה הסימטריה נותנת' }
+  remedy: { lesson: '5.7', anchor: 'consequences', label: 'משפט שוורץ: מה הסימטריה נותנת' }
 
 - id: MC-c5-mixed-order-convention
   title: מתבלבלים בסדר הגזירה או בנגזרת המבוקשת
@@ -19,7 +19,7 @@
     בקורס הזה $\frac{\partial^2f}{\partial y\,\partial x}=\frac{\partial}{\partial y}\left(\frac{\partial f}{\partial x}\right)$:
     קודם לפי $x$, אחר כך לפי $y$ (המשתנה הקרוב ל-$f$ ראשון). הנגזרת המעורבת גוזרת פעם לפי כל משתנה. כשאין רציפות
     הסדר משנה: בדוגמה של שוורץ אחת היא $-1$ והשנייה $1$.
-  remedy: { lesson: '5.7', label: 'נגזרות חלקיות מסדר שני: סימון וסדר' }
+  remedy: { lesson: '5.7', anchor: 'notation', label: 'נגזרות חלקיות מסדר שני: סימון וסדר' }
 
 - id: MC-c5-ck-confusion
   title: מבלבלים בין המחלקות C1 ו-C2 לבין קיום של נגזרות
@@ -29,7 +29,7 @@
   truth: >-
     $f\in C^k(U)$ אם **כל** הנגזרות החלקיות מסדר עד $k$, כולל המעורבות, קיימות ו**רציפות** ב-$U$. $C^{k+1}\subseteq C^k$.
     $x|x|$ היא $C^1$ ולא $C^2$, ו-$|x|^3$ היא $C^2$ ולא $C^3$.
-  remedy: { lesson: '5.7', label: 'המחלקות C^k' }
+  remedy: { lesson: '5.7', anchor: 'classes', label: 'המחלקות C^k' }
 
 - id: MC-c5-mixed-always-equal
   title: חושבים שהנגזרות המעורבות תמיד שוות
@@ -38,7 +38,7 @@
   truth: >-
     ל-$f=xy\frac{x^2-y^2}{x^2+y^2}$ (ו-0 בראשית): $\frac{\partial f}{\partial x}(0,y)=-y$ ו-$\frac{\partial f}{\partial y}(x,0)=x$,
     ולכן בראשית הנגזרות המעורבות $-1$ ו-$1$. השוויון הוא משפט, עם הנחת רציפות של הנגזרות המעורבות.
-  remedy: { lesson: '5.7', label: 'דוגמה שבה הנגזרות המעורבות שונות' }
+  remedy: { lesson: '5.7', anchor: 'counterexample', label: 'דוגמה שבה הנגזרות המעורבות שונות' }
 
 - id: MC-c5-c1-enough-schwarz
   title: חושבים שגזירות ברציפות או דיפרנציאביליות מספיקות למשפט שוורץ
@@ -47,4 +47,4 @@
   truth: >-
     $f=xy\frac{x^2-y^2}{x^2+y^2}$ היא $C^1$ ($|\partial_xf|,|\partial_yf|\le\sqrt{x^2+y^2}$), ובכל זאת הנגזרות המעורבות
     בראשית $-1$ ו-$1$. משפט שוורץ דורש רציפות של הנגזרות **המעורבות** בנקודה, למשל $f\in C^2$.
-  remedy: { lesson: '5.7', label: 'משפט שוורץ: ההנחה שנכשלת בדוגמה הנגדית' }
+  remedy: { lesson: '5.7', anchor: 'which-fails', label: 'משפט שוורץ: ההנחה שנכשלת בדוגמה הנגדית' }

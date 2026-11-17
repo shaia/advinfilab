@@ -1,0 +1,7 @@
+---
+/** Lesson 5.4 figure: <Spread figure={GradientField} figureProps={{ preset, presets, a, deg, tasks }}>. */
+import GradientField, { type GradientFieldProps } from './GradientField';
+type Props = GradientFieldProps;
+---
+
+<GradientField client:visible {...Astro.props} />

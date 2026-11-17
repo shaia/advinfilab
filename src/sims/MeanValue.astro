@@ -1,0 +1,11 @@
+---
+/**
+ * Lesson 5.6 figure: <Spread figure={MeanValue} figureProps={{ mode: 'real', fn, fns, a, b, tasks }}> or
+ * {{ mode: 'vector', curve, curves, t0, t1, tasks }}. Text steps set { fn, ax, ay, bx, by } or { curve, t0, t1 }
+ * (times snap to the curve's slider grid: multiples of π/24 on the circle, of 1/32 on the others).
+ */
+import MeanValue, { type MeanValueProps } from './MeanValue';
+type Props = MeanValueProps;
+---
+
+<MeanValue client:visible {...Astro.props} />

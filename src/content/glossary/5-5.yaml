@@ -15,3 +15,20 @@
     $f:\mathbb{R}^n\setminus\{0\}\to\mathbb{R}$ הומוגנית מדרגה $k$ אם $f(tx)=t^kf(x)$ לכל $x\ne0$ ולכל $t>0$. אם היא גם
     דיפרנציאבילית, היא מקיימת את משפט אוילר: $x\cdot\nabla f(x)=kf(x)$.
   lesson: '5.5'
+- id: euler-homogeneous-theorem
+  term: משפט אוילר לפונקציות הומוגניות
+  en: Euler's homogeneous function theorem
+  symbol: 'x\cdot\nabla f(x)=kf(x)'
+  definition: >-
+    פונקציה דיפרנציאבילית על $\mathbb{R}^n\setminus\{0\}$ הומוגנית מדרגה $k$ אם ורק אם $x\cdot\nabla f(x)=kf(x)$ בכל
+    נקודה $x\ne0$. ההוכחה: גוזרים את $t\mapsto f(tx)$ פעמיים, פעם לפי ההומוגניות ופעם לפי כלל השרשרת.
+  lesson: '5.5'
+- id: polar-coordinates
+  term: קואורדינטות קוטביות
+  en: polar coordinates
+  symbol: 'x=r\cos\theta,\ y=r\sin\theta'
+  definition: >-
+    ההעתקה $(r,\theta)\mapsto(r\cos\theta,r\sin\theta)$, עם $r\ge0$: $r$ המרחק מהראשית ו-$\theta$ הזווית מהחלק החיובי
+    של ציר $x$. לפונקציה $f$ במישור, $g(r,\theta)=f(r\cos\theta,r\sin\theta)$ היא אותה פונקציה בקואורדינטות קוטביות.
+    הדטרמיננטה של מטריצת יעקובי של ההעתקה היא $r$; בשיעור 9.6 זה נותן את $dx\,dy=r\,dr\,d\theta$.
+  lesson: '5.5'

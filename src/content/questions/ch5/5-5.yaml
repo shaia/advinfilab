@@ -131,7 +131,7 @@ questions:
           נכון. ישירות: $x\cdot\frac{x}{r}+y\cdot\frac{y}{r}=\frac{x^2+y^2}{r}=r$, עם $r=\sqrt{x^2+y^2}$.
       - text: 'לא נכון'
         feedback: >-
-          הזהות נכונה; חשבו: $f_x=\frac xr$, $f_y=\frac yr$, והסכום $\frac{x^2+y^2}{r}=r=f$.
+          הזהות נכונה; חשבו: $\partial_xf=\frac xr$, $\partial_yf=\frac yr$, והסכום $\frac{x^2+y^2}{r}=r=f$.
         misconception: MC-c5-euler-any-function
     reasons:
       - text: '$f$ הומוגנית מדרגה 1 ($f(tx,ty)=tf(x,y)$ ל-$t>0$) וגזירה ברציפות מחוץ לראשית, ומשפט אוילר נותן $x\cdot\nabla f=1\cdot f$'
@@ -184,8 +184,8 @@ questions:
     answer: -8
     tolerance: 0.001
     correctFeedback: >-
-      נכון. $\frac{\partial g}{\partial\theta}=-r\sin\theta\,f_x+r\cos\theta\,f_y$. ב-$(2,\frac\pi4)$:
-      $(x,y)=(\sqrt2,\sqrt2)$, $f_x=2\sqrt2$, $f_y=-2\sqrt2$, ולכן $-2\cdot\frac{\sqrt2}{2}\cdot2\sqrt2+2\cdot\frac{\sqrt2}{2}\cdot(-2\sqrt2)$,
+      נכון. $\frac{\partial g}{\partial\theta}=-r\sin\theta\,\partial_xf+r\cos\theta\,\partial_yf$. ב-$(2,\frac\pi4)$:
+      $(x,y)=(\sqrt2,\sqrt2)$, $\partial_xf=2\sqrt2$, $\partial_yf=-2\sqrt2$, ולכן $-2\cdot\frac{\sqrt2}{2}\cdot2\sqrt2+2\cdot\frac{\sqrt2}{2}\cdot(-2\sqrt2)$,
       כלומר $-4-4=-8$. בדיקה: $g=r^2\cos2\theta$, ו-$\frac{\partial g}{\partial\theta}=-2r^2\sin2\theta$, שב-$(2,\frac\pi4)$
       שווה $-8$.
     wrongFeedback: >-
@@ -216,22 +216,22 @@ questions:
         feedback: 'נכון. זה $\|\nabla f\|_2^2$ בקואורדינטות קוטביות.'
       - text: 'לא נכון'
         feedback: >-
-          הזהות נכונה: $\left(g_r,\frac{g_\theta}{r}\right)$ מתקבל מ-$(f_x,f_y)$ בסיבוב, וסיבוב שומר על הנורמה.
+          הזהות נכונה: $\left(\partial_rg,\frac{\partial_\theta g}{r}\right)$ מתקבל מ-$(\partial_xf,\partial_yf)$ בסיבוב, וסיבוב שומר על הנורמה.
         misconception: MC-c5-polar-rule
     reasons:
-      - text: '$g_r=\cos\theta f_x+\sin\theta f_y$ ו-$\frac{g_\theta}{r}=-\sin\theta f_x+\cos\theta f_y$: מטריצת סיבוב כפול $\nabla f$'
+      - text: '$\partial_rg=\cos\theta\,\partial_xf+\sin\theta\,\partial_yf$ ו-$\frac{\partial_\theta g}{r}=-\sin\theta\,\partial_xf+\cos\theta\,\partial_yf$: מטריצת סיבוב כפול $\nabla f$'
         correct: true
         feedback: >-
           בדיוק. מעלים בריבוע ומחברים: האיברים המעורבים מתקזזים ו-$\cos^2\theta+\sin^2\theta=1$.
-      - text: '$g_r=f_x$ ו-$g_\theta=f_y$, ולכן שני האגפים שווים'
+      - text: '$\partial_rg=\partial_xf$ ו-$\partial_\theta g=\partial_yf$, ולכן שני האגפים שווים'
         feedback: >-
           $r$ ו-$\theta$ אינם $x$ ו-$y$ בשמות אחרים: כל אחד מהם משנה את שני המשתנים $x,y$, ולכן כל נגזרת קוטבית היא
-          צירוף של $f_x$ ו-$f_y$.
+          צירוף של $\partial_xf$ ו-$\partial_yf$.
         misconception: MC-c5-polar-rule
       - text: 'הזהות נכונה גם בלי הגורם $\frac{1}{r^2}$'
         feedback: >-
           לא: $\frac{\partial g}{\partial\theta}$ כוללת את הגורם $r$ (תזוזה בזווית $d\theta$ היא באורך $r\,d\theta$),
-          ובלי החלוקה ב-$r^2$ האגף הימני גדול מדי כש-$r>1$. למשל $f=y$: $g_\theta=r\cos\theta$.
+          ובלי החלוקה ב-$r^2$ האגף הימני גדול מדי כש-$r>1$. למשל $f=y$: $\partial_\theta g=r\cos\theta$.
         misconception: MC-c5-polar-rule
 
   - id: Q-5.5-euler-value
@@ -266,17 +266,18 @@ questions:
     objectives: [OBJ-5.5-1]
     level: exam
     prompt: >-
-      סדרו את שלבי ההוכחה של כלל השרשרת. סמנו $b=f(a)$, $A=Df(a)$, $B=Dg(b)$, ונגדיר $\frac{s(0)}{\|0\|}=0$.
+      סדרו את שלבי ההוכחה של כלל השרשרת. סמנו $b=f(a)$, $A=Df(a)$, $B=Dg(b)$, ו-$\sigma(k)=\frac{\|s(k)\|}{\|k\|}$
+      ל-$k\ne0$, $\sigma(0)=0$.
     help: סדרו את שלבי ההוכחה מהראשון לאחרון.
     items:
       - id: a
-        label: 'כותבים את שתי ההגדרות: $f(a+h)=b+Ah+r(h)$ עם $\frac{r(h)}{\|h\|}\to0$, ו-$g(b+k)=g(b)+Bk+s(k)$ עם $\frac{s(k)}{\|k\|}\to0$.'
+        label: 'כותבים את שתי ההגדרות: $f(a+h)=b+Ah+r(h)$ עם $\frac{\|r(h)\|}{\|h\|}\to0$, ו-$g(b+k)=g(b)+Bk+s(k)$ עם $\frac{\|s(k)\|}{\|k\|}\to0$; לכן $\sigma$ רציפה ב-0 ו-$\|s(k)\|=\sigma(k)\|k\|$ לכל $k$.'
       - id: b
         label: 'מציבים $k=f(a+h)-b=Ah+r(h)$: $g(f(a+h))-g(b)=BAh+Br(h)+s(k)$.'
       - id: c
         label: '$\frac{\|Br(h)\|}{\|h\|}\le\|B\|_{\mathrm{op}}\frac{\|r(h)\|}{\|h\|}\to0$.'
       - id: d
-        label: 'ל-$h$ קטן, $\|k\|\le(\|A\|_{\mathrm{op}}+1)\|h\|$; לכן $k\to0$ ו-$\frac{\|s(k)\|}{\|h\|}\le\frac{\|s(k)\|}{\|k\|}(\|A\|_{\mathrm{op}}+1)\to0$.'
+        label: 'ל-$h$ קטן, $\|k\|\le(\|A\|_{\mathrm{op}}+1)\|h\|$; לכן $k\to0$ ו-$\frac{\|s(k)\|}{\|h\|}=\sigma(k)\frac{\|k\|}{\|h\|}\le(\|A\|_{\mathrm{op}}+1)\sigma(k)\to0$.'
       - id: e
         label: 'השארית $Br(h)+s(k)$ היא $o(\|h\|)$, ו-$BA$ לינארית: $g\circ f$ דיפרנציאבילית ב-$a$ ו-$D(g\circ f)(a)=BA$.'
     order: [a, b, [c, d], e]

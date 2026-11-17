@@ -1,0 +1,7 @@
+---
+/** Lesson 5.2 figure: <Spread figure={DirectionalSlice} figureProps={{ preset, presets, deg, t, tasks }}>. */
+import DirectionalSlice, { type DirectionalSliceProps } from './DirectionalSlice';
+type Props = DirectionalSliceProps;
+---
+
+<DirectionalSlice client:visible {...Astro.props} />

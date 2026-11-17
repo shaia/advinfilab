@@ -1,0 +1,7 @@
+---
+/** Lesson 5.5 figure: <Spread figure={CurveOnLevels} figureProps={{ func, funcs, curve, curves, t, m, r, base, tasks }}>. */
+import CurveOnLevels, { type CurveOnLevelsProps } from './CurveOnLevels';
+type Props = CurveOnLevelsProps;
+---
+
+<CurveOnLevels client:visible {...Astro.props} />

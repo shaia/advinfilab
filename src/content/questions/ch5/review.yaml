@@ -1,4 +1,4 @@
-# Chapter 7 review — differentiability in several variables (lessons 5.1–5.7), easy to hard.
+# Chapter 5 review — differentiability in several variables (lessons 5.1–5.7), easy to hard.
 # Every lesson is touched; most questions combine two or more lessons, some reach back to chapters 0–3.
 # Each hint names the lesson to go back to.
 chapter: 5
@@ -15,7 +15,7 @@ questions:
       - text: '$f(t,t)\to1$ ו-$f(t,0)\to0$ כש-$t\to0$'
         correct: true
         feedback: >-
-          נכון. אילו הגבול $L$ היה קיים, לפי אפיון הגבול בסדרות (שיעור 1.6) $f(p_n)\to L$ לכל סדרה $p_n\to0$ עם
+          נכון. אילו הגבול $L$ היה קיים, לפי אפיון הגבול בסדרות (טענה 5.1.4(ב)) $f(p_n)\to L$ לכל סדרה $p_n\to0$ עם
           $p_n\ne0$, ובפרט לאורך שתי המסילות: $L=1$ וגם $L=0$.
       - text: 'יש סדרה $p_n\to(0,0)$ עם $|f(p_n)|\to\infty$'
         correct: true
@@ -25,12 +25,12 @@ questions:
         feedback: >-
           זה לא מוכיח דבר: $\frac{x^2y^2}{x^2+y^2}$ שואפת ל-0 בראשית למרות המכנה.
         misconception: MC-c5-zero-denominator
-      - text: 'הגבול לאורך $y=x$ הוא 1, ו-$f(0,0)$ הוגדר להיות 0'
+      - text: 'הגבול לאורך $y=x$ הוא 1, ואם מרחיבים את $f$ לראשית, $f(0,0)=0$'
         feedback: >-
-          זה מראה ש-$f$ אינה **רציפה** בראשית, אם הגבול קיים בכלל. ייתכן שהגבול קיים ושווה 1, והערך בנקודה פשוט שונה.
+          זה מראה שההרחבה אינה **רציפה** בראשית, אם הגבול קיים בכלל. ייתכן שהגבול קיים ושווה 1, והערך בנקודה פשוט שונה.
         misconception: MC-c5-limit-vs-value
     hints:
-      - 'חזרו לשיעור 5.1: איך מסילות שוללות גבול, ולשיעור 1.6: אפיון הגבול בעזרת סדרות.'
+      - 'חזרו לשיעור 5.1: איך מסילות וסדרות שוללות גבול (טענה 5.1.4(ב), מסקנה 5.1.7), ולשיעור 1.6: אפיון הרציפות בעזרת סדרות.'
 
   - id: Q-5-review-02
     type: numeric
@@ -157,18 +157,18 @@ questions:
     level: mid
     prompt: >-
       הטמפרטורה במישור היא $T(x,y)=x^2-xy+y$, וחלקיק נע במסילה $\gamma(t)=(t^2,t^3)$. מהו קצב השינוי של הטמפרטורה
-      שהחלקיק מרגיש ברגע $t=1$, כלומר $\frac{d}{dt}T(\gamma(t))$ ב-$t=1$?
-    answer: 2
+      שהחלקיק מרגיש ברגע $t=2$, כלומר $\frac{d}{dt}T(\gamma(t))$ ב-$t=2$?
+    answer: -36
     tolerance: 0.001
     correctFeedback: >-
-      נכון. $\gamma(1)=(1,1)$, $\nabla T=(2x-y,\ -x+1)$ ולכן $\nabla T(1,1)=(1,0)$; $\gamma'(1)=(2,3)$; והקצב
-      $\nabla T(\gamma(1))\cdot\gamma'(1)=2$. בדיקה: $T(\gamma(t))=t^4-t^5+t^3$, ונגזרתה ב-1 היא $4-5+3=2$.
+      נכון. $\gamma(2)=(4,8)$, $\nabla T=(2x-y,\ -x+1)$ ולכן $\nabla T(4,8)=(0,-3)$; $\gamma'(2)=(4,12)$; והקצב
+      $\nabla T(\gamma(2))\cdot\gamma'(2)=-36$. בדיקה: $T(\gamma(t))=t^4-t^5+t^3$, ונגזרתה ב-2 היא $32-80+12=-36$.
     wrongFeedback: >-
-      כלל השרשרת לאורך מסילה: הגרדיאנט בנקודה $\gamma(1)$ כפול וקטור המהירות $\gamma'(1)$.
+      כלל השרשרת לאורך מסילה: הגרדיאנט בנקודה $\gamma(2)$ כפול וקטור המהירות $\gamma'(2)$.
     commonWrong:
-      - value: 1
+      - value: -24
         feedback: >-
-          זה $\nabla T(1,1)\cdot\gamma(1)=(1,0)\cdot(1,1)$: כפלתם במיקום במקום במהירות.
+          זה $\nabla T(4,8)\cdot\gamma(2)=(0,-3)\cdot(4,8)$: כפלתם במיקום במקום במהירות.
         misconception: MC-c5-curve-position
       - value: 0
         feedback: >-
@@ -283,8 +283,9 @@ questions:
         feedback: 'נכון. כלל השרשרת פעמיים, ומשפט שוורץ מאחד את שתי הנגזרות המעורבות.'
       - text: 'לא נכון'
         feedback: >-
-          זה נכון: $g'(t)=f_x+f_y$, ושוב כלל השרשרת על כל אחד: $g''=f_{xx}+f_{xy}+f_{yx}+f_{yy}$ (כאן
-          $f_{xy}=\frac{\partial}{\partial y}f_x$), ולפי שוורץ שני האמצעיים שווים.
+          זה נכון: $g'(t)=\partial_xf+\partial_yf$ ב-$(t,t)$, ושוב כלל השרשרת על כל אחד נותן ארבעה איברים:
+          $\partial_x\partial_xf+\partial_y\partial_xf+\partial_x\partial_yf+\partial_y\partial_yf$. לפי שוורץ שני האמצעיים
+          שווים.
         misconception: MC-c5-schwarz-unused
     reasons:
       - text: '$g''=\frac{\partial f}{\partial x}+\frac{\partial f}{\partial y}$ ב-$(t,t)$; כל אחת מהן $C^1$, כלל השרשרת שוב נותן ארבעה איברים, ושוורץ מאחד את שני המעורבים'
@@ -296,9 +297,9 @@ questions:
         feedback: >-
           המידע הנוסף כבר נתון: $f\in C^2$, ולכן שוורץ חל והם שווים.
         misconception: MC-c5-schwarz-unused
-      - text: 'כלל השרשרת חל רק פעם אחת; את $g''$ אי-אפשר לחשב דרכו'
+      - text: 'כלל השרשרת חל רק פעם אחת; את $g''''$ אי-אפשר לחשב דרכו'
         feedback: >-
-          $g'(t)=f_x(t,t)+f_y(t,t)$ היא שוב הרכבה של פונקציות דיפרנציאביליות ($f_x,f_y\in C^1$) עם $t\mapsto(t,t)$,
+          $g'(t)=\partial_xf(t,t)+\partial_yf(t,t)$ היא שוב הרכבה של פונקציות דיפרנציאביליות ($\partial_xf,\partial_yf\in C^1$) עם $t\mapsto(t,t)$,
           ולכן כלל השרשרת חל עליה.
         misconception: MC-c5-ck-confusion
     hints:
@@ -379,8 +380,8 @@ questions:
     tolerance: 0.001
     correctFeedback: >-
       נכון. $\frac{\partial u}{\partial x}=\varphi'(x-y)\cdot1$, ואז $\frac{\partial}{\partial y}\varphi'(x-y)=\varphi''(x-y)\cdot(-1)$.
-      לכן התוצאה $-\varphi''(1)=-6$. בדרך כלל: לכל $\varphi\in C^2$, $u_{xx}=u_{yy}=\varphi''$ והנגזרות המעורבות
-      $-\varphi''$.
+      לכן התוצאה $-\varphi''(1)=-6$. בדרך כלל: לכל $\varphi\in C^2$, $\partial_x\partial_xu=\partial_y\partial_yu=\varphi''$ ושתי
+      הנגזרות המעורבות $-\varphi''$.
     wrongFeedback: >-
       כל גזירה של $\varphi(x-y)$ כופלת בנגזרת הפנימית: $+1$ לפי $x$, $-1$ לפי $y$.
     commonWrong:
@@ -423,3 +424,126 @@ questions:
         misconception: MC-c5-partials-imply-continuity
     hints:
       - 'חזרו לשיעורים 5.2–5.4 (סולם הגרירות: גזירה ברציפות, דיפרנציאבילית, נגזרות כיווניות, נגזרות חלקיות) ולשיעור 5.7 (שוורץ).'
+
+  - id: Q-5-review-15
+    type: numeric
+    objectives: [OBJ-5.3-2, OBJ-5.5-2]
+    level: basic
+    prompt: >-
+      $\Phi(r,\theta)=(r\cos\theta,\ r\sin\theta)$, ההעתקה של הקואורדינטות הקוטביות. חשבו את $\det J_\Phi(r,\theta)$ בנקודה
+      $(r,\theta)=\left(2,\frac\pi3\right)$.
+    answer: 2
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $J_\Phi(r,\theta)=\begin{pmatrix}\cos\theta&-r\sin\theta\\ \sin\theta&r\cos\theta\end{pmatrix}$, ולכן
+      $\det J_\Phi=r\cos^2\theta+r\sin^2\theta=r$, כאן 2. הערך אינו תלוי ב-$\theta$.
+    wrongFeedback: >-
+      בעמודה הראשונה הנגזרות לפי $r$, בשנייה לפי $\theta$. גזרו כל רכיב, וחשבו את הדטרמיננטה.
+    commonWrong:
+      - value: 1
+        feedback: >-
+          $\cos^2\theta+\sin^2\theta=1$ הוא הדטרמיננטה בלי הגורם $r$ שבעמודה השנייה: $\frac{\partial}{\partial\theta}(r\cos\theta)=-r\sin\theta$.
+        misconception: MC-c5-chain-inner-derivative
+      - value: 4
+        feedback: >-
+          $r^2=4$: כאילו שתי העמודות כפולות ב-$r$. רק השנייה כפולה ב-$r$; גזרו כל כניסה לחוד.
+        misconception: MC-c5-polar-rule
+    hints:
+      - 'חזרו לשיעור 5.3: מטריצת יעקובי (שורה לכל רכיב, עמודה לכל משתנה), ולשיעור 5.5: הקואורדינטות הקוטביות.'
+
+  - id: Q-5-review-16
+    type: twotier
+    objectives: [OBJ-5.5-3, OBJ-5.5-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $f$ דיפרנציאבילית על $\mathbb{R}^2\setminus\{0\}$ ומקיימת $x\cdot\nabla f(x)=0$ לכל $x\ne0$. נכון או לא נכון:
+      $f(tx)=f(x)$ לכל $t>0$ ולכל $x\ne0$, כלומר $f$ קבועה על כל קרן שיוצאת מהראשית.
+    choices:
+      - text: 'נכון'
+        correct: true
+        feedback: 'נכון. זה הכיוון ההפוך של משפט אוילר, עם הדרגה $k=0$.'
+      - text: 'לא נכון'
+        feedback: >-
+          הנגזרת של $t\mapsto f(tx)$ היא $\nabla f(tx)\cdot x=\frac1t\,(tx)\cdot\nabla f(tx)=0$ לכל $t>0$, ולכן הפונקציה
+          הזו קבועה על הקטע $(0,\infty)$.
+        misconception: MC-c5-euler-any-function
+    reasons:
+      - text: >-
+          $\varphi(t)=f(tx)$ מקיימת, לפי כלל השרשרת, $\varphi'(t)=\nabla f(tx)\cdot x=\frac1t\,(tx)\cdot\nabla f(tx)=0$, ופונקציה
+          עם נגזרת 0 על קטע קבועה
+        correct: true
+        feedback: 'בדיוק. זו ההוכחה של הכיוון ההפוך של משפט אוילר (עם $t^{-k}$, וכאן $k=0$).'
+      - text: 'הזהות אומרת ש-$\nabla f(x)=0$ לכל $x$, ולכן $f$ קבועה בכל מקום'
+        feedback: >-
+          הזהות אומרת רק ש-$\nabla f(x)$ ניצב ל-$x$. למשל $f=\frac{xy}{x^2+y^2}$ מקיימת אותה, ואינה קבועה: היא קבועה
+          על כל קרן, וערכה תלוי בזווית.
+        misconception: MC-c5-euler-any-function
+      - text: 'הזהות היא משפט אוילר, שנכון לכל פונקציה דיפרנציאבילית'
+        feedback: >-
+          משפט אוילר הוא $x\cdot\nabla f=kf$ לפונקציה **הומוגנית** מדרגה $k$; ל-$x^2+y$, למשל, $x\cdot\nabla f=2x^2+y$.
+          כאן הכיוון ההפוך: מהזהות נובעת הומוגניות מדרגה 0.
+        misconception: MC-c5-euler-any-function
+    hints:
+      - 'חזרו לשיעור 5.5: משפט אוילר ושני הכיוונים שלו, ונגזרת לאורך מסילה.'
+
+  - id: Q-5-review-17
+    type: multi
+    objectives: [OBJ-5.4-1, OBJ-5.7-1]
+    level: mid
+    prompt: >-
+      אילו מהפונקציות הבאות שייכות ל-$C^1(\mathbb{R}^2)$, כלומר שתי הנגזרות החלקיות שלהן קיימות ורציפות בכל המישור?
+      (בכל הנוסחאות שבהן מופיע $x^2+y^2$ במכנה או ב-$\sin$, הערך בראשית הוא 0.) סמנו את כולן.
+    choices:
+      - text: '$\frac{x^2y^2}{x^2+y^2}$'
+        correct: true
+        feedback: >-
+          נכון. מחוץ לראשית $\frac{\partial f}{\partial x}=\frac{2xy^4}{(x^2+y^2)^2}$, ו-$\left|\frac{\partial f}{\partial x}\right|\le2\|(x,y)\|_2\to0$;
+          בראשית הנגזרות החלקיות 0 (הפונקציה 0 על הצירים). אותו דבר לפי $y$ מסימטריה.
+      - text: '$(x^2+y^2)^{3/2}$'
+        correct: true
+        feedback: >-
+          נכון. $\nabla f=3\sqrt{x^2+y^2}\,(x,y)$ מחוץ לראשית, שואף ל-0, ובראשית $\frac{f(t,0)}t=|t|\,t\to0$.
+      - text: '$(x^2+y^2)\sin\frac1{\sqrt{x^2+y^2}}$'
+        feedback: >-
+          דיפרנציאבילית בכל מקום, אבל $\frac{\partial f}{\partial x}\left(\frac1{2\pi k},0\right)=-1$ לכל $k$ בעוד
+          $\frac{\partial f}{\partial x}(0,0)=0$: הנגזרת החלקית אינה רציפה בראשית.
+        misconception: MC-c5-differentiable-implies-c1
+      - text: '$x\,|y|$'
+        feedback: >-
+          בנקודה $(1,0)$: $\frac{f(1,t)-f(1,0)}t=\frac{|t|}t$, ואין לו גבול. $\frac{\partial f}{\partial y}$ אינה קיימת
+          בנקודות $(x,0)$ עם $x\ne0$.
+        misconception: MC-c5-ck-confusion
+      - text: '$|x|^3+y$'
+        correct: true
+        feedback: 'נכון. $\frac{\partial f}{\partial x}=3x|x|$ ו-$\frac{\partial f}{\partial y}=1$, שתיהן רציפות.'
+    hints:
+      - 'חזרו לשיעור 5.4: גזירה ברציפות והדוגמה הדיפרנציאבילית שאינה גזירה ברציפות, ולשיעור 5.7: המחלקות $C^k$.'
+
+  - id: Q-5-review-18
+    type: numeric
+    objectives: [OBJ-5.6-2, OBJ-5.6-3, OBJ-5.4-2]
+    level: exam
+    prompt: >-
+      $f:\mathbb{R}^2\to\mathbb{R}$ דיפרנציאבילית, $f(0,0)=1$, ו-$\|\nabla f(x)\|_2\le2$ לכל $x\in\mathbb{R}^2$. מהו הערך
+      הגדול ביותר האפשרי של $f(3,4)$?
+    answer: 11
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. לפי משפט הערך הממוצע על הקטע מהראשית ל-$(3,4)$:
+      $f(3,4)-f(0,0)=\nabla f(c)\cdot(3,4)\le\|\nabla f(c)\|_2\cdot5\le10$, ולכן $f(3,4)\le11$. הערך מתקבל: עבור
+      $f(x,y)=1+\frac{6x+8y}5$ הגרדיאנט $\left(\frac65,\frac85\right)$ באורך 2, ו-$f(3,4)=11$.
+    wrongFeedback: >-
+      הפעילו את משפט הערך הממוצע על הקטע $[0,(3,4)]$ ואת אי-שוויון קושי-שוורץ, ואז חפשו פונקציה שבה כל אי-השוויונים
+      הם שוויונים.
+    commonWrong:
+      - value: 10
+        feedback: '10 הוא החסם על ההפרש $f(3,4)-f(0,0)$. הוסיפו את $f(0,0)=1$.'
+        misconception: MC-c5-mvi-wrong-bound
+      - value: 15
+        feedback: >-
+          $1+2\cdot7$: מדדתם את $(3,4)$ בנורמה $\|\cdot\|_1$. קושי-שוורץ נותן $|\nabla f\cdot v|\le\|\nabla f\|_2\|v\|_2$,
+          ו-$\|(3,4)\|_2=5$.
+        misconception: MC-c5-mvi-wrong-bound
+    hints:
+      - 'חזרו לשיעור 5.6: משפט הערך הממוצע על קטע, ולשיעור 5.4: $\nabla f\cdot v\le\|\nabla f\|_2\|v\|_2$ והמקרה של שוויון.'

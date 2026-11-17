@@ -1,0 +1,25 @@
+- id: v-5-7-bprp
+  youtubeId: z2PqZzyKZzY
+  title: Can mixed partial derivatives be different? Yes, & here's a classic example!
+  channel: bprp calculus basics
+  lang: en
+  captions: [en]
+  start: 0
+  minutes: 12
+  why: >-
+    לפי תיאור הסרטון: הדוגמה הקלאסית שבה הנגזרות המעורבות אינן שוות בנקודה, ובסוף הסבר למה אין בה סתירה למשפט.
+    זו טענה 5.7.6 והדיון "איזו הנחה נכשלת". בסרטון הנגזרות כתובות בסימון של אותיות למטה, שהסדר בו אינו אחיד בין
+    ספרים: תרגמו לסימון של הקורס ובדקו לבד איזו מהן היא $-1$.
+  verified: '2026-11-17'
+- id: v-5-7-khan
+  youtubeId: J08-L2buigM
+  title: Symmetry of second partial derivatives
+  channel: Khan Academy
+  lang: en
+  captions: [en]
+  start: 0
+  minutes: 7
+  why: >-
+    לפי תיאור הסרטון: יש הרבה דרכים לגזור פעמיים, וחלק מהן מתבררות כאותו דבר. זו האינטואיציה, על דוגמאות, שלפני
+    משפט 5.7.4; ההוכחה, וההנחה שבלעדיה הסימטריה נכשלת, הן בשיעור.
+  verified: '2026-11-17'

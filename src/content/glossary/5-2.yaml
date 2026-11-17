@@ -16,3 +16,20 @@
     לווקטור יחידה $v$: $D_vf(a)=\lim_{t\to0}\frac{f(a+tv)-f(a)}{t}$, גבול דו-צדדי. זו הנגזרת של הפונקציה של משתנה
     אחד $t\mapsto f(a+tv)$ ב-$t=0$, קצב השינוי של $f$ כשזזים מ-$a$ בכיוון $v$. הנגזרות החלקיות הן המקרה $v=e_i$.
   lesson: '5.2'
+- id: slice-along-direction
+  term: פרוסה של פונקציה לאורך ישר
+  en: restriction of a function to a line (slice)
+  symbol: '\varphi(t)=f(a+tv)'
+  definition: >-
+    לנקודה $a$ ולכיוון $v$: הפונקציה של משתנה אחד $\varphi(t)=f(a+tv)$, הערכים של $f$ על הישר דרך $a$ בכיוון $v$.
+    הנגזרת הכיוונית $D_vf(a)$ היא $\varphi'(0)$, והנגזרת החלקית ה-$i$ היא המקרה $v=e_i$.
+  lesson: '5.2'
+- id: derivative-along-vector
+  term: נגזרת לאורך וקטור
+  en: derivative along a vector
+  symbol: '\lim_{t\to0}\frac{f(a+tw)-f(a)}{t}'
+  definition: >-
+    לווקטור $w\ne0$ שאינו בהכרח וקטור יחידה: הגבול הדו-צדדי $\lim_{t\to0}\frac{f(a+tw)-f(a)}{t}$. כש-$w=\lambda v$ עם $v$
+    וקטור יחידה ו-$\lambda>0$, הוא שווה $\lambda D_vf(a)$: הוא תלוי באורך של $w$ ולא רק בכיוון שלו. במרחב של פונקציות,
+    שבו אין "וקטור יחידה" מועדף, זו ההגדרה שמשתמשים בה.
+  lesson: '5.2'

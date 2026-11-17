@@ -21,8 +21,9 @@ questions:
           אחת שפולינומים, $e^{xy}$ ו-$\sin(x+y^2)$ דיפרנציאביליות בכל מקום.
       - text: 'לא בהכרח'
         feedback: >-
-          הדוגמאות הנגדיות של שיעור 5.3 ($\sqrt{|xy|}$, $\frac{x^3}{x^2+y^2}$) היו עם נגזרות חלקיות **לא רציפות** בראשית.
-          רציפות הנגזרות החלקיות היא בדיוק מה שמספיק.
+          בדוגמאות הנגדיות של שיעור 5.3 ההנחה הזו נכשלת: ל-$\sqrt{|xy|}$ הנגזרות החלקיות אינן קיימות בנקודות
+          $(x,0)$ ו-$(0,y)$ שליד הראשית, ול-$\frac{x^3}{x^2+y^2}$ הן קיימות אבל **אינן רציפות** בראשית. כשהנגזרות
+          החלקיות קיימות בסביבה ורציפות ב-$a$, הפונקציה דיפרנציאבילית.
         misconception: MC-c5-partials-imply-differentiable
     reasons:
       - text: 'משפט לגרנז'' על כל קואורדינטה בנפרד מבטא את ההפרש בעזרת נגזרות חלקיות בנקודות קרובות, והרציפות שלהן ב-$a$ הופכת את השארית ל-$o(\|h\|)$'
@@ -170,6 +171,10 @@ questions:
           0 הוא $\frac{\partial f}{\partial x}(0,0)$. מניחים כאן שהנגזרת החלקית רציפה ולכן קרובה ל-0 ליד הראשית, וזה
           בדיוק מה שנכשל.
         misconception: MC-c5-differentiable-implies-c1
+      - value: 1
+        feedback: >-
+          שגיאת סימן: גזרתם את $\sin\frac1x$ ל-$\frac1{x^2}\cos\frac1x$ וקיבלתם $2x\sin\frac1x+\cos\frac1x$. הנגזרת של
+          $\frac1x$ היא $-\frac1{x^2}$, ולכן האיבר השני הוא $-\cos\frac1x$, ו-$-\cos2\pi=-1$.
 
   - id: Q-5.4-cs
     type: twotier
@@ -274,7 +279,7 @@ questions:
     help: סדרו את שלבי ההוכחה מהראשון לאחרון.
     items:
       - id: a
-        label: 'מפרקים לשני צעדים מקבילים לצירים: $f(a+h)-f(a)=\left[f(a_1+h_1,a_2+h_2)-f(a_1,a_2+h_2)\right]+\left[f(a_1,a_2+h_2)-f(a_1,a_2)\right]$.'
+        label: 'מפרקים לשני צעדים מקבילים לצירים, דרך הנקודה $p=(a_1,a_2+h_2)$: $f(a+h)-f(a)=\left[f(a+h)-f(p)\right]+\left[f(p)-f(a)\right]$.'
       - id: b
         label: 'משפט לגרנז'' במשתנה אחד בכל סוגריים: ההפרש שווה $\partial_1f(\xi)h_1+\partial_2f(\eta)h_2$, עם $\xi=(a_1+\theta_1h_1,a_2+h_2)$ ו-$\eta=(a_1,a_2+\theta_2h_2)$.'
       - id: c
@@ -347,3 +352,57 @@ questions:
         feedback: >-
           הוא כן: $F=x^2+y^2-z^2$ פולינום, ולכן גזירה ברציפות. הבעיה אינה ב-$F$ אלא בכך שהגרדיאנט שלה מתאפס בקודקוד.
         misconception: MC-c5-level-surface-always-plane
+
+  - id: Q-5.4-path
+    type: numeric
+    objectives: [OBJ-5.4-2]
+    level: basic
+    prompt: >-
+      תהי $f(x,y)=x^2y$ ו-$\gamma(t)=(\cos t,\sin t)$. חשבו את $(f\circ\gamma)'(0)$ בעזרת הגרדיאנט.
+    answer: 1
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $f$ פולינום ולכן דיפרנציאבילית, ולפי הנוסחה לנגזרת לאורך מסילה
+      $(f\circ\gamma)'(0)=\nabla f(\gamma(0))\cdot\gamma'(0)$. כאן $\gamma(0)=(1,0)$, $\nabla f=(2xy,x^2)$ נותן
+      $\nabla f(1,0)=(0,1)$, ו-$\gamma'(0)=(0,1)$: המכפלה 1. בדיקה ישירה: $f(\gamma(t))=\cos^2t\sin t$, שהנגזרת שלה
+      $\cos^3t-2\cos t\sin^2t$, וב-0 היא $1$.
+    wrongFeedback: >-
+      הנוסחה היא $(f\circ\gamma)'(t_0)=\nabla f(\gamma(t_0))\cdot\gamma'(t_0)$: הגרדיאנט **בנקודה** $\gamma(0)$, כפול
+      **המהירות** $\gamma'(0)$.
+    commonWrong:
+      - value: 0
+        feedback: >-
+          זה $\nabla f(1,0)\cdot\gamma(0)=(0,1)\cdot(1,0)$: הצבתם את הנקודה במקום המהירות. המהירות של המעגל ב-$t=0$ היא
+          $\gamma'(0)=(-\sin0,\cos0)=(0,1)$.
+        misconception: MC-c5-curve-position
+
+  - id: Q-5.4-sup-norm
+    type: twotier
+    objectives: [OBJ-5.4-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $f$ דיפרנציאבילית ב-$a$ ו-$\nabla f(a)=(2,1)$. נכון או לא נכון: בין הווקטורים $v$ עם $\|v\|_\infty=1$, הערך
+      $\nabla f(a)\cdot v$ (הנגזרת לאורך $v$) הגדול ביותר מתקבל בכיוון הגרדיאנט, ב-$v=\left(1,\tfrac12\right)$.
+    choices:
+      - text: 'לא נכון'
+        correct: true
+        feedback: >-
+          נכון. $(2,1)\cdot\left(1,\tfrac12\right)=2.5$, אבל $v=(1,1)$, שגם לו $\|v\|_\infty=1$, נותן 3. כיוון הגרדיאנט הוא
+          התלול ביותר בין וקטורי היחידה **האוקלידיים** בלבד.
+      - text: 'נכון'
+        feedback: >-
+          ההוכחה שהגרדיאנט הוא הכיוון התלול ביותר משתמשת בקושי-שוורץ, כלומר בנורמה האוקלידית. ב-$\|\cdot\|_\infty$ התשובה
+          היא $v=(1,1)$, עם הערך $3=\|\nabla f(a)\|_1$.
+        misconception: MC-c5-steepest-rate
+    reasons:
+      - text: '$\nabla f(a)\cdot v\le|2||v_1|+|1||v_2|\le3$ כש-$\|v\|_\infty=1$, עם שוויון ב-$v=(1,1)$'
+        correct: true
+        feedback: >-
+          בדיוק. החסם $\sum_i|g_i||v_i|\le\|g\|_1\|v\|_\infty$ מחליף כאן את קושי-שוורץ, והמקסימום הוא $\|g\|_1$, בווקטור
+          הסימנים של $g$.
+      - text: 'כי לפי קושי-שוורץ $\nabla f(a)\cdot v\le\|\nabla f(a)\|_2\|v\|_2$, עם שוויון רק בכיוון הגרדיאנט'
+        feedback: >-
+          קושי-שוורץ נכון, אבל כאן $\|v\|_2$ אינו קבוע: ל-$(1,\tfrac12)$ הוא $\approx1.118$ ול-$(1,1)$ הוא $\approx1.414$. לכן
+          הוא אינו מכריע בין הווקטורים של ריבוע היחידה.
+        misconception: MC-c5-steepest-rate

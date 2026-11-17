@@ -1,0 +1,517 @@
+# Workbook of lesson 5.5 — the chain rule.
+# Objectives (src/course.ts):
+#   OBJ-5.5-1  state and prove the chain rule for differentials; write it as a product of Jacobian matrices
+#   OBJ-5.5-2  compute derivatives of compositions, incl. polar coordinates and the derivative along a path
+#   OBJ-5.5-3  use the chain rule to prove identities, such as Euler's theorem for homogeneous functions
+# Results cited by the numbers of the chapter-5 spine (5.m.k) and of chapters 1–4. Every number recomputed with
+# npx tsx (Jacobian products against src/math/multivar.ts jacobian, derivatives against symmetric quotients).
+lesson: '5.5'
+practice:
+  - id: W-5.5-01
+    level: basic
+    objectives: [OBJ-5.5-1]
+    prompt: >-
+      $f:\mathbb{R}^3\to\mathbb{R}^2$, $f(x,y,z)=(x+yz,\ xy)$, ו-$g:\mathbb{R}^2\to\mathbb{R}^3$, $g(u,v)=(u^2,\ uv,\ v)$.
+
+      (א) מה הגודל של $J_{g\circ f}(a)$, ומה הגודל של $J_{f\circ g}(b)$?
+
+      (ב) חשבו את $J_{g\circ f}(1,1,2)$ בעזרת כלל השרשרת.
+    answer: >-
+      (א) $3\times3$ ו-$2\times2$. (ב) השורות $(6,12,6)$, $(4,5,1)$, $(1,1,0)$.
+    solution:
+      - kind: theorem
+        text: >-
+          לפי מסקנה 5.5.2, $J_{g\circ f}(a)=J_g(f(a))\,J_f(a)$. $f$ ו-$g$ פולינומים, ולכן דיפרנציאביליות (מסקנה 5.4.3).
+      - kind: step
+        text: >-
+          (א) $g\circ f:\mathbb{R}^3\to\mathbb{R}^3$, ולכן $3\times3$: מכפלה $(3\times2)(2\times3)$. ו-$f\circ g:\mathbb{R}^2\to\mathbb{R}^2$,
+          ולכן $2\times2$: מכפלה $(2\times3)(3\times2)$. אותן שתי פונקציות, שתי הרכבות שונות לגמרי.
+      - kind: computation
+        text: >-
+          (ב) **הנקודה קודם:** $f(1,1,2)=(1+2,\ 1)=(3,1)$. **$J_g$ שם:** $J_g(u,v)$ היא
+          $\begin{pmatrix}2u&0\\v&u\\0&1\end{pmatrix}$, ולכן $J_g(3,1)=\begin{pmatrix}6&0\\1&3\\0&1\end{pmatrix}$.
+      - kind: computation
+        text: >-
+          **$J_f$:** $J_f(x,y,z)=\begin{pmatrix}1&z&y\\y&x&0\end{pmatrix}$, ולכן $J_f(1,1,2)=\begin{pmatrix}1&2&1\\1&1&0\end{pmatrix}$.
+      - kind: computation
+        text: >-
+          **המכפלה:** השורה הראשונה $6\cdot(1,2,1)=(6,12,6)$; השנייה $1\cdot(1,2,1)+3\cdot(1,1,0)=(4,5,1)$; השלישית
+          $(1,1,0)$.
+      - kind: check
+        text: >-
+          בהצבה, $(g\circ f)_3=xy$, עם נגזרות $(y,x,0)=(1,1,0)$ ב-$(1,1,2)$; ו-$(g\circ f)_1=(x+yz)^2$, עם
+          $2(x+yz)\cdot(1,z,y)=6\cdot(1,2,1)$. מי שמחשב את $J_g$ ב-$(1,1)$ (שתי הקואורדינטות הראשונות של $a$) במקום
+          ב-$f(a)=(3,1)$ מקבל שורה ראשונה $(2,4,2)$: שגויה.
+      - kind: result
+        text: >-
+          $J_{g\circ f}(1,1,2)=\begin{pmatrix}6&12&6\\4&5&1\\1&1&0\end{pmatrix}$.
+
+  - id: W-5.5-02
+    level: basic
+    objectives: [OBJ-5.5-2]
+    prompt: >-
+      $f(x,y)=e^{xy}$.
+
+      (א) חשבו את $\frac{d}{dt}f(\gamma(t))$ ב-$t=1$, עבור $\gamma(t)=(t,t^2)$.
+
+      (ב) עבור $\gamma(t)=(\cos t,\sin t)$, מצאו את כל ה-$t\in[0,2\pi)$ שבהם $\frac{d}{dt}f(\gamma(t))=0$.
+    answer: >-
+      (א) $3e\approx8.155$. (ב) $t=\frac\pi4,\frac{3\pi}4,\frac{5\pi}4,\frac{7\pi}4$.
+    solution:
+      - kind: theorem
+        text: >-
+          מסקנה 5.5.3: $\frac{d}{dt}f(\gamma(t))=\nabla f(\gamma(t))\cdot\gamma'(t)$. $f$ גזירה ברציפות ולכן דיפרנציאבילית, ו-$\nabla f=e^{xy}(y,x)$.
+      - kind: computation
+        text: >-
+          (א) $\gamma(1)=(1,1)$, ושם $\nabla f=(e,e)$; $\gamma'(t)=(1,2t)$, ו-$\gamma'(1)=(1,2)$. המכפלה: $e+2e=3e$.
+      - kind: computation
+        text: >-
+          (ב) $\nabla f(\gamma(t))=e^{\cos t\sin t}(\sin t,\cos t)$ ו-$\gamma'(t)=(-\sin t,\cos t)$. המכפלה הסקלרית היא
+          $e^{\cos t\sin t}(\cos^2t-\sin^2t)=e^{\cos t\sin t}\cos2t$.
+      - kind: step
+        text: >-
+          $e^{\cos t\sin t}>0$, ולכן הנגזרת מתאפסת בדיוק כש-$\cos2t=0$, כלומר $2t=\frac\pi2+k\pi$, ו-$t=\frac\pi4+\frac{k\pi}2$.
+          ב-$[0,2\pi)$ אלה ארבעה ערכים.
+      - kind: check
+        text: >-
+          בהצבה: ב-(א) $f(\gamma(t))=e^{t^3}$, ו-$(e^{t^3})'=3t^2e^{t^3}$, שב-1 שווה $3e$. מי שכופל במיקום $\gamma(1)=(1,1)$ במקום
+          במהירות מקבל $2e$. ב-(ב) $f(\gamma(t))=e^{\frac12\sin2t}$, שהנגזרת שלה $\cos2t\,e^{\frac12\sin2t}$: אותו דבר.
+      - kind: result
+        text: >-
+          (א) $3e$; (ב) $\frac\pi4$, $\frac{3\pi}4$, $\frac{5\pi}4$, $\frac{7\pi}4$.
+
+  - id: W-5.5-03
+    level: basic
+    qualitative: true
+    objectives: [OBJ-5.5-3]
+    prompt: >-
+      אילו מהפונקציות הבאות (על $\mathbb{R}^2\setminus\{0\}$) הומוגניות, ומאיזו דרגה? לכל הומוגנית ודיפרנציאבילית, כתבו מה
+      אומר עליה משפט אוילר, ובדקו אותו ישירות באחת מהן.
+
+      (א) $x^2y-3y^3$. (ב) $\frac1{\sqrt{x^2+y^2}}$. (ג) $x+y^2$. (ד) $|x|^{3/2}+|y|^{3/2}$.
+    answer: >-
+      (א) דרגה 3; (ב) דרגה $-1$; (ג) אינה הומוגנית; (ד) דרגה $\frac32$.
+    solution:
+      - kind: definition
+        text: >-
+          לפי הגדרה 5.5.6, צריך $f(tx,ty)=t^kf(x,y)$ לכל $t>0$ ולכל $(x,y)\ne0$, עם אותו $k$.
+      - kind: step
+        text: >-
+          (א) $(tx)^2(ty)-3(ty)^3=t^3(x^2y-3y^3)$: דרגה 3. (ב) $\frac1{\sqrt{t^2(x^2+y^2)}}=t^{-1}\frac1{\sqrt{x^2+y^2}}$, כי
+          $\sqrt{t^2}=t$ ל-$t>0$: דרגה $-1$. (ד) $|tx|^{3/2}=t^{3/2}|x|^{3/2}$: דרגה $\frac32$.
+      - kind: step
+        text: >-
+          (ג) אינה הומוגנית: $f(t,0)=t=t^1f(1,0)$ דורש $k=1$, ו-$f(0,t)=t^2=t^2f(0,1)$ דורש $k=2$.
+      - kind: theorem
+        text: >-
+          (א), (ב), (ד) דיפרנציאביליות מחוץ לראשית (ב-(ד): $|s|^{3/2}$ גזירה ברציפות על $\mathbb{R}$, עם נגזרת
+          $\frac32\operatorname{sgn}(s)|s|^{1/2}$). לפי משפט 5.5.7(א): $x\,\partial_xf+y\,\partial_yf$ שווה $3f$, $-f$ ו-$\frac32f$.
+      - kind: computation
+        text: >-
+          בדיקה ב-(ב): עם $\rho=\sqrt{x^2+y^2}$, $\partial_xf=-\frac x{\rho^3}$ ו-$\partial_yf=-\frac y{\rho^3}$, ולכן
+          $x\,\partial_xf+y\,\partial_yf=-\frac{x^2+y^2}{\rho^3}=-\frac1\rho=-f$.
+      - kind: check
+        text: >-
+          בדיקה מספרית ב-$(0.7,-1.3)$ (במנת הפרשים סימטרית: בדיקה, לא הוכחה): ב-(ב) $-0.67729$ בשני האגפים, וב-(ד) $3.10184$
+          בשני האגפים. המקדם תמיד הדרגה, גם כשהיא שלילית או לא שלמה.
+      - kind: result
+        text: >-
+          (א) 3, (ב) $-1$, (ד) $\frac32$; (ג) אינה הומוגנית, ומשפט אוילר אינו חל עליה.
+
+  - id: W-5.5-04
+    level: mid
+    qualitative: true
+    objectives: [OBJ-5.5-1]
+    prompt: >-
+      $f(x)=x^2\sin\frac1x$ ל-$x\ne0$, $f(0)=0$. ידוע מאינפי 1 ש-$f$ גזירה ב-0 ו-$f'(0)=0$.
+
+      (א) בהוכחה של משפט 5.5.1 עם $a=0$, הראו שהתזוזה $k(h)=f(h)-f(0)$ מתאפסת עבור אינסוף ערכים $h\ne0$ שמתקרבים
+      ל-0. למה זה מונע לכתוב $\frac{\|s(k)\|}{\|h\|}=\frac{\|s(k)\|}{\|k\|}\cdot\frac{\|k\|}{\|h\|}$, ואיך ההוכחה עוקפת את זה?
+
+      (ב) תהי $g:\mathbb{R}\to\mathbb{R}$ גזירה ב-0. מהי $(g\circ f)'(0)$? בדקו ישירות עבור $g(u)=e^u$.
+    answer: >-
+      (א) $k(\frac1{n\pi})=0$; ההוכחה כותבת $\|s(k)\|=\sigma(k)\|k\|$ עם $\sigma(0)=0$. (ב) $0$.
+    solution:
+      - kind: computation
+        text: >-
+          (א) $k(h)=f(h)$, ו-$f(\frac1{n\pi})=\frac1{n^2\pi^2}\sin(n\pi)=0$ לכל $n\in\mathbb{N}$, עם $\frac1{n\pi}\to0$.
+      - kind: step
+        text: >-
+          בנקודות האלה $\|k\|=0$, והשבר $\frac{\|s(k)\|}{\|k\|}$ אינו מוגדר. לכן אי אפשר לחסום את $\frac{\|s(k(h))\|}{\|h\|}$
+          דרך השבר הזה בכל $h$ קטן. וגם אי אפשר "לדלג" על הנקודות: הן מצטברות ב-0, וגבול צריך את כל ה-$h$ הקטנים.
+      - kind: step
+        text: >-
+          שלב 2 של ההוכחה מגדיר $\sigma(k)=\frac{\|s(k)\|}{\|k\|}$ ל-$k\ne0$ ו-$\sigma(0)=0$. אז $\|s(k)\|=\sigma(k)\|k\|$
+          **לכל** $k$, כולל $k=0$ (כי $s(0)=0$), ו-$\sigma$ רציפה ב-0. החסם $\frac{\|s(k(h))\|}{\|h\|}\le C\sigma(k(h))$ נכון לכל
+          $h$ קטן, ובנקודות $h=\frac1{n\pi}$ הוא פשוט $0\le0$.
+      - kind: theorem
+        text: >-
+          (ב) לפי משפט 5.5.1 (במשתנה אחד, דוגמה 5.3.4(ה)): $(g\circ f)'(0)=g'(f(0))f'(0)=g'(0)\cdot0=0$.
+      - kind: check
+        text: >-
+          ישירות עבור $g(u)=e^u$: $\big|e^{f(h)}-1\big|\le e^{|f(h)|}-1\le e\,|f(h)|\le e\,h^2$ ל-$|h|\le1$ (לפי ערך ממוצע,
+          $|e^u-1|\le e^{|u|}|u|$ ו-$|f(h)|\le h^2\le1$). לכן $\frac{|e^{f(h)}-1|}{|h|}\le e|h|\to0$. מספרית, המנה $-0.00506$
+          ב-$h=10^{-2}$ ו-$-0.0000306$ ב-$h=10^{-4}$.
+      - kind: result
+        text: >-
+          (א) $k(\frac1{n\pi})=0$, ולכן ההוכחה משתמשת ב-$\sigma$; (ב) $(g\circ f)'(0)=0$ לכל $g$ גזירה ב-0.
+
+  - id: W-5.5-05
+    level: mid
+    objectives: [OBJ-5.5-2]
+    prompt: >-
+      $f(x,y)=2xy$, ו-$g(r,\theta)=f(r\cos\theta,r\sin\theta)$.
+
+      (א) מצאו נוסחה ל-$g$, וחשבו את $\partial_rg$ ואת $\partial_\theta g$ בנקודה $(r,\theta)=(\sqrt2,\frac\pi4)$.
+
+      (ב) בעזרת הנוסחאות ההפוכות של טענה 5.5.4(ג), חשבו מהן את $\partial_xf(1,1)$ ואת $\partial_yf(1,1)$.
+    answer: >-
+      (א) $g=r^2\sin2\theta$; $\partial_rg=2\sqrt2$, $\partial_\theta g=0$. (ב) $(2,2)$.
+    solution:
+      - kind: computation
+        text: >-
+          (א) $g=2r^2\cos\theta\sin\theta=r^2\sin2\theta$. לכן $\partial_rg=2r\sin2\theta$ ו-$\partial_\theta g=2r^2\cos2\theta$.
+          ב-$(\sqrt2,\frac\pi4)$: $\sin\frac\pi2=1$ ו-$\cos\frac\pi2=0$, ולכן $\partial_rg=2\sqrt2$ ו-$\partial_\theta g=0$.
+      - kind: step
+        text: >-
+          (ב) $P(\sqrt2,\frac\pi4)=(1,1)$: זו הנקודה. לפי 5.5.4(ג) עם $r=\sqrt2$, $\cos\theta=\sin\theta=\frac1{\sqrt2}$:
+      - kind: computation
+        text: >-
+          $\partial_xf=\frac1{\sqrt2}\cdot2\sqrt2-\frac{1/\sqrt2}{\sqrt2}\cdot0=2$, ו-$\partial_yf=\frac1{\sqrt2}\cdot2\sqrt2+\frac{1/\sqrt2}{\sqrt2}\cdot0=2$.
+      - kind: check
+        text: >-
+          ישירות: $\nabla(2xy)=(2y,2x)=(2,2)$ ב-$(1,1)$. ו-5.5.4(ב): $2^2+2^2=8=(2\sqrt2)^2+\frac12\cdot0^2$. $\partial_\theta g=0$ כי
+          ב-$(1,1)$ המעגל משיק לקו הגובה $xy=1$: הגרדיאנט $(2,2)$ רדיאלי.
+      - kind: result
+        text: >-
+          $\partial_rg=2\sqrt2$, $\partial_\theta g=0$, ו-$\nabla f(1,1)=(2,2)$.
+
+  - id: W-5.5-06
+    level: mid
+    objectives: [OBJ-5.5-3]
+    prompt: >-
+      $f$ דיפרנציאבילית על $\mathbb{R}^2\setminus\{0\}$, הומוגנית מדרגה 2, $f(3,4)=10$ ו-$\partial_xf(3,4)=2$. חשבו את
+      $\partial_yf(3,4)$, את $f(6,8)$ ואת $\partial_xf(6,8)$. האם יש פונקציה כזו?
+    answer: >-
+      $\partial_yf(3,4)=3.5$, $f(6,8)=40$, $\partial_xf(6,8)=4$. כן, למשל $\frac{x^2}3+\frac{7y^2}{16}$.
+    solution:
+      - kind: theorem
+        text: >-
+          משפט 5.5.7(א) ב-$(3,4)$: $3\,\partial_xf(3,4)+4\,\partial_yf(3,4)=2f(3,4)$.
+      - kind: computation
+        text: >-
+          $3\cdot2+4\,\partial_yf(3,4)=20$, ולכן $\partial_yf(3,4)=\frac{14}4=3.5$.
+      - kind: computation
+        text: >-
+          $(6,8)=2\cdot(3,4)$, ולכן מההומוגניות $f(6,8)=2^2\cdot10=40$, ולפי 5.5.7(ג) ($\partial_xf$ מדרגה 1)
+          $\partial_xf(6,8)=2\cdot\partial_xf(3,4)=4$.
+      - kind: check
+        text: >-
+          דוגמה שמקיימת הכול: מחפשים $ax^2+cy^2$ עם $9a+16c=10$ ו-$6a=2$: $a=\frac13$, $c=\frac7{16}$. אז
+          $\partial_yf(3,4)=2\cdot\frac7{16}\cdot4=3.5$ ו-$\partial_xf(6,8)=\frac23\cdot6=4$, כמו בחישוב. טעות נפוצה:
+          $\partial_xf(6,8)=2^2\cdot2=8$, כאילו הנגזרת מאותה דרגה כמו $f$.
+      - kind: result
+        text: >-
+          $3.5$, $40$, $4$; יש פונקציה כזו.
+
+  - id: W-5.5-07
+    level: mid
+    qualitative: true
+    objectives: [OBJ-5.5-1]
+    prompt: >-
+      נכון או לא נכון? הוכיחו או תנו דוגמה נגדית.
+
+      (א) אם $f$ דיפרנציאבילית ב-$a$ ו-$g\circ f$ דיפרנציאבילית ב-$a$, אז $g$ דיפרנציאבילית ב-$f(a)$.
+
+      (ב) אם $\gamma:\mathbb{R}\to\mathbb{R}^2$ גזירה ב-0 עם $\gamma'(0)=0$, ו-$g:\mathbb{R}^2\to\mathbb{R}$ דיפרנציאבילית
+      ב-$\gamma(0)$, אז $(g\circ\gamma)'(0)=0$.
+
+      (ג) אם $g:\mathbb{R}^2\to\mathbb{R}$ דיפרנציאבילית ב-$(1,2)$ ו-$\nabla g(1,2)=(3,-1)$, אז $t\mapsto g(t,2t)$ גזירה ב-1
+      עם נגזרת 1.
+    answer: >-
+      (א) לא: $f(x)=x^3$, $g(u)=\sqrt[3]u$. (ב) נכון. (ג) נכון: $(3,-1)\cdot(1,2)=1$.
+    solution:
+      - kind: step
+        text: >-
+          (א) **לא נכון.** $f(x)=x^3$ גזירה ב-0, $g(u)=\sqrt[3]u$, ו-$g(f(x))=x$ גזירה ב-0. אבל $g$ אינה גזירה ב-$f(0)=0$:
+          $\frac{g(u)-g(0)}u=u^{-2/3}\to\infty$. כלל השרשרת נותן תנאי מספיק, לא הכרחי; וטענה 5.5.5(ד) מתיישבת עם זה:
+          אילו $g$ הייתה גזירה ב-0, היה $f'(0)\ne0$, אבל $f'(0)=0$.
+      - kind: step
+        text: >-
+          (ב) **נכון.** לפי מסקנה 5.5.3, $(g\circ\gamma)'(0)=\nabla g(\gamma(0))\cdot\gamma'(0)=\nabla g(\gamma(0))\cdot0=0$.
+      - kind: step
+        text: >-
+          (ג) **נכון.** $\gamma(t)=(t,2t)$ גזירה, $\gamma(1)=(1,2)$ ו-$\gamma'(1)=(1,2)$. לפי מסקנה 5.5.3 הנגזרת היא
+          $(3,-1)\cdot(1,2)=3-2=1$.
+      - kind: check
+        text: >-
+          ב-(ב) ההנחה על $g$ נחוצה: עם $\gamma(t)=(t^3,t^6)$ ($\gamma'(0)=0$) ו-$g$ הפונקציה ששווה 1 על הפרבולה $y=x^2$,
+          $x\ne0$, ו-0 במקום אחר, $g(\gamma(t))=1$ ל-$t\ne0$ ו-$0$ ב-0: לא רציפה ב-0. ב-(ג) בלי דיפרנציאביליות הייתה רק
+          התשובה "לא ידוע" (טענה 5.5.8).
+      - kind: result
+        text: >-
+          (א) לא נכון; (ב) נכון; (ג) נכון, הנגזרת 1.
+
+  - id: W-5.5-08
+    level: exam
+    objectives: [OBJ-5.5-1, OBJ-5.5-2]
+    prompt: >-
+      $f\in C^1(\mathbb{R}^2)$ מקיימת $f(x,x^2)=x^3$ ו-$\partial_xf(x,x^2)=x$ לכל $x\in\mathbb{R}$.
+
+      (א) מצאו את $\partial_yf(x,x^2)$ לכל $x\ne0$.
+
+      (ב) מצאו את $\partial_yf(0,0)$.
+
+      (ג) תנו דוגמה לפונקציה כזו.
+    answer: >-
+      (א) $\frac{3x-1}2$. (ב) $-\frac12$. (ג) $f(x,y)=xy+\frac12(y-x^2)(x-1)$.
+    solution:
+      - kind: idea
+        text: >-
+          לגזור את הזהות $f(\gamma(x))=x^3$, עם $\gamma(x)=(x,x^2)$, בשני הצדדים: משמאל בכלל השרשרת, מימין ישירות. מקבלים
+          משוואה אחת על שתי הנגזרות החלקיות; אחת נתונה.
+      - kind: theorem
+        text: >-
+          $f\in C^1$ ולכן דיפרנציאבילית (מסקנה 5.4.3), ו-$\gamma$ גזירה עם $\gamma'(x)=(1,2x)$. לפי מסקנה 5.5.3:
+          $$\frac{d}{dx}f(x,x^2)=\partial_xf(x,x^2)+2x\,\partial_yf(x,x^2) .$$
+      - kind: computation
+        text: >-
+          (א) הצד הימני של הזהות גזור ל-$3x^2$, ולכן $x+2x\,\partial_yf(x,x^2)=3x^2$. ל-$x\ne0$ מחלקים ב-$2x$:
+          $\partial_yf(x,x^2)=\frac{3x^2-x}{2x}=\frac{3x-1}2$.
+      - kind: step
+        text: >-
+          (ב) ב-$x=0$ המשוואה נותנת $0+0=0$: אין בה מידע על $\partial_yf(0,0)$. כאן נכנסת ההנחה $C^1$: $\partial_yf$ רציפה
+          ב-$(0,0)$, ו-$(x,x^2)\to(0,0)$ כש-$x\to0$, ולכן (רציפות סדרתית, משפט 1.6.3)
+          $\partial_yf(0,0)=\lim_{x\to0}\frac{3x-1}2=-\frac12$.
+      - kind: computation
+        text: >-
+          (ג) מחפשים $f=xy+(y-x^2)q(x,y)$: אז $f(x,x^2)=x^3$ מיד. $\partial_xf=y-2xq+(y-x^2)\partial_xq$, ועל הפרבולה
+          $x^2-2xq(x,x^2)=x$, כלומר $q(x,x^2)=\frac{x-1}2$. הבחירה $q=\frac{x-1}2$ נותנת פולינום, ולכן $C^1$.
+      - kind: check
+        text: >-
+          לדוגמה של (ג): $\partial_yf=x+\frac{x-1}2=\frac{3x-1}2$ בכל מקום, ובפרט $\partial_yf(0,0)=-\frac12$. בדיקה מספרית
+          ב-$x=0,\frac12,2,-1$: $f(x,x^2)$ שווה $x^3$, $\partial_xf=x$ ו-$\partial_yf=\frac{3x-1}2$ (במנת הפרשים סימטרית).
+      - kind: result
+        text: >-
+          (א) $\frac{3x-1}2$; (ב) $-\frac12$; (ג) $xy+\frac12(y-x^2)(x-1)$.
+
+  - id: W-5.5-09
+    level: exam
+    objectives: [OBJ-5.5-2]
+    prompt: >-
+      מצאו את כל הפונקציות $f$ הדיפרנציאביליות על $\mathbb{R}^2\setminus\{0\}$ שמקיימות בכל נקודה
+      $$y\,\partial_xf-x\,\partial_yf=f .$$
+    answer: >-
+      רק $f\equiv0$.
+    solution:
+      - kind: idea
+        text: >-
+          בקואורדינטות קוטביות האגף השמאלי הוא $-\partial_\theta g$ (טענה 5.5.4(ד)), והמשוואה הופכת למשוואה רגילה במשתנה
+          $\theta$, שהפתרונות שלה $ce^{-\theta}$. אבל $\theta$ ו-$\theta+2\pi$ הן אותה נקודה, ו-$e^{-\theta}$ אינה מחזורית.
+      - kind: step
+        text: >-
+          **1.** נקבע $r>0$ ונגדיר $u(\theta)=g(r,\theta)=f(r\cos\theta,r\sin\theta)$ על $\mathbb{R}$. לפי מסקנה 5.5.3 $u$ גזירה, ולפי
+          טענה 5.5.4(ד) $u'(\theta)=x\,\partial_yf-y\,\partial_xf$ בנקודה $P(r,\theta)$. לפי המשוואה, $u'=-u$.
+      - kind: step
+        text: >-
+          **2.** $w(\theta)=e^\theta u(\theta)$ מקיימת $w'=e^\theta(u+u')=0$ על $\mathbb{R}$, ולכן קבועה (אינפי 1): $u(\theta)=ce^{-\theta}$.
+      - kind: step
+        text: >-
+          **3.** $P(r,\theta+2\pi)=P(r,\theta)$, ולכן $u(2\pi)=u(0)$, כלומר $ce^{-2\pi}=c$. $e^{-2\pi}\ne1$, ולכן $c=0$, ו-$u\equiv0$.
+      - kind: step
+        text: >-
+          **4.** כל נקודה של $\mathbb{R}^2\setminus\{0\}$ היא $P(r,\theta)$ עם $r>0$, ולכן $f\equiv0$. ולהפך, $f\equiv0$ מקיימת את
+          המשוואה.
+      - kind: check
+        text: >-
+          הסימן: $\partial_\theta g=-r\sin\theta\,\partial_xf+r\cos\theta\,\partial_yf=x\,\partial_yf-y\,\partial_xf$, ולכן המשוואה
+          היא $-\partial_\theta g=g$. אילו התחום היה המישור בלי הקרן $\{(x,0):x\le0\}$, $\theta$ הייתה רצה רק על $(-\pi,\pi)$
+          בלי לחזור לעצמה, ו-$f=e^{-\theta(x,y)}$ הייתה פתרון שאינו אפס: המחזוריות היא כל הטיעון.
+      - kind: result
+        text: >-
+          $f\equiv0$ הוא הפתרון היחיד.
+
+  - id: W-5.5-10
+    level: exam
+    qualitative: true
+    objectives: [OBJ-5.5-3]
+    prompt: >-
+      תהי $f:\mathbb{R}^2\to\mathbb{R}$, $f(0)=0$, דיפרנציאבילית על $\mathbb{R}^2\setminus\{0\}$.
+
+      (א) הוכיחו: אם $f$ הומוגנית מדרגה 2 על $\mathbb{R}^2\setminus\{0\}$, אז $f$ דיפרנציאבילית בראשית ו-$Df(0)=0$.
+
+      (ב) האם אותו דבר נכון לדרגה 1?
+
+      (ג) נניח רק ש-$x\,\partial_xf+y\,\partial_yf=2f$ על $\mathbb{R}^2\setminus\{0\}$. האם $f$ דיפרנציאבילית בראשית?
+    answer: >-
+      (א) כן: $|f(x)|\le M\|x\|_2^2$. (ב) לא: $\|x\|_2$. (ג) כן, לפי משפט 5.5.7(ב) ו-(א).
+    solution:
+      - kind: idea
+        text: >-
+          פונקציה הומוגנית נקבעת מהערכים שלה על מעגל היחידה: $f(x)=\|x\|^2f\big(\frac x{\|x\|}\big)$. המעגל קומפקטי, ולכן
+          הערכים שם חסומים, והשארית קטנה כמו $\|x\|^2$.
+      - kind: step
+        text: >-
+          (א) **1.** $f$ דיפרנציאבילית על $\mathbb{R}^2\setminus\{0\}$, ולכן רציפה שם (משפט 5.3.6). מעגל היחידה $S$ סגור
+          וחסום, ולכן קומפקטי (משפט 3.2.11), ולפי מסקנה 3.4.3 יש $M$ עם $|f|\le M$ על $S$.
+      - kind: step
+        text: >-
+          **2.** ל-$x\ne0$, עם $t=\|x\|_2$ ו-$u=\frac x{\|x\|_2}\in S$: $f(x)=f(tu)=t^2f(u)$, ולכן $|f(x)|\le M\|x\|_2^2$.
+      - kind: step
+        text: >-
+          **3.** עם המועמד $T=0$: $\frac{|f(h)-f(0)-0|}{\|h\|_2}\le M\|h\|_2\to0$. לפי הגדרה 5.3.1, $f$ דיפרנציאבילית בראשית
+          ו-$Df(0)=0$.
+      - kind: step
+        text: >-
+          (ב) **לא.** $\|x\|_2$ הומוגנית מדרגה 1, דיפרנציאבילית מחוץ לראשית, ו-0 בראשית, ואינה דיפרנציאבילית שם (אין לה
+          אפילו נגזרות כיווניות, טענה 5.2.3(ב)). בהוכחה של (א) נשבר שלב 3: החסם $M\|h\|_2^1$ אינו $o(\|h\|_2)$.
+      - kind: step
+        text: >-
+          (ג) **כן.** לפי משפט 5.5.7(ב), $f$ הומוגנית מדרגה 2 על $\mathbb{R}^2\setminus\{0\}$, ולפי (א) היא דיפרנציאבילית בראשית.
+      - kind: check
+        text: >-
+          דוגמה: $f=\frac{x^4+y^4}{x^2+y^2}$ (0 בראשית) הומוגנית מדרגה 2 ו-$|f|\le\|x\|_2^2$ ($M=1$ על המעגל, ב-$(1,0)$).
+          איפה השתמשנו בכל הנחה: הדיפרנציאביליות מחוץ לראשית רק דרך הרציפות על $S$, והקומפקטיות של $S$ דרך החסם $M$.
+      - kind: result
+        text: >-
+          (א) נכון, $Df(0)=0$; (ב) לא נכון, $\|x\|_2$; (ג) נכון.
+
+challenge:
+  - id: W-5.5-c1
+    stars: 1
+    objectives: [OBJ-5.5-3]
+    prompt: >-
+      תהי $f:\mathbb{R}^n\setminus\{0\}\to\mathbb{R}$ רציפה, הומוגנית מדרגה $s\in\mathbb{R}$, ולא זהותית אפס.
+
+      (א) הוכיחו: אם $s>0$, אז $\lim_{x\to0}f(x)=0$. ואם $s<0$, אין ערך $f(0)$ שהופך את $f$ לרציפה בראשית.
+
+      (ב) נניח ש-$f$ מוגדרת על כל $\mathbb{R}^n$ (עם ערך כלשהו ב-0) ו-$f\in C^1(\mathbb{R}^n)$. הוכיחו ש-$s=0$ (ואז $f$ קבועה)
+      או $s\ge1$. תנו דוגמה לכל $s\ge1$.
+    answer: >-
+      (א) $|f(x)|\le M\|x\|^s$; ו-$f(tu)=t^sf(u)\to\pm\infty$. (ב) הנגזרות החלקיות הומוגניות מדרגה $s-1$ ורציפות בראשית;
+      לכן הן אפס כש-$s<1$. דוגמה: $\|x\|_2^s$ עם $s\ge1$ לא שלם, או $x_1^s$ עם $s$ שלם.
+    solution:
+      - kind: idea
+        text: >-
+          פונקציה הומוגנית נקבעת מהערכים שלה על ספירת היחידה, שהיא קומפקטית. דרגה חיובית מכווצת את הערכים ליד הראשית,
+          ודרגה שלילית מנפחת אותם. ב-(ב) מפעילים את (א) על הנגזרות החלקיות, שהדרגה שלהן קטנה ב-1 (משפט 5.5.7(ג)).
+      - kind: step
+        text: >-
+          (א) **1.** הספירה $S=\{\|x\|_2=1\}$ סגורה וחסומה, ולכן קומפקטית (משפט 3.2.11); $f$ רציפה עליה, ולפי מסקנה 3.4.3 יש $M$
+          עם $|f|\le M$ על $S$. ל-$x\ne0$: $f(x)=\|x\|_2^sf\big(\frac x{\|x\|_2}\big)$, ולכן $|f(x)|\le M\|x\|_2^s$.
+      - kind: step
+        text: >-
+          **2.** אם $s>0$, $M\|x\|_2^s\to0$ כש-$x\to0$, ולכן $\lim_{x\to0}f=0$ (טענה 5.1.9).
+      - kind: step
+        text: >-
+          **3.** אם $s<0$: יש $x_0$ עם $f(x_0)\ne0$, ועם $u=\frac{x_0}{\|x_0\|_2}$, $f(u)=\|x_0\|_2^{-s}f(x_0)\ne0$. ל-$t\to0^+$,
+          $tu\to0$ ו-$|f(tu)|=t^s|f(u)|\to\infty$. לכן ל-$f$ אין גבול סופי בראשית (מסקנה 5.1.7), ואין ערך שעושה אותה רציפה שם.
+      - kind: step
+        text: >-
+          (ב) **4.** $s<0$ אינו אפשרי: $f$ רציפה בראשית, בסתירה ל-(א). נניח $0\le s<1$. $f\in C^1$, ולכן דיפרנציאבילית
+          (מסקנה 5.4.3), ולפי משפט 5.5.7(ג) כל $\partial_if$ הומוגנית מדרגה $s-1<0$ על $\mathbb{R}^n\setminus\{0\}$. היא רציפה
+          שם וגם בראשית, ולפי (א) (החלק של דרגה שלילית) $\partial_if\equiv0$ מחוץ לראשית, ומרציפות גם בראשית.
+      - kind: step
+        text: >-
+          **5.** לכל $x$, $\varphi(t)=f(tx)$ גזירה על $\mathbb{R}$ עם $\varphi'(t)=\nabla f(tx)\cdot x=0$ (מסקנה 5.5.3), ולכן
+          $f(x)=\varphi(1)=\varphi(0)=f(0)$: $f$ קבועה, $f\equiv c$, ו-$c\ne0$ כי $f$ אינה זהותית אפס. מההומוגניות $c=t^sc$ לכל
+          $t>0$, ולכן $s=0$. כלומר $0<s<1$ בלתי אפשרי, ו-$s=0$ רק לקבועה.
+      - kind: step
+        text: >-
+          **6.** דוגמאות ל-$s\ge1$: ל-$s$ שלם, $x_1^s$ (פולינום). ל-$s>1$ כלשהו, $\|x\|_2^s$: מחוץ לראשית
+          $\nabla\|x\|_2^s=s\|x\|_2^{s-2}x$, שאורכו $s\|x\|_2^{s-1}\to0$; בראשית $\big|\|h\|_2^s\big|\le\|h\|_2^s=o(\|h\|_2)$, ולכן
+          $D(\|x\|_2^s)(0)=0$, והנגזרות רציפות.
+      - kind: check
+        text: >-
+          $s=\frac12$: $\|x\|_2^{1/2}$ רציפה ואפילו הומוגנית, אבל הגרדיאנט שלה, באורך $\frac12\|x\|_2^{-1/2}$, מתפוצץ בראשית:
+          לא $C^1$, כמו שהטענה צופה. ובדיקה מספרית ל-$s=\frac32$ ב-$(0.03,-0.04)$: אורך הגרדיאנט $0.33541=\frac32\sqrt{0.05}$.
+          במקור הטענה היא ל-$C^k$, עם המסקנה "$s$ שלם אי-שלילי או $s\ge k$"; כאן $k=1$, כי נגזרות מסדר גבוה הן שיעור 5.7.
+      - kind: result
+        text: >-
+          (א) $\lim_0f=0$ ל-$s>0$, ואין המשך רציף ל-$s<0$; (ב) $s=0$ (קבועה) או $s\ge1$.
+    source:
+      name: 'MA2321 Analysis in Several Real Variables, Trinity College Dublin (D. R. Wilkins), Michaelmas Term 2015, Assignment 2'
+      year: 2015
+      problem: 'Question 4 (a)-(b), with k = 1 in part (b)'
+      url: 'https://www.maths.tcd.ie/~dwilkins/Courses/MA2321/MA2321_Mich2015/MA2321_Mich2015_Assign2.pdf'
+      verified: '2026-11-17'
+      adapted: true
+
+  - id: W-5.5-c2
+    stars: 1
+    objectives: [OBJ-5.5-1, OBJ-5.5-2]
+    prompt: >-
+      נזהה מטריצה $n\times n$ עם נקודה של $\mathbb{R}^{n^2}$, ונכתוב אותה בעזרת השורות שלה: $(a_1,\dots,a_n)$, עם
+      $a_i\in\mathbb{R}^n$.
+
+      (א) הוכיחו ש-$\det:\mathbb{R}^{n^2}\to\mathbb{R}$ דיפרנציאבילית בכל נקודה, ו-
+      $$D(\det)(a_1,\dots,a_n)(x_1,\dots,x_n)=\sum_{i=1}^n\det(a_1,\dots,x_i,\dots,a_n),$$
+      כלומר במחובר ה-$i$ השורה ה-$i$ מוחלפת ב-$x_i$.
+
+      (ב) יהיו $a_{ij}:\mathbb{R}\to\mathbb{R}$ גזירות ($1\le i,j\le n$), ו-$f(t)=\det\big(a_{ij}(t)\big)$. הוכיחו ש-$f'(t)$
+      הוא סכום של $n$ דטרמיננטות: במחובר ה-$i$ השורה ה-$i$ של המטריצה מוחלפת בנגזרות שלה,
+      $(a_{i1}'(t),\dots,a_{in}'(t))$.
+
+      (ג) נניח בנוסף ש-$\det\big(a_{ij}(t)\big)\ne0$ לכל $t$, ויהיו $b_1,\dots,b_n:\mathbb{R}\to\mathbb{R}$ גזירות. לכל $t$
+      יהיו $s_1(t),\dots,s_n(t)$ הפתרון של המערכת $\sum_{j=1}^na_{ji}(t)s_j(t)=b_i(t)$, $i=1,\dots,n$. הוכיחו שכל
+      $s_j$ גזירה, ומצאו נוסחה ל-$s_j'$.
+    answer: >-
+      (א) $\det$ פולינום בכניסות, והנגזרת לאורך $X$ היא המקדם של $t$ ב-$\det(A+tX)$. (ב) כלל השרשרת לאורך המסילה
+      $t\mapsto(a_{ij}(t))$. (ג) לפי כלל קרמר $s_j=\frac{\Delta_j}{\Delta}$, עם $\Delta=\det(a_{ij})$ ו-$\Delta_j$ הדטרמיננטה
+      שבה השורה ה-$j$ מוחלפת ב-$(b_1,\dots,b_n)$; לכן $s_j'=\frac{\Delta_j'\Delta-\Delta_j\Delta'}{\Delta^2}$, עם $\Delta'$
+      ו-$\Delta_j'$ לפי (ב).
+    solution:
+      - kind: idea
+        text: >-
+          הדטרמיננטה לינארית בכל שורה בנפרד. לכן כשמזיזים את כל השורות יחד, $\det(a_1+tx_1,\dots,a_n+tx_n)$ הוא
+          פולינום ב-$t$, והחלק הלינארי שלו בא מהמחוברים שבהם זזה בדיוק שורה אחת. (ב) הוא כלל השרשרת על (א), ו-(ג) הוא
+          כלל קרמר וכלל המנה.
+      - kind: theorem
+        text: >-
+          (א) **1.** לפי נוסחת לייבניץ לדטרמיננטה (אלגברה לינארית 1), $\det$ הוא פולינום ב-$n^2$ הכניסות. הנגזרות
+          החלקיות שלו פולינומים, ולכן רציפות (טענה 5.1.5(ד)): $\det\in C^1(\mathbb{R}^{n^2})$, ולפי מסקנה 5.4.3 הוא
+          דיפרנציאבילי בכל נקודה.
+      - kind: step
+        text: >-
+          **2.** נקבע $A=(a_1,\dots,a_n)$ ו-$X=(x_1,\dots,x_n)$. המסילה $c(t)=A+tX$ גזירה עם $c'(0)=X$, ולפי מסקנה 5.5.3
+          $D(\det)(A)X=\frac{d}{dt}\det(A+tX)\big|_{t=0}$.
+      - kind: computation
+        text: >-
+          **3.** נפתח את $\det(a_1+tx_1,\dots,a_n+tx_n)$ בעזרת הלינאריות בשורה הראשונה, אחר כך בשנייה, וכן הלאה. מתקבל
+          סכום של $2^n$ מחוברים, אחד לכל קבוצה $S\subseteq\{1,\dots,n\}$ של השורות שבהן בחרנו את $tx_i$: המחובר הוא
+          $t^{|S|}$ כפול הדטרמיננטה שבה השורות שב-$S$ הן ה-$x_i$ והשאר ה-$a_i$. זה פולינום ב-$t$, והנגזרת שלו ב-0 היא
+          המקדם של $t$, כלומר סכום המחוברים עם $|S|=1$: זו הנוסחה של (א).
+      - kind: step
+        text: >-
+          (ב) **4.** $A(t)=\big(a_{ij}(t)\big)$ היא מסילה ב-$\mathbb{R}^{n^2}$ שכל רכיב שלה גזיר, עם
+          $A'(t)=\big(a_{ij}'(t)\big)$. $f=\det\circ A$, ולפי מסקנה 5.5.3 ו-(א), $f'(t)=D(\det)(A(t))\,A'(t)$: סכום
+          הדטרמיננטות שבהן השורה ה-$i$ של $A(t)$ מוחלפת בשורה ה-$i$ של $A'(t)$.
+      - kind: step
+        text: >-
+          (ג) **5.** המטריצה של המערכת היא $A(t)^T$: במשוואה ה-$i$ המקדם של $s_j$ הוא $a_{ji}(t)$. $\det A(t)^T=\det A(t)\ne0$,
+          ולכן יש פתרון יחיד, ולפי כלל קרמר (אלגברה לינארית 1) $s_j(t)$ הוא המנה של הדטרמיננטה של $A(t)^T$ שבה העמודה
+          ה-$j$ מוחלפת ב-$b(t)$, ב-$\det A(t)^T$. העמודה ה-$j$ של $A^T$ היא השורה ה-$j$ של $A$, ושחלוף אינו משנה
+          דטרמיננטה. לכן $s_j=\frac{\Delta_j}{\Delta}$, עם $\Delta(t)=\det A(t)$ ו-$\Delta_j(t)$ הדטרמיננטה של $A(t)$ שבה
+          השורה ה-$j$ מוחלפת ב-$(b_1(t),\dots,b_n(t))$.
+      - kind: step
+        text: >-
+          **6.** $\Delta_j$ היא דטרמיננטה של מטריצה שכל כניסותיה גזירות, ולכן לפי (ב) גם $\Delta$ וגם $\Delta_j$ גזירות,
+          ו-$\Delta\ne0$. לפי כלל המנה (אינפי 1), $s_j$ גזירה, ו-$s_j'=\frac{\Delta_j'\Delta-\Delta_j\Delta'}{\Delta^2}$, כאשר
+          את $\Delta'$ ואת $\Delta_j'$ נותן (ב).
+      - kind: check
+        text: >-
+          ב-$n=2$: $\det\begin{pmatrix}a&b\\c&d\end{pmatrix}=ad-bc$, והנגזרת שלו לאורך $\begin{pmatrix}x&y\\z&w\end{pmatrix}$ היא
+          $aw+dx-bz-cy$, בדיוק $\det\begin{pmatrix}x&y\\c&d\end{pmatrix}+\det\begin{pmatrix}a&b\\z&w\end{pmatrix}$. ב-$A=I$ הנוסחה
+          של (א) נותנת $D(\det)(I)X=\sum_ix_{ii}$, העקבה של $X$. ובדיקה מספרית ב-$n=3$, עם כניסות כמו $t^2$, $e^t$,
+          $\sin t$, $\cos t$, ב-$t=0.7$: $f'$ לפי (ב) ו-$s_j'$ לפי (ג) מתלכדים עם מנות הפרשים סימטריות עד כ-$10^{-9}$.
+      - kind: result
+        text: >-
+          (א) הנגזרת של $\det$ לאורך $X$ היא סכום $n$ הדטרמיננטות שבהן שורה אחת של $A$ מוחלפת בשורה המתאימה של $X$; (ב)
+          $f'(t)$ הוא סכום $n$ הדטרמיננטות שבהן שורה אחת גזורה; (ג) $s_j=\frac{\Delta_j}{\Delta}$ גזירה, ו-$s_j'=\frac{\Delta_j'\Delta-\Delta_j\Delta'}{\Delta^2}$.
+    source:
+      name: 'M. Spivak, Calculus on Manifolds (W. A. Benjamin, 1965), as posted on the exercise pages of MA 570 (K. Kubota, Summer 1999)'
+      year: 1965
+      problem: 'Problem 2-15 (a)-(c) (the page "Exercises: Chapter 2, Section 2", exercise 15)'
+      url: 'https://www.jmeiners.com/calculus-on-manifolds-site/homework/hw5/html/ch2b.htm'
+      verified: '2026-11-17'
+      adapted: true

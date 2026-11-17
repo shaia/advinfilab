@@ -1,0 +1,7 @@
+---
+/** Lesson 5.1 figure: <Spread figure={PathLimit} figureProps={{ preset, presets, mode, path, m, k, side, rho, alpha, tasks }}>. */
+import PathLimit, { type PathLimitProps } from './PathLimit';
+type Props = PathLimitProps;
+---
+
+<PathLimit client:visible {...Astro.props} />

@@ -132,7 +132,8 @@ questions:
     qualitative: true
     level: mid
     prompt: >-
-      $f(x)=x^{T}Ax+b\cdot x+c_0$ עם $A$ סימטרית $n\times n$. נכון או לא נכון: לכל $a\ne b$, אמצע הקטע $[a,b]$ הוא
+      $f(x)=x^{T}Ax+\beta\cdot x+c_0$ עם $A$ סימטרית $n\times n$, $\beta\in\mathbb{R}^n$ ו-$c_0\in\mathbb{R}$. נכון או לא נכון:
+      לכל $a\ne b$ ב-$\mathbb{R}^n$, אמצע הקטע $[a,b]$ הוא
       נקודה שמקיימת את משפט הערך הממוצע.
     choices:
       - text: 'נכון'
@@ -144,7 +145,7 @@ questions:
           $p(1)-p(0)=p'(\frac12)$.
         misconception: MC-c5-mvt-midpoint
     reasons:
-      - text: '$\varphi(t)=f(a+t(b-a))=\alpha t^2+\beta t+\gamma$, ו-$\varphi(1)-\varphi(0)=\alpha+\beta=\varphi''(\tfrac12)$'
+      - text: '$\varphi(t)=f(a+t(b-a))=\alpha t^2+\kappa t+f(a)$, ו-$\varphi(1)-\varphi(0)=\alpha+\kappa=\varphi''(\tfrac12)$'
         correct: true
         feedback: >-
           בדיוק. הצמצום לקטע הופך שאלה על $\mathbb{R}^n$ לשאלה על פולינום של משתנה אחד.
@@ -154,7 +155,7 @@ questions:
         misconception: MC-c5-mvt-midpoint
       - text: 'כי $\nabla f$ קבוע לפונקציה ריבועית'
         feedback: >-
-          $\nabla f(x)=2Ax+b$ אינו קבוע, הוא **אפיני**. מה שעובד הוא שהממוצע של פונקציה אפינית על קטע מתקבל באמצע.
+          $\nabla f(x)=2Ax+\beta$ אינו קבוע, הוא **אפיני**. מה שעובד הוא שהממוצע של פונקציה אפינית על קטע מתקבל באמצע.
           (אם $\nabla f$ היה קבוע, כל נקודה הייתה עובדת.)
         misconception: MC-c5-mvt-midpoint
 
@@ -262,8 +263,8 @@ questions:
         misconception: MC-c5-mvt-vector-equality
       - text: 'אותו חסם $\|f(x)-f(y)\|_2\le3\|x-y\|_2$ נכון גם אם $U$ רק פתוחה וקשירה מסילתית'
         feedback: >-
-          בלי קמירות זה נכשל: הזווית הקוטבית על עיגול חיצוני עם קרן מוצאת יש לה נגזרת קטנה וקפיצה של כמעט $2\pi$
-          בין נקודות קרובות משני צדי הקרן.
+          בלי קמירות זה נכשל: הזווית הקוטבית מחוץ לעיגול היחידה, כשמוציאים קרן, מקיימת $\|\nabla\theta\|_2<1$, ובכל זאת
+          קופצת בכמעט $2\pi$ בין נקודות קרובות משני צדי הקרן (טענה 5.6.6).
         misconception: MC-c5-mvt-nonconvex
 
   - id: Q-5.6-ineq-proof
@@ -302,22 +303,22 @@ questions:
     help: סדרו את שלבי ההוכחה מהראשון לאחרון.
     items:
       - id: a
-        label: 'בכל כדור $B\subseteq U$ הפונקציה קבועה: הכדור קמור, ואי-שוויון הערך הממוצע עם $M=0$ נותן $\|f(x)-f(y)\|\le0$.'
-      - id: b
         label: 'מקבעים $p,q\in U$ ומסילה רציפה $\gamma:[0,1]\to U$ מ-$p$ ל-$q$.'
-      - id: c
+      - id: b
         label: 'מגדירים $s=\sup\{t\in[0,1]:\ f(\gamma(t''))=f(p)\ \ \forall t''\in[0,t]\}$.'
-      - id: d
+      - id: c
         label: 'כי $U$ פתוחה יש כדור $B(\gamma(s),r)\subseteq U$, ומרציפות $\gamma$ יש $\delta>0$ כך ש-$\gamma(t)\in B(\gamma(s),r)$ כש-$|t-s|<\delta$.'
+      - id: d
+        label: 'על הכדור הזה $f$ קבועה: הכדור קמור, ואי-שוויון הערך הממוצע עם $M=0$ נותן $\|f(x)-f(y)\|\le0$ לכל $x,y$ בו.'
       - id: e
-        label: 'על הכדור $f$ קבועה, ושווה ל-$f(p)$ בנקודות $\gamma(t)$ עם $t<s$ קרוב; לכן $f(\gamma(t))=f(p)$ עד $s+\delta$. אם $s<1$ זו סתירה, ולכן $s=1$ ו-$f(q)=f(p)$.'
+        label: 'הערך הקבוע על הכדור הוא $f(p)$ (יש $t\le s$ קרוב ל-$s$ בקבוצה); לכן $f(\gamma(t))=f(p)$ לכל $t\in[0,1]$ עם $t<s+\delta$. אם $s<1$ זו סתירה להגדרת $s$, ולכן $s=1$ ו-$f(q)=f(p)$.'
     order: [a, b, c, d, e]
     correctFeedback: >-
       נכון. הרעיון: מקומית (בכדורים) $f$ קבועה בזכות הקמירות; הקשירות המסילתית מדביקה את הקביעות המקומית לאורך מסילה,
       בטיעון הסופרמום המוכר מאינפי 1.
     wrongFeedback: >-
-      התחילו מהעובדה המקומית (קביעות בכדור קמור), אחר כך קבעו את המסילה, הגדירו את הסופרמום, ורק אז השתמשו בפתיחות
-      של $U$ וברציפות של $\gamma$ כדי לסתור $s<1$.
+      קבעו קודם את המסילה והגדירו את הסופרמום $s$. רק אז יש נקודה $\gamma(s)$ שסביבה בונים כדור (פתיחות של $U$ ורציפות
+      של $\gamma$), ועל הכדור הזה מפעילים את אי-שוויון הערך הממוצע כדי לסתור $s<1$.
 
   - id: Q-5.6-nonconvex
     type: twotier
@@ -354,4 +355,67 @@ questions:
         feedback: >-
           על $U$ (בלי הקרן) $\theta$ גזירה ברציפות. הקפיצה היא מעבר לקרן, כלומר מחוץ ל-$U$; זו בדיוק הסיבה שהקטע ביניהן
           יוצא מ-$U$.
+        misconception: MC-c5-mvt-nonconvex
+
+  - id: Q-5.6-inf-norm
+    type: numeric
+    objectives: [OBJ-5.6-2]
+    level: mid
+    prompt: >-
+      $f(x,y)=(x^2-2y,\ xy)$ על הריבוע $K=[0,1]^2$. לפי משפט 5.6.4(ב),
+      $\|f(p)-f(q)\|_\infty\le M\|p-q\|_\infty$ לכל $p,q\in K$ עם $M=\sup_{c\in K}\|J_f(c)\|_\infty$ (סכום השורה
+      המקסימלי). חשבו את $M$.
+    answer: 4
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. $J_f=\begin{pmatrix}2x&-2\\ y&x\end{pmatrix}$, וסכומי הערכים המוחלטים בשורות הם $2x+2\le4$ ו-$x+y\le2$. הגדול
+      ביותר על $K$ הוא $4$, ב-$x=1$. $K$ קמורה, ולכן החסם חל על כל זוג נקודות.
+    wrongFeedback: >-
+      כתבו את $J_f$, סכמו ערכים מוחלטים בכל **שורה** (כל שורה היא רכיב של $f$), וקחו את הגדול ביותר על הריבוע.
+    commonWrong:
+      - value: 3
+        feedback: >-
+          3 הוא הסופרמום של סכומי **העמודות** ($2x+y$ ו-$2+x$), כלומר נורמת האופרטור לפי $\|\cdot\|_1$. בנורמת האינסוף
+          סוכמים שורות: כל רכיב $f_i$ מקבל נקודה משלו, והחסם שלו הוא $\|\nabla f_i\|_1$.
+        misconception: MC-c5-mvi-wrong-bound
+      - value: 6
+        feedback: >-
+          $6=2+2+1+1$ הוא סכום כל הערכים המוחלטים ב-$(1,1)$. זה חסם נכון אבל חלש: נורמת האופרטור לוקחת את השורה הגרועה,
+          לא את כולן יחד.
+        misconception: MC-c5-mvi-wrong-bound
+
+  - id: Q-5.6-partial-x
+    type: twotier
+    objectives: [OBJ-5.6-3]
+    qualitative: true
+    level: exam
+    prompt: >-
+      $U\subseteq\mathbb{R}^2$ פתוחה וקשירה מסילתית, $f\in C^1(U)$ ו-$\partial_xf=0$ בכל נקודה של $U$. נכון או לא נכון:
+      $f(x_1,y)=f(x_2,y)$ לכל שתי נקודות $(x_1,y),(x_2,y)$ של $U$.
+    choices:
+      - text: 'לא נכון'
+        correct: true
+        feedback: >-
+          נכון. ב-$U=\mathbb{R}^2\setminus\{(0,y):\ y\ge0\}$, עם $f=y^2$ כש-$y>0,\ x>0$, $f=-y^2$ כש-$y>0,\ x<0$, ו-$f=0$
+          כש-$y\le0$: $f\in C^1(U)$, $\partial_xf=0$, אבל $f(1,1)=1\ne-1=f(-1,1)$.
+      - text: 'נכון'
+        feedback: >-
+          המסקנה דורשת שהקטע האופקי בין שתי הנקודות יהיה ב-$U$ (למשל $U$ קמורה, מסקנה 5.6.10(ב)). ב-$U$ שהוצאה ממנה הקרן
+          $\{(0,y):\ y\ge0\}$ הקטע מ-$(-1,1)$ ל-$(1,1)$ חוצה אותה, והפונקציה יכולה להיות $y^2$ מימין ו-$-y^2$ משמאל.
+        misconception: MC-c5-mvt-nonconvex
+    reasons:
+      - text: 'משפט לגרנז׳ חל רק לאורך הקטע האופקי, וזה יכול לצאת מ-$U$; קשירות מסילתית מחברת את הנקודות רק בדרך עוקפת'
+        correct: true
+        feedback: >-
+          בדיוק. לאורך הדרך העוקפת יש קטעים אנכיים, ועליהם $\partial_xf=0$ אינו אומר דבר. מה שמבטיח את המסקנה הוא קטעים
+          אופקיים בתוך $U$.
+      - text: 'לפי משפט 5.6.8, כי $U$ פתוחה וקשירה מסילתית'
+        feedback: >-
+          משפט 5.6.8 דורש $Df=0$, כלומר **כל** הנגזרות החלקיות אפס. כאן רק $\partial_xf=0$, ו-$\partial_yf$ יכולה להיות
+          שונה מאפס.
+        misconception: MC-c5-zero-derivative-disconnected
+      - text: '$f$ אינה יכולה להיות $C^1$ אם היא תלויה ב-$x$ ו-$\partial_xf=0$'
+        feedback: >-
+          בדוגמה $\partial_yf$ היא $\pm2y$ או 0, ו-$|\partial_yf|\le2|y|$, כך שהיא רציפה גם ליד $y=0$: $f\in C^1(U)$. הבעיה היא
+          בצורה של $U$, לא בחלקות של $f$.
         misconception: MC-c5-mvt-nonconvex

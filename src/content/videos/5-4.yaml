@@ -1,0 +1,29 @@
+# Videos of lesson 5.4 (a sufficient condition for differentiability, the gradient). Every id verified by oEmbed
+# (200) on 2026-11-17; durations and descriptions read from the watch pages the same day. No Hebrew lecture on the
+# gradient was found in the session's searches.
+- id: v-5-4-khan-steepest
+  youtubeId: TEB2z7ZlRAw
+  title: Why the gradient is the direction of steepest ascent
+  channel: Khan Academy
+  lang: en
+  captions: []
+  start: 0
+  minutes: 11
+  why: >-
+    לפי תיאור הסרטון: הדרך שבה מחשבים את הגרדיאנט (וקטור הנגזרות החלקיות) נראית לא קשורה לפירוש שלו ככיוון העלייה
+    המהירה ביותר, והסרטון מראה איך השניים מתחברים. זה משפט 5.4.6: הנגזרת הכיוונית היא מכפלה סקלרית עם הגרדיאנט,
+    וקושי-שוורץ בוחר את הכיוון. שימו לב איפה בהסבר משתמשים בכך שהפונקציה דיפרנציאבילית, ולא רק שיש לה נגזרות חלקיות.
+  verified: '2026-11-17'
+- id: v-5-4-brunton-gradient
+  youtubeId: yXD5IlDstNk
+  title: 'The Gradient Operator in Vector Calculus: Directions of Fastest Change & the Directional Derivative'
+  channel: Steve Brunton
+  lang: en
+  captions: []
+  start: 0
+  minutes: 15
+  why: >-
+    לפי תיאור הסרטון ופרקיו: הגרדיאנט של שדה סקלרי (טמפרטורה בחדר) ככיוון השינוי המהיר ביותר בכל נקודה, דוגמת
+    טמפרטורה, ומ-7:30 הנגזרת הכיוונית. ההרצאה מכוונת לשימושים (אופטימיזציה, ירידה בגרדיאנט) ולא להוכחות: את
+    ההוכחות של משפטים 5.4.6 ו-5.4.8 קראו בשיעור.
+  verified: '2026-11-17'
