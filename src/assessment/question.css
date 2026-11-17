@@ -252,6 +252,26 @@
   color: var(--accent);
 }
 
+/* Phones only; desktop is the reference layout and is left untouched (the user's preference, 2026-11-17).
+   Inline math never wraps (global.css), and in RTL a formula wider than its line overflows to the LEFT, which
+   creates no page scroll: on a 390 px screen the start of the formula was simply cut off. As lessons and the
+   workbook already do (lesson.css, platform.css .wb-text), each line box that holds math scrolls on its own. */
+@media (max-width: 640px) {
+  :is(.qcard, .exam) :is(p, li, label, .q-prompt, .q-subprompt, .q-rank-label):has(.katex) {
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+  /* a proof step gets the card's full width: the move buttons drop to their own row */
+  .q-rank-item {
+    grid-template-columns: 28px minmax(0, 1fr);
+    row-gap: 4px;
+  }
+  .q-rank-moves {
+    grid-column: 2;
+    justify-self: end;
+  }
+}
+
 .q-actions {
   display: flex;
   flex-wrap: wrap;
