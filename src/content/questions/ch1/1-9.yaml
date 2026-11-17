@@ -160,7 +160,7 @@ questions:
         feedback: >-
           המסקנה נכונה והנימוק לא: $f$ רציפה ב-$0$ ו-$\frac1k\to0$, ולכן $S_kf\to f(0)$ לכל $f$ (משפט 1.6.3). הסדרה
           מתכנסת נקודתית, ובכל זאת לא בנורמה; בזה כל העניין.
-        misconception: MC-c0-pointwise-is-uniform
+        misconception: MC-c1-opconv-no-norm-no-pointwise
 
   - id: Q-1.9-consequences
     type: multi
