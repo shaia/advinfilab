@@ -19,7 +19,8 @@
  * = 2.7; X §1–2 = chapters 5–7, X §3 (Sard, partitions of unity, functional dependence) = 7.7 and 9.7;
  * XII = chapter 9. Line integrals (III §1, V, IX) stay in the core: the end-of-course summary and the
  * sample exam have them. Chapters VII–VIII, listed on the 2000/01 syllabus page, are out.
- * Filled on 2026-11-16 from the table of contents: X §1 (convergence of linear maps) = OBJ-1.8-4,
+ * Filled on 2026-11-16 from the table of contents: X §1 (convergence of linear maps) = lesson 1.9 (split out
+ * of 1.8 on 2026-11-17, the user's decision: 1.8 had grown to 210 minutes),
  * IX §3 (the continuous angle, the fundamental theorem of algebra) = 8.7 in the core, IX §4
  * (approximation by C² paths, homotopy of continuous paths) = 8.8 enrichment, X §3 (Sard from ℝⁿ to ℝᵐ)
  * = OBJ-9.7-4. XI §2 (Picard) stays in Advanced Calculus 2 by the user's decision.
@@ -147,7 +148,11 @@ export const chapters: Chapter[] = [
         'להוכיח שהעתקה לינארית בין מרחבים נורמיים רציפה אם ורק אם היא חסומה, ואם ורק אם היא רציפה באפס',
         'להגדיר את נורמת האופרטור ולחשב אותה למטריצות בנורמות 1 ואינסוף, ולהעריך אותה בנורמה האוקלידית',
         'לתת דוגמה להעתקה לינארית לא חסומה במרחב נורמי ממימד אינסופי, כמו הגזירה בנורמת הסופרמום',
-        'להגדיר התכנסות של סדרת העתקות לינאריות בנורמת האופרטור, להוכיח שבין מרחבים אוקלידיים היא שקולה להתכנסות של כל איברי המטריצות, ולהראות במרחב פונקציות שהתכנסות נקודתית של העתקות אינה גוררת התכנסות בנורמת האופרטור',
+      ]),
+      L('1.9', 'התכנסות של סדרת העתקות לינאריות', [
+        'להגדיר התכנסות של סדרת העתקות לינאריות בנורמת האופרטור והתכנסות נקודתית שלה, ולהוכיח שהתכנסות בנורמה גוררת התכנסות במידה שווה על כל כדור, ובפרט התכנסות נקודתית לאותו גבול',
+        'להוכיח שלמטריצות, עם נורמה 1, 2 או אינסוף, התכנסות בנורמת האופרטור שקולה להתכנסות של כל הכניסות, ושבמימד סופי היא שקולה גם להתכנסות נקודתית',
+        'להראות במרחב פונקציות שהתכנסות נקודתית של העתקות אינה גוררת התכנסות בנורמת האופרטור, ושהתכנסות של הנורמות אינה גוררת התכנסות של ההעתקות',
       ]),
     ],
   },

@@ -1,0 +1,31 @@
+# Terms of lesson 1.9 (convergence of a sequence of linear maps). The first two moved here from 1.8 on 2026-11-17,
+# when convergence of linear maps became its own lesson.
+- id: operator-norm-convergence
+  term: התכנסות בנורמת האופרטור
+  en: convergence in operator norm (uniform operator convergence)
+  symbol: '\|T_k-T\|_{\mathrm{op}}\to0'
+  definition: >-
+    סדרה $T_k$ ב-$\mathcal{L}(V,W)$ מתכנסת בנורמת האופרטור ל-$T$ אם $\|T_k-T\|_{\mathrm{op}}\to0$ (הגדרה 1.9.1): זו
+    התכנסות במרחב הנורמי $\mathcal{L}(V,W)$ של משפט 1.8.5. היא שקולה להתכנסות במידה שווה של $T_kx$ ל-$Tx$ על כדור
+    היחידה (טענה 1.9.3), ולמטריצות, בנורמות 1, 2 או אינסוף, להתכנסות של כל הכניסות (טענה 1.9.5). היא גוררת
+    התכנסות נקודתית של העתקות, וההפך אינו נכון במימד אינסופי (טענה 1.9.4). בספרים באנגלית: uniform operator
+    convergence.
+  lesson: '1.9'
+- id: pointwise-operator-convergence
+  term: התכנסות נקודתית של העתקות
+  en: pointwise (strong) convergence of operators
+  symbol: 'T_kx\to Tx'
+  definition: >-
+    סדרת העתקות $T_k:V\to W$ מתכנסת נקודתית ל-$S$ אם $T_kx\to Sx$ ב-$W$ לכל $x\in V$ בנפרד (הגדרה 1.9.2): ה-$N$
+    יכול להיות תלוי ב-$x$, כמו בהתכנסות נקודתית של פונקציות (שיעור 0.3). ב-$\mathbb{R}^n$ עם נורמה 1, 2 או אינסוף
+    היא שקולה להתכנסות בנורמת האופרטור (משפט 1.9.7); ב-$C[0,1]$ עם נורמת הסופרמום לא: $f\mapsto f(\frac1k)-f(0)$
+    שואפת נקודתית לאפס, ונורמת האופרטור שלה 2 לכל $k$ (טענה 1.9.4). בספרים באנגלית: strong convergence.
+  lesson: '1.9'
+- id: multiplication-operator
+  term: העתקת כפל
+  en: multiplication operator
+  symbol: 'M_gf=gf'
+  definition: >-
+    לפונקציה $g\in C[0,1]$, העתקת הכפל $M_g:C[0,1]\to C[0,1]$ היא $M_gf=g\cdot f$ (כפל נקודה בנקודה). היא לינארית,
+    ובנורמת הסופרמום $\|M_g\|_{\mathrm{op}}=\|g\|_\infty$, מתקבלת ב-$f\equiv1$ (דוגמה 5 בשיעור 1.9).
+  lesson: '1.9'

@@ -3,12 +3,12 @@
 #   OBJ-1.8-1  a linear map between normed spaces is continuous iff bounded iff continuous at 0
 #   OBJ-1.8-2  the operator norm; matrices in the 1- and ∞-norms, an estimate in the Euclidean norm
 #   OBJ-1.8-3  an unbounded linear map in infinite dimension: differentiation in the sup norm
-#   OBJ-1.8-4  convergence in operator norm; entrywise for matrices; pointwise does not imply it (C[0,1])
 # Matrix norms recomputed with src/math/multivar.ts (opNorm, symEigenvalues); integrals with simpson.
 # Rebuilt 2026-11-10 on the numbered spine of lesson 1.8 (1.8.1–1.8.12): W-02, W-03, W-05 rewritten as proofs,
 # citations by number everywhere; challenges c1, c2 kept with their sources.
-# 2026-11-16: W-04 (a functional whose norm 3 is not attained, the idea of example 5 and W-10) replaced by a
-# problem on OBJ-1.8-4 (integral functionals: norm convergence, and pointwise without norm convergence).
+# 2026-11-17: convergence of linear maps became lesson 1.9 (the user's decision). The W-04 written for it on
+# 2026-11-16 (phi_k, psi_k) moved to 1.9's workbook; the earlier W-04 (a functional whose norm 3 is not attained)
+# is back, and W-09 is exam level again: 3 basic, 4 mid, 3 exam.
 lesson: '1.8'
 practice:
   - id: W-1.8-01
@@ -134,91 +134,50 @@ practice:
           (א) נכון; (ב) נכון; (ג) לא נכון, וההפרכה היא $S$ על $P$.
 
   - id: W-1.8-04
-    level: exam
-    qualitative: true
-    objectives: [OBJ-1.8-4, OBJ-1.8-2]
+    level: mid
+    objectives: [OBJ-1.8-2]
     prompt: >-
-      על $(C[0,1],\|\cdot\|_\infty)$ נגדיר, לכל $k\in\mathbb{N}$, את הפונקציונלים $\varphi_k(f)=\int_0^1x^kf(x)\,dx$
-      ו-$\psi_k=(k+1)\varphi_k$, ונסמן $\operatorname{ev}_1(f)=f(1)$.
+      על $(C[0,1],\|\cdot\|_\infty)$ יהי $\varphi(f)=f(0)+f(1)-\int_0^1f(x)\,dx$.
 
-      (א) הוכיחו ש-$\|\varphi_k\|=\frac1{k+1}$, והסיקו ש-$\varphi_k\to0$ בנורמת האופרטור.
+      (א) הוכיחו ש-$\varphi$ פונקציונל לינארי חסום עם $\|\varphi\|\le3$.
 
-      (ב) הוכיחו ש-$\psi_k(f)\to f(1)$ לכל $f\in C[0,1]$.
+      (ב) מצאו פונקציות $f_n$ עם $\|f_n\|_\infty=1$ ו-$\varphi(f_n)\to3$, והסיקו את הנורמה.
 
-      (ג) הוכיחו ש-$\|\psi_k-\operatorname{ev}_1\|=2$ לכל $k$, והסיקו ש-$(\psi_k)$ אינה מתכנסת בנורמת האופרטור לשום
-      פונקציונל. (רמז לחסם מלרע: ל-$0<\eta<1$, הפונקציה ששווה 1 על $[0,1-\eta]$, $(-1)$ ב-1, ולינארית ביניהן.)
+      (ג) הוכיחו שהנורמה אינה מתקבלת.
     answer: >-
-      (א) $|\varphi_k(f)|\le\frac{\|f\|_\infty}{k+1}$, ושוויון ב-$f\equiv1$. (ב) ההפרש $\psi_k(f)-f(1)$ הוא האינטגרל על
-      $[0,1]$ של $(k+1)x^k\big(f(x)-f(1)\big)$, ומפצלים את הקטע ליד 1. (ג) חסם מלעיל 2 מאי-שוויון המשולש; הפונקציות מהרמז נותנות לפחות $2(1-\eta)^{k+1}$.
-      הגבול בנורמה היה חייב להיות הגבול הנקודתי $\operatorname{ev}_1$, והמרחק אליו 2.
+      $\|\varphi\|=3$. למשל $f_n$ ששווה 1 בקצוות ו-$(-1)$ על $[\frac1n,1-\frac1n]$, עם $\varphi(f_n)=3-\frac2n$. אין $f$
+      עם $\|f\|_\infty\le1$ ו-$|\varphi(f)|=3$.
     solution:
       - kind: idea
         text: >-
-          המשקל $x^k$ מתרכז ליד 1 כש-$k$ גדל. בלי הנרמול, $\varphi_k$ פשוט קטן, ולכן מתכנס לאפס בנורמה. עם הנרמול
-          $(k+1)$, $\psi_k$ הוא "ממוצע ליד 1", ולכן שואף ל-$f(1)$ לכל $f$; אבל לכל $k$ יש פונקציה רציפה שקופצת
-          מ-1 ל-$(-1)$ בקטע קצר כל כך ליד 1, ש-$\psi_k$ עדיין לא "רואה" את הקפיצה.
+          חסם מלעיל מאי-שוויון המשולש; חסם מלרע מפונקציה שהיא 1 בקצוות (כדי ששני המחוברים הראשונים יתרמו $+2$)
+          ו-$(-1)$ כמעט בכל הקטע (כדי ש"מינוס האינטגרל" יתרום כמעט $+1$). אבל רציפות לא מרשה את שני הדברים בבת אחת.
       - kind: computation
         text: >-
-          (א) $\varphi_k$ לינארי (לינאריות האינטגרל). לפי המונוטוניות של האינטגרל,
-          $$\begin{aligned}|\varphi_k(f)|&\le\int_0^1x^k|f(x)|\,dx\\&\le\|f\|_\infty\int_0^1x^k\,dx\\&=\frac{\|f\|_\infty}{k+1},\end{aligned}$$
-          ולפי טענה 1.8.4(א) $\|\varphi_k\|\le\frac1{k+1}$. ו-$f\equiv1$ מקיימת $\|f\|_\infty=1$ ו-$\varphi_k(1)=\frac1{k+1}$, ולכן לפי הגדרה
-          1.8.3 $\|\varphi_k\|=\frac1{k+1}$. לכן $\|\varphi_k-0\|=\frac1{k+1}\to0$: לפי הגדרה 1.8.13, $\varphi_k\to0$
-          ב-$\mathcal{L}(C[0,1],\mathbb{R})$.
+          (א) $\varphi$ לינארי כסכום של פונקציונלים לינאריים. לפי אי-שוויון המשולש והמונוטוניות של האינטגרל,
+          $|\varphi(f)|\le|f(0)|+|f(1)|+\int_0^1|f|\le3\|f\|_\infty$. לפי טענה 1.8.4(א), $\|\varphi\|\le3$.
       - kind: step
         text: >-
-          (ב) תהי $f\in C[0,1]$. כי $(k+1)\int_0^1x^k\,dx=1$, אפשר לכתוב $f(1)$ כאינטגרל של $(k+1)x^kf(1)$ על
-          $[0,1]$, ולכן ההפרש $\psi_k(f)-f(1)$ הוא האינטגרל על $[0,1]$ של $(k+1)x^k\big(f(x)-f(1)\big)$. יהי $\varepsilon>0$. $f$ רציפה ב-1, ולכן יש
-          $\delta_0>0$ כך ש-$|f(x)-f(1)|<\frac\varepsilon2$ לכל $x\in[0,1]$ עם $|x-1|<\delta_0$. נבחר
-          $\delta=\min\left(\frac{\delta_0}2,\frac12\right)$. אז $\delta\in(0,1)$, וכל $x\in[1-\delta,1]$ מקיים
-          $|x-1|\le\delta<\delta_0$, ולכן $|f(x)-f(1)|<\frac\varepsilon2$ על כל הקטע הסגור $[1-\delta,1]$.
+          (ב) ל-$n\ge2$ תהי $f_n$ רציפה, לינארית מ-1 ב-$0$ עד $(-1)$ ב-$\frac1n$, שווה ל-$(-1)$ על
+          $\left[\frac1n,1-\frac1n\right]$, ולינארית מ-$(-1)$ עד 1 על $\left[1-\frac1n,1\right]$. אז $\|f_n\|_\infty=1$.
       - kind: computation
         text: >-
-          מפצלים את האינטגרל ב-$1-\delta$. על $[1-\delta,1]$ האינטגרנד בערך מוחלט קטן מ-$\frac\varepsilon2(k+1)x^k$,
-          ולכן החלק הזה קטן או שווה ל-$\frac\varepsilon2(k+1)\int_{1-\delta}^1x^k\,dx$. כאן **מגדילים בכוונה** את קטע
-          האינטגרציה ל-$[0,1]$: $x^k\ge0$, ולכן $\int_{1-\delta}^1x^k\,dx$ קטן או שווה ל-$\int_0^1x^k\,dx=\frac1{k+1}$.
-          ההגדלה חוסכת את חישוב האינטגרל על הקטע הקצר, ונותנת חסם נקי: החלק הזה קטן או שווה ל-$\frac\varepsilon2$.
-          על $[0,1-\delta]$, $|f(x)-f(1)|\le2\|f\|_\infty$, ולכן החלק הזה לכל היותר
-          $$\begin{aligned}&2\|f\|_\infty(k+1)\int_0^{1-\delta}x^k\,dx\\&\quad=2\|f\|_\infty(1-\delta)^{k+1}.\end{aligned}$$
-          כי $0<1-\delta<1$, הביטוי האחרון שואף לאפס (אינפי 1), ולכן יש $K$ כך שלכל $k>K$ הוא קטן מ-$\frac\varepsilon2$.
-          לכל $k>K$: $|\psi_k(f)-f(1)|<\varepsilon$.
+          על כל אחד משני קטעי המעבר האינטגרל 0 (הקו עובר מ-1 ל-$(-1)$ באופן סימטרי סביב אמצע הקטע). על הקטע האמצעי,
+          שאורכו $1-\frac2n$, האינטגרל $-\left(1-\frac2n\right)$. לכן $\int_0^1f_n=-1+\frac2n$,
+          ו-$\varphi(f_n)=1+1-\left(-1+\frac2n\right)=3-\frac2n$. לפי טענה 1.8.4(ב) $\|\varphi\|\ge3-\frac2n$ לכל $n$,
+          ולכן $\|\varphi\|=3$.
       - kind: step
         text: >-
-          (ג) חסם מלעיל. $\psi_k-\operatorname{ev}_1$ לינארי, ולכל $f$:
-          $$\begin{aligned}&|\psi_k(f)-f(1)|\\&\quad\le(k+1)\int_0^1x^k|f(x)|\,dx\\&\qquad+|f(1)|\\&\quad\le\|f\|_\infty+\|f\|_\infty .\end{aligned}$$
-          לפי טענה 1.8.4(א),
-          $\|\psi_k-\operatorname{ev}_1\|\le2$.
-      - kind: computation
-        text: >-
-          חסם מלרע. ל-$0<\eta<1$ תהי $h_\eta$ הפונקציה מהרמז: רציפה, $|h_\eta|\le1$, $h_\eta(1)=-1$, ולכן
-          $\|h_\eta\|_\infty=1$. נסמן $a=(1-\eta)^{k+1}$. אז $(k+1)\int_0^{1-\eta}x^k\,dx=a$,
-          ו-$(k+1)\int_{1-\eta}^1x^k\,dx=1-a$. על $[0,1-\eta]$ הפונקציה $h_\eta$ היא 1, ועל $[1-\eta,1]$ היא לפחות
-          $(-1)$; כי $x^k\ge0$, לפי המונוטוניות של האינטגרל $\psi_k(h_\eta)\ge a-(1-a)$, כלומר $\psi_k(h_\eta)\ge2a-1$.
-      - kind: computation
-        text: >-
-          עכשיו מחסירים את $h_\eta(1)$. כי $h_\eta(1)=-1$, להחסיר אותו פירושו להוסיף 1: ההפרש
-          $\psi_k(h_\eta)-h_\eta(1)$ שווה ל-$\psi_k(h_\eta)+1$. לפי הצעד הקודם הוא לפחות $(2a-1)+1=2a$, כלומר לפחות
-          $2(1-\eta)^{k+1}$.
-      - kind: step
-        text: >-
-          לפי הגדרה 1.8.3, $\|\psi_k-\operatorname{ev}_1\|\ge2(1-\eta)^{k+1}$ לכל $\eta\in(0,1)$. עבור $k$ קבוע,
-          $(1-\eta)^{k+1}\to1$ כש-$\eta\to0^+$ (רציפות של פולינום), ולכן $\|\psi_k-\operatorname{ev}_1\|\ge2$, ויחד עם
-          החסם מלעיל, $\|\psi_k-\operatorname{ev}_1\|=2$.
-      - kind: step
-        text: >-
-          אין גבול בנורמה. נניח ש-$\psi_k\to S$ ב-$\mathcal{L}(C[0,1],\mathbb{R})$. לפי (ב), $\psi_k$ מתכנסת נקודתית
-          ל-$\operatorname{ev}_1$, ולפי טענה 1.8.15(ד) $S=\operatorname{ev}_1$. אבל $\|\psi_k-\operatorname{ev}_1\|=2$ לכל
-          $k$, ואינו שואף לאפס: סתירה.
+          (ג) נניח $\|f\|_\infty\le1$ ו-$\varphi(f)=3$. כל אחד משלושת המחוברים קטן או שווה ל-1: $f(0)\le1$, $f(1)\le1$,
+          ו-$-\int_0^1f\le\int_0^1|f|\le1$. הסכום שלהם 3, ולכן כל אחד מהם שווה ל-1: $f(0)=f(1)=1$ ו-$\int_0^1(1+f)=0$.
+          הפונקציה $1+f$ רציפה ואי-שלילית (כי $f\ge-1$) עם אינטגרל 0, ולפי למה 1.2.19 היא אפס בכל הקטע, כלומר
+          $f\equiv-1$, בסתירה ל-$f(0)=1$. אם $\varphi(f)=-3$, אותו נימוק על $g=-f$ נותן סתירה.
       - kind: check
         text: >-
-          מספרית, עם $\eta=0.01$: ל-$k=3$ מתקבל $\psi_3(h_\eta)-h_\eta(1)\approx1.960$, מעל החסם
-          $2\cdot0.99^4\approx1.921$; ל-$k=10$ ו-$\eta=0.001$: $\approx1.989$, מעל $2\cdot0.999^{11}\approx1.978$. ול-$f(x)=\cos3x$,
-          $\psi_{1000}(f)\approx-0.9896$, קרוב ל-$\cos3\approx-0.9900$. השוו לטענה 1.8.16: שם הנורמה 2 מתקבלת, וכאן היא
-          רק גבול (כל $h$ שמשיגה 2 הייתה צריכה להיות 1 על $[0,1)$ ו-$(-1)$ ב-1). ובמטריצות זה לא יכול לקרות: התכנסות
-          נקודתית שם היא התכנסות בנורמה (דוגמה 2(ד)).
+          עם $n=4$ ו-$n=10$: $3-\frac2n$ נותן $2.5$ ו-$2.8$, ואינטגרציה מספרית של $f_{10}$ נותנת אותו ערך.
       - kind: result
         text: >-
-          (א) $\|\varphi_k\|=\frac1{k+1}\to0$, ו-$\varphi_k\to0$ בנורמת האופרטור. (ב) $\psi_k\to\operatorname{ev}_1$
-          נקודתית. (ג) $\|\psi_k-\operatorname{ev}_1\|=2$ לכל $k$, ולכן $(\psi_k)$ אינה מתכנסת בנורמת האופרטור.
+          $\|\varphi\|=3$, ואינה מתקבלת.
 
   - id: W-1.8-05
     level: mid
@@ -412,7 +371,7 @@ practice:
           השני.
 
   - id: W-1.8-09
-    level: mid
+    level: exam
     qualitative: true
     objectives: [OBJ-1.8-1, OBJ-1.8-3]
     prompt: >-

@@ -1,4 +1,4 @@
-# Chapter 1 review — metric and normed spaces (lessons 1.1–1.8), easy to hard.
+# Chapter 1 review — metric and normed spaces (lessons 1.1–1.9), easy to hard.
 # Every lesson is touched; most questions combine two or more lessons. Each hint names the lesson to go back to.
 chapter: 1
 questions:
@@ -409,3 +409,33 @@ questions:
         misconception: MC-c1-interior-closure-swap
     hints:
       - 'חזרו לשיעור 1.4: הסגור של כדור במטריקה הבדידה, ולשיעור 1.2: מטריקה שבאה מנורמה.'
+
+  - id: Q-1-review-16
+    type: multi
+    objectives: [OBJ-1.9-1, OBJ-1.5-3]
+    level: mid
+    prompt: >-
+      על $(C[0,1],\|\cdot\|_\infty)$ יהיו $g_k(x)=x^k(1-x)$ ו-$M_kf=g_kf$ (העתקת כפל). אילו מהטענות נכונות? סמנו את
+      כולן.
+    choices:
+      - text: '$\|M_k\|_{\mathrm{op}}=\max_{[0,1]}x^k(1-x)$'
+        correct: true
+        feedback: >-
+          נכון: $|g_kf|\le\|g_k\|_\infty\|f\|_\infty$ נותן חסם מלעיל, ו-$f\equiv1$ משיגה אותו (דוגמה 5 בשיעור 1.9).
+      - text: '$M_k\to0$ בנורמת האופרטור'
+        correct: true
+        feedback: >-
+          נכון: המקסימום של $x^k(1-x)$ מתקבל ב-$x=\frac k{k+1}$ ושווה ל-$\big(\frac k{k+1}\big)^k\frac1{k+1}\le\frac1{k+1}$
+          (ב-$k=2$: $\frac4{27}$). לכן $\|M_k-0\|=\|g_k\|_\infty\to0$: $g_k\to0$ במידה שווה (משפט 1.5.10).
+      - text: '$M_k\to0$ רק נקודתית ולא בנורמה, כי $x^k$ אינה מתכנסת במידה שווה על $[0,1]$'
+        feedback: >-
+          הגורם $1-x$ מתאפס בדיוק במקום שבו $x^k$ "נתקעת" על 1, ו-$x^k(1-x)$ כן מתכנסת לאפס במידה שווה. ולהעתקות כפל
+          התכנסות נקודתית והתכנסות בנורמה שקולות בכל מקרה (דוגמה 5 בשיעור 1.9).
+        misconception: MC-c1-opconv-pointwise
+      - text: '$\|M_k\|\to0$, אבל מזה לא נובע ש-$M_k\to0$, כי התכנסות של הנורמות אינה גוררת התכנסות של ההעתקות'
+        feedback: >-
+          כשהגבול המוצע הוא $0$, המרחק אליו **הוא** הנורמה: $\|M_k-0\|=\|M_k\|$. האזהרה על נורמות מתכנסות נוגעת לגבול
+          $T\ne0$, שבו $\|T_k\|\to\|T\|$ אינו אומר ש-$\|T_k-T\|\to0$.
+        misconception: MC-c1-opconv-norms-only
+    hints:
+      - 'חזרו לשיעור 1.9: טענה 1.9.3 ודוגמה 5 (העתקות כפל), ולשיעור 1.5: התכנסות במטריקת הסופרמום.'

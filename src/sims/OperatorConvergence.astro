@@ -1,0 +1,7 @@
+---
+/** Lesson 1.9 figures: <Spread figure={OperatorConvergence} figureProps={{ mode: 'matrix' | 'functional', … }}>. */
+import OperatorConvergence, { type OperatorConvergenceProps } from './OperatorConvergence';
+type Props = OperatorConvergenceProps;
+---
+
+<OperatorConvergence client:visible {...Astro.props} />

@@ -1,0 +1,443 @@
+# Lesson 1.9 — convergence of a sequence of linear maps.
+# Objectives (src/course.ts):
+#   OBJ-1.9-1  norm and pointwise convergence of linear maps; norm convergence = uniform on every ball, same limit
+#   OBJ-1.9-2  matrices: norm convergence = entrywise = (in finite dimension) pointwise
+#   OBJ-1.9-3  in a function space pointwise does not imply norm; converging norms do not imply converging maps
+# Q-1.9-def, -matrix, -pointwise, -consequences and -entrywise-proof were written for lesson 1.8 on 2026-11-16 (as
+# Q-1.8-opconv-*) and moved here on 2026-11-17, renumbered to the statements of lesson 1.9.
+# Numbers recomputed with src/math/multivar.ts (opNorm).
+chapter: 1
+questions:
+  - id: Q-1.9-def
+    type: mc
+    objectives: [OBJ-1.9-1]
+    qualitative: true
+    level: basic
+    prompt: >-
+      $T_k,T\in\mathcal{L}(V,W)$. מה פירוש "$T_k\to T$ בנורמת האופרטור"?
+    choices:
+      - text: '$\|T_k-T\|_{\mathrm{op}}\to0$'
+        correct: true
+        feedback: >-
+          נכון (הגדרה 1.9.1). זו התכנסות במרחב הנורמי $\mathcal{L}(V,W)$ של משפט 1.8.5, ושקולה לכך ש-$T_kx\to Tx$
+          במידה שווה על כדור היחידה (טענה 1.9.3).
+      - text: '$T_kx\to Tx$ לכל $x\in V$'
+        feedback: >-
+          זו התכנסות נקודתית (הגדרה 1.9.2): ה-$N$ יכול להיות תלוי ב-$x$. היא נובעת מהתכנסות בנורמה, אבל לא להפך:
+          $T_kf=f(\frac1k)-f(0)$ על $(C[0,1],\|\cdot\|_\infty)$ שואפת נקודתית לאפס, ו-$\|T_k\|=2$ לכל $k$ (טענה 1.9.4).
+        misconception: MC-c1-opconv-pointwise
+      - text: '$\|T_k\|_{\mathrm{op}}\to\|T\|_{\mathrm{op}}$'
+        feedback: >-
+          הנורמה רואה רק את גודל המתיחה. $T_k=(-1)^kI$ על $\mathbb{R}^2$: כל הנורמות 1, והסדרה אינה מתכנסת, כי
+          $T_ke_1=(-1)^ke_1$ אינה מתכנסת. ההפך כן נכון: מ-$\|T_k-T\|\to0$ נובע $\|T_k\|\to\|T\|$ (טענה 1.9.3(ג)).
+        misconception: MC-c1-opconv-norms-only
+      - text: '$\sup_{x\in V}\|T_kx-Tx\|\to0$'
+        feedback: >-
+          הסופרמום על **כל** המרחב אינסופי כש-$T_k\ne T$: אם $(T_k-T)x\ne0$, אז $\|(T_k-T)(tx)\|=|t|\,\|(T_k-T)x\|$
+          גדל בלי גבול. הסופרמום בנורמת האופרטור הוא על כדור היחידה.
+        misconception: MC-c1-bounded-image
+
+  - id: Q-1.9-uniform-ball
+    type: numeric
+    objectives: [OBJ-1.9-1]
+    level: basic
+    prompt: >-
+      $T_k,T\in\mathcal{L}(V,W)$ ו-$V\ne\{0\}$, ועבור $k$ מסוים מתקיים $\|T_k-T\|_{\mathrm{op}}=0.02$. עבור $k$ זה חשבו את
+      $$\sup_{\|x\|\le5}\|T_kx-Tx\| .$$
+    answer: 0.1
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. כל $x$ עם $\|x\|\le5$ הוא $5y$ עם $\|y\|\le1$, ולפי הלינאריות $\|(T_k-T)x\|=5\|(T_k-T)y\|$. לכן הסופרמום
+      על הכדור ברדיוס 5 הוא $5\|T_k-T\|=0.1$ בדיוק. זה החסם של טענה 1.9.3(א), וכאן הוא שוויון.
+    wrongFeedback: >-
+      כתבו כל $x$ בכדור ברדיוס 5 כ-$5y$ עם $y$ בכדור היחידה, והשתמשו בלינאריות של $T_k-T$ ובהגדרה 1.8.3.
+    commonWrong:
+      - value: 0.02
+        feedback: >-
+          $0.02$ הוא הסופרמום על כדור היחידה. על הכדור ברדיוס 5 כל וקטור ארוך פי 5, ולפי הלינאריות גם התמונה שלו
+          (טענה 1.9.3(א)).
+        misconception: MC-c1-bounded-image
+      - value: 0.004
+        feedback: >-
+          $0.004=\frac{0.02}5$: חילקתם ברדיוס במקום להכפיל. וקטור ארוך יותר נמתח יותר, לא פחות:
+          $\|(T_k-T)(5y)\|=5\|(T_k-T)y\|$.
+        misconception: MC-c1-linear-structure-ignored
+      - value: 0.5
+        feedback: >-
+          $0.5=25\cdot0.02$: הכפלתם בריבוע הרדיוס. העתקה לינארית מכפילה נורמות במקדם, לא בריבועו:
+          $T(5y)=5\,Ty$.
+        misconception: MC-c1-linear-structure-ignored
+
+  - id: Q-1.9-matrix
+    type: numeric
+    objectives: [OBJ-1.9-2]
+    level: basic
+    prompt: >-
+      $A_k=\begin{pmatrix}3+\frac1k&-\frac2k\\ \frac{(-1)^k}{k}&5\end{pmatrix}$, ו-$A$ הגבול של $A_k$ בנורמת האופרטור
+      (לפי טענה 1.9.5 זה הגבול של הכניסות). כהעתקות $(\mathbb{R}^2,\|\cdot\|_\infty)\to(\mathbb{R}^2,\|\cdot\|_\infty)$,
+      חשבו את $\|A_{10}-A\|_{\mathrm{op}}$.
+    answer: 0.3
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. כל כניסה מתכנסת, ולכן $A=\begin{pmatrix}3&0\\0&5\end{pmatrix}$, ו-$A_{10}-A=\begin{pmatrix}0.1&-0.2\\0.1&0\end{pmatrix}$.
+      לפי משפט 1.8.9, סכומי השורות בערך מוחלט הם $0.3$ ו-$0.1$, והנורמה $0.3$. באופן כללי $\|A_k-A\|_\infty=\frac3k\to0$.
+    wrongFeedback: >-
+      מצאו קודם את $A$ (הגבול של כל כניסה), חשבו את ההפרש $A_{10}-A$, ורק אז את נורמת האופרטור שלו בנורמת אינסוף:
+      סכום השורה הגדול בערך מוחלט.
+    commonWrong:
+      - value: 0.2
+        feedback: >-
+          $0.2$ הוא סכום העמודה הגדול של $A_{10}-A$ ($0.1+0.1$, או $|-0.2|$), כלומר הנורמה כשהמישור נמדד בנורמה 1
+          (משפט 1.8.8); הוא גם הכניסה הגדולה. בנורמת אינסוף סוכמים שורות: $0.1+0.2=0.3$.
+        misconception: MC-c1-opnorm-rowcol-swap
+      - value: 0.4
+        feedback: >-
+          $0.4$ הוא סכום הערכים המוחלטים של כל הכניסות של $A_{10}-A$. לפי טענה 1.9.5 זה רק חסם מלעיל לנורמה; כל רכיב
+          של $(A_{10}-A)x$ משתמש בשורה אחת בלבד.
+        misconception: MC-c1-opnorm-entrywise
+      - value: 0.1
+        feedback: >-
+          $0.1=\|A_{10}\|_\infty-\|A\|_\infty=5.1-5$, הפרש של נורמות. המרחק בין העתקות הוא הנורמה של ההפרש,
+          $\|A_{10}-A\|$, ולא ההפרש של הנורמות (שרק קטן ממנו או שווה לו בערך מוחלט, לפי אי-שוויון המשולש ההפוך).
+        misconception: MC-c1-opconv-norms-only
+
+  - id: Q-1.9-same-p
+    type: mc
+    objectives: [OBJ-1.9-2]
+    qualitative: true
+    level: basic
+    prompt: >-
+      סדרת מטריצות $A_k$ מגודל $2\times2$ מתכנסת למטריצה $A$ בנורמת האופרטור כשהמישור נמדד בנורמה 1 (בתחום ובטווח).
+      מה נכון כשמודדים את המישור בנורמה האוקלידית או בנורמת אינסוף?
+    choices:
+      - text: '$A_k\to A$ גם בשתי הנורמות האלה, ולאותו גבול'
+        correct: true
+        feedback: >-
+          נכון. לפי טענה 1.9.5(ב), בכל אחת משלוש הנורמות $\|A_k-A\|_p\to0$ אם ורק אם כל הכניסות מתכנסות. התנאי
+          הזה אינו תלוי ב-$p$, ולכן ההתכנסות, והגבול, זהים בשלוש.
+      - text: 'לא בהכרח: נורמת האופרטור של מטריצה תלויה ב-$p$, ולכן גם ההתכנסות'
+        feedback: >-
+          המספרים $\|A_k-A\|_p$ אכן תלויים ב-$p$ (בסיבוב של איור 1.9א, $2\sin\frac1{2k}$ לעומת
+          $1-\cos\frac1k+\sin\frac1k$), אבל כולם בין הכניסה הגדולה של $A_k-A$ לסכום הכניסות שלה (טענה 1.9.5(א)), ולכן
+          שואפים לאפס יחד.
+        misconception: MC-c1-opconv-p-dependent
+      - text: 'רק בנורמת אינסוף, כי $\|x\|_\infty\le\|x\|_1$ לכל $x$'
+        feedback: >-
+          אי-שוויון בין נורמות של **וקטורים** אינו נותן אי-שוויון באותו כיוון בין נורמות **אופרטור**. מה שמכריע הוא
+          טענה 1.9.5: בכל שלוש הנורמות ההתכנסות שקולה להתכנסות של הכניסות.
+        misconception: MC-c1-opconv-p-dependent
+      - text: 'הסדרה מתכנסת בשלושתן, אבל ייתכן שלגבולות שונים'
+        feedback: >-
+          הגבול בכל אחת מהנורמות הוא מטריצת הגבולות של הכניסות (טענה 1.9.5(ב)), ולכן הוא אותו גבול. וגם בלי זה: הגבול
+          בנורמה הוא הגבול הנקודתי (טענה 1.9.3(ד)), וזה אינו תלוי בנורמה.
+        misconception: MC-c1-opconv-p-dependent
+
+  - id: Q-1.9-norms-only
+    type: mc
+    objectives: [OBJ-1.9-3]
+    qualitative: true
+    level: basic
+    prompt: >-
+      על $(C[0,1],\|\cdot\|_\infty)$ יהיו $S_kf=f(\frac1k)$ ו-$\operatorname{ev}_0f=f(0)$. לפי טענה 1.8.12(ב),
+      $\|S_k\|=1=\|\operatorname{ev}_0\|$ לכל $k$. האם $S_k\to\operatorname{ev}_0$ בנורמת האופרטור?
+    choices:
+      - text: 'לא: $\|S_k-\operatorname{ev}_0\|=2$ לכל $k$'
+        correct: true
+        feedback: >-
+          נכון. $S_k-\operatorname{ev}_0$ הוא בדיוק $T_kf=f(\frac1k)-f(0)$ של טענה 1.9.4, שהנורמה שלו 2, בזכות העד
+          $g_k=\min(1,2kx-1)$. נורמות שוות אינן אומרות שההעתקות קרובות.
+      - text: 'כן: הנורמות שוות לכל $k$, ולכן המרחק ביניהן אפס'
+        feedback: >-
+          המרחק הוא $\|S_k-\operatorname{ev}_0\|$, לא $\|S_k\|-\|\operatorname{ev}_0\|$. ההפרש בין הנורמות $0$, והמרחק 2:
+          על $g_k$, $S_kg_k=1$ ו-$\operatorname{ev}_0g_k=-1$.
+        misconception: MC-c1-opconv-norms-only
+      - text: 'כן: לכל $f$ רציפה $S_kf\to f(0)$'
+        feedback: >-
+          זו התכנסות נקודתית, והיא אכן מתקיימת (רציפות ב-$0$). אבל היא אינה גוררת התכנסות בנורמה: ה-$k$ הדרוש תלוי
+          ב-$f$, ולכל $k$ יש בכדור היחידה $g_k$ שעליה ההפרש 2 (טענה 1.9.4).
+        misconception: MC-c1-opconv-pointwise
+      - text: 'לא, כי $S_kf$ אינה מתכנסת ל-$f(0)$ אפילו לכל $f$ בנפרד'
+        feedback: >-
+          המסקנה נכונה והנימוק לא: $f$ רציפה ב-$0$ ו-$\frac1k\to0$, ולכן $S_kf\to f(0)$ לכל $f$ (משפט 1.6.3). הסדרה
+          מתכנסת נקודתית, ובכל זאת לא בנורמה; בזה כל העניין.
+        misconception: MC-c0-pointwise-is-uniform
+
+  - id: Q-1.9-consequences
+    type: multi
+    objectives: [OBJ-1.9-1]
+    level: mid
+    prompt: >-
+      $T_k,T\in\mathcal{L}(V,W)$ ו-$\|T_k-T\|_{\mathrm{op}}\to0$. אילו מהטענות נובעות מכך תמיד? סמנו את כולן.
+    choices:
+      - text: '$T_kx\to Tx$ לכל $x\in V$'
+        correct: true
+        feedback: 'נכון: $\|T_kx-Tx\|\le\|T_k-T\|\,\|x\|\to0$ (טענה 1.8.4(א) על $T_k-T$).'
+      - text: '$\sup_{\|x\|\le5}\|T_kx-Tx\|\to0$'
+        correct: true
+        feedback: 'נכון: הסופרמום חסום על ידי $5\|T_k-T\|$ (טענה 1.9.3(א)); ההתכנסות במידה שווה על כל כדור.'
+      - text: '$\|T_k\|_{\mathrm{op}}\to\|T\|_{\mathrm{op}}$'
+        correct: true
+        feedback: >-
+          נכון: לפי אי-שוויון המשולש ההפוך במרחב הנורמי $\mathcal{L}(V,W)$ (למה 1.2.2),
+          $\big|\,\|T_k\|-\|T\|\,\big|\le\|T_k-T\|$ (טענה 1.9.3(ג)).
+      - text: '$\sup_{x\in V}\|T_kx-Tx\|\to0$'
+        feedback: >-
+          על כל המרחב הסופרמום אינסופי לכל $k$ שבו $T_k\ne T$, כי $\|(T_k-T)(tx)\|=|t|\,\|(T_k-T)x\|$. למשל
+          $T_k=\frac1kI$ ו-$T=0$ על $\mathbb{R}$: $\|T_k\|=\frac1k\to0$, אבל $\sup_x\frac{|x|}{k}=\infty$.
+        misconception: MC-c1-bounded-image
+      - text: 'אם $S_k\in\mathcal{L}(V,W)$ ו-$\|S_k\|_{\mathrm{op}}\to\|T\|_{\mathrm{op}}$, אז גם $S_k\to T$ בנורמת האופרטור'
+        feedback: >-
+          לא: עם $T\ne0$ ו-$S_k=-T$ לכל $k$, הנורמות שוות, אבל $\|S_k-T\|=2\|T\|\ne0$. מהתכנסות הנורמות לא נובעת
+          התכנסות.
+        misconception: MC-c1-opconv-norms-only
+
+  - id: Q-1.9-limit-linear
+    type: twotier
+    objectives: [OBJ-1.9-1]
+    qualitative: true
+    level: mid
+    prompt: >-
+      נכון או לא: אם $T_k:V\to W$ העתקות לינאריות ו-$T_kx\to Sx$ לכל $x\in V$, אז $S$ לינארית.
+    choices:
+      - text: נכון
+        correct: true
+        feedback: >-
+          נכון (למה 1.9.6). שימו לב שהטענה היא על לינאריות בלבד: $S$ לא בהכרח חסומה.
+      - text: לא נכון
+        feedback: >-
+          גבול של צירוף הוא הצירוף של הגבולות, ולכן הלינאריות עוברת לגבול. מה שעלול להיכשל הוא **החסימות** של $S$
+          (דוגמה 6: $D_kp=k(p(\frac1k)-p(0))\to p'(0)$), לא הלינאריות.
+        misconception: MC-c1-opconv-limit-bounded
+    reasons:
+      - text: '$T_k(ax+by)=aT_kx+bT_ky$; השמאלי שואף ל-$S(ax+by)$, הימני ל-$aSx+bSy$, והגבול ב-$W$ יחיד'
+        correct: true
+        feedback: >-
+          בדיוק: אריתמטיקה של גבולות במרחב נורמי ($\|(au_k+bv_k)-(au+bv)\|\le|a|\,\|u_k-u\|+|b|\,\|v_k-v\|$) ויחידות
+          הגבול (משפט 1.5.2).
+      - text: '$S$ היא הגבול של $T_k$ בנורמת האופרטור, ולכן היא איבר של $\mathcal{L}(V,W)$'
+        feedback: >-
+          ההנחה היא התכנסות נקודתית בלבד, ואין ממנה התכנסות בנורמה (טענה 1.9.4). ייתכן אפילו ש-$S$ אינה חסומה, ולכן
+          אינה ב-$\mathcal{L}(V,W)$ (דוגמה 6).
+        misconception: MC-c1-opconv-pointwise
+      - text: '$\|Sx\|=\lim\|T_kx\|\le\big(\sup_k\|T_k\|\big)\|x\|$, ולכן $S$ חסומה, ובפרט לינארית'
+        feedback: >-
+          $\sup_k\|T_k\|$ יכול להיות אינסופי: בדוגמה 6 $\|D_k\|\ge k$. וחסימות אינה גוררת לינאריות; הסדר הפוך,
+          חסימות מוגדרת להעתקות לינאריות.
+        misconception: MC-c1-opconv-limit-bounded
+
+  - id: Q-1.9-finite-pointwise
+    type: twotier
+    objectives: [OBJ-1.9-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      נכון או לא: אם $A_k$ ו-$A$ מטריצות $2\times2$ ו-$A_kx\to Ax$ לכל $x\in\mathbb{R}^2$, אז $\|A_k-A\|_2\to0$.
+    choices:
+      - text: נכון
+        correct: true
+        feedback: >-
+          נכון (משפט 1.9.7). במימד סופי התכנסות נקודתית שקולה להתכנסות בנורמת האופרטור.
+      - text: לא נכון
+        feedback: >-
+          הדוגמה הנגדית של טענה 1.9.4 חיה במרחב ממימד אינסופי. ב-$\mathbb{R}^2$ שני וקטורי הבסיס נותנים את שתי העמודות,
+          כלומר את כל הכניסות, וטענה 1.9.5 עושה את השאר.
+        misconception: MC-c1-coordinatewise-weaker
+    reasons:
+      - text: '$A_ke_j$ היא העמודה ה-$j$; לכן כל הכניסות מתכנסות (משפט 1.5.9), ולפי טענה 1.9.5 $\|A_k-A\|_2\to0$'
+        correct: true
+        feedback: >-
+          בדיוק. הסופיות נכנסת פעמיים: שני וקטורי בסיס, וארבע כניסות.
+      - text: 'בכל מרחב נורמי התכנסות נקודתית של העתקות גוררת התכנסות בנורמה'
+        feedback: >-
+          לא בכל מרחב: על $C[0,1]$, $T_kf=f(\frac1k)-f(0)$ שואפת נקודתית לאפס ו-$\|T_k\|=2$ (טענה 1.9.4). המסקנה כאן
+          נכונה בגלל המימד הסופי.
+        misconception: MC-c1-opconv-pointwise
+      - text: 'הנורמה $\|A_k-A\|_2$ מתקבלת בווקטור יחידה $v$, ו-$A_kv\to Av$, ולכן הנורמה שואפת לאפס'
+        feedback: >-
+          הווקטור שבו $\|A_k-A\|_2$ מתקבל תלוי ב-$k$, ולכן אין וקטור **קבוע** אחד שאפשר להציב בו. ב-$C[0,1]$ בדיוק
+          זה נכשל: העד $g_k$ משתנה עם $k$.
+        misconception: MC-c1-opconv-one-vector
+
+  - id: Q-1.9-one-vector
+    type: mc
+    objectives: [OBJ-1.9-2]
+    qualitative: true
+    level: mid
+    prompt: >-
+      $A_k$ מטריצות $2\times2$, ונתון רק ש-$A_ke_1\to0$. מה נובע מכך בהכרח?
+    choices:
+      - text: 'רק ש-$A_k(te_1)\to0$ לכל $t$; ייתכן ש-$A_k$ אינה מתכנסת בנורמה, למשל $A_k=\begin{pmatrix}0&0\\0&k\end{pmatrix}$'
+        correct: true
+        feedback: >-
+          נכון. הלינאריות נותנת את כל הישר של $e_1$, ושום דבר על $e_2$: בדוגמה $A_ke_1=0$, אבל $\|A_k\|=k\to\infty$.
+          משפט 1.9.7 דורש התכנסות על בסיס שלם.
+      - text: '$A_k\to0$ בנורמה, כי במימד סופי התכנסות נקודתית מספיקה'
+        feedback: >-
+          משפט 1.9.7 דורש התכנסות בכל $x$ (או, שקול, על בסיס). כאן יש רק וקטור אחד: $A_k=\begin{pmatrix}0&0\\0&k\end{pmatrix}$
+          מקיימת $A_ke_1=0$ ו-$\|A_k\|=k$.
+        misconception: MC-c1-opconv-one-vector
+      - text: '$\|A_k\|\to0$, כי העמודה הראשונה שואפת לאפס והנורמה חסומה בכניסה הגדולה'
+        feedback: >-
+          הכניסה הגדולה היא חסם **מלרע** לנורמה (טענה 1.9.5(א)), ולמעלה צריך את כל הכניסות. העמודה השנייה יכולה
+          לגדול בלי גבול.
+        misconception: MC-c1-opconv-one-vector
+      - text: 'הנורמות $\|A_k\|$ לפחות חסומות'
+        feedback: >-
+          גם זה לא: ב-$A_k=\begin{pmatrix}0&0\\0&k\end{pmatrix}$ הנורמה $k$. וקטור אחד אינו שולט בעמודות האחרות.
+        misconception: MC-c1-opconv-one-vector
+
+  - id: Q-1.9-entrywise-proof
+    type: rank
+    objectives: [OBJ-1.9-2]
+    level: mid
+    prompt: >-
+      סדרו את שלבי ההוכחה: יהי $p\in\{1,2,\infty\}$, ו-$A_k,A$ מטריצות $m\times n$, עם $\|\cdot\|_p$ בתחום ובטווח. אם
+      כל כניסה של $A_k$ שואפת לכניסה המתאימה של $A$, אז $\|A_k-A\|_p\to0$.
+    help: >-
+      סדרו את השלבים מהראשון לאחרון. כל שלב משתמש רק בעצמים שהוגדרו בשלבים שלפניו.
+    items:
+      - id: limit
+        label: '$s_k$ הוא סכום של $mn$ סדרות ששואפות לאפס, ולכן $s_k\to0$, ואיתו $\|A_k-A\|_p\to0$.'
+      - id: column
+        label: 'לכל $x$, $B_kx$ הוא צירוף של העמודות $b^{(k)}_j$ של $B_k$, ולפי אי-שוויון המשולש $\|B_kx\|_p\le\sum_j|x_j|\,\|b^{(k)}_j\|_p$.'
+      - id: minimal
+        label: 'לפי טענה 1.8.4(א), $\|A_k-A\|_p=\|B_k\|_p\le s_k$.'
+      - id: setb
+        label: 'נסמן $B_k=A_k-A$; לפי ההנחה כל הכניסות שלה שואפות לאפס.'
+      - id: bound
+        label: '$\|b^{(k)}_j\|_p\le\|b^{(k)}_j\|_1$ ו-$|x_j|\le\|x\|_\infty\le\|x\|_p$, ולכן $\|B_kx\|_p\le s_k\|x\|_p$, כאשר $s_k$ סכום הערכים המוחלטים של כל הכניסות של $B_k$.'
+    order: [setb, column, bound, minimal, limit]
+    correctFeedback: >-
+      נכון. הרעיון: חסם מפורש, $\|B\|_p\le\sum_{i,j}|b_{ij}|$ (טענה 1.9.5(א)), שלא משתמש בשקילות כל הנורמות (שיעור
+      3.5) ולא בקומפקטיות. הסופיות נכנסת רק בשלב האחרון: סכום של מספר **סופי** של סדרות ששואפות לאפס.
+    wrongFeedback: >-
+      התחילו מההפרש $B_k$; חסמו את $\|B_kx\|_p$ דרך העמודות; העבירו כל נורמה לנורמה 1 או לנורמת אינסוף; עברו
+      מחסם לכל $x$ לחסם על הנורמה; ולבסוף קחו גבול.
+
+  - id: Q-1.9-witness
+    type: numeric
+    objectives: [OBJ-1.9-3]
+    level: mid
+    prompt: >-
+      על $(C[0,1],\|\cdot\|_\infty)$ יהי $T_{10}f=f(\frac1{10})-f(0)$. חשבו את $\|T_{10}\|_{\mathrm{op}}$.
+    answer: 2
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון (טענה 1.9.4). חסם מלעיל: $|T_{10}f|\le|f(\frac1{10})|+|f(0)|\le2\|f\|_\infty$. חסם מלרע: $g_{10}(x)=\min(1,20x-1)$
+      מקיימת $\|g_{10}\|_\infty=1$, $g_{10}(0)=-1$ ו-$g_{10}(\frac1{10})=1$, ולכן $T_{10}g_{10}=2$.
+    wrongFeedback: >-
+      שני חצאים: חסם מלעיל מאי-שוויון המשולש, וחסם מלרע מפונקציה בכדור היחידה ששווה ל-$(-1)$ ב-$0$ ול-$1$ ב-$\frac1{10}$.
+    commonWrong:
+      - value: 0
+        feedback: >-
+          $0=T_{10}1$: הצבתם רק את $f\equiv1$. פונקציה אחת נותנת רק חסם מלרע, וכאן היא הגרועה ביותר. צריך פונקציה
+          שמשנה את ערכה ככל האפשר בין $0$ ל-$\frac1{10}$.
+        misconception: MC-c1-opnorm-test-one
+      - value: 1
+        feedback: >-
+          $1$ מתקבל מפונקציה שעולה מ-$0$ ל-$1$, למשל $\min(1,10x)$. זה רק חסם מלרע: בכדור היחידה מותר לרדת עד
+          $(-1)$, ו-$\min(1,20x-1)$ נותנת $1-(-1)=2$.
+        misconception: MC-c1-opnorm-test-one
+      - value: 0.1
+        feedback: >-
+          $0.1$ הוא המרחק בין הנקודות $\frac1{10}$ ו-$0$. נקודות קרובות אינן הופכות את הפונקציונל לקטן: פונקציה רציפה
+          בכדור היחידה יכולה לעלות מ-$(-1)$ ל-$1$ על קטע קצר כרצוננו.
+        misconception: MC-c1-opconv-pointwise
+
+  - id: Q-1.9-pointwise
+    type: twotier
+    objectives: [OBJ-1.9-3]
+    qualitative: true
+    level: mid
+    prompt: >-
+      נכון או לא: אם $T_k,T\in\mathcal{L}(V,W)$ ו-$T_kx\to Tx$ לכל $x\in V$, אז $\|T_k-T\|_{\mathrm{op}}\to0$.
+    choices:
+      - text: לא נכון
+        correct: true
+        feedback: >-
+          נכון. התכנסות בנורמה גוררת התכנסות נקודתית (טענה 1.9.3), אבל לא להפך, במרחב ממימד אינסופי.
+      - text: נכון
+        feedback: >-
+          על $(C[0,1],\|\cdot\|_\infty)$, $T_kf=f(\frac1k)-f(0)$ שואפת לאפס לכל $f$ רציפה, ובכל זאת $\|T_k-0\|=2$ לכל
+          $k$: הפונקציה $g_k=\min(1,2kx-1)$ מנורמה 1 נותנת $T_kg_k=2$.
+        misconception: MC-c1-opconv-pointwise
+    reasons:
+      - text: 'על $(C[0,1],\|\cdot\|_\infty)$, $T_kf=f(\frac1k)-f(0)$ שואפת לאפס לכל $f$, ו-$\|T_k\|_{\mathrm{op}}=2$ לכל $k$'
+        correct: true
+        feedback: >-
+          בדיוק (טענה 1.9.4). $f$ רציפה ב-0 ולכן $f(\frac1k)\to f(0)$, אבל ה-$k$ שמתאים תלוי ב-$f$: לכל $k$ יש
+          $g_k$ בכדור היחידה, שעולה מ-$(-1)$ ל-1 על $[0,\frac1k]$, עם $T_kg_k=2$.
+      - text: '$\|T_k-T\|$ הוא סופרמום של $\|T_kx-Tx\|$ על כדור היחידה, וכל אחד מהם שואף לאפס, ולכן גם הסופרמום'
+        feedback: >-
+          סופרמום של סדרות ששואפות לאפס לא חייב לשאוף לאפס: צריך $N$ אחד לכל ה-$x$ בכדור, כלומר התכנסות במידה שווה
+          על כדור היחידה (טענה 1.9.3(ב)). זה אותו פער שבין התכנסות נקודתית להתכנסות במידה שווה של $x^n$ על $[0,1]$.
+        misconception: MC-c1-opconv-pointwise
+      - text: 'זה נכשל כבר במטריצות: $A_ke_j\to Ae_j$ לכל $j$ אינו גורר $A_k\to A$'
+        feedback: >-
+          במטריצות, עם נורמה 1, 2 או אינסוף, זה דווקא נכון: $A_ke_j$ היא העמודה ה-$j$, ולכן כל הכניסות מתכנסות (משפט
+          1.5.9), ולפי טענה 1.9.5 $A_k\to A$ בנורמה (משפט 1.9.7). הדוגמה הנגדית חייבת להיות במימד אינסופי.
+        misconception: MC-c1-coordinatewise-weaker
+
+  - id: Q-1.9-evaluations
+    type: multi
+    objectives: [OBJ-1.9-3, OBJ-1.9-1]
+    level: exam
+    prompt: >-
+      על $(C[0,1],\|\cdot\|_\infty)$ יהיו $S_kf=f(\frac1k)$ ו-$\operatorname{ev}_0f=f(0)$. אילו מהטענות נכונות? סמנו את
+      כולן.
+    choices:
+      - text: '$S_kf\to\operatorname{ev}_0f$ לכל $f\in C[0,1]$'
+        correct: true
+        feedback: 'נכון: $f$ רציפה ב-$0$ ו-$\frac1k\to0$ (משפט 1.6.3).'
+      - text: '$\|S_k-\operatorname{ev}_0\|=2$ לכל $k$'
+        correct: true
+        feedback: >-
+          נכון: $S_k-\operatorname{ev}_0$ הוא $T_k$ של טענה 1.9.4. חסם מלעיל 2 מאי-שוויון המשולש, ו-$g_k=\min(1,2kx-1)$
+          משיגה אותו.
+      - text: '$\sup_{f\in E}|S_kf-f(0)|\to0$, כאשר $E$ קבוצת הפונקציות $f\in C[0,1]$ עם $\|f\|_\infty\le1$ ו-$|f(x)-f(y)|\le|x-y|$ לכל $x,y\in[0,1]$'
+        correct: true
+        feedback: >-
+          נכון: לפונקציה כזו $|f(\frac1k)-f(0)|\le\frac1k$, ולכן הסופרמום לכל היותר $\frac1k$. ההתכנסות במידה שווה
+          על הקבוצה הקטנה הזו; מה שנכשל הוא כדור היחידה כולו, שבו יש פונקציות תלולות כרצוננו.
+      - text: '$(S_k)$ מתכנסת בנורמת האופרטור לפונקציונל כלשהו'
+        feedback: >-
+          לא. הגבול בנורמה היה חייב להיות הגבול הנקודתי $\operatorname{ev}_0$ (טענה 1.9.3(ד)), והמרחק אליו 2 לכל $k$.
+        misconception: MC-c1-opconv-pointwise
+      - text: '$S_k\to\operatorname{ev}_0$ בנורמה, כי $\|S_k\|\to\|\operatorname{ev}_0\|$'
+        feedback: >-
+          הנורמות שוות (שתיהן 1), אבל זה לא אומר דבר על המרחק $\|S_k-\operatorname{ev}_0\|$. טענה 1.9.3(ג) עובדת רק
+          בכיוון ההפוך.
+        misconception: MC-c1-opconv-norms-only
+
+  - id: Q-1.9-multiplication-cauchy
+    type: numeric
+    objectives: [OBJ-1.9-3, OBJ-1.9-1]
+    level: exam
+    prompt: >-
+      על $(C[0,1],\|\cdot\|_\infty)$ נגדיר $(M_kf)(x)=x^kf(x)$, העתקת הכפל של דוגמה 5 עם $g_k(x)=x^k$. לפי דוגמה 5,
+      $\|M_k\|_{\mathrm{op}}=\|x^k\|_\infty=1$ לכל $k$. חשבו את $\|M_k-M_{2k}\|_{\mathrm{op}}$ (התשובה אינה תלויה
+      ב-$k$), והסיקו אם $(M_k)$ מתכנסת בנורמת האופרטור.
+    answer: 0.25
+    tolerance: 0.001
+    correctFeedback: >-
+      נכון. לפי חוק הפילוג $M_k-M_{2k}=M_{h_k}$ עם $h_k(x)=x^k-x^{2k}$, ולפי דוגמה 5 $\|M_k-M_{2k}\|=\|h_k\|_\infty$.
+      נציב $t=x^k$, שעובר על כל $[0,1]$: $h_k=t-t^2$, והמקסימום שלו $\frac14$, ב-$t=\frac12$, כלומר בנקודה
+      $x_k=2^{-1/k}$, שזזה עם $k$ ושואפת ל-$1$. הנורמה מושגת ב-$f\equiv1$, כי $\|(M_k-M_{2k})1\|_\infty=\|h_k\|_\infty$.
+      המסקנה: אין גבול בנורמה. אילו $M_k\to L$ ב-$\mathcal{L}(C[0,1],C[0,1])$, אז גם $M_{2k}\to L$ (תת-סדרה, טענה
+      1.5.4), ולפי אי-שוויון המשולש $\|M_k-M_{2k}\|\le\|M_k-L\|+\|L-M_{2k}\|\to0$, בסתירה ל-$\frac14$. הנורמות
+      $\|M_k\|=1$ מתכנסות, וההעתקות לא. והסדרה אינה מתכנסת אפילו נקודתית: $M_k1=x^k$ אינה מתכנסת ב-$C[0,1]$
+      בנורמת הסופרמום (משפט 1.5.10).
+    wrongFeedback: >-
+      לפי דוגמה 5, $\|M_g\|=\|g\|_\infty$, ו-$M_k-M_{2k}=M_{x^k-x^{2k}}$. מצאו את המקסימום של $x^k-x^{2k}$ על $[0,1]$
+      בעזרת ההצבה $t=x^k$.
+    commonWrong:
+      - value: 0
+        feedback: >-
+          $0=\|M_k\|-\|M_{2k}\|=1-1$, הפרש של נורמות; אותו $0$ מתקבל גם מהצבה בקצוות $x=0$ ו-$x=1$. המרחק בין
+          ההעתקות הוא הנורמה של ההפרש, והסופרמום של $x^k-x^{2k}$ מושג בנקודה פנימית, $2^{-1/k}$, שזזה עם $k$.
+        misconception: MC-c1-opconv-norms-only
+      - value: 2
+        feedback: >-
+          $2=\|M_k\|+\|M_{2k}\|$ הוא רק חסם מלעיל, מאי-שוויון המשולש. הנורמה של ההפרש היא $\|x^k-x^{2k}\|_\infty$, ושתי
+          הפונקציות קרובות זו לזו הרבה יותר: ההפרש ביניהן לכל היותר $\frac14$.
+        misconception: MC-c1-opnorm-upper-only
