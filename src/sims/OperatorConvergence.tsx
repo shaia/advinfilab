@@ -153,13 +153,55 @@ function inOutMarker(ctx: CanvasRenderingContext2D, pal: Palette, x: number, y: 
   ctx.restore();
 }
 
-/** Text with a paper halo, LTR (math space). */
-function label(ctx: CanvasRenderingContext2D, pal: Palette, t: string, x: number, y: number, color: string, align: CanvasTextAlign = 'left') {
+// The round tool buttons (reset, full screen) sit over the top-right corner of the stage: 2 × 34 px, one 6 px gap,
+// 8 px from the edge and 8 px to 42 px from the top. A label must not run under them.
+const TOOLS_W = 2 * 34 + 6 + 8 + 8;
+const TOOLS_H = 46;
+
+/** The width of a label's text, in the font `label` draws it with. */
+function labelW(ctx: CanvasRenderingContext2D, pal: Palette, t: string): number {
+  ctx.save();
+  ctx.font = `700 13px ${pal.fontUi}`;
+  const w = ctx.measureText(t).width;
+  ctx.restore();
+  return w;
+}
+
+/**
+ * A label next to a marked point: to its right if it fits, else to its left when the right side runs under the tool
+ * buttons, and always shifted inward so it stays on the canvas.
+ */
+function pointLabel(
+  ctx: CanvasRenderingContext2D, pal: Palette, t: string, px: number, py: number, dx: number, dy: number, color: string,
+  viewW: number, panelR = viewW,
+) {
+  const w = labelW(ctx, pal, t);
+  const y = py + dy;
+  const underTools = (l: number) => y - 9 < TOOLS_H && l + w > viewW - TOOLS_W;
+  let l = px + dx;
+  if (underTools(l)) l = px - dx - w;
+  l = Math.max(4, Math.min(l, panelR - 4 - w));
+  label(ctx, pal, t, l, y, color);
+}
+
+/** Text with a paper halo, LTR (math space); `boxed` lays a paper plate under it, for a label curves may cross. */
+function label(
+  ctx: CanvasRenderingContext2D, pal: Palette, t: string, x: number, y: number, color: string, align: CanvasTextAlign = 'left',
+  boxed = false,
+) {
   ctx.save();
   ctx.font = `700 13px ${pal.fontUi}`;
   ctx.direction = 'ltr';
   ctx.textAlign = align;
   ctx.textBaseline = 'middle';
+  if (boxed) {
+    const w = ctx.measureText(t).width;
+    const l = align === 'left' ? x : align === 'right' ? x - w : x - w / 2;
+    ctx.fillStyle = withAlpha(pal.paper, 0.88);
+    ctx.beginPath();
+    ctx.roundRect(l - 4, y - 10, w + 8, 20, 4);
+    ctx.fill();
+  }
   ctx.lineJoin = 'round';
   ctx.strokeStyle = pal.paper;
   ctx.lineWidth = 4;
@@ -337,13 +379,16 @@ export default function OperatorConvergence(props: OperatorConvergenceProps) {
     ctx.fill();
     ctx.restore();
 
-    label(ctx, pal, 'x₀', xx + 7, xy + 12, pal.ink3);
-    label(ctx, pal, flip ? 'Ix₀' : 'Ax₀', ax + 10, ay - 12, pal.limit);
-    label(ctx, pal, 'Aₖx₀', bx + 10, by + 14, pal.curve);
-    // the legend, top-left of the panel
+    // as A_k → A the points x₀, A x₀ and A_k x₀ draw together; the A_k x₀ label goes right of its dot, so x₀'s then
+    // goes left of its own
+    const crowded = Math.abs(bx - xx) < 44 && Math.abs(by + 14 - (xy + 12)) < 18;
+    label(ctx, pal, 'x₀', crowded ? xx - 7 : xx + 7, xy + 12, pal.ink3, crowded ? 'right' : 'left');
+    pointLabel(ctx, pal, flip ? 'Ix₀' : 'Ax₀', ax, ay, 10, -12, pal.limit, view.w, mainW);
+    pointLabel(ctx, pal, 'Aₖx₀', bx, by, 10, 14, pal.curve, view.w, mainW);
+    // the legend, top-left of the panel; the bottom one sits where a wide image of the sphere passes
     label(ctx, pal, `Aₖ, k = ${s.k}`, 10, 16, pal.curve);
     label(ctx, pal, flip ? 'I' : 'A', 10, 34, pal.limit);
-    label(ctx, pal, `‖x‖ = 1 (${P_LABEL[s.p]})`, 10, view.h - 14, pal.ink3);
+    label(ctx, pal, `‖x‖ = 1 (${P_LABEL[s.p]})`, 10, view.h - 14, pal.ink3, 'left', true);
 
     if (!split) return;
 
@@ -357,7 +402,14 @@ export default function OperatorConvergence(props: OperatorConvergenceProps) {
     ctx.lineTo(ox - gap / 2, view.h - 8);
     ctx.stroke();
     const R = Math.max(s.eps, extent.e) * 1.15;
-    const top = 30;
+    // the panel title and ε sit top-left of the panel; on a narrow stage the ε line would run under the tool
+    // buttons, so it drops below them and the drawing starts lower
+    const title = flip ? 'Aₖ − I' : 'Aₖ − A';
+    const epsText = `ε = ${s.eps.toFixed(2)}`;
+    const zoneL = view.w - TOOLS_W;
+    const titleY = ox + 4 + labelW(ctx, pal, title) <= zoneL ? 14 : TOOLS_H + 8;
+    const epsY = titleY === 14 && ox + 4 + labelW(ctx, pal, epsText) <= zoneL ? 32 : Math.max(titleY + 18, TOOLS_H + 8);
+    const top = epsY === 32 ? 30 : epsY + 12;
     const side = Math.min(errW, view.h - top - 24);
     const ek = side / (2 * R);
     const ecx = ox + errW / 2;
@@ -397,10 +449,9 @@ export default function OperatorConvergence(props: OperatorConvergenceProps) {
     const [fx, fy] = T(far);
     inOutMarker(ctx, pal, fx, fy, errIn);
 
-    label(ctx, pal, flip ? 'Aₖ − I' : 'Aₖ − A', ox + 4, 14, pal.curve);
-    // under the panel title, on the left: the top-right corner of the stage belongs to the reset/fullscreen buttons
-    label(ctx, pal, `ε = ${s.eps.toFixed(2)}`, ox + 4, 32, pal.eps);
-    label(ctx, pal, `‖Aₖ − A‖ = ${fmt(err)}`, ecx, Math.min(view.h - 12, ecy + side / 2 + 14), pal.curve, 'center');
+    label(ctx, pal, title, ox + 4, titleY, pal.curve);
+    label(ctx, pal, epsText, ox + 4, epsY, pal.eps);
+    label(ctx, pal, `‖${title}‖ = ${fmt(err)}`, ecx, Math.min(view.h - 12, ecy + side / 2 + 14), pal.curve, 'center');
   };
 
   const drawFunctional = ({ ctx, view, palette: pal }: FrameInfo) => {
